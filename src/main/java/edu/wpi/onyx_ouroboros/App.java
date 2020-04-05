@@ -13,7 +13,8 @@ public class App extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) {}
+  public void start(Stage primaryStage) {
+  }
 
   @Override
   public void stop() {

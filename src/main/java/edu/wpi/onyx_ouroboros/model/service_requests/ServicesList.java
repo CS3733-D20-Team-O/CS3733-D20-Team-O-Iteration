@@ -5,21 +5,21 @@ import lombok.Setter;
 
 public class ServicesList {
 
-    public static class Service {
+  public static class Service {
 
-        private static final String fxmlPrefix = "views/service_requests/";
+    private static final String fxmlPrefix = "views/service_requests/";
 
-        @Getter
-        @Setter
-        private String descriptionLangModelField;
-        @Getter
-        private final String fxmlFile;
+    @Getter
+    @Setter
+    private String descriptionLangModelField;
+    @Getter
+    private final String fxmlFile;
 
-        public Service(String descriptionLangModelField, String fxmlFile) {
-            this.descriptionLangModelField = descriptionLangModelField;
-            this.fxmlFile = fxmlFile;
-        }
+    public Service(String descriptionLangModelField, String fxmlFile) {
+      this.descriptionLangModelField = descriptionLangModelField;
+      this.fxmlFile = fxmlFile;
     }
+  }
 
-    public static Service[] services = {};
+  public static Service[] services = {};
 }
