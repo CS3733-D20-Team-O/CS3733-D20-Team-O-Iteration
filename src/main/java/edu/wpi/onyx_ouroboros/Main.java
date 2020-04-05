@@ -1,4 +1,4 @@
-package edu.wpi.teamname;
+package edu.wpi.onyx_ouroboros;
 
 public class Main {
 
