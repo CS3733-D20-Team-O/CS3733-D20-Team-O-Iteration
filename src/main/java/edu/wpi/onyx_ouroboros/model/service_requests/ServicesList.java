@@ -20,11 +20,15 @@ public class ServicesList {
    */
   public static class Service {
 
-    /** The language model ID for the description of this service */
+    /**
+     * The language model ID for the description of this service
+     */
     @Getter
     @Setter
     private String descriptionLangModelID;
-    /** The fxml file location of the service request user interface */
+    /**
+     * The fxml file location of the service request user interface
+     */
     @Getter
     private final String fxmlFile;
 
@@ -34,7 +38,9 @@ public class ServicesList {
     }
   }
 
-  /** @return the list of usable services */
+  /**
+   * @return the list of usable services
+   */
   public static List<Service> getServices() {
     val methodName = "getDescriptionLangModelID";
     val packageName = ServiceRequest.class.getPackageName() + ".services";
@@ -43,15 +49,11 @@ public class ServicesList {
     for (val serviceClass : serviceClasses) {
       try {
         val langField = serviceClass.getMethod(methodName).invoke(null);
-        val fxmlFile = "views/service_requests/" + serviceClass.getSimpleName();
+        val fxmlFile = "views/service_requests/" + serviceClass.getSimpleName() + ".fxml";
         services.add(new Service((String) langField, fxmlFile));
       } catch (Exception e) {
-        val errorMsg =
-            "ServiceRequest "
-                + serviceClass.getCanonicalName()
-                + " does not have the required 'public static String "
-                + methodName
-                + "()'!";
+        val errorMsg = "ServiceRequest " + serviceClass.getCanonicalName() +
+            " does not have the required 'public static String " + methodName + "()'!";
         log.error(errorMsg, e);
       }
     }
