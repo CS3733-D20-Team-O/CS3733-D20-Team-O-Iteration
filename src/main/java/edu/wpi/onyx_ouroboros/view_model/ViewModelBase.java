@@ -39,20 +39,41 @@ public abstract class ViewModelBase implements Initializable {
    *
    * @param langModel the new language model to fuel labeled elements
    */
-  @Subscribe
+  @Subscribe(sticky = true)
   @SuppressWarnings("unused")
   public void onLanguageSwitch(LanguageModel langModel) {
     for (val field : getClass().getFields()) {
       val annotation = field.getAnnotation(Language.class);
       if (annotation != null) {
+        val newText = getNewText(langModel, annotation.ID());
+        if (newText == null) {
+          continue;
+        }
         try {
-          val newString =
-              (String) langModel.getClass().getMethod(annotation.ID()).invoke(langModel);
-          Labeled.class.getMethod("setText", String.class).invoke(field, newString);
+          Labeled.class.getMethod("setText", String.class).invoke(field.get(this), newText);
         } catch (Exception e) {
-          log.error("Language switch failed for a field in " + getClass().getCanonicalName(), e);
+          val errorMsg = "Language switch failed for " + field.getName() +
+              " in " + getClass().getCanonicalName();
+          log.error(errorMsg, e);
         }
       }
+    }
+  }
+
+  /**
+   * Gets the corresponding text for ID in the new language model
+   *
+   * @param langModel the new LanguageModel
+   * @param langID    the ID of the method in LanguageModel
+   * @return the new language text, or null if failed
+   */
+  private String getNewText(LanguageModel langModel, String langID) {
+    try {
+      return (String) langModel.getClass().getMethod(langID).invoke(langModel);
+    } catch (Exception e) {
+      val errorMsg = "@Language ID " + langID + " is invalid in " + getClass().getCanonicalName();
+      log.error(errorMsg, e);
+      return null;
     }
   }
 }
