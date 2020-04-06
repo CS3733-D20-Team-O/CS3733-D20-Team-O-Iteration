@@ -7,7 +7,7 @@ plugins {
 }
 sourceCompatibility = '13'
 targetCompatibility = '13'
-mainClassName = 'edu.wpi.onyx_ouroboros.Main'
+mainClassName = 'edu.wpi.onyx_ouroboros.App'
 
 repositories {
     mavenCentral()

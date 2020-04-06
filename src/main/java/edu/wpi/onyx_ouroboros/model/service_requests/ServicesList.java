@@ -4,7 +4,6 @@ import edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequest;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.reflections.Reflections;
@@ -24,15 +23,20 @@ public class ServicesList {
      * The language model ID for the description of this service
      */
     @Getter
-    @Setter
-    private String descriptionLangModelID;
+    private final String descriptionLangModelID;
     /**
      * The fxml file location of the service request user interface
      */
     @Getter
     private final String fxmlFile;
 
-    public Service(String descriptionLangModelID, String fxmlFile) {
+    /**
+     * Constructs a representation of a service request
+     *
+     * @param descriptionLangModelID the language model ID for the description of this service
+     * @param fxmlFile               the fxml file location of the service request user interface
+     */
+    private Service(String descriptionLangModelID, String fxmlFile) {
       this.descriptionLangModelID = descriptionLangModelID;
       this.fxmlFile = fxmlFile;
     }

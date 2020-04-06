@@ -15,5 +15,5 @@ public @interface Language {
   /**
    * @return the ID in LanguageModel that the field should display
    */
-  String ID();
+  String ID() default "";
 }

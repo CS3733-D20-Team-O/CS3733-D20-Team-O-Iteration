@@ -1,11 +1,9 @@
-package edu.wpi.onyx_ouroboros.model.language.languages;
-
-import edu.wpi.onyx_ouroboros.model.language.LanguageModel;
+package edu.wpi.onyx_ouroboros.model.language;
 
 /**
  * The English language model
  */
-public class EnglishModel implements LanguageModel {
+class EnglishModel implements LanguageModel {
 
   @Override
   public String mainWelcome() {
