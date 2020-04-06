@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 public @interface Language {
 
   /**
-   * @return the field name in LanguageModel that the field should display
+   * @return the ID in LanguageModel that the field should display
    */
-  String field();
+  String ID();
 }
