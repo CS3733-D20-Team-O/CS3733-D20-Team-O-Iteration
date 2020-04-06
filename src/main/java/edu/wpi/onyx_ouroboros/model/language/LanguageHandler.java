@@ -32,13 +32,6 @@ public class LanguageHandler {
   }
 
   /**
-   * @return the current model in use by the application
-   */
-  public static LanguageModel getCurrentModel() {
-    return EventBus.getDefault().getStickyEvent(LanguageModel.class);
-  }
-
-  /**
    * A class representing a language that can be registered
    */
   public static class Language {
