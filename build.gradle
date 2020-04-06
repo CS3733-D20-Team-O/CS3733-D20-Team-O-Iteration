@@ -2,7 +2,6 @@ plugins {
     id 'application'
     id 'java'
     id 'jacoco'
-    id 'com.diffplug.gradle.spotless' version '3.27.1'
     id 'org.openjfx.javafxplugin' version '0.0.8'
     id "io.freefair.lombok" version "5.0.0-rc6"
 }
@@ -106,11 +105,3 @@ jacocoTestCoverageVerification {
 
 check.dependsOn jacocoTestCoverageVerification
 jacocoTestCoverageVerification.dependsOn jacocoTestReport
-compileJava.dependsOn 'spotlessApply'
-
-// uncomment to enable spotless checking
-spotless {
-    java {
-        googleJavaFormat()
-    }
-}

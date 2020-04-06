@@ -11,7 +11,10 @@ import javafx.stage.Stage;
  */
 public abstract class ServiceRequest extends ViewModelBase {
 
-  ServiceRequest() {
+  /**
+   * Default constructor. Overrides must call super()
+   */
+  public ServiceRequest() {
     super();
     cancelButton.setOnAction(event -> ((Stage) cancelButton.getScene().getWindow()).close());
     submitButton.setOnAction(
@@ -24,10 +27,10 @@ public abstract class ServiceRequest extends ViewModelBase {
   }
 
   @Language(ID = "serviceSelectionSubmitButton")
-  public Button submitButton = new Button();
+  private Button submitButton = new Button();
 
   @Language(ID = "serviceSelectionCancelButton")
-  public Button cancelButton = new Button();
+  private Button cancelButton = new Button();
 
   /**
    * Adds the control buttons
