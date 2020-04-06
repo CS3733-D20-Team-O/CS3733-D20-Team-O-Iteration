@@ -15,16 +15,18 @@ import org.reflections.Reflections;
 @Slf4j
 public class ServicesList {
 
-  /**
-   * Represents a usable service
-   */
+  /** Represents a usable service */
   public static class Service {
 
-    /** The language model ID for the description of this service */
+    /**
+     * The language model ID for the description of this service
+     */
     @Getter
     @Setter
     private String descriptionLangModelID;
-    /** The fxml file location of the service request user interface */
+    /**
+     * The fxml file location of the service request user interface
+     */
     @Getter
     private final String fxmlFile;
 

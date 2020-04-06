@@ -14,11 +14,12 @@ public abstract class ServiceRequest extends ViewModelBase {
   ServiceRequest() {
     super();
     cancelButton.setOnAction(event -> ((Stage) cancelButton.getScene().getWindow()).close());
-    submitButton.setOnAction(event -> {
-      if (onSubmitPressed()) {
-        ((Stage) submitButton.getScene().getWindow()).close();
-      }
-    });
+    submitButton.setOnAction(
+        event -> {
+          if (onSubmitPressed()) {
+            ((Stage) submitButton.getScene().getWindow()).close();
+          }
+        });
     // todo style buttons
   }
 
