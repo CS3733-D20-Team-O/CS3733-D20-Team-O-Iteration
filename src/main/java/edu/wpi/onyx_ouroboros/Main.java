@@ -17,7 +17,6 @@ public class Main extends Application {
   public static void main(String[] args) {
     // Set English as default language
     EventBus.getDefault().postSticky(new EnglishModel());
-    // Launch application
     launch(args);
   }
 
