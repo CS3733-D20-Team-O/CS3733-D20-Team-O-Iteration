@@ -37,7 +37,7 @@ public class LanguageHandler {
   /**
    * A list of supported locales
    */
-  public static final Locale[] supportedLocales = {
+  public static final Locale[] SUPPORTED_LOCALES = {
       new Locale("en"),
       new Locale("es"),
   };

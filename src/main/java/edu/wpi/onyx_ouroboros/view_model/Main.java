@@ -10,10 +10,10 @@ public class Main extends ViewModelBase {
   public Label welcomeLabel;
 
   public void switchToEnglish() {
-    LanguageHandler.setCurrentLanguage(LanguageHandler.supportedLocales[0]);
+    LanguageHandler.setCurrentLanguage(LanguageHandler.SUPPORTED_LOCALES[0]);
   }
 
   public void switchToSpanish() {
-    LanguageHandler.setCurrentLanguage(LanguageHandler.supportedLocales[1]);
+    LanguageHandler.setCurrentLanguage(LanguageHandler.SUPPORTED_LOCALES[1]);
   }
 }
