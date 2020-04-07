@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 public @interface Language {
 
   /**
-   * @return the ID in LanguageModel that the field should display
+   * @return the key for the ResourceBundle that fuels what the field should display
    */
-  String ID() default "";
+  String key() default "";
 }

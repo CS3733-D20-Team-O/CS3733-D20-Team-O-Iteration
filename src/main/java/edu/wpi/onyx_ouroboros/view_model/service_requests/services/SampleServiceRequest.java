@@ -5,11 +5,11 @@ import edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequest;
 public class SampleServiceRequest extends ServiceRequest {
 
   /**
-   * @return the id of this service's description in LanguageModel
+   * @return the key for the description of this service
    */
   @SuppressWarnings("unused")
-  public static String getDescriptionLangModelID() {
-    return "mainWelcome";
+  public static String getDescriptionKey() {
+    return "mainWelcome"; // NOTE: this is NOT a service request description key, just a valid key
   }
 
   /**

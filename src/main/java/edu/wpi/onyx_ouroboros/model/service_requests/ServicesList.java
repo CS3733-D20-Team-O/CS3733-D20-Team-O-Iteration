@@ -20,10 +20,10 @@ public class ServicesList {
   public static class Service {
 
     /**
-     * The language model ID for the description of this service
+     * The key for the description of this service
      */
     @Getter
-    private final String descriptionLangModelID;
+    private final String descriptionKey;
     /**
      * The fxml file location of the service request user interface
      */
@@ -33,11 +33,11 @@ public class ServicesList {
     /**
      * Constructs a representation of a service request
      *
-     * @param descriptionLangModelID the language model ID for the description of this service
-     * @param fxmlFile               the fxml file location of the service request user interface
+     * @param descriptionKey the key for the description of this service
+     * @param fxmlFile       the fxml file location of the service request user interface
      */
-    private Service(String descriptionLangModelID, String fxmlFile) {
-      this.descriptionLangModelID = descriptionLangModelID;
+    private Service(String descriptionKey, String fxmlFile) {
+      this.descriptionKey = descriptionKey;
       this.fxmlFile = fxmlFile;
     }
   }
@@ -46,7 +46,7 @@ public class ServicesList {
    * @return the list of usable services
    */
   public static List<Service> getServices() {
-    val methodName = "getDescriptionLangModelID";
+    val methodName = "getDescriptionKey";
     val packageName = ServiceRequest.class.getPackageName() + ".services";
     val serviceClasses = new Reflections(packageName).getSubTypesOf(ServiceRequest.class);
     val services = new ArrayList<Service>();
@@ -56,7 +56,7 @@ public class ServicesList {
         val fxmlFile = "views/service_requests/" + serviceClass.getSimpleName() + ".fxml";
         services.add(new Service((String) langField, fxmlFile));
       } catch (Exception e) {
-        val errorMsg = "ServiceRequest " + serviceClass.getCanonicalName() +
+        val errorMsg = serviceClass.getCanonicalName() +
             " does not have the required 'public static String " + methodName + "()'!";
         log.error(errorMsg, e);
       }

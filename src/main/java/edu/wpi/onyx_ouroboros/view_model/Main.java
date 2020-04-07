@@ -6,14 +6,14 @@ import javafx.scene.control.Label;
 
 public class Main extends ViewModelBase {
 
-  @Language(ID = "mainWelcome")
+  @Language(key = "mainWelcome")
   public Label welcomeLabel;
 
   public void switchToEnglish() {
-    LanguageHandler.switchToEnglish();
+    LanguageHandler.setCurrentLanguage(LanguageHandler.supportedLocales[0]);
   }
 
   public void switchToSpanish() {
-    LanguageHandler.switchToSpanish();
+    LanguageHandler.setCurrentLanguage(LanguageHandler.supportedLocales[1]);
   }
 }

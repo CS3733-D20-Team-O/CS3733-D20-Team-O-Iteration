@@ -1,69 +1,44 @@
 package edu.wpi.onyx_ouroboros.model.language;
 
-import lombok.Getter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.greenrobot.eventbus.EventBus;
 
 @Slf4j
 public class LanguageHandler {
 
   /**
-   * Switches the application to English
-   */
-  public static void switchToEnglish() {
-    setCurrentModel(new EnglishModel());
-  }
-
-  /**
-   * Switches the application to Spanish
-   */
-  public static void switchToSpanish() {
-    setCurrentModel(new SpanishModel());
-  }
-
-  /**
-   * Sets the current language model to be used by the application
+   * Sets the current language to be used by the application
    *
-   * @param languageModel the language model to use
+   * @param locale the locale for the language to switch to
    */
-  private static void setCurrentModel(LanguageModel languageModel) {
-    log.info("Switching language to " + languageModel.getClass().getCanonicalName());
-    EventBus.getDefault().postSticky(languageModel);
+  public static void setCurrentLanguage(Locale locale) {
+    log.info("Switching language to " + locale.getDisplayLanguage());
+    val bundle = ResourceBundle.getBundle("Strings", locale);
+    EventBus.getDefault().postSticky(new LanguageSwitchEvent(bundle));
   }
 
   /**
-   * A class representing a language that can be registered
+   * @return the current language bundle being used to fuel the application
    */
-  public static class Language {
-
-    /**
-     * The name of the language in its language Examples: English, Español, 中文
-     */
-    @Getter
-    private final String name;
-    /**
-     * The runnable to call to switch to this language
-     */
-    @Getter
-    private final Runnable switcher;
-
-    /**
-     * A constructor for a registered language
-     *
-     * @param name     the name of the language in the language
-     * @param switcher the runnable that when called switches to this language
-     */
-    public Language(String name, Runnable switcher) {
-      this.name = name;
-      this.switcher = switcher;
-    }
+  public static ResourceBundle getCurrentLanguageBundle() {
+    return EventBus.getDefault().getStickyEvent(LanguageSwitchEvent.class).getBundle();
   }
 
   /**
-   * A list of registered language models
+   * @return the current locale in use by the application
    */
-  public static final Language[] languageList = {
-      new Language("English", LanguageHandler::switchToEnglish),
-      new Language("Español", LanguageHandler::switchToSpanish),
+  public static Locale getCurrentLocale() {
+    return getCurrentLanguageBundle().getLocale();
+  }
+
+  /**
+   * A list of supported locales
+   */
+  public static final Locale[] supportedLocales = {
+      new Locale("en"),
+      new Locale("es"),
   };
 }

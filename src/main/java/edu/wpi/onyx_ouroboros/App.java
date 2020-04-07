@@ -15,7 +15,7 @@ public class App extends Application {
 
   public static void main(String[] args) {
     // Set English as default language
-    LanguageHandler.switchToEnglish();
+    LanguageHandler.setCurrentLanguage(LanguageHandler.supportedLocales[0]);
     launch(args);
   }
 

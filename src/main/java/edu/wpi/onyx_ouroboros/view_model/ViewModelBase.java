@@ -1,7 +1,7 @@
 package edu.wpi.onyx_ouroboros.view_model;
 
 import edu.wpi.onyx_ouroboros.model.language.Language;
-import edu.wpi.onyx_ouroboros.model.language.LanguageModel;
+import edu.wpi.onyx_ouroboros.model.language.LanguageSwitchEvent;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,38 +38,22 @@ public abstract class ViewModelBase implements Initializable {
    * <p>
    * Gets called when a language switch occurs (or when first initialized)
    *
-   * @param langModel the new language model to fuel labeled elements
+   * @param langSwitchEvent the LanguageSwitchEvent that contains the new language information
    */
   @Subscribe(sticky = true)
   @SuppressWarnings("unused")
-  public void onLanguageSwitch(LanguageModel langModel) {
+  public void onLanguageSwitch(LanguageSwitchEvent langSwitchEvent) {
+    val bundle = langSwitchEvent.getBundle();
     for (val field : getClass().getFields()) {
       val annotation = field.getAnnotation(Language.class);
       if (annotation != null) {
-        val newText = getNewText(langModel, annotation.ID());
-        if (newText != null) {
-          setNewText(field, newText);
+        if (bundle.containsKey(annotation.key())) {
+          setNewText(field, bundle.getString(annotation.key()));
+        } else {
+          log.error("@Language ID " + annotation.key() +
+              " is invalid in " + getClass().getCanonicalName());
         }
       }
-    }
-  }
-
-  /**
-   * Gets the corresponding text for ID in the new language model
-   *
-   * @param langModel the new LanguageModel
-   * @param langID    the ID of the method in LanguageModel
-   * @return the new language text, or null if failed
-   */
-  private String getNewText(LanguageModel langModel, String langID) {
-    try {
-      val method = langModel.getClass().getMethod(langID);
-      method.setAccessible(true);
-      return (String) method.invoke(langModel);
-    } catch (Exception e) {
-      val errorMsg = "@Language ID " + langID + " is invalid in " + getClass().getCanonicalName();
-      log.error(errorMsg, e);
-      return null;
     }
   }
 
