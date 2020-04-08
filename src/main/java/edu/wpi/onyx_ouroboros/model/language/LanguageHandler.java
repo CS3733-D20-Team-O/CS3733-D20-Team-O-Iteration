@@ -2,50 +2,36 @@ package edu.wpi.onyx_ouroboros.model.language;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
 
 @Slf4j
-@RequiredArgsConstructor
 public class LanguageHandler {
 
   /**
-   * The default LanguageHandler to be used by the application
+   * @return the current language bundle being used to fuel the application
    */
-  @Getter
-  private static final LanguageHandler instance = new LanguageHandler(EventBus.getDefault());
+  public static ResourceBundle getCurrentLocaleBundle() {
+    return EventBus.getDefault().getStickyEvent(LanguageSwitchEvent.class).getBundle();
+  }
 
   /**
-   * The EventBus to use to get and send LanguageSwitchEvents
+   * @return the current locale in use by the application
    */
-  private final EventBus bus;
+  public static Locale getCurrentLocale() {
+    return getCurrentLocaleBundle().getLocale();
+  }
 
   /**
    * Sets the current language to be used by the application
    *
    * @param locale the locale for the language to switch to
    */
-  public void setCurrentLocale(Locale locale) {
+  public static void setCurrentLocale(Locale locale) {
     log.info("Switching language to " + locale.getDisplayLanguage());
     val bundle = ResourceBundle.getBundle("Strings", locale);
-    bus.postSticky(new LanguageSwitchEvent(bundle));
-  }
-
-  /**
-   * @return the current language bundle being used to fuel the application
-   */
-  public ResourceBundle getCurrentLocaleBundle() {
-    return bus.getStickyEvent(LanguageSwitchEvent.class).getBundle();
-  }
-
-  /**
-   * @return the current locale in use by the application
-   */
-  public Locale getCurrentLocale() {
-    return getCurrentLocaleBundle().getLocale();
+    EventBus.getDefault().postSticky(new LanguageSwitchEvent(bundle));
   }
 
   /**

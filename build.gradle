@@ -72,8 +72,6 @@ jacocoTestCoverageVerification {
                     // The following are excluded because they have no callable methods
                     'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
                     'edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequestBase',
-                    // todo write tests for this
-                    'edu.wpi.onyx_ouroboros.view_model.ViewModelBase',
                     // todo delete this class after real service request has been made
                     'edu.wpi.onyx_ouroboros.view_model.service_requests.SampleServiceRequest',
                     // todo write tests for these after they are completed
@@ -93,7 +91,6 @@ jacocoTestCoverageVerification {
                     'edu.wpi.onyx_ouroboros.App',
                     'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
                     'edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequestBase',
-                    'edu.wpi.onyx_ouroboros.view_model.ViewModelBase',
                     'edu.wpi.onyx_ouroboros.view_model.service_requests.SampleServiceRequest',
                     'edu.wpi.onyx_ouroboros.view_model.Main',
                     'edu.wpi.onyx_ouroboros.view_model.ServiceRequestSelection',
@@ -111,7 +108,6 @@ jacocoTestCoverageVerification {
                     'edu.wpi.onyx_ouroboros.App',
                     'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
                     'edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequestBase',
-                    'edu.wpi.onyx_ouroboros.view_model.ViewModelBase',
                     'edu.wpi.onyx_ouroboros.view_model.service_requests.SampleServiceRequest',
                     'edu.wpi.onyx_ouroboros.view_model.Main',
                     'edu.wpi.onyx_ouroboros.view_model.ServiceRequestSelection',

@@ -3,7 +3,6 @@ package edu.wpi.onyx_ouroboros.model.language;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import lombok.val;
-import org.greenrobot.eventbus.EventBus;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -19,10 +18,9 @@ public class LanguageHandlerTest {
    */
   @Test
   public void testRegisteredLocales() {
-    val handler = new LanguageHandler(new EventBus());
     for (val locale : LanguageHandler.SUPPORTED_LOCALES) {
-      handler.setCurrentLocale(locale);
-      assertEquals(locale, handler.getCurrentLocale());
+      LanguageHandler.setCurrentLocale(locale);
+      assertEquals(locale, LanguageHandler.getCurrentLocale());
     }
   }
 }
