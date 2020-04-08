@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ResourceBundleManager">
     <file url="file://$PROJECT_DIR$/src/main/resources/Strings.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/Strings_en.properties" />
     <file url="file://$PROJECT_DIR$/src/main/resources/Strings_es.properties" />
     <custom-resource-bundle>
       <file value="file://$PROJECT_DIR$/src/main/resources/Strings.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/Strings_en.properties" />
       <file value="file://$PROJECT_DIR$/src/main/resources/Strings_es.properties" />
       <base-name>Strings</base-name>
     </custom-resource-bundle>

@@ -15,7 +15,7 @@ public class App extends Application {
 
   public static void main(String[] args) {
     // Set English as default language
-    LanguageHandler.setCurrentLanguage(LanguageHandler.SUPPORTED_LOCALES[0]);
+    LanguageHandler.getInstance().setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
     // todo check for launch in admin mode (--username=admin --password=password)
     launch(args);
   }
