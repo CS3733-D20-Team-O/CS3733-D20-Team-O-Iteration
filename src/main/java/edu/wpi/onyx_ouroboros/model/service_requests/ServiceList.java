@@ -29,7 +29,7 @@ public class ServiceList {
    * ALL service requests must be registered here!
    */
   public static final Service[] SERVICES = {
-      // todo remove this dummy value once an actual one is created
-      new Service("mainWelcome", "views/service_requests/"),
+      new Service("serviceGiftDeliveryDescription",
+          "views/service_requests/GiftDeliveryService.fxml"),
   };
 }

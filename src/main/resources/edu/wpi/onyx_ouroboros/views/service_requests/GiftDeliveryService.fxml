@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<FlowPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity"
+  minHeight="-Infinity"
+  minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+  xmlns="http://javafx.com/javafx/10.0.2-internal"
+  fx:controller="edu.wpi.onyx_ouroboros.view_model.service_requests.GiftDeliveryService">
+  <Button mnemonicParsing="false" text="Help"/>
+  <ChoiceBox/>
+  <ChoiceBox/>
+  <ComboBox prefWidth="150.0" promptText="Select a room"/>
+  <Label text="From"/>
+  <Label text="To"/>
+  <Label text=" in Room "/>
+  <Label text="Gift Option"/>
+  <Label text="Gift Delivery Time"/>
+  <Pane prefHeight="0" prefWidth="${controller.flowNewLine}"/>
+  <Pane prefHeight="0" prefWidth="${controller.flowNewLine}"/>
+  <Pane prefHeight="0" prefWidth="${controller.flowNewLine}"/>
+  <Pane prefHeight="10" prefWidth="${controller.flowNewLine}"/>
+  <TextField promptText="Your Name"/>
+  <TextField promptText="Recipient Name"/>
+  <!-- todo create credit card info and email address, and consider using a stepper -->
+</FlowPane>

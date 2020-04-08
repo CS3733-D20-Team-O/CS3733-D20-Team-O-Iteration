@@ -26,7 +26,6 @@ public class ViewModelBaseTest {
    * Starting text for labeled elements in test ViewModel
    */
   private static final String INITIAL_STRING = "initial";
-
   /**
    * New string for labeled elements in test ViewModel
    */
