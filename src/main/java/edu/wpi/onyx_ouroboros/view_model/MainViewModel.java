@@ -4,7 +4,7 @@ import edu.wpi.onyx_ouroboros.model.language.Language;
 import edu.wpi.onyx_ouroboros.model.language.LanguageHandler;
 import javafx.scene.control.Label;
 
-public class Main extends ViewModelBase {
+public class MainViewModel extends ViewModelBase {
 
   @Language(key = "mainWelcome")
   public Label welcomeLabel;

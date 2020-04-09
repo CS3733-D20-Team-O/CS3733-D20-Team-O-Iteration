@@ -7,7 +7,7 @@ plugins {
 }
 sourceCompatibility = '13'
 targetCompatibility = '13'
-mainClassName = 'edu.wpi.onyx_ouroboros.App'
+mainClassName = 'edu.wpi.onyx_ouroboros.Main'
 
 repositories {
     mavenCentral()
@@ -56,6 +56,7 @@ jar {
 // code coverage excludes for jacoco
 def codeCoverageExcludes = [
         'edu.wpi.onyx_ouroboros.App',
+        'edu.wpi.onyx_ouroboros.Main',
         // The following are excluded because they have no callable methods
         'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
         'edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequestBase',

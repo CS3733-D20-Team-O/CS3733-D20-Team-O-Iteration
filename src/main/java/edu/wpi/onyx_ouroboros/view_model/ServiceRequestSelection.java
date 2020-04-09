@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 public class ServiceRequestSelection extends ViewModelBase {
 
   @Language(key = "serviceSelectionSubmitButton")
-  private Button submitButton = new Button();
+  private final Button submitButton = new Button();
 
   @Language(key = "serviceSelectionCancelButton")
-  private Button cancelButton = new Button();
+  private final Button cancelButton = new Button();
 
   public ServiceRequestSelection() {
     super();

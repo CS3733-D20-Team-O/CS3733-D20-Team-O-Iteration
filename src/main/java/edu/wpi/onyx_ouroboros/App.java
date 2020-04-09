@@ -1,7 +1,6 @@
 package edu.wpi.onyx_ouroboros;
 
-import edu.wpi.onyx_ouroboros.model.language.LanguageHandler;
-import edu.wpi.onyx_ouroboros.view_model.Main;
+import edu.wpi.onyx_ouroboros.view_model.MainViewModel;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,16 +8,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 @Slf4j
 public class App extends Application {
-
-  public static void main(String[] args) {
-    // Set English as default language
-    LanguageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
-    // todo check for launch in admin mode (--username=admin --password=password)
-    launch(args);
-  }
 
   @Override
   public void init() {
@@ -27,9 +20,9 @@ public class App extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-    final FXMLLoader loader = new FXMLLoader(getClass().getResource("views/Main.fxml"));
-    final Parent root = loader.load();
-    final Main viewModel = loader.getController();
+    val loader = new FXMLLoader(getClass().getResource("views/Main.fxml"));
+    val root = (Parent) loader.load();
+    val viewModel = (MainViewModel) loader.getController();
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
