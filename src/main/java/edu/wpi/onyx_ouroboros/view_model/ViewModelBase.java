@@ -41,7 +41,6 @@ public abstract class ViewModelBase implements Initializable {
    * @param langSwitchEvent the LanguageSwitchEvent that contains the new language information
    */
   @Subscribe(sticky = true)
-  @SuppressWarnings("unused") // method is called by EventBus
   public void onLanguageSwitch(LanguageSwitchEvent langSwitchEvent) {
     val bundle = langSwitchEvent.getBundle();
     for (val field : getClass().getDeclaredFields()) {
@@ -50,7 +49,7 @@ public abstract class ViewModelBase implements Initializable {
         if (bundle.containsKey(annotation.key())) {
           setNewText(field, bundle.getString(annotation.key()));
         } else {
-          log.error("@Language ID " + annotation.key() +
+          log.error("@Language key " + annotation.key() +
               " is invalid in " + getClass().getCanonicalName());
         }
       }
@@ -63,17 +62,14 @@ public abstract class ViewModelBase implements Initializable {
    * @param field   the field to set the text of
    * @param newText the new text
    */
-  @SuppressWarnings("UnusedReturnValue") // return value is used in unit test
-  private boolean setNewText(Field field, String newText) {
+  private void setNewText(Field field, String newText) {
     try {
       field.setAccessible(true);
       ((Labeled) field.get(this)).setText(newText);
-      return true;
     } catch (Exception e) {
       val errorMsg = "Language switch failed for " + field.getName() +
           " in " + getClass().getCanonicalName();
       log.error(errorMsg, e);
-      return false;
     }
   }
 }
