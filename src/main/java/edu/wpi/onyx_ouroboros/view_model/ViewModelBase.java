@@ -2,7 +2,6 @@ package edu.wpi.onyx_ouroboros.view_model;
 
 import edu.wpi.onyx_ouroboros.model.language.Language;
 import edu.wpi.onyx_ouroboros.model.language.LanguageSwitchEvent;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -45,31 +44,27 @@ public abstract class ViewModelBase implements Initializable {
     val bundle = langSwitchEvent.getBundle();
     for (val field : getClass().getDeclaredFields()) {
       val annotation = field.getAnnotation(Language.class);
+      // If this field is not annotated, ignore it (we only work on annotated fields)
       if (annotation != null) {
         if (bundle.containsKey(annotation.key())) {
-          setNewText(field, bundle.getString(annotation.key()));
+          try {
+            val newText = bundle.getString(annotation.key());
+            field.setAccessible(true);
+            val object = field.get(this);
+            if (object instanceof Labeled) {
+              ((Labeled) object).setText(newText);
+            } else {
+              log.warn("Language switch failed for " + field.getName() + " in " +
+                  getClass().getCanonicalName() + " because it is not a Labeled!");
+            }
+          } catch (IllegalAccessException e) {
+            log.error("IMPLEMENTATION ERROR! Could not field.get() in onLanguageSwitch", e);
+          }
         } else {
           log.error("@Language key " + annotation.key() +
               " is invalid in " + getClass().getCanonicalName());
         }
       }
-    }
-  }
-
-  /**
-   * Sets the given field's text to newText
-   *
-   * @param field   the field to set the text of
-   * @param newText the new text
-   */
-  private void setNewText(Field field, String newText) {
-    try {
-      field.setAccessible(true);
-      ((Labeled) field.get(this)).setText(newText);
-    } catch (Exception e) {
-      val errorMsg = "Language switch failed for " + field.getName() +
-          " in " + getClass().getCanonicalName();
-      log.error(errorMsg, e);
     }
   }
 }
