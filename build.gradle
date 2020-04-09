@@ -21,7 +21,7 @@ dependencies {
     implementation(
             'com.jfoenix:jfoenix:9.0.9',
             'org.greenrobot:eventbus:3.2.0',
-            'org.apache.derby:derby:10.15.2.0',
+            'org.apache.derby:derby:10.14.2.0',
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
     )
@@ -42,7 +42,6 @@ javafx {
 
 test {
     useJUnitPlatform()
-    jvmArgs "-Dheadless=${project.hasProperty('headless') ? project.headless : false}"
 }
 
 jar {
@@ -53,6 +52,14 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+
+// code coverage excludes for jacoco
+def codeCoverageExcludes = [
+        'edu.wpi.onyx_ouroboros.App',
+        // The following are excluded because they have no callable methods
+        'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
+        'edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequestBase',
+]
 
 jacoco {
     toolVersion = "0.8.4"
@@ -67,12 +74,7 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 1.0
             }
-            excludes = [
-                    'edu.wpi.onyx_ouroboros.App',
-                    // The following are excluded because they have no callable methods
-                    'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
-                    'edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequestBase',
-            ]
+            excludes = codeCoverageExcludes
         }
 
         rule {
@@ -82,12 +84,7 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.25
             }
-            excludes = [
-                    'edu.wpi.onyx_ouroboros.App',
-                    // The following are excluded because they have no callable methods
-                    'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
-                    'edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequestBase',
-            ]
+            excludes = codeCoverageExcludes
         }
 
         rule {
@@ -97,12 +94,7 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.25
             }
-            excludes = [
-                    'edu.wpi.onyx_ouroboros.App',
-                    // The following are excluded because they have no callable methods
-                    'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
-                    'edu.wpi.onyx_ouroboros.view_model.service_requests.ServiceRequestBase',
-            ]
+            excludes = codeCoverageExcludes
         }
     }
 }
