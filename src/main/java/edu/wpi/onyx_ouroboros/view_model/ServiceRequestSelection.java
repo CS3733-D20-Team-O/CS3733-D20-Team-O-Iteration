@@ -21,6 +21,13 @@ public class ServiceRequestSelection extends ViewModelBase {
             ((Stage) submitButton.getScene().getWindow()).close();
           }
         });
+    styleButtons();
+  }
+
+  /**
+   * Styles the submit and cancel buttons
+   */
+  private void styleButtons() {
     // todo style buttons
   }
 }
