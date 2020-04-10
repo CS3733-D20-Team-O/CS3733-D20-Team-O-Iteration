@@ -1,5 +1,6 @@
-package edu.wpi.onyx_ouroboros.model.data;
+package edu.wpi.onyx_ouroboros.model.data.database;
 
+import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.util.List;
 
 /**

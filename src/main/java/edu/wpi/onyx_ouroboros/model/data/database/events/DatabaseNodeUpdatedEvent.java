@@ -1,4 +1,4 @@
-package edu.wpi.onyx_ouroboros.model.data.events;
+package edu.wpi.onyx_ouroboros.model.data.database.events;
 
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import lombok.Value;

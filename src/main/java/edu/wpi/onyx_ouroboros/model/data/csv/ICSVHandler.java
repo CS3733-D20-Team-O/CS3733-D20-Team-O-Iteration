@@ -1,4 +1,4 @@
-package edu.wpi.onyx_ouroboros.model.data;
+package edu.wpi.onyx_ouroboros.model.data.csv;
 
 /**
  * Represents what a CSVHandler must be able to do

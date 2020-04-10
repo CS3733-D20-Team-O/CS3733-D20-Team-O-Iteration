@@ -1,5 +1,6 @@
 package edu.wpi.onyx_ouroboros;
 
+import edu.wpi.onyx_ouroboros.model.data.database.DatabaseConnection;
 import edu.wpi.onyx_ouroboros.model.language.LanguageHandler;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -9,7 +10,18 @@ import lombok.val;
  */
 @Slf4j
 public class Main {
+
+  /**
+   * Entry point to the application
+   *
+   * @param args the command-line provided arguments
+   */
   public static void main(String[] args) {
+    // If Apache Derby not correctly setup, quit
+    if (!DatabaseConnection.checkForDerby()) {
+      return;
+    }
+
     // Set English as default language
     LanguageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
 

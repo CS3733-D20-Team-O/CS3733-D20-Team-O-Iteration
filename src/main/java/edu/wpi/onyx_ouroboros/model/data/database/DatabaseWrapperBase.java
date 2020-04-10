@@ -1,4 +1,4 @@
-package edu.wpi.onyx_ouroboros.model.data;
+package edu.wpi.onyx_ouroboros.model.data.database;
 
 
 import com.google.inject.Inject;
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
  * The base of a wrapper for a database of PrototypeNodes
  */
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public abstract class DatabaseWrapperBase implements IDatabaseWrapper {
+abstract class DatabaseWrapperBase implements IDatabaseWrapper {
 
   /**
    * The connection to use in the DatabaseWrapper

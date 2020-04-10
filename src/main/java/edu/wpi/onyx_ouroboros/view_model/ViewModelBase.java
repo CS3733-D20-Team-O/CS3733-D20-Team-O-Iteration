@@ -67,7 +67,7 @@ public abstract class ViewModelBase implements Initializable {
                   getClass().getCanonicalName() + " because it is not a Labeled!");
             }
           } catch (IllegalAccessException e) {
-            log.error("IMPLEMENTATION ERROR! Could not field.get() in onLanguageSwitch", e);
+            log.error("IMPLEMENTATION ERROR! Could not field.get()", e);
           }
         } else {
           log.error("@Language key " + annotation.key() +
