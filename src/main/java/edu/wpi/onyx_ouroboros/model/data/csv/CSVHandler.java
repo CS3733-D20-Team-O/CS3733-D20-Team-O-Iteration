@@ -3,7 +3,15 @@ package edu.wpi.onyx_ouroboros.model.data.csv;
 /**
  * Represents what a CSVHandler must be able to do
  */
-public interface ICSVHandler {
+public interface CSVHandler {
+
+  /**
+   * @return a new CSVHandler
+   */
+  static CSVHandler getInstance() {
+    // todo use dependency injection
+    return null;
+  }
 
   /**
    * Imports the given CSV file into the database

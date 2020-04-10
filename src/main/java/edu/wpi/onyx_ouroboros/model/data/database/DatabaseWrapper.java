@@ -6,7 +6,15 @@ import java.util.List;
 /**
  * Interface that represents what a wrapper for a database that stores PrototypeNodes can do
  */
-public interface IDatabaseWrapper extends AutoCloseable {
+public interface DatabaseWrapper extends AutoCloseable {
+
+  /**
+   * @return a new DatabaseWrapper
+   */
+  static DatabaseWrapper getInstance() {
+    // todo use dependency injection
+    return null;
+  }
 
   /**
    * Adds the given PrototypeNode to the database
