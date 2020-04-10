@@ -3,7 +3,7 @@ package edu.wpi.onyx_ouroboros.model.data;
 import java.util.List;
 
 /**
- * Interface that represents a wrapper for a database that stores PrototypeNodes
+ * Interface that represents what a wrapper for a database that stores PrototypeNodes can do
  */
 public interface IDatabaseWrapper extends AutoCloseable {
 

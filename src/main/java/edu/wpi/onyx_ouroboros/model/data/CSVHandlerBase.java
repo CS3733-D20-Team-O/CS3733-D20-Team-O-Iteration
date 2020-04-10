@@ -1,29 +1,18 @@
 package edu.wpi.onyx_ouroboros.model.data;
 
-import lombok.Data;
+import com.google.inject.Inject;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Handles parsing and exporting PrototypeNode CSV files
  */
-@Data
-public abstract class CSVHandlerBase {
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
+public abstract class CSVHandlerBase implements ICSVHandler {
 
   /**
    * The database to import records into and export records from
    */
+  @Getter
   private final IDatabaseWrapper database;
-
-  /**
-   * Imports the given CSV file into the database
-   *
-   * @param csvFileLocation the path of the csv file to read
-   */
-  public abstract void importToDatabase(String csvFileLocation);
-
-  /**
-   * Exports the database into the given CSV file
-   *
-   * @param csvFileLocation the path of the csv file to create/overwrite
-   */
-  public abstract void exportFromDatabase(String csvFileLocation);
 }
