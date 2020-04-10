@@ -9,14 +9,6 @@ import java.util.List;
 public interface DatabaseWrapper extends AutoCloseable {
 
   /**
-   * @return a new DatabaseWrapper
-   */
-  static DatabaseWrapper getInstance() {
-    // todo use dependency injection
-    return new DatabaseWrapperImpl(null);
-  }
-
-  /**
    * Adds the given PrototypeNode to the database
    * <p>
    * Broadcasts DatabaseNodeInsertedEvent upon successful addition

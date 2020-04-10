@@ -6,14 +6,6 @@ package edu.wpi.onyx_ouroboros.model.data.csv;
 public interface CSVHandler {
 
   /**
-   * @return a new CSVHandler
-   */
-  static CSVHandler getInstance() {
-    // todo use dependency injection
-    return new CSVHandlerImpl(null);
-  }
-
-  /**
    * Imports the given CSV file into the database
    *
    * @param csvFileLocation the path of the csv file to read
