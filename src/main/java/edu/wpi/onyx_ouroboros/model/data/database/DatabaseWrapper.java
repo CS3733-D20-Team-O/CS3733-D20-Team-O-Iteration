@@ -13,7 +13,7 @@ public interface DatabaseWrapper extends AutoCloseable {
    */
   static DatabaseWrapper getInstance() {
     // todo use dependency injection
-    return null;
+    return new DatabaseWrapperImpl(null);
   }
 
   /**

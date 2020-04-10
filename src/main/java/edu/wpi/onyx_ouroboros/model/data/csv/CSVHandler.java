@@ -10,7 +10,7 @@ public interface CSVHandler {
    */
   static CSVHandler getInstance() {
     // todo use dependency injection
-    return null;
+    return new CSVHandlerImpl(null);
   }
 
   /**
