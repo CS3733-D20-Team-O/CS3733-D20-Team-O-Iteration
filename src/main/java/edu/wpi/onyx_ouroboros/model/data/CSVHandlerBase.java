@@ -26,11 +26,4 @@ public abstract class CSVHandlerBase {
    * @param csvFileLocation the path of the csv file to create/overwrite
    */
   public abstract void exportFromDatabase(String csvFileLocation);
-
-  /**
-   * @return the database to use in subclasses
-   */
-  protected IDatabaseWrapper getDatabase() {
-    return database;
-  }
 }
