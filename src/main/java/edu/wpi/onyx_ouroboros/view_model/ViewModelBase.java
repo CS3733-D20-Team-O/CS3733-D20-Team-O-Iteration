@@ -4,6 +4,7 @@ import edu.wpi.onyx_ouroboros.model.language.Language;
 import edu.wpi.onyx_ouroboros.model.language.LanguageSwitchEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Labeled;
 import lombok.extern.slf4j.Slf4j;
@@ -33,15 +34,23 @@ public abstract class ViewModelBase implements Initializable {
   }
 
   /**
-   * Processes all fields of subclasses and updates
-   * <p>
    * Gets called when a language switch occurs (or when first initialized)
    *
    * @param langSwitchEvent the LanguageSwitchEvent that contains the new language information
    */
   @Subscribe(sticky = true)
+  @SuppressWarnings("unused") // Called by EventBus
   public void onLanguageSwitch(LanguageSwitchEvent langSwitchEvent) {
     val bundle = langSwitchEvent.getBundle();
+    Platform.runLater(() -> switchToNewLocale(bundle));
+  }
+
+  /**
+   * Called to switch all appropriate fields of this class to the new language
+   *
+   * @param bundle the resource bundle to load the strings from
+   */
+  void switchToNewLocale(ResourceBundle bundle) {
     for (val field : getClass().getDeclaredFields()) {
       val annotation = field.getAnnotation(Language.class);
       // If this field is not annotated, ignore it (we only work on annotated fields)

@@ -7,7 +7,7 @@ import lombok.Value;
  * An event for when a record is added to a database
  */
 @Value
-public class DatabaseInsertionEvent implements DatabaseEvent {
+public class DatabaseNodeInsertedEvent implements DatabaseEvent {
 
   /**
    * The node added to the database

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.testfx.api.FxToolkit.registerPrimaryStage;
 
 import edu.wpi.onyx_ouroboros.model.language.Language;
-import edu.wpi.onyx_ouroboros.model.language.LanguageSwitchEvent;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeoutException;
 import javafx.scene.control.Label;
@@ -57,7 +56,7 @@ public class ViewModelBaseTest {
   @Test
   public void testSwitchLanguage() {
     // Invoke the method
-    viewModel.onLanguageSwitch(new LanguageSwitchEvent(ResourceBundle.getBundle("TestStrings")));
+    viewModel.switchToNewLocale(ResourceBundle.getBundle("TestStrings"));
 
     // Check every field to see if they are in the correct state
     assertEquals("This key is valid", viewModel.keyLabel.getText());

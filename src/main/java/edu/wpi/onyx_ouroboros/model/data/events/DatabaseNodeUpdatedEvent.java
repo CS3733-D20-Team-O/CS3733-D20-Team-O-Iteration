@@ -7,7 +7,7 @@ import lombok.Value;
  * An event for when a record in a database is updated
  */
 @Value
-public class DatabaseUpdateEvent implements DatabaseEvent {
+public class DatabaseNodeUpdatedEvent implements DatabaseEvent {
 
   /**
    * The old ID of the node that was updated
