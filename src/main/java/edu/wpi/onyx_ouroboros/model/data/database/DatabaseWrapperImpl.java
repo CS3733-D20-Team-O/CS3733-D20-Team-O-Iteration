@@ -3,12 +3,15 @@ package edu.wpi.onyx_ouroboros.model.data.database;
 import com.google.inject.Inject;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * The default implementation for a DatabaseWrapper
  */
+@Slf4j
 class DatabaseWrapperImpl implements DatabaseWrapper {
 
   /**
@@ -36,7 +39,21 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   public DatabaseWrapperImpl(Connection connection, EventBus eventBus) {
     this.connection = connection;
     this.eventBus = eventBus;
-    init();
+    if (!isInitialized()) {
+      init();
+    }
+  }
+
+  /**
+   * @return whether or not the database is initialized
+   */
+  private boolean isInitialized() {
+    try {
+      return connection.getMetaData().getTables(null, null, TABLE_NAME, null).next();
+    } catch (SQLException e) {
+      log.warn("SQLException thrown while checking if the database was initialized", e);
+      return false;
+    }
   }
 
   /**
