@@ -6,6 +6,7 @@ import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.sql.Connection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * The default implementation for a DatabaseWrapper
@@ -17,6 +18,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * The connection to use for database operations
    */
   private final Connection connection;
+
+  /**
+   * The EventBus to dispatch DatabaseEvents to
+   */
+  private final EventBus eventBus;
 
   /**
    * Adds the given PrototypeNode to the database
