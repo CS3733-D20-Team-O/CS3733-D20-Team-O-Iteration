@@ -1,18 +1,20 @@
 package edu.wpi.onyx_ouroboros.model.data.database;
 
-
 import com.google.inject.Inject;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.sql.Connection;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * The default implementation for a DatabaseWrapper
  */
-@RequiredArgsConstructor(onConstructor_ = {@Inject})
 class DatabaseWrapperImpl implements DatabaseWrapper {
+
+  /**
+   * The PrototypeNode table name
+   */
+  private static final String TABLE_NAME = "PROTOTYPE_TABLE";
 
   /**
    * The connection to use for database operations
@@ -23,6 +25,26 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * The EventBus to dispatch DatabaseEvents to
    */
   private final EventBus eventBus;
+
+  /**
+   * Constructs a DatabaseWrapperImpl
+   *
+   * @param connection the database connection to use
+   * @param eventBus   the event bus to post events to
+   */
+  @Inject
+  public DatabaseWrapperImpl(Connection connection, EventBus eventBus) {
+    this.connection = connection;
+    this.eventBus = eventBus;
+    init();
+  }
+
+  /**
+   * Initializes the database if not already initialized
+   */
+  private void init() {
+    // todo
+  }
 
   /**
    * Adds the given PrototypeNode to the database
