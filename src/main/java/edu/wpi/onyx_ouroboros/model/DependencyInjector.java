@@ -1,7 +1,6 @@
 package edu.wpi.onyx_ouroboros.model;
 
 import com.google.inject.Guice;
-import edu.wpi.onyx_ouroboros.model.data.csv.CSVModule;
 import edu.wpi.onyx_ouroboros.model.data.database.DatabaseModule;
 import lombok.val;
 
@@ -20,7 +19,6 @@ public class DependencyInjector {
   public static <T> T create(Class<T> tClass) {
     val injector = Guice.createInjector(
         new DatabaseModule(),
-        new CSVModule(),
         new EventBusModule()
     );
     return injector.getInstance(tClass);

@@ -1,11 +1,14 @@
 package edu.wpi.onyx_ouroboros.model.data.database;
 
+import com.google.inject.ImplementedBy;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.util.List;
 
 /**
  * Interface that represents what a wrapper for a database that stores PrototypeNodes can do
  */
+@SuppressWarnings("all") // Suppresses the DatabaseWrapperImpl is uninstantiable warning
+@ImplementedBy(value = DatabaseWrapperImpl.class)
 public interface DatabaseWrapper extends AutoCloseable {
 
   /**

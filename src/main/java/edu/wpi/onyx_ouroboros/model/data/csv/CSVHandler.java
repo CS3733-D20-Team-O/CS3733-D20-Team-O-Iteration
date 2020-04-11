@@ -1,8 +1,12 @@
 package edu.wpi.onyx_ouroboros.model.data.csv;
 
+import com.google.inject.ImplementedBy;
+
 /**
  * Represents what a CSVHandler must be able to do
  */
+@SuppressWarnings("all") // Suppresses the CSVHandlerImpl is uninstantiable warning
+@ImplementedBy(value = CSVHandlerImpl.class)
 public interface CSVHandler {
 
   /**

@@ -14,15 +14,6 @@ import lombok.val;
 public class DatabaseModule extends AbstractModule {
 
   /**
-   * Makes necessary bindings in order to create a DatabaseWrapper
-   */
-  @Override
-  @SuppressWarnings("all") // Silences uninstantiable warning
-  protected void configure() {
-    bind(DatabaseWrapper.class).to(DatabaseWrapperImpl.class);
-  }
-
-  /**
    * Provide a single connection for database usage
    */
   @Provides
