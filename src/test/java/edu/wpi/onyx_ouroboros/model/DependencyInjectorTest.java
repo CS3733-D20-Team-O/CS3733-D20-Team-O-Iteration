@@ -2,6 +2,7 @@ package edu.wpi.onyx_ouroboros.model;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import edu.wpi.onyx_ouroboros.model.astar.AStar;
 import edu.wpi.onyx_ouroboros.model.data.csv.CSVHandler;
 import edu.wpi.onyx_ouroboros.model.data.database.DatabaseWrapper;
 import org.junit.jupiter.api.Test;
@@ -18,5 +19,6 @@ public class DependencyInjectorTest {
   public void checkObjectCreation() {
     assertNotEquals(null, DependencyInjector.create(CSVHandler.class));
     assertNotEquals(null, DependencyInjector.create(DatabaseWrapper.class));
+    assertNotEquals(null, DependencyInjector.create(AStar.class));
   }
 }
