@@ -43,7 +43,6 @@ public class Main {
     } else {
       log.info("Launching application in admin mode");
       AdminApplication.launch(AdminApplication.class, args);
-      // todo pass on username and password
     }
      */
   }

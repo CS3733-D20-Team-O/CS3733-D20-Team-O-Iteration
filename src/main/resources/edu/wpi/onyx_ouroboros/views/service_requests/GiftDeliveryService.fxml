@@ -27,5 +27,4 @@
   <Pane prefHeight="10" prefWidth="${controller.flowNewLine}"/>
   <TextField promptText="Your Name"/>
   <TextField promptText="Recipient Name"/>
-  <!-- todo create credit card info and email address, and consider using a stepper -->
 </FlowPane>
