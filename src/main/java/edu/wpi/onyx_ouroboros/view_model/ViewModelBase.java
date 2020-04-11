@@ -30,7 +30,7 @@ public abstract class ViewModelBase implements Initializable {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    EventBus.getDefault().register(this); // todo unsubscribe
+    EventBus.getDefault().register(this);
   }
 
   /**

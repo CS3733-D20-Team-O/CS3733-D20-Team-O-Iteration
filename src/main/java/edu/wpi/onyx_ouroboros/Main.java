@@ -24,7 +24,6 @@ public class Main {
     // Set English as default language
     LanguageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
 
-    // todo remove for iteration 1
     PrototypeApplication.launch(args);
     /*
     // Check for launch mode (either normal or admin)
@@ -40,10 +39,11 @@ public class Main {
     // Launch application in specified mode
     if (username == null || password == null || username.isBlank() || password.isBlank()) {
       log.info("Launching application in normal mode");
-      App.launch(App.class, args);
+      MainApplication.launch(MainApplication.class, args);
     } else {
       log.info("Launching application in admin mode");
-      // todo launch admin utility w/ username and password
+      AdminApplication.launch(AdminApplication.class, args);
+      // todo pass on username and password
     }
      */
   }

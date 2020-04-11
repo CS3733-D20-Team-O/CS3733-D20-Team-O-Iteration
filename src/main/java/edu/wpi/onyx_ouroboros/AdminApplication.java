@@ -1,6 +1,5 @@
 package edu.wpi.onyx_ouroboros;
 
-import edu.wpi.onyx_ouroboros.view_model.MainViewModel;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 @Slf4j
-public class App extends Application {
+public class AdminApplication extends Application {
 
   @Override
   public void init() {
@@ -22,7 +21,7 @@ public class App extends Application {
   public void start(Stage primaryStage) throws IOException {
     val loader = new FXMLLoader(getClass().getResource("views/Main.fxml"));
     val root = (Parent) loader.load();
-    val viewModel = (MainViewModel) loader.getController();
+    val viewModel = loader.getController();
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
