@@ -20,7 +20,8 @@ public class DependencyInjector {
   public static <T> T create(Class<T> tClass) {
     val injector = Guice.createInjector(
         new DatabaseModule(),
-        new CSVModule()
+        new CSVModule(),
+        new EventBusModule()
     );
     return injector.getInstance(tClass);
   }
