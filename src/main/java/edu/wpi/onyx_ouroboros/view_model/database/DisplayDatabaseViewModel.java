@@ -19,7 +19,7 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
   }
 
   @Subscribe
-  public void onNodeDeleted(DatabaseNodeUpdatedEvent event) {
+  public void onNodeUpdated(DatabaseNodeUpdatedEvent event) {
     // todo finish the onNodeDeleted event
   }
 }
