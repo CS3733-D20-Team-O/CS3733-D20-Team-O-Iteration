@@ -3,7 +3,6 @@ package edu.wpi.onyx_ouroboros;
 import edu.wpi.onyx_ouroboros.model.data.database.DatabaseUtilities;
 import edu.wpi.onyx_ouroboros.model.language.LanguageHandler;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
 /**
  * Entry point for the application
@@ -25,6 +24,9 @@ public class Main {
     // Set English as default language
     LanguageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
 
+    // todo remove for iteration 1
+    PrototypeApplication.launch(args);
+    /*
     // Check for launch mode (either normal or admin)
     String username = null, password = null;
     for (val arg : args) {
@@ -43,5 +45,6 @@ public class Main {
       log.info("Launching application in admin mode");
       // todo launch admin utility w/ username and password
     }
+     */
   }
 }

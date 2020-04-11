@@ -63,6 +63,7 @@ def codeCoverageExcludes = [
         // todo remove the following once things have been finalized
         'edu.wpi.onyx_ouroboros.model.astar.*',
         'edu.wpi.onyx_ouroboros.view_model.prototype.*',
+        'edu.wpi.onyx_ouroboros.PrototypeApplication',
 ]
 
 jacoco {
