@@ -24,7 +24,7 @@ public class Main {
     // Set English as default language
     LanguageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
 
-    PrototypeApplication.launch(args);
+    PrototypeApplication.launch(PrototypeApplication.class, args);
     /*
     // Check for launch mode (either normal or admin)
     String username = null, password = null;
