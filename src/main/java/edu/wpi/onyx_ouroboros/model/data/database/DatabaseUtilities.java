@@ -1,50 +1,23 @@
 package edu.wpi.onyx_ouroboros.model.data.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 /**
- * A Singleton for the database connection
+ * Common utilities for databases
  */
 @Slf4j
-public enum DatabaseConnection {
-  /**
-   * The single instance of the enum
-   */
-  INSTANCE;
+public class DatabaseUtilities {
 
   /**
-   * The name of the database
+   * Creates the database URL to get a connection with
+   *
+   * @param name     the name of the database
+   * @param inMemory whether to store the database in memory or not (should be true for unit tests)
+   * @return the URL of the embedded database
    */
-  private static final String DATABASE_NAME = "Odb";
-
-  /**
-   * The database connection
-   */
-  private final Connection connection;
-
-  /**
-   * Creates the database connection
-   */
-  DatabaseConnection() {
-    // temp connection to initialize the actual *final* connection
-    Connection temp = null;
-    try {
-      temp = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME + ";create=true");
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    connection = temp;
-  }
-
-  /**
-   * @return the database connection
-   */
-  public static Connection getConnection() {
-    return INSTANCE.connection;
+  public static String getURL(String name, boolean inMemory) {
+    return "jdbc:derby:" + (inMemory ? "memory:" : "") + name + ";create=true";
   }
 
   /**

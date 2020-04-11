@@ -11,6 +11,7 @@ public class CSVModule extends AbstractModule {
    * Makes necessary bindings in order to create a CSVHandler
    */
   @Override
+  @SuppressWarnings("all") // Silences uninstantiable warning
   protected void configure() {
     bind(CSVHandler.class).to(CSVHandlerImpl.class);
   }

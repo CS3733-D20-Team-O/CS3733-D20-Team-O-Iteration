@@ -1,6 +1,6 @@
 package edu.wpi.onyx_ouroboros;
 
-import edu.wpi.onyx_ouroboros.model.data.database.DatabaseConnection;
+import edu.wpi.onyx_ouroboros.model.data.database.DatabaseUtilities;
 import edu.wpi.onyx_ouroboros.model.language.LanguageHandler;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -18,7 +18,7 @@ public class Main {
    */
   public static void main(String[] args) {
     // If Apache Derby not correctly setup, quit
-    if (!DatabaseConnection.checkForDerby()) {
+    if (!DatabaseUtilities.checkForDerby()) {
       return;
     }
 
