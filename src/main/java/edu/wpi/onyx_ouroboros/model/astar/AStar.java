@@ -25,7 +25,7 @@ public class AStar {
    * @param n2 the second node
    * @return the Euclidean distance between both nodes
    */
-  public double distanceBetween(Node n1, Node n2) {
+  public static double distanceBetween(Node n1, Node n2) {
     val dX = n1.getXCoord() - n2.getXCoord();
     val dY = n1.getYCoord() - n2.getYCoord();
     return Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
