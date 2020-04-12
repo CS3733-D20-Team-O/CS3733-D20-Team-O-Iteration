@@ -30,8 +30,8 @@ public class PrototypeApplication extends Application {
     val dataDisplayTitle = "Database Display";
     val dataModifyRoot = "views/prototype/ModifyDatabase.fxml";
     val dataModifyTitle = "Database Modify";
-    val dataDownloadRoot = "views/prototype/DownloadDatabase.fxml";
-    val dataDownloadTitle = "Database Download";
+    val dataDownloadRoot = "views/prototype/DatabaseCSVConnection.fxml";
+    val dataDownloadTitle = "Database CSV Connection";
     val astarDemoRoot = "views/prototype/AStar.fxml";
     val astarDemoTitle = "A* Demo Display";
 
