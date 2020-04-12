@@ -3,8 +3,10 @@ package edu.wpi.onyx_ouroboros.model.data.database;
 import com.google.inject.Inject;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
@@ -70,11 +72,12 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
           + "building VARCHAR(255), "
           + "nodeType VARCHAR(255), "
           + "longName VARCHAR(255), "
-          + "shortName VARCHAR(255)";
+          + "shortName VARCHAR(255), "
+          + "PRIMARY KEY (nodeID))";
       stmt.execute(query);
-      System.out.println("Table " + TABLE_NAME + " created");
+      log.info("Table " + TABLE_NAME + " created");
     } catch (SQLException e) {
-      e.printStackTrace();
+      log.error("Failed to initialize " + TABLE_NAME, e);
     }
   }
 
@@ -87,20 +90,22 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public void addNode(PrototypeNode node) {
-    try (val stmt = connection.createStatement()) {
-      String query = "INSERT into " + TABLE_NAME
-          + " VALUES ('" + node.getNodeID() + "', "
-          + node.getXCoord() + ", "
-          + node.getYCoord() + ", "
-          + node.getFloor() + ", '"
-          + node.getBuilding() + "', '"
-          + node.getNodeType() + "', '"
-          + node.getLongName() + "', '"
-          + node.getShortName() + "')";
-      stmt.execute(query);
-      System.out.println("Added new node");
+    @Cleanup PreparedStatement stmt = null;
+    try {
+      stmt = connection
+          .prepareStatement("INSERT into " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+      stmt.setString(1, node.getNodeID());
+      stmt.setInt(2, node.getXCoord());
+      stmt.setInt(3, node.getYCoord());
+      stmt.setInt(4, node.getFloor());
+      stmt.setString(5, node.getBuilding());
+      stmt.setString(6, node.getNodeType());
+      stmt.setString(7, node.getLongName());
+      stmt.setString(8, node.getShortName());
+      stmt.executeUpdate();
+      log.info("Added a new node with ID " + node.getNodeID());
     } catch (SQLException e) {
-      e.printStackTrace();
+      log.error("Failed to add a new node with ID " + node.getNodeID(), e);
     }
   }
 
