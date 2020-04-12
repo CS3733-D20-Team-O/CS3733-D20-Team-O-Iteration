@@ -11,7 +11,6 @@ public class DatabaseWrapperTest {
   // todo delete this method and create real tests
   @Test
   public void satisfyCodeCoverage() {
-    DependencyInjector.create(DatabaseWrapper.class).addNode(null);
-    DependencyInjector.create(DatabaseWrapper.class).deleteNode(null);
+    DependencyInjector.create(DatabaseWrapperImpl.class);
   }
 }
