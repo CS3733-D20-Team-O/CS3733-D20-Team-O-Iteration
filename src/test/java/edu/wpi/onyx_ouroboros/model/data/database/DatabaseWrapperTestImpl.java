@@ -39,8 +39,4 @@ public class DatabaseWrapperTestImpl implements DatabaseWrapper {
   public void updateNode(String nodeID, PrototypeNode node) {
     nodeMap.put(nodeID, node);
   }
-
-  @Override
-  public void close() {
-  }
 }

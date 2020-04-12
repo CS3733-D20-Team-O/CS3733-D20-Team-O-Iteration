@@ -7,9 +7,8 @@ import java.util.List;
 /**
  * Interface that represents what a wrapper for a database that stores PrototypeNodes can do
  */
-@SuppressWarnings("all") // Suppresses the DatabaseWrapperImpl is uninstantiable warning
 @ImplementedBy(value = DatabaseWrapperImpl.class)
-public interface DatabaseWrapper extends AutoCloseable {
+public interface DatabaseWrapper {
 
   /**
    * Adds the given PrototypeNode to the database

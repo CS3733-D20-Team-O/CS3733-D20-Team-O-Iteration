@@ -2,6 +2,7 @@ package edu.wpi.onyx_ouroboros.model.data.database;
 
 import com.google.inject.Inject;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
+import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeInsertedEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -98,8 +99,12 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(6, node.getNodeType());
       stmt.setString(7, node.getLongName());
       stmt.setString(8, node.getShortName());
-      stmt.executeUpdate();
-      log.info("Added a new node with ID " + node.getNodeID());
+      if (stmt.executeUpdate() == 1) {
+        log.info("Added a new node with ID " + node.getNodeID());
+        eventBus.post(new DatabaseNodeInsertedEvent(node));
+      } else {
+        log.error("Failed to add a new node with ID " + node.getNodeID());
+      }
     } catch (SQLException e) {
       log.error("Failed to add a new node with ID " + node.getNodeID(), e);
     }
@@ -138,16 +143,5 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public void updateNode(String nodeID, PrototypeNode node) {
     // todo
-  }
-
-  /**
-   * Closes any database wrapper specific properties but NOT the connection
-   *
-   * @throws Exception in case of an exception
-   */
-  @Override
-  public void close() throws Exception {
-    // todo if nothing to close here, let Greg know
-    //   because then DatabaseWrapper will not need to extend AutoClosable
   }
 }
