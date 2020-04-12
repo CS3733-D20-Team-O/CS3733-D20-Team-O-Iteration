@@ -30,8 +30,6 @@ public class ModifyDatabaseViewModel extends ViewModelBase {
     if (addNodeField.equals("")) {
       System.out.println("An error occurred when attempting to add a node.\nThe field must not be empty!");
     } else {
-      node = (PrototypeNode) addNodeField.getCharacters();
-      // add node to database
       database.addNode(node);
     }
   }
@@ -47,7 +45,7 @@ public class ModifyDatabaseViewModel extends ViewModelBase {
         System.out.println("The node field must not be empty!");
       }
     } else {
-      // todo update node in database
+      // update node in database
       database.updateNode(nodeID, node);
     }
   }
