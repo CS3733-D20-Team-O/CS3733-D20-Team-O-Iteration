@@ -15,7 +15,7 @@ import lombok.val;
 @Slf4j
 public class PrototypeApplication extends Application {
 
-  private String resourceLoc = "resources/edu/wpi/onyx_ouroboros/views/prototype/";
+
 
   @Override
   public void init() {
@@ -26,14 +26,14 @@ public class PrototypeApplication extends Application {
   public void start(Stage primaryStage) throws IOException {
     // todo load all 4 windows from views/prototype/*.fxml
 
-    String dataDisplayRoot = "views/prototype/DisplayDatabase.fxml";
-    String dataDisplayTitle = "Database Display";
-    String dataModifyRoot = "views/prototype/ModifyDatabase.fxml";
-    String dataModifyTitle = "Database Modify";
-    String dataDownloadRoot = "views/prototype/DownloadDatabase.fxml";
-    String dataDownloadTitle = "Database Download";
-    String astarDemoRoot = "views/prototype/AStar.fxml";
-    String astarDemoTitle = "A* Demo Display";
+    val dataDisplayRoot = "views/prototype/DisplayDatabase.fxml";
+    val dataDisplayTitle = "Database Display";
+    val dataModifyRoot = "views/prototype/ModifyDatabase.fxml";
+    val dataModifyTitle = "Database Modify";
+    val dataDownloadRoot = "views/prototype/DownloadDatabase.fxml";
+    val dataDownloadTitle = "Database Download";
+    val astarDemoRoot = "views/prototype/AStar.fxml";
+    val astarDemoTitle = "A* Demo Display";
 
     openWindow(dataDisplayRoot, dataDisplayTitle);
     openWindow(dataModifyRoot, dataModifyTitle);
@@ -42,8 +42,8 @@ public class PrototypeApplication extends Application {
 
   }
 
-  private void openWindow(String rootLoc, String stageTitle) throws IOException {
-    Parent displayRoot = FXMLLoader.load(getClass().getResource(rootLoc));
+  private void openWindow(String fxmlLocation, String stageTitle) throws IOException {
+    val displayRoot = (Parent) FXMLLoader.load(getClass().getResource(fxmlLocation));
     val displayStage = new Stage();
     val displayScene = new Scene(displayRoot);
     displayStage.setScene(displayScene);
