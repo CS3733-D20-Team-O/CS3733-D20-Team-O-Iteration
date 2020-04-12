@@ -3,7 +3,6 @@ package edu.wpi.onyx_ouroboros.model.data.database;
 import com.google.inject.Inject;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -89,8 +88,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public void addNode(PrototypeNode node) {
-    try (PreparedStatement stmt = connection
-        .prepareStatement("INSERT into " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+    val query = "INSERT into " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, node.getNodeID());
       stmt.setInt(2, node.getXCoord());
       stmt.setInt(3, node.getYCoord());
@@ -99,7 +98,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(6, node.getNodeType());
       stmt.setString(7, node.getLongName());
       stmt.setString(8, node.getShortName());
-      stmt.executeUpdate();
+      stmt.execute();
       log.info("Added a new node with ID " + node.getNodeID());
     } catch (SQLException e) {
       log.error("Failed to add a new node with ID " + node.getNodeID(), e);
