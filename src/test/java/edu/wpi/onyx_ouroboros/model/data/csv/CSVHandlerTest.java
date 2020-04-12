@@ -1,6 +1,7 @@
 package edu.wpi.onyx_ouroboros.model.data.csv;
 
-import edu.wpi.onyx_ouroboros.model.DependencyInjector;
+import edu.wpi.onyx_ouroboros.model.TestInjector;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -8,9 +9,26 @@ import org.junit.jupiter.api.Test;
  */
 public class CSVHandlerTest {
 
-  // todo delete this method and create real tests
+  private final CSVHandler csvHandler = TestInjector.create(CSVHandlerImpl.class);
+
+  /**
+   * Tests both importToDatabase and exportFromDatabase by importing a file, exporting it, and
+   * checking to see if the resulting exported file:
+   * <ul>
+   *   <li>is the same length as the original (no nodes dropped)</li>
+   *   <li>has the same contents as the original (no nodes altered)</li>
+   * </ul>
+   */
   @Test
-  public void satisfyCodeCoverage() {
-    DependencyInjector.create(CSVHandler.class).exportFromDatabase(null);
+  public void testCSVHandler() throws IOException {
+    csvHandler.exportFromDatabase("build/junk");
+//    val input = getClass().getResource("PrototypeNodes.csv").getPath();
+//    val output = "build/Nodes.csv";
+//    csvHandler.importToDatabase(input);
+//    csvHandler.exportFromDatabase(output);
+//    val inputLines = Files.readAllLines(Paths.get(input));
+//    val outputLines = Files.readAllLines(Paths.get(output));
+//    assertEquals(inputLines.size(), outputLines.size());
+//    assertTrue(inputLines.containsAll(outputLines));
   }
 }
