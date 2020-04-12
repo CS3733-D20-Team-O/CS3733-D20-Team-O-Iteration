@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.greenrobot.eventbus.EventBus;
 
 /**
@@ -60,7 +61,22 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * Initializes the database if not already initialized
    */
   private void init() {
-    // todo
+    try (val stmt = connection.createStatement()) {
+      String query = "CREATE TABLE " + TABLE_NAME
+          + "(nodeID VARCHAR(255), "
+          + "xCoord INT, "
+          + "yCoord INT, "
+          + "floor INT, "
+          + "building VARCHAR(255), "
+          + "nodeType VARCHAR(255), "
+          + "longName VARCHAR(255), "
+          + "shortName VARCHAR(255), "
+          + "PRIMARY KEY (nodeID))";
+      stmt.execute(query);
+      log.info("Table " + TABLE_NAME + " created");
+    } catch (SQLException e) {
+      log.error("Failed to initialize " + TABLE_NAME, e);
+    }
   }
 
   /**
@@ -72,7 +88,21 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public void addNode(PrototypeNode node) {
-    // todo
+    val query = "INSERT into " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, node.getNodeID());
+      stmt.setInt(2, node.getXCoord());
+      stmt.setInt(3, node.getYCoord());
+      stmt.setInt(4, node.getFloor());
+      stmt.setString(5, node.getBuilding());
+      stmt.setString(6, node.getNodeType());
+      stmt.setString(7, node.getLongName());
+      stmt.setString(8, node.getShortName());
+      stmt.executeUpdate();
+      log.info("Added a new node with ID " + node.getNodeID());
+    } catch (SQLException e) {
+      log.error("Failed to add a new node with ID " + node.getNodeID(), e);
+    }
   }
 
   /**
