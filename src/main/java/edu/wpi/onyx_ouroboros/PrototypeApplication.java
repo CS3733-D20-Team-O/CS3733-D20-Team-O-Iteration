@@ -19,7 +19,6 @@ public class PrototypeApplication extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-
     val dataDisplayRoot = "views/prototype/DisplayDatabase.fxml";
     val dataDisplayTitle = "Database Display";
     val dataModifyRoot = "views/prototype/ModifyDatabase.fxml";
