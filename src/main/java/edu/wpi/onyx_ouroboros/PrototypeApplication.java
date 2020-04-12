@@ -19,12 +19,28 @@ public class PrototypeApplication extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-    // todo load all 4 windows from views/prototype/*.fxml
-    val loader = new FXMLLoader(getClass().getResource("views/Main.fxml"));
-    val root = (Parent) loader.load();
-    val viewModel = loader.getController();
-    primaryStage.setScene(new Scene(root));
-    primaryStage.show();
+    val dataDisplayRoot = "views/prototype/DisplayDatabase.fxml";
+    val dataDisplayTitle = "Database Display";
+    val dataModifyRoot = "views/prototype/ModifyDatabase.fxml";
+    val dataModifyTitle = "Database Modify";
+    val dataDownloadRoot = "views/prototype/DatabaseCSVConnection.fxml";
+    val dataDownloadTitle = "Database CSV Connection";
+    val astarDemoRoot = "views/prototype/AStar.fxml";
+    val astarDemoTitle = "A* Demo Display";
+
+    openWindow(dataDisplayRoot, dataDisplayTitle);
+    openWindow(dataModifyRoot, dataModifyTitle);
+    openWindow(dataDownloadRoot, dataDownloadTitle);
+    openWindow(astarDemoRoot, astarDemoTitle);
+  }
+
+  private void openWindow(String fxmlLocation, String stageTitle) throws IOException {
+    val displayRoot = (Parent) FXMLLoader.load(getClass().getResource(fxmlLocation));
+    val displayStage = new Stage();
+    val displayScene = new Scene(displayRoot);
+    displayStage.setScene(displayScene);
+    displayStage.setTitle(stageTitle);
+    displayStage.show();
   }
 
   @Override

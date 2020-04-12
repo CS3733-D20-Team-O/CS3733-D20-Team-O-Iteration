@@ -57,11 +57,11 @@ jar {
 // code coverage excludes for jacoco
 def codeCoverageExcludes = [
         'edu.wpi.onyx_ouroboros.Main',
+        // The following are excluded because they have no callable methods
+        'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
         // todo test these later
         'edu.wpi.onyx_ouroboros.MainApplication',
         'edu.wpi.onyx_ouroboros.AdminApplication',
-        // The following are excluded because they have no callable methods
-        'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
         // todo remove the following once things have been finalized
         'edu.wpi.onyx_ouroboros.model.astar.*',
         'edu.wpi.onyx_ouroboros.view_model.prototype.*',

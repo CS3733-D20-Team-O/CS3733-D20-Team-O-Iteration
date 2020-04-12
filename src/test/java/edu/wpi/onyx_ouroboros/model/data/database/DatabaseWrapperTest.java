@@ -1,6 +1,6 @@
 package edu.wpi.onyx_ouroboros.model.data.database;
 
-import edu.wpi.onyx_ouroboros.model.DependencyInjector;
+import edu.wpi.onyx_ouroboros.model.TestInjector;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -11,7 +11,6 @@ public class DatabaseWrapperTest {
   // todo delete this method and create real tests
   @Test
   public void satisfyCodeCoverage() {
-    DependencyInjector.create(DatabaseWrapper.class).addNode(null);
-    DependencyInjector.create(DatabaseWrapper.class).deleteNode(null);
+    TestInjector.create(DatabaseWrapperImpl.class);
   }
 }
