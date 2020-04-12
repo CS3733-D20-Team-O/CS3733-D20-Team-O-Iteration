@@ -3,7 +3,9 @@ package edu.wpi.onyx_ouroboros.model.data.database;
 import com.google.inject.Inject;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import lombok.val;
 import org.greenrobot.eventbus.EventBus;
 
 /**
@@ -43,7 +45,21 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * Initializes the database if not already initialized
    */
   private void init() {
-    // todo
+    try (val stmt = connection.createStatement()) {
+      String query = "CREATE TABLE " + TABLE_NAME
+          + "(nodeID VARCHAR(255), "
+          + "xCoord INT, "
+          + "yCoord INT, "
+          + "floor INT, "
+          + "building VARCHAR(255), "
+          + "nodeType VARCHAR(255), "
+          + "longName VARCHAR(255), "
+          + "shortName VARCHAR(255)";
+      stmt.execute(query);
+      System.out.println("Table " + TABLE_NAME + " created");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -55,7 +71,21 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public void addNode(PrototypeNode node) {
-    // todo
+    try (val stmt = connection.createStatement()) {
+      String query = "INSERT into " + TABLE_NAME
+          + " VALUES ('" + node.getNodeID() + "', "
+          + node.getXCoord() + ", "
+          + node.getYCoord() + ", "
+          + node.getFloor() + ", '"
+          + node.getBuilding() + "', '"
+          + node.getNodeType() + "', '"
+          + node.getLongName() + "', '"
+          + node.getShortName() + "')";
+      stmt.execute(query);
+      System.out.println("Added new node");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
