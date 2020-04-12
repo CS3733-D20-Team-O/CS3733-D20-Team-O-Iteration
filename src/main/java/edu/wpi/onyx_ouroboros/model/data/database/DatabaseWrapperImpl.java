@@ -98,7 +98,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(6, node.getNodeType());
       stmt.setString(7, node.getLongName());
       stmt.setString(8, node.getShortName());
-      stmt.execute();
+      stmt.executeUpdate();
       log.info("Added a new node with ID " + node.getNodeID());
     } catch (SQLException e) {
       log.error("Failed to add a new node with ID " + node.getNodeID(), e);
