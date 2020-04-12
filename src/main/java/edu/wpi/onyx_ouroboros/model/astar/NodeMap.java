@@ -12,8 +12,16 @@ import lombok.val;
 @Value
 public class NodeMap {
 
+  /**
+   * The node map of node IDs to the nodes
+   */
   Map<String, Node> map = new HashMap<>();
 
+  /**
+   * Creates a NodeMap from the given database
+   *
+   * @param database the database to load the map from
+   */
   @Inject
   public NodeMap(DatabaseWrapper database) {
     database.export().forEach((dbNode) -> {
@@ -25,12 +33,17 @@ public class NodeMap {
       );
       map.put(node.getID(), node);
     });
-    database.exportEdges().forEach((dbEdge) -> {
-
-    });
-    // todo load nodeMap from database by merging list of nodes and list of edges
+//    database.exportEdges().forEach((dbEdge) -> {
+//      val start = map.get(dbEdge.getStartID());
+//      val stop = map.get(dbEdge.getStopID());
+//      start.getNeighbors().add(stop);
+//      // if bidirectional add stop.getNeighbors().add(start);
+//    });
   }
 
+  /**
+   * Implements the Node functionality required by A*
+   */
   @Value
   private static class NodeImpl implements Node {
 
