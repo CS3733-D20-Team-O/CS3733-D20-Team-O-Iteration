@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
@@ -90,10 +89,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public void addNode(PrototypeNode node) {
-    @Cleanup PreparedStatement stmt = null;
-    try {
-      stmt = connection
-          .prepareStatement("INSERT into " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    try (PreparedStatement stmt = connection
+        .prepareStatement("INSERT into " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
       stmt.setString(1, node.getNodeID());
       stmt.setInt(2, node.getXCoord());
       stmt.setInt(3, node.getYCoord());
