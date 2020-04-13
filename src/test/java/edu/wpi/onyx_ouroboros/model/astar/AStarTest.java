@@ -1,17 +1,13 @@
 package edu.wpi.onyx_ouroboros.model.astar;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import lombok.val;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 
 public class AStarTest {
 
@@ -19,15 +15,15 @@ public class AStarTest {
   private final static AStar testAStar = new AStar(new NodeMap(null));
 
   @BeforeAll
-  public static void beforeAllTests(){
-    NodeTestImp a = new NodeTestImp("a", 0, 0, new LinkedList<Node>()),
-     b = new NodeTestImp("b", 3, 0, new LinkedList<Node>()),
-     c = new NodeTestImp("c", 0, 2, new LinkedList<Node>()),
-     d = new NodeTestImp("d", 1, 1, new LinkedList<Node>()),
-     e = new NodeTestImp("e", 4, 2, new LinkedList<Node>()),
-     f = new NodeTestImp("f", 4, 3, new LinkedList<Node>()),
-     g = new NodeTestImp("g", 2, 5, new LinkedList<Node>()),
-     h = new NodeTestImp("h", 4, 1, new LinkedList<Node>());
+  public static void beforeAllTests() {
+    NodeTestImpl a = new NodeTestImpl("a", 0, 0),
+        b = new NodeTestImpl("b", 3, 0),
+        c = new NodeTestImpl("c", 0, 2),
+        d = new NodeTestImpl("d", 1, 1),
+        e = new NodeTestImpl("e", 4, 2),
+        f = new NodeTestImpl("f", 4, 3),
+        g = new NodeTestImpl("g", 2, 5),
+        h = new NodeTestImpl("h", 4, 1);
 
     a.getNeighbors().addAll(Arrays.asList(b, c));
     b.getNeighbors().addAll(Arrays.asList(a, d, h));
@@ -49,28 +45,28 @@ public class AStarTest {
   }
 
   @Test
-  public void testGoingFromAToB(){
+  public void testGoingFromAToB() {
     List<Node> desired = Arrays.asList(map.get("a"), map.get("b"));
     List<Node> answer = testAStar.findPathBetween(map.get("a"), map.get("b"));
     assertEquals(desired, answer);
   }
 
   @Test
-  public void testGoingFromAToG(){
+  public void testGoingFromAToG() {
     List<Node> desired = Arrays.asList(map.get("a"), map.get("c"), map.get("d"), map.get("g"));
     List<Node> answer = testAStar.findPathBetween(map.get("a"), map.get("g"));
     assertEquals(desired, answer);
   }
 
   @Test
-  public void testGoingFromCToF(){
+  public void testGoingFromCToF() {
     List<Node> desired = Arrays.asList(map.get("c"), map.get("d"), map.get("e"), map.get("f"));
     List<Node> answer = testAStar.findPathBetween(map.get("c"), map.get("f"));
     assertEquals(desired, answer);
   }
 
   @Test
-  public void testGoingFromHToD(){
+  public void testGoingFromHToD() {
     List<Node> desired = Arrays.asList(map.get("h"), map.get("b"), map.get("d"));
     List<Node> answer = testAStar.findPathBetween(map.get("h"), map.get("d"));
     assertEquals(desired, answer);
