@@ -3,6 +3,7 @@ package edu.wpi.onyx_ouroboros.model.data.database;
 import com.google.inject.Inject;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeInsertedEvent;
+import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeUpdatedEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -142,6 +143,32 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public void updateNode(String nodeID, PrototypeNode node) {
-    // todo
+    val query = "UPDATE " + TABLE_NAME + " set "
+        + TABLE_NAME + ".xCoord = ?, "
+        + TABLE_NAME + ".yCoord = ?, "
+        + TABLE_NAME + ".floor = ?, "
+        + TABLE_NAME + ".building = ?, "
+        + TABLE_NAME + ".nodeType = ?, "
+        + TABLE_NAME + ".longName = ?, "
+        + TABLE_NAME + ".shortName = ? "
+        + "WHERE " + TABLE_NAME + ".nodeID = ?";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setInt(1, node.getXCoord());
+      stmt.setInt(2, node.getYCoord());
+      stmt.setInt(3, node.getFloor());
+      stmt.setString(4, node.getBuilding());
+      stmt.setString(5, node.getNodeType());
+      stmt.setString(6, node.getLongName());
+      stmt.setString(7, node.getShortName());
+      stmt.setString(8, nodeID);
+      if (stmt.executeUpdate() == 1) {
+        log.info("Updated node with ID " + nodeID);
+        eventBus.post(new DatabaseNodeUpdatedEvent(nodeID, node));
+      } else {
+        log.error("Failed to update node with ID " + nodeID);
+      }
+    } catch (SQLException e) {
+      log.error("Failed to update node with ID " + nodeID, e);
+    }
   }
 }
