@@ -35,6 +35,7 @@ public class AStar {
   }
 
   /**
+   * todo return null if no path is found
    * Finds the shortest path between a start and a stop node, if one exists
    *
    * @param start the node to start the search from
@@ -43,69 +44,55 @@ public class AStar {
    */
   public List<Node> findPathBetween(Node start, Node stop) {
     val map = nodeMap.getMap();
-    // make sure to use a PriorityQueue of NodeWithPriorities (see class below)!
-    // all nodes you have access to are in the map variable defined at the start of the method
 
-    //+++++++++++++
-    //this part of the function is where the searching takes place
-    //+++++++++++++
+    //This part of the function is where the searching takes place.
 
-    //set up the frontier, the PriorityQueue of all points to search
-    //frontier uses objects of NodeWithPriority so that the nodes are able to track and record
-    //their weight to comply with java's PriorityQueue
-    PriorityQueue<NodeWithPriority> frontier = new PriorityQueue<>();
+    /* Set up the frontier, the PriorityQueue of all points to search.
+     * Frontier uses objects of NodeWithPriority so that the nodes are able to track and record
+     * their weight to comply with java's PriorityQueue.
+     */
+    val frontier = new PriorityQueue<NodeWithPriority>();
     frontier.add(new NodeWithPriority(start, 0));
-
-    //this is the A* "log", it tracks for every point, one step back in the path
-    //so once the pathfinding is complete, you can trace back through cameFrom from stop to get
-    //the path
-    HashMap<Node, Node> cameFrom = new HashMap<>();
+    /* This is the A* "log", it tracks for every point, one step back in the path.
+     * Once the path finding is complete, you trace back through cameFrom from stop to get the path.
+     */
+    val cameFrom = new HashMap<Node, Node>();
     cameFrom.put(start, start);
-
-    //this keeps track of the cost to get to any point, it is used to compare various paths to find
-    //the cheapest path, and thus the shortest path
-    HashMap<Node, Double> costSoFar = new HashMap<>();
+    /* This keeps track of the cost to get to any point, it is used to compare various paths to find
+     * the cheapest path, and thus the shortest path.
+     */
+    val costSoFar = new HashMap<Node, Double>();
     costSoFar.put(start, 0.0);
-
+    //This is where the actual searching begins, the while loop runs until all points are searched or stop is found
     while( frontier.size() != 0){
-
-      Node current = frontier.poll().getNode(); //get first node
-
-      if(current.equals(stop)){ //if the destination is reached, stop the search
+      //get first node
+      val current = frontier.poll().getNode();
+      //if the destination is reached, stop the search
+      if(current.equals(stop))
         break;
-      }
-
-      List<Node> neighbors = current.getNeighbors(); //get every point we can reach
-
-      for(Node n : neighbors){ //for every point we can reach
-
-        double newCost = costSoFar.get(current) + distanceBetween(current, n); //it takes this long to get to the new node
-
+      val neighbors = current.getNeighbors();
+      for(val n : neighbors){
+        //it takes this long to get to the new node
+        val newCost = costSoFar.get(current) + distanceBetween(current, n);
         //if n hasn't been explored or it is cheaper to get to n this way
-        if( !costSoFar.containsKey(n) || newCost < costSoFar.get(n)){
-
-          costSoFar.put(n, newCost); //it took this long to get here
-          frontier.add(new NodeWithPriority(n, newCost + distanceBetween(n, stop))); //add the distance between n and the stop node to prioritize closer nodes
-          cameFrom.put(n, current); //we went through current to get here
-
+        if(!costSoFar.containsKey(n) || newCost < costSoFar.get(n)){
+          costSoFar.put(n, newCost); // it took this long to get here
+          frontier.add(new NodeWithPriority(n, newCost + distanceBetween(n, stop))); // add the distance between n and the stop node to prioritize closer nodes
+          cameFrom.put(n, current); // we went through current to get here
         }
       }
     }
 
-    //++++++++++++
-    //now the searching is done, the HashMap cameFrom will contain this.stop, so all that
-    //is left to do is trace back through the HashMap to get the path
-    //++++++++++++
+    /* Now the searching is done, the HashMap cameFrom will contain this.stop, so all that
+     * is left to do is trace back through the HashMap to get the path.
+     */
+    val pathOfNodes = new LinkedList<Node>();
 
-    List<Node> pathOfNodes = new LinkedList<>();
-    Node backTrace = stop;
-
-    while(!backTrace.equals(start)){ //while we haven't hit the start
-      pathOfNodes.add(0, backTrace);
-      backTrace = cameFrom.get(backTrace);
+    //until we hit the start Node
+    for(Node backTrace = stop; !backTrace.equals(start); backTrace = cameFrom.get(backTrace)){
+      pathOfNodes.addFirst(backTrace);
     }
-    pathOfNodes.add(0, backTrace);
-
+    pathOfNodes.addFirst(start);
     return pathOfNodes;
   }
 
