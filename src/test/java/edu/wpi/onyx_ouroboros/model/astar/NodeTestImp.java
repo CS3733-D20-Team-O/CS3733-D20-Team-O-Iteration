@@ -1,15 +1,19 @@
 package edu.wpi.onyx_ouroboros.model.astar;
 
 import java.util.LinkedList;
+import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.Value;
 
-@Value
+@Getter
+@AllArgsConstructor
 class NodeTestImp implements Node{
 
-  String ID;
-  int XCoord;
-  int YCoord;
-  LinkedList<Node> neighbors;
+  private final String ID;
+  private final int XCoord;
+  private final int YCoord;
+  private final LinkedList<Node> neighbors;
 
 
 }
