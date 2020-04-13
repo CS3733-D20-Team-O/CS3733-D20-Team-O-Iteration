@@ -37,6 +37,7 @@ public class Main {
     }
 
     // Launch application in specified mode
+    // We can create an application through injection perhaps and then call its .launch()
     if (username == null || password == null || username.isBlank() || password.isBlank()) {
       log.info("Launching application in normal mode");
       MainApplication.launch(MainApplication.class, args);

@@ -1,23 +1,21 @@
 package edu.wpi.onyx_ouroboros.view_model.prototype;
 
+import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeDeletedEvent;
+import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeInsertedEvent;
+import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeUpdatedEvent;
 import edu.wpi.onyx_ouroboros.model.DependencyInjector;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import edu.wpi.onyx_ouroboros.model.data.database.DatabaseWrapper;
-import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeDeletedEvent;
-import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeInsertedEvent;
-import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeUpdatedEvent;
 import edu.wpi.onyx_ouroboros.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 import lombok.val;
 import org.greenrobot.eventbus.Subscribe;
 
 public class DisplayDatabaseViewModel extends ViewModelBase {
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    super.initialize(location, resources); // do not remove
+  protected void start(URL location) {
     deleteAll();
     val currentNodes = DependencyInjector.create(DatabaseWrapper.class).export();
     addAll(currentNodes);

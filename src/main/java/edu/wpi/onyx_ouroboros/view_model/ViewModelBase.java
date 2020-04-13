@@ -1,7 +1,10 @@
 package edu.wpi.onyx_ouroboros.view_model;
 
+import edu.wpi.onyx_ouroboros.events.Event;
+import edu.wpi.onyx_ouroboros.events.LanguageSwitchEvent;
+import edu.wpi.onyx_ouroboros.events.RegisterViewModelEvent;
 import edu.wpi.onyx_ouroboros.model.language.Language;
-import edu.wpi.onyx_ouroboros.model.language.LanguageSwitchEvent;
+import edu.wpi.onyx_ouroboros.model.language.LanguageHandler;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -10,7 +13,6 @@ import javafx.scene.control.Labeled;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 /**
  * The base view model for all other ViewModels to extend
@@ -22,27 +24,46 @@ public abstract class ViewModelBase implements Initializable {
 
   /**
    * Called to initialize a controller after its root element has been completely processed.
-   * <p>
-   * ALL OVERRIDES OF ViewModelBase's initialize MUST CALL SUPER
    *
    * @param location  The location used to resolve relative paths for the root object, or null
    * @param resources The resources used to localize the root object, or null
    */
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    EventBus.getDefault().register(this);
+  public final void initialize(URL location, ResourceBundle resources) {
+    EventBus.getDefault().post(new RegisterViewModelEvent(this));
+    switchToNewLocale(LanguageHandler.getCurrentLocaleBundle());
+    start(location);
   }
 
   /**
-   * Gets called when a language switch occurs (or when first initialized)
+   * Called when a ViewModel's views have been completely processed and can be used freely
    *
-   * @param langSwitchEvent the LanguageSwitchEvent that contains the new language information
+   * @param location the location used to resolve relative paths for the root object, or null
    */
-  @Subscribe(sticky = true)
-  @SuppressWarnings("unused") // Called by EventBus
-  public void onLanguageSwitch(LanguageSwitchEvent langSwitchEvent) {
-    val bundle = langSwitchEvent.getBundle();
-    Platform.runLater(() -> switchToNewLocale(bundle));
+  protected void start(URL location) {
+  }
+
+  /**
+   * Called when an event is received
+   *
+   * @param event the event that was received
+   */
+  protected void onEvent(Event event) {
+  }
+
+  /**
+   * Called on the JavaFX thread when any event is fired
+   *
+   * @param event the event was fired
+   */
+  public final void onEventReceived(Event event) {
+    Platform.runLater(() -> {
+      if (event instanceof LanguageSwitchEvent) {
+        val bundle = ((LanguageSwitchEvent) event).getBundle();
+        switchToNewLocale(bundle);
+      }
+      onEvent(event);
+    });
   }
 
   /**
@@ -50,7 +71,7 @@ public abstract class ViewModelBase implements Initializable {
    *
    * @param bundle the resource bundle to load the strings from
    */
-  void switchToNewLocale(ResourceBundle bundle) {
+  final void switchToNewLocale(ResourceBundle bundle) {
     for (val field : getClass().getDeclaredFields()) {
       val annotation = field.getAnnotation(Language.class);
       // If this field is not annotated, ignore it (we only work on annotated fields)

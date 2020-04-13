@@ -1,21 +1,13 @@
 package edu.wpi.onyx_ouroboros;
 
 import java.io.IOException;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-@Slf4j
-public class AdminApplication extends Application {
-
-  @Override
-  public void init() {
-    log.info("Starting Up");
-  }
+public class AdminApplication extends ApplicationBase {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
@@ -24,10 +16,5 @@ public class AdminApplication extends Application {
     val viewModel = loader.getController();
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
-  }
-
-  @Override
-  public void stop() {
-    log.info("Shutting Down");
   }
 }

@@ -1,6 +1,6 @@
-package edu.wpi.onyx_ouroboros.model.data.database.events;
+package edu.wpi.onyx_ouroboros.events.database;
 
-import edu.wpi.onyx_ouroboros.model.Event;
+import edu.wpi.onyx_ouroboros.events.Event;
 
 /**
  * Represents any sort of event that a database wrapper may fire

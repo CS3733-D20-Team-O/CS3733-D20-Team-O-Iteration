@@ -1,10 +1,10 @@
 package edu.wpi.onyx_ouroboros.model.data.database;
 
 import com.google.inject.Inject;
+import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeDeletedEvent;
+import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeInsertedEvent;
+import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeUpdatedEvent;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
-import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeDeletedEvent;
-import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeInsertedEvent;
-import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeUpdatedEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
