@@ -16,7 +16,7 @@ public class AStarTest {
 
   @BeforeAll
   public static void beforeAllTests() {
-    NodeTestImpl a = new NodeTestImpl("a", 0, 0),
+    Node a = new NodeTestImpl("a", 0, 0),
         b = new NodeTestImpl("b", 3, 0),
         c = new NodeTestImpl("c", 0, 2),
         d = new NodeTestImpl("d", 1, 1),

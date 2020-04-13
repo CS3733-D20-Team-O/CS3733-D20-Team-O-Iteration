@@ -2,9 +2,9 @@ package edu.wpi.onyx_ouroboros.model.astar;
 
 import com.google.inject.Inject;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Stack;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import lombok.val;
@@ -90,7 +90,7 @@ public class AStar {
 
     // Now the searching is done, the HashMap cameFrom will contain this.stop, so all that
     //  is left to do is trace back through the HashMap to get the path
-    val pathOfNodes = new Stack<Node>();
+    val pathOfNodes = new LinkedList<Node>();
 
     // Until we hit the start Node
     for (Node backTrace = stop; !backTrace.equals(start); backTrace = cameFrom.get(backTrace)) {
