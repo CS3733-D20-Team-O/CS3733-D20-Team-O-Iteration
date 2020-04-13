@@ -2,6 +2,7 @@ package edu.wpi.onyx_ouroboros.model.data.database;
 
 import com.google.inject.Inject;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
+import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeDeletedEvent;
 import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeInsertedEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -129,10 +130,12 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public void deleteNode(String nodeID) {
-    val query = "DELETE from " + TABLE_NAME + " WHERE " + TABLE_NAME + ".nodeID = '" + nodeID + "'";
+    val query = "DELETE from " + TABLE_NAME + " WHERE " + TABLE_NAME + ".nodeID = ?";
     try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, nodeID);
       if (stmt.executeUpdate() == 1) {
         log.info("Deleted node with ID " + nodeID);
+        eventBus.post(new DatabaseNodeDeletedEvent(nodeID));
       } else {
         log.error("Failed to delete node with ID " + nodeID);
       }
