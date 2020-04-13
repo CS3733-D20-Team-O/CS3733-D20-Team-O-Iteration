@@ -144,6 +144,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public void updateNode(String nodeID, PrototypeNode node) {
     val query = "UPDATE " + TABLE_NAME + " set "
+        + TABLE_NAME + ".nodeID = ?, "
         + TABLE_NAME + ".xCoord = ?, "
         + TABLE_NAME + ".yCoord = ?, "
         + TABLE_NAME + ".floor = ?, "
@@ -153,14 +154,15 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         + TABLE_NAME + ".shortName = ? "
         + "WHERE " + TABLE_NAME + ".nodeID = ?";
     try (val stmt = connection.prepareStatement(query)) {
-      stmt.setInt(1, node.getXCoord());
-      stmt.setInt(2, node.getYCoord());
-      stmt.setInt(3, node.getFloor());
-      stmt.setString(4, node.getBuilding());
-      stmt.setString(5, node.getNodeType());
-      stmt.setString(6, node.getLongName());
-      stmt.setString(7, node.getShortName());
-      stmt.setString(8, nodeID);
+      stmt.setString(1, node.getNodeID());
+      stmt.setInt(2, node.getXCoord());
+      stmt.setInt(3, node.getYCoord());
+      stmt.setInt(4, node.getFloor());
+      stmt.setString(5, node.getBuilding());
+      stmt.setString(6, node.getNodeType());
+      stmt.setString(7, node.getLongName());
+      stmt.setString(8, node.getShortName());
+      stmt.setString(9, nodeID);
       if (stmt.executeUpdate() == 1) {
         log.info("Updated node with ID " + nodeID);
         eventBus.post(new DatabaseNodeUpdatedEvent(nodeID, node));
