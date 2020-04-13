@@ -129,7 +129,16 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public void deleteNode(String nodeID) {
-    // todo
+    val query = "DELETE from " + TABLE_NAME + " WHERE " + TABLE_NAME + ".nodeID = '" + nodeID + "'";
+    try (val stmt = connection.prepareStatement(query)) {
+      if (stmt.executeUpdate() == 1) {
+        log.info("Deleted node with ID " + nodeID);
+      } else {
+        log.error("Failed to delete node with ID " + nodeID);
+      }
+    } catch (SQLException e) {
+      log.error("Failed to delete node with ID " + nodeID, e);
+    }
   }
 
   /**
