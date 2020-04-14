@@ -1,6 +1,7 @@
 package edu.wpi.onyx_ouroboros.model.astar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -70,5 +71,23 @@ public class AStarTest {
     List<Node> desired = Arrays.asList(map.get("h"), map.get("b"), map.get("d"));
     List<Node> answer = testAStar.findPathBetween(map.get("h"), map.get("d"));
     assertEquals(desired, answer);
+  }
+
+  @Test
+  public void testUnreachableAsStop(){
+    //a node with no neighbors
+    Node n = new NodeTestImpl("n", 1, 0);
+    map.put("n", n);
+    List<Node> answer = testAStar.findPathBetween(map.get("h"), map.get("n"));
+    assertNull(answer);
+  }
+
+  @Test
+  public void testUnreachableAsStart(){
+    //a node with no neighbors
+    Node n = new NodeTestImpl("n", 1, 0);
+    map.put("n", n);
+    List<Node> answer = testAStar.findPathBetween(map.get("n"), map.get("c"));
+    assertNull(answer);
   }
 }
