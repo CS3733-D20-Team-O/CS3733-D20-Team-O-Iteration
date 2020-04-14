@@ -14,4 +14,8 @@ public class Path {
       System.out.println(n.getID());
     }
   }
+
+  public LinkedList<MapNode> getNodes () {
+    return nodes;
+  }
 }
