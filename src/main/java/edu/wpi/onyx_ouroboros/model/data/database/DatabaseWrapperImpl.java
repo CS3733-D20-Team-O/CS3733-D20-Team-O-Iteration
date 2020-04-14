@@ -6,8 +6,11 @@ import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeDeletedEven
 import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeInsertedEvent;
 import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeUpdatedEvent;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
+import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
@@ -119,7 +122,27 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public List<PrototypeNode> export() {
-    return null; // todo
+    LinkedList<PrototypeNode> listOfNodes = new LinkedList<PrototypeNode>();
+    val query = "SELECT * from " + TABLE_NAME;
+    try (val stmt = connection.prepareStatement(query)) {
+      @Cleanup ResultSet rset = stmt.executeQuery();
+      while (rset.next()) {
+        String nodeID = rset.getString(1);
+        int xCoord = rset.getInt(2);
+        int yCoord = rset.getInt(3);
+        int floor = rset.getInt(4);
+        String building = rset.getString(5);
+        String nodeType = rset.getString(6);
+        String longName = rset.getString(7);
+        String shortName = rset.getString(8);
+        PrototypeNode node = new PrototypeNode(nodeID, xCoord, yCoord, floor, building, nodeType,
+            longName, shortName);
+        listOfNodes.add(node);
+      }
+    } catch (SQLException e) {
+      log.error("Failed to export records", e);
+    }
+    return listOfNodes;
   }
 
   /**
