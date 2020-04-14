@@ -77,7 +77,7 @@ public class Parser {
         edges.add(ef);
         edges.add(eh);
 
-        MapEdge fe = new MapEdge("fe", f, g);
+        MapEdge fe = new MapEdge("fe", f, e);
         MapEdge fg = new MapEdge("fg", f, g);
         edges.add(fe);
         edges.add(fg);
