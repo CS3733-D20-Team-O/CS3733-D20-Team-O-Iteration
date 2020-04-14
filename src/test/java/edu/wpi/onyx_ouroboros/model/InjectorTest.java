@@ -8,17 +8,17 @@ import edu.wpi.onyx_ouroboros.model.data.database.DatabaseWrapper;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests DependencyInjector
+ * Tests Injector
  */
-public class DependencyInjectorTest {
+public class InjectorTest {
 
   /**
-   * Tests that DependencyInjector can create objects of different types
+   * Tests that Injector can create objects of different types
    */
   @Test
   public void checkObjectCreation() {
-    assertNotEquals(null, DependencyInjector.create(CSVHandler.class));
-    assertNotEquals(null, DependencyInjector.create(DatabaseWrapper.class));
-    assertNotEquals(null, DependencyInjector.create(AStar.class));
+    assertNotEquals(null, Injector.create(CSVHandler.class));
+    assertNotEquals(null, Injector.create(DatabaseWrapper.class));
+    assertNotEquals(null, Injector.create(AStar.class));
   }
 }

@@ -2,7 +2,6 @@ package edu.wpi.onyx_ouroboros.model;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.Provides;
 import edu.wpi.onyx_ouroboros.model.data.database.DatabaseUtilities;
 import java.sql.Connection;
@@ -17,12 +16,13 @@ import org.greenrobot.eventbus.EventBus;
  * Provides a convenient wrapper around Guice
  */
 @Slf4j
-public class DependencyInjector {
+public class Injector {
 
   /**
    * The instance of an injector to use for creating new objects
    */
-  private static final Injector injector = Guice.createInjector(new ProductionModule());
+  private static final com.google.inject.Injector injector = Guice
+      .createInjector(new ProductionModule());
 
   /**
    * Creates an instance of a class via registered Modules
