@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import lombok.Value;
-import lombok.val;
 
 @Value
 public class NodeMap {
@@ -24,15 +23,14 @@ public class NodeMap {
    */
   @Inject
   public NodeMap(DatabaseWrapper database) {
-    database.export().forEach((dbNode) -> {
-      val node = new NodeImpl(
-          dbNode.getNodeID(),
-          dbNode.getXCoord(),
-          dbNode.getYCoord(),
-          new LinkedList<>()
-      );
-      map.put(node.getID(), node);
-    });
+//    database.export().forEach((dbNode) -> {
+//      val node = new NodeImpl(
+//          dbNode.getNodeID(),
+//          dbNode.getXCoord(),
+//          dbNode.getYCoord()
+//      );
+//      map.put(node.getID(), node);
+//    });
 //    database.exportEdges().forEach((dbEdge) -> {
 //      val start = map.get(dbEdge.getStartID());
 //      val stop = map.get(dbEdge.getStopID());
@@ -49,6 +47,6 @@ public class NodeMap {
 
     String ID;
     int xCoord, yCoord;
-    List<Node> neighbors;
+    List<Node> neighbors = new LinkedList<>();
   }
 }
