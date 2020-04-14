@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-  xmlns:fx="http://javafx.com/fxml"
-  fx:controller="edu.wpi.onyx_ouroboros.view_model.prototype.DatabaseCSVConnection"
-  prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
+<AnchorPane prefHeight="200.0" prefWidth="500.0" style="-fx-background-color: #58A5F0;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.onyx_ouroboros.view_model.prototype.DatabaseCSVConnection">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Database CSV Import/Export">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="50.0" spacing="10.0">
+         <children>
+            <Label text="File Location:" />
+            <TextField fx:id="txtfieldFileLocation" prefHeight="26.0" prefWidth="369.0" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="106.0" layoutY="118.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onImportClicked" text="Import From">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Button>
+            <Button mnemonicParsing="false" onAction="#onExportClicked" text="Export To">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Button>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>
