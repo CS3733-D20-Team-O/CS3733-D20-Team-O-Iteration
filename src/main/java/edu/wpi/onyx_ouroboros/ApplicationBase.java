@@ -31,22 +31,18 @@ public abstract class ApplicationBase extends Application {
   private final List<WeakReference<ViewModelBase>> registeredViewModels = new LinkedList<>();
 
   /**
-   * The injector to use in Applications that extend this class
-   * <p>
-   * This injector only has access to things that a ViewModel needs (and no model-specific things)
+   * The injector used in Applications that extend this class. Automatically passed to ViewModels
    */
   private final Injector injector = Guice.createInjector(
       new EventBusModule(),
-      new FXMLLoaderModule()
+      new FXMLLoaderModule(),
+      new DatabaseModule()
   );
 
   @Override
   final public void init() {
     log.info("Starting up " + getClass().getSimpleName());
     EventBus.getDefault().register(this);
-    // val modelInjector = Guice.createInjector(new EventBusModule(), new DatabaseModule());
-    // todo use modelInjector to create an EventHandler if we go that route
-    //  otherwise, throw a DatabaseModule onto the this class' injector
   }
 
   @Override
