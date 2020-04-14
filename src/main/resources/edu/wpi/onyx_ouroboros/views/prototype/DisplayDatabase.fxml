@@ -15,9 +15,9 @@
         <TableColumn prefWidth="75.0" text="yCoord" fx:id="yCoord"/>
         <TableColumn prefWidth="41.0" text="floor" fx:id="floor"/>
         <TableColumn prefWidth="84.0" text="building" fx:id="building"/>
-        <TableColumn text="nodeType" fx:id="nodeType"/>
+        <TableColumn prefWidth="90.0" text="nodeType" fx:id="nodeType"/>
         <TableColumn prefWidth="90.0" text="longName" fx:id="longName"/>
-        <TableColumn text="shortName" fx:id="shortName"/>
+        <TableColumn prefWidth="90.0" text="shortName" fx:id="shortName"/>
       </columns>
     </TableView>
   </children>
