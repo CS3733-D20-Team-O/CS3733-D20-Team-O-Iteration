@@ -43,7 +43,6 @@ public class AStar {
    */
   public List<Node> findPathBetween(Node start, Node stop) {
     // val map = nodeMap.getMap();
-    // todo return null if no path is found
 
     // Set up the frontier, the PriorityQueue of all points to search.
     // Frontier uses objects of NodeWithPriority so that the nodes are able to track and record
@@ -63,7 +62,7 @@ public class AStar {
 
     // This is where the actual searching begins
     // The while loop runs until all points are searched or stop is found
-    while (frontier.size() != 0) {
+    while (!frontier.isEmpty()) {
       // Get first node
       val current = frontier.poll().getNode();
 
@@ -86,6 +85,11 @@ public class AStar {
           cameFrom.put(n, current);
         }
       }
+    }
+
+    // If stop couldn't be reached
+    if (!cameFrom.containsKey(stop)) {
+      return null;
     }
 
     // Now the searching is done, the HashMap cameFrom will contain this.stop, so all that
