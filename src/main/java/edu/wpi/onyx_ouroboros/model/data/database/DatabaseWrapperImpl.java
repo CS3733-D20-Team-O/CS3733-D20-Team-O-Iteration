@@ -122,7 +122,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   public List<PrototypeNode> export() {
     val listOfNodes = new LinkedList<PrototypeNode>();
     val query = "SELECT * from " + TABLE_NAME;
-    try (val rset = connection.prepareStatement(query).executeQuery()) {
+    try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
       while (rset.next()) {
         listOfNodes.add(new PrototypeNode(
             rset.getString(1),
