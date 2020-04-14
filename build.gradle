@@ -63,6 +63,7 @@ def codeCoverageExcludes = [
         'edu.wpi.onyx_ouroboros.ApplicationBase',
         'edu.wpi.onyx_ouroboros.MainApplication',
         'edu.wpi.onyx_ouroboros.AdminApplication',
+        'edu.wpi.onyx_ouroboros.AdminApplication.LoginDetails',
 ]
 
 jacoco {

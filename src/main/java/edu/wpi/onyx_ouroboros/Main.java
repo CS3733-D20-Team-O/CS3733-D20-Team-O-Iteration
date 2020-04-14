@@ -2,6 +2,8 @@ package edu.wpi.onyx_ouroboros;
 
 import edu.wpi.onyx_ouroboros.model.data.database.DatabaseUtilities;
 import edu.wpi.onyx_ouroboros.model.language.LanguageHandler;
+import java.util.Arrays;
+import javafx.application.Application;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -11,11 +13,6 @@ import lombok.val;
 @Slf4j
 public class Main {
 
-  /**
-   * Entry point to the application
-   *
-   * @param args the command-line provided arguments
-   */
   public static void main(String[] args) {
     // If Apache Derby not correctly setup, quit
     if (!DatabaseUtilities.checkForDerby()) {
@@ -25,24 +22,8 @@ public class Main {
     // Set English as default language
     LanguageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
 
-    // Check for launch mode (either normal or admin)
-    String username = null, password = null;
-    for (val arg : args) {
-      if (arg.startsWith("--username=")) {
-        username = arg.substring(11);
-      } else if (arg.startsWith("--password=")) {
-        password = arg.substring(11);
-      }
-    }
-
-    // Launch application in specified mode
-    // We can create an application through injection perhaps and then call its .launch()
-    if (username == null || password == null || username.isBlank() || password.isBlank()) {
-      log.info("Launching application in normal mode");
-      MainApplication.launch(MainApplication.class, args);
-    } else {
-      log.info("Launching application in admin mode");
-      AdminApplication.launch(AdminApplication.class, args);
-    }
+    // Check for launch mode (either normal or admin) by checking launch arguments and launch
+    val loginValid = new AdminApplication.LoginDetails(Arrays.asList(args)).isValid();
+    Application.launch(loginValid ? AdminApplication.class : MainApplication.class, args);
   }
 }
