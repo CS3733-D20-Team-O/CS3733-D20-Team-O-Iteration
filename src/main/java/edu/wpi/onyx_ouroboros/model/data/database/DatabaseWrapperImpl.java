@@ -7,6 +7,7 @@ import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeInsertedEve
 import edu.wpi.onyx_ouroboros.model.data.database.events.DatabaseNodeUpdatedEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -119,7 +120,24 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public List<PrototypeNode> export() {
-    return null; // todo
+    val listOfNodes = new LinkedList<PrototypeNode>();
+    val query = "SELECT * from " + TABLE_NAME;
+    try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
+      while (rset.next()) {
+        listOfNodes.add(new PrototypeNode(
+            rset.getString(1),
+            rset.getInt(2),
+            rset.getInt(3),
+            rset.getInt(4),
+            rset.getString(5),
+            rset.getString(6),
+            rset.getString(7),
+            rset.getString(8)));
+      }
+    } catch (SQLException e) {
+      log.error("Failed to export records", e);
+    }
+    return listOfNodes;
   }
 
   /**
