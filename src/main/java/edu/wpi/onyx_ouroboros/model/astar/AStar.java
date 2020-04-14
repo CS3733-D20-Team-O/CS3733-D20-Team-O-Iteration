@@ -87,8 +87,8 @@ public class AStar {
       }
     }
 
-    // if stop couldn't be reached
-    if(!costSoFar.containsKey(stop)){
+    // If stop couldn't be reached
+    if (!cameFrom.containsKey(stop)) {
       return null;
     }
 

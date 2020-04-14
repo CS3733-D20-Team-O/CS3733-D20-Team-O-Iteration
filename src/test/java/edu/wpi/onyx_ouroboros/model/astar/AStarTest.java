@@ -24,7 +24,9 @@ public class AStarTest {
         e = new NodeTestImpl("e", 4, 2),
         f = new NodeTestImpl("f", 4, 3),
         g = new NodeTestImpl("g", 2, 5),
-        h = new NodeTestImpl("h", 4, 1);
+        h = new NodeTestImpl("h", 4, 1),
+        n = new NodeTestImpl("n", 1,
+            0); // n is an unreachable node to test when no path can be found
 
     a.getNeighbors().addAll(Arrays.asList(b, c));
     b.getNeighbors().addAll(Arrays.asList(a, d, h));
@@ -43,6 +45,7 @@ public class AStarTest {
     map.put("f", f);
     map.put("g", g);
     map.put("h", h);
+    map.put("n", n);
   }
 
   @Test
@@ -75,18 +78,12 @@ public class AStarTest {
 
   @Test
   public void testUnreachableAsStop(){
-    //a node with no neighbors
-    Node n = new NodeTestImpl("n", 1, 0);
-    map.put("n", n);
     List<Node> answer = testAStar.findPathBetween(map.get("h"), map.get("n"));
     assertNull(answer);
   }
 
   @Test
   public void testUnreachableAsStart(){
-    //a node with no neighbors
-    Node n = new NodeTestImpl("n", 1, 0);
-    map.put("n", n);
     List<Node> answer = testAStar.findPathBetween(map.get("n"), map.get("c"));
     assertNull(answer);
   }
