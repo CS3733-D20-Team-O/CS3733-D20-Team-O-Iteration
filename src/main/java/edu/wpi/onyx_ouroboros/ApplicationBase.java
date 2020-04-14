@@ -1,12 +1,22 @@
 package edu.wpi.onyx_ouroboros;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Provides;
 import edu.wpi.onyx_ouroboros.events.Event;
 import edu.wpi.onyx_ouroboros.events.RegisterViewModelEvent;
+import edu.wpi.onyx_ouroboros.model.data.database.DatabaseUtilities;
 import edu.wpi.onyx_ouroboros.view_model.ViewModelBase;
 import java.lang.ref.WeakReference;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
@@ -20,16 +30,40 @@ public abstract class ApplicationBase extends Application {
    */
   private final List<WeakReference<ViewModelBase>> registeredViewModels = new LinkedList<>();
 
+  /**
+   * The injector to use in Applications that extend this class
+   * <p>
+   * This injector only has access to things that a ViewModel needs (and no model-specific things)
+   */
+  private final Injector injector = Guice.createInjector(
+      new EventBusModule(),
+      new FXMLLoaderModule()
+  );
+
   @Override
-  public void init() {
+  final public void init() {
     log.info("Starting up " + getClass().getSimpleName());
     EventBus.getDefault().register(this);
+    // val modelInjector = Guice.createInjector(new EventBusModule(), new DatabaseModule());
+    // todo use modelInjector to create an EventHandler if we go that route
+    //  otherwise, throw a DatabaseModule onto the this class' injector
   }
 
   @Override
-  public void stop() {
+  final public void stop() {
     log.info("Stopping " + getClass().getSimpleName());
     EventBus.getDefault().unregister(this);
+  }
+
+  /**
+   * Creates objects of the specified type
+   *
+   * @param tClass the class of the object to create
+   * @param <T>    the type of object to create
+   * @return the new object of the specified type
+   */
+  final protected <T> T create(Class<T> tClass) {
+    return injector.getInstance(tClass);
   }
 
   /**
@@ -39,7 +73,7 @@ public abstract class ApplicationBase extends Application {
    */
   @Subscribe
   @SuppressWarnings("unused") // called by EventBus
-  public void registerViewModel(RegisterViewModelEvent event) {
+  final public void registerViewModel(RegisterViewModelEvent event) {
     registeredViewModels.add(new WeakReference<>(event.getViewModel()));
   }
 
@@ -52,7 +86,7 @@ public abstract class ApplicationBase extends Application {
    */
   @Subscribe
   @SuppressWarnings("unused") // called by EventBus
-  public void onEvent(Event event) {
+  final public void onEvent(Event event) {
     for (var i = registeredViewModels.listIterator(); i.hasNext(); ) {
       val viewModel = i.next().get();
       // if the object was garbage collected, remove it from the list; otherwise, forward event
@@ -61,6 +95,56 @@ public abstract class ApplicationBase extends Application {
       } else {
         viewModel.onEventReceived(event);
       }
+    }
+  }
+
+  /**
+   * Module used for accessing the database
+   */
+  static class DatabaseModule extends AbstractModule {
+
+    /**
+     * Provide a single connection for database usage
+     */
+    @Provides
+    @Singleton
+    public Connection provideConnection() throws SQLException {
+      log.debug("Creating an embedded database connection");
+      val url = DatabaseUtilities.getURL("Odb", false);
+      return DriverManager.getConnection(url);
+    }
+  }
+
+  /**
+   * Provides the EventBus to use (the default one)
+   */
+  static class EventBusModule extends AbstractModule {
+
+    /**
+     * Creates the binding for references of EventBus to use the default
+     */
+    @Override
+    protected void configure() {
+      bind(EventBus.class).toInstance(EventBus.getDefault());
+    }
+  }
+
+  /**
+   * Provides FXMLLoaders to use
+   */
+  static class FXMLLoaderModule extends AbstractModule {
+
+    /**
+     * Provides FXMLLoaders that are created with the injector
+     *
+     * @param injector the injector used to create controllers in the FXMLLoader
+     * @return a new FXMLLoader that has its controller factor set to use the proper injector
+     */
+    @Provides
+    public FXMLLoader provideLoader(Injector injector) {
+      val loader = new FXMLLoader();
+      loader.setControllerFactory(injector::getInstance);
+      return loader;
     }
   }
 }

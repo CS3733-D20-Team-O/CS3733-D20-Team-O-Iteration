@@ -13,7 +13,6 @@ public class ServiceRequestSelection extends ViewModelBase {
   private final Button cancelButton = new Button();
 
   public ServiceRequestSelection() {
-    super();
     cancelButton.setOnAction(event -> ((Stage) cancelButton.getScene().getWindow()).close());
     submitButton.setOnAction(
         event -> {

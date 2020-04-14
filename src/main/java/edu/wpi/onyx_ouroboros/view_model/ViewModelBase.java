@@ -1,5 +1,7 @@
 package edu.wpi.onyx_ouroboros.view_model;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import edu.wpi.onyx_ouroboros.events.Event;
 import edu.wpi.onyx_ouroboros.events.LanguageSwitchEvent;
 import edu.wpi.onyx_ouroboros.events.RegisterViewModelEvent;
@@ -17,10 +19,22 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * The base view model for all other ViewModels to extend
  * <p>
- * Automatically handles language switches for appropriate fields
+ * Automatically handles language switches for appropriate fields and injection
  */
 @Slf4j
 public abstract class ViewModelBase implements Initializable {
+
+  /**
+   * The Injector used to create objects when they are needed (such as FXML loaders)
+   */
+  @Inject
+  private Injector injector;
+
+  /**
+   * The EventBus to dispatch events to
+   */
+  @Inject
+  private EventBus eventBus;
 
   /**
    * Called to initialize a controller after its root element has been completely processed.
@@ -30,7 +44,7 @@ public abstract class ViewModelBase implements Initializable {
    */
   @Override
   public final void initialize(URL location, ResourceBundle resources) {
-    EventBus.getDefault().post(new RegisterViewModelEvent(this));
+    dispatch(new RegisterViewModelEvent(this));
     switchToNewLocale(LanguageHandler.getCurrentLocaleBundle());
     start(location);
   }
@@ -44,17 +58,37 @@ public abstract class ViewModelBase implements Initializable {
   }
 
   /**
-   * Called when an event is received
+   * Called on the JavaFX thread when any event is fired
    *
-   * @param event the event that was received
+   * @param event the event was fired
    */
   protected void onEvent(Event event) {
   }
 
   /**
-   * Called on the JavaFX thread when any event is fired
+   * Creates objects of the specified type
    *
-   * @param event the event was fired
+   * @param tClass the class of the object to create
+   * @param <T>    the type of object to create
+   * @return the new object of the specified type
+   */
+  final protected <T> T create(Class<T> tClass) {
+    return injector.getInstance(tClass);
+  }
+
+  /**
+   * Posts the specified event to the EventBus
+   *
+   * @param event the event to post
+   */
+  final protected void dispatch(Event event) {
+    eventBus.post(event);
+  }
+
+  /**
+   * Called when an event is received
+   *
+   * @param event the event that was received
    */
   public final void onEventReceived(Event event) {
     Platform.runLater(() -> {
