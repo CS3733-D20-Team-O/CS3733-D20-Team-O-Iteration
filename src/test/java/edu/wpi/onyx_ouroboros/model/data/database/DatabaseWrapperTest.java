@@ -17,5 +17,14 @@ public class DatabaseWrapperTest {
 
   }
 
+  @Test
+  public void addNodeTest() {
+    PrototypeNode newNode = new PrototypeNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1",
+        "Elev1");
+    TestInjector.create(DatabaseWrapperImpl.class).addNode(newNode);
+    PrototypeNode sameNodeID = new PrototypeNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1",
+        "Elev1");
+    TestInjector.create(DatabaseWrapperImpl.class).addNode(sameNodeID);
 
+  }
 }
