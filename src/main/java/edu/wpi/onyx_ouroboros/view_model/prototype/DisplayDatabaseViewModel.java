@@ -1,6 +1,5 @@
 package edu.wpi.onyx_ouroboros.view_model.prototype;
 
-
 import edu.wpi.onyx_ouroboros.model.DependencyInjector;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import edu.wpi.onyx_ouroboros.model.data.database.DatabaseWrapper;
@@ -42,7 +41,6 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
   @FXML
   private ObservableList displayTableItems;
 
-
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     super.initialize(location, resources); // do not remove
@@ -56,6 +54,7 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
     longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
     shortName.setCellValueFactory(new PropertyValueFactory<>("shortName"));
 
+    deleteAll();
     val currentNodes = DependencyInjector.create(DatabaseWrapper.class).export();
     addAll(currentNodes);
   }
@@ -66,14 +65,13 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
   }
 
   private void addAll(List<PrototypeNode> nodes) {
-    // event.getNode() will return the new node's properties
-    // todo add every node to displayed table (#36)
+    // todo add every node to displayed table
   }
 
   @Subscribe
   public void onNodeDeleted(DatabaseNodeDeletedEvent event) {
-    // event.getNode() will return the new node's properties
-    // todo finish the onNodeDeleted event (#37)
+    // event.getNodeID() returns nodeID String
+    // todo finish the onNodeDeleted event
   }
 
   @Subscribe
@@ -86,6 +84,6 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
   public void onNodeUpdated(DatabaseNodeUpdatedEvent event) {
     // event.getNodeID() will return the ID of the old node (so you know which one to update
     // event.getNode() contains all the new properties
-    // todo finish the onNodeDeleted event (#39)
+    // todo finish the onNodeDeleted event
   }
 }
