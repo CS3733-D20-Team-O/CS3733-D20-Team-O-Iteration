@@ -10,6 +10,7 @@ import edu.wpi.onyx_ouroboros.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -65,7 +66,9 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
   }
 
   private void addAll(List<PrototypeNode> nodes) {
-    // todo add every node to displayed table
+    ObservableList<PrototypeNode> displayTableItems = FXCollections.observableArrayList();
+    displayTableItems.addAll(nodes);
+    nodeDisplayTable.setItems(displayTableItems);
   }
 
   @Subscribe
