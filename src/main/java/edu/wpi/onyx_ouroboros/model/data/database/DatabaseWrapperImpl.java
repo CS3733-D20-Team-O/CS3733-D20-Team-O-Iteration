@@ -4,10 +4,13 @@ import com.google.inject.Inject;
 import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeDeletedEvent;
 import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeInsertedEvent;
 import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeUpdatedEvent;
+import edu.wpi.onyx_ouroboros.model.astar.Node;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
@@ -184,5 +187,33 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     } catch (SQLException e) {
       log.error("Failed to update node with ID " + nodeID, e);
     }
+  }
+
+  // todo below
+
+//    database.export().forEach((dbNode) -> {
+//      val node = new NodeImpl(
+//          dbNode.getNodeID(),
+//          dbNode.getXCoord(),
+//          dbNode.getYCoord()
+//      );
+//      map.put(node.getID(), node);
+//    });
+//    database.exportEdges().forEach((dbEdge) -> {
+//      val start = map.get(dbEdge.getStartID());
+//      val stop = map.get(dbEdge.getStopID());
+//      start.getNeighbors().add(stop);
+//      // if bidirectional add stop.getNeighbors().add(start);
+//    });
+
+  /**
+   * Implements the Node functionality required by A*
+   */
+  @Value
+  private static class NodeImpl implements Node {
+
+    String ID;
+    int xCoord, yCoord;
+    List<Node> neighbors = new LinkedList<>();
   }
 }

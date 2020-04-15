@@ -1,25 +1,16 @@
 package edu.wpi.onyx_ouroboros.model.astar;
 
-import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
-import lombok.AllArgsConstructor;
 import lombok.Value;
 import lombok.val;
 
 /**
  * Represents the AStar algorithm implementation and its dependencies
  */
-@Value
-@AllArgsConstructor(onConstructor_ = {@Inject})
-public class AStar {
-
-  /**
-   * The NodeMap to use in the search
-   */
-  NodeMap nodeMap;
+final public class AStar {
 
   /**
    * Finds the distance between two nodes using the Pythagorean theorem
@@ -28,7 +19,7 @@ public class AStar {
    * @param n2 the second node
    * @return the Euclidean distance between both nodes
    */
-  private double distanceBetween(Node n1, Node n2) {
+  private static double distanceBetween(Node n1, Node n2) {
     val dX = n1.getXCoord() - n2.getXCoord();
     val dY = n1.getYCoord() - n2.getYCoord();
     return Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
@@ -41,7 +32,7 @@ public class AStar {
    * @param stop  the node to find a path to
    * @return the shortest path between two nodes, or null if one does not exist
    */
-  public List<Node> findPathBetween(Node start, Node stop) {
+  public static List<Node> findPathBetween(Node start, Node stop) {
     // val map = nodeMap.getMap();
     // todo return null if no path is found
 
