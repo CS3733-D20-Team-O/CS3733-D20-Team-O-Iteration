@@ -1,9 +1,6 @@
 package edu.wpi.onyx_ouroboros.model.data.database;
 
 import com.google.inject.Inject;
-import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeDeletedEvent;
-import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeInsertedEvent;
-import edu.wpi.onyx_ouroboros.events.database.DatabaseNodeUpdatedEvent;
 import edu.wpi.onyx_ouroboros.model.astar.Node;
 import edu.wpi.onyx_ouroboros.model.data.PrototypeNode;
 import java.sql.Connection;
@@ -13,7 +10,6 @@ import java.util.List;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * The default implementation for a DatabaseWrapper
@@ -32,20 +28,13 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   private final Connection connection;
 
   /**
-   * The EventBus to dispatch DatabaseEvents to
-   */
-  private final EventBus eventBus;
-
-  /**
    * Constructs a DatabaseWrapperImpl
    *
    * @param connection the database connection to use
-   * @param eventBus   the event bus to post events to
    */
   @Inject
-  public DatabaseWrapperImpl(Connection connection, EventBus eventBus) {
+  public DatabaseWrapperImpl(Connection connection) {
     this.connection = connection;
-    this.eventBus = eventBus;
     if (!isInitialized()) {
       init();
     }
@@ -106,7 +95,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(8, node.getShortName());
       if (stmt.executeUpdate() == 1) {
         log.info("Added a new node with ID " + node.getNodeID());
-        eventBus.post(new DatabaseNodeInsertedEvent(node));
       } else {
         log.error("Failed to add a new node with ID " + node.getNodeID());
       }
@@ -156,7 +144,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(1, nodeID);
       if (stmt.executeUpdate() == 1) {
         log.info("Deleted node with ID " + nodeID);
-        eventBus.post(new DatabaseNodeDeletedEvent(nodeID));
       } else {
         log.error("Failed to delete node with ID " + nodeID);
       }
@@ -197,7 +184,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(9, nodeID);
       if (stmt.executeUpdate() == 1) {
         log.info("Updated node with ID " + nodeID);
-        eventBus.post(new DatabaseNodeUpdatedEvent(nodeID, node));
       } else {
         log.error("Failed to update node with ID " + nodeID);
       }
