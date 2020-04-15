@@ -20,9 +20,7 @@ final public class AStar {
    * @return the Euclidean distance between both nodes
    */
   private static double distanceBetween(Node n1, Node n2) {
-    val dX = n1.getXCoord() - n2.getXCoord();
-    val dY = n1.getYCoord() - n2.getYCoord();
-    return Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
+    return Math.hypot(n1.getXCoord() - n2.getXCoord(), n1.getYCoord() - n2.getYCoord());
   }
 
   /**
@@ -33,8 +31,6 @@ final public class AStar {
    * @return the shortest path between two nodes, or null if one does not exist
    */
   public static List<Node> findPathBetween(Node start, Node stop) {
-    // val map = nodeMap.getMap();
-
     // Set up the frontier, the PriorityQueue of all points to search.
     // Frontier uses objects of NodeWithPriority so that the nodes are able to track and record
     //  their weight to comply with java's PriorityQueue.

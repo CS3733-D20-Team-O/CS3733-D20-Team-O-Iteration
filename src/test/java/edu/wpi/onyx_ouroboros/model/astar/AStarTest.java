@@ -13,11 +13,10 @@ import org.junit.jupiter.api.Test;
 public class AStarTest {
 
   private final static Map<String, Node> map = new HashMap<>();
-  private final static AStar testAStar = new AStar(new NodeMap(null));
 
   @BeforeAll
   public static void beforeAllTests() {
-    Node a = new NodeTestImpl("a", 0, 0),
+    final Node a = new NodeTestImpl("a", 0, 0),
         b = new NodeTestImpl("b", 3, 0),
         c = new NodeTestImpl("c", 0, 2),
         d = new NodeTestImpl("d", 1, 1),
@@ -25,8 +24,8 @@ public class AStarTest {
         f = new NodeTestImpl("f", 4, 3),
         g = new NodeTestImpl("g", 2, 5),
         h = new NodeTestImpl("h", 4, 1),
-        n = new NodeTestImpl("n", 1,
-            0); // n is an unreachable node to test when no path can be found
+        // n is an unreachable node to test when no path can be found
+        n = new NodeTestImpl("n", 1, 0);
 
     a.getNeighbors().addAll(Arrays.asList(b, c));
     b.getNeighbors().addAll(Arrays.asList(a, d, h));
@@ -50,41 +49,43 @@ public class AStarTest {
 
   @Test
   public void testGoingFromAToB() {
-    List<Node> desired = Arrays.asList(map.get("a"), map.get("b"));
-    List<Node> answer = testAStar.findPathBetween(map.get("a"), map.get("b"));
+    final List<Node> desired = Arrays.asList(map.get("a"), map.get("b"));
+    final List<Node> answer = AStar.findPathBetween(map.get("a"), map.get("b"));
     assertEquals(desired, answer);
   }
 
   @Test
   public void testGoingFromAToG() {
-    List<Node> desired = Arrays.asList(map.get("a"), map.get("c"), map.get("d"), map.get("g"));
-    List<Node> answer = testAStar.findPathBetween(map.get("a"), map.get("g"));
+    final List<Node> desired = Arrays
+        .asList(map.get("a"), map.get("c"), map.get("d"), map.get("g"));
+    final List<Node> answer = AStar.findPathBetween(map.get("a"), map.get("g"));
     assertEquals(desired, answer);
   }
 
   @Test
   public void testGoingFromCToF() {
-    List<Node> desired = Arrays.asList(map.get("c"), map.get("d"), map.get("e"), map.get("f"));
-    List<Node> answer = testAStar.findPathBetween(map.get("c"), map.get("f"));
+    final List<Node> desired = Arrays
+        .asList(map.get("c"), map.get("d"), map.get("e"), map.get("f"));
+    final List<Node> answer = AStar.findPathBetween(map.get("c"), map.get("f"));
     assertEquals(desired, answer);
   }
 
   @Test
   public void testGoingFromHToD() {
-    List<Node> desired = Arrays.asList(map.get("h"), map.get("b"), map.get("d"));
-    List<Node> answer = testAStar.findPathBetween(map.get("h"), map.get("d"));
+    final List<Node> desired = Arrays.asList(map.get("h"), map.get("b"), map.get("d"));
+    final List<Node> answer = AStar.findPathBetween(map.get("h"), map.get("d"));
     assertEquals(desired, answer);
   }
 
   @Test
-  public void testUnreachableAsStop(){
-    List<Node> answer = testAStar.findPathBetween(map.get("h"), map.get("n"));
+  public void testUnreachableAsStop() {
+    final List<Node> answer = AStar.findPathBetween(map.get("h"), map.get("n"));
     assertNull(answer);
   }
 
   @Test
-  public void testUnreachableAsStart(){
-    List<Node> answer = testAStar.findPathBetween(map.get("n"), map.get("c"));
+  public void testUnreachableAsStart() {
+    final List<Node> answer = AStar.findPathBetween(map.get("n"), map.get("c"));
     assertNull(answer);
   }
 }
