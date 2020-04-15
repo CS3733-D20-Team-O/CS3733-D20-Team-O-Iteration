@@ -10,14 +10,51 @@ import edu.wpi.onyx_ouroboros.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.val;
 import org.greenrobot.eventbus.Subscribe;
 
 public class DisplayDatabaseViewModel extends ViewModelBase {
 
+  @FXML
+  private TableView<PrototypeNode> nodeDisplayTable;
+  @FXML
+  private TableColumn<PrototypeNode, String> nodeID;
+  @FXML
+  private TableColumn<PrototypeNode, Integer> xCoord;
+  @FXML
+  private TableColumn<PrototypeNode, Integer> yCoord;
+  @FXML
+  private TableColumn<PrototypeNode, Integer> floor;
+  @FXML
+  private TableColumn<PrototypeNode, String> building;
+  @FXML
+  private TableColumn<PrototypeNode, String> nodeType;
+  @FXML
+  private TableColumn<PrototypeNode, String> longName;
+  @FXML
+  private TableColumn<PrototypeNode, String> shortName;
+  @FXML
+  private ObservableList displayTableItems;
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     super.initialize(location, resources); // do not remove
+
+    nodeID.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
+    xCoord.setCellValueFactory(new PropertyValueFactory<>("xCoord"));
+    yCoord.setCellValueFactory(new PropertyValueFactory<>("yCoord"));
+    floor.setCellValueFactory(new PropertyValueFactory<>("floor"));
+    building.setCellValueFactory(new PropertyValueFactory<>("building"));
+    nodeType.setCellValueFactory(new PropertyValueFactory<>("nodeType"));
+    longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+    shortName.setCellValueFactory(new PropertyValueFactory<>("shortName"));
+
     deleteAll();
     val currentNodes = DependencyInjector.create(DatabaseWrapper.class).export();
     addAll(currentNodes);
@@ -28,7 +65,9 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
   }
 
   private void addAll(List<PrototypeNode> nodes) {
-    // todo add every node to displayed table
+    ObservableList<PrototypeNode> displayTableItems = FXCollections.observableArrayList();
+    displayTableItems.addAll(nodes);
+    nodeDisplayTable.setItems(displayTableItems);
   }
 
   @Subscribe

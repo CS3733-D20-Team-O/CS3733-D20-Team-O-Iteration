@@ -29,7 +29,7 @@ public class Parser {
 
         MapNode a = new MapNode("a", 0, 0);
         MapNode b = new MapNode("b", 3, 0);
-        MapNode c = new MapNode("c", 2, 0);
+        MapNode c = new MapNode("c", 0, 2);
         MapNode d = new MapNode("d", 1, 1);
         MapNode e = new MapNode("e", 4, 2);
         MapNode f = new MapNode("f", 4, 3);
@@ -77,7 +77,7 @@ public class Parser {
         edges.add(ef);
         edges.add(eh);
 
-        MapEdge fe = new MapEdge("fe", f, g);
+        MapEdge fe = new MapEdge("fe", f, e);
         MapEdge fg = new MapEdge("fg", f, g);
         edges.add(fe);
         edges.add(fg);
