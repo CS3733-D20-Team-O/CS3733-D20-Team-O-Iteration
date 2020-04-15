@@ -3,11 +3,9 @@ package edu.wpi.onyx_ouroboros.view_model;
 import static org.testfx.api.FxAssert.verifyThat;
 
 import edu.wpi.onyx_ouroboros.Main;
-import edu.wpi.onyx_ouroboros.view_model.prototype.DatabaseCSVConnection;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -49,13 +47,13 @@ public class DatabaseCSVConnectionTest extends ApplicationTest {
     verifyThat("#btnImport", NodeMatchers.isDisabled());
     verifyThat("#btnExport", NodeMatchers.isDisabled());
   }
-
+  /*
   @Test
   void testImportButton() {
     clickOn("#txtfieldFileLocation");
     write("Test");
     clickOn("#btnImport");
-  }
+  }*/
 
   @Test
   void testExportButton() {
