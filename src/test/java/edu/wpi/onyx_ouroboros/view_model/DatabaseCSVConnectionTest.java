@@ -47,13 +47,13 @@ public class DatabaseCSVConnectionTest extends ApplicationTest {
     verifyThat("#btnImport", NodeMatchers.isDisabled());
     verifyThat("#btnExport", NodeMatchers.isDisabled());
   }
-  /*
+
   @Test
   void testImportButton() {
     clickOn("#txtfieldFileLocation");
     write("Test");
     clickOn("#btnImport");
-  }*/
+  }
 
   @Test
   void testExportButton() {
