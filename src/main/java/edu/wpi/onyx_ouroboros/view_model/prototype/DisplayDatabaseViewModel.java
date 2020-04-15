@@ -61,7 +61,7 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
   }
 
   private void deleteAll() {
-    // todo delete every node from displayed table
+    nodeDisplayTable.getItems().clear();
   }
 
   private void addAll(List<PrototypeNode> nodes) {

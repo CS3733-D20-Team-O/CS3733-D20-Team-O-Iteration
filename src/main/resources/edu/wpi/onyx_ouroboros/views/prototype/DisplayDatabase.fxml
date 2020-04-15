@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-  prefHeight="400.0"
-  prefWidth="600.0"
-  xmlns="http://javafx.com/javafx"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+  xmlns="http://javafx.com/javafx/10.0.2-internal"
   fx:controller="edu.wpi.onyx_ouroboros.view_model.prototype.DisplayDatabaseViewModel">
-
+  <children>
+    <TableView AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" editable="true"
+      layoutX="1.0" layoutY="59.0" prefHeight="283.0" prefWidth="601.0" fx:id="nodeDisplayTable">
+      <columns>
+        <TableColumn prefWidth="75.0" text="nodeID" fx:id="nodeID"/>
+        <TableColumn prefWidth="75.0" text="xCoord" fx:id="xCoord"/>
+        <TableColumn prefWidth="75.0" text="yCoord" fx:id="yCoord"/>
+        <TableColumn prefWidth="41.0" text="floor" fx:id="floor"/>
+        <TableColumn prefWidth="84.0" text="building" fx:id="building"/>
+        <TableColumn prefWidth="90.0" text="nodeType" fx:id="nodeType"/>
+        <TableColumn prefWidth="90.0" text="longName" fx:id="longName"/>
+        <TableColumn prefWidth="90.0" text="shortName" fx:id="shortName"/>
+      </columns>
+    </TableView>
+  </children>
 </AnchorPane>
