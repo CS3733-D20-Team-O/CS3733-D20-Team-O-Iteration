@@ -61,7 +61,6 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
   }
 
   private void deleteAll() {
-    // event.getNode() will return the new node's properties
     nodeDisplayTable.getItems().clear();
   }
 
