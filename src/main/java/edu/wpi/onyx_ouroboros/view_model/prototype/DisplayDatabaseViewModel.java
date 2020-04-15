@@ -85,8 +85,7 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
 
   @Subscribe
   public void onNodeInsert(DatabaseNodeInsertedEvent event) {
-    // event.getNode() will return the new node's properties
-    // todo finish the onNodeInsert event
+      nodeDisplayTable.getItems().add(event.getNode());
   }
 
   @Subscribe
