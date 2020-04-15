@@ -60,6 +60,7 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
     addAll(currentNodes);
   }
 
+
   private void deleteAll() {
     nodeDisplayTable.getItems().clear();
   }
@@ -90,8 +91,15 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
 
   @Subscribe
   public void onNodeUpdated(DatabaseNodeUpdatedEvent event) {
-    // event.getNodeID() will return the ID of the old node (so you know which one to update
-    // event.getNode() contains all the new properties
-    // todo finish the onNodeDeleted event
+    int i = 0;
+    for (val item : nodeDisplayTable.getItems()) {
+      if (item.getNodeID().equals(event.getNodeID())) {
+        nodeDisplayTable.getItems().set(i, event.getNode());
+        break;
+      }
+      i++; //gets database index
+    }
   }
+
+
 }
