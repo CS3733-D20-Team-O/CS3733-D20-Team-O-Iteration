@@ -29,9 +29,9 @@ public class PrototypeApplication extends Application {
     val astarDemoTitle = "A* Demo Display";
 
     openWindow(dataDisplayRoot, dataDisplayTitle);
-//    openWindow(dataModifyRoot, dataModifyTitle);
-//    openWindow(dataDownloadRoot, dataDownloadTitle);
-//    openWindow(astarDemoRoot, astarDemoTitle);
+    openWindow(dataModifyRoot, dataModifyTitle);
+    openWindow(dataDownloadRoot, dataDownloadTitle);
+    openWindow(astarDemoRoot, astarDemoTitle);
   }
 
   private void openWindow(String fxmlLocation, String stageTitle) throws IOException {
