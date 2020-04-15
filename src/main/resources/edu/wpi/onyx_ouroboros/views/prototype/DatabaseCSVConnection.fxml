@@ -15,7 +15,7 @@
       <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="50.0" spacing="10.0">
          <children>
             <Label text="File Location:" />
-            <TextField fx:id="txtfieldFileLocation" prefHeight="26.0" prefWidth="369.0" />
+            <TextField fx:id="txtfieldFileLocation" onKeyReleased="#buttonToggle" prefHeight="26.0" prefWidth="369.0" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -23,11 +23,11 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="106.0" layoutY="118.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#onImportClicked" text="Import From">
+            <Button fx:id="btnImport" disable="true" mnemonicParsing="false" onAction="#onImportClicked" text="Import From">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin></Button>
-            <Button mnemonicParsing="false" onAction="#onExportClicked" text="Export To">
+            <Button fx:id="btnExport" disable="true" mnemonicParsing="false" onAction="#onExportClicked" text="Export To">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin></Button>
