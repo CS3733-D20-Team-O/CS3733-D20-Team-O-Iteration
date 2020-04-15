@@ -3,6 +3,7 @@ package edu.wpi.onyx_ouroboros;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,7 @@ public class PrototypeApplication extends Application {
   }
 
   private void openWindow(String fxmlLocation, String stageTitle) throws IOException {
-    val displayRoot = FXMLLoader.load(getClass().getResource(fxmlLocation));
+    val displayRoot = (Parent) FXMLLoader.load(getClass().getResource(fxmlLocation));
     val displayStage = new Stage();
     val displayScene = new Scene(displayRoot);
     displayStage.setScene(displayScene);
