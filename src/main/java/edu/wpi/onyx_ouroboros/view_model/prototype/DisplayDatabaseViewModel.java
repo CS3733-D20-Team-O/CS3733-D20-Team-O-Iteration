@@ -73,16 +73,13 @@ public class DisplayDatabaseViewModel extends ViewModelBase {
   @Subscribe
   public void onNodeDeleted(DatabaseNodeDeletedEvent event) {
     val nodeToDelete = event.getNodeID();
-    val tableLength = nodeDisplayTable.getItems().size() - 1;
 
-    System.out.println(nodeDisplayTable.getItems());
     for (val item : nodeDisplayTable.getItems()) {
-      val currentNode = nodeDisplayTable.getItems();
-      System.out.println("Current Node is " +currentNode);
 
-//      if (currentNode.getNodeID().equals(nodeToDelete)) {
-//        nodeDisplayTable.getItems().remove(currentNode);
-//      }
+      if (item.getNodeID().equals(nodeToDelete)) {
+        nodeDisplayTable.getItems().remove(item);
+        break;
+      }
     }//end of tableLength for loop
   }
 
