@@ -45,7 +45,7 @@ public abstract class ViewModelBase implements Initializable {
   @Override
   public final void initialize(URL location, ResourceBundle resources) {
     dispatch(new RegisterViewModelEvent(this));
-    switchToNewLocale(LanguageHandler.getCurrentLocaleBundle());
+    switchToNewLocale(get(LanguageHandler.class).getCurrentLocaleBundle());
     start(location);
   }
 
@@ -72,7 +72,7 @@ public abstract class ViewModelBase implements Initializable {
    * @param <T>    the type of object to create
    * @return the new object of the specified type
    */
-  final protected <T> T create(Class<T> tClass) {
+  final protected <T> T get(Class<T> tClass) {
     return injector.getInstance(tClass);
   }
 

@@ -13,7 +13,7 @@ public class KioskApplication extends ApplicationBase {
   @Override
   public void start(Stage primaryStage) throws IOException {
     val loader = new FXMLLoader();
-    loader.setController(create(KioskViewModel.class));
+    loader.setController(get(KioskViewModel.class));
     val root = (Parent) loader.load(getClass().getResourceAsStream("views/Main.fxml"));
     primaryStage.setScene(new Scene(root));
     primaryStage.show();

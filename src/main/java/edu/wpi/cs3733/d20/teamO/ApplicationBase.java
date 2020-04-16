@@ -7,6 +7,7 @@ import com.google.inject.Provides;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import edu.wpi.cs3733.d20.teamO.model.data.database.DatabaseUtilities;
+import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.lang.ref.WeakReference;
 import java.sql.Connection;
@@ -42,13 +43,17 @@ public abstract class ApplicationBase extends Application {
   @Override
   final public void init() {
     log.info("Starting up " + getClass().getSimpleName());
-    EventBus.getDefault().register(this);
+    get(EventBus.class).register(this);
+    // Set English as the default language
+    get(LanguageHandler.class).setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
   }
 
   @Override
-  final public void stop() {
+  final public void stop() throws SQLException {
     log.info("Stopping " + getClass().getSimpleName());
-    EventBus.getDefault().unregister(this);
+    get(EventBus.class).unregister(this);
+    // Close the database connection
+    get(Connection.class).close();
   }
 
   /**
@@ -58,7 +63,7 @@ public abstract class ApplicationBase extends Application {
    * @param <T>    the type of object to create
    * @return the new object of the specified type
    */
-  final protected <T> T create(Class<T> tClass) {
+  final protected <T> T get(Class<T> tClass) {
     return injector.getInstance(tClass);
   }
 

@@ -15,7 +15,7 @@ public class AdminApplication extends ApplicationBase {
   @Override
   public void start(Stage primaryStage) throws IOException {
     val loader = new FXMLLoader();
-    loader.setController(create(AdminViewModel.class));
+    loader.setController(get(AdminViewModel.class));
     val root = (Parent) loader.load(getClass().getResourceAsStream("views/Main.fxml"));
     primaryStage.setScene(new Scene(root));
     primaryStage.show();

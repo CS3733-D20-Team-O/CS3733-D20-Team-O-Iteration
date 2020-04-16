@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.model.language;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.wpi.cs3733.d20.teamO.model.TestInjector;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
@@ -18,9 +19,10 @@ public class LanguageHandlerTest {
    */
   @Test
   public void testRegisteredLocales() {
+    val handler = TestInjector.create(LanguageHandler.class);
     for (val locale : LanguageHandler.SUPPORTED_LOCALES) {
-      LanguageHandler.setCurrentLocale(locale);
-      assertEquals(locale, LanguageHandler.getCurrentLocale());
+      handler.setCurrentLocale(locale);
+      assertEquals(locale, handler.getCurrentLocale());
     }
   }
 }

@@ -15,11 +15,11 @@ public abstract class MainViewModelBase extends ViewModelBase {
 
   @FXML
   private void onEnglishSelected() {
-    LanguageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
+    get(LanguageHandler.class).setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
   }
 
   @FXML
   private void onSpanishSelected() {
-    LanguageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[1]);
+    get(LanguageHandler.class).setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[1]);
   }
 }
