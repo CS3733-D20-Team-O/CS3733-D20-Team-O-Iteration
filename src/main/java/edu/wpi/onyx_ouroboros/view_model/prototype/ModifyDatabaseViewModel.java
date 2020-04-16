@@ -65,7 +65,7 @@ public class ModifyDatabaseViewModel extends ViewModelBase {
 
   @FXML
   public void addNodeClicked(ActionEvent e) {
-    if (e.getSource() == addNodeBtn) {
+    if (e.getSource().equals(addNodeBtn)) {
       if (addIDField.getText().equals("")) {
         // log not recognized
         log.error("An error occurred when attempting to add a node.\nThe field must not be empty!");
@@ -107,7 +107,7 @@ public class ModifyDatabaseViewModel extends ViewModelBase {
     int x = 9001;
     int y = 9001;
     int floor = 2;
-    if (e.getSource() == updateNodeBtn) {
+    if (e.getSource().equals(updateNodeBtn)) {
       if (updateOldNodeIDField.getText().equals("")) {
         log.error("An error occurred when attempting to update a node.");
         log.error("The old ID field must not be empty!");
@@ -165,7 +165,7 @@ public class ModifyDatabaseViewModel extends ViewModelBase {
 
   @FXML
   public void deleteNodeClicked(ActionEvent e) {
-    if (e.getSource() == deleteNodeBtn) {
+    if (e.getSource().equals(deleteNodeBtn)) {
       if (deleteNodeIDField.getText().equals("")) {
         log.error(
             "An error occurred when attempting to delete a node.\nThe field must not be empty!");
