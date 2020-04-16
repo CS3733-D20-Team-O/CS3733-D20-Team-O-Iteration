@@ -1,15 +1,19 @@
 package edu.wpi.onyx_ouroboros.model.data.csv;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import edu.wpi.onyx_ouroboros.model.TestInjector;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests CSVHandler
  */
 public class CSVHandlerTest {
-
-  private final CSVHandler csvHandler = TestInjector.create(CSVHandlerImpl.class);
 
   /**
    * Tests both importToDatabase and exportFromDatabase by importing a file, exporting it, and
@@ -21,14 +25,15 @@ public class CSVHandlerTest {
    */
   @Test
   public void testCSVHandler() throws IOException {
-    csvHandler.exportFromDatabase("build/junk");
-//    val input = getClass().getResource("PrototypeNodes.csv").getPath();
-//    val output = "build/Nodes.csv";
-//    csvHandler.importToDatabase(input);
-//    csvHandler.exportFromDatabase(output);
-//    val inputLines = Files.readAllLines(Paths.get(input));
-//    val outputLines = Files.readAllLines(Paths.get(output));
-//    assertEquals(inputLines.size(), outputLines.size());
-//    assertTrue(inputLines.containsAll(outputLines));
+    val csvHandler = TestInjector.create(CSVHandlerImpl.class);
+    val input = getClass().getResource("PrototypeNodes.csv").getPath();
+    val output = "build/Nodes.csv";
+    csvHandler.importToDatabase(input);
+    csvHandler.exportFromDatabase(output);
+    val inputLines = Files.readAllLines(Paths.get(input));
+    val outputLines = Files.readAllLines(Paths.get(output));
+    assertEquals(inputLines.size(), outputLines.size());
+    assertTrue(outputLines.containsAll(inputLines));
+    assertTrue(inputLines.containsAll(outputLines));
   }
 }
