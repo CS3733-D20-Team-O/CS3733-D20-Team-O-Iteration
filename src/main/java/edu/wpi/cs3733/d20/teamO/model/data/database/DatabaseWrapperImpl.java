@@ -2,6 +2,8 @@ package edu.wpi.cs3733.d20.teamO.model.data.database;
 
 import com.google.inject.Inject;
 import edu.wpi.cs3733.d20.teamO.model.data.Node;
+import edu.wpi.cs3733.d20.teamO.model.data.database.db_model.Table;
+import edu.wpi.cs3733.d20.teamO.model.data.database.db_model.TableProperty;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -16,21 +18,6 @@ import lombok.val;
  */
 @Slf4j
 class DatabaseWrapperImpl implements DatabaseWrapper {
-
-  /**
-   * The table names
-   */
-  private static final String NODES_TABLE = "NODES_TABLE", EDGES_TABLE = "EDGES_TABLE";
-  /**
-   * Column names for nodes
-   */
-  private static final String NODE_ID = "nodeID", X_COORD = "xCoord", Y_COORD = "yCoord",
-      FLOOR = "floor", BUILDING = "building", NODE_TYPE = "nodeType",
-      LONG_NAME = "longName", SHORT_NAME = "shortName";
-  /**
-   * Column names for edges
-   */
-  private static final String EDGE_ID = "edgeID", START_ID = "startID", STOP_ID = "stopID";
 
   /**
    * The connection to use for database operations
@@ -50,12 +37,13 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   private boolean isInitialized() {
     // todo update to use edge table too
-    try {
-      return connection.getMetaData().getTables(null, null, NODES_TABLE, null).next();
-    } catch (SQLException e) {
-      log.warn("SQLException thrown while checking if the database was initialized", e);
-      return false;
-    }
+//    try {
+//      return connection.getMetaData().getTables(null, null, NODES_TABLE, null).next();
+//    } catch (SQLException e) {
+//      log.warn("SQLException thrown while checking if the database was initialized", e);
+//      return false;
+//    }
+    return false;
   }
 
   /**
@@ -63,25 +51,102 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   private void init() {
     // todo update to use edge table too (and use column IDs at top of file)
-    try (val stmt = connection.createStatement()) {
-      String query = "CREATE TABLE " + NODES_TABLE
-          + "(nodeID VARCHAR(255), "
-          + "xCoord INT, "
-          + "yCoord INT, "
-          + "floor INT, "
-          + "building VARCHAR(255), "
-          + "nodeType VARCHAR(255), "
-          + "longName VARCHAR(255), "
-          + "shortName VARCHAR(255), "
-          + "PRIMARY KEY (nodeID))";
-      stmt.execute(query);
-      log.info("Table " + NODES_TABLE + " created");
+//    try (val stmt = connection.createStatement()) {
+//      String query = "CREATE TABLE " + NODES_TABLE
+//          + "(nodeID VARCHAR(255), "
+//          + "xCoord INT, "
+//          + "yCoord INT, "
+//          + "floor INT, "
+//          + "building VARCHAR(255), "
+//          + "nodeType VARCHAR(255), "
+//          + "longName VARCHAR(255), "
+//          + "shortName VARCHAR(255), "
+//          + "PRIMARY KEY (nodeID))";
+//      stmt.execute(query);
+//      log.info("Table " + NODES_TABLE + " created");
+//    } catch (SQLException e) {
+//      log.error("Failed to initialize " + NODES_TABLE, e);
+//    }
+  }
+
+  @Override
+  public int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
+      String nodeType, String longName, String shortName) {
+    val query = "INSERT into " + Table.NODES_TABLE.getTableName() +
+        " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, nodeID);
+      stmt.setInt(2, xCoord);
+      stmt.setInt(3, yCoord);
+      stmt.setInt(4, floor);
+      stmt.setString(5, building);
+      stmt.setString(6, nodeType);
+      stmt.setString(7, longName);
+      stmt.setString(8, shortName);
+      val nodesAffected = stmt.executeUpdate();
+      log.info("Added node with ID " + nodeID);
+      log.debug("Result of add node was " + nodesAffected);
+      return nodesAffected;
     } catch (SQLException e) {
-      log.error("Failed to initialize " + NODES_TABLE, e);
+      log.error("Failed to add a new node with ID " + nodeID, e);
+      return -1;
     }
   }
 
-  private int updateGenericString(String table, String column, String id, String data) {
+  @Override
+  public int addEdge(String edgeID, String startNodeID, String stopNodeID) {
+    val query = "INSERT into " + Table.EDGES_TABLE.getTableName() + " VALUES (?, ?, ?)";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, edgeID);
+      stmt.setString(2, startNodeID);
+      stmt.setString(3, stopNodeID);
+      val edgesAffected = stmt.executeUpdate();
+      log.info("Added edge with ID " + edgeID);
+      log.debug("Result of add edge was " + edgesAffected);
+      return edgesAffected;
+    } catch (SQLException e) {
+      log.error("Failed to add a new edge with ID " + edgeID, e);
+      return -1;
+    }
+  }
+
+  /**
+   * Deletes record(s) (example: a node or edge) from the specified table
+   *
+   * @param table    the table to delete the record(s) from
+   * @param property the property of the table to use for deletion (typically should be ID)
+   * @param matching the string of what to delete from the database (typically should be ID)
+   * @return the number of affected entries
+   */
+  @Override
+  public int deleteFromTable(Table table, TableProperty property, String matching) {
+    val query = "DELETE from " + table.getTableName() +
+        " WHERE " + property.getColumnName() + " = ?";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, matching);
+      val affected = stmt.executeUpdate();
+      log.info("Deleted " + affected + " record(s) from " + table.getTableName());
+      log.debug("Result of deletion was " + affected);
+      return affected;
+    } catch (SQLException e) {
+      val error = "Failed to delete record(s) from " + table.getTableName() +
+          " using property " + property.getColumnName() + " and matching " + matching;
+      log.error(error, e);
+      return -1;
+    }
+  }
+
+  /**
+   * Updates a String in a record of the specified column of the specified table
+   *
+   * @param table    the table to perform the update on
+   * @param property the property (column) for the update
+   * @param id       the id of the record to update
+   * @param data     the new data for the specified property
+   * @return the number of affected entries
+   */
+  @Override
+  public int updateTableString(Table table, TableProperty property, String id, String data) {
     // todo
     // Old code for reference:
 //    val query = "UPDATE " + TABLE_NAME + " set "
@@ -115,137 +180,22 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     return 0;
   }
 
-  // todo GREG - play around with removing this (and just cast int to string) to remove this method
-  private int updateGenericInt(String table, String column, String id, int data) {
+  /**
+   * Updates an int in a record of the specified column of the specified table
+   *
+   * @param table    the table to perform the update on
+   * @param property the property (column) for the update
+   * @param id       the id of the record to update
+   * @param data     the new data for the specified property
+   * @return the number of affected entries
+   */
+  @Override
+  public int updateTableInt(Table table, TableProperty property, String id, int data) {
+    // todo GREG-play around with removing this (and just cast int to string) to remove this method
     // todo
     return 0;
   }
 
-
-  @Override
-  public int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
-      String nodeType, String longName, String shortName) {
-    val query = "INSERT into " + NODES_TABLE + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    try (val stmt = connection.prepareStatement(query)) {
-      stmt.setString(1, nodeID);
-      stmt.setInt(2, xCoord);
-      stmt.setInt(3, yCoord);
-      stmt.setInt(4, floor);
-      stmt.setString(5, building);
-      stmt.setString(6, nodeType);
-      stmt.setString(7, longName);
-      stmt.setString(8, shortName);
-      val nodesAffected = stmt.executeUpdate();
-      log.info("Added node with ID " + nodeID);
-      log.debug("Result of add node was " + nodesAffected);
-      return nodesAffected;
-    } catch (SQLException e) {
-      log.error("Failed to add a new node with ID " + nodeID, e);
-      return -1;
-    }
-  }
-
-  @Override
-  public int deleteNode(String nodeID) {
-    val query = "DELETE from " + NODES_TABLE + " WHERE " + NODE_ID + " = ?";
-    try (val stmt = connection.prepareStatement(query)) {
-      stmt.setString(1, nodeID);
-      val nodesAffected = stmt.executeUpdate();
-      log.info("Deleted node with ID " + nodeID);
-      log.debug("Result of delete node was " + nodesAffected);
-      return nodesAffected;
-    } catch (SQLException e) {
-      log.error("Failed to delete node with ID " + nodeID, e);
-      return -1;
-    }
-  }
-
-  @Override
-  public int updateNodeID(String oldID, String newID) {
-    return updateGenericString(NODES_TABLE, NODE_ID, oldID, newID);
-  }
-
-  @Override
-  public int updateNodeXCoord(String nodeID, int xCoord) {
-    return updateGenericInt(NODES_TABLE, X_COORD, nodeID, xCoord);
-  }
-
-  @Override
-  public int updateNodeYCoord(String nodeID, int yCoord) {
-    return updateGenericInt(NODES_TABLE, Y_COORD, nodeID, yCoord);
-  }
-
-  @Override
-  public int updateNodeFloor(String nodeID, int floor) {
-    return updateGenericInt(NODES_TABLE, FLOOR, nodeID, floor);
-  }
-
-  @Override
-  public int updateNodeBuilding(String nodeID, String building) {
-    return updateGenericString(NODES_TABLE, BUILDING, nodeID, building);
-  }
-
-  @Override
-  public int updateNodeType(String nodeID, String nodeType) {
-    return updateGenericString(NODES_TABLE, NODE_TYPE, nodeID, nodeType);
-  }
-
-  @Override
-  public int updateNodeLongName(String nodeID, String longName) {
-    return updateGenericString(NODES_TABLE, LONG_NAME, nodeID, longName);
-  }
-
-  @Override
-  public int updateNodeShortName(String nodeID, String shortName) {
-    return updateGenericString(NODES_TABLE, SHORT_NAME, nodeID, shortName);
-  }
-
-  @Override
-  public int addEdge(String edgeID, String startNodeID, String stopNodeID) {
-    val query = "INSERT into " + EDGES_TABLE + " VALUES (?, ?, ?)";
-    try (val stmt = connection.prepareStatement(query)) {
-      stmt.setString(1, edgeID);
-      stmt.setString(2, startNodeID);
-      stmt.setString(3, stopNodeID);
-      val edgesAffected = stmt.executeUpdate();
-      log.info("Added edge with ID " + edgeID);
-      log.debug("Result of add edge was " + edgesAffected);
-      return edgesAffected;
-    } catch (SQLException e) {
-      log.error("Failed to add a new edge with ID " + edgeID, e);
-      return -1;
-    }
-  }
-
-  @Override
-  public int deleteEdge(String edgeID) {
-    val query = "DELETE from " + EDGES_TABLE + " WHERE " + EDGE_ID + " = ?";
-    try (val stmt = connection.prepareStatement(query)) {
-      stmt.setString(1, edgeID);
-      val edgesAffected = stmt.executeUpdate();
-      log.info("Deleted edge with ID " + edgeID);
-      log.debug("Result of delete edge was " + edgesAffected);
-      return edgesAffected;
-    } catch (SQLException e) {
-      log.error("Failed to delete edge with ID " + edgeID, e);
-      return -1;
-    }
-  }
-
-  @Override
-  public int updateEdgeID(String oldID, String newID) {
-    return updateGenericString(EDGES_TABLE, EDGE_ID, oldID, newID);
-  }
-
-  @Override
-  public int updateEdgeStart(String edgeID, String startNodeID) {
-    return updateGenericString(EDGES_TABLE, START_ID, edgeID, startNodeID);
-  }
-
-  @Override
-  public int updateEdgeStop(String edgeID, String stopNodeID) {
-    return updateGenericString(EDGES_TABLE, STOP_ID, edgeID, stopNodeID);
-  }
 
   /**
    * @return a map of all nodeIDs stored in this database to their corresponding Nodes
