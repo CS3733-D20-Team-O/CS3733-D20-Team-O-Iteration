@@ -7,7 +7,7 @@ plugins {
 }
 sourceCompatibility = '13'
 targetCompatibility = '13'
-mainClassName = 'edu.wpi.onyx_ouroboros.Main'
+mainClassName = 'edu.wpi.cs3733.d20.teamO.Main'
 
 repositories {
     mavenCentral()
@@ -56,16 +56,16 @@ jar {
 
 // code coverage excludes for jacoco
 def codeCoverageExcludes = [
-        'edu.wpi.onyx_ouroboros.Main',
+        'edu.wpi.cs3733.d20.teamO.Main',
         // The following are excluded because they have no callable methods
-        'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
+        'edu.wpi.cs3733.d20.teamO.model.service_requests.ServiceList',
         // todo test these later
-        'edu.wpi.onyx_ouroboros.model.data.database.DatabaseWrapperImpl',
-        'edu.wpi.onyx_ouroboros.ApplicationBase',
-        'edu.wpi.onyx_ouroboros.ApplicationBase.*',
-        'edu.wpi.onyx_ouroboros.MainApplication',
-        'edu.wpi.onyx_ouroboros.AdminApplication',
-        'edu.wpi.onyx_ouroboros.AdminApplication.LoginDetails',
+        'edu.wpi.cs3733.d20.teamO.model.data.database.DatabaseWrapperImpl',
+        'edu.wpi.cs3733.d20.teamO.ApplicationBase',
+        'edu.wpi.cs3733.d20.teamO.ApplicationBase.*',
+        'edu.wpi.cs3733.d20.teamO.MainApplication',
+        'edu.wpi.cs3733.d20.teamO.AdminApplication',
+        'edu.wpi.cs3733.d20.teamO.AdminApplication.LoginDetails',
 ]
 
 jacoco {
