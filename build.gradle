@@ -60,6 +60,7 @@ def codeCoverageExcludes = [
         // The following are excluded because they have no callable methods
         'edu.wpi.onyx_ouroboros.model.service_requests.ServiceList',
         // todo test these later
+        'edu.wpi.onyx_ouroboros.model.data.database.DatabaseWrapperImpl',
         'edu.wpi.onyx_ouroboros.ApplicationBase',
         'edu.wpi.onyx_ouroboros.ApplicationBase.*',
         'edu.wpi.onyx_ouroboros.MainApplication',

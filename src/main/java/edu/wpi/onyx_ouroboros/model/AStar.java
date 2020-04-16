@@ -1,5 +1,6 @@
-package edu.wpi.onyx_ouroboros.model.astar;
+package edu.wpi.onyx_ouroboros.model;
 
+import edu.wpi.onyx_ouroboros.model.data.Node;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

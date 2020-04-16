@@ -1,8 +1,9 @@
-package edu.wpi.onyx_ouroboros.model.astar;
+package edu.wpi.onyx_ouroboros.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import edu.wpi.onyx_ouroboros.model.data.Node;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -14,18 +15,22 @@ public class AStarTest {
 
   private final static Map<String, Node> map = new HashMap<>();
 
+  private static Node newNode(String id, int x, int y) {
+    return new Node(id, x, y, 0, null, null, null, null);
+  }
+
   @BeforeAll
   public static void beforeAllTests() {
-    final Node a = new NodeTestImpl("a", 0, 0),
-        b = new NodeTestImpl("b", 3, 0),
-        c = new NodeTestImpl("c", 0, 2),
-        d = new NodeTestImpl("d", 1, 1),
-        e = new NodeTestImpl("e", 4, 2),
-        f = new NodeTestImpl("f", 4, 3),
-        g = new NodeTestImpl("g", 2, 5),
-        h = new NodeTestImpl("h", 4, 1),
+    final Node a = newNode("a", 0, 0),
+        b = newNode("b", 3, 0),
+        c = newNode("c", 0, 2),
+        d = newNode("d", 1, 1),
+        e = newNode("e", 4, 2),
+        f = newNode("f", 4, 3),
+        g = newNode("g", 2, 5),
+        h = newNode("h", 4, 1),
         // n is an unreachable node to test when no path can be found
-        n = new NodeTestImpl("n", 1, 0);
+        n = newNode("n", 1, 0);
 
     a.getNeighbors().addAll(Arrays.asList(b, c));
     b.getNeighbors().addAll(Arrays.asList(a, d, h));
