@@ -24,6 +24,6 @@ public class Main {
 
     // Check for launch mode (either normal or admin) by checking launch arguments and launch
     val loginValid = new AdminApplication.LoginDetails(Arrays.asList(args)).isValid();
-    Application.launch(loginValid ? AdminApplication.class : MainApplication.class, args);
+    Application.launch(loginValid ? AdminApplication.class : KioskApplication.class, args);
   }
 }

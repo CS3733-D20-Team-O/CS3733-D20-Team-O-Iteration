@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d20.teamO;
 
-import edu.wpi.cs3733.d20.teamO.view_model.MainViewModel;
+import edu.wpi.cs3733.d20.teamO.view_model.main_screen.AdminViewModel;
 import java.io.IOException;
 import java.util.List;
 import javafx.fxml.FXMLLoader;
@@ -14,9 +14,9 @@ public class AdminApplication extends ApplicationBase {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-    val loader = create(FXMLLoader.class);
+    val loader = new FXMLLoader();
+    loader.setController(create(AdminViewModel.class));
     val root = (Parent) loader.load(getClass().getResourceAsStream("views/Main.fxml"));
-    val viewModel = (MainViewModel) loader.getController();
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }

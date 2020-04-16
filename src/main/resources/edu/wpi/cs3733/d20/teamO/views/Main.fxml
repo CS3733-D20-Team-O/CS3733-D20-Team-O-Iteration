@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.MainViewModel">
-  <Button layoutX="268.0" layoutY="286.0" mnemonicParsing="false" onAction="#switchToEnglish"
-    text="English"/>
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.main_screen.MainViewModelBase">
+  <Button layoutX="268.0" layoutY="286.0" mnemonicParsing="false" onAction="#onLeftButton"
+    text="Path Finding"/>
   <Label fx:id="welcomeLabel" layoutX="282.0" layoutY="192.0" text="Label"/>
-  <Button layoutX="266.0" layoutY="312.0" mnemonicParsing="false" onAction="#switchToSpanish"
-    text="Spanish"/>
+  <Button layoutX="266.0" layoutY="312.0" mnemonicParsing="false" onAction="#onRightButton"
+    text="Service Request"/>
 </AnchorPane>
