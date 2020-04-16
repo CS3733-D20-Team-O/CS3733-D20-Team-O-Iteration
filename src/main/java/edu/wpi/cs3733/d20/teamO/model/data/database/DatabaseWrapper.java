@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.model.data.database;
 
 import com.google.inject.ImplementedBy;
 import edu.wpi.cs3733.d20.teamO.model.data.Node;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,4 +48,11 @@ public interface DatabaseWrapper {
    * @return a map of all nodeIDs stored in this database to their corresponding Nodes
    */
   Map<String, Node> export();
+
+  /**
+   * Gets the edges of this database. Should only be used for exporting the database, not for A*!
+   *
+   * @return a list of the edges this database contains
+   */
+  List<Edge> exportEdges();
 }

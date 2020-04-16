@@ -5,6 +5,8 @@ import edu.wpi.cs3733.d20.teamO.model.data.Node;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -79,7 +81,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  private int updateNodeGenericString(String nodeID, String column, String data) {
+  private int updateGenericString(String table, String column, String id, String data) {
     // todo
     // Old code for reference:
 //    val query = "UPDATE " + TABLE_NAME + " set "
@@ -113,15 +115,12 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     return 0;
   }
 
-  private int updateNodeGenericInt(String nodeID, String column, int data) {
+  // todo GREG - play around with removing this (and just cast int to string) to remove this method
+  private int updateGenericInt(String table, String column, String id, int data) {
     // todo
     return 0;
   }
 
-  private int updateEdgeGeneric(String edgeID, String column, String data) {
-    // todo
-    return 0;
-  }
 
   @Override
   public int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
@@ -163,42 +162,42 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
 
   @Override
   public int updateNodeID(String oldID, String newID) {
-    return updateNodeGenericString(oldID, NODE_ID, newID);
+    return updateGenericString(NODES_TABLE, NODE_ID, oldID, newID);
   }
 
   @Override
   public int updateNodeXCoord(String nodeID, int xCoord) {
-    return updateNodeGenericInt(nodeID, X_COORD, xCoord);
+    return updateGenericInt(NODES_TABLE, X_COORD, nodeID, xCoord);
   }
 
   @Override
   public int updateNodeYCoord(String nodeID, int yCoord) {
-    return updateNodeGenericInt(nodeID, Y_COORD, yCoord);
+    return updateGenericInt(NODES_TABLE, Y_COORD, nodeID, yCoord);
   }
 
   @Override
   public int updateNodeFloor(String nodeID, int floor) {
-    return updateNodeGenericInt(nodeID, FLOOR, floor);
+    return updateGenericInt(NODES_TABLE, FLOOR, nodeID, floor);
   }
 
   @Override
   public int updateNodeBuilding(String nodeID, String building) {
-    return updateNodeGenericString(nodeID, BUILDING, building);
+    return updateGenericString(NODES_TABLE, BUILDING, nodeID, building);
   }
 
   @Override
   public int updateNodeType(String nodeID, String nodeType) {
-    return updateNodeGenericString(nodeID, NODE_TYPE, nodeType);
+    return updateGenericString(NODES_TABLE, NODE_TYPE, nodeID, nodeType);
   }
 
   @Override
   public int updateNodeLongName(String nodeID, String longName) {
-    return updateNodeGenericString(nodeID, LONG_NAME, longName);
+    return updateGenericString(NODES_TABLE, LONG_NAME, nodeID, longName);
   }
 
   @Override
   public int updateNodeShortName(String nodeID, String shortName) {
-    return updateNodeGenericString(nodeID, SHORT_NAME, shortName);
+    return updateGenericString(NODES_TABLE, SHORT_NAME, nodeID, shortName);
   }
 
   @Override
@@ -235,17 +234,17 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
 
   @Override
   public int updateEdgeID(String oldID, String newID) {
-    return updateEdgeGeneric(oldID, EDGE_ID, newID);
+    return updateGenericString(EDGES_TABLE, EDGE_ID, oldID, newID);
   }
 
   @Override
   public int updateEdgeStart(String edgeID, String startNodeID) {
-    return updateEdgeGeneric(edgeID, START_ID, startNodeID);
+    return updateGenericString(EDGES_TABLE, START_ID, edgeID, startNodeID);
   }
 
   @Override
   public int updateEdgeStop(String edgeID, String stopNodeID) {
-    return updateEdgeGeneric(edgeID, STOP_ID, stopNodeID);
+    return updateGenericString(EDGES_TABLE, STOP_ID, edgeID, stopNodeID);
   }
 
   /**
@@ -258,12 +257,28 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     // select all nodes
     // for each node in result set
     //   map.put(nodeID, node);
-    // select all edges
-    // for each edge
-    //   val start = map.get(edgeStartID);
-    //   val stop = map.get(edgeStopID);
-    //   start.getNeighbors().add(stop);
-    //   (if bidirectional--get clarification on this--include "stop.getNeighbors().add(start);")
+    // Victoria -- I did this edge parsing part for you. Just make code for the pseudocode above
+    for (val edge : exportEdges()) {
+      val start = map.get(edge.getStartNodeID());
+      val stop = map.get(edge.getStopNodeID());
+      start.getNeighbors().add(stop);
+      stop.getNeighbors().add(start); // fixme remove if not supposed to be bi-directional graph
+    }
     return map;
+  }
+
+  /**
+   * Gets the edges of this database. Should only be used for exporting the database, not for A*!
+   *
+   * @return a list of the edges this database contains
+   */
+  @Override
+  public List<Edge> exportEdges() {
+    val edges = new LinkedList<Edge>();
+    // todo pseudocode below
+    // select all edges
+    // for each edge in result set
+    //   add edge to edges
+    return edges;
   }
 }
