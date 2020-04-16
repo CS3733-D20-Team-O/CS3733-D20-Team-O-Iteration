@@ -23,7 +23,7 @@ public class CSVHandlerTest {
     val csvHandler = TestInjector.create(CSVHandlerImpl.class);
     val input = getClass().getResource("PrototypeNodes.csv").getPath();
     val output = "build/Nodes.csv";
-    csvHandler.importToDatabase(input);
+    csvHandler.importNodes(input);
     // todo update CSV tests
 //    csvHandler.exportFromDatabase(output);
 //    val inputLines = Files.readAllLines(Paths.get(input));

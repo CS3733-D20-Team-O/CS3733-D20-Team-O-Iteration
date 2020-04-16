@@ -10,16 +10,30 @@ import com.google.inject.ImplementedBy;
 public interface CSVHandler {
 
   /**
-   * Imports the given CSV file into the database
+   * Imports nodes from the given csv file into the database
    *
    * @param csvFileLocation the path of the csv file to read
    */
-  void importToDatabase(String csvFileLocation);
+  void importNodes(String csvFileLocation);
 
   /**
-   * Exports the database into the given CSV file
+   * Imports edges from the given csv file into the database
    *
-   * @param csvFileLocation the path of the csv file to create/overwrite
+   * @param csvFileLocation the path of the csv file to read
    */
-  void exportFromDatabase(String csvFileLocation);
+  void importEdges(String csvFileLocation);
+
+  /**
+   * Exports nodes from the database to the given csv file
+   *
+   * @param csvFileLocation the path of the csv file to write
+   */
+  void exportNodes(String csvFileLocation);
+
+  /**
+   * Exports edges from the database to the given csv file
+   *
+   * @param csvFileLocation the path of the csv file to write
+   */
+  void exportEdges(String csvFileLocation);
 }
