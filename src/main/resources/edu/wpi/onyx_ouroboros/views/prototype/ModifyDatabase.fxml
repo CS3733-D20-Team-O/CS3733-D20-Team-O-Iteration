@@ -11,20 +11,16 @@
 	xmlns="http://javafx.com/javafx/10.0.2-internal"
 	fx:controller="edu.wpi.onyx_ouroboros.view_model.prototype.ModifyDatabaseViewModel">
 	<Button GridPane.halignment="CENTER" GridPane.valignment="CENTER" alignment="CENTER"
-		contentDisplay="CENTER" mnemonicParsing="false" onAction="#addNodeBtn" prefHeight="44.0"
+		contentDisplay="CENTER" mnemonicParsing="false" onAction="#addNodeClicked" prefHeight="44.0"
 		prefWidth="150.0" text="Add Node to Database" fx:id="addNodeBtn"/>
 	<Button GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER"
 		alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-		onAction="#updateNodeBtn" prefHeight="42.0" prefWidth="148.0"
+		onAction="#updateNodeClicked" prefHeight="42.0" prefWidth="148.0"
 		text="Update an Existing Node" fx:id="updateNodeBtn"/>
 	<Button GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER"
 		alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-		onAction="#deleteNodeBtn" prefHeight="42.0" prefWidth="164.0"
+		onAction="#deleteNodeClicked" prefHeight="42.0" prefWidth="164.0"
 		text="Delete Node from Database" fx:id="deleteNodeBtn"/>
-	<TextField GridPane.columnIndex="4" GridPane.rowIndex="1" text="Update Node"
-		fx:id="updateNodeNodeField"/>
-	<TextField GridPane.columnIndex="2" GridPane.rowIndex="1" text="Update ID"
-		fx:id="updateNodeIDField"/>
 	<TextField GridPane.columnIndex="2" text="Add ID" fx:id="addIDField"/>
 	<TextField GridPane.columnIndex="2" GridPane.rowIndex="2" text="Delete ID"
 		fx:id="deleteNodeIDField"/>
@@ -43,6 +39,33 @@
 		<TextField text="Add Floor" fx:id="addFloorField"/>
 		<padding>
 			<Insets top="30.0"/>
+		</padding>
+	</VBox>
+	<VBox GridPane.columnIndex="4" GridPane.rowIndex="1">
+		<TextField text="Update X-Coord" fx:id="updateXCoordField"/>
+		<TextField text="Update Y-Coord" fx:id="updateYCoordField"/>
+		<TextField text="Update Floor" fx:id="updateFloorField"/>
+		<padding>
+			<Insets top="30.0"/>
+		</padding>
+	</VBox>
+	<VBox GridPane.columnIndex="6" GridPane.rowIndex="1" prefHeight="200.0" prefWidth="100.0">
+		<TextField text="Update Building" fx:id="updateBuildingField"/>
+		<TextField text="Update Node Type" fx:id="updateNodeTypeField"/>
+		<TextField text="Update Long Name" fx:id="updateLongNameField"/>
+		<TextField text="Update Short Name" fx:id="updateShortNameField"/>
+		<padding>
+			<Insets top="18.0"/>
+		</padding>
+	</VBox>
+	<VBox GridPane.columnIndex="2" GridPane.rowIndex="1" prefHeight="200.0" prefWidth="100.0">
+		<TextField text="Old ID" fx:id="updateOldNodeIDField"/>
+		<TextField text="Update ID" fx:id="updateNewNodeIDField"/>
+		<opaqueInsets>
+			<Insets/>
+		</opaqueInsets>
+		<padding>
+			<Insets top="43.0"/>
 		</padding>
 	</VBox>
 	<columnConstraints>
