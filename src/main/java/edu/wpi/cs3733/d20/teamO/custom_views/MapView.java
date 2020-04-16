@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.custom_views;
 
-import edu.wpi.cs3733.d20.teamO.model.data.Node;
+import edu.wpi.cs3733.d20.teamO.model.Node;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;

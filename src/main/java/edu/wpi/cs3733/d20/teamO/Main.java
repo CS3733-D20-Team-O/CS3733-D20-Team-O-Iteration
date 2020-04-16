@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d20.teamO;
 
-import edu.wpi.cs3733.d20.teamO.model.data.database.DatabaseUtilities;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseUtilities;
 import java.util.Arrays;
 import javafx.application.Application;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d20.teamO.model;
 
-import edu.wpi.cs3733.d20.teamO.model.data.Node;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

@@ -58,11 +58,14 @@ jar {
 def codeCoverageExcludes = [
         'edu.wpi.cs3733.d20.teamO.Main',
         // The following are excluded because they have no callable methods
-        'edu.wpi.cs3733.d20.teamO.model.data.database.db_model.*',
+        'edu.wpi.cs3733.d20.teamO.model.database.db_model.*',
         // todo test these later
         'edu.wpi.cs3733.d20.teamO.custom_views.MapView',
         'edu.wpi.cs3733.d20.teamO.view_model.main_screen.*',
-        'edu.wpi.cs3733.d20.teamO.model.data.database.DatabaseWrapperImpl',
+        'edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapperImpl',
+        'edu.wpi.cs3733.d20.teamO.view_model.admin.RequestHandlerViewModel',
+        'edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel',
+        'edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel',
         'edu.wpi.cs3733.d20.teamO.ApplicationBase',
         'edu.wpi.cs3733.d20.teamO.ApplicationBase.*',
         'edu.wpi.cs3733.d20.teamO.KioskApplication',

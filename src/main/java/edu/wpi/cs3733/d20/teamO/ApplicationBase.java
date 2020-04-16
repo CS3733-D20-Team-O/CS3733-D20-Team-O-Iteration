@@ -6,7 +6,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provides;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
-import edu.wpi.cs3733.d20.teamO.model.data.database.DatabaseUtilities;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseUtilities;
 import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.lang.ref.WeakReference;

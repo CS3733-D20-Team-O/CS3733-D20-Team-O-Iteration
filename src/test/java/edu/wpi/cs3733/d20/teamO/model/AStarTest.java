@@ -3,7 +3,6 @@ package edu.wpi.cs3733.d20.teamO.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import edu.wpi.cs3733.d20.teamO.model.data.Node;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
