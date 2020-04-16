@@ -60,6 +60,7 @@ def codeCoverageExcludes = [
         // The following are excluded because they have no callable methods
         'edu.wpi.cs3733.d20.teamO.model.data.database.db_model.*',
         // todo test these later
+        'edu.wpi.cs3733.d20.teamO.custom_views.MapView',
         'edu.wpi.cs3733.d20.teamO.view_model.main_screen.*',
         'edu.wpi.cs3733.d20.teamO.model.data.database.DatabaseWrapperImpl',
         'edu.wpi.cs3733.d20.teamO.ApplicationBase',
