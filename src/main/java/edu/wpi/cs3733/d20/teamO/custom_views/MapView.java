@@ -9,33 +9,34 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Region;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.val;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@NoArgsConstructor
 public class MapView extends Region implements Initializable {
 
   /**
+   * The current floor being displayed
+   */
+  private final int floor = 1;
+  /**
    * Gets called when a node is clicked
    */
+  @Setter
   private Consumer<Node> onNodeTappedListener;
-
-  /**
-   * Gets called when a click on the map occurs but it is not on a node
-   */
-  private BiConsumer<Integer, Integer> onMissTapListener;
 
   /**
    * The node map to use to fuel the display
    */
   private Map<String, Node> nodeMap = new HashMap<>();
-
   /**
-   * The current floor being displayed
+   * Gets called when a click on the map occurs but it is not on a node
    */
-  private int floor = 1;
+  @Setter
+  private BiConsumer<Integer, Integer> onMissTapListener;
 
   /**
    * Called to initialize a controller after its root element has been completely processed.
