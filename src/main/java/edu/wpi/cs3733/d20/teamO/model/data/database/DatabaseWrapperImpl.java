@@ -212,7 +212,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       val start = map.get(edge.getStartNodeID());
       val stop = map.get(edge.getStopNodeID());
       start.getNeighbors().add(stop);
-      stop.getNeighbors().add(start); // fixme remove if not supposed to be bi-directional graph
+      stop.getNeighbors().add(start);
     }
     return map;
   }

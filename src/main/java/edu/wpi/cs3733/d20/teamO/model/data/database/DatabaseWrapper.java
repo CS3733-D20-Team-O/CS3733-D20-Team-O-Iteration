@@ -32,16 +32,21 @@ public interface DatabaseWrapper {
 
   /**
    * Adds the specified edge to the database
-   * @param edgeID the id of the edge
+   *
+   * @param edgeID      the id of the edge
    * @param startNodeID the id of the start node
-   * @param stopNodeID the id of the stop node
+   * @param stopNodeID  the id of the stop node
    * @return the number of affected entries
    */
   int addEdge(String edgeID, String startNodeID, String stopNodeID);
 
+  // todo this
+  // int addServiceRequest(String requestID, String type);
+
   /**
    * Deletes record(s) (example: a node or edge) from the specified table
-   * @param table the table to delete the record(s) from
+   *
+   * @param table    the table to delete the record(s) from
    * @param property the property of the table to use for deletion (typically should be ID)
    * @param matching the string of what to delete from the database (typically should be ID)
    * @return the number of affected entries
