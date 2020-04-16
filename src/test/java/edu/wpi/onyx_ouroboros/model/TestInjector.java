@@ -4,8 +4,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Provides;
 import edu.wpi.onyx_ouroboros.model.data.database.DatabaseUtilities;
-import edu.wpi.onyx_ouroboros.model.data.database.DatabaseWrapper;
-import edu.wpi.onyx_ouroboros.model.data.database.DatabaseWrapperTestImpl;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -33,14 +31,6 @@ public class TestInjector {
    * Holds the necessary bindings for testing
    */
   private static class TestModule extends AbstractModule {
-
-    /**
-     * Makes the necessary bindings for testing
-     */
-    @Override
-    protected void configure() {
-      bind(DatabaseWrapper.class).to(DatabaseWrapperTestImpl.class);
-    }
 
     /**
      * Provide a unique in-memory connection for each database usage

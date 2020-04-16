@@ -1,4 +1,4 @@
-package edu.wpi.onyx_ouroboros.model;
+package edu.wpi.onyx_ouroboros.events;
 
 /**
  * Represents an EventBus event

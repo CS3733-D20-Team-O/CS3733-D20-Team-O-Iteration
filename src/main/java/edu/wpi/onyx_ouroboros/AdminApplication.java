@@ -1,33 +1,56 @@
 package edu.wpi.onyx_ouroboros;
 
+import edu.wpi.onyx_ouroboros.view_model.MainViewModel;
 import java.io.IOException;
-import javafx.application.Application;
+import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
+import lombok.Value;
 import lombok.val;
 
-@Slf4j
-public class AdminApplication extends Application {
-
-  @Override
-  public void init() {
-    log.info("Starting Up");
-  }
+public class AdminApplication extends ApplicationBase {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-    val loader = new FXMLLoader(getClass().getResource("views/Main.fxml"));
-    val root = (Parent) loader.load();
-    val viewModel = loader.getController();
+    val loader = create(FXMLLoader.class);
+    val root = (Parent) loader.load(getClass().getResourceAsStream("views/Main.fxml"));
+    val viewModel = (MainViewModel) loader.getController();
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
 
-  @Override
-  public void stop() {
-    log.info("Shutting Down");
+  /**
+   * @return the login details used to launch this application
+   */
+  private LoginDetails getLoginDetails() {
+    return new LoginDetails(getParameters().getRaw());
+  }
+
+  /**
+   * Represents login details passed in via the command line
+   */
+  @Value
+  static class LoginDetails {
+
+    String username, password;
+
+    LoginDetails(List<String> args) {
+      String username = null, password = null;
+      for (val arg : args) {
+        if (arg.startsWith("--username=")) {
+          username = arg.substring(11);
+        } else if (arg.startsWith("--password=")) {
+          password = arg.substring(11);
+        }
+      }
+      this.username = username;
+      this.password = password;
+    }
+
+    boolean isValid() {
+      return username != null && password != null && !username.isBlank() && !password.isBlank();
+    }
   }
 }

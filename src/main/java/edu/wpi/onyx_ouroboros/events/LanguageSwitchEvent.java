@@ -1,6 +1,5 @@
-package edu.wpi.onyx_ouroboros.model.language;
+package edu.wpi.onyx_ouroboros.events;
 
-import edu.wpi.onyx_ouroboros.model.Event;
 import java.util.ResourceBundle;
 import lombok.Value;
 

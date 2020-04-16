@@ -1,5 +1,6 @@
 package edu.wpi.onyx_ouroboros.model.language;
 
+import edu.wpi.onyx_ouroboros.events.LanguageSwitchEvent;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import lombok.extern.slf4j.Slf4j;
