@@ -4,6 +4,6 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
   prefHeight="400.0"
   prefWidth="600.0"
-  xmlns="http://javafx.com/javafx" fx:controller="edu.wpi.cs3733.d20.teamO.views.kiosk.FindPath">
+  xmlns="http://javafx.com/javafx">
 
 </AnchorPane>
