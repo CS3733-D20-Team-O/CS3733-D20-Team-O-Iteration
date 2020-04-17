@@ -62,7 +62,7 @@ public interface DatabaseWrapper {
    * @param data     the new data for the specified property
    * @return the number of affected entries
    */
-  int updateTableString(Table table, TableProperty property, String id, String data);
+  int update(Table table, TableProperty property, String id, String data);
 
   /**
    * Updates an int in a record of the specified column of the specified table
@@ -73,7 +73,7 @@ public interface DatabaseWrapper {
    * @param data     the new data for the specified property
    * @return the number of affected entries
    */
-  int updateTableInt(Table table, TableProperty property, String id, int data);
+  int update(Table table, TableProperty property, String id, int data);
 
   /**
    * @return a map of all nodeIDs stored in this database to their corresponding Nodes

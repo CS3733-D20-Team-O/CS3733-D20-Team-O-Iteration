@@ -146,7 +146,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * @return the number of affected entries
    */
   @Override
-  public int updateTableString(Table table, TableProperty property, String id, String data) {
+  public int update(Table table, TableProperty property, String id, String data) {
     // todo
     // Old code for reference:
 //    val query = "UPDATE " + TABLE_NAME + " set "
@@ -190,7 +190,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * @return the number of affected entries
    */
   @Override
-  public int updateTableInt(Table table, TableProperty property, String id, int data) {
+  public int update(Table table, TableProperty property, String id, int data) {
     // todo GREG-play around with removing this (and just cast int to string) to remove this method
     // todo
     return 0;
