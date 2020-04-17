@@ -1,35 +1,40 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
-import edu.wpi.cs3733.d20.teamO.model.language.Language;
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
-import javafx.scene.control.Button;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import lombok.Value;
+import lombok.val;
 
 public class ServiceRequestSelection extends ViewModelBase {
 
-  @Language(key = "serviceSelectionSubmitButton")
-  private final Button submitButton = new Button();
+  @FXML
+  private JFXComboBox<String> serviceSelector;
 
-  @Language(key = "serviceSelectionCancelButton")
-  private final Button cancelButton = new Button();
-
-  public ServiceRequestSelection() {
-    cancelButton.setOnAction(event -> ((Stage) cancelButton.getScene().getWindow()).close());
-    submitButton.setOnAction(
-        event -> {
-          if (true) { // fixme call the child ServiceRequest viewModel's onSubmitPressed()
-            ((Stage) submitButton.getScene().getWindow()).close();
-          }
-        });
-    styleButtons();
+  @Override
+  protected void start(URL location, ResourceBundle resources) {
+    for (val service : SERVICES) {
+      serviceSelector.getItems().addAll(resources.getString(service.descriptionKey));
+    }
+    serviceSelector.getSelectionModel().selectedIndexProperty()
+        .addListener(((observable, oldValue, newValue) -> {
+          // todo load the fxml into center
+        }));
   }
 
-  /**
-   * Styles the submit and cancel buttons
-   */
-  private void styleButtons() {
-    // todo style buttons
+  @FXML
+  private void onCancelClicked() {
+    ((Stage) serviceSelector.getScene().getWindow()).close();
+  }
+
+  @FXML
+  private void onSubmitClicked() {
+    if (true) { // fixme call the child ServiceRequest viewModel's onSubmitPressed()
+      ((Stage) serviceSelector.getScene().getWindow()).close();
+    }
   }
 
   /**

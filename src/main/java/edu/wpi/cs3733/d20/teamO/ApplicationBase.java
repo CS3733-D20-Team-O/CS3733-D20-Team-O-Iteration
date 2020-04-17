@@ -145,6 +145,7 @@ public abstract class ApplicationBase extends Application {
     public FXMLLoader provideLoader(Injector injector) {
       val loader = new FXMLLoader();
       loader.setControllerFactory(injector::getInstance);
+      loader.setResources(injector.getInstance(LanguageHandler.class).getCurrentLocaleBundle());
       return loader;
     }
   }

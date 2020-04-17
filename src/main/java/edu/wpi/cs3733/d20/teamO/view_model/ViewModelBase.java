@@ -46,15 +46,16 @@ public abstract class ViewModelBase implements Initializable {
   public final void initialize(URL location, ResourceBundle resources) {
     dispatch(new RegisterViewModelEvent(this));
     switchToNewLocale(get(LanguageHandler.class).getCurrentLocaleBundle());
-    start(location);
+    start(location, resources);
   }
 
   /**
    * Called when a ViewModel's views have been completely processed and can be used freely
    *
-   * @param location the location used to resolve relative paths for the root object, or null
+   * @param location  the location used to resolve relative paths for the root object, or null
+   * @param resources the resources used to localize the root object, or null
    */
-  protected void start(URL location) {
+  protected void start(URL location, ResourceBundle resources) {
   }
 
   /**
