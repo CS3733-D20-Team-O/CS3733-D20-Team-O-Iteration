@@ -8,5 +8,5 @@ import lombok.Value;
 @Value
 public class ForwardNavigationEvent implements Event {
 
-  String titleKey, fxmlLocation;
+  String title, fxmlLocation;
 }
