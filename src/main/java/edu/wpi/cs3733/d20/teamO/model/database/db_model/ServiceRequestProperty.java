@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ServiceRequestProperty implements TableProperty {
   REQUEST_ID("requestID"),
-  IS_COMPLETE("isComplete"),
-  SUBMIT_TIME("submitTime"),
-  COMPLETE_TIME("completeTime"),
-  NODE_ID("nodeID"),
+  REQUEST_TIME("requestTime"),
+  REQUEST_NODE("requestNode"),
   TYPE("type"),
-  WHO_MARKED("whoMarked");
+  REQUESTER_NAME("requesterName"),
+  WHO_MARKED("whoMarked"),
+  EMPLOYEE_ASSIGNED("employeeAssigned");
 
   @Getter
   private final String columnName;

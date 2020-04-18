@@ -94,18 +94,40 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
             + "(requestID VARCHAR(255), "
-            + "isComplete BOOLEAN, "
-            + "submitTime TIMESTAMP, "
-            + "completeTime TIMESTAMP, "
-            + "nodeID VARCHAR(255), "
+            + "requestTime TIMESTAMP, "
+            + "requestNode VARCHAR(255), "
             + "type VARCHAR(255), "
+            + "requesterName VARCHAR(255), "
+            + "whoMarked VARCHAR(255), "
+            + "employeeAssigned VARCHAR(255), "
             + "PRIMARY KEY (requestID), "
-            + "CONSTRAINT SR_requestID_FK FOREIGN KEY (nodeID) REFERENCES " + Table.NODES_TABLE
-            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID) )";
+            + "CONSTRAINT SR_requestNode_FK FOREIGN KEY (requestNode) REFERENCES "
+            + Table.NODES_TABLE
+            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID), "
+            + "CONSTRAINT SR_whoMarked_ID FOREIGN KEY (whoMarked) REFERENCES "
+            + Table.EMPLOYEE_TABLE
+            + " (" + Table.EMPLOYEE_TABLE.getTableName() + ".employeeID), "
+            + "CONSTRAINT SR_employeeAssigned_FK FOREIGN KEY (employeeAssigned))";
         stmt.execute(query);
         log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
+      }
+    }
+
+    // Initialize the employee table if not initialized
+    if (!isInitialized(Table.EMPLOYEE_TABLE)) {
+      try (val stmt = connection.createStatement()) {
+        String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
+            + "(employeeID VARCHAR(255), "
+            + "name VARCHAR(255), "
+            + "isAvailable BOOLEAN, "
+            + "type VARCHAR(255), "
+            + "PRIMARY KEY (employeeID))";
+        stmt.execute(query);
+        log.info("Table " + Table.EMPLOYEE_TABLE + " created");
+      } catch (SQLException e) {
+        log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
     }
   }
