@@ -23,6 +23,10 @@ public interface CSVHandler {
    */
   void importEdges(String csvFileLocation);
 
+  void importEmployees(String csvFileLocation);
+
+  void importServiceRequests(String csvFileLocation);
+
   /**
    * Exports nodes from the database to the given csv file
    *
@@ -36,4 +40,8 @@ public interface CSVHandler {
    * @param csvFileLocation the path of the csv file to write
    */
   void exportEdges(String csvFileLocation);
+
+  void exportEmployees(String csvFileLocation);
+
+  void exportServiceRequests(String csvFileLocation);
 }
