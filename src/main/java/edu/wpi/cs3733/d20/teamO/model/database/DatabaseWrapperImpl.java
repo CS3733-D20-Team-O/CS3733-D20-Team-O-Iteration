@@ -1,9 +1,12 @@
 package edu.wpi.cs3733.d20.teamO.model.database;
 
 import com.google.inject.Inject;
-import edu.wpi.cs3733.d20.teamO.model.Node;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -259,12 +262,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     return 0;
   }
 
-
   /**
    * @return a map of all nodeIDs stored in this database to their corresponding Nodes
    */
   @Override
-  public Map<String, Node> export() {
+  public Map<String, Node> exportNodes() {
     val map = new HashMap<String, Node>();
     // todo pseudocode below
     // select all nodes
@@ -293,5 +295,15 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     // for each edge in result set
     //   add edge to edges
     return edges;
+  }
+
+  @Override
+  public List<ServiceRequest> exportServiceRequests() {
+    return null;
+  }
+
+  @Override
+  public List<Employee> exportEmployees() {
+    return null;
   }
 }
