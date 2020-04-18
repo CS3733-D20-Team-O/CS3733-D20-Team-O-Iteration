@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.custom_views;
+package edu.wpi.cs3733.d20.teamO.view_model;
 
 import edu.wpi.cs3733.d20.teamO.model.Node;
 import java.net.URL;
