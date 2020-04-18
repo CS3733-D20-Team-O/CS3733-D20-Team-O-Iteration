@@ -50,23 +50,37 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * Initializes the database
    */
   private void init() {
-    // todo update to use edge table too (and use column IDs at top of file)
-//    try (val stmt = connection.createStatement()) {
-//      String query = "CREATE TABLE " + NODES_TABLE
-//          + "(nodeID VARCHAR(255), "
-//          + "xCoord INT, "
-//          + "yCoord INT, "
-//          + "floor INT, "
-//          + "building VARCHAR(255), "
-//          + "nodeType VARCHAR(255), "
-//          + "longName VARCHAR(255), "
-//          + "shortName VARCHAR(255), "
-//          + "PRIMARY KEY (nodeID))";
-//      stmt.execute(query);
-//      log.info("Table " + NODES_TABLE + " created");
-//    } catch (SQLException e) {
-//      log.error("Failed to initialize " + NODES_TABLE, e);
-//    }
+    // todo update to use edge table too
+    try (val stmt = connection.createStatement()) {
+      String query = "CREATE TABLE " + Table.NODES_TABLE
+          + "(nodeID VARCHAR(255), "
+          + "xCoord INT, "
+          + "yCoord INT, "
+          + "floor INT, "
+          + "building VARCHAR(255), "
+          + "nodeType VARCHAR(255), "
+          + "longName VARCHAR(255), "
+          + "shortName VARCHAR(255), "
+          + "PRIMARY KEY (nodeID))";
+      stmt.execute(query);
+      log.info("Table " + Table.NODES_TABLE + " created");
+    } catch (SQLException e) {
+      log.error("Failed to initialize " + Table.NODES_TABLE, e);
+    }
+
+    try (val stmt = connection.createStatement()) {
+      String query = "CREATE TABLE " + Table.EDGES_TABLE
+          + "(edgeID VARCHAR(255), "
+          + "startID INT, "
+          + "stopID INT, "
+          + "PRIMARY KEY (edgeID), "
+          + "CONSTRAINT FOREIGN KEY (startID) REFERENCES " + Table.NODES_TABLE + " ("
+          + Table.NODES_TABLE.getTableName() + ".nodeID) )";
+      stmt.execute(query);
+      log.info("Table " + Table.EDGES_TABLE + " created");
+    } catch (SQLException e) {
+      log.error("Failed to initialize " + Table.EDGES_TABLE, e);
+    }
   }
 
   @Override
