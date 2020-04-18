@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Handles parsing and exporting PrototypeNode CSV files
+ * Handles parsing and exporting Node CSV files and Edge CSV files
  */
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
