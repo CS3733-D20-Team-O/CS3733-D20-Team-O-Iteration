@@ -10,13 +10,11 @@ import lombok.RequiredArgsConstructor;
 public enum ServiceRequestProperty implements TableProperty {
   REQUEST_ID("requestID"),
   IS_COMPLETE("isComplete"),
-  COMPLETE_TIME("completeTime"),
   SUBMIT_TIME("submitTime"),
+  COMPLETE_TIME("completeTime"),
   NODE_ID("nodeID"),
   TYPE("type"),
   WHO_MARKED("whoMarked");
-
-// todo other columns here
 
   @Getter
   private final String columnName;
