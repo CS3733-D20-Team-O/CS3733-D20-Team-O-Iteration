@@ -1,9 +1,12 @@
 package edu.wpi.cs3733.d20.teamO.model.database;
 
 import com.google.inject.Inject;
-import edu.wpi.cs3733.d20.teamO.model.Node;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -94,18 +97,40 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
             + "(requestID VARCHAR(255), "
-            + "isComplete BOOLEAN, "
-            + "submitTime TIMESTAMP, "
-            + "completeTime TIMESTAMP, "
-            + "nodeID VARCHAR(255), "
+            + "requestTime TIMESTAMP, "
+            + "requestNode VARCHAR(255), "
             + "type VARCHAR(255), "
+            + "requesterName VARCHAR(255), "
+            + "whoMarked VARCHAR(255), "
+            + "employeeAssigned VARCHAR(255), "
             + "PRIMARY KEY (requestID), "
-            + "CONSTRAINT SR_requestID_FK FOREIGN KEY (nodeID) REFERENCES " + Table.NODES_TABLE
-            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID) )";
+            + "CONSTRAINT SR_requestNode_FK FOREIGN KEY (requestNode) REFERENCES "
+            + Table.NODES_TABLE
+            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID), "
+            + "CONSTRAINT SR_whoMarked_ID FOREIGN KEY (whoMarked) REFERENCES "
+            + Table.EMPLOYEE_TABLE
+            + " (" + Table.EMPLOYEE_TABLE.getTableName() + ".employeeID), "
+            + "CONSTRAINT SR_employeeAssigned_FK FOREIGN KEY (employeeAssigned))";
         stmt.execute(query);
         log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
+      }
+    }
+
+    // Initialize the employee table if not initialized
+    if (!isInitialized(Table.EMPLOYEE_TABLE)) {
+      try (val stmt = connection.createStatement()) {
+        String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
+            + "(employeeID VARCHAR(255), "
+            + "name VARCHAR(255), "
+            + "isAvailable BOOLEAN, "
+            + "type VARCHAR(255), "
+            + "PRIMARY KEY (employeeID))";
+        stmt.execute(query);
+        log.info("Table " + Table.EMPLOYEE_TABLE + " created");
+      } catch (SQLException e) {
+        log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
     }
   }
@@ -237,12 +262,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     return 0;
   }
 
-
   /**
    * @return a map of all nodeIDs stored in this database to their corresponding Nodes
    */
   @Override
-  public Map<String, Node> export() {
+  public Map<String, Node> exportNodes() {
     val map = new HashMap<String, Node>();
     // todo pseudocode below
     // select all nodes
@@ -271,5 +295,15 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     // for each edge in result set
     //   add edge to edges
     return edges;
+  }
+
+  @Override
+  public List<ServiceRequest> exportServiceRequests() {
+    return null;
+  }
+
+  @Override
+  public List<Employee> exportEmployees() {
+    return null;
   }
 }
