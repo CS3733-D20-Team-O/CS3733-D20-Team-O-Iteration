@@ -74,12 +74,32 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
           + "startID INT, "
           + "stopID INT, "
           + "PRIMARY KEY (edgeID), "
-          + "CONSTRAINT FOREIGN KEY (startID) REFERENCES " + Table.NODES_TABLE + " ("
+          + "CONSTRAINT EDGES_startID_FK FOREIGN KEY (startID) REFERENCES " + Table.NODES_TABLE
+          + " ("
+          + Table.NODES_TABLE.getTableName() + ".nodeID) "
+          + "CONSTRAINT EDGES_endID_FK FOREIGN KEY (endID) REFERENCES " + Table.NODES_TABLE + " ("
           + Table.NODES_TABLE.getTableName() + ".nodeID) )";
       stmt.execute(query);
       log.info("Table " + Table.EDGES_TABLE + " created");
     } catch (SQLException e) {
       log.error("Failed to initialize " + Table.EDGES_TABLE, e);
+    }
+
+    try (val stmt = connection.createStatement()) {
+      String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
+          + "(requestID VARCHAR(255), "
+          + "isComplete BOOLEAN, "
+          + "submitTime TIMESTAMP, "
+          + "completeTime TIMESTAMP, "
+          + "nodeID VARCHAR(255), "
+          + "type VARCHAR(255), "
+          + "PRIMARY KEY (requestID), "
+          + "CONSTRAINT SR_requestID_FK FOREIGN KEY (nodeID) REFERENCES " + Table.NODES_TABLE + " ("
+          + Table.NODES_TABLE.getTableName() + ".nodeID) )";
+      stmt.execute(query);
+      log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
+    } catch (SQLException e) {
+      log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
     }
   }
 
