@@ -5,7 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import edu.wpi.cs3733.d20.teamO.events.Event;
-import edu.wpi.cs3733.d20.teamO.events.NavigationEvent;
+import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import edu.wpi.cs3733.d20.teamO.model.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseUtilities;
@@ -116,7 +116,7 @@ public class Main extends Application {
    */
   @Subscribe
   @SuppressWarnings("unused") // called by EventBus
-  final public void onNavigationEvent(NavigationEvent event) {
+  final public void onNavigationEvent(ForwardNavigationEvent event) {
     try {
       val loader = get(FXMLLoader.class);
       val root = (Parent) loader.load(getClass().getResourceAsStream(event.getFxmlLocation()));

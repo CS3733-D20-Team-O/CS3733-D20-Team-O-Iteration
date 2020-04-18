@@ -14,4 +14,14 @@ public enum Table {
 
   @Getter
   private final String tableName;
+
+  /**
+   * Allows the use of the table without explicitly calling getTableName()
+   *
+   * @return the name of the table
+   */
+  @Override
+  public String toString() {
+    return tableName;
+  }
 }

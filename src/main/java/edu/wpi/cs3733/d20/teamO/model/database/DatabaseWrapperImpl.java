@@ -27,79 +27,86 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Inject
   public DatabaseWrapperImpl(Connection connection) {
     this.connection = connection;
-    if (!isInitialized()) {
-      init();
-    }
+    init();
   }
 
   /**
-   * @return whether or not the database is initialized
+   * Checks whether the supplied table is initialized
+   *
+   * @param table the table to check for
+   * @return whether or note the table is initialized
    */
-  private boolean isInitialized() {
-    // todo update to use edge table too
-//    try {
-//      return connection.getMetaData().getTables(null, null, NODES_TABLE, null).next();
-//    } catch (SQLException e) {
-//      log.warn("SQLException thrown while checking if the database was initialized", e);
-//      return false;
-//    }
-    return false;
+  private boolean isInitialized(Table table) {
+    try {
+      val tableName = table.getTableName();
+      return connection.getMetaData().getTables(null, null, tableName, null).next();
+    } catch (SQLException e) {
+      log.warn("SQLException thrown while checking if table '" + table + "' was initialized", e);
+      return false;
+    }
   }
 
   /**
    * Initializes the database
    */
   private void init() {
-    // todo update to use edge table too
-    try (val stmt = connection.createStatement()) {
-      String query = "CREATE TABLE " + Table.NODES_TABLE
-          + "(nodeID VARCHAR(255), "
-          + "xCoord INT, "
-          + "yCoord INT, "
-          + "floor INT, "
-          + "building VARCHAR(255), "
-          + "nodeType VARCHAR(255), "
-          + "longName VARCHAR(255), "
-          + "shortName VARCHAR(255), "
-          + "PRIMARY KEY (nodeID))";
-      stmt.execute(query);
-      log.info("Table " + Table.NODES_TABLE + " created");
-    } catch (SQLException e) {
-      log.error("Failed to initialize " + Table.NODES_TABLE, e);
+    // Initialize the nodes table if not initialized
+    if (!isInitialized(Table.NODES_TABLE)) {
+      try (val stmt = connection.createStatement()) {
+        String query = "CREATE TABLE " + Table.NODES_TABLE
+            + "(nodeID VARCHAR(255), "
+            + "xCoord INT, "
+            + "yCoord INT, "
+            + "floor INT, "
+            + "building VARCHAR(255), "
+            + "nodeType VARCHAR(255), "
+            + "longName VARCHAR(255), "
+            + "shortName VARCHAR(255), "
+            + "PRIMARY KEY (nodeID))";
+        stmt.execute(query);
+        log.info("Table " + Table.NODES_TABLE + " created");
+      } catch (SQLException e) {
+        log.error("Failed to initialize " + Table.NODES_TABLE, e);
+      }
     }
 
-    try (val stmt = connection.createStatement()) {
-      String query = "CREATE TABLE " + Table.EDGES_TABLE
-          + "(edgeID VARCHAR(255), "
-          + "startID INT, "
-          + "stopID INT, "
-          + "PRIMARY KEY (edgeID), "
-          + "CONSTRAINT EDGES_startID_FK FOREIGN KEY (startID) REFERENCES " + Table.NODES_TABLE
-          + " ("
-          + Table.NODES_TABLE.getTableName() + ".nodeID) "
-          + "CONSTRAINT EDGES_endID_FK FOREIGN KEY (endID) REFERENCES " + Table.NODES_TABLE + " ("
-          + Table.NODES_TABLE.getTableName() + ".nodeID) )";
-      stmt.execute(query);
-      log.info("Table " + Table.EDGES_TABLE + " created");
-    } catch (SQLException e) {
-      log.error("Failed to initialize " + Table.EDGES_TABLE, e);
+    // Initialize the edges table if not initialized
+    if (!isInitialized(Table.EDGES_TABLE)) {
+      try (val stmt = connection.createStatement()) {
+        String query = "CREATE TABLE " + Table.EDGES_TABLE
+            + "(edgeID VARCHAR(255), "
+            + "startID INT, "
+            + "stopID INT, "
+            + "PRIMARY KEY (edgeID), "
+            + "CONSTRAINT EDGES_startID_FK FOREIGN KEY (startID) REFERENCES " + Table.NODES_TABLE
+            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID) "
+            + "CONSTRAINT EDGES_endID_FK FOREIGN KEY (endID) REFERENCES " + Table.NODES_TABLE
+            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID) )";
+        stmt.execute(query);
+        log.info("Table " + Table.EDGES_TABLE + " created");
+      } catch (SQLException e) {
+        log.error("Failed to initialize " + Table.EDGES_TABLE, e);
+      }
     }
 
-    try (val stmt = connection.createStatement()) {
-      String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
-          + "(requestID VARCHAR(255), "
-          + "isComplete BOOLEAN, "
-          + "submitTime TIMESTAMP, "
-          + "completeTime TIMESTAMP, "
-          + "nodeID VARCHAR(255), "
-          + "type VARCHAR(255), "
-          + "PRIMARY KEY (requestID), "
-          + "CONSTRAINT SR_requestID_FK FOREIGN KEY (nodeID) REFERENCES " + Table.NODES_TABLE + " ("
-          + Table.NODES_TABLE.getTableName() + ".nodeID) )";
-      stmt.execute(query);
-      log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
-    } catch (SQLException e) {
-      log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
+    // Initialize the service requests table if not initialized
+    if (!isInitialized(Table.SERVICE_REQUESTS_TABLE)) {
+      try (val stmt = connection.createStatement()) {
+        String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
+            + "(requestID VARCHAR(255), "
+            + "isComplete BOOLEAN, "
+            + "submitTime TIMESTAMP, "
+            + "completeTime TIMESTAMP, "
+            + "nodeID VARCHAR(255), "
+            + "type VARCHAR(255), "
+            + "PRIMARY KEY (requestID), "
+            + "CONSTRAINT SR_requestID_FK FOREIGN KEY (nodeID) REFERENCES " + Table.NODES_TABLE
+            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID) )";
+        stmt.execute(query);
+        log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
+      } catch (SQLException e) {
+        log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
+      }
     }
   }
 
