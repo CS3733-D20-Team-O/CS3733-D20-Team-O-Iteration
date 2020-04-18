@@ -39,7 +39,7 @@ public abstract class ViewModelBase implements Initializable {
   @Override
   public final void initialize(URL location, ResourceBundle resources) {
     dispatch(new RegisterViewModelEvent(this));
-    switchToNewLocale(get(LanguageHandler.class).getCurrentLocaleBundle());
+    switchToNewLocale(get(LanguageHandler.class).getCurrentBundle());
     start(location, resources);
   }
 

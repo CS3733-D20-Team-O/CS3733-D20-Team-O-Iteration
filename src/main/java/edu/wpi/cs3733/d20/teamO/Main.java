@@ -4,12 +4,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
+import edu.wpi.cs3733.d20.teamO.events.BackwardNavigationEvent;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import edu.wpi.cs3733.d20.teamO.model.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseUtilities;
 import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
+import edu.wpi.cs3733.d20.teamO.view_model.NavigationBar;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import edu.wpi.cs3733.d20.teamO.view_model.main_screen.AdminViewModel;
 import edu.wpi.cs3733.d20.teamO.view_model.main_screen.KioskViewModel;
@@ -20,11 +22,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -49,7 +59,9 @@ public class Main extends Application {
       new DatabaseModule()
   );
 
-  // todo make a root view to switch views with (anchor the navigation bar at the top)
+  private final StackPane root = new StackPane();
+
+  private Pane mainScreenRoot;
 
   /**
    * Application entry point
@@ -85,7 +97,8 @@ public class Main extends Application {
     }
 
     // Load and display the application
-    val root = (Parent) loader.load(getClass().getResourceAsStream("views/Main.fxml"));
+    mainScreenRoot = loader.load(getClass().getResourceAsStream("views/Main.fxml"));
+    root.getChildren().add(mainScreenRoot);
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
@@ -116,19 +129,82 @@ public class Main extends Application {
    */
   @Subscribe
   @SuppressWarnings("unused") // called by EventBus
-  final public void onNavigationEvent(ForwardNavigationEvent event) {
+  final public void onForwardNavigationEvent(ForwardNavigationEvent event) {
     try {
-      val loader = get(FXMLLoader.class);
-      val root = (Parent) loader.load(getClass().getResourceAsStream(event.getFxmlLocation()));
-      val stage = new Stage();
-      stage.setScene(new Scene(root));
-      val windowTitle = get(LanguageHandler.class).getCurrentLocaleBundle()
-          .getString(event.getWindowTitleKey());
-      stage.setTitle(windowTitle);
-      stage.show();
+      // Create the new root for the page
+      val newRoot = new AnchorPane();
+
+      // Set up the navigation bar for the new page
+      val navBarLoader = get(FXMLLoader.class);
+      val navBarRoot = (Region) navBarLoader.load(getClass()
+          .getResourceAsStream("views/NavigationBar.fxml"));
+      val title = get(LanguageHandler.class).getCurrentBundle().getString(event.getTitleKey());
+      ((NavigationBar) navBarLoader.getController()).setTitle(title);
+      AnchorPane.setTopAnchor(navBarRoot, 0.0);
+      AnchorPane.setLeftAnchor(navBarRoot, 0.0);
+      AnchorPane.setRightAnchor(navBarRoot, 0.0);
+      newRoot.getChildren().add(navBarRoot);
+
+      // Set up the actual body (main content of the new page)
+      val contentLoader = get(FXMLLoader.class);
+      val contentRoot = (Parent) contentLoader.load(getClass()
+          .getResourceAsStream(event.getFxmlLocation()));
+      // The height is not available right away, so set top bounds when it is available
+      navBarRoot.heightProperty().addListener(((observable, oldValue, newValue) ->
+          AnchorPane.setTopAnchor(contentRoot, newValue.doubleValue())));
+      AnchorPane.setLeftAnchor(contentRoot, 0.0);
+      AnchorPane.setRightAnchor(contentRoot, 0.0);
+      AnchorPane.setBottomAnchor(contentRoot, 0.0);
+      newRoot.getChildren().add(contentRoot);
+
+      // Execute the transition
+      val currentRoot = root.getChildren().get(0);
+      root.getChildren().add(newRoot);
+      val width = root.getWidth();
+      val start = new KeyFrame(Duration.ZERO,
+          new KeyValue(currentRoot.translateXProperty(), 0),
+          new KeyValue(newRoot.translateXProperty(), width));
+      val end = new KeyFrame(Duration.seconds(0.25),
+          new KeyValue(currentRoot.translateXProperty(), -width),
+          new KeyValue(newRoot.translateXProperty(), 0));
+      val slide = new Timeline(start, end);
+      slide.setOnFinished(e -> root.getChildren().remove(currentRoot));
+      slide.play();
     } catch (IOException e) {
+      // todo
       log.error("Failed to open a new window from " + event.getFxmlLocation(), e);
     }
+  }
+
+  @Subscribe
+  @SuppressWarnings("unused") // called by EventBus
+  final public void onBackwardNavigationEvent(BackwardNavigationEvent event) {
+    // Get a copy of the current root (it will be the only child of the actual root)
+    val currentRoot = root.getChildren().get(0);
+    // Add the main screen back to the root to get ready for the slide transition
+    root.getChildren().add(mainScreenRoot);
+    // Start the slide animation
+    val width = root.getWidth();
+    val start = new KeyFrame(Duration.ZERO,
+        new KeyValue(mainScreenRoot.translateXProperty(), -width),
+        new KeyValue(currentRoot.translateXProperty(), 0));
+    val end = new KeyFrame(Duration.seconds(0.25),
+        new KeyValue(mainScreenRoot.translateXProperty(), 0),
+        new KeyValue(currentRoot.translateXProperty(), width));
+    val slide = new Timeline(start, end);
+    slide.setOnFinished(e -> root.getChildren().remove(currentRoot));
+    slide.play();
+    /*
+    todo incorporate this code too
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(imgView2.translateXProperty(), 0, Interpolator.EASE_BOTH);
+        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.setOnFinished(t->{
+            // remove pane and restore scene 1
+            root1.getChildren().setAll(rectangle1);
+        });
+     */
   }
 
   /**
@@ -209,6 +285,7 @@ public class Main extends Application {
     public FXMLLoader provideLoader(Injector injector) {
       val loader = new FXMLLoader();
       loader.setControllerFactory(injector::getInstance);
+      loader.setResources(injector.getInstance(LanguageHandler.class).getCurrentBundle());
       return loader;
     }
   }

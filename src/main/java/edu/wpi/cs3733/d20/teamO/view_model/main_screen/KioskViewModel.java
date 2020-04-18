@@ -27,6 +27,14 @@ public class KioskViewModel extends MainViewModelBase {
   public void onLeftButton(ActionEvent event) {
     dispatch(new ForwardNavigationEvent("kioskLeftButton",
         "views/kiosk/FindPath.fxml"));
+//    new Thread(() -> {
+//      try {
+//        Thread.sleep(1000);
+//        Platform.runLater(() -> dispatch(new BackwardNavigationEvent()));
+//      } catch (InterruptedException e) {
+//        e.printStackTrace();
+//      }
+//    }).start();
   }
 
   @Override
