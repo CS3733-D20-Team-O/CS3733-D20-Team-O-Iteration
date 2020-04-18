@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.main_screen;
 
+import edu.wpi.cs3733.d20.teamO.events.NavigationEvent;
 import edu.wpi.cs3733.d20.teamO.model.language.Language;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,11 +25,13 @@ public class KioskViewModel extends MainViewModelBase {
 
   @Override
   public void onLeftButton(ActionEvent event) {
-    openWindow("views/kiosk/FindPath.fxml", "Find a Path");
+    dispatch(new NavigationEvent("kioskLeftButton",
+        "views/kiosk/FindPath.fxml"));
   }
 
   @Override
   public void onRightButton(ActionEvent event) {
-    openWindow("views/kiosk/ServiceRequestSelection.fxml", "Request a Service");
+    dispatch(new NavigationEvent("kioskRightButton",
+        "views/kiosk/ServiceRequestSelection.fxml"));
   }
 }

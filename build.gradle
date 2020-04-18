@@ -56,22 +56,20 @@ jar {
 
 // code coverage excludes for jacoco
 def codeCoverageExcludes = [
-        'edu.wpi.cs3733.d20.teamO.Main',
         // The following are excluded because they have no callable methods
         'edu.wpi.cs3733.d20.teamO.model.database.db_model.*',
+        // The following are just Guice modules
+        'edu.wpi.cs3733.d20.teamO.Main.*',
         // todo test these later
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.ServiceRequestSelection',
+        'edu.wpi.cs3733.d20.teamO.Main',
+        'edu.wpi.cs3733.d20.teamO.model.LoginDetails',
         'edu.wpi.cs3733.d20.teamO.custom_views.MapView',
         'edu.wpi.cs3733.d20.teamO.view_model.main_screen.*',
         'edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapperImpl',
         'edu.wpi.cs3733.d20.teamO.view_model.admin.RequestHandlerViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel',
-        'edu.wpi.cs3733.d20.teamO.ApplicationBase',
-        'edu.wpi.cs3733.d20.teamO.ApplicationBase.*',
-        'edu.wpi.cs3733.d20.teamO.KioskApplication',
-        'edu.wpi.cs3733.d20.teamO.AdminApplication',
-        'edu.wpi.cs3733.d20.teamO.AdminApplication.LoginDetails',
 ]
 
 jacoco {
