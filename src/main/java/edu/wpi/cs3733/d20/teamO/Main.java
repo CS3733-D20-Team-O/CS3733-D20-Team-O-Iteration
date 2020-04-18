@@ -49,6 +49,8 @@ public class Main extends Application {
       new DatabaseModule()
   );
 
+  // todo make a root view to switch views with (anchor the navigation bar at the top)
+
   /**
    * Application entry point
    *

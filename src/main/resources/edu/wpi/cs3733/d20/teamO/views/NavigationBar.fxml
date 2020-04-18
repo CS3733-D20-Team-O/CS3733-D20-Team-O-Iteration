@@ -5,7 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-  xmlns="http://javafx.com/javafx/11.0.1">
-  <JFXButton/>
-  <Label text="Label"/>
+  xmlns="http://javafx.com/javafx/11.0.1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NavigationBar" fx:id="root">
+  <JFXButton onAction="#onBackPressed" text="%backButton" fx:id="backButton"/>
+  <Label text="Label" fx:id="windowName"/>
 </AnchorPane>

@@ -31,12 +31,6 @@ public abstract class ViewModelBase implements Initializable {
   private Injector injector;
 
   /**
-   * The EventBus to dispatch events to
-   */
-  @Inject
-  private EventBus eventBus;
-
-  /**
    * Called to initialize a controller after its root element has been completely processed.
    *
    * @param location  The location used to resolve relative paths for the root object, or null
@@ -83,7 +77,7 @@ public abstract class ViewModelBase implements Initializable {
    * @param event the event to post
    */
   final protected void dispatch(Event event) {
-    eventBus.post(event);
+    get(EventBus.class).post(event);
   }
 
   /**
