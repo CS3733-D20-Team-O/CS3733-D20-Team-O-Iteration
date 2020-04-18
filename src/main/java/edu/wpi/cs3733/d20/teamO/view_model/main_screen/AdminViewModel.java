@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.main_screen;
 
-import edu.wpi.cs3733.d20.teamO.events.NavigationEvent;
+import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
 import edu.wpi.cs3733.d20.teamO.model.language.Language;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,13 +25,13 @@ public class AdminViewModel extends MainViewModelBase {
 
   @Override
   public void onLeftButton(ActionEvent event) {
-    dispatch(new NavigationEvent("adminLeftButton",
+    dispatch(new ForwardNavigationEvent("adminLeftButton",
         "views/admin/FloorMapEditor.fxml"));
   }
 
   @Override
   public void onRightButton(ActionEvent event) {
-    dispatch(new NavigationEvent("adminRightButton",
+    dispatch(new ForwardNavigationEvent("adminRightButton",
         "views/admin/RequestHandler.fxml"));
   }
 }

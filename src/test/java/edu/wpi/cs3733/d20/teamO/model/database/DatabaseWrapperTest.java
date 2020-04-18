@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.model.database;
 
-import edu.wpi.cs3733.d20.teamO.model.Node;
 import edu.wpi.cs3733.d20.teamO.model.TestInjector;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 
 /**
  * Tests DatabaseWrapper
