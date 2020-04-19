@@ -11,8 +11,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-//import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
-
 public class RequestHandlerViewModel extends ViewModelBase {
 
   @FXML
@@ -23,12 +21,14 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private TableColumn<Date, String> colDateRequest;
   private final JFXButton btnAssign = new JFXButton("Assign");
   @FXML
-  private TableView employeeTable;
+  private TableColumn<EmployeeProperty, String> colAssigned;
   @FXML
   private TableColumn<String, String> colEmployeeName;
   private final JFXCheckBox cbShowUnavail = new JFXCheckBox("Show Unavailable");
   @FXML
-  private TableColumn<EmployeeProperty, String> colAssigned;
+  private TableView employeeTable;
+
+  @FXML
 
   private void setupInterface() {
     btnAssign.getStyleClass().add("button-raised");
@@ -64,6 +64,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //Get current employeeTable row
     //Get the employee
     //update the ServiceRequestProperty for assignedEmployee to the employee
+    //set Empoyee.isAvailable = false;
     //if no employee selected this doesn't work
 //    serviceTable.getItems().get(0);
 
@@ -76,5 +77,51 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //update employeeTable with just service Type
   }
 
+  /*
+    nodeID.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
+    xCoord.setCellValueFactory(new PropertyValueFactory<>("xCoord"));
+    yCoord.setCellValueFactory(new PropertyValueFactory<>("yCoord"));
+    floor.setCellValueFactory(new PropertyValueFactory<>("floor"));
+    building.setCellValueFactory(new PropertyValueFactory<>("building"));
+    nodeType.setCellValueFactory(new PropertyValueFactory<>("nodeType"));
+    longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+    shortName.setCellValueFactory(new PropertyValueFactory<>("shortName"));
+private void addAll(List<PrototypeNode> nodes) {
+  ObservableList<PrototypeNode> displayTableItems = FXCollections.observableArrayList();
+  displayTableItems.addAll(nodes);
+  nodeDisplayTable.setItems(displayTableItems);
+}
+
+  @Subscribe
+  public void onNodeDeleted(DatabaseNodeDeletedEvent event) {
+    val nodeToDelete = event.getNodeID();
+
+    for (val item : nodeDisplayTable.getItems()) {
+
+      if (item.getNodeID().equals(nodeToDelete)) {
+        nodeDisplayTable.getItems().remove(item);
+        break;
+      }
+    }//end of tableLength for loop
+  }
+
+  @Subscribe
+  public void onNodeInsert(DatabaseNodeInsertedEvent event) {
+    nodeDisplayTable.getItems().add(event.getNode());
+  }
+
+  @Subscribe
+  public void onNodeUpdated(DatabaseNodeUpdatedEvent event) {
+    int i = 0;
+    for (val item : nodeDisplayTable.getItems()) {
+      if (item.getNodeID().equals(event.getNodeID())) {
+        nodeDisplayTable.getItems().set(i, event.getNode());
+        break;
+      }
+      i++; //gets database index
+    }
+  }
+
+   */
 
 }
