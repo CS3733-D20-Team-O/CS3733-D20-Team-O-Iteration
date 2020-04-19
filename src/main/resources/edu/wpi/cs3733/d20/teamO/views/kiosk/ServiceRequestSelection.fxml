@@ -15,15 +15,15 @@
     alignment="CENTER" spacing="30.0">
     <Label text="OR"/>
     <VBox alignment="CENTER" minWidth="300" spacing="20.0">
-      <JFXComboBox promptText="Select a service request..." fx:id="serviceSelector"/>
       <Label text="Create a new service request"/>
+      <JFXComboBox promptText="Select a service request..." fx:id="serviceSelector"/>
     </VBox>
     <VBox alignment="CENTER" minWidth="300" spacing="20.0">
+      <Label text="Lookup the status of a service request"/>
       <HBox alignment="CENTER" spacing="10.0">
         <JFXButton onAction="#onSubmitClicked" text="Submit"/>
         <TextField fx:id="confirmationCode"/>
       </HBox>
-      <Label text="Lookup the status of a service request"/>
     </VBox>
   </HBox>
 </AnchorPane>
