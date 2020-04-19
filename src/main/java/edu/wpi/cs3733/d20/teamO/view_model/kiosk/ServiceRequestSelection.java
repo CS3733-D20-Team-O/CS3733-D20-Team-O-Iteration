@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -58,6 +59,7 @@ public class ServiceRequestSelection extends ViewModelBase {
         root.getChildren().add(stackPane);
         // Create and show the dialog
         JFXDialog dialog = new JFXDialog();
+        dialog.setPadding(new Insets(10));
         val infoText = getString("serviceRequestConfirmationNumber") + ": "
             + request.getRequestID()
             + "\n" + getString("serviceRequestAssignedTo") + ": "
