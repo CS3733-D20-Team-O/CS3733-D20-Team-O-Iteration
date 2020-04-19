@@ -264,8 +264,22 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public Map<String, Node> exportNodes() {
     val map = new HashMap<String, Node>();
-    // todo pseudocode below
-    // select all nodes
+    val query = "SELECT * from " + Table.NODES_TABLE;
+    try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
+      while (rset.next()) {
+        map.put(NodeProperty.NODE_ID.getColumnName(), new Node(
+            rset.getString(1),
+            rset.getInt(2),
+            rset.getInt(3),
+            rset.getInt(4),
+            rset.getString(5),
+            rset.getString(6),
+            rset.getString(7),
+            rset.getString(8)));
+      }
+    } catch (SQLException e) {
+      log.error("Failed to export records", e);
+    }
     // for each node in result set
     //   map.put(nodeID, node);
     // Victoria -- I did this edge parsing part for you. Just make code for the pseudocode above
