@@ -32,7 +32,7 @@ public class LanguageHandler {
   /**
    * @return the current language bundle being used to fuel the application
    */
-  public ResourceBundle getCurrentLocaleBundle() {
+  public ResourceBundle getCurrentBundle() {
     return eventBus.getStickyEvent(LanguageSwitchEvent.class).getBundle();
   }
 
@@ -40,7 +40,7 @@ public class LanguageHandler {
    * @return the current locale in use by the application
    */
   public Locale getCurrentLocale() {
-    return getCurrentLocaleBundle().getLocale();
+    return getCurrentBundle().getLocale();
   }
 
   /**
