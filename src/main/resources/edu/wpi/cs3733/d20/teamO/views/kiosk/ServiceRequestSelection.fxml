@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity"
-  xmlns="http://javafx.com/javafx/11.0.1"
+  xmlns="http://javafx.com/javafx/11.0.1" fx:id="root"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.ServiceRequestSelection">
   <HBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
     AnchorPane.topAnchor="0"
