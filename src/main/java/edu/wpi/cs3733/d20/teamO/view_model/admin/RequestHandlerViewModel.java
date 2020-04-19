@@ -84,7 +84,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   //DELETE THIS BEFORE PUSHING
   private void testProperties() {
     //String requestID, requestTime, requestNode, type, requesterName, whoMarked, employeeAssigned;
-    val service1 = new ServiceRequest("14", "55", "55", "Gift", "55", "Mark", "Jimmy");
+    val service1 = new ServiceRequest("14", "55", "55", "Gift", "55", "", "");
     val service2 = new ServiceRequest("14", "55", "55", "Gift", "55", "", "");
     val service3 = new ServiceRequest("14", "55", "55", "Interpreter", "55", "", "");
     val service4 = new ServiceRequest("14", "55", "55", "Interpreter", "55", "", "");
@@ -96,9 +96,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
     serviceTable.getItems().add(service5);
 
     val employee1 = new Employee("12", "Paul", "Gift", true);
-    val employee2 = new Employee("13", "Randy", "Gift", false);
+    val employee2 = new Employee("13", "Randy", "Gift", true);
     val employee3 = new Employee("14", "Bobo", "Interpreter", true);
-    val employee4 = new Employee("15", "Samuel", "Interpreter", false);
+    val employee4 = new Employee("15", "Samuel", "Interpreter", true);
     val employee5 = new Employee("16", "Joeann", "Wash", true);
 //    employeeTable.getItems().add(employee1);
 //    employeeTable.getItems().add(employee2);
@@ -150,6 +150,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
     }
   }
 
+
+  //currently idk how this can work because we have no way to edit ServiceRequest objects or Employee objects
+  //only the getters exist, lombok wont make setters
   @FXML
   private void assignEmployee() {
     //Get current serviceTable row
@@ -161,7 +164,30 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //clear the employeeTable
 //    serviceTable.getItems().get(0);
 
+    // "error" cases to do nothing
+    //no serviceReq selected
+    if (serviceTable.getSelectionModel().getSelectedItem() == null) {
+      return;
+    }
+    //no employee selected
+    if (employeeTable.getSelectionModel().getSelectedItem() == null) {
+      return;
+    }
+    //employee selected somehow does not have same type as request
+    if (!employeeTable.getSelectionModel().getSelectedItem().getType()
+        .equals(serviceTable.getSelectionModel().getSelectedItem().getType())) {
+      return;
+    }
+    //employee is unavailable
+    if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable().equals("true")) {
+      return;
+    }
+
+    val req = serviceTable.getSelectionModel().getSelectedItem();
+    val employee = employeeTable.getSelectionModel().getSelectedItem();
+
   }
+
 
   @FXML
   private void setCbShowUnavail() {

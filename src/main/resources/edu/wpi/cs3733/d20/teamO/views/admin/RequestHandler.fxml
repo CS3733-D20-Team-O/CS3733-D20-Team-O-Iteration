@@ -11,7 +11,7 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.RequestHandlerViewModel">
   <children>
     <JFXButton style="-fx-background-color: LIGHTGREY;" buttonType="RAISED" layoutX="438.0"
-      layoutY="475.0" prefHeight="41.0" prefWidth="138.0" text="Assign"/>
+      layoutY="475.0" onAction="#assignEmployee" prefHeight="41.0" prefWidth="138.0" text="Assign"/>
     <JFXCheckBox style="-fx-background-color: LIGHTGREY; -fx-border-color: BLACK;" layoutX="30.0"
       layoutY="653.0" onAction="#setCbShowUnavail" prefHeight="20.0" prefWidth="138.0"
       text="Show Unavailable" fx:id="cbShowUnavail"/>
