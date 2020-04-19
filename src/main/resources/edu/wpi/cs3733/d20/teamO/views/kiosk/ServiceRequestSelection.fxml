@@ -12,19 +12,17 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.ServiceRequestSelection">
   <HBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
     AnchorPane.topAnchor="0" alignment="CENTER" spacing="30.0">
-    <children>
-      <Label text="%serviceRequestOR"/>
-      <VBox alignment="CENTER" spacing="20.0">
-        <JFXComboBox promptText="%serviceRequestCreationPrompt" fx:id="serviceSelector"/>
-        <Label text="%serviceRequestCreationLabel"/>
-      </VBox>
-      <VBox alignment="CENTER" spacing="20.0">
-        <HBox alignment="CENTER" spacing="10.0">
-          <JFXButton onAction="#onSubmitClicked" text="%serviceRequestLookupSubmit"/>
-          <TextField fx:id="confirmationCode"/>
-        </HBox>
-        <Label text="%serviceRequestLookupLabel"/>
-      </VBox>
-    </children>
+    <VBox alignment="CENTER" spacing="20.0">
+      <JFXComboBox promptText="%serviceRequestCreationPrompt" fx:id="serviceSelector"/>
+      <Label text="%serviceRequestCreationLabel"/>
+    </VBox>
+    <Label text="%serviceRequestOR"/>
+    <VBox alignment="CENTER" spacing="20.0">
+      <HBox alignment="CENTER" spacing="10.0">
+        <JFXButton onAction="#onSubmitClicked" text="%serviceRequestLookupSubmit"/>
+        <TextField fx:id="confirmationCode"/>
+      </HBox>
+      <Label text="%serviceRequestLookupLabel"/>
+    </VBox>
   </HBox>
 </AnchorPane>
