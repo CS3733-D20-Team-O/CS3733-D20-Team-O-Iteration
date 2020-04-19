@@ -20,7 +20,7 @@
     <VBox alignment="CENTER" spacing="20.0">
       <Label text="%serviceRequestLookupLabel"/>
       <HBox alignment="CENTER" spacing="10.0">
-        <JFXTextField fx:id="confirmationCode"/>
+        <JFXTextField fx:id="confirmationCode" promptText="%serviceRequestConfirmationNumber"/>
         <JFXButton onAction="#onSubmitClicked" text="%serviceRequestLookupSubmit"/>
       </HBox>
     </VBox>
