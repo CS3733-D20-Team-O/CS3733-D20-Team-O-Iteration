@@ -9,6 +9,12 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
@@ -39,13 +45,32 @@ public class NodeMapView extends ViewModelBase {
   @Setter
   private BiConsumer<Integer, Integer> onMissTapListener;
 
+  @FXML
+  StackPane mapView;
+  @FXML
+  ImageView backgroundImage;
+  @FXML
+  Canvas nodeCanvas;
+  @FXML
+  Button btnIncrementFloor;
+  @FXML
+  Button btnDecrementFloor;
+
   @Override
   protected void start(URL location, ResourceBundle resources) {
     // todo import floor into ImageView and set up other basic stuff
+    nodeCanvas = new Canvas();
+    backgroundImage = new ImageView();
+    mapView = new StackPane();
+    mapView.getChildren().addAll(backgroundImage, nodeCanvas);
+
     draw();
+
+    // Set up event for when a node is selected
+    nodeCanvas.setOnMouseClicked(event -> {
+
+    });
   }
-
-
 
   /*
   todo
@@ -78,8 +103,8 @@ public class NodeMapView extends ViewModelBase {
   private void draw() {
     // Clear the canvas so we can draw fresh
     // todo canvas.clear() or something like that I am guessing. Ask Collin -- he knows
-    //Canvas workCanvas;
-    //GraphicsContext gc = workCanvas.getGraphicsContext2D();
+    GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
+    nodeGC.clearRect(0, 0, nodeCanvas.getWidth(), nodeCanvas.getHeight());
     // Draw all the nodes
     nodeMap.keySet().forEach((id) -> drawNode(nodeMap.get(id)));
   }
@@ -90,7 +115,9 @@ public class NodeMapView extends ViewModelBase {
   private void drawNode(Node node) {
     // Only paint this node if it is on this floor (otherwise we will have other floors' nodes)
     if (node.getFloor() == getFloor()) {
-      // todo draw this node as a circle
+      GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
+      nodeGC.setFill(Color.RED);
+      nodeGC.fillOval(node.getXCoord(), node.getYCoord(), 10, 10);
     }
   }
 
@@ -103,7 +130,11 @@ public class NodeMapView extends ViewModelBase {
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
     if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
-      // todo draw a line between the two nodes
+      GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
+      nodeGC.setStroke(Color.BLUE);
+      nodeGC.setLineWidth(3.0);
+      nodeGC.strokeLine(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
+
       // As drawing a line between the two points will lay on top of the nodes,
       //  redraw the nodes to be on top of the newly drawn line
       drawNode(n1);
@@ -130,6 +161,22 @@ public class NodeMapView extends ViewModelBase {
       // todo update ImageView
       draw();
       setFloor(floor);
+    }
+  }
+
+  /**
+   * Increments the max floor
+   */
+  public void incrementMaxFloor() {
+    maxFloor++;
+  }
+
+  /**
+   * Decrements the max floor (note: cannot decrement past one)
+   */
+  public void decrementMaxFloor() {
+    if (maxFloor > 1) {
+      maxFloor--;
     }
   }
 
