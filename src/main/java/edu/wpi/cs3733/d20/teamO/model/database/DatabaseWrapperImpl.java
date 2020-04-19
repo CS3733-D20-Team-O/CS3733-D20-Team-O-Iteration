@@ -278,7 +278,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             rset.getString(8)));
       }
     } catch (SQLException e) {
-      log.error("Failed to export records", e);
+      log.error("Failed to export nodes", e);
     }
     for (val edge : exportEdges()) {
       val start = map.get(edge.getStartNodeID());
@@ -305,7 +305,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             rset.getString(3)));
       }
     } catch (SQLException e) {
-      log.error("Failed to export records", e);
+      log.error("Failed to export edges", e);
     }
     return edges;
   }
@@ -325,7 +325,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             rset.getString(7)));
       }
     } catch (SQLException e) {
-      log.error("Failed to export records", e);
+      log.error("Failed to export service requests", e);
     }
     return serviceRequests;
   }
@@ -342,7 +342,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             rset.getBoolean(4)));
       }
     } catch (SQLException e) {
-      log.error("Failed to export records", e);
+      log.error("Failed to export employees", e);
     }
     return employees;
   }
