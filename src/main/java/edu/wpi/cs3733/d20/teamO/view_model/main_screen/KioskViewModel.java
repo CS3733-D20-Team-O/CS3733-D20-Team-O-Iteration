@@ -25,13 +25,13 @@ public class KioskViewModel extends MainViewModelBase {
 
   @Override
   public void onLeftButton(ActionEvent event) {
-    dispatch(new ForwardNavigationEvent("kioskLeftButton",
+    dispatch(new ForwardNavigationEvent(getString("kioskLeftButton"),
         "views/kiosk/FindPath.fxml"));
   }
 
   @Override
   public void onRightButton(ActionEvent event) {
-    dispatch(new ForwardNavigationEvent("kioskRightButton",
+    dispatch(new ForwardNavigationEvent(getString("kioskRightButton"),
         "views/kiosk/ServiceRequestSelection.fxml"));
   }
 }
