@@ -27,6 +27,7 @@ public class CSVHandlerTest {
   @Test
   public void testCSVHandler() throws IOException, URISyntaxException {
     val csvHandler = TestInjector.create(CSVHandler.class);
+    // todo clean this up but also keep it working on windows
     val input = Paths.get(getClass().getResource("PrototypeNodes.csv").toURI()).toString();
     val output = "build/Nodes.csv";
     csvHandler.importNodes(input);
