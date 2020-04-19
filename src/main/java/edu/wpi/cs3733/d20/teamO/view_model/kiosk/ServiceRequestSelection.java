@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -11,7 +13,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class ServiceRequestSelection extends ViewModelBase {
   @FXML
   private AnchorPane root;
   @FXML
-  private TextField confirmationCode;
+  private JFXTextField confirmationCode;
   @FXML
   private JFXComboBox<String> serviceSelector;
 
@@ -54,10 +55,7 @@ public class ServiceRequestSelection extends ViewModelBase {
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(new Label("Content")); // todo request info
     dialog.show(stackPane);
-    // todo listen for dialog close and do something like following (look into event handler)
-    dialog.onDialogClosedProperty()
-        .addListener((observable, oldValue, newValue) -> root.getChildren().remove(stackPane));
-    dialog.onDialogClosedProperty().addListener(observable -> root.getChildren().remove(stackPane));
+    dialog.addEventHandler(JFXDialogEvent.CLOSED, event -> root.getChildren().remove(stackPane));
 //        return;
 //      }
 //    }
