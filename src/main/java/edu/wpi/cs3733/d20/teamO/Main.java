@@ -1,38 +1,45 @@
 package edu.wpi.cs3733.d20.teamO;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Provides;
+import edu.wpi.cs3733.d20.teamO.events.BackwardNavigationEvent;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
+import edu.wpi.cs3733.d20.teamO.events.LanguageSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
+import edu.wpi.cs3733.d20.teamO.injection_modules.DatabaseModule;
+import edu.wpi.cs3733.d20.teamO.injection_modules.EventBusModule;
+import edu.wpi.cs3733.d20.teamO.injection_modules.FXMLLoaderModule;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseUtilities;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
+import edu.wpi.cs3733.d20.teamO.view_model.NavigationBar;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import edu.wpi.cs3733.d20.teamO.view_model.main_screen.AdminViewModel;
 import edu.wpi.cs3733.d20.teamO.view_model.main_screen.KioskViewModel;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javax.inject.Singleton;
+import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 @Slf4j
-// todo try @Value to remove all the finals
 public class Main extends Application {
 
   /**
@@ -49,7 +56,10 @@ public class Main extends Application {
       new DatabaseModule()
   );
 
-  // todo make a root view to switch views with (anchor the navigation bar at the top)
+  /**
+   * The root of the entire application
+   */
+  private final StackPane root = new StackPane();
 
   /**
    * Application entry point
@@ -64,34 +74,21 @@ public class Main extends Application {
   }
 
   @Override
-  final public void init() {
+  public void init() {
     log.info("Starting up the application");
     get(EventBus.class).register(this);
-    // Set English as the default language
+    // Set English as the default language (and trigger the loading of the main screen)
     get(LanguageHandler.class).setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
-    // First, determine what mode to start in
-    val loginValid = new LoginDetails(getParameters().getRaw()).isValid();
-
-    // Setup the loader for the correct mode
-    val loader = get(FXMLLoader.class);
-    if (loginValid) {
-      loader.setController(get(AdminViewModel.class));
-    } else {
-      loader.setController(get(KioskViewModel.class));
-    }
-
-    // Load and display the application
-    val root = (Parent) loader.load(getClass().getResourceAsStream("views/Main.fxml"));
+  public void start(Stage primaryStage) {
     primaryStage.setScene(new Scene(root));
     primaryStage.show();
   }
 
   @Override
-  final public void stop() throws SQLException {
+  public void stop() throws SQLException {
     log.info("Stopping the application");
     get(EventBus.class).unregister(this);
     // Close the database connection
@@ -105,9 +102,21 @@ public class Main extends Application {
    * @param <T>    the type of object to create
    * @return the new object of the specified type
    */
-  final protected <T> T get(Class<T> tClass) {
+  private <T> T get(Class<T> tClass) {
     return injector.getInstance(tClass);
   }
+
+      /*
+    todo incorporate this animation code too
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(imgView2.translateXProperty(), 0, Interpolator.EASE_BOTH);
+        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.setOnFinished(t->{
+            // remove pane and restore scene 1
+            root1.getChildren().setAll(rectangle1);
+        });
+     */
 
   /**
    * Navigates to a new window within the application
@@ -116,18 +125,110 @@ public class Main extends Application {
    */
   @Subscribe
   @SuppressWarnings("unused") // called by EventBus
-  final public void onNavigationEvent(ForwardNavigationEvent event) {
+  public void onForwardNavigationEvent(ForwardNavigationEvent event) {
     try {
-      val loader = get(FXMLLoader.class);
-      val root = (Parent) loader.load(getClass().getResourceAsStream(event.getFxmlLocation()));
-      val stage = new Stage();
-      stage.setScene(new Scene(root));
-      val windowTitle = get(LanguageHandler.class).getCurrentLocaleBundle()
-          .getString(event.getWindowTitleKey());
-      stage.setTitle(windowTitle);
-      stage.show();
+      // Create the new root for the page
+      val newRoot = new AnchorPane();
+
+      // Set up the navigation bar for the new page
+      val navBarLoader = get(FXMLLoader.class);
+      val navBarRoot = (Region) navBarLoader.load(getClass()
+          .getResourceAsStream("views/NavigationBar.fxml"));
+      ((NavigationBar) navBarLoader.getController()).setTitle(event.getTitle());
+      AnchorPane.setTopAnchor(navBarRoot, 0.0);
+      AnchorPane.setLeftAnchor(navBarRoot, 0.0);
+      AnchorPane.setRightAnchor(navBarRoot, 0.0);
+      newRoot.getChildren().add(navBarRoot);
+
+      // Set up the actual body (content) of the new page
+      val contentLoader = get(FXMLLoader.class);
+      val contentRoot = (Region) contentLoader.load(getClass()
+          .getResourceAsStream(event.getFxmlLocation()));
+      // The height is not available right away, so set top bounds when it is available
+      navBarRoot.heightProperty().addListener(((observable, oldValue, newValue) ->
+          AnchorPane.setTopAnchor(contentRoot, newValue.doubleValue())));
+      AnchorPane.setLeftAnchor(contentRoot, 0.0);
+      AnchorPane.setRightAnchor(contentRoot, 0.0);
+      AnchorPane.setBottomAnchor(contentRoot, 0.0);
+      newRoot.getChildren().add(contentRoot);
+
+      // At this point, newRoot is completely instantiated so execute the transition
+      val currentRoot = root.getChildren().get(0);
+      root.getChildren().add(newRoot);
+      val width = root.getWidth();
+      val start = new KeyFrame(Duration.ZERO,
+          new KeyValue(currentRoot.translateXProperty(), 0),
+          new KeyValue(newRoot.translateXProperty(), width));
+      val end = new KeyFrame(Duration.seconds(0.15),
+          new KeyValue(currentRoot.translateXProperty(), -width),
+          new KeyValue(newRoot.translateXProperty(), 0));
+      val slide = new Timeline(start, end);
+      slide.setOnFinished(e -> root.getChildren().remove(currentRoot));
+      slide.play();
     } catch (IOException e) {
-      log.error("Failed to open a new window from " + event.getFxmlLocation(), e);
+      log.error("Failed to switch to a new window from " + event.getFxmlLocation(), e);
+    }
+  }
+
+  /**
+   * Navigates back to the main screen
+   *
+   * @param event the event that was fired
+   * @throws IOException in case the main screen cannot be loaded
+   */
+  @Subscribe
+  @SuppressWarnings("unused") // called by EventBus
+  public void onBackwardNavigationEvent(BackwardNavigationEvent event) throws IOException {
+    // Get a copy of the current root (it will be the only child of the actual root)
+    val currentRoot = root.getChildren().get(0);
+    // Add the main screen back to the root to get ready for the slide transition
+    loadMainScreen();
+    val mainScreenRoot = root.getChildren().get(1);
+    // Start the slide animation
+    val width = root.getWidth();
+    val start = new KeyFrame(Duration.ZERO,
+        new KeyValue(mainScreenRoot.translateXProperty(), -width),
+        new KeyValue(currentRoot.translateXProperty(), 0));
+    val end = new KeyFrame(Duration.seconds(0.15),
+        new KeyValue(mainScreenRoot.translateXProperty(), 0),
+        new KeyValue(currentRoot.translateXProperty(), width));
+    val slide = new Timeline(start, end);
+    slide.setOnFinished(e -> root.getChildren().remove(currentRoot));
+    slide.play();
+  }
+
+  /**
+   * Loads the main application screen into the root
+   * <p>
+   * TODO Cleanup this method and make more efficient (cache login details in init probably)
+   *
+   * @throws IOException in case the main screen cannot be loaded
+   */
+  private void loadMainScreen() throws IOException {
+    // Setup the loader for the correct mode
+    val loader = get(FXMLLoader.class);
+    if (new LoginDetails(getParameters().getRaw()).isValid()) {
+      loader.setController(get(AdminViewModel.class));
+    } else {
+      loader.setController(get(KioskViewModel.class));
+    }
+    // Load and add the main screen to the root
+    root.getChildren().add(loader.load(getClass().getResourceAsStream("views/Main.fxml")));
+  }
+
+  /**
+   * When a language event is fired, reload the main screen to be in the new language
+   *
+   * @param event the event that was fired
+   */
+  @Subscribe
+  @SuppressWarnings("unused") // called by EventBus
+  public void onLanguageSwitch(LanguageSwitchEvent event) {
+    root.getChildren().clear();
+    try {
+      loadMainScreen();
+    } catch (IOException e) {
+      log.error("Failed to reload the main screen on a language switch");
     }
   }
 
@@ -138,7 +239,7 @@ public class Main extends Application {
    */
   @Subscribe
   @SuppressWarnings("unused") // called by EventBus
-  final public void registerViewModel(RegisterViewModelEvent event) {
+  public void registerViewModel(RegisterViewModelEvent event) {
     registeredViewModels.add(new WeakReference<>(event.getViewModel()));
   }
 
@@ -147,11 +248,11 @@ public class Main extends Application {
    * <p>
    * This is a workaround for the lack of registerWeak in EventBus
    *
-   * @param event the event fired
+   * @param event the event that was fired
    */
   @Subscribe
   @SuppressWarnings("unused") // called by EventBus
-  final public void onEvent(Event event) {
+  public void onEvent(Event event) {
     for (var i = registeredViewModels.listIterator(); i.hasNext(); ) {
       val viewModel = i.next().get();
       // if the object was garbage collected, remove it from the list; otherwise, forward event
@@ -160,56 +261,6 @@ public class Main extends Application {
       } else {
         viewModel.onEventReceived(event);
       }
-    }
-  }
-
-  /**
-   * Module used for accessing the database
-   */
-  private static class DatabaseModule extends AbstractModule {
-
-    /**
-     * Provide a single connection for database usage
-     */
-    @Provides
-    @Singleton
-    public Connection provideConnection() throws SQLException {
-      log.debug("Creating an embedded database connection");
-      val url = DatabaseUtilities.getURL("Odb", false);
-      return DriverManager.getConnection(url);
-    }
-  }
-
-  /**
-   * Provides the EventBus to use (the default one)
-   */
-  private static class EventBusModule extends AbstractModule {
-
-    /**
-     * Creates the binding for references of EventBus to use the default
-     */
-    @Override
-    protected void configure() {
-      bind(EventBus.class).toInstance(EventBus.getDefault());
-    }
-  }
-
-  /**
-   * Provides FXMLLoaders to use
-   */
-  private static class FXMLLoaderModule extends AbstractModule {
-
-    /**
-     * Provides FXMLLoaders that are created with the injector
-     *
-     * @param injector the injector used to create controllers in the FXMLLoader
-     * @return a new FXMLLoader that has its controller factor set to use the proper injector
-     */
-    @Provides
-    public FXMLLoader provideLoader(Injector injector) {
-      val loader = new FXMLLoader();
-      loader.setControllerFactory(injector::getInstance);
-      return loader;
     }
   }
 }
