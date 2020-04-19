@@ -22,6 +22,8 @@ import lombok.val;
 public class RequestHandlerViewModel extends ViewModelBase {
 
   private final List<Employee> employeeData = new LinkedList<Employee>();
+  private boolean displayUnavail = false;
+
   @FXML
   private TableColumn<String, ServiceRequest> colServiceType;
   @FXML
@@ -37,7 +39,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private final JFXButton btnAssign = new JFXButton("Assign");
   @FXML
   private TableColumn<String, ServiceRequest> colEmployeeAssigned;
-  private final JFXCheckBox cbShowUnavail = new JFXCheckBox("Show Unavailable");
+  @FXML
+  private JFXCheckBox cbShowUnavail;
   @FXML
   private TableView<ServiceRequest> serviceTable;
   @FXML
@@ -55,6 +58,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+
+    cbShowUnavail.setVisible(false);
 
     btnAssign.getStyleClass().add("button-raised");
     cbShowUnavail.getStyleClass().add("custom-jfx-check-box");
@@ -116,6 +121,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
   //run whenever the table is clicked
   @FXML
   private void updateEmployeeTable() {
+    cbShowUnavail.setVisible(true);
+
     //when the serviceTable row selected populate the employeeTable
     //get the serviceTable row serviceRequestProperty.type
     //populate the employeeTable with employees with the same type
@@ -128,7 +135,13 @@ public class RequestHandlerViewModel extends ViewModelBase {
       req = serviceTable.getSelectionModel().getSelectedItem();
       for (Employee e : employeeData) {
         if (e.getType().equals(req.getType())) {
-          tableItems.add(e);
+          if (!displayUnavail && e.getIsAvailable().equals("true")) {
+            tableItems.add(e);
+          } else if (!displayUnavail && !e.getIsAvailable().equals("true")) {
+          }   //do nothing
+          else {
+            tableItems.add(e);
+          }
         }
       }
       employeeTable.setItems(tableItems);
@@ -150,11 +163,14 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
   }
 
+  @FXML
   private void setCbShowUnavail() {
     //when box is pressed
     //if checked=true
     //set to checked=false
     //update employeeTable with just service Type
+    displayUnavail = !displayUnavail;
+    updateEmployeeTable();
   }
 
   @FXML
