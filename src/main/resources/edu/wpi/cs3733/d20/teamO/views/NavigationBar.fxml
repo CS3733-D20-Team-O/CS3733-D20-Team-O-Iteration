@@ -4,13 +4,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NavigationBar">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NavigationBar"
+  style="-fx-background-color: #004c8c">
   <HBox AnchorPane.bottomAnchor="8" AnchorPane.leftAnchor="0"
     AnchorPane.rightAnchor="0" AnchorPane.topAnchor="8" alignment="CENTER">
-    <Label text="${controller.title}"/>
+    <Label text="${controller.title}" style="-fx-text-fill: floralwhite; -fx-font-size: 15px"/>
   </HBox>
   <HBox AnchorPane.bottomAnchor="8" AnchorPane.leftAnchor="8" AnchorPane.topAnchor="8"
     alignment="CENTER">
-    <JFXButton onAction="#onBackPressed" text="%backButton"/>
+    <JFXButton onAction="#onBackPressed" text="%backButton" style="-fx-text-fill: floralwhite"/>
   </HBox>
 </AnchorPane>

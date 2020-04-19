@@ -278,11 +278,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             rset.getString(8)));
       }
     } catch (SQLException e) {
-      log.error("Failed to export records", e);
+      log.error("Failed to export nodes", e);
     }
-    // for each node in result set
-    //   map.put(nodeID, node);
-    // Victoria -- I did this edge parsing part for you. Just make code for the pseudocode above
     for (val edge : exportEdges()) {
       val start = map.get(edge.getStartNodeID());
       val stop = map.get(edge.getStopNodeID());
@@ -300,20 +297,53 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public List<Edge> exportEdges() {
     val edges = new LinkedList<Edge>();
-    // todo pseudocode below
-    // select all edges
-    // for each edge in result set
-    //   add edge to edges
+    val query = "SELECT * from " + Table.EDGES_TABLE;
+    try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
+      while (rset.next()) {
+        edges.add(new Edge(rset.getString(1),
+            rset.getString(2),
+            rset.getString(3)));
+      }
+    } catch (SQLException e) {
+      log.error("Failed to export edges", e);
+    }
     return edges;
   }
 
   @Override
   public List<ServiceRequest> exportServiceRequests() {
-    return null;
+    val serviceRequests = new LinkedList<ServiceRequest>();
+    val query = "SELECT * from " + Table.SERVICE_REQUESTS_TABLE;
+    try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
+      while (rset.next()) {
+        serviceRequests.add(new ServiceRequest(rset.getString(1),
+            rset.getString(2),
+            rset.getString(3),
+            rset.getString(4),
+            rset.getString(5),
+            rset.getString(6),
+            rset.getString(7)));
+      }
+    } catch (SQLException e) {
+      log.error("Failed to export service requests", e);
+    }
+    return serviceRequests;
   }
 
   @Override
   public List<Employee> exportEmployees() {
-    return null;
+    val employees = new LinkedList<Employee>();
+    val query = "SELECT * from " + Table.EMPLOYEE_TABLE;
+    try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
+      while (rset.next()) {
+        employees.add(new Employee(rset.getString(1),
+            rset.getString(2),
+            rset.getString(3),
+            rset.getBoolean(4)));
+      }
+    } catch (SQLException e) {
+      log.error("Failed to export employees", e);
+    }
+    return employees;
   }
 }
