@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -15,25 +15,23 @@ import lombok.val;
 public class ServiceRequestSelection extends ViewModelBase {
 
   @FXML
-  private JFXComboBox<Label> serviceSelector;
+  private TextField confirmationCode;
+  @FXML
+  private JFXComboBox<String> serviceSelector;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
     val descriptionToFXML = new HashMap<String, String>();
-
-    serviceSelector.getItems().add(new Label("%serviceGiftDeliveryDescription"));
-    serviceSelector.getSelectionModel().selectedIndexProperty()
-        .addListener(((observable, oldValue, newValue) -> {
-          switch (newValue.intValue()) {
-            case 0:
-              dispatch(new ForwardNavigationEvent(null,
-                  "views/kiosk/service_requests/GiftDeliveryService.fxml"));
-              break;
-            default:
-              log.error("Unhandled Service Request selected");
-          }
-        }));
+    descriptionToFXML.put(getString("serviceGiftDeliveryDescription"),
+        "views/kiosk/service_requests/GiftDeliveryService.fxml");
+    descriptionToFXML.keySet().forEach(title -> serviceSelector.getItems().add(title));
+    serviceSelector.getSelectionModel().selectedItemProperty()
+        .addListener(((observable, oldValue, newValue) ->
+            dispatch(new ForwardNavigationEvent(newValue, descriptionToFXML.get(newValue)))));
   }
 
-  // todo on lookup clicked
+  @FXML
+  private void onSubmitClicked() {
+    // todo get the request and open a JFXDialog
+  }
 }
