@@ -4,6 +4,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -30,6 +34,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
    */
   @FXML
   private final JFXButton btnAssign = new JFXButton("Assign");
+
   @FXML
   private TableColumn<String, ServiceRequest> colRequestID;
   @FXML
@@ -42,19 +47,12 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private TableColumn<String, ServiceRequest> colWhoMarked;
   @FXML
   private TableColumn<String, ServiceRequest> colEmployeeAssigned;
-  /**
-   * Service Request Table stuff
-   */
   @FXML
   private TableColumn<String, ServiceRequest> colServiceType;
   @FXML
   private JFXCheckBox cbShowUnavail;
   @FXML
   private JFXTextField serviceMarker;
-
-  /**
-   * Employee Table Stuff
-   */
   @FXML
   private TableView<ServiceRequest> serviceTable;
   @FXML
@@ -67,8 +65,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private TableColumn<String, Employee> empAvail;
   @FXML
   private TableView<Employee> employeeTable;
-  //TableColumn<String, Person> firstNameColumn = TableColumn<>("First Name");
-  //firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
   /**
    * Overrides start() to assign table columns.
@@ -96,7 +92,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
     empName.setCellValueFactory(new PropertyValueFactory<>("name"));
     empType.setCellValueFactory(new PropertyValueFactory<>("type"));
     empAvail.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
-    //employeeTable.getColumns().addAll(empID, empName, empType, empAvail);
 
     testProperties();
   }
@@ -144,11 +139,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
     employeeTable.setPlaceholder(new Label("Select a Service Request to view employees"));
 
-    //employeeTable.getItems().setAll(employeeData);
-
-  }
-
-  //run whenever the table is clicked
+  }//end test method
 
   /**
    * Updates the employee table based on the service request selected.
@@ -179,23 +170,16 @@ public class RequestHandlerViewModel extends ViewModelBase {
       employeeTable.setItems(tableItems);
     } //end if: serviceTable cell not empty
     else {
-      employeeTable.getItems().setAll(employeeData);}
+      employeeTable.getItems().setAll(employeeData);
+    }
   }
 
 
-  //currently idk how this can work because we have no way to edit ServiceRequest objects or Employee objects
-  //only the getters exist, lombok wont make setters
+  /**
+   * Updates the table and database when assign button is pressed.
+   */
   @FXML
   private void assignEmployee() {
-    //Get current serviceTable row
-    //Get current employeeTable row
-    //Get the employee
-    //update the ServiceRequestProperty for assignedEmployee to the employee
-    //set Empoyee.isAvailable = false;
-    //if no employee selected this doesn't work
-    //clear the employeeTable
-//    serviceTable.getItems().get(0);
-
     // "error" cases to do nothing
     //no serviceReq selected
     if (serviceTable.getSelectionModel().getSelectedItem() == null) {
@@ -214,88 +198,70 @@ public class RequestHandlerViewModel extends ViewModelBase {
     if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable().equals("true")) {
       return;
     }
+    //no name entered into text box
+    if (serviceMarker.getText().equals("")) {
+      return;
+    }
 
     val req = serviceTable.getSelectionModel().getSelectedItem();
     val employee = employeeTable.getSelectionModel().getSelectedItem();
     //user enters name into text field
     val markerName = serviceMarker.getText();
 
+    //update the serviceRequest table
+    val assignedService = new ServiceRequest(req.getRequestID(), req.getRequestTime(),
+        req.getRequestNode(), req.getType(), req.getRequesterName(), markerName,
+        employee.getName());
+    serviceTable.getItems().remove(req);
+    serviceTable.getItems().add(assignedService);
 
+    //update Employee
+    val assignedEmployee = new Employee(employee.getEmployeeID(), employee.getName(),
+        employee.getType(), false);
+    employeeData.remove(employee);
+    employeeData.add(assignedEmployee);
 
+    //UPDATE DATABASE
+    boolean test = true;
+    if (!true) {
+      System.out.println("In True field");
+      val serviceRequestDB = get(DatabaseWrapper.class);
+      serviceRequestDB
+          .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.EMPLOYEE_ASSIGNED,
+              req.getRequestID(), employee.getName());
+      serviceRequestDB.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED,
+          req.getRequestID(), markerName);
+
+      val employeeDB = get(DatabaseWrapper.class);
+      employeeDB
+          .update(Table.EMPLOYEE_TABLE, EmployeeProperty.IS_AVAILABLE, employee.getEmployeeID(),
+              "false");
+    }
+
+    updateEmployeeTable();
   }
 
 
+  /**
+   * Shows the unavailable employees in the employee table
+   */
   @FXML
   private void setCbShowUnavail() {
-    //when box is pressed
-    //if checked=true
-    //set to checked=false
-    //update employeeTable with just service Type
     displayUnavail = !displayUnavail;
     updateEmployeeTable();
   }
 
   @FXML
   private void exportServiceRequest() {
+    //todo : ADD BUTTON
     val fileName = "";
     get(CSVHandler.class).exportServiceRequests(fileName);
   }
 
   @FXML
   private void exportEmployee() {
+    //todo : ADD BUTTON
     val fileName = "";
     get(CSVHandler.class).exportEmployees(fileName);
   }
-  //export serviceRequst and employeeList to a file
-  //choose file name in a textfield
-  //get(CSVHandler.class).export<thing>("filename");
-
-  /*
-    nodeID.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
-    xCoord.setCellValueFactory(new PropertyValueFactory<>("xCoord"));
-    yCoord.setCellValueFactory(new PropertyValueFactory<>("yCoord"));
-    floor.setCellValueFactory(new PropertyValueFactory<>("floor"));
-    building.setCellValueFactory(new PropertyValueFactory<>("building"));
-    nodeType.setCellValueFactory(new PropertyValueFactory<>("nodeType"));
-    longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
-    shortName.setCellValueFactory(new PropertyValueFactory<>("shortName"));
-
-private void addAll(List<PrototypeNode> nodes) {
-  ObservableList<PrototypeNode> displayTableItems = FXCollections.observableArrayList();
-  displayTableItems.addAll(nodes);
-  nodeDisplayTable.setItems(displayTableItems);
-}
-
-  @Subscribe
-  public void onNodeDeleted(DatabaseNodeDeletedEvent event) {
-    val nodeToDelete = event.getNodeID();
-
-    for (val item : nodeDisplayTable.getItems()) {
-
-      if (item.getNodeID().equals(nodeToDelete)) {
-        nodeDisplayTable.getItems().remove(item);
-        break;
-      }
-    }//end of tableLength for loop
-  }
-
-  @Subscribe
-  public void onNodeInsert(DatabaseNodeInsertedEvent event) {
-    nodeDisplayTable.getItems().add(event.getNode());
-  }
-
-  @Subscribe
-  public void onNodeUpdated(DatabaseNodeUpdatedEvent event) {
-    int i = 0;
-    for (val item : nodeDisplayTable.getItems()) {
-      if (item.getNodeID().equals(event.getNodeID())) {
-        nodeDisplayTable.getItems().set(i, event.getNode());
-        break;
-      }
-      i++; //gets database index
-    }
-  }
-
-   */
-
 }
