@@ -4,12 +4,17 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Represents a column in the nodes table
+ * Represents a column in the service request table
  */
 @RequiredArgsConstructor
 public enum ServiceRequestProperty implements TableProperty {
-  REQUEST_ID("nodeID");
-// todo other columns here
+  REQUEST_ID("requestID"),
+  REQUEST_TIME("requestTime"),
+  REQUEST_NODE("requestNode"),
+  TYPE("type"),
+  REQUESTER_NAME("requesterName"),
+  WHO_MARKED("whoMarked"),
+  EMPLOYEE_ASSIGNED("employeeAssigned");
 
   @Getter
   private final String columnName;

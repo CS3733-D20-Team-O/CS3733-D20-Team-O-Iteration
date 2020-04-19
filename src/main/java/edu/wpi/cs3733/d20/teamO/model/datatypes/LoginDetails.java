@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.model;
+package edu.wpi.cs3733.d20.teamO.model.datatypes;
 
 import java.util.List;
 import lombok.Value;
