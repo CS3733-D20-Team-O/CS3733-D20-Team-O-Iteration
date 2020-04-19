@@ -51,17 +51,48 @@ class CSVHandlerImpl implements CSVHandler {
 
   @Override
   public void importEdges(String csvFileLocation) {
-    // todo
+    File edgeCsvFile = new File(csvFileLocation);
+    try (val scanner = new Scanner(edgeCsvFile).useDelimiter(",|[\\r\\n]+")) {
+      // Read in first line so that attribute names are not imported as an edge
+      scanner.nextLine();
+      // Read each edge in the file and put its data into the database
+      while (scanner.hasNext()) {
+        database.addEdge(scanner.next(), scanner.next(), scanner.next());
+      }
+    } catch (FileNotFoundException e) {
+      log.error("Could not read the file " + csvFileLocation, e);
+    }
   }
 
   @Override
   public void importEmployees(String csvFileLocation) {
-    // todo
+    File employeeCsvFile = new File(csvFileLocation);
+    try (val scanner = new Scanner(employeeCsvFile).useDelimiter(",|[\\r\\n]+")) {
+      // Read in first line so that attribute names are not imported as an employee
+      scanner.nextLine();
+      // Read each employee in the file and put its data into the database
+      while (scanner.hasNext()) {
+        database.addEmployee(scanner.next(), scanner.next(), scanner.next(), scanner.nextBoolean());
+      }
+    } catch (FileNotFoundException e) {
+      log.error("Could not read the file " + csvFileLocation, e);
+    }
   }
 
   @Override
   public void importServiceRequests(String csvFileLocation) {
-    // todo
+    File serviceRequestCsvFile = new File(csvFileLocation);
+    try (val scanner = new Scanner(serviceRequestCsvFile).useDelimiter(",|[\\r\\n]+")) {
+      // Read in first line so that attribute names are not imported as a serviceRequest
+      scanner.nextLine();
+      // Read each serviceRequest in the file and put its data into the database
+      while (scanner.hasNext()) {
+        database.addServiceRequest(scanner.next(), scanner.next(), scanner.next(), scanner.next(),
+            scanner.next(), scanner.next(), scanner.next());
+      }
+    } catch (FileNotFoundException e) {
+      log.error("Could not read the file " + csvFileLocation, e);
+    }
   }
 
   @Override
