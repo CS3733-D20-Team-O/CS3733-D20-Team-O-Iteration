@@ -25,13 +25,13 @@ public class AdminViewModel extends MainViewModelBase {
 
   @Override
   public void onLeftButton(ActionEvent event) {
-    dispatch(new ForwardNavigationEvent("adminLeftButton",
+    dispatch(new ForwardNavigationEvent(getString("adminLeftButton"),
         "views/admin/FloorMapEditor.fxml"));
   }
 
   @Override
   public void onRightButton(ActionEvent event) {
-    dispatch(new ForwardNavigationEvent("adminRightButton",
+    dispatch(new ForwardNavigationEvent(getString("adminRightButton"),
         "views/admin/RequestHandler.fxml"));
   }
 }
