@@ -29,10 +29,13 @@ public class ServiceRequestSelection extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+    // Create a map of available descriptions to their corresponding fxml files
     val descriptionToFXML = new HashMap<String, String>();
     descriptionToFXML.put(getString("serviceGiftDeliveryDescription"),
         "views/kiosk/service_requests/GiftDeliveryService.fxml");
+    // Add each description to the combobox
     descriptionToFXML.keySet().forEach(title -> serviceSelector.getItems().add(title));
+    // Whenever a service is requested in the combobox, navigate to it
     serviceSelector.getSelectionModel().selectedItemProperty()
         .addListener(((observable, oldValue, newValue) ->
             dispatch(new ForwardNavigationEvent(newValue, descriptionToFXML.get(newValue)))));
@@ -42,23 +45,25 @@ public class ServiceRequestSelection extends ViewModelBase {
   private void onSubmitClicked() {
 //    for (val request : get(DatabaseWrapper.class).exportServiceRequests()) {
 //      if (request.getRequestID().equals(confirmationCode.getText())) {
-//
-//        // todo open the request info in a JFXDialog
-//        return;
-//      }
-//    }
     val stackPane = new StackPane();
     AnchorPane.setTopAnchor(stackPane, 0.0);
     AnchorPane.setBottomAnchor(stackPane, 0.0);
     AnchorPane.setLeftAnchor(stackPane, 0.0);
     AnchorPane.setRightAnchor(stackPane, 0.0);
-    JFXDialog dialog = new JFXDialog();
-    dialog.setContent(new Label("Content"));
-    dialog.show(stackPane);
     root.getChildren().add(stackPane);
-    //dialog.overlayCloseProperty().addListener(((observable, oldValue, newValue) -> root.getChildren().remove(stackPane)));
+    JFXDialog dialog = new JFXDialog();
+    dialog.setContent(new Label("Content")); // todo request info
+    dialog.show(stackPane);
+    // todo listen for dialog close and do something like following (look into event handler)
+    dialog.onDialogClosedProperty()
+        .addListener((observable, oldValue, newValue) -> root.getChildren().remove(stackPane));
+    dialog.onDialogClosedProperty().addListener(observable -> root.getChildren().remove(stackPane));
+//        return;
+//      }
+//    }
+    // If we didn't return in the for loop, that means the request isn't in the database
     JFXSnackbar bar = new JFXSnackbar(root);
-    bar.enqueue(
-        new SnackbarEvent(new Label("No service request with that confirmation number was found")));
+    // todo style this snack bar
+    bar.enqueue(new SnackbarEvent(new Label(getString("serviceRequestLookupFail"))));
   }
 }
