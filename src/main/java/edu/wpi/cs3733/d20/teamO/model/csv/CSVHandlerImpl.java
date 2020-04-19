@@ -35,25 +35,14 @@ class CSVHandlerImpl implements CSVHandler {
 
   @Override
   public void importNodes(String csvFileLocation) {
-    // todo use scanner delimiter instead of .split()
     File nodeCsvFile = new File(csvFileLocation);
-    try (val scanner = new Scanner(nodeCsvFile)) {
+    try (val scanner = new Scanner(nodeCsvFile).useDelimiter(",|[\\r\\n]+")) {
       // Read in first line so that attribute names are not imported as a node
       scanner.nextLine();
       // Read each node in the file and put its data into the database
-      while (scanner.hasNextLine()) {
-        // Read the node attributes from the line as an array of strings
-        val nodeAttributes = scanner.nextLine().split(",");
-        val nodeID = nodeAttributes[0];
-        val xCoord = Integer.parseInt(nodeAttributes[1]);
-        val yCoord = Integer.parseInt(nodeAttributes[2]);
-        val floor = Integer.parseInt(nodeAttributes[3]);
-        val building = nodeAttributes[4];
-        val nodeType = nodeAttributes[5];
-        val longName = nodeAttributes[6];
-        val shortName = nodeAttributes[7];
-        database.addNode(nodeID, xCoord, yCoord, floor,
-            building, nodeType, longName, shortName);
+      while (scanner.hasNext()) {
+        database.addNode(scanner.next(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt(),
+            scanner.next(), scanner.next(), scanner.next(), scanner.next());
       }
     } catch (FileNotFoundException e) {
       log.error("Could not read the file " + csvFileLocation, e);
