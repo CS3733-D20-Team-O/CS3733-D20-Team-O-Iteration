@@ -17,8 +17,8 @@
       <JFXButton onAction="#openRequestScreen" text="%mainRightButton"/>
     </HBox>
   </VBox>
-  <HBox AnchorPane.leftAnchor="16" AnchorPane.bottomAnchor="16">
+  <HBox AnchorPane.leftAnchor="16" AnchorPane.bottomAnchor="16" spacing="16">
     <!-- todo the globe icon -->
-    <JFXComboBox fx:id="languageSwitcher" promptText="%mainSelectLanguagePrompt"/>
+    <JFXComboBox fx:id="languageSwitcher"/>
   </HBox>
 </AnchorPane>
