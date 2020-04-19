@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.d20.teamO.model.database;
 
 import com.google.inject.Inject;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
@@ -65,7 +67,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + "nodeType VARCHAR(255), "
             + "longName VARCHAR(255), "
             + "shortName VARCHAR(255), "
-            + "PRIMARY KEY (nodeID))";
+            + "CONSTRAINT NODES_PK PRIMARY KEY (nodeID))";
         stmt.execute(query);
         log.info("Table " + Table.NODES_TABLE + " created");
       } catch (SQLException e) {
@@ -78,43 +80,15 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EDGES_TABLE
             + "(edgeID VARCHAR(255), "
-            + "startID INT, "
-            + "stopID INT, "
-            + "PRIMARY KEY (edgeID), "
-            + "CONSTRAINT EDGES_startID_FK FOREIGN KEY (startID) REFERENCES " + Table.NODES_TABLE
-            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID) "
-            + "CONSTRAINT EDGES_endID_FK FOREIGN KEY (endID) REFERENCES " + Table.NODES_TABLE
-            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID) )";
+            + "startID VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID
+            .getColumnName() + "), "
+            + "stopID VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID
+            .getColumnName() + "), "
+            + "PRIMARY KEY (edgeID))";
         stmt.execute(query);
         log.info("Table " + Table.EDGES_TABLE + " created");
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EDGES_TABLE, e);
-      }
-    }
-
-    // Initialize the service requests table if not initialized
-    if (!isInitialized(Table.SERVICE_REQUESTS_TABLE)) {
-      try (val stmt = connection.createStatement()) {
-        String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
-            + "(requestID VARCHAR(255), "
-            + "requestTime TIMESTAMP, "
-            + "requestNode VARCHAR(255), "
-            + "type VARCHAR(255), "
-            + "requesterName VARCHAR(255), "
-            + "whoMarked VARCHAR(255), "
-            + "employeeAssigned VARCHAR(255), "
-            + "PRIMARY KEY (requestID), "
-            + "CONSTRAINT SR_requestNode_FK FOREIGN KEY (requestNode) REFERENCES "
-            + Table.NODES_TABLE
-            + " (" + Table.NODES_TABLE.getTableName() + ".nodeID), "
-            + "CONSTRAINT SR_whoMarked_ID FOREIGN KEY (whoMarked) REFERENCES "
-            + Table.EMPLOYEE_TABLE
-            + " (" + Table.EMPLOYEE_TABLE.getTableName() + ".employeeID), "
-            + "CONSTRAINT SR_employeeAssigned_FK FOREIGN KEY (employeeAssigned))";
-        stmt.execute(query);
-        log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
-      } catch (SQLException e) {
-        log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
       }
     }
 
@@ -131,6 +105,28 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
+      }
+    }
+
+    // Initialize the service requests table if not initialized
+    if (!isInitialized(Table.SERVICE_REQUESTS_TABLE)) {
+      try (val stmt = connection.createStatement()) {
+        String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
+            + "(requestID VARCHAR(255), "
+            + "requestTime TIMESTAMP, "
+            + "requestNode VARCHAR(255) REFERENCES " + Table.NODES_TABLE + "("
+            + NodeProperty.NODE_ID.getColumnName() + "), "
+            + "type VARCHAR(255), "
+            + "requesterName VARCHAR(255), "
+            + "whoMarked VARCHAR(255) REFERENCES " + Table.EMPLOYEE_TABLE + "("
+            + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
+            + "employeeAssigned VARCHAR(255) REFERENCES " + Table.EMPLOYEE_TABLE + "("
+            + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
+            + "PRIMARY KEY (requestID))";
+        stmt.execute(query);
+        log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
+      } catch (SQLException e) {
+        log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
       }
     }
   }
