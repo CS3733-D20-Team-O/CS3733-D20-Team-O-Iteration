@@ -267,7 +267,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     val query = "SELECT * from " + Table.NODES_TABLE;
     try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
       while (rset.next()) {
-        map.put(NodeProperty.NODE_ID.getColumnName(), new Node(
+        map.put(rset.getString(1), new Node(
             rset.getString(1),
             rset.getInt(2),
             rset.getInt(3),
