@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.val;
 
 @Getter
 public class NodeMapView extends ViewModelBase {
@@ -17,7 +19,11 @@ public class NodeMapView extends ViewModelBase {
   /**
    * The current floor being displayed
    */
-  private int floor = 1;
+  private SimpleIntegerProperty floor = new SimpleIntegerProperty(1);
+  /**
+   * The set maximum floor
+   */
+  private int maxFloor = 1;
   /**
    * The node map to use to fuel the display
    */
@@ -38,6 +44,8 @@ public class NodeMapView extends ViewModelBase {
     // todo import floor into ImageView and set up other basic stuff
     draw();
   }
+
+
 
   /*
   todo
@@ -70,6 +78,8 @@ public class NodeMapView extends ViewModelBase {
   private void draw() {
     // Clear the canvas so we can draw fresh
     // todo canvas.clear() or something like that I am guessing. Ask Collin -- he knows
+    //Canvas workCanvas;
+    //GraphicsContext gc = workCanvas.getGraphicsContext2D();
     // Draw all the nodes
     nodeMap.keySet().forEach((id) -> drawNode(nodeMap.get(id)));
   }
@@ -79,7 +89,7 @@ public class NodeMapView extends ViewModelBase {
    */
   private void drawNode(Node node) {
     // Only paint this node if it is on this floor (otherwise we will have other floors' nodes)
-    if (node.getFloor() == floor) {
+    if (node.getFloor() == getFloor()) {
       // todo draw this node as a circle
     }
   }
@@ -92,7 +102,7 @@ public class NodeMapView extends ViewModelBase {
    */
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
-    if (n1.getFloor() == floor && n2.getFloor() == floor) {
+    if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
       // todo draw a line between the two nodes
       // As drawing a line between the two points will lay on top of the nodes,
       //  redraw the nodes to be on top of the newly drawn line
@@ -104,20 +114,34 @@ public class NodeMapView extends ViewModelBase {
   // todo you can link this up to the next floor button
   @FXML
   private void incrementFloor() {
-    if (floor < 5) {
-      ++floor;
+    if (getFloor() < maxFloor) {
+      val floor = getFloor() + 1;
       // todo update ImageView
       draw();
+      setFloor(floor);
     }
   }
 
   // todo you can link this up to the previous floor button
   @FXML
   private void decrementFloor() {
-    if (floor > 1) {
-      --floor;
+    if (getFloor() > 1) {
+      val floor = getFloor() - 1;
       // todo update ImageView
       draw();
+      setFloor(floor);
     }
+  }
+
+  public int getFloor() {
+    return floor.get();
+  }
+
+  public void setFloor(int floor) {
+    this.floor.set(floor);
+  }
+
+  public SimpleIntegerProperty floorProperty() {
+    return floor;
   }
 }
