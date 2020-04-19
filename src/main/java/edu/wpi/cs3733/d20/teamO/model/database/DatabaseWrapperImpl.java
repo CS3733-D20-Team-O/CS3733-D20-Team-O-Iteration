@@ -172,7 +172,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-
   /**
    * Deletes record(s) (example: a node or edge) from the specified table
    *
