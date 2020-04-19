@@ -207,9 +207,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public int addServiceRequest(String requestID, String requestTime, String requestNode,
-      String type,
-      String requesterName, String whoMarked, String employeeAssigned) {
-    val query = "INSERT into " + Table.SERVICE_REQUESTS_TABLE.getTableName()
+      String type, String requesterName, String whoMarked, String employeeAssigned) {
+    val query = "INSERT into " + Table.SERVICE_REQUESTS_TABLE
         + " VALUES (?, ?, ?, ?, ?, ?, ?)";
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, requestID);
@@ -239,7 +238,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * @return the number of affected entries
    */
   @Override
-  public int addEmployee(String employeeID, String name, String type, Boolean isAvailable) {
+  public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
     val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, employeeID);
