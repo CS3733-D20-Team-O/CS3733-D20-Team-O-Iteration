@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -50,17 +51,13 @@ public class ServiceRequestSelection extends ViewModelBase {
 
   @FXML
   private void onSubmitClicked() {
-    // todo uncomment when database done
-//    for (val request : get(DatabaseWrapper.class).exportServiceRequests()) {
-//      if (request.getRequestID().equals(confirmationCode.getText())) {
-//        showRequestConfirmationDialog(request);
-//        return;
-//      }
-//    }
+    for (val request : get(DatabaseWrapper.class).exportServiceRequests()) {
+      if (request.getRequestID().equals(confirmationCode.getText())) {
+        showRequestConfirmationDialog(request);
+        return;
+      }
+    }
     // If we didn't return in the for loop, that means the request isn't in the database
-    showRequestConfirmationDialog(new ServiceRequest("YEET", "4/20",
-        "some room lmao", "Gift", "Wilson Wong",
-        "Mark Hogan", "John Smith"));
     showRequestNotFoundSnackbar();
   }
 
