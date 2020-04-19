@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.wpi.cs3733.d20.teamO.model.TestInjector;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import lombok.val;
@@ -24,9 +25,10 @@ public class CSVHandlerTest {
    * </ul>
    */
   @Test
-  public void testCSVHandler() throws IOException {
+  public void testCSVHandler() throws IOException, URISyntaxException {
     val csvHandler = TestInjector.create(CSVHandler.class);
-    val input = getClass().getResource("PrototypeNodes.csv").getPath();
+    // todo clean this up but also keep it working on windows
+    val input = Paths.get(getClass().getResource("PrototypeNodes.csv").toURI()).toString();
     val output = "build/Nodes.csv";
     csvHandler.importNodes(input);
     csvHandler.exportNodes(output);
