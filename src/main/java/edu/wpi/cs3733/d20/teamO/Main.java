@@ -15,8 +15,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.view_model.NavigationBar;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
-import edu.wpi.cs3733.d20.teamO.view_model.main_screen.AdminViewModel;
-import edu.wpi.cs3733.d20.teamO.view_model.main_screen.KioskViewModel;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.sql.Connection;
@@ -205,15 +203,9 @@ public class Main extends Application {
    * @throws IOException in case the main screen cannot be loaded
    */
   private void loadMainScreen() throws IOException {
-    // Setup the loader for the correct mode
-    val loader = get(FXMLLoader.class);
-    if (new LoginDetails(getParameters().getRaw()).isValid()) {
-      loader.setController(get(AdminViewModel.class));
-    } else {
-      loader.setController(get(KioskViewModel.class));
-    }
-    // Load and add the main screen to the root
-    root.getChildren().add(loader.load(getClass().getResourceAsStream("views/Main.fxml")));
+    val isLoginValid = new LoginDetails(getParameters().getRaw()).isValid();
+    val mainFxml = isLoginValid ? "views/admin/Main.fxml" : "views/kiosk/Main.fxml";
+    root.getChildren().add(get(FXMLLoader.class).load(getClass().getResourceAsStream(mainFxml)));
   }
 
   /**
