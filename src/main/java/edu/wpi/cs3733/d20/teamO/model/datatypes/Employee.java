@@ -10,4 +10,12 @@ public class Employee {
 
   String employeeID, name, type;
   boolean isAvailable;
+
+  public String getIsAvailable() {
+    if (isAvailable) {
+      return "true";
+    }
+    return "false";
+  }
+
 }
