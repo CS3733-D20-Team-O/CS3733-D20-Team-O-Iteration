@@ -6,13 +6,15 @@
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel"
-  prefHeight="720" prefWidth="1280">
+  prefHeight="720" prefWidth="1280" style="-fx-background-color: #acd7fd">
   <VBox alignment="CENTER" spacing="64" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
     AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-    <Label text="Welcome to Brigham and Women's Hospital Admin Utility!"/>
+    <Label text="Welcome to the Brigham and Women's Hospital Admin Utility!"
+      style="-fx-font-size: 36"/>
     <HBox spacing="32" alignment="CENTER">
-      <JFXButton onAction="#openFloorMapEditor" text="Floor Map Editor"/>
-      <JFXButton onAction="#openServiceRequestHandler" text="Service Request Handler"/>
+      <JFXButton onAction="#openFloorMapEditor" text="Floor Map Editor" style="-fx-font-size: 24"/>
+      <JFXButton onAction="#openServiceRequestHandler" text="Service Request Handler"
+        style="-fx-font-size: 24"/>
     </HBox>
   </VBox>
 </AnchorPane>
