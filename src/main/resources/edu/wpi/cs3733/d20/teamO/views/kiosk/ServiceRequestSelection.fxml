@@ -21,14 +21,14 @@
     <HBox alignment="CENTER" spacing="30.0" fx:id="header">
       <Label text="OR"/>
       <VBox alignment="CENTER" spacing="20.0">
-        <JFXComboBox promptText="%kioskWelcome" fx:id="serviceSelector">
+        <JFXComboBox promptText="%mainWelcomeMessage" fx:id="serviceSelector">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <Label text="%serviceGiftDeliveryDescription"/>
             </FXCollections>
           </items>
         </JFXComboBox>
-        <Label text="%kioskWelcome"/>
+        <Label text="%mainWelcomeMessage"/>
       </VBox>
       <VBox alignment="CENTER" spacing="20.0">
         <HBox alignment="CENTER" spacing="10.0">
