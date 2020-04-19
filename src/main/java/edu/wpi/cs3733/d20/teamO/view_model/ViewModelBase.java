@@ -39,7 +39,7 @@ public abstract class ViewModelBase implements Initializable {
   @Override
   public final void initialize(URL location, ResourceBundle resources) {
     dispatch(new RegisterViewModelEvent(this));
-    switchToNewLocale(get(LanguageHandler.class).getCurrentLocaleBundle());
+    switchToNewLocale(get(LanguageHandler.class).getCurrentBundle());
     start(location, resources);
   }
 
@@ -72,6 +72,16 @@ public abstract class ViewModelBase implements Initializable {
   }
 
   /**
+   * Gets the translated string in the current language for a given key
+   *
+   * @param key the key in the Strings resource bundle
+   * @return the localized string from the key
+   */
+  final protected String getString(String key) {
+    return get(LanguageHandler.class).getCurrentBundle().getString(key);
+  }
+
+  /**
    * Posts the specified event to the EventBus
    *
    * @param event the event to post
@@ -85,7 +95,7 @@ public abstract class ViewModelBase implements Initializable {
    *
    * @param event the event that was received
    */
-  public final void onEventReceived(Event event) {
+  final public void onEventReceived(Event event) {
     Platform.runLater(() -> {
       if (event instanceof LanguageSwitchEvent) {
         val bundle = ((LanguageSwitchEvent) event).getBundle();
