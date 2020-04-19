@@ -6,6 +6,8 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
@@ -13,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +35,29 @@ class CSVHandlerImpl implements CSVHandler {
 
   @Override
   public void importNodes(String csvFileLocation) {
-    // todo
+    // todo use scanner delimiter instead of .split()
+    File nodeCsvFile = new File(csvFileLocation);
+    try (val scanner = new Scanner(nodeCsvFile)) {
+      // Read in first line so that attribute names are not imported as a node
+      scanner.nextLine();
+      // Read each node in the file and put its data into the database
+      while (scanner.hasNextLine()) {
+        // Read the node attributes from the line as an array of strings
+        val nodeAttributes = scanner.nextLine().split(",");
+        val nodeID = nodeAttributes[0];
+        val xCoord = Integer.parseInt(nodeAttributes[1]);
+        val yCoord = Integer.parseInt(nodeAttributes[2]);
+        val floor = Integer.parseInt(nodeAttributes[3]);
+        val building = nodeAttributes[4];
+        val nodeType = nodeAttributes[5];
+        val longName = nodeAttributes[6];
+        val shortName = nodeAttributes[7];
+        database.addNode(nodeID, xCoord, yCoord, floor,
+            building, nodeType, longName, shortName);
+      }
+    } catch (FileNotFoundException e) {
+      log.error("Could not read the file " + csvFileLocation, e);
+    }
   }
 
   @Override
@@ -106,36 +131,4 @@ class CSVHandlerImpl implements CSVHandler {
       log.error("Failed to write to " + csvFileLocation, e);
     }
   }
-
-//  /**
-//   * Imports the given CSV file into the database
-//   *
-//   * @param csvFileLocation the path of the csv file to read
-//   */
-//  @Override
-//  public void importToDatabase(String csvFileLocation) {
-//    // todo use scanner delimiter instead of .split()
-//    File nodeCsvFile = new File(csvFileLocation);
-//    try (val scanner = new Scanner(nodeCsvFile)) {
-//      // Read in first line so that attribute names are not imported as a node
-//      scanner.nextLine();
-//      // Read each node in the file and put its data into the database
-//      while (scanner.hasNextLine()) {
-//        // Read the node attributes from the line as an array of strings
-//        val nodeAttributes = scanner.nextLine().split(",");
-//        val nodeID = nodeAttributes[0];
-//        val xCoord = Integer.parseInt(nodeAttributes[1]);
-//        val yCoord = Integer.parseInt(nodeAttributes[2]);
-//        val floor = Integer.parseInt(nodeAttributes[3]);
-//        val building = nodeAttributes[4];
-//        val nodeType = nodeAttributes[5];
-//        val longName = nodeAttributes[6];
-//        val shortName = nodeAttributes[7];
-//        database.addNode(nodeID, xCoord, yCoord, floor,
-//            building, nodeType, longName, shortName);
-//      }
-//    } catch (FileNotFoundException e) {
-//      log.error("Could not read the file " + csvFileLocation, e);
-//    }
-//  }
 }
