@@ -7,8 +7,13 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,8 +21,7 @@ import lombok.val;
 
 public class RequestHandlerViewModel extends ViewModelBase {
 
-  @FXML
-  private TableView serviceTable;
+  private final List<Employee> employeeData = new LinkedList<Employee>();
   @FXML
   private TableColumn<String, ServiceRequest> colServiceType;
   @FXML
@@ -35,7 +39,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private TableColumn<String, ServiceRequest> colEmployeeAssigned;
   private final JFXCheckBox cbShowUnavail = new JFXCheckBox("Show Unavailable");
   @FXML
-  private TableView employeeTable;
+  private TableView<ServiceRequest> serviceTable;
   @FXML
   private TableColumn<String, Employee> empID;
   @FXML
@@ -46,12 +50,12 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private TableColumn<String, Employee> empAvail;
   //TableColumn<String, Person> firstNameColumn = TableColumn<>("First Name");
   //firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-
-  //TableViewSelectionModel selectionModel = serviceTable.getSelectionModel();
-
+  @FXML
+  private TableView<Employee> employeeTable;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+
     btnAssign.getStyleClass().add("button-raised");
     cbShowUnavail.getStyleClass().add("custom-jfx-check-box");
 
@@ -91,15 +95,25 @@ public class RequestHandlerViewModel extends ViewModelBase {
     val employee3 = new Employee("14", "Bobo", "Interpreter", true);
     val employee4 = new Employee("15", "Samuel", "Interpreter", false);
     val employee5 = new Employee("16", "Joeann", "Wash", true);
-    employeeTable.getItems().add(employee1);
-    employeeTable.getItems().add(employee2);
-    employeeTable.getItems().add(employee3);
-    employeeTable.getItems().add(employee4);
-    employeeTable.getItems().add(employee5);
+//    employeeTable.getItems().add(employee1);
+//    employeeTable.getItems().add(employee2);
+//    employeeTable.getItems().add(employee3);
+//    employeeTable.getItems().add(employee4);
+//    employeeTable.getItems().add(employee5);
+
+    employeeData.add(employee1);
+    employeeData.add(employee2);
+    employeeData.add(employee3);
+    employeeData.add(employee4);
+    employeeData.add(employee5);
+
+    employeeTable.setPlaceholder(new Label("Select a Service Request to view employees"));
+
+    //employeeTable.getItems().setAll(employeeData);
 
   }
 
-  //run whenver the tablee is clicked
+  //run whenever the table is clicked
   @FXML
   private void updateEmployeeTable() {
     //when the serviceTable row selected populate the employeeTable
@@ -108,7 +122,19 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //check if employee isAvailable = true;
     //if not available don't show
 
-    //val item = selectionModel.getSelectedItem();
+    ObservableList<Employee> tableItems = FXCollections.observableArrayList();
+    ServiceRequest req;
+    if (serviceTable.getSelectionModel().getSelectedItem() != null) {
+      req = serviceTable.getSelectionModel().getSelectedItem();
+      for (Employee e : employeeData) {
+        if (e.getType().equals(req.getType())) {
+          tableItems.add(e);
+        }
+      }
+      employeeTable.setItems(tableItems);
+    } else {
+      employeeTable.getItems().setAll(employeeData);
+    }
   }
 
   @FXML

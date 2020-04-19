@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #58A5F0;"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #58a5f0;"
   maxHeight="1080.0" maxWidth="1920.0" minHeight="1000" minWidth="800" prefHeight="1920"
   prefWidth="1080" xmlns="http://javafx.com/javafx/11.0.1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.RequestHandlerViewModel">
@@ -23,8 +23,8 @@
         <TableColumn prefWidth="89.0" text="Available" fx:id="empAvail"/>
       </columns>
     </TableView>
-    <TableView layoutX="19.0" layoutY="101.0" prefHeight="236.0" prefWidth="1035.0"
-      fx:id="serviceTable">
+    <TableView layoutX="19.0" layoutY="101.0" onMouseClicked="#updateEmployeeTable"
+      prefHeight="236.0" prefWidth="1035.0" fx:id="serviceTable">
       <columns>
         <TableColumn prefWidth="72.0" text="Service" fx:id="colServiceType"/>
         <TableColumn prefWidth="149.0" text="Request ID" fx:id="colRequestID"/>
