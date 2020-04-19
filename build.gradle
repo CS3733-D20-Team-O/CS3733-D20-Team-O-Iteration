@@ -63,7 +63,7 @@ def codeCoverageExcludes = [
         // todo test these later
         'edu.wpi.cs3733.d20.teamO.Main',
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.ServiceRequestSelection',
-        'edu.wpi.cs3733.d20.teamO.model.LoginDetails',
+        'edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails',
         'edu.wpi.cs3733.d20.teamO.view_model.NodeMapView',
         'edu.wpi.cs3733.d20.teamO.view_model.NavigationBar',
         'edu.wpi.cs3733.d20.teamO.view_model.main_screen.*',

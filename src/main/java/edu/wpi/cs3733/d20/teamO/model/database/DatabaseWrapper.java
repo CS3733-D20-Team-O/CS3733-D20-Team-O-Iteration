@@ -1,9 +1,12 @@
 package edu.wpi.cs3733.d20.teamO.model.database;
 
 import com.google.inject.ImplementedBy;
-import edu.wpi.cs3733.d20.teamO.model.Node;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +81,7 @@ public interface DatabaseWrapper {
   /**
    * @return a map of all nodeIDs stored in this database to their corresponding Nodes
    */
-  Map<String, Node> export();
+  Map<String, Node> exportNodes();
 
   /**
    * Gets the edges of this database. Should only be used for exporting the database, not for A*!
@@ -86,4 +89,8 @@ public interface DatabaseWrapper {
    * @return a list of the edges this database contains
    */
   List<Edge> exportEdges();
+
+  List<ServiceRequest> exportServiceRequests();
+
+  List<Employee> exportEmployees();
 }

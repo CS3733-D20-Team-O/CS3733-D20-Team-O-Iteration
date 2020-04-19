@@ -10,7 +10,8 @@ import lombok.RequiredArgsConstructor;
 public enum Table {
   NODES_TABLE("NODES_TABLE"),
   EDGES_TABLE("EDGES_TABLE"),
-  SERVICE_REQUESTS_TABLE("SERVICE_REQUESTS_TABLE");
+  SERVICE_REQUESTS_TABLE("SERVICE_REQUESTS_TABLE"),
+  EMPLOYEE_TABLE("EMPLOYEE_TABLE");
 
   @Getter
   private final String tableName;
