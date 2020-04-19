@@ -5,8 +5,6 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
     id "io.freefair.lombok" version "5.0.0-rc6"
 }
-sourceCompatibility = '13'
-targetCompatibility = '13'
 mainClassName = 'edu.wpi.cs3733.d20.teamO.Main'
 
 repositories {
@@ -32,13 +30,24 @@ dependencies {
             'org.testfx:testfx-junit5:4.0.16-alpha',
     )
     testRuntimeOnly(
-            'org.testfx:openjfx-monocle:jdk-12.0.1+2',
+            'org.testfx:openjfx-monocle:jdk-11+26',
     )
 }
 
 javafx {
-    version = "13"
+    version = "11"
     modules = ['javafx.controls', 'javafx.fxml']
+}
+
+run {
+    jvmArgs = ['--add-opens=javafx.base/com.sun.javafx.runtime=ALL-UNNAMED',
+               '--add-opens=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED',
+               '--add-opens=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
+               '--add-opens=javafx.base/com.sun.javafx.binding=ALL-UNNAMED',
+               '--add-opens=javafx.base/com.sun.javafx.event=ALL-UNNAMED',
+               '--add-opens=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
+               '--add-opens=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED'
+    ]
 }
 
 test {
