@@ -1,7 +1,8 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
+//import com.jfoenix.controls.JFXButton;
+//import com.jfoenix.controls.JFXComboBox;
+
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.net.URL;
 import java.util.HashMap;
@@ -13,7 +14,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,8 +32,10 @@ public class NodeMapView extends ViewModelBase {
    * The current floor being displayed
    */
   private SimpleIntegerProperty floor = new SimpleIntegerProperty(1);
-  @FXML
-  StackPane mapView;
+  /**
+   * The maximum floor
+   */
+  private int maxFloor = 5;
   /**
    * Gets called when a node is clicked
    */
@@ -49,27 +51,22 @@ public class NodeMapView extends ViewModelBase {
    */
   private Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
   //private Map<String, Node> nodeMap = new HashMap<>();
+
+  @FXML
+  StackPane mapView;
   @FXML
   ImageView backgroundImage;
   @FXML
   Canvas nodeCanvas;
   @FXML
-  JFXButton btnIncrementFloor;
-  @FXML
-  Button btnDecrementFloor;
-  @FXML
   Label lblFloor;
-  @FXML
-  JFXComboBox<Integer> floorList;
+  //@FXML JFXComboBox<Integer> floorList;
+
   Image floor1 = new Image("backgrounds/Floor1LM.png");
   Image floor2 = new Image("backgrounds/Floor2LM.png");
   Image floor3 = new Image("backgrounds/Floor3LM.png");
   Image floor4 = new Image("backgrounds/Floor4LM.png");
   Image floor5 = new Image("backgrounds/Floor5LM.png");
-  /**
-   * The set maximum floor
-   */
-  private int maxFloor = 5;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -78,11 +75,13 @@ public class NodeMapView extends ViewModelBase {
     nodeCanvas = new Canvas(backgroundImage.getFitWidth(), backgroundImage.getFitHeight());
     mapView = new StackPane();
     mapView.getChildren().addAll(backgroundImage, nodeCanvas);
+
+    /* The remains of the combobox version of the floor switcher
     floorList.getItems().add(1);
     floorList.getItems().add(2);
     floorList.getItems().add(3);
     floorList.getItems().add(4);
-    floorList.getItems().add(5);
+    floorList.getItems().add(5);*/
 
     draw(getFloor());
 
@@ -142,7 +141,10 @@ public class NodeMapView extends ViewModelBase {
     nodeGC.clearRect(0, 0, nodeCanvas.getWidth(), nodeCanvas.getHeight());
     // Draw all the nodes on a certain floor
     val floorMap = nodeMap.get(getFloor());
-    floorMap.keySet().forEach((id) -> drawNode(floorMap.get(id)));
+    // Check if nodes for the floor exist
+    if (floorMap != null) {
+      floorMap.keySet().forEach((id) -> drawNode(floorMap.get(id)));
+    }
   }
 
   /**
@@ -200,16 +202,17 @@ public class NodeMapView extends ViewModelBase {
     Map<String, Node> floorMap = nodeMap.get(getFloor());
     floorMap.keySet().forEach((id) -> {
       val node = floorMap.get(id);
-      double distance = Math
-          .sqrt(Math.pow(imageX - node.getXCoord(), 2) + Math.pow(imageY - node.getYCoord(), 2));
+      double distance = Math.hypot(imageX - node.getXCoord(), imageY - node.getYCoord());
       if (distance <= (nodeSize / 2.0) + 10.0) {
         onNodeTappedListener.accept(node);
       } else {
-        onMissTapListener.accept(x, y);
+        onMissTapListener.accept((int) imageX, (int) imageY);
       }
     });
   }
 
+  // A different floor switcher (that uses a combo box instead)
+  /*
   @FXML
   private void switchFloor() {
     int currentFloor = floorList.getValue();
@@ -239,31 +242,55 @@ public class NodeMapView extends ViewModelBase {
       draw(currentFloor);
       setFloor(currentFloor);
     }
-  }
+  }*/
 
-  // Kept this in case we need to switch to a button format
-  /*
-  // todo you can link this up to the next floor button
-  @FXML
-  private void incrementFloor() {
+  public void incrementFloor() {
     if (getFloor() < maxFloor) {
       val floor = getFloor() + 1;
-      // todo update ImageView
+      imageViewUpdate(floor);
       draw(floor);
       setFloor(floor);
     }
   }
 
-  // todo you can link this up to the previous floor button
-  @FXML
-  private void decrementFloor() {
+  public void decrementFloor() {
     if (getFloor() > 1) {
       val floor = getFloor() - 1;
-      // todo update ImageView
+      imageViewUpdate(floor);
       draw(floor);
       setFloor(floor);
     }
-  }*/
+  }
+
+  /**
+   * Update the image view to the given floor
+   *
+   * @param floor
+   */
+  private void imageViewUpdate(int floor) {
+    switch (floor) {
+      case 1:
+        backgroundImage.setImage(floor1);
+        break;
+      case 2:
+        backgroundImage.setImage(floor2);
+        break;
+      case 3:
+        backgroundImage.setImage(floor3);
+        break;
+      case 4:
+        backgroundImage.setImage(floor4);
+        break;
+      case 5:
+        backgroundImage.setImage(floor5);
+        break;
+      default:
+        // How did you get here?
+        break;
+    }
+    nodeCanvas.setWidth(backgroundImage.getFitWidth());
+    nodeCanvas.setHeight(backgroundImage.getFitHeight());
+  }
 
   public int getFloor() {
     return floor.get();
