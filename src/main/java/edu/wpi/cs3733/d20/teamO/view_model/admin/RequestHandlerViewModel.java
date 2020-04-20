@@ -94,9 +94,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
     cbShowUnavail.setVisible(false);
 
-    btnAssign.getStyleClass().add("button-raised");
-    cbShowUnavail.getStyleClass().add("custom-jfx-check-box");
-
     colRequestID.setCellValueFactory(new PropertyValueFactory<>("requestID"));
     colRequestTime.setCellValueFactory(new PropertyValueFactory<>("requestTime"));
     colRequestNode.setCellValueFactory(new PropertyValueFactory<>("requestNode"));
