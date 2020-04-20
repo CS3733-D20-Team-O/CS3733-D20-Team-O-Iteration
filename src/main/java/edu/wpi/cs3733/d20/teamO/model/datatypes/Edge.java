@@ -8,5 +8,5 @@ import lombok.Value;
 @Value
 public class Edge {
 
-  String edgeID, startNodeID, stopNodeID;
+  String edgeID, startID, stopID;
 }
