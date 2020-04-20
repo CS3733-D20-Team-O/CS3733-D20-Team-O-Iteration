@@ -98,8 +98,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
             + "(employeeID VARCHAR(255), "
             + "name VARCHAR(255), "
-            + "isAvailable BOOLEAN, "
             + "type VARCHAR(255), "
+            + "isAvailable BOOLEAN, "
             + "PRIMARY KEY (employeeID))";
         stmt.execute(query);
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
@@ -113,7 +113,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
             + "(requestID VARCHAR(255), "
-            + "requestTime TIMESTAMP, "
+            + "requestTime VARCHAR(255), "
             + "requestNode VARCHAR(255) REFERENCES " + Table.NODES_TABLE + "("
             + NodeProperty.NODE_ID.getColumnName() + "), "
             + "type VARCHAR(255), "
@@ -131,6 +131,19 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
+  /**
+   * Adds the specified node to the database
+   *
+   * @param nodeID    the id of the node
+   * @param xCoord    the x coordinate of the node
+   * @param yCoord    the y coordinate of the node
+   * @param floor     the floor of the building that the node lies on
+   * @param building  the building the node is in
+   * @param nodeType  the type of the node
+   * @param longName  the long name of the node
+   * @param shortName the short name of the node
+   * @return the number of affected entries
+   */
   @Override
   public int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
       String nodeType, String longName, String shortName) {
@@ -155,6 +168,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
+  /**
+   * Adds the specified edge to the database
+   *
+   * @param edgeID      the id of the edge
+   * @param startNodeID the id of the start node
+   * @param stopNodeID  the id of the stop node
+   * @return the number of affected entries
+   */
   @Override
   public int addEdge(String edgeID, String startNodeID, String stopNodeID) {
     val query = "INSERT into " + Table.EDGES_TABLE.getTableName() + " VALUES (?, ?, ?)";
@@ -168,6 +189,68 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       return edgesAffected;
     } catch (SQLException e) {
       log.error("Failed to add a new edge with ID " + edgeID, e);
+      return -1;
+    }
+  }
+
+  /**
+   * Adds the specified service request to the database
+   *
+   * @param requestID        the id of the request
+   * @param requestTime      the time of the request as a string
+   * @param requestNode      the id of the node where the request is going
+   * @param type             the type of service request
+   * @param requesterName    the name of the person filling out the request
+   * @param whoMarked        the id of the admin (employee) who assigns the request
+   * @param employeeAssigned the id of the employee assigned to fulfill the request
+   * @return the number of affected entries
+   */
+  @Override
+  public int addServiceRequest(String requestID, String requestTime, String requestNode,
+      String type, String requesterName, String whoMarked, String employeeAssigned) {
+    val query = "INSERT into " + Table.SERVICE_REQUESTS_TABLE
+        + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, requestID);
+      stmt.setString(2, requestTime);
+      stmt.setString(3, requestNode);
+      stmt.setString(4, type);
+      stmt.setString(5, requesterName);
+      stmt.setString(6, whoMarked);
+      stmt.setString(7, employeeAssigned);
+      val requestsAffected = stmt.executeUpdate();
+      log.info("Added service request with ID " + requestID);
+      log.debug("Result of add service request was " + requestsAffected);
+      return requestsAffected;
+    } catch (SQLException e) {
+      log.error("Failed to add a new service request with ID " + requestID, e);
+      return -1;
+    }
+  }
+
+  /**
+   * Adds the specified employee to the database
+   *
+   * @param employeeID  the id of the employee
+   * @param name        the name of the employee
+   * @param type        the type of employee they are
+   * @param isAvailable true if available, false if not available
+   * @return the number of affected entries
+   */
+  @Override
+  public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
+    val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, employeeID);
+      stmt.setString(2, name);
+      stmt.setString(3, type);
+      stmt.setBoolean(4, isAvailable);
+      val employeesAffected = stmt.executeUpdate();
+      log.info("Added employee with ID " + employeeID);
+      log.debug("Result of add employee was " + employeesAffected);
+      return employeesAffected;
+    } catch (SQLException e) {
+      log.error("Failed to add a new employee with ID " + employeeID, e);
       return -1;
     }
   }
