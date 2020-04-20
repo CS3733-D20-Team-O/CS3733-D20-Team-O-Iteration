@@ -96,6 +96,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   }
 
   private void firstRunOnly() {
+    database.addEmployee("null", "null", "null", true);
     database.addEmployee("", "", "", true); //null employee
     database
         .addNode("RHVMNode", 0, 0, 0, "RHVMENode", "RHVMType", "RequestHandlerViewModel", "RHVM");
@@ -253,7 +254,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //update the serviceRequest table
     val assignedService = new ServiceRequest(req.getRequestID(), req.getRequestTime(),
         req.getRequestNode(), req.getType(), req.getRequesterName(), markerName,
-        employee.getName());
+        employee.getEmployeeID());
     serviceTable.getItems().remove(req);
     serviceTable.getItems().add(assignedService);
     database
