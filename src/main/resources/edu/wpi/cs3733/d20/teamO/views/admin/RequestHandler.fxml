@@ -9,56 +9,85 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #58a5f0;"
-  maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1080.0"
-  xmlns="http://javafx.com/javafx/11.0.1"
+<AnchorPane fx:id="root" maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1080.0"
+  style="-fx-background-color: acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
+  xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.RequestHandlerViewModel">
   <children>
-    <VBox AnchorPane.leftAnchor="10.0" layoutX="-8.0" layoutY="101.0" spacing="20.0">
+    <VBox layoutX="-8.0" layoutY="101.0" spacing="20.0" AnchorPane.leftAnchor="10.0">
       <children>
+        <TableView fx:id="serviceTable" onKeyReleased="#updateEmployeeTable"
+          onMouseClicked="#updateEmployeeTable" prefHeight="236.0" prefWidth="1035.0">
+          <columns>
+            <TableColumn fx:id="colServiceType" prefWidth="72.0" text="Service"/>
+            <TableColumn fx:id="colRequestTime" prefWidth="106.0" text="Request Time"/>
+            <TableColumn fx:id="colRequestNode" prefWidth="98.0" text="Request Node"/>
+            <TableColumn fx:id="colResquesterName" prefWidth="164.0" text="Requester Name"/>
+            <TableColumn fx:id="colEmployeeAssigned" prefWidth="215.0" text="Employee"/>
+            <TableColumn fx:id="colWhoMarked" prefWidth="226.0" text="Assigner"/>
+            <TableColumn fx:id="colRequestID" prefWidth="149.0" text="Request ID"/>
+          </columns>
+        </TableView>
         <HBox spacing="20.0">
           <children>
             <VBox spacing="10.0">
               <children>
-                <JFXCheckBox style="-fx-background-color: LIGHTGREY; -fx-border-color: BLACK;"
-                  onAction="#setCbShowUnavail" prefHeight="20.0" prefWidth="138.0"
-                  text="Show Unavailable" fx:id="cbShowUnavail"/>
-                <TableView prefHeight="273.0" prefWidth="378.0" fx:id="employeeTable">
+                <TableView fx:id="employeeTable" prefHeight="273.0" prefWidth="378.0">
                   <columns>
-                    <TableColumn prefWidth="111.0" text="Name" fx:id="empName"/>
-                    <TableColumn prefWidth="75.0" text="Type" fx:id="empType"/>
-                    <TableColumn prefWidth="89.0" text="ID" fx:id="empID"/>
-                    <TableColumn prefWidth="89.0" text="Available" fx:id="empAvail"/>
+                    <TableColumn fx:id="empName" prefWidth="111.0" text="Name"/>
+                    <TableColumn fx:id="empType" prefWidth="75.0" text="Type"/>
+                    <TableColumn fx:id="empID" prefWidth="89.0" text="ID"/>
+                    <TableColumn fx:id="empAvail" prefWidth="89.0" text="Available"/>
                   </columns>
                 </TableView>
               </children>
             </VBox>
-            <VBox spacing="30.0">
+            <VBox prefHeight="187.0" prefWidth="277.0" spacing="41.0">
               <children>
-                <JFXButton style="-fx-background-color: LIGHTGREY;" buttonType="RAISED"
-                  onAction="#assignEmployee" prefHeight="41.0" prefWidth="138.0" text="Assign"/>
-                <JFXTextField style="-fx-background-color: WHITE;" alignment="CENTER"
-                  prefHeight="25.0" prefWidth="277.0" promptText="ASSIGNER NAME"
-                  fx:id="serviceMarker"/>
+                <JFXTextField fx:id="serviceMarker" prefHeight="25.0" prefWidth="277.0"
+                  promptText="Assigner Name" style="-fx-background-color: WHITE;"/>
+                <JFXButton buttonType="RAISED" onAction="#assignEmployee" prefHeight="41.0"
+                  prefWidth="138.0" style="-fx-background-color: LIGHTGREY;"
+                  text="Assign Employee"/>
               </children>
               <padding>
                 <Insets top="30.0"/>
               </padding>
             </VBox>
+            <VBox prefHeight="273.0" prefWidth="339.0" spacing="30.0">
+              <children>
+                <HBox alignment="CENTER" prefHeight="55.0" prefWidth="339.0" spacing="20.0"
+                  style="-fx-border-color: WHITE;">
+                  <children>
+                    <JFXButton fx:id="btnExportServiceReq" buttonType="RAISED"
+                      onAction="#exportServiceRequest" prefHeight="41.0" prefWidth="138.0"
+                      style="-fx-background-color: LIGHTGREY;" text="Export Service Request"/>
+                    <JFXTextField fx:id="exportServReqFilename" prefHeight="25.0" prefWidth="173.0"
+                      promptText="Request Database export filename"
+                      style="-fx-background-color: WHITE;"/>
+                  </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="56.0" prefWidth="298.0" spacing="20.0"
+                  style="-fx-border-color: WHITE;">
+                  <children>
+                    <JFXButton fx:id="btnExportEmployee" buttonType="RAISED"
+                      onAction="#exportEmployee" prefHeight="41.0" prefWidth="138.0"
+                      style="-fx-background-color: LIGHTGREY;" text="Export Employee"/>
+                    <JFXTextField fx:id="exportEmployeeFilename" prefHeight="25.0" prefWidth="172.0"
+                      promptText="Employee Database export filename"
+                      style="-fx-background-color: WHITE;"/>
+                  </children>
+                </HBox>
+              </children>
+              <padding>
+                <Insets top="25.0"/>
+              </padding>
+            </VBox>
           </children>
         </HBox>
-        <TableView onKeyReleased="#updateEmployeeTable" onMouseClicked="#updateEmployeeTable"
-          prefHeight="236.0" prefWidth="1035.0" fx:id="serviceTable">
-          <columns>
-            <TableColumn prefWidth="72.0" text="Service" fx:id="colServiceType"/>
-            <TableColumn prefWidth="149.0" text="Request ID" fx:id="colRequestID"/>
-            <TableColumn prefWidth="106.0" text="Request Time" fx:id="colRequestTime"/>
-            <TableColumn prefWidth="98.0" text="Request Node" fx:id="colRequestNode"/>
-            <TableColumn prefWidth="164.0" text="Requester Name" fx:id="colResquesterName"/>
-            <TableColumn prefWidth="215.0" text="Employee" fx:id="colEmployeeAssigned"/>
-            <TableColumn prefWidth="226.0" text="Assigner" fx:id="colWhoMarked"/>
-          </columns>
-        </TableView>
+        <JFXCheckBox fx:id="cbShowUnavail" onAction="#setCbShowUnavail" prefHeight="20.0"
+          prefWidth="138.0" style="-fx-background-color: LIGHTGREY; -fx-border-color: BLACK;"
+          text="Show Unavailable"/>
       </children>
     </VBox>
   </children>

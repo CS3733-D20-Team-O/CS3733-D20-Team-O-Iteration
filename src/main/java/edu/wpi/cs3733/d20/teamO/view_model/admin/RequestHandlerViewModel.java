@@ -2,6 +2,8 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
@@ -18,10 +20,13 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import lombok.val;
 
 public class RequestHandlerViewModel extends ViewModelBase {
@@ -29,12 +34,29 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private final List<Employee> employeeData = new LinkedList<Employee>();
   private boolean displayUnavail = false;
 
+  @FXML
+  private AnchorPane root;
   /**
    * Buttons, Checkbox, TextField
    */
   @FXML
   private final JFXButton btnAssign = new JFXButton("Assign");
-
+  @FXML
+  private final JFXButton btnExportServiceReq = new JFXButton("Export Service Request");
+  @FXML
+  private final JFXButton btnExportEmployee = new JFXButton("Export Employee");
+  @FXML
+  private JFXCheckBox cbShowUnavail;
+  @FXML
+  private JFXTextField serviceMarker;
+  @FXML
+  private JFXTextField exportServReqFilename;
+  @FXML
+  private JFXTextField exportEmployeeFilename;
+  //Service Request Table Stuff
+  @FXML
+  private TableView<ServiceRequest> serviceTable;
+  //put on one line
   @FXML
   private TableColumn<String, ServiceRequest> colRequestID;
   @FXML
@@ -49,12 +71,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private TableColumn<String, ServiceRequest> colEmployeeAssigned;
   @FXML
   private TableColumn<String, ServiceRequest> colServiceType;
-  @FXML
-  private JFXCheckBox cbShowUnavail;
-  @FXML
-  private JFXTextField serviceMarker;
-  @FXML
-  private TableView<ServiceRequest> serviceTable;
+  //Employee Table Stuff
   @FXML
   private TableColumn<String, Employee> empID;
   @FXML
@@ -175,6 +192,17 @@ public class RequestHandlerViewModel extends ViewModelBase {
   }
 
 
+  private void showErrorSnackbar(String errorText) {
+    JFXSnackbar bar = new JFXSnackbar(root);
+    val label = new Label(errorText);
+    label.setStyle("-fx-text-fill: floralwhite");
+    val container = new HBox(label);
+    // Add 16 margin and 16 padding as per material design guidelines
+    container.setStyle("-fx-background-color: #323232;  -fx-background-insets: 16");
+    container.setPadding(new Insets(32)); // total padding, including margin
+    bar.enqueue(new SnackbarEvent(container));
+  }
+
   /**
    * Updates the table and database when assign button is pressed.
    */
@@ -183,23 +211,28 @@ public class RequestHandlerViewModel extends ViewModelBase {
     // "error" cases to do nothing
     //no serviceReq selected
     if (serviceTable.getSelectionModel().getSelectedItem() == null) {
+      showErrorSnackbar("No Service Request selected.");
       return;
     }
     //no employee selected
     if (employeeTable.getSelectionModel().getSelectedItem() == null) {
+      showErrorSnackbar("No Employee selected.");
       return;
     }
     //employee selected somehow does not have same type as request
     if (!employeeTable.getSelectionModel().getSelectedItem().getType()
         .equals(serviceTable.getSelectionModel().getSelectedItem().getType())) {
+      showErrorSnackbar("Employee cannot complete this Service Request.");
       return;
     }
     //employee is unavailable
     if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable().equals("true")) {
+      showErrorSnackbar("Employee is unavailable.");
       return;
     }
     //no name entered into text box
     if (serviceMarker.getText().equals("")) {
+      showErrorSnackbar("No name entered in Assigner Name field.");
       return;
     }
 
@@ -224,16 +257,17 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //UPDATE DATABASE
     boolean test = true;
     if (!true) {
-      System.out.println("In True field");
-      val serviceRequestDB = get(DatabaseWrapper.class);
-      serviceRequestDB
+      val database = get(DatabaseWrapper.class);
+      database.exportServiceRequests();
+      //only use with IDs
+      //database.deleteFromTable();
+      database
           .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.EMPLOYEE_ASSIGNED,
               req.getRequestID(), employee.getName());
-      serviceRequestDB.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED,
+      database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED,
           req.getRequestID(), markerName);
 
-      val employeeDB = get(DatabaseWrapper.class);
-      employeeDB
+      database
           .update(Table.EMPLOYEE_TABLE, EmployeeProperty.IS_AVAILABLE, employee.getEmployeeID(),
               "false");
     }
@@ -253,15 +287,19 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
   @FXML
   private void exportServiceRequest() {
-    //todo : ADD BUTTON
-    val fileName = "";
-    get(CSVHandler.class).exportServiceRequests(fileName);
+    if (exportServReqFilename.getText().equals("")) {
+      showErrorSnackbar("No file name entered.");
+      return;
+    }
+    get(CSVHandler.class).exportServiceRequests(exportServReqFilename.getText());
   }
 
   @FXML
   private void exportEmployee() {
-    //todo : ADD BUTTON
-    val fileName = "";
-    get(CSVHandler.class).exportEmployees(fileName);
+    if (exportEmployeeFilename.getText().equals("")) {
+      showErrorSnackbar("No file name entered.");
+      return;
+    }
+    get(CSVHandler.class).exportEmployees(exportEmployeeFilename.getText());
   }
 }
