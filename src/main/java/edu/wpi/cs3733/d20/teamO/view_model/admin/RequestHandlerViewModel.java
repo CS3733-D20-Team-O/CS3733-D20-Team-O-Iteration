@@ -91,11 +91,14 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //database.addEmployee("TestEmp1", "TestName1", "TestType", true);
     //testProperties();
 
-    //firstRunOnly();
+    firstRunOnly();
     notFirstRun();
   }
 
   private void firstRunOnly() {
+    if (database.exportEmployees().size() != 0) {
+      return;
+    }
     database.addEmployee("null", "null", "null", true);
     database.addEmployee("", "", "", true); //null employee
     database
@@ -107,7 +110,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     database.addEmployee("1004", "Joeann", "Wash", true);
 
     //adding a bunch to see if this will slow the system down.
-    int end = 1000;
+    int end = 100;
     for (int i = 0; i < end; i++) {
       //employeeData.add(employee5);
       val theInt = Integer.toString(i);
@@ -120,6 +123,16 @@ public class RequestHandlerViewModel extends ViewModelBase {
     database.addServiceRequest("16", "55", "RHVMNode", "Interpreter", "55", "", "");
     database.addServiceRequest("17", "55", "RHVMNode", "Interpreter", "55", "", "");
     database.addServiceRequest("18", "55", "RHVMNode", "Wash", "55", "", "");
+    database.addServiceRequest("19", "55", "RHVMNode", "Gift", "55", "", "");
+    database.addServiceRequest("20", "55", "RHVMNode", "Gift", "55", "", "");
+    database.addServiceRequest("21", "55", "RHVMNode", "Interpreter", "55", "", "");
+    database.addServiceRequest("22", "55", "RHVMNode", "Interpreter", "55", "", "");
+    database.addServiceRequest("23", "55", "RHVMNode", "Wash", "55", "", "");
+    database.addServiceRequest("24", "55", "RHVMNode", "Gift", "55", "", "");
+    database.addServiceRequest("25", "55", "RHVMNode", "Gift", "55", "", "");
+    database.addServiceRequest("26", "55", "RHVMNode", "Interpreter", "55", "", "");
+    database.addServiceRequest("27", "55", "RHVMNode", "Interpreter", "55", "", "");
+    database.addServiceRequest("28", "55", "RHVMNode", "Wash", "55", "", "");
   }
 
   //set all the shit to default state
