@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -30,10 +31,9 @@ public class NodeMapView extends ViewModelBase {
    * The set maximum floor
    */
   private int maxFloor = 1;
-  /**
-   * The node map to use to fuel the display
-   */
-  private Map<String, Node> nodeMap = new HashMap<>();
+  @FXML
+  StackPane mapView;
+  //private Map<String, Node> nodeMap = new HashMap<>();
   /**
    * Gets called when a node is clicked
    */
@@ -44,9 +44,6 @@ public class NodeMapView extends ViewModelBase {
    */
   @Setter
   private BiConsumer<Integer, Integer> onMissTapListener;
-
-  @FXML
-  StackPane mapView;
   @FXML
   ImageView backgroundImage;
   @FXML
@@ -55,6 +52,14 @@ public class NodeMapView extends ViewModelBase {
   Button btnIncrementFloor;
   @FXML
   Button btnDecrementFloor;
+  @FXML
+  Label lblFloor;
+  /**
+   * The node map to use to fuel the display
+   */
+  private Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
+
+  // todo make a variables for floor maps
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -64,11 +69,11 @@ public class NodeMapView extends ViewModelBase {
     mapView = new StackPane();
     mapView.getChildren().addAll(backgroundImage, nodeCanvas);
 
-    draw();
+    draw(getFloor());
 
-    // Set up event for when a node is selected
+    // Set up event for when a node is selected (or not selected)
     nodeCanvas.setOnMouseClicked(event -> {
-
+      checkClick(event.getX(), event.getY());
     });
   }
 
@@ -93,32 +98,49 @@ public class NodeMapView extends ViewModelBase {
    * @param nodeMap the new node map to fuel this view
    */
   public void setNodeMap(Map<String, Node> nodeMap) {
-    this.nodeMap = nodeMap;
-    draw();
+    this.nodeMap.clear(); // Clear the current node map
+    nodeMap.keySet().forEach((id) -> placeFloorNode(id, nodeMap.get(id)));
+    draw(getFloor());
   }
 
   /**
-   * Clears the canvas and draws all the nodes
+   * Places a node into it's proper floor in the nodeMap
+   *
+   * @param string a given string for a node
+   * @param node   the node to be placed into the nodeMap
    */
-  private void draw() {
+  private void placeFloorNode(String string, Node node) {
+    if (!this.nodeMap.containsKey(node.getFloor())) {
+      nodeMap.put(node.getFloor(), new HashMap<>()); // Make the new floor if it doesn't exist
+    }
+
+    nodeMap.get(node.getFloor()).put(string, node);
+  }
+
+  /**
+   * Clears the canvas and draws all the nodes on a certain floor
+   *
+   * @param floor
+   */
+  // todo fix draw
+  private void draw(int floor) {
     // Clear the canvas so we can draw fresh
     // todo canvas.clear() or something like that I am guessing. Ask Collin -- he knows
     GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
     nodeGC.clearRect(0, 0, nodeCanvas.getWidth(), nodeCanvas.getHeight());
-    // Draw all the nodes
-    nodeMap.keySet().forEach((id) -> drawNode(nodeMap.get(id)));
+    // Draw all the nodes on a certain floor
+    val floorMap = nodeMap.get(getFloor());
+    floorMap.keySet().forEach((id) -> drawNode(floorMap.get(id)));
   }
 
   /**
    * @param node the node to draw to the canvas
    */
+  // todo fix draw
   private void drawNode(Node node) {
-    // Only paint this node if it is on this floor (otherwise we will have other floors' nodes)
-    if (node.getFloor() == getFloor()) {
-      GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
-      nodeGC.setFill(Color.RED);
-      nodeGC.fillOval(node.getXCoord(), node.getYCoord(), 10, 10);
-    }
+    GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
+    nodeGC.setFill(Color.RED);
+    nodeGC.fillOval(node.getXCoord(), node.getYCoord(), 10, 10);
   }
 
   /**
@@ -127,6 +149,7 @@ public class NodeMapView extends ViewModelBase {
    * @param n1 the first node
    * @param n2 the second node
    */
+  // todo fix draw
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
     if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
@@ -142,13 +165,30 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  /**
+   * Used to calculate if a click was next to a node or not
+   *
+   * @param x the x coordinate of the MouseEvent
+   * @param y the y coordinate of the MouseEvent
+   */
+  private boolean checkClick(double x, double y) {
+
+    return false;
+  }
+
+  /**
+   * Translates a x canvas coordinate to the image coordinate
+   *
+   * @param x the x coordinate
+   */
+
   // todo you can link this up to the next floor button
   @FXML
   private void incrementFloor() {
     if (getFloor() < maxFloor) {
       val floor = getFloor() + 1;
       // todo update ImageView
-      draw();
+      draw(floor);
       setFloor(floor);
     }
   }
@@ -159,7 +199,7 @@ public class NodeMapView extends ViewModelBase {
     if (getFloor() > 1) {
       val floor = getFloor() - 1;
       // todo update ImageView
-      draw();
+      draw(floor);
       setFloor(floor);
     }
   }

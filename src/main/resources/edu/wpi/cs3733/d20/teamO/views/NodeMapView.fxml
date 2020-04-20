@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-  prefHeight="400.0"
-  prefWidth="600.0"
-  xmlns="http://javafx.com/javafx" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView">
-
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+  xmlns="http://javafx.com/javafx/10.0.2-internal"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView">
+  <HBox AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
+    alignment="CENTER" prefHeight="33.0" prefWidth="600.0">
+    <children>
+      <JFXButton mnemonicParsing="false" text="Prev Floor" fx:id="btnDecrementFloor"/>
+      <JFXButton mnemonicParsing="false" text="Next Floor" fx:id="btnIncrementFloor"/>
+      <JFXComboBox prefWidth="150.0"/>
+      <Label text="Label" fx:id="lblFloor"/>
+    </children>
+  </HBox>
+  <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+    <!-- top anchor should be set in code by adding a listener to the above HBox's height -->
+    <Canvas/>
+    <ImageView/>
+    <!-- the canvas height and width should listen to ImageView height and width and set its own properties to be the same -->
+    <!-- and in the height and width listeners, if the canvas height/width is changed, REDRAW -->
+  </StackPane>
 </AnchorPane>
