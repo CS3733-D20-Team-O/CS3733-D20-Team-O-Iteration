@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d20.teamO;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import edu.wpi.cs3733.d20.teamO.view_model.NavigationBar;
 import java.io.IOException;
 import java.util.Stack;
@@ -19,10 +20,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.val;
+import org.greenrobot.eventbus.EventBus;
 
 @Singleton
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class Navigator {
+
+  private final EventBus eventBus;
 
   private final Injector injector;
 
@@ -115,7 +119,9 @@ public class Navigator {
     val navBarLoader = getLoader();
     val navBarRoot = (Region) navBarLoader.load(getClass()
         .getResourceAsStream("views/NavigationBar.fxml"));
-    ((NavigationBar) navBarLoader.getController()).setTitle(title);
+    val navBarViewModel = (NavigationBar) navBarLoader.getController();
+    navBarViewModel.setTitle(title);
+    eventBus.post(new RegisterViewModelEvent(navBarViewModel));
     AnchorPane.setTopAnchor(navBarRoot, 0.0);
     AnchorPane.setLeftAnchor(navBarRoot, 0.0);
     AnchorPane.setRightAnchor(navBarRoot, 0.0);
