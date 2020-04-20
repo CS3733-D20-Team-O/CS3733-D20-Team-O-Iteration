@@ -1,9 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-  prefHeight="400.0"
-  prefWidth="600.0"
-  xmlns="http://javafx.com/javafx">
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-</AnchorPane>
+<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #acd7fd;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel">
+   <bottom>
+      <ToolBar prefHeight="19.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+         <items>
+            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="869.0" spacing="10.0">
+               <children>
+                  <JFXButton onAction="#floorDown" text="&lt;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor 1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <JFXButton onAction="#floorUp" text="&gt;">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton onAction="#addNode" text="Add node">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton onAction="#addEdge" text="Add edge">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <ImageView fitHeight="19.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../zoom-icon.png" />
+                     </image>
+                  </ImageView>
+                  <ScrollBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="12.0" prefWidth="132.0" />
+               </children>
+            </HBox>
+         </items>
+      </ToolBar>
+   </bottom>
+   <right>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TitledPane animated="false" prefHeight="682.0" prefWidth="204.0" text="Add node">
+              <content>
+                <AnchorPane fx:id="addNodePane" prefHeight="699.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" layoutX="13.0" layoutY="8.0" prefHeight="231.0" prefWidth="171.0" spacing="10.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node ID">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <JFXTextField fx:id="nodeIDField" />
+                              <Text fx:id="nodeXField" strokeType="OUTSIDE" strokeWidth="0.0" text="Node x">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <JFXTextField />
+                              <Text fx:id="nodeYField" strokeType="OUTSIDE" strokeWidth="0.0" text="Node y">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <JFXTextField />
+                              <JFXButton text="Create node">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton text="Cancel">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TitledPane>
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
