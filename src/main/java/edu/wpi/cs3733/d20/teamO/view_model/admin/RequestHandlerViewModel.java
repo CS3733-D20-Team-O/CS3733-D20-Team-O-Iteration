@@ -40,53 +40,28 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private final List<Employee> employeeData = new LinkedList<Employee>();
   private boolean displayUnavail = false;
 
-
   @FXML
   private AnchorPane root;
   /**
    * Buttons, Checkbox, TextField
    */
   @FXML
-  private final JFXButton btnAssign = new JFXButton("Assign");
-  @FXML
-  private final JFXButton btnExportServiceReq = new JFXButton("Export Service Request");
-  @FXML
-  private final JFXButton btnExportEmployee = new JFXButton("Export Employee");
+  private final JFXButton btnAssign = new JFXButton("Assign"), btnExportServiceReq = new JFXButton(
+      "Export Service Request"), btnExportEmployee = new JFXButton("Export Employee");
   @FXML
   private JFXCheckBox cbShowUnavail;
   @FXML
-  private JFXTextField serviceMarker;
-  @FXML
-  private JFXTextField exportServReqFilename;
-  @FXML
-  private JFXTextField exportEmployeeFilename;
+  private JFXTextField serviceMarker, exportServReqFilename, exportEmployeeFilename;
+
   //Service Request Table Stuff
   @FXML
   private TableView<ServiceRequest> serviceTable;
-  //put on one line
   @FXML
-  private TableColumn<String, ServiceRequest> colRequestID;
-  @FXML
-  private TableColumn<String, ServiceRequest> colRequestTime;
-  @FXML
-  private TableColumn<String, ServiceRequest> colRequestNode;
-  @FXML
-  private TableColumn<String, ServiceRequest> colResquesterName;
-  @FXML
-  private TableColumn<String, ServiceRequest> colWhoMarked;
-  @FXML
-  private TableColumn<String, ServiceRequest> colEmployeeAssigned;
-  @FXML
-  private TableColumn<String, ServiceRequest> colServiceType;
+  private TableColumn<String, ServiceRequest> colRequestID, colRequestTime, colRequestNode, colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType;
+
   //Employee Table Stuff
   @FXML
-  private TableColumn<String, Employee> empID;
-  @FXML
-  private TableColumn<String, Employee> empName;
-  @FXML
-  private TableColumn<String, Employee> empType;
-  @FXML
-  private TableColumn<String, Employee> empAvail;
+  private TableColumn<String, Employee> empID, empName, empType, empAvail;
   @FXML
   private TableView<Employee> employeeTable;
 
@@ -113,44 +88,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
     empName.setCellValueFactory(new PropertyValueFactory<>("name"));
     empType.setCellValueFactory(new PropertyValueFactory<>("type"));
     empAvail.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
-    //database.addEmployee("TestEmp1", "TestName1", "TestType", true);
-    //testProperties();
 
-    //firstRunOnly();
-    notFirstRun();
+    testProperties();
   }
-
-  private void firstRunOnly() {
-    database.addEmployee("", "", "", true); //null employee
-    database
-        .addNode("RHVMNode", 0, 0, 0, "RHVMENode", "RHVMType", "RequestHandlerViewModel", "RHVM");
-    database.addEmployee("1000", "Paul", "Gift", true);
-    database.addEmployee("1001", "Randy", "Gift", true);
-    database.addEmployee("1002", "Bobo", "Interpreter", true);
-    database.addEmployee("1003", "Samuel", "Interpreter", true);
-    database.addEmployee("1004", "Joeann", "Wash", true);
-
-    //adding a bunch to see if this will slow the system down.
-    int end = 1000;
-    for (int i = 0; i < end; i++) {
-      //employeeData.add(employee5);
-      val theInt = Integer.toString(i);
-      boolean avail = true;
-      avail = i % 2 != 0;
-      database.addEmployee(theInt, "name" + theInt, "Wash", avail);
-    }
-    database.addServiceRequest("14", "55", "RHVMNode", "Gift", "55", "", "");
-    database.addServiceRequest("15", "55", "RHVMNode", "Gift", "55", "", "");
-    database.addServiceRequest("16", "55", "RHVMNode", "Interpreter", "55", "", "");
-    database.addServiceRequest("17", "55", "RHVMNode", "Interpreter", "55", "", "");
-    database.addServiceRequest("18", "55", "RHVMNode", "Wash", "55", "", "");
-  }
-
-  //set all the shit to default state
-  private void notFirstRun() {
-    serviceTable.getItems().addAll(database.exportServiceRequests());
-  }
-
 
   //DELETE THIS BEFORE PUSHING
   private void testProperties() {
@@ -262,6 +202,11 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //no name entered into text box
     if (serviceMarker.getText().equals("")) {
       showErrorSnackbar("No name entered in Assigner Name field.");
+      return;
+    }
+    //if the selected service has someone assigned
+    if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned().equals("")) {
+      showErrorSnackbar("An employee is already assigned to this service request");
       return;
     }
 
