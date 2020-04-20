@@ -1,19 +1,10 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
-import edu.wpi.cs3733.d20.teamO.Main;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 public class NodeMapViewTest extends ApplicationTest {
 
+  /*
   NodeMapView controller;
   Map<String, Node> nodeMap;
 
@@ -23,7 +14,6 @@ public class NodeMapViewTest extends ApplicationTest {
     FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/NodeMapView.fxml"), resources);
     // getClass().getResource("views/NodeMapView.fxml")
     controller = loader.getController();
-
     Parent root = loader.load();
     Scene scene = new Scene(root);
     stage.setScene(scene);
@@ -73,7 +63,15 @@ public class NodeMapViewTest extends ApplicationTest {
     controller.drawEdge(nodeMap.get("Node5"), nodeMap.get("Node6"));
   }
 
-  /*
+
+    Map<String, Node> nodeMap = new HashMap<>();
+    nodeMap.put(node1.toString(), node1);
+
+    clickOn("#txtfieldFileLocation");
+    write("1234");
+    verifyThat("#btnImport", NodeMatchers.isEnabled());
+    verifyThat("#btnExport", NodeMatchers.isEnabled());
+  }
   @Test
   void testButtonDisable() {
     clickOn("#txtfieldFileLocation");
@@ -81,8 +79,7 @@ public class NodeMapViewTest extends ApplicationTest {
     push(KeyCode.BACK_SPACE);
     push(KeyCode.BACK_SPACE);
     push(KeyCode.BACK_SPACE);
-    push(
-        KeyCode.BACK_SPACE); // Clear the text box (quite inelegant, but couldn't find the clear method for testfx)
+    push(KeyCode.BACK_SPACE); // Clear the text box (quite inelegant, but couldn't find the clear method for testfx)
 
     verifyThat("#btnImport", NodeMatchers.isDisabled());
     verifyThat("#btnExport", NodeMatchers.isDisabled());
