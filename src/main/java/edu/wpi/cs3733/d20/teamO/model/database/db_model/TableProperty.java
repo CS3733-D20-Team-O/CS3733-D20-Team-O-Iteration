@@ -9,4 +9,9 @@ public interface TableProperty {
    * @return the column name of the specified property
    */
   String getColumnName();
+
+  /**
+   * @return the table this property belongs to
+   */
+  Table getTable();
 }

@@ -18,4 +18,9 @@ public enum ServiceRequestProperty implements TableProperty {
 
   @Getter
   private final String columnName;
+
+  @Override
+  public Table getTable() {
+    return Table.SERVICE_REQUESTS_TABLE;
+  }
 }

@@ -15,4 +15,9 @@ public enum EmployeeProperty implements TableProperty {
 
   @Getter
   private final String columnName;
+
+  @Override
+  public Table getTable() {
+    return Table.EMPLOYEE_TABLE;
+  }
 }

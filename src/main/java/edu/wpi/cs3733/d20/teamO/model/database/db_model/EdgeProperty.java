@@ -14,4 +14,9 @@ public enum EdgeProperty implements TableProperty {
 
   @Getter
   private final String columnName;
+
+  @Override
+  public Table getTable() {
+    return Table.EDGES_TABLE;
+  }
 }

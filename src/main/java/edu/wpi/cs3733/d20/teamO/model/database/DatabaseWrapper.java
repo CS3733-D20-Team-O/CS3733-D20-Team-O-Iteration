@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.model.database;
 
 import com.google.inject.ImplementedBy;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
@@ -11,22 +10,21 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Interface that represents what a wrapper for a database can do
- * <p>
- * todo make better javadoc here
+ * Interface that represents what a database can do
  */
 @ImplementedBy(value = DatabaseWrapperImpl.class)
 public interface DatabaseWrapper {
 
   /**
    * Adds the specified node to the database
-   * @param nodeID the id of the node
-   * @param xCoord the x coordinate of the node
-   * @param yCoord the y coordinate of the node
-   * @param floor the floor of the building that the node lies on
-   * @param building the building the node is in
-   * @param nodeType the type of the node
-   * @param longName the long name of the node
+   *
+   * @param nodeID    the id of the node
+   * @param xCoord    the x coordinate of the node
+   * @param yCoord    the y coordinate of the node
+   * @param floor     the floor of the building that the node lies on
+   * @param building  the building the node is in
+   * @param nodeType  the type of the node
+   * @param longName  the long name of the node
    * @param shortName the short name of the node
    * @return the number of affected entries
    */
@@ -70,39 +68,29 @@ public interface DatabaseWrapper {
   int addEmployee(String employeeID, String name, String type, boolean isAvailable);
 
   /**
-   * Deletes record(s) (example: a node or edge) from the specified table
+   * Deletes record(s) matching the specified criteria (example: an edge based on its ID)
    *
-   * @param table    the table to delete the record(s) from
-   * @param property the property of the table to use for deletion (typically should be ID)
-   * @param matching the string of what to delete from the database (typically should be ID)
+   * @param matchingProperty the property to use for deletion (typically should be ID)
+   * @param matching         what to delete from the database (typically should be ID)
    * @return the number of affected entries
    */
-  int deleteFromTable(Table table, TableProperty property, String matching);
+  int deleteMatching(TableProperty matchingProperty, String matching);
 
   /**
    * Updates a String in a record of the specified column of the specified table
+   * <p>
+   * matching fields are used to select which records to update
+   * <p>
+   * Both matchingProperty AND dataProperty MUST BELONG TO THE SAME TABLE!
    *
-   * @param table           the table to perform the update on
-   * @param property        the property (column) for the update
-   * @param id              the id of the record to update
-   * @param newInfoProperty the property (column) for the new info
-   * @param data            the new data for the specified property
+   * @param matchingProperty the property (column) to use for matching in order to update
+   * @param matching         the string to use for matching in order to update
+   * @param dataProperty     the property (column) of the new data (where the data should be saved)
+   * @param data             the new data for the specified property
    * @return the number of affected entries
    */
-  int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
-      String data);
-
-  /**
-   * Updates an int in a record of the specified column of the specified table
-   *
-   * @param table           the table to perform the update on
-   * @param property        the property (column) for the update
-   * @param id              the id of the record to update
-   * @param newInfoProperty the property (column) for the new info
-   * @param data            the new data for the specified property
-   * @return the number of affected entries
-   */
-  int update(Table table, TableProperty property, String id, TableProperty newInfoProperty, int data);
+  int update(TableProperty matchingProperty, String matching,
+      TableProperty dataProperty, String data);
 
   /**
    * @return a map of all nodeIDs stored in this database to their corresponding Nodes
@@ -110,13 +98,17 @@ public interface DatabaseWrapper {
   Map<String, Node> exportNodes();
 
   /**
-   * Gets the edges of this database. Should only be used for exporting the database, not for A*!
-   *
    * @return a list of the edges this database contains
    */
   List<Edge> exportEdges();
 
+  /**
+   * @return a list of the service requests stored in this database
+   */
   List<ServiceRequest> exportServiceRequests();
 
+  /**
+   * @return a list of the employees stored in this database
+   */
   List<Employee> exportEmployees();
 }
