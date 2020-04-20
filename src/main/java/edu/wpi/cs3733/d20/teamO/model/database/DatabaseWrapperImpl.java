@@ -61,15 +61,15 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.NODES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.NODES_TABLE
-            + "(" + NodeProperty.NODE_ID + " VARCHAR(255), "
-            + NodeProperty.X_COORD + " INT, "
-            + NodeProperty.Y_COORD + " INT, "
-            + NodeProperty.FLOOR + " INT, "
-            + NodeProperty.BUILDING + " VARCHAR(255), "
-            + NodeProperty.NODE_TYPE + " VARCHAR(255), "
-            + NodeProperty.LONG_NAME + " VARCHAR(255), "
-            + NodeProperty.SHORT_NAME + " VARCHAR(255), "
-            + "CONSTRAINT NODES_PK PRIMARY KEY (" + NodeProperty.NODE_ID + "))";
+            + "(" + NodeProperty.NODE_ID.getColumnName() + " VARCHAR(255), "
+            + NodeProperty.X_COORD.getColumnName() + " INT, "
+            + NodeProperty.Y_COORD.getColumnName() + " INT, "
+            + NodeProperty.FLOOR.getColumnName() + " INT, "
+            + NodeProperty.BUILDING.getColumnName() + " VARCHAR(255), "
+            + NodeProperty.NODE_TYPE.getColumnName() + " VARCHAR(255), "
+            + NodeProperty.LONG_NAME.getColumnName() + " VARCHAR(255), "
+            + NodeProperty.SHORT_NAME.getColumnName() + " VARCHAR(255), "
+            + "PRIMARY KEY (" + NodeProperty.NODE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.NODES_TABLE + " created");
       } catch (SQLException e) {
@@ -81,14 +81,12 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.EDGES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EDGES_TABLE
-            + "(" + EdgeProperty.EDGE_ID + " VARCHAR(255), "
-            + EdgeProperty.START_ID + " VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " ("
-            + NodeProperty.NODE_ID
-            .getColumnName() + "), "
-            + EdgeProperty.STOP_ID + " VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " ("
-            + NodeProperty.NODE_ID
-            .getColumnName() + "), "
-            + "PRIMARY KEY (" + EdgeProperty.EDGE_ID + "))";
+            + "(" + EdgeProperty.EDGE_ID.getColumnName() + " VARCHAR(255), "
+            + EdgeProperty.START_ID.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName() + "), "
+            + EdgeProperty.STOP_ID.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName() + "), "
+            + "PRIMARY KEY (" + EdgeProperty.EDGE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EDGES_TABLE + " created");
       } catch (SQLException e) {
@@ -100,11 +98,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.EMPLOYEE_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
-            + "(" + EmployeeProperty.EMPLOYEE_ID + " VARCHAR(255), "
-            + EmployeeProperty.NAME + " VARCHAR(255), "
-            + EmployeeProperty.TYPE + " VARCHAR(255), "
-            + EmployeeProperty.IS_AVAILABLE + " BOOLEAN, "
-            + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID + "))";
+            + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(255), "
+            + EmployeeProperty.NAME.getColumnName() + " VARCHAR(255), "
+            + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(255), "
+            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
+            + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
       } catch (SQLException e) {
@@ -116,20 +114,17 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.SERVICE_REQUESTS_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
-            + "(" + ServiceRequestProperty.REQUEST_ID + " VARCHAR(255), "
-            + ServiceRequestProperty.REQUEST_TIME + " VARCHAR(255), "
-            + ServiceRequestProperty.REQUEST_NODE + " VARCHAR(255) REFERENCES " + Table.NODES_TABLE
-            + "("
-            + NodeProperty.NODE_ID.getColumnName() + "), "
-            + ServiceRequestProperty.TYPE + " VARCHAR(255), "
-            + ServiceRequestProperty.REQUESTER_NAME + " VARCHAR(255), "
-            + ServiceRequestProperty.WHO_MARKED + " VARCHAR(255) REFERENCES " + Table.EMPLOYEE_TABLE
-            + "("
-            + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
-            + ServiceRequestProperty.EMPLOYEE_ASSIGNED + " VARCHAR(255) REFERENCES "
-            + Table.EMPLOYEE_TABLE + "("
-            + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
-            + "PRIMARY KEY (" + ServiceRequestProperty.REQUEST_ID + "))";
+            + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(255), "
+            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " VARCHAR(255), "
+            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName() + "), "
+            + ServiceRequestProperty.TYPE.getColumnName() + " VARCHAR(255), "
+            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " VARCHAR(255), "
+            + ServiceRequestProperty.WHO_MARKED.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
+            + ServiceRequestProperty.EMPLOYEE_ASSIGNED.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
+            + "PRIMARY KEY (" + ServiceRequestProperty.REQUEST_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
       } catch (SQLException e) {
