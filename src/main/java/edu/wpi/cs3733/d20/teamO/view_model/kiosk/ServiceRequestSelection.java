@@ -47,8 +47,10 @@ public class ServiceRequestSelection extends ViewModelBase {
     descriptionToFXML.keySet().forEach(title -> serviceSelector.getItems().add(title));
     // Whenever a service is requested in the combobox, navigate to it
     serviceSelector.getSelectionModel().selectedItemProperty()
-        .addListener(((observable, oldValue, newValue) ->
-            dispatch(new ForwardNavigationEvent(newValue, descriptionToFXML.get(newValue)))));
+        .addListener(((observable, oldValue, newValue) -> {
+          dispatch(new ForwardNavigationEvent(newValue, descriptionToFXML.get(newValue)));
+          serviceSelector.getSelectionModel().clearSelection();
+        }));
   }
 
   @FXML
