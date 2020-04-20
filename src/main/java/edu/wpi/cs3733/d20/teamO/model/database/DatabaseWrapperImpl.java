@@ -442,7 +442,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         + EmployeeProperty.EMPLOYEE_ID + " = " + id;
     try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
       while (rset.next()) {
-        name = rset.getString(1);
+        return rset.getString(1);
       }
     } catch (SQLException e) {
       log.error("Failed to find name", e);
