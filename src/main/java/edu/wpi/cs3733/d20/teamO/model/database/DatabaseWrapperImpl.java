@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.d20.teamO.model.database;
 
 import com.google.inject.Inject;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
@@ -59,15 +61,15 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (!isInitialized(Table.NODES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.NODES_TABLE
-            + "(nodeID VARCHAR(255), "
-            + "xCoord INT, "
-            + "yCoord INT, "
-            + "floor INT, "
-            + "building VARCHAR(255), "
-            + "nodeType VARCHAR(255), "
-            + "longName VARCHAR(255), "
-            + "shortName VARCHAR(255), "
-            + "CONSTRAINT NODES_PK PRIMARY KEY (nodeID))";
+            + "(" + NodeProperty.NODE_ID + " VARCHAR(255), "
+            + NodeProperty.X_COORD + " INT, "
+            + NodeProperty.Y_COORD + " INT, "
+            + NodeProperty.FLOOR + " INT, "
+            + NodeProperty.BUILDING + " VARCHAR(255), "
+            + NodeProperty.NODE_TYPE + " VARCHAR(255), "
+            + NodeProperty.LONG_NAME + " VARCHAR(255), "
+            + NodeProperty.SHORT_NAME + " VARCHAR(255), "
+            + "CONSTRAINT NODES_PK PRIMARY KEY (" + NodeProperty.NODE_ID + "))";
         stmt.execute(query);
         log.info("Table " + Table.NODES_TABLE + " created");
       } catch (SQLException e) {
@@ -79,12 +81,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (!isInitialized(Table.EDGES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EDGES_TABLE
-            + "(edgeID VARCHAR(255), "
-            + "startID VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID
+            + "(" + EdgeProperty.EDGE_ID + " VARCHAR(255), "
+            + EdgeProperty.START_ID + " VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " ("
+            + NodeProperty.NODE_ID
             .getColumnName() + "), "
-            + "stopID VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID
+            + EdgeProperty.STOP_ID + " VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " ("
+            + NodeProperty.NODE_ID
             .getColumnName() + "), "
-            + "PRIMARY KEY (edgeID))";
+            + "PRIMARY KEY (" + EdgeProperty.EDGE_ID + "))";
         stmt.execute(query);
         log.info("Table " + Table.EDGES_TABLE + " created");
       } catch (SQLException e) {
@@ -96,11 +100,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (!isInitialized(Table.EMPLOYEE_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
-            + "(employeeID VARCHAR(255), "
-            + "name VARCHAR(255), "
-            + "type VARCHAR(255), "
-            + "isAvailable BOOLEAN, "
-            + "PRIMARY KEY (employeeID))";
+            + "(" + EmployeeProperty.EMPLOYEE_ID + " VARCHAR(255), "
+            + EmployeeProperty.NAME + " VARCHAR(255), "
+            + EmployeeProperty.TYPE + " VARCHAR(255), "
+            + EmployeeProperty.IS_AVAILABLE + " BOOLEAN, "
+            + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID + "))";
         stmt.execute(query);
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
       } catch (SQLException e) {
@@ -112,17 +116,20 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (!isInitialized(Table.SERVICE_REQUESTS_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
-            + "(requestID VARCHAR(255), "
-            + "requestTime VARCHAR(255), "
-            + "requestNode VARCHAR(255) REFERENCES " + Table.NODES_TABLE + "("
+            + "(" + ServiceRequestProperty.REQUEST_ID + " VARCHAR(255), "
+            + ServiceRequestProperty.REQUEST_TIME + " VARCHAR(255), "
+            + ServiceRequestProperty.REQUEST_NODE + " VARCHAR(255) REFERENCES " + Table.NODES_TABLE
+            + "("
             + NodeProperty.NODE_ID.getColumnName() + "), "
-            + "type VARCHAR(255), "
-            + "requesterName VARCHAR(255), "
-            + "whoMarked VARCHAR(255) REFERENCES " + Table.EMPLOYEE_TABLE + "("
+            + ServiceRequestProperty.TYPE + " VARCHAR(255), "
+            + ServiceRequestProperty.REQUESTER_NAME + " VARCHAR(255), "
+            + ServiceRequestProperty.WHO_MARKED + " VARCHAR(255) REFERENCES " + Table.EMPLOYEE_TABLE
+            + "("
             + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
-            + "employeeAssigned VARCHAR(255) REFERENCES " + Table.EMPLOYEE_TABLE + "("
+            + ServiceRequestProperty.EMPLOYEE_ASSIGNED + " VARCHAR(255) REFERENCES "
+            + Table.EMPLOYEE_TABLE + "("
             + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
-            + "PRIMARY KEY (requestID))";
+            + "PRIMARY KEY (" + ServiceRequestProperty.REQUEST_ID + "))";
         stmt.execute(query);
         log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
       } catch (SQLException e) {
