@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
+import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXSnackbar;
@@ -27,12 +28,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class RequestHandlerViewModel extends ViewModelBase {
 
+
+  private final DatabaseWrapper database;
+  private final CSVHandler csvHandler;
   private final List<Employee> employeeData = new LinkedList<Employee>();
   private boolean displayUnavail = false;
+
 
   @FXML
   private AnchorPane root;
@@ -106,9 +113,44 @@ public class RequestHandlerViewModel extends ViewModelBase {
     empName.setCellValueFactory(new PropertyValueFactory<>("name"));
     empType.setCellValueFactory(new PropertyValueFactory<>("type"));
     empAvail.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
+    //database.addEmployee("TestEmp1", "TestName1", "TestType", true);
+    //testProperties();
 
-    testProperties();
+    //firstRunOnly();
+    notFirstRun();
   }
+
+  private void firstRunOnly() {
+    database.addEmployee("", "", "", true); //null employee
+    database
+        .addNode("RHVMNode", 0, 0, 0, "RHVMENode", "RHVMType", "RequestHandlerViewModel", "RHVM");
+    database.addEmployee("1000", "Paul", "Gift", true);
+    database.addEmployee("1001", "Randy", "Gift", true);
+    database.addEmployee("1002", "Bobo", "Interpreter", true);
+    database.addEmployee("1003", "Samuel", "Interpreter", true);
+    database.addEmployee("1004", "Joeann", "Wash", true);
+
+    //adding a bunch to see if this will slow the system down.
+    int end = 1000;
+    for (int i = 0; i < end; i++) {
+      //employeeData.add(employee5);
+      val theInt = Integer.toString(i);
+      boolean avail = true;
+      avail = i % 2 != 0;
+      database.addEmployee(theInt, "name" + theInt, "Wash", avail);
+    }
+    database.addServiceRequest("14", "55", "RHVMNode", "Gift", "55", "", "");
+    database.addServiceRequest("15", "55", "RHVMNode", "Gift", "55", "", "");
+    database.addServiceRequest("16", "55", "RHVMNode", "Interpreter", "55", "", "");
+    database.addServiceRequest("17", "55", "RHVMNode", "Interpreter", "55", "", "");
+    database.addServiceRequest("18", "55", "RHVMNode", "Wash", "55", "", "");
+  }
+
+  //set all the shit to default state
+  private void notFirstRun() {
+    serviceTable.getItems().addAll(database.exportServiceRequests());
+  }
+
 
   //DELETE THIS BEFORE PUSHING
   private void testProperties() {
@@ -141,16 +183,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
     employeeData.add(employee4);
     employeeData.add(employee5);
 
-    //adding a bunch to see if this will slow the system down.
-    int end = 1000;
-    for (int i = 0; i < end; i++) {
-      //employeeData.add(employee5);
-      val theInt = Integer.toString(i);
-      boolean avail = true;
-      avail = i % 2 != 0;
-      employeeData.add(new Employee(theInt, "name" + theInt, "Wash", avail));
-    }
-
     employeeTable.setPlaceholder(new Label("Select a Service Request to view employees"));
 
   }//end test method
@@ -167,7 +199,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
     if (serviceTable.getSelectionModel().getSelectedItem() != null) {
       req = serviceTable.getSelectionModel().getSelectedItem();
-      for (Employee e : employeeData) {
+      for (Employee e : database.exportEmployees()) {
 
         if (e.getType().equals(req.getType())) {
 
@@ -184,7 +216,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
       employeeTable.setItems(tableItems);
     } //end if: serviceTable cell not empty
     else {
-      employeeTable.getItems().setAll(employeeData);
+      employeeTable.getItems().setAll(database.exportEmployees());
     }
   }
 
@@ -244,31 +276,19 @@ public class RequestHandlerViewModel extends ViewModelBase {
         employee.getName());
     serviceTable.getItems().remove(req);
     serviceTable.getItems().add(assignedService);
-
+    database
+        .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, req.getRequestID(),
+            ServiceRequestProperty.WHO_MARKED, markerName);
+    database
+        .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, req.getRequestID(),
+            ServiceRequestProperty.EMPLOYEE_ASSIGNED, employee.getName());
     //update Employee
     val assignedEmployee = new Employee(employee.getEmployeeID(), employee.getName(),
         employee.getType(), false);
-    employeeData.remove(employee);
-    employeeData.add(assignedEmployee);
-
-    //UPDATE DATABASE
-    boolean test = true;
-    if (!true) {
-      val database = get(DatabaseWrapper.class);
-      database.exportServiceRequests();
-      //only use with IDs
-      //database.deleteFromTable();
-      database
-          .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.EMPLOYEE_ASSIGNED,
-              req.getRequestID(), employee.getName());
-      database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED,
-          req.getRequestID(), markerName);
-
-      database
-          .update(Table.EMPLOYEE_TABLE, EmployeeProperty.IS_AVAILABLE, employee.getEmployeeID(),
-              "false");
-    }
-
+//    employeeData.remove(employee);
+//    employeeData.add(assignedEmployee);
+    database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, employee.getEmployeeID(),
+        EmployeeProperty.IS_AVAILABLE, "false");
     updateEmployeeTable();
   }
 
@@ -288,7 +308,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
       showErrorSnackbar("No file name entered.");
       return;
     }
-    get(CSVHandler.class).exportServiceRequests(exportServReqFilename.getText());
+    csvHandler.exportServiceRequests(exportServReqFilename.getText());
   }
 
   @FXML
@@ -297,6 +317,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
       showErrorSnackbar("No file name entered.");
       return;
     }
-    get(CSVHandler.class).exportEmployees(exportEmployeeFilename.getText());
+    csvHandler.exportEmployees(exportEmployeeFilename.getText());
   }
 }
