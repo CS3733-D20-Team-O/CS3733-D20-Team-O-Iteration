@@ -364,8 +364,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       log.error("Failed to export nodes", e);
     }
     for (val edge : exportEdges()) {
-      val start = map.get(edge.getStartNodeID());
-      val stop = map.get(edge.getStopNodeID());
+      val start = map.get(edge.getStartID());
+      val stop = map.get(edge.getStopID());
       start.getNeighbors().add(stop);
       stop.getNeighbors().add(start);
     }
