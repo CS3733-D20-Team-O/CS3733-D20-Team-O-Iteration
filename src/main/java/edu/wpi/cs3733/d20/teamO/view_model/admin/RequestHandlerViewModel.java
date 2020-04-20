@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
+import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXSnackbar;
@@ -7,9 +8,6 @@ import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -27,10 +25,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class RequestHandlerViewModel extends ViewModelBase {
 
+  private final DatabaseWrapper database;
+  private final CSVHandler csvHandler;
   private final List<Employee> employeeData = new LinkedList<Employee>();
   private boolean displayUnavail = false;
 
@@ -40,46 +42,22 @@ public class RequestHandlerViewModel extends ViewModelBase {
    * Buttons, Checkbox, TextField
    */
   @FXML
-  private final JFXButton btnAssign = new JFXButton("Assign");
-  @FXML
-  private final JFXButton btnExportServiceReq = new JFXButton("Export Service Request");
-  @FXML
-  private final JFXButton btnExportEmployee = new JFXButton("Export Employee");
+  private final JFXButton btnAssign = new JFXButton("Assign"), btnExportServiceReq = new JFXButton(
+      "Export Service Request"), btnExportEmployee = new JFXButton("Export Employee");
   @FXML
   private JFXCheckBox cbShowUnavail;
   @FXML
-  private JFXTextField serviceMarker;
-  @FXML
-  private JFXTextField exportServReqFilename;
-  @FXML
-  private JFXTextField exportEmployeeFilename;
+  private JFXTextField serviceMarker, exportServReqFilename, exportEmployeeFilename;
+
   //Service Request Table Stuff
   @FXML
   private TableView<ServiceRequest> serviceTable;
-  //put on one line
   @FXML
-  private TableColumn<String, ServiceRequest> colRequestID;
-  @FXML
-  private TableColumn<String, ServiceRequest> colRequestTime;
-  @FXML
-  private TableColumn<String, ServiceRequest> colRequestNode;
-  @FXML
-  private TableColumn<String, ServiceRequest> colResquesterName;
-  @FXML
-  private TableColumn<String, ServiceRequest> colWhoMarked;
-  @FXML
-  private TableColumn<String, ServiceRequest> colEmployeeAssigned;
-  @FXML
-  private TableColumn<String, ServiceRequest> colServiceType;
+  private TableColumn<String, ServiceRequest> colRequestID, colRequestTime, colRequestNode, colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType;
+
   //Employee Table Stuff
   @FXML
-  private TableColumn<String, Employee> empID;
-  @FXML
-  private TableColumn<String, Employee> empName;
-  @FXML
-  private TableColumn<String, Employee> empType;
-  @FXML
-  private TableColumn<String, Employee> empAvail;
+  private TableColumn<String, Employee> empID, empName, empType, empAvail;
   @FXML
   private TableView<Employee> employeeTable;
 
@@ -232,6 +210,11 @@ public class RequestHandlerViewModel extends ViewModelBase {
       showErrorSnackbar("No name entered in Assigner Name field.");
       return;
     }
+    //if the selected service has someone assigned
+    if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned().equals("")) {
+      showErrorSnackbar("An employee is already assigned to this service request");
+      return;
+    }
 
     val req = serviceTable.getSelectionModel().getSelectedItem();
     val employee = employeeTable.getSelectionModel().getSelectedItem();
@@ -252,22 +235,20 @@ public class RequestHandlerViewModel extends ViewModelBase {
     employeeData.add(assignedEmployee);
 
     //UPDATE DATABASE
-    boolean test = true;
-    if (!true) {
-      val database = get(DatabaseWrapper.class);
-      database.exportServiceRequests();
-      //only use with IDs
-      //database.deleteFromTable();
-      database
-          .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.EMPLOYEE_ASSIGNED,
-              req.getRequestID(), employee.getName());
-      database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED,
-          req.getRequestID(), markerName);
-
-      database
-          .update(Table.EMPLOYEE_TABLE, EmployeeProperty.IS_AVAILABLE, employee.getEmployeeID(),
-              "false");
-    }
+//    boolean test = true;
+//    if (!true) {
+    //only use with IDs
+    //database.deleteFromTable();
+//      database
+//          .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.EMPLOYEE_ASSIGNED,
+//              req.getRequestID(), employee.getName());
+//      database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED,
+//          req.getRequestID(), markerName);
+//
+//      database
+//          .update(Table.EMPLOYEE_TABLE, EmployeeProperty.IS_AVAILABLE, employee.getEmployeeID(),
+//              "false");
+//    }
 
     updateEmployeeTable();
   }
@@ -288,7 +269,11 @@ public class RequestHandlerViewModel extends ViewModelBase {
       showErrorSnackbar("No file name entered.");
       return;
     }
-    get(CSVHandler.class).exportServiceRequests(exportServReqFilename.getText());
+    database.addNode("reqHandlerNode", 1, 1, 1, "fasdf", "fasd", "longname132435",
+        "shortnameisshortrerthanalaongname");
+    //database.addEmployee()
+    database.addServiceRequest("reqID", "time ", "reqHandlerNode", "type", "idiot", "", "");
+    csvHandler.exportServiceRequests(exportServReqFilename.getText());
   }
 
   @FXML
@@ -297,6 +282,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
       showErrorSnackbar("No file name entered.");
       return;
     }
-    get(CSVHandler.class).exportEmployees(exportEmployeeFilename.getText());
+    csvHandler.exportEmployees(exportEmployeeFilename.getText());
   }
 }
