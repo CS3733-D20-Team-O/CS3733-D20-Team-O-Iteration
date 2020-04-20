@@ -2,41 +2,28 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import javafx.collections.FXCollections?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity"
-  minHeight="600.0"
-  xmlns="http://javafx.com/javafx/11.0.1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.ServiceRequestSelection"
-  fx:id="root">
-  <HBox alignment="CENTER_RIGHT" spacing="10.0" fx:id="bottomButtons">
-    <JFXButton onAction="#onCancelClicked" text="Cancel"/>
-    <JFXButton onAction="#onSubmitClicked" text="Submit"/>
+  xmlns="http://javafx.com/javafx/11.0.1" fx:id="root" style="-fx-background-color: #acd7fd"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.ServiceRequestSelection">
+  <HBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+    AnchorPane.topAnchor="0" alignment="CENTER" spacing="36">
+    <VBox alignment="CENTER" spacing="24">
+      <Label text="%serviceRequestCreationLabel" style="-fx-font-size: 32"/>
+      <JFXComboBox promptText="%serviceRequestCreationPrompt" fx:id="serviceSelector"
+        style="-fx-font-size: 24"/>
+    </VBox>
+    <Label text="%serviceRequestOR" style="-fx-font-size: 36"/>
+    <VBox alignment="CENTER" spacing="24">
+      <Label text="%serviceRequestLookupLabel" style="-fx-font-size: 32"/>
+      <HBox alignment="CENTER" spacing="16" style="-fx-font-size: 24">
+        <JFXTextField fx:id="confirmationCode" promptText="%serviceRequestConfirmationID"/>
+        <JFXButton onAction="#onSubmitClicked" text="%serviceRequestLookupSubmit"/>
+      </HBox>
+    </VBox>
   </HBox>
-  <VBox alignment="CENTER" fx:id="headerContainer">
-    <HBox alignment="CENTER" spacing="30.0" fx:id="header">
-      <Label text="OR"/>
-      <VBox alignment="CENTER" spacing="20.0">
-        <JFXComboBox promptText="%kioskWelcome" fx:id="serviceSelector">
-          <items>
-            <FXCollections fx:factory="observableArrayList">
-              <Label text="%serviceGiftDeliveryDescription"/>
-            </FXCollections>
-          </items>
-        </JFXComboBox>
-        <Label text="%kioskWelcome"/>
-      </VBox>
-      <VBox alignment="CENTER" spacing="20.0">
-        <HBox alignment="CENTER" spacing="10.0">
-          <JFXButton text="Lookup"/>
-          <TextField/>
-        </HBox>
-        <Label text="Label"/>
-      </VBox>
-    </HBox>
-  </VBox>
 </AnchorPane>
