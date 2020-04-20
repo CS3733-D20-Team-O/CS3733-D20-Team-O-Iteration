@@ -9,22 +9,22 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-  xmlns="http://javafx.com/javafx/10.0.2-internal"
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+  xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView">
-  <HBox AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
-    alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="600.0" spacing="10.0">
+  <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="600.0" spacing="10.0"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <children>
+      <Label fx:id="lblFloor" text="%nodeMapCurrentFloor">
+        <font>
+          <Font name="Calibri" size="14.0"/>
+        </font>
+      </Label>
       <JFXComboBox onAction="#switchFloor" prefWidth="150.0">
         <HBox.margin>
           <Insets/>
         </HBox.margin>
       </JFXComboBox>
-      <Label text="%nodeMapCurrentFloor" fx:id="lblFloor">
-        <font>
-          <Font name="Calibri" size="14.0"/>
-        </font>
-      </Label>
     </children>
   </HBox>
   <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
