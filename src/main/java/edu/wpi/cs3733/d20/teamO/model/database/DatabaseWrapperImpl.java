@@ -284,61 +284,64 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   /**
    * Updates a String in a record of the specified column of the specified table
    *
-   * @param table    the table to perform the update on
-   * @param property the property (column) for the update
-   * @param id       the id of the record to update
-   * @param data     the new data for the specified property
+   * @param table           the table to perform the update on
+   * @param property        the property (column) for the update
+   * @param id              the id of the record to update
+   * @param newInfoProperty the property (column) for the new info
+   * @param data            the new data for the specified property
    * @return the number of affected entries
    */
   @Override
-  public int update(Table table, TableProperty property, String id, String data) {
-    // todo
-    // Old code for reference:
-//    val query = "UPDATE " + TABLE_NAME + " set "
-//        + TABLE_NAME + ".nodeID = ?, "
-//        + TABLE_NAME + ".xCoord = ?, "
-//        + TABLE_NAME + ".yCoord = ?, "
-//        + TABLE_NAME + ".floor = ?, "
-//        + TABLE_NAME + ".building = ?, "
-//        + TABLE_NAME + ".nodeType = ?, "
-//        + TABLE_NAME + ".longName = ?, "
-//        + TABLE_NAME + ".shortName = ? "
-//        + "WHERE " + TABLE_NAME + ".nodeID = ?";
-//    try (val stmt = connection.prepareStatement(query)) {
-//      stmt.setString(1, node.getNodeID());
-//      stmt.setInt(2, node.getXCoord());
-//      stmt.setInt(3, node.getYCoord());
-//      stmt.setInt(4, node.getFloor());
-//      stmt.setString(5, node.getBuilding());
-//      stmt.setString(6, node.getNodeType());
-//      stmt.setString(7, node.getLongName());
-//      stmt.setString(8, node.getShortName());
-//      stmt.setString(9, nodeID);
-//      if (stmt.executeUpdate() == 1) {
-//        log.info("Updated node with ID " + nodeID);
-//      } else {
-//        log.error("Failed to update node with ID " + nodeID);
-//      }
-//    } catch (SQLException e) {
-//      log.error("Failed to update node with ID " + nodeID, e);
-//    }
-    return 0;
+  public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
+      String data) {
+    val query = "UPDATE " + table.getTableName() + " set "
+        + newInfoProperty.getColumnName() + " = ? "
+        + "WHERE " + property.getColumnName() + " = ?";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, data);
+      stmt.setString(2, id);
+      val affected = stmt.executeUpdate();
+      log.info("Updated " + affected + " record(s) from " + table.getTableName());
+      log.debug("Result of update was " + affected);
+      return affected;
+    } catch (SQLException e) {
+      val error = "Failed to update record(s) from " + table.getTableName() +
+          " using property " + property.getColumnName() + " and matching " + id;
+      log.error(error, e);
+      return -1;
+    }
   }
 
   /**
    * Updates an int in a record of the specified column of the specified table
    *
-   * @param table    the table to perform the update on
-   * @param property the property (column) for the update
-   * @param id       the id of the record to update
-   * @param data     the new data for the specified property
+   * @param table           the table to perform the update on
+   * @param property        the property (column) for the update
+   * @param id              the id of the record to update
+   * @param newInfoProperty the property (column) for the new info
+   * @param data            the new data for the specified property
    * @return the number of affected entries
    */
   @Override
-  public int update(Table table, TableProperty property, String id, int data) {
+  public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
+      int data) {
     // todo GREG-play around with removing this (and just cast int to string) to remove this method
-    // todo
-    return 0;
+    val query = "UPDATE " + table.getTableName() + " set "
+        + newInfoProperty.getColumnName() + " = ? "
+        + "WHERE " + property.getColumnName() + " = ?";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setInt(1, data);
+      stmt.setString(2, id);
+      val affected = stmt.executeUpdate();
+      log.info("Updated " + affected + " record(s) from " + table.getTableName());
+      log.debug("Result of update was " + affected);
+      return affected;
+    } catch (SQLException e) {
+      val error = "Failed to update record(s) from " + table.getTableName() +
+          " using property " + property.getColumnName() + " and matching " + id;
+      log.error(error, e);
+      return -1;
+    }
   }
 
   /**

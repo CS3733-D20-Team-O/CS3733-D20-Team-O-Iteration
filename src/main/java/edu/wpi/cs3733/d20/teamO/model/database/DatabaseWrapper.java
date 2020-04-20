@@ -82,24 +82,27 @@ public interface DatabaseWrapper {
   /**
    * Updates a String in a record of the specified column of the specified table
    *
-   * @param table    the table to perform the update on
-   * @param property the property (column) for the update
-   * @param id       the id of the record to update
-   * @param data     the new data for the specified property
+   * @param table           the table to perform the update on
+   * @param property        the property (column) for the update
+   * @param id              the id of the record to update
+   * @param newInfoProperty the property (column) for the new info
+   * @param data            the new data for the specified property
    * @return the number of affected entries
    */
-  int update(Table table, TableProperty property, String id, String data);
+  int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
+      String data);
 
   /**
    * Updates an int in a record of the specified column of the specified table
    *
-   * @param table    the table to perform the update on
-   * @param property the property (column) for the update
-   * @param id       the id of the record to update
-   * @param data     the new data for the specified property
+   * @param table           the table to perform the update on
+   * @param property        the property (column) for the update
+   * @param id              the id of the record to update
+   * @param newInfoProperty the property (column) for the new info
+   * @param data            the new data for the specified property
    * @return the number of affected entries
    */
-  int update(Table table, TableProperty property, String id, int data);
+  int update(Table table, TableProperty property, String id, TableProperty newInfoProperty, int data);
 
   /**
    * @return a map of all nodeIDs stored in this database to their corresponding Nodes
