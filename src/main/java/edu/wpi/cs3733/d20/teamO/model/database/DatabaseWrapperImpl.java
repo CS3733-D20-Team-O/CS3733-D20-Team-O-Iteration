@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.d20.teamO.model.database;
 
 import com.google.inject.Inject;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
@@ -36,18 +38,18 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   }
 
   /**
-   * Checks whether the supplied table is initialized
+   * Checks whether the supplied table is not initialized
    *
    * @param table the table to check for
-   * @return whether or note the table is initialized
+   * @return whether or note the table is not initialized
    */
-  private boolean isInitialized(Table table) {
+  private boolean isNotInitialized(Table table) {
     try {
       val tableName = table.getTableName();
-      return connection.getMetaData().getTables(null, null, tableName, null).next();
+      return !connection.getMetaData().getTables(null, null, tableName, null).next();
     } catch (SQLException e) {
       log.warn("SQLException thrown while checking if table '" + table + "' was initialized", e);
-      return false;
+      return true;
     }
   }
 
@@ -56,18 +58,18 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   private void init() {
     // Initialize the nodes table if not initialized
-    if (!isInitialized(Table.NODES_TABLE)) {
+    if (isNotInitialized(Table.NODES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.NODES_TABLE
-            + "(nodeID VARCHAR(255), "
-            + "xCoord INT, "
-            + "yCoord INT, "
-            + "floor INT, "
-            + "building VARCHAR(255), "
-            + "nodeType VARCHAR(255), "
-            + "longName VARCHAR(255), "
-            + "shortName VARCHAR(255), "
-            + "CONSTRAINT NODES_PK PRIMARY KEY (nodeID))";
+            + "(" + NodeProperty.NODE_ID.getColumnName() + " VARCHAR(255), "
+            + NodeProperty.X_COORD.getColumnName() + " INT, "
+            + NodeProperty.Y_COORD.getColumnName() + " INT, "
+            + NodeProperty.FLOOR.getColumnName() + " INT, "
+            + NodeProperty.BUILDING.getColumnName() + " VARCHAR(255), "
+            + NodeProperty.NODE_TYPE.getColumnName() + " VARCHAR(255), "
+            + NodeProperty.LONG_NAME.getColumnName() + " VARCHAR(255), "
+            + NodeProperty.SHORT_NAME.getColumnName() + " VARCHAR(255), "
+            + "PRIMARY KEY (" + NodeProperty.NODE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.NODES_TABLE + " created");
       } catch (SQLException e) {
@@ -76,15 +78,15 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
 
     // Initialize the edges table if not initialized
-    if (!isInitialized(Table.EDGES_TABLE)) {
+    if (isNotInitialized(Table.EDGES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EDGES_TABLE
-            + "(edgeID VARCHAR(255), "
-            + "startID VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID
-            .getColumnName() + "), "
-            + "stopID VARCHAR(255) REFERENCES " + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID
-            .getColumnName() + "), "
-            + "PRIMARY KEY (edgeID))";
+            + "(" + EdgeProperty.EDGE_ID.getColumnName() + " VARCHAR(255), "
+            + EdgeProperty.START_ID.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName() + "), "
+            + EdgeProperty.STOP_ID.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName() + "), "
+            + "PRIMARY KEY (" + EdgeProperty.EDGE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EDGES_TABLE + " created");
       } catch (SQLException e) {
@@ -93,14 +95,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
 
     // Initialize the employee table if not initialized
-    if (!isInitialized(Table.EMPLOYEE_TABLE)) {
+    if (isNotInitialized(Table.EMPLOYEE_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
-            + "(employeeID VARCHAR(255), "
-            + "name VARCHAR(255), "
-            + "type VARCHAR(255), "
-            + "isAvailable BOOLEAN, "
-            + "PRIMARY KEY (employeeID))";
+            + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(255), "
+            + EmployeeProperty.NAME.getColumnName() + " VARCHAR(255), "
+            + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(255), "
+            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
+            + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
       } catch (SQLException e) {
@@ -109,20 +111,20 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
 
     // Initialize the service requests table if not initialized
-    if (!isInitialized(Table.SERVICE_REQUESTS_TABLE)) {
+    if (isNotInitialized(Table.SERVICE_REQUESTS_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
-            + "(requestID VARCHAR(255), "
-            + "requestTime VARCHAR(255), "
-            + "requestNode VARCHAR(255) REFERENCES " + Table.NODES_TABLE + "("
-            + NodeProperty.NODE_ID.getColumnName() + "), "
-            + "type VARCHAR(255), "
-            + "requesterName VARCHAR(255), "
-            + "whoMarked VARCHAR(255) REFERENCES " + Table.EMPLOYEE_TABLE + "("
-            + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
-            + "employeeAssigned VARCHAR(255) REFERENCES " + Table.EMPLOYEE_TABLE + "("
-            + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
-            + "PRIMARY KEY (requestID))";
+            + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(255), "
+            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " VARCHAR(255), "
+            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName() + "), "
+            + ServiceRequestProperty.TYPE.getColumnName() + " VARCHAR(255), "
+            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " VARCHAR(255), "
+            + ServiceRequestProperty.WHO_MARKED.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
+            + ServiceRequestProperty.EMPLOYEE_ASSIGNED.getColumnName() + " VARCHAR(255) REFERENCES "
+            + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
+            + "PRIMARY KEY (" + ServiceRequestProperty.REQUEST_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
       } catch (SQLException e) {
@@ -284,61 +286,64 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   /**
    * Updates a String in a record of the specified column of the specified table
    *
-   * @param table    the table to perform the update on
-   * @param property the property (column) for the update
-   * @param id       the id of the record to update
-   * @param data     the new data for the specified property
+   * @param table           the table to perform the update on
+   * @param property        the property (column) for the update
+   * @param id              the id of the record to update
+   * @param newInfoProperty the property (column) for the new info
+   * @param data            the new data for the specified property
    * @return the number of affected entries
    */
   @Override
-  public int update(Table table, TableProperty property, String id, String data) {
-    // todo
-    // Old code for reference:
-//    val query = "UPDATE " + TABLE_NAME + " set "
-//        + TABLE_NAME + ".nodeID = ?, "
-//        + TABLE_NAME + ".xCoord = ?, "
-//        + TABLE_NAME + ".yCoord = ?, "
-//        + TABLE_NAME + ".floor = ?, "
-//        + TABLE_NAME + ".building = ?, "
-//        + TABLE_NAME + ".nodeType = ?, "
-//        + TABLE_NAME + ".longName = ?, "
-//        + TABLE_NAME + ".shortName = ? "
-//        + "WHERE " + TABLE_NAME + ".nodeID = ?";
-//    try (val stmt = connection.prepareStatement(query)) {
-//      stmt.setString(1, node.getNodeID());
-//      stmt.setInt(2, node.getXCoord());
-//      stmt.setInt(3, node.getYCoord());
-//      stmt.setInt(4, node.getFloor());
-//      stmt.setString(5, node.getBuilding());
-//      stmt.setString(6, node.getNodeType());
-//      stmt.setString(7, node.getLongName());
-//      stmt.setString(8, node.getShortName());
-//      stmt.setString(9, nodeID);
-//      if (stmt.executeUpdate() == 1) {
-//        log.info("Updated node with ID " + nodeID);
-//      } else {
-//        log.error("Failed to update node with ID " + nodeID);
-//      }
-//    } catch (SQLException e) {
-//      log.error("Failed to update node with ID " + nodeID, e);
-//    }
-    return 0;
+  public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
+      String data) {
+    val query = "UPDATE " + table.getTableName() + " set "
+        + newInfoProperty.getColumnName() + " = ? "
+        + "WHERE " + property.getColumnName() + " = ?";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, data);
+      stmt.setString(2, id);
+      val affected = stmt.executeUpdate();
+      log.info("Updated " + affected + " record(s) from " + table.getTableName());
+      log.debug("Result of update was " + affected);
+      return affected;
+    } catch (SQLException e) {
+      val error = "Failed to update record(s) from " + table.getTableName() +
+          " using property " + property.getColumnName() + " and matching " + id;
+      log.error(error, e);
+      return -1;
+    }
   }
 
   /**
    * Updates an int in a record of the specified column of the specified table
    *
-   * @param table    the table to perform the update on
-   * @param property the property (column) for the update
-   * @param id       the id of the record to update
-   * @param data     the new data for the specified property
+   * @param table           the table to perform the update on
+   * @param property        the property (column) for the update
+   * @param id              the id of the record to update
+   * @param newInfoProperty the property (column) for the new info
+   * @param data            the new data for the specified property
    * @return the number of affected entries
    */
   @Override
-  public int update(Table table, TableProperty property, String id, int data) {
+  public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
+      int data) {
     // todo GREG-play around with removing this (and just cast int to string) to remove this method
-    // todo
-    return 0;
+    val query = "UPDATE " + table.getTableName() + " set "
+        + newInfoProperty.getColumnName() + " = ? "
+        + "WHERE " + property.getColumnName() + " = ?";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setInt(1, data);
+      stmt.setString(2, id);
+      val affected = stmt.executeUpdate();
+      log.info("Updated " + affected + " record(s) from " + table.getTableName());
+      log.debug("Result of update was " + affected);
+      return affected;
+    } catch (SQLException e) {
+      val error = "Failed to update record(s) from " + table.getTableName() +
+          " using property " + property.getColumnName() + " and matching " + id;
+      log.error(error, e);
+      return -1;
+    }
   }
 
   /**
@@ -364,8 +369,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       log.error("Failed to export nodes", e);
     }
     for (val edge : exportEdges()) {
-      val start = map.get(edge.getStartNodeID());
-      val stop = map.get(edge.getStopNodeID());
+      val start = map.get(edge.getStartID());
+      val stop = map.get(edge.getStopID());
       start.getNeighbors().add(stop);
       stop.getNeighbors().add(start);
     }

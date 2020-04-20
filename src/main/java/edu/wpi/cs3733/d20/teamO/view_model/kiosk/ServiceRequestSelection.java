@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -78,16 +80,22 @@ public class ServiceRequestSelection extends ViewModelBase {
     // Create the dialog and its contents
     val dialog = new JFXDialog();
     val header = new Label(request.getType() + " Service Request");
-    val infoText = getString("serviceRequestConfirmationNumber") + ": "
-        + request.getRequestID()
-        + "\n" + getString("serviceRequestAssignedTo") + ": "
-        + request.getEmployeeAssigned();
-    // todo other fields displayed?
+    val node = get(DatabaseWrapper.class).exportNodes().get(request.getRequestNode());
+    val infoText = getString("serviceRequestConfirmationID") + ": " + request.getRequestID()
+        + "\n" + getString("serviceRequestAssignedTo") + ": " + request.getEmployeeAssigned()
+        + "\n" + getString("serviceRequestLocation") + ": " + node.getLongName()
+        + "\n" + getString("serviceRequestFloor") + ": " + node.getFloor();
     val closeButton = new JFXButton(getString("serviceRequestDialogClose"));
     closeButton.setOnAction(e -> dialog.close());
-    val closeButtonContainer = new HBox(closeButton);
-    closeButtonContainer.setAlignment(Pos.CENTER_RIGHT);
-    val container = new VBox(header, new Label(infoText), closeButtonContainer);
+    val deleteButton = new JFXButton(getString("serviceRequestDialogCancelRequest"));
+    deleteButton.setOnAction(e -> {
+      get(DatabaseWrapper.class).deleteFromTable(Table.SERVICE_REQUESTS_TABLE,
+          ServiceRequestProperty.REQUEST_ID, request.getRequestID());
+      dialog.close();
+    });
+    val buttonContainer = new HBox(deleteButton, closeButton);
+    buttonContainer.setAlignment(Pos.CENTER_RIGHT);
+    val container = new VBox(header, new Label(infoText), buttonContainer);
     container.setAlignment(Pos.CENTER);
     container.setPadding(new Insets(16));
     container.setSpacing(16);
