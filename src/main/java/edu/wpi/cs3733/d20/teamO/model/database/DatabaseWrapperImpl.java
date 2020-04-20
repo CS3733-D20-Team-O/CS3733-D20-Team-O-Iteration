@@ -193,24 +193,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  @Override
-  public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
-    //todo (required for csv import of employee objects)
-    return -1;
-  }
-
-  public int addServiceRequest(String requestID, String type) {
-    //todo
-    return -1;
-  }
-
-  @Override
-  public int addServiceRequest(String requestID, String requestTime, String requestNode,
-      String type, String requesterName, String whoMarked, String employeeAssigned) {
-    //todo (required for csv import of serviceRequest objects)
-    return -1;
-  }
-
   /**
    * Adds the specified service request to the database
    *
