@@ -88,9 +88,44 @@ public class RequestHandlerViewModel extends ViewModelBase {
     empName.setCellValueFactory(new PropertyValueFactory<>("name"));
     empType.setCellValueFactory(new PropertyValueFactory<>("type"));
     empAvail.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
+    //database.addEmployee("TestEmp1", "TestName1", "TestType", true);
+    //testProperties();
 
-    testProperties();
+    //firstRunOnly();
+    notFirstRun();
   }
+
+  private void firstRunOnly() {
+    database.addEmployee("", "", "", true); //null employee
+    database
+        .addNode("RHVMNode", 0, 0, 0, "RHVMENode", "RHVMType", "RequestHandlerViewModel", "RHVM");
+    database.addEmployee("1000", "Paul", "Gift", true);
+    database.addEmployee("1001", "Randy", "Gift", true);
+    database.addEmployee("1002", "Bobo", "Interpreter", true);
+    database.addEmployee("1003", "Samuel", "Interpreter", true);
+    database.addEmployee("1004", "Joeann", "Wash", true);
+
+    //adding a bunch to see if this will slow the system down.
+    int end = 1000;
+    for (int i = 0; i < end; i++) {
+      //employeeData.add(employee5);
+      val theInt = Integer.toString(i);
+      boolean avail = true;
+      avail = i % 2 != 0;
+      database.addEmployee(theInt, "name" + theInt, "Wash", avail);
+    }
+    database.addServiceRequest("14", "55", "RHVMNode", "Gift", "55", "", "");
+    database.addServiceRequest("15", "55", "RHVMNode", "Gift", "55", "", "");
+    database.addServiceRequest("16", "55", "RHVMNode", "Interpreter", "55", "", "");
+    database.addServiceRequest("17", "55", "RHVMNode", "Interpreter", "55", "", "");
+    database.addServiceRequest("18", "55", "RHVMNode", "Wash", "55", "", "");
+  }
+
+  //set all the shit to default state
+  private void notFirstRun() {
+    serviceTable.getItems().addAll(database.exportServiceRequests());
+  }
+
 
   //DELETE THIS BEFORE PUSHING
   private void testProperties() {
@@ -226,7 +261,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
             ServiceRequestProperty.WHO_MARKED, markerName);
     database
         .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, req.getRequestID(),
-            ServiceRequestProperty.EMPLOYEE_ASSIGNED, employee.getName());
+            ServiceRequestProperty.EMPLOYEE_ASSIGNED, employee.getEmployeeID());
     //update Employee
     val assignedEmployee = new Employee(employee.getEmployeeID(), employee.getName(),
         employee.getType(), false);
