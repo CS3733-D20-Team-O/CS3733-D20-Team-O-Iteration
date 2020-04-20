@@ -11,16 +11,17 @@
   xmlns="http://javafx.com/javafx/11.0.1" fx:id="root" style="-fx-background-color: #acd7fd"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.ServiceRequestSelection">
   <HBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-    AnchorPane.topAnchor="0" alignment="CENTER" spacing="30.0">
-    <VBox alignment="CENTER" spacing="20.0">
-      <Label text="%serviceRequestCreationLabel"/>
-      <JFXComboBox promptText="%serviceRequestCreationPrompt" fx:id="serviceSelector"/>
+    AnchorPane.topAnchor="0" alignment="CENTER" spacing="36">
+    <VBox alignment="CENTER" spacing="24">
+      <Label text="%serviceRequestCreationLabel" style="-fx-font-size: 32"/>
+      <JFXComboBox promptText="%serviceRequestCreationPrompt" fx:id="serviceSelector"
+        style="-fx-font-size: 24"/>
     </VBox>
-    <Label text="%serviceRequestOR"/>
-    <VBox alignment="CENTER" spacing="20.0">
-      <Label text="%serviceRequestLookupLabel"/>
-      <HBox alignment="CENTER" spacing="10.0">
-        <JFXTextField fx:id="confirmationCode" promptText="%serviceRequestConfirmationNumber"/>
+    <Label text="%serviceRequestOR" style="-fx-font-size: 36"/>
+    <VBox alignment="CENTER" spacing="24">
+      <Label text="%serviceRequestLookupLabel" style="-fx-font-size: 32"/>
+      <HBox alignment="CENTER" spacing="16" style="-fx-font-size: 24">
+        <JFXTextField fx:id="confirmationCode" promptText="%serviceRequestConfirmationID"/>
         <JFXButton onAction="#onSubmitClicked" text="%serviceRequestLookupSubmit"/>
       </HBox>
     </VBox>
