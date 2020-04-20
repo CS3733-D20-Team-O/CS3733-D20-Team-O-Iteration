@@ -44,39 +44,30 @@ public interface DatabaseWrapper {
   int addEdge(String edgeID, String startNodeID, String stopNodeID);
 
   /**
+   * Adds the specified service request to the database
+   *
+   * @param requestID        the id of the request
+   * @param requestTime      the time of the request as a string
+   * @param requestNode      the id of the node where the request is going
+   * @param type             the type of service request
+   * @param requesterName    the name of the person filling out the request
+   * @param whoMarked        the id of the admin (employee) who assigns the request
+   * @param employeeAssigned the id of the employee assigned to fulfill the request
+   * @return the number of affected entries
+   */
+  int addServiceRequest(String requestID, String requestTime, String requestNode, String type,
+      String requesterName, String whoMarked, String employeeAssigned);
+
+  /**
    * Adds the specified employee to the database
    *
-   * @param employeeID  the id of the edge
-   * @param name        the id of the start node
-   * @param type        the id of the stop node
-   * @param isAvailable the availability of the employee
+   * @param employeeID  the id of the employee
+   * @param name        the name of the employee
+   * @param type        the type of employee they are
+   * @param isAvailable true if available, false if not available
    * @return the number of affected entries
    */
   int addEmployee(String employeeID, String name, String type, boolean isAvailable);
-
-  /**
-   * Adds the specified serviceRequest to the database
-   *
-   * @param requestID the id of the request
-   * @param type      the type of the request
-   * @return the number of affected entries
-   */
-  int addServiceRequest(String requestID, String type);
-
-  /**
-   * Adds the specified serviceRequest to the database
-   *
-   * @param requestID        the id of the request
-   * @param requestTime      the time scheduled for the request
-   * @param requestNode      the node corresponding to the location of the request
-   * @param type             the type of the request
-   * @param requesterName    the name of the requester
-   * @param whoMarked        todo what is whoMarked?
-   * @param employeeAssigned the employee assigned to the request
-   * @return the number of affected entries
-   */
-  int addServiceRequest(String requestID, String requestTime, String requestNode,
-      String type, String requesterName, String whoMarked, String employeeAssigned);
 
   /**
    * Deletes record(s) (example: a node or edge) from the specified table
