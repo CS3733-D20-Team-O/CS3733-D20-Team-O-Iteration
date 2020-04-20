@@ -38,18 +38,18 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   }
 
   /**
-   * Checks whether the supplied table is initialized
+   * Checks whether the supplied table is not initialized
    *
    * @param table the table to check for
-   * @return whether or note the table is initialized
+   * @return whether or note the table is not initialized
    */
-  private boolean isInitialized(Table table) {
+  private boolean isNotInitialized(Table table) {
     try {
       val tableName = table.getTableName();
-      return connection.getMetaData().getTables(null, null, tableName, null).next();
+      return !connection.getMetaData().getTables(null, null, tableName, null).next();
     } catch (SQLException e) {
       log.warn("SQLException thrown while checking if table '" + table + "' was initialized", e);
-      return false;
+      return true;
     }
   }
 
@@ -58,7 +58,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   private void init() {
     // Initialize the nodes table if not initialized
-    if (!isInitialized(Table.NODES_TABLE)) {
+    if (isNotInitialized(Table.NODES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.NODES_TABLE
             + "(" + NodeProperty.NODE_ID + " VARCHAR(255), "
@@ -78,7 +78,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
 
     // Initialize the edges table if not initialized
-    if (!isInitialized(Table.EDGES_TABLE)) {
+    if (isNotInitialized(Table.EDGES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EDGES_TABLE
             + "(" + EdgeProperty.EDGE_ID + " VARCHAR(255), "
@@ -97,7 +97,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
 
     // Initialize the employee table if not initialized
-    if (!isInitialized(Table.EMPLOYEE_TABLE)) {
+    if (isNotInitialized(Table.EMPLOYEE_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
             + "(" + EmployeeProperty.EMPLOYEE_ID + " VARCHAR(255), "
@@ -113,7 +113,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
 
     // Initialize the service requests table if not initialized
-    if (!isInitialized(Table.SERVICE_REQUESTS_TABLE)) {
+    if (isNotInitialized(Table.SERVICE_REQUESTS_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
             + "(" + ServiceRequestProperty.REQUEST_ID + " VARCHAR(255), "
