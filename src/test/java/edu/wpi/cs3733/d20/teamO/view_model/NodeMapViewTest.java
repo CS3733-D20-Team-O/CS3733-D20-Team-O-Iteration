@@ -1,17 +1,19 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
+import com.google.common.eventbus.EventBus;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -23,7 +25,10 @@ import org.testfx.framework.junit5.Start;
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 public class NodeMapViewTest extends ApplicationTest {
 
-  @FXML
+  @Mock
+  EventBus eventBus;
+
+  @InjectMocks
   NodeMapView viewModel;
 
   @Start

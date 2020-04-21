@@ -23,7 +23,7 @@ import lombok.val;
 @Getter
 public class NodeMapView extends ViewModelBase {
 
-  final static double nodeSize = 10;
+  static double nodeSize = 10;
 
   /**
    * The current floor being displayed
