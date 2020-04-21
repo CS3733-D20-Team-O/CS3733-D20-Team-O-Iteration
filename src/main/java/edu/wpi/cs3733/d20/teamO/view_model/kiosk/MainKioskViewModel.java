@@ -3,7 +3,7 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
-import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
+import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ResourceBundle;

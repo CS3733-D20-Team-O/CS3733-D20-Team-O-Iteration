@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.model.language;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.TestInjector;
 import lombok.val;
 import org.junit.jupiter.api.Test;

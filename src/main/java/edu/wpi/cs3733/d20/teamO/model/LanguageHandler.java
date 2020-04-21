@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.model.language;
+package edu.wpi.cs3733.d20.teamO.model;
 
 import com.google.inject.Inject;
 import edu.wpi.cs3733.d20.teamO.events.LanguageSwitchEvent;
