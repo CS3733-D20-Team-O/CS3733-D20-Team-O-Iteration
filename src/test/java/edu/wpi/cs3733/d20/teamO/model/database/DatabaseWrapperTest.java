@@ -145,6 +145,7 @@ public class DatabaseWrapperTest {
     assertEquals(map, database.exportNodes());
   }
 
+  //ALL THE EDGE TESTS
   @Test
   public void addSameEdgeTest() {
     database.addNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
@@ -217,6 +218,7 @@ public class DatabaseWrapperTest {
     assertEquals(list, database.exportEdges());
   }
 
+  //ALL THE EMPLOYEE TESTS
   @Test
   public void addSameEmployeeTest() {
     database.addEmployee("01", "Jeff", "Gift", false);
@@ -278,6 +280,7 @@ public class DatabaseWrapperTest {
     assertEquals(list, database.exportEmployees());
   }
 
+  //ALL THE SERVICE REQUEST TESTS
   @Test
   public void addSameServiceRequestTest() {
     database.addNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
@@ -379,6 +382,7 @@ public class DatabaseWrapperTest {
     assertEquals(list, database.exportServiceRequests());
   }
 
+  //TESTS FOR EMPLOYEE NAME TO ID METHOD
   @Test
   public void convertEmployeeIDtoNameTest() {
     database.addEmployee("0123", "Fred", "Gift", true);
