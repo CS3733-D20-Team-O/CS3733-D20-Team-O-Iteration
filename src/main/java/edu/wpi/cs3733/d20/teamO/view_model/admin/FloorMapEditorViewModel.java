@@ -4,12 +4,12 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.event.ActionEvent;
@@ -35,10 +35,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML private JFXTextField longNameField;
 
   Node selection;
-  int xSelection;
-  int ySelection;
-
-  private Consumer<Node> onNodeTappedListener;
+  private Map<String, Node> nodeMap = new HashMap<>();
 
   @Override
   /**
@@ -49,20 +46,20 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   protected void start(URL location, ResourceBundle resources) {
     super.start(location, resources);
-    nodeMapViewController.setNodeMap(new HashMap<String, Node>());
+    nodeMapViewController.setNodeMap(nodeMap);
     nodeMapViewController.setOnNodeTappedListener(node -> {
       selection = node;
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
+      System.out.println("Hit");
       updateCoords(x, y);
     });
   }
 
   private void updateCoords(int x, int y) {
-    if(addNodePane.isVisible()) {
-      nodeXField.setText(Integer.toString(x));
-      nodeYField.setText(Integer.toString(y));
-    }
+    System.out.println("Selected "+x+", "+y);
+    nodeXField.setText(Integer.toString(x));
+    nodeYField.setText(Integer.toString(y));
   }
 
   /**
@@ -114,16 +111,21 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void createNode(ActionEvent actionEvent) {
+    nodeXField.clear();
+    nodeYField.clear();
+    nodeIDField.clear();
+    shortNameField.clear();
+    longNameField.clear();
+
     val x = Integer.parseInt(nodeXField.getText());
     val y = Integer.parseInt(nodeYField.getText());
     val id = nodeIDField.getText();
     val shortName = shortNameField.getText();
     val longName = longNameField.getText();
     addNodePane.setVisible(false);
+    nodeMap.put(id, new Node(id, x, y, nodeMapViewController.getFloor(), "Faulkner", "", longName, shortName));
+    nodeMapViewController.setNodeMap(nodeMap);
     // todo add node in NodeMapView
-    nodeXField.clear();
-    nodeYField.clear();
-    nodeIDField.clear();
   }
 
   /**

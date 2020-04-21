@@ -5,7 +5,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -13,23 +12,8 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="720.0" maxWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #acd7fd;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel">
-   <bottom>
-      <ToolBar prefHeight="19.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
-         <items>
-            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="869.0" spacing="10.0">
-               <children>
-                  <JFXButton onAction="#floorDown" text="&lt;" />
-                  <Label fx:id="floorLabel" text="Floor 1" />
-                  <JFXButton onAction="#floorUp" text="&gt;" />
-                  <JFXButton onAction="#addNode" text="Add node" />
-                  <JFXButton onAction="#addEdge" text="Add edge" />
-               </children>
-            </HBox>
-         </items>
-      </ToolBar>
-   </bottom>
    <right>
-      <AnchorPane fx:id="sideBar" prefHeight="675.0" prefWidth="147.0" style="-fx-background-color: #FFFF;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="sideBar" style="-fx-background-color: FFFFFF; -fx-border-color: ADADAD;" BorderPane.alignment="CENTER">
          <children>
             <VBox fx:id="addNodePane" alignment="TOP_CENTER" spacing="10.0" visible="false">
                <children>
@@ -73,4 +57,19 @@
    <center>
       <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
    </center>
+   <bottom>
+      <AnchorPane style="-fx-background-color: FFFFFF; -fx-border-color: ADADAD;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="869.0" spacing="10.0">
+               <children>
+                  <JFXButton onAction="#floorDown" text="&lt;" />
+                  <Label fx:id="floorLabel" text="Floor 1" />
+                  <JFXButton onAction="#floorUp" text="&gt;" />
+                  <JFXButton onAction="#addNode" text="Add node" />
+                  <JFXButton onAction="#addEdge" text="Add edge" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>
