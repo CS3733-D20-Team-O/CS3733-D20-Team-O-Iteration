@@ -41,7 +41,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * Checks whether the supplied table is not initialized
    *
    * @param table the table to check for
-   * @return whether or note the table is not initialized
+   * @return whether or not the table is not initialized
    */
   private boolean isNotInitialized(Table table) {
     try {
