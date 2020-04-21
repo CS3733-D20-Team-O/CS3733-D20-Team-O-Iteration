@@ -6,7 +6,9 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -29,16 +31,43 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   Button reset;
 
+  Map<String, Node> nodeMap;
+
   @Override
 /**
  * Called when a ViewModel's views have been completely processed and can be used freely
- *
  * @param location  the location used to resolve relative paths for the root object, or null
  * @param resources the resources used to localize the root object, or null
  */
   protected void start(URL location, ResourceBundle resources) {
     super.start(location, resources);
+    nodeMap = new HashMap<>();
+    Node a = new Node("thing", 700, 400, 1, "ehif", "odjfoi","fjoiej", "iejfio");
+    Node b = new Node("thing", 459, 540, 1, "ehif", "odjfoi","fjoiej", "iejfio");
+    Node c = new Node("thing", 348, 492, 1, "ehif", "odjfoi","fjoiej", "iejfio");
+    Node d = new Node("thing", 300, 987, 1, "ehif", "odjfoi","fjoiej", "iejfio");
+    Node e = new Node("thing", 339, 400, 1, "ehif", "odjfoi","fjoiej", "iejfio");
+    Node f = new Node("thing", 308, 434, 1, "ehif", "odjfoi","fjoiej", "iejfio");
+    a.neighbors.add(b);
+    a.neighbors.add(f);
+    b.neighbors.add(a);
+    f.neighbors.add(a);
+    c.neighbors.add(f);
+    f.neighbors.add(c);
+    d.neighbors.add(b);
+    b.neighbors.add(d);
+    d.neighbors.add(e);
+    e.neighbors.add(f);
+    nodeMap.put("fish", a);
+    nodeMap.put("ejfo", b);
+    nodeMap.put("fei", c);
+    nodeMap.put("fejhi", d);
+    nodeMap.put("kjejfi", e);
+    nodeMap.put("ekfi", f);
+
+    nodeMapViewController.setNodeMap(nodeMap);
     nodeMapViewController.setOnNodeTappedListener(node -> {
+      prompt.setText("It works");
       switch (clicks){
         case 0:
           beginning = node;
@@ -59,7 +88,7 @@ public class FindPathViewModel extends ViewModelBase {
       clicks++;
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
-
+      prompt.setText("Please Click a Room");
     });
   }
 
@@ -67,6 +96,7 @@ public class FindPathViewModel extends ViewModelBase {
   void resetPath(){
   prompt.setText("Press Starting Point");
   clicks = 0;
+
   }
 
 }

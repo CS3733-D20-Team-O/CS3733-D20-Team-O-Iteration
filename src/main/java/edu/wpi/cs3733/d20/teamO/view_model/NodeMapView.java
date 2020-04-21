@@ -186,6 +186,7 @@ public class NodeMapView extends ViewModelBase {
   private void checkClick(int x, int y) {
     double imageX = (x / nodeCanvas.getWidth()) * backgroundImage.getImage().getWidth();
     double imageY = (y / nodeCanvas.getHeight()) * backgroundImage.getImage().getHeight();
+    //System.out.println(imageX + " " + imageY);
     AtomicBoolean nodeTrigger = new AtomicBoolean(false);
 
     Map<String, Node> floorMap = nodeMap.get(getFloor());
