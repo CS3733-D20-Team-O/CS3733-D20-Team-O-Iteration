@@ -33,8 +33,8 @@ public class RequestHandlerViewModelTest {
     database.addNode("RHVMNode", 1, 1, 1, "Main", "Test", "TestNode", "testnode");
     //can't add this service request for some reason
     database.addServiceRequest("1555", "time", "RHVMNode", "Wash", "Request Name", "", "");
-    System.out.println(database.exportEmployees().size());
-    System.out.println(database.exportServiceRequests().size());
+    System.out.println("The database employees size: " + database.exportEmployees().size());
+    System.out.println("The database serv.req. size: " + database.exportServiceRequests().size());
 
     //assertTrue(database.exportServiceRequests().size()>0);
     assertTrue(database.exportEmployees().size() > 0);
