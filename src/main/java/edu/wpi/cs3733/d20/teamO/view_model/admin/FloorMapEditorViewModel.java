@@ -30,9 +30,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML private ChoiceBox nodeType;
   @FXML private JFXTextField shortNameField;
   @FXML private JFXTextField longNameField;
+  @FXML private JFXTextField node1Field;
+  @FXML private JFXTextField node2Field;
 
-  Node selection;
   private Map<String, Node> nodeMap = new HashMap<>();
+  private Node nodeSelection1;
+  private Node nodeSelection2;
 
   @Override
   /**
@@ -45,17 +48,62 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeMapViewController.setNodeMap(nodeMap);
     nodeType.getItems().addAll("STAI","ELEV","REST","DEPT","LABS","HALL","CONF");
     nodeMapViewController.setOnNodeTappedListener(node -> {
-      selection = node;
+      select(node);
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
       updateCoords(x, y);
     });
   }
 
+  /**
+   * Updates the currently selected node
+   * @param node The selected node
+   */
+  private void select(Node node) {
+    // todo write method
+    if (addEdgePane.isVisible()) { // if the user is currently adding an edge
+      if (node1Field.getText().isBlank()) {
+        node1Field.setText(node.getNodeID());
+        nodeSelection1 = node;
+      } else if (node2Field.getText().isBlank()) {
+        node2Field.setText(node.getNodeID());
+        nodeSelection2 = node;
+      }
+    } else { // node is selected from elsewhere
+      clearSideBar();
+    }
+  }
+
+  /**
+   * Clears all content of the sidebar and empties all text fields
+   */
+  private void clearSideBar() {addNodePane.setVisible(false);
+    nodeXField.clear();
+    nodeYField.clear();
+    nodeIDField.clear();
+    shortNameField.clear();
+    longNameField.clear();
+    nodeType.getSelectionModel().clearSelection();
+    sideBar.setVisible(false);
+  }
+
+  /**
+   * Displays the sidebar
+   */
+  private void showSideBar() {
+    sideBar.setVisible(true);
+  }
+
+  /**
+   * Updates the selected coordinates when a part of the map is clicked (non-node)
+   * @param x The x-coordinate of the selection
+   * @param y The y-coordinate of the selection
+   */
   private void updateCoords(int x, int y) {
-    System.out.println("Selected "+x+", "+y);
-    nodeXField.setText(Integer.toString(x));
-    nodeYField.setText(Integer.toString(y));
+    if (addNodePane.isVisible()) {
+      nodeXField.setText(Integer.toString(x));
+      nodeYField.setText(Integer.toString(y));
+    }
   }
 
   /**
@@ -63,6 +111,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void addEdge(ActionEvent actionEvent) {
+    showSideBar();
     addNodePane.setVisible(false);
     addEdgePane.setVisible(true);
   }
@@ -72,12 +121,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void addNode(ActionEvent actionEvent) {
-    nodeXField.clear();
-    nodeYField.clear();
-    nodeIDField.clear();
-    shortNameField.clear();
-    longNameField.clear();
-    nodeType.getSelectionModel().clearSelection();
+    showSideBar();
     addNodePane.setVisible(true);
     addEdgePane.setVisible(false);
   }
@@ -105,7 +149,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void cancelAddNode(ActionEvent actionEvent) {
-    addNodePane.setVisible(false);
+    clearSideBar();
   }
 
   /**
@@ -123,13 +167,13 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       Node node = new Node(id,x,y,nodeMapViewController.getFloor(),"Faulkner",type,longName,shortName);
       nodeMap.put(id, node);
       nodeMapViewController.setNodeMap(nodeMap);
+      clearSideBar();
     } catch (Exception e) {
       Alert alert = new Alert(AlertType.ERROR);
       alert.setTitle("Invalid input");
       alert.setContentText("The input you entered was invalid.");
       alert.showAndWait();
     }
-    addNodePane.setVisible(false);
   }
 
   /**
@@ -145,13 +189,29 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void cancelAddEdge(ActionEvent actionEvent) {
-    addEdgePane.setVisible(false);
+    clearSideBar();
   }
 
   public void exportNodes(ActionEvent actionEvent) {
   }
 
   public void exportEdges(ActionEvent actionEvent) {
+  }
+
+  public void deleteSelectedNode(ActionEvent actionEvent) {
+  }
+
+  public void cancelNodeSelection(ActionEvent actionEvent) {
+  }
+
+  public void clearEdge1Selection(ActionEvent actionEvent) {
+    nodeSelection1 = null;
+    node1Field.clear();
+  }
+
+  public void clearEdge2Selection(ActionEvent actionEvent) {
+    nodeSelection2 = null;
+    node2Field.clear();
   }
   // todo add listeners
 }
