@@ -27,6 +27,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
@@ -50,7 +52,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
   @FXML
   private JFXCheckBox cbShowUnavail;
   @FXML
-  private JFXTextField serviceMarker, exportServReqFilename, exportEmployeeFilename;
+  private JFXTextField exportServReqFilename, exportEmployeeFilename;
+  @FXML
+  private TextFlow stepLbl;
 
   //Service Request Table Stuff
   @FXML
@@ -73,7 +77,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
-    cbShowUnavail.setVisible(false);
+    setStepText(stepLbl);
+    //cbShowUnavail.setVisible(false);
 
     colRequestID.setCellValueFactory(new PropertyValueFactory<>("requestID"));
     colRequestTime.setCellValueFactory(new PropertyValueFactory<>("requestTime"));
@@ -98,6 +103,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
     if (database.exportEmployees().size() != 0) {
       return;
     }
+    //hard coding a dummy Admin - adding them to the DB
+    database.addEmployee("990099", "Admin", "Admin", true);
+
     database.addEmployee("null", "null", "null", true);
     database.addEmployee("", "", "", true); //null employee
     database
@@ -247,11 +255,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
       showErrorSnackbar("Employee is unavailable.");
       return;
     }
-    //no name entered into text box
-    if (serviceMarker.getText().equals("")) {
-      showErrorSnackbar("No name entered in Assigner Name field.");
-      return;
-    }
     //if the selected service has someone assigned
     if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned().equals("")) {
       showErrorSnackbar("An employee is already assigned to this service request");
@@ -261,20 +264,28 @@ public class RequestHandlerViewModel extends ViewModelBase {
     val req = serviceTable.getSelectionModel().getSelectedItem();
     val employee = employeeTable.getSelectionModel().getSelectedItem();
     //user enters name into text field
-    val markerName = serviceMarker.getText();
+    //val markerName = serviceMarker.getText();
+    //THIS WILL WORK ONCE PUSHED
+    //val adminName = database.employeeNameFromID(990099);
+    val adminName = "990099";
 
     //update the serviceRequest table
     val assignedService = new ServiceRequest(req.getRequestID(), req.getRequestTime(),
-        req.getRequestNode(), req.getType(), req.getRequesterName(), markerName,
+        req.getRequestNode(), req.getType(), req.getRequesterName(), adminName,
         employee.getEmployeeID());
     serviceTable.getItems().remove(req);
     serviceTable.getItems().add(assignedService);
     database
         .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, req.getRequestID(),
-            ServiceRequestProperty.WHO_MARKED, markerName);
+            ServiceRequestProperty.WHO_MARKED, adminName);
+
+    ///////////////////////THIS NEEDS TO BE UPDATED////////////////////////////////////////////////////
     database
         .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, req.getRequestID(),
-            ServiceRequestProperty.EMPLOYEE_ASSIGNED, employee.getEmployeeID());
+            ServiceRequestProperty.EMPLOYEE_ASSIGNED,
+            employee.getEmployeeID()); //database.employeeNameFromID(employee.getEmployeeID())
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
     //update Employee
     val assignedEmployee = new Employee(employee.getEmployeeID(), employee.getName(),
         employee.getType(), false);
@@ -291,6 +302,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
    */
   @FXML
   private void setCbShowUnavail() {
+    if (serviceTable.getSelectionModel().isEmpty()) {
+      return;
+    }
     displayUnavail = !displayUnavail;
     updateEmployeeTable();
   }
@@ -311,5 +325,25 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return;
     }
     csvHandler.exportEmployees(exportEmployeeFilename.getText());
+  }
+
+  public void setStepText(TextFlow setTable) {
+    val step1 = new Text("Step 1.");
+    step1.setStyle("-fx-font-weight: bold");
+    val step1txt = new Text("Select a Service Request from the Service Request table.\n");
+    val step2 = new Text("Step 2.");
+    step2.setStyle("-fx-font-weight: bold");
+    val step2txt = new Text(
+        "Select an available employee to be assigned to the request from the Employee table.\n");
+    val step3 = new Text("Step 3.");
+    step3.setStyle("-fx-font-weight: bold");
+    val step3txt = new Text(
+        "Click the Assign button to assign that employee to the request. They won't be available for other requests until it is completed.\n");
+    val note = new Text("NOTE: ");
+    note.setStyle("-fx-font-weight: bold");
+    val notetxt = new Text(
+        "Checking the Show Unavailable box also displays unavailable employees in the table.\n");
+
+    setTable.getChildren().addAll(step1, step1txt, step2, step2txt, step3, step3txt, note, notetxt);
   }
 }
