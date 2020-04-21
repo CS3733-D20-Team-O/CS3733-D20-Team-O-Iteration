@@ -59,8 +59,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   private void updateCoords(int x, int y) {
-    nodeXField.setText(Integer.toString(x));
-    nodeYField.setText(Integer.toString(y));
+    if(addNodePane.isVisible()) {
+      nodeXField.setText(Integer.toString(x));
+      nodeYField.setText(Integer.toString(y));
+    }
   }
 
   /**
