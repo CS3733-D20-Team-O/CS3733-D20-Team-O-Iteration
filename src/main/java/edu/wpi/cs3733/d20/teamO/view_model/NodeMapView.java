@@ -1,20 +1,17 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
-//import com.jfoenix.controls.JFXButton;
-//import com.jfoenix.controls.JFXComboBox;
-
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -58,8 +55,7 @@ public class NodeMapView extends ViewModelBase {
   ImageView backgroundImage;
   @FXML
   Canvas nodeCanvas;
-  @FXML
-  Label lblFloor;
+
   //@FXML JFXComboBox<Integer> floorList;
 
   Image floor1 = new Image("backgrounds/Floor1LM.png");
@@ -70,18 +66,10 @@ public class NodeMapView extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    // todo import floor into ImageView and set up other basic stuff
-    backgroundImage = new ImageView(floor1);
-    nodeCanvas = new Canvas(backgroundImage.getFitWidth(), backgroundImage.getFitHeight());
-    mapView = new StackPane();
+    backgroundImage.setImage(floor1);
+    nodeCanvas.setWidth(backgroundImage.getFitWidth());
+    nodeCanvas.setHeight(backgroundImage.getFitHeight());
     mapView.getChildren().addAll(backgroundImage, nodeCanvas);
-
-    /* The remains of the combobox version of the floor switcher
-    floorList.getItems().add(1);
-    floorList.getItems().add(2);
-    floorList.getItems().add(3);
-    floorList.getItems().add(4);
-    floorList.getItems().add(5);*/
 
     draw(getFloor());
 
@@ -105,6 +93,8 @@ public class NodeMapView extends ViewModelBase {
     - call on node tapped, otherwise call the other listener with the coordinates
     - to call a listener, call its .accept() method
    */
+
+  // todo add an addNode, deleteNode
 
   /**
    * Sets a new node map and draws the new nodes
@@ -170,7 +160,7 @@ public class NodeMapView extends ViewModelBase {
     // Only draw this edge if both nodes are on this floor
     if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
       GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
-      nodeGC.setStroke(Color.BLUE);
+      nodeGC.setStroke(Color.GREEN);
       nodeGC.setLineWidth(3.0);
       double canvasX1 =
           (n1.getXCoord() / backgroundImage.getImage().getWidth()) * nodeCanvas.getWidth();
@@ -198,51 +188,23 @@ public class NodeMapView extends ViewModelBase {
   private void checkClick(int x, int y) {
     double imageX = (x / nodeCanvas.getWidth()) * backgroundImage.getImage().getWidth();
     double imageY = (y / nodeCanvas.getHeight()) * backgroundImage.getImage().getHeight();
+    AtomicBoolean nodeTrigger = new AtomicBoolean(false);
 
     Map<String, Node> floorMap = nodeMap.get(getFloor());
+    //Node closestNode = floorMap.keySet().stream().collect(Collectors.minBy(Comparator.comparing(Math.hypot(imageX - Node::getXCoord, imageY - Node::getYCoord)).get(); // todo finish
     floorMap.keySet().forEach((id) -> {
       val node = floorMap.get(id);
       double distance = Math.hypot(imageX - node.getXCoord(), imageY - node.getYCoord());
-      if (distance <= (nodeSize / 2.0) + 10.0) {
+      if (distance <= (nodeSize / 2.0)) {
         onNodeTappedListener.accept(node);
-      } else {
-        onMissTapListener.accept((int) imageX, (int) imageY);
+        nodeTrigger.set(true);
       }
     });
-  }
 
-  // A different floor switcher (that uses a combo box instead)
-  /*
-  @FXML
-  private void switchFloor() {
-    int currentFloor = floorList.getValue();
-    if (currentFloor != getFloor() && nodeMap.containsKey(currentFloor)) {
-      switch (currentFloor) {
-        case 1:
-          backgroundImage.setImage(floor1);
-          break;
-        case 2:
-          backgroundImage.setImage(floor2);
-          break;
-        case 3:
-          backgroundImage.setImage(floor3);
-          break;
-        case 4:
-          backgroundImage.setImage(floor4);
-          break;
-        case 5:
-          backgroundImage.setImage(floor5);
-          break;
-        default:
-          // How did you get here?
-          break;
-      }
-      nodeCanvas.setWidth(backgroundImage.getFitWidth());
-      nodeCanvas.setHeight(backgroundImage.getFitHeight());
-      draw(currentFloor);
-      setFloor(currentFloor);
+    if (nodeTrigger.get() == false) {
+      onMissTapListener.accept((int) imageX, (int) imageY);
     }
-  }*/
+  }
 
   public void incrementFloor() {
     if (getFloor() < maxFloor) {
