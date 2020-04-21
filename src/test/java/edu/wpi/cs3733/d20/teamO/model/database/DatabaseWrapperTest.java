@@ -8,7 +8,6 @@ import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.util.HashMap;
 import lombok.val;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -26,11 +25,6 @@ public class DatabaseWrapperTest {
       new Node("0103", 0, 5, 1,
           "Faulkner", "ELEV", "Elevator 3", "Elev3"),
   };
-
-  @BeforeEach
-  public void emptyDatabase() {
-    database.deleteFromTable(Table.NODES_TABLE, NodeProperty.NODE_TYPE, "ELEV");
-  }
 
   //
 //  private void checkResult(Node... expected) {
@@ -111,5 +105,26 @@ public class DatabaseWrapperTest {
 //  public void exportEmptyTest() {
 //    checkResult(); // tests empty list with database.export()
 //  }
+
+  @Test
+  public void convertEmployeeIDtoNameTest() {
+    database.addEmployee("0123", "Fred", "Gift", true);
+    assertEquals("Fred", database.employeeNameFromID("0123"));
+  }
+
+  @Test
+  public void chooseCorrectEmployeeIDtoNameTest() {
+    database.addEmployee("0123", "Fred", "Gift", true);
+    database.addEmployee("345", "Maria", "Gift", false);
+    database.addEmployee("4598", "Paul", "Interpreter", true);
+    assertEquals("Maria", database.employeeNameFromID("345"));
+  }
+
+  @Test
+  public void invalidEmployeeIDtoNameTest() {
+    database.addEmployee("0123", "Fred", "Gift", true);
+    database.addEmployee("345", "Maria", "Gift", false);
+    assertEquals("Failed to find name", database.employeeNameFromID("12345"));
+  }
 
 }

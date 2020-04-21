@@ -437,16 +437,19 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
 
   @Override
   public String employeeNameFromID(String id) {
-    val name = "";
-    val query = "SELECT " + EmployeeProperty.NAME + " from " + Table.EMPLOYEE_TABLE + " WHERE "
-        + EmployeeProperty.EMPLOYEE_ID + " = " + id;
-    try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
+    val query = "SELECT " + EmployeeProperty.NAME.getColumnName() + " from " + Table.EMPLOYEE_TABLE
+        .getTableName()
+        + " WHERE " + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " = ?";
+    try (val stmt = connection.prepareStatement(query)) {
+      stmt.setString(1, id);
+      val rset = stmt.executeQuery();
       while (rset.next()) {
-        return rset.getString(1);
+        val name = rset.getString(1);
+        return name;
       }
     } catch (SQLException e) {
       log.error("Failed to find name", e);
     }
-    return name;
+    return "Failed to find name";
   }
 }
