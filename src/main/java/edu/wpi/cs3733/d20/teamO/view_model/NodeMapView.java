@@ -115,7 +115,10 @@ public class NodeMapView extends ViewModelBase {
    * @param node a node
    */
   public void addNote(Node node) {
-
+    placeFloorNode(node.getNodeID(), node);
+    if(node.getFloor() == this.floor) {
+      draw();
+    }
   }
 
   /**
@@ -124,7 +127,12 @@ public class NodeMapView extends ViewModelBase {
    * @param node a node
    */
   public void deleteNode(Node node) {
-
+    if (this.nodeMap.containsKey(node.getFloor())) {
+      nodeMap.get(node.getFloor()).remove(node.getNodeID());
+      if(node.getFloor() == this.floor) {
+        draw();
+      }
+    }
   }
 
   /**
