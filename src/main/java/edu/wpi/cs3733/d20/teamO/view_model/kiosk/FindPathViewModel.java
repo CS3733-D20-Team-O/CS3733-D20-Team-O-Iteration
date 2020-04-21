@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
 import edu.wpi.cs3733.d20.teamO.model.AStar;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class FindPathViewModel extends ViewModelBase {
 
   private final AStar path = new AStar();
+  private final DatabaseWrapper database;
   private Node beginning;
   private Node finish;
   private int clicks = 0;
@@ -45,30 +47,7 @@ public class FindPathViewModel extends ViewModelBase {
  */
   protected void start(URL location, ResourceBundle resources) {
     super.start(location, resources);
-    nodeMap = new HashMap<>();
-    Node a = new Node("thing", 700, 400, 1, "ehif", "odjfoi","a", "iejfio");
-    Node b = new Node("thing", 459, 540, 1, "ehif", "odjfoi","b", "iejfio");
-    Node c = new Node("thing", 348, 492, 1, "ehif", "odjfoi","c", "iejfio");
-    Node d = new Node("thing", 300, 987, 1, "ehif", "odjfoi","d", "iejfio");
-    Node e = new Node("thing", 339, 400, 1, "ehif", "odjfoi","e", "iejfio");
-    Node f = new Node("thing", 308, 434, 1, "ehif", "odjfoi","f", "iejfio");
-    a.neighbors.add(b);
-    a.neighbors.add(f);
-    b.neighbors.add(a);
-    f.neighbors.add(a);
-    c.neighbors.add(f);
-    f.neighbors.add(c);
-    d.neighbors.add(b);
-    b.neighbors.add(d);
-    d.neighbors.add(e);
-    e.neighbors.add(f);
-    nodeMap.put("fish", a);
-    nodeMap.put("ejfo", b);
-    nodeMap.put("fei", c);
-    nodeMap.put("fejhi", d);
-    nodeMap.put("kjejfi", e);
-    nodeMap.put("ekfi", f);
-
+    nodeMap = database.exportNodes();
     nodeMapViewController.setNodeMap(nodeMap);
     nodeMapViewController.setOnNodeTappedListener(node -> {
       prompt.setText("Follow path");
