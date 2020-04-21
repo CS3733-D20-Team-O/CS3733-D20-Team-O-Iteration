@@ -117,7 +117,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
         if (e.getType().equals(req.getType())) {
 
-          if (!cbShowUnavail.isSelected() && e.getIsAvailable().equals("true")) {
+          if (!cbShowUnavail.isSelected() && e.getIsAvailable()) {
             tableItems.add(e);
           } else if (cbShowUnavail.isSelected()) {
             tableItems.add(e);
@@ -239,7 +239,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return true;
     }
     //employee is unavailable
-    if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable().equals("true")) {
+    if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable()) {
       showErrorSnackbar("Employee is unavailable.");
       return true;
     }
