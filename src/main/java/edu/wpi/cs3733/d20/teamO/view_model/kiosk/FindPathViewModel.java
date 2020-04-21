@@ -42,11 +42,10 @@ public class FindPathViewModel extends ViewModelBase {
       switch (clicks){
         case 0:
           beginning = node;
+          prompt.setText("Press Ending Location");
           break;
         case 1:
           finish = node;
-          break;
-        case 2:
           List<Node> nodes = path.findPathBetween(beginning,finish);
           for (int i = 0; i <= nodes.size() - 1; i++){
             if(i != nodes.size() - 1){
