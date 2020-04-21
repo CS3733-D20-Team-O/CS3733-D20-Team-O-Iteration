@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,10 +14,12 @@ public class GiftDeliveryServiceTest {
   /**
    * Temporary test to satisfy code coverage requirements todo remove
    */
+  /*
   @Test
   public void satisfyCodeCoverage() {
     assertEquals(Double.MAX_VALUE, new GiftDeliveryService().getFlowNewLine());
   }
+  */
 
   @Test
   public void checkIfJFXTextFieldIsEmpty() {
