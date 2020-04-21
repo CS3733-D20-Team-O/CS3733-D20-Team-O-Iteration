@@ -69,7 +69,6 @@ public class NodeMapView extends ViewModelBase {
     backgroundImage.setImage(floor1);
     nodeCanvas.setWidth(backgroundImage.getFitWidth());
     nodeCanvas.setHeight(backgroundImage.getFitHeight());
-    mapView.getChildren().addAll(backgroundImage, nodeCanvas);
 
     draw(getFloor());
 

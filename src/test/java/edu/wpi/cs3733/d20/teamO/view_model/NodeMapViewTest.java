@@ -6,7 +6,6 @@ public class NodeMapViewTest extends ApplicationTest {
   /*
   NodeMapView controller;
   Map<String, Node> nodeMap;
-
   @Override
   public void start(Stage stage) throws Exception {
     FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/NodeMapView.fxml"));
@@ -17,7 +16,6 @@ public class NodeMapViewTest extends ApplicationTest {
     stage.setScene(scene);
     stage.setAlwaysOnTop(true);
     stage.show();
-
     Node node1 = new Node("Node1", 100, 100, 1, "Test", "Test", "Test", "Test");
     Node node2 = new Node("Node2", 100, 200, 1, "Test", "Test", "Test", "Test");
     Node node3 = new Node("Node3", 200, 100, 1, "Test", "Test", "Test", "Test");
@@ -32,7 +30,6 @@ public class NodeMapViewTest extends ApplicationTest {
     nodeMap.put(node5.getNodeID(), node5);
     nodeMap.put(node6.getNodeID(), node6);
   }
-
   @Test
   void testNodeMapFloorSelect() {
     controller.setNodeMap(nodeMap);
@@ -47,7 +44,6 @@ public class NodeMapViewTest extends ApplicationTest {
     clickOn("#btnDecrementFloor");
     clickOn("#btnDecrementFloor");
   }
-
   @Test
   void testNodeMapDrawNode() {
     controller.setNodeMap(nodeMap);
@@ -60,11 +56,9 @@ public class NodeMapViewTest extends ApplicationTest {
     clickOn("#btnIncrementFloor");
     controller.drawEdge(nodeMap.get("Node5"), nodeMap.get("Node6"));
   }
-
   /*
     Map<String, Node> nodeMap = new HashMap<>();
     nodeMap.put(node1.toString(), node1);
-
     clickOn("#txtfieldFileLocation");
     write("1234");
     verifyThat("#btnImport", NodeMatchers.isEnabled());
@@ -78,18 +72,15 @@ public class NodeMapViewTest extends ApplicationTest {
     push(KeyCode.BACK_SPACE);
     push(KeyCode.BACK_SPACE);
     push(KeyCode.BACK_SPACE); // Clear the text box (quite inelegant, but couldn't find the clear method for testfx)
-
     verifyThat("#btnImport", NodeMatchers.isDisabled());
     verifyThat("#btnExport", NodeMatchers.isDisabled());
   }
-
   @Test
   void testImportButton() {
     clickOn("#txtfieldFileLocation");
     write("Test");
     clickOn("#btnImport");
   }
-
   @Test
   void testExportButton() {
     clickOn("#txtfieldFileLocation");
