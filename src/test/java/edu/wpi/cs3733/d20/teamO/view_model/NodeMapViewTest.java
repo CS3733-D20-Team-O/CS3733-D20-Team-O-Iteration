@@ -2,11 +2,9 @@ package edu.wpi.cs3733.d20.teamO.view_model;
 
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import java.util.HashMap;
 import java.util.Map;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -15,12 +13,13 @@ public class NodeMapViewTest extends ApplicationTest {
 
   NodeMapView controller;
   Map<String, Node> nodeMap;
+
   @Override
   public void start(Stage stage) throws Exception {
     FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/NodeMapView.fxml"));
     // getClass().getResource("views/NodeMapView.fxml")
-    controller = loader.getController();
-    Parent root = loader.load();
+    StackPane root = loader.load();
+    /*controller = loader.getController();
     Scene scene = new Scene(root);
     stage.setScene(scene);
     stage.setAlwaysOnTop(true);
@@ -37,7 +36,7 @@ public class NodeMapViewTest extends ApplicationTest {
     nodeMap.put(node3.getNodeID(), node3);
     nodeMap.put(node4.getNodeID(), node4);
     nodeMap.put(node5.getNodeID(), node5);
-    nodeMap.put(node6.getNodeID(), node6);
+    nodeMap.put(node6.getNodeID(), node6);*/
   }
 
   @Test
