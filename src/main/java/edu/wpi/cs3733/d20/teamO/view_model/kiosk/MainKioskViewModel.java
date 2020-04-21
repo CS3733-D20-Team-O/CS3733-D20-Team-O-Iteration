@@ -1,15 +1,20 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
+import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
-import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
+import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class MainKioskViewModel extends ViewModelBase {
+
+  private final LanguageHandler languageHandler;
 
   @FXML
   private JFXComboBox<String> languageSwitcher;
@@ -17,7 +22,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
     // Set the prompt text to the currently selected language
-    val currentLocale = get(LanguageHandler.class).getCurrentLocale();
+    val currentLocale = languageHandler.getCurrentLocale();
     languageSwitcher.setPromptText(currentLocale.getDisplayName(currentLocale));
     // Load in the supported locales
     for (val locale : LanguageHandler.SUPPORTED_LOCALES) {
@@ -25,7 +30,7 @@ public class MainKioskViewModel extends ViewModelBase {
     }
     // Add a listener to switch to the selected locale
     languageSwitcher.getSelectionModel().selectedIndexProperty().addListener(
-        ((observableValue, oldValue, newValue) -> get(LanguageHandler.class)
+        ((observableValue, oldValue, newValue) -> languageHandler
             .setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[newValue.intValue()])));
   }
 

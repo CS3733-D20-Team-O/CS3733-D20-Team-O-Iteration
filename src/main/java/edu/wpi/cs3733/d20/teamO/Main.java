@@ -10,9 +10,9 @@ import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import edu.wpi.cs3733.d20.teamO.injection_modules.DatabaseModule;
 import edu.wpi.cs3733.d20.teamO.injection_modules.EventBusModule;
 import edu.wpi.cs3733.d20.teamO.injection_modules.FXMLLoaderModule;
+import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseUtilities;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
-import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.view_model.NavigationBar;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.io.IOException;
@@ -25,6 +25,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -251,7 +252,7 @@ public class Main extends Application {
       if (viewModel == null) {
         i.remove();
       } else {
-        viewModel.onEventReceived(event);
+        Platform.runLater(() -> viewModel.onEvent(event));
       }
     }
   }
