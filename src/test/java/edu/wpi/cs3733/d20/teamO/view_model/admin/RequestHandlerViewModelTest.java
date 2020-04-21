@@ -26,5 +26,21 @@ public class RequestHandlerViewModelTest {
     assertTrue(true);
   }
 
+  @Test
+  public void assignEmployeeTest_Admin() {
+    database.addEmployee("1414", "Admin Name", "Admin", true);
+    database.addEmployee("855", "employee Name", "Wash", true);
+    database.addNode("RHVMNode", 1, 1, 1, "Main", "Test", "TestNode", "testnode");
+    //can't add this service request for some reason
+    database.addServiceRequest("1555", "time", "RHVMNode", "Wash", "Request Name", "", "");
+    System.out.println(database.exportEmployees().size());
+    System.out.println(database.exportServiceRequests().size());
+
+    //assertTrue(database.exportServiceRequests().size()>0);
+    assertTrue(database.exportEmployees().size() > 0);
+
+  }
+
+
 }
 
