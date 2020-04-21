@@ -5,7 +5,6 @@ import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import lombok.extern.slf4j.Slf4j;
 import org.greenrobot.eventbus.EventBus;
@@ -27,7 +26,6 @@ public abstract class ViewModelBase implements Initializable {
   /**
    * The resource bundle injected by JavaFX
    */
-  @FXML
   private ResourceBundle resources;
 
   /**
@@ -39,6 +37,7 @@ public abstract class ViewModelBase implements Initializable {
   @Override
   public final void initialize(URL location, ResourceBundle resources) {
     dispatch(new RegisterViewModelEvent(this));
+    this.resources = resources;
     start(location, resources);
   }
 
