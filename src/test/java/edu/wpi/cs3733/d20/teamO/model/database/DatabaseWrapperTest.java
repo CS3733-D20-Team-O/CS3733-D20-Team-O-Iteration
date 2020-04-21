@@ -35,7 +35,7 @@ public class DatabaseWrapperTest {
   public void addSameNodeTest() {
     database.addNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
     database.addNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
-    HashMap map = new HashMap<String, Node>();
+    val map = new HashMap<String, Node>();
     map.put("0101", testNodes[0]);
     assertEquals(map, database.exportNodes());
   }
@@ -45,7 +45,7 @@ public class DatabaseWrapperTest {
     database.addNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
     database.addNode("0102", 9, 0, 1, "Faulkner", "ELEV", "Elevator 2", "Elev2");
     database.addNode("0103", 0, 5, 1, "Faulkner", "ELEV", "Elevator 3", "Elev3");
-    HashMap map = new HashMap<String, Node>();
+    val map = new HashMap<String, Node>();
     map.put("0101", testNodes[0]);
     map.put("0102", testNodes[1]);
     map.put("0103", testNodes[2]);
@@ -58,7 +58,7 @@ public class DatabaseWrapperTest {
     database.addNode("0102", 9, 0, 1, "Faulkner", "ELEV", "Elevator 2", "Elev2");
     database.addNode("0103", 0, 5, 1, "Faulkner", "ELEV", "Elevator 3", "Elev3");
     database.deleteFromTable(Table.NODES_TABLE, NodeProperty.NODE_ID, "0102");
-    HashMap map = new HashMap<String, Node>();
+    val map = new HashMap<String, Node>();
     map.put("0101", testNodes[0]);
     map.put("0103", testNodes[2]);
     assertEquals(map, database.exportNodes());
@@ -70,7 +70,7 @@ public class DatabaseWrapperTest {
     database.addNode("0102", 9, 0, 1, "Faulkner", "ELEV", "Elevator 2", "Elev2");
     database.addNode("0103", 0, 5, 1, "Faulkner", "ELEV", "Elevator 3", "Elev3");
     database.deleteFromTable(Table.NODES_TABLE, NodeProperty.NODE_ID, "123");
-    HashMap map = new HashMap<String, Node>();
+    val map = new HashMap<String, Node>();
     map.put("0101", testNodes[0]);
     map.put("0102", testNodes[1]);
     map.put("0103", testNodes[2]);
@@ -84,7 +84,7 @@ public class DatabaseWrapperTest {
     database.addNode("0103", 0, 5, 1, "Faulkner", "ELEV", "Elevator 3", "Elev3");
     val updatedNode = new Node("0101", 3, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
     database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, "0101", NodeProperty.X_COORD, 3);
-    HashMap map = new HashMap<String, Node>();
+    val map = new HashMap<String, Node>();
     map.put("0101", updatedNode);
     map.put("0102", testNodes[1]);
     map.put("0103", testNodes[2]);
@@ -96,7 +96,7 @@ public class DatabaseWrapperTest {
     database.addNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
     val updatedNode = new Node("0101", 3, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
     database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, "876", NodeProperty.X_COORD, 3);
-    HashMap map = new HashMap<String, Node>();
+    val map = new HashMap<String, Node>();
     map.put("0101", testNodes[0]);
     assertEquals(map, database.exportNodes());
   }

@@ -1,26 +1,39 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
+import com.google.common.eventbus.EventBus;
 import edu.wpi.cs3733.d20.teamO.Main;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.io.IOException;
-import javafx.fxml.FXML;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
-import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
 
 /**
  * Tests NodeMapView
  */
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
-public class NodeMapViewTest extends ApplicationTest {
+public class NodeMapViewTest extends FxRobot {
 
-  @FXML
+  @Mock
+  EventBus eventBus;
+  @Spy
+  Consumer<Node> onNodeTappedListener;
+  @Spy
+  BiConsumer<Integer, Integer> onMissTapListener;
+
+  @InjectMocks
   NodeMapView viewModel;
 
   @Start
@@ -50,7 +63,6 @@ public class NodeMapViewTest extends ApplicationTest {
     nodeMap.put(node5.getNodeID(), node5);
     nodeMap.put(node6.getNodeID(), node6);
     viewModel.setNodeMap(nodeMap);
-
     viewModel.incrementFloor();
     viewModel.incrementFloor();
     viewModel.incrementFloor();
@@ -79,7 +91,6 @@ public class NodeMapViewTest extends ApplicationTest {
     nodeMap.put(node4.getNodeID(), node4);
     nodeMap.put(node5.getNodeID(), node5);
     nodeMap.put(node6.getNodeID(), node6);
-
     viewModel.setNodeMap(nodeMap);
     viewModel.drawEdge(nodeMap.get("Node1"), nodeMap.get("Node2"));
     viewModel.drawEdge(nodeMap.get("Node2"), nodeMap.get("Node3"));
