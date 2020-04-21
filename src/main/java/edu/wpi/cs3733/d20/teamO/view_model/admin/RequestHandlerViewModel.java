@@ -96,7 +96,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
    * Creates a dummy admin for iteration one This is run after the database populated/checked CALLED
    * AFTER firstRunOnly();
    */
-  private void iterationOneAdminSet() {
+  protected void iterationOneAdminSet() {
     adminID = "990099";
     adminName = database.employeeNameFromID(adminID);
   }
@@ -145,7 +145,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
       val date = Date.from(Instant.now()).toString();
       String reqType = "Gift";
       boolean avail = true;
-      avail = i % 2 != 0;
+      avail = i % 6 != 0;
 
       if (i % 2 == 0) {
         reqType = "Wash";
@@ -262,7 +262,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //update the serviceRequest table
     //Creates a new service request with the current selected service request
     //Includes the assigned employee and the admin that assigned them.
-    updateServiceTable(adminName, selectedRequest, selectedEmployee);
+    updateServiceTable(adminID, selectedRequest, selectedEmployee);
 
     //if this is false there was an error in updating the database and will not update the employee.
     if (!updateDatabase(selectedEmployee, selectedRequest, adminID)) {
@@ -426,5 +426,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
         "Checking the Show Unavailable box also displays unavailable employees in the table.\n");
 
     setTable.getChildren().addAll(step1, step1txt, step2, step2txt, step3, step3txt, note, notetxt);
+  }
+
+  protected void addEmp(Employee e) {
+    database.addEmployee(e.getEmployeeID(), e.getName(), e.getType(), true);
   }
 }
