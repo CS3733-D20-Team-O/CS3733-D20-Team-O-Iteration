@@ -129,7 +129,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
     clickOn("855");
     clickOn("Assign Employee");
     clickOn("1555");
-    assertEquals(viewModel.serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned(),
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(),
         "855");
   }
 
@@ -142,7 +142,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
     clickOn("1555");
     clickOn("1414");
     clickOn("Assign Employee");
-    assertEquals(viewModel.serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned(),
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(),
         "855");
 
   }
@@ -158,7 +158,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
     clickOn("855");
     clickOn("Assign Employee");
     clickOn("576");
-    assertEquals(viewModel.serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned(),
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(),
         "");
   }
 

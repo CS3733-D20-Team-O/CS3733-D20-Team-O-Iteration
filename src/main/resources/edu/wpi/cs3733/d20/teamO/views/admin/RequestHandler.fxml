@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -50,7 +51,7 @@
                 <JFXButton buttonType="RAISED" onAction="#assignEmployee" prefHeight="41.0"
                   prefWidth="138.0" style="-fx-background-color: LIGHTGREY;"
                   text="Assign Employee"/>
-                <JFXCheckBox fx:id="cbShowUnavail" onAction="#setCbShowUnavail" prefHeight="20.0"
+                <JFXCheckBox fx:id="cbShowUnavail" onAction="#updateEmployeeTable" prefHeight="20.0"
                   prefWidth="138.0"
                   style="-fx-background-color: LIGHTGREY; -fx-border-color: BLACK;"
                   text="Show Unavailable"/>
@@ -85,7 +86,19 @@
                 <Insets top="30.0"/>
               </padding>
             </VBox>
-            <TextFlow fx:id="stepLbl" prefHeight="266.0" prefWidth="343.0"/>
+            <TextFlow fx:id="stepLbl" prefHeight="266.0" prefWidth="343.0">
+              <children>
+                <Label prefHeight="13.0" prefWidth="272.0"
+                  text="Step 1. Select a Service Request from the"/>
+                <Label prefHeight="17.0" prefWidth="268.0" text=" Service Request table."/>
+                <Label prefHeight="17.0" prefWidth="271.0"
+                  text="Step 2. Select an available employee to be"/>
+                <Label text=" asigned to the request from the Employee table"/>
+                <Label text="Step 3. Click the Assign button to assign that "/>
+                <Label text=" employee to the request. They won't be available "/>
+                <Label text=" for other requests until it is completed."/>
+              </children>
+            </TextFlow>
           </children>
         </HBox>
       </children>
