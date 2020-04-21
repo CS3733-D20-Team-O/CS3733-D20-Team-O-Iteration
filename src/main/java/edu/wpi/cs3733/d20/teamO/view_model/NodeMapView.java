@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.fxml.FXML;
@@ -185,28 +184,33 @@ public class NodeMapView extends ViewModelBase {
    * @param y the y coordinate of the MouseEvent
    */
   private void checkClick(int x, int y) {
+    // todo offset the x and y
+    // todo check drawing nodes at corners (and ensuring they only get a quarter drawn)
     val imageX = x / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
     val imageY = y / nodeCanvas.getHeight() * backgroundImage.getImage().getHeight();
-    // atomic boolean? just scarp the forEach and use a regular for loop to use a regular boolean todo
-    AtomicBoolean nodeTrigger = new AtomicBoolean(false);
 
-    // todo this logic is flawed so I'll change it later
+    // Setup the closest node algorithm
+    Node closest = null;
+    double closestDistance = Double.MAX_VALUE;
 
+    // Search for the closest node
     val floorMap = nodeMap.get(getFloor());
-    //Node closestNode = floorMap.keySet().stream().collect(Collectors.minBy(Comparator.comparing(Math.hypot(imageX - Node::getXCoord, imageY - Node::getYCoord)).get(); // todo finish
     if (floorMap != null) {
-      floorMap.keySet().forEach((id) -> {
+      for (val id : floorMap.keySet()) {
         val node = floorMap.get(id);
         val distance = Math.hypot(imageX - node.getXCoord(), imageY - node.getYCoord());
-        if (distance <= (nodeSize / 2.0)) {
-          onNodeTappedListener.accept(node);
-          nodeTrigger.set(true);
+        if (distance < closestDistance) {
+          closest = node;
+          closestDistance = distance;
         }
-      });
+      }
     }
 
-    if (!nodeTrigger.get()) {
-      onMissTapListener.accept((int) imageX, (int) imageY);
+    // Call the appropriate listener
+    if (closestDistance > nodeSize / 2) {
+      onMissTapListener.accept(x, y);
+    } else {
+      onNodeTappedListener.accept(closest);
     }
   }
 
