@@ -92,8 +92,6 @@ public class NodeMapView extends ViewModelBase {
     - to call a listener, call its .accept() method
    */
 
-  // todo add an addNode, deleteNode
-
   /**
    * Sets a new node map and draws the new nodes
    *
@@ -103,6 +101,24 @@ public class NodeMapView extends ViewModelBase {
     this.nodeMap.clear(); // Clear the current node map
     nodeMap.keySet().forEach((id) -> placeFloorNode(id, nodeMap.get(id)));
     draw();
+  }
+
+  /**
+   * Adds a node (and redraws if on the current floor)
+   *
+   * @param node a node
+   */
+  public void addNote(Node node) {
+
+  }
+
+  /**
+   * Deletes a node (and redraws if on the current floor)
+   *
+   * @param node a node
+   */
+  public void deleteNode(Node node) {
+
   }
 
   /**
@@ -143,7 +159,7 @@ public class NodeMapView extends ViewModelBase {
     nodeGC.setFill(Color.RED);
     val x = node.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
     val y = node.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
-    nodeGC.fillOval(x, y, nodeSize, nodeSize);
+    nodeGC.fillOval(x + nodeSize/2, y + nodeSize/2, nodeSize, nodeSize);
   }
 
   /**
@@ -178,19 +194,19 @@ public class NodeMapView extends ViewModelBase {
    * @param y the y coordinate of the MouseEvent
    */
   private void checkClick(int x, int y) {
-    double imageX = x / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
-    double imageY = y / nodeCanvas.getHeight() * backgroundImage.getImage().getHeight();
+    val imageX = x / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
+    val imageY = y / nodeCanvas.getHeight() * backgroundImage.getImage().getHeight();
     // atomic boolean? just scarp the forEach and use a regular for loop to use a regular boolean todo
     AtomicBoolean nodeTrigger = new AtomicBoolean(false);
 
     // todo this logic is flawed so I'll change it later
 
-    Map<String, Node> floorMap = nodeMap.get(getFloor());
+    val floorMap = nodeMap.get(getFloor());
     //Node closestNode = floorMap.keySet().stream().collect(Collectors.minBy(Comparator.comparing(Math.hypot(imageX - Node::getXCoord, imageY - Node::getYCoord)).get(); // todo finish
     if (floorMap != null) {
       floorMap.keySet().forEach((id) -> {
         val node = floorMap.get(id);
-        double distance = Math.hypot(imageX - node.getXCoord(), imageY - node.getYCoord());
+        val distance = Math.hypot(imageX - node.getXCoord(), imageY - node.getYCoord());
         if (distance <= (nodeSize / 2.0)) {
           onNodeTappedListener.accept(node);
           nodeTrigger.set(true);
@@ -203,8 +219,16 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
-  // todo just simplify this into a setFloor method! That will simplify things significantly
+  public void setFloor(int floor) {
+    if(floor > 1 && floor < maxFloor) {
+      this.floor = floor;
+      imageViewUpdate();
+      draw();
+    }
+  }
 
+  // Kept these two functions as there's still other people's code which rely upon it,
+  // probably will be phased out in a future iteration
   public void incrementFloor() {
     if (getFloor() < maxFloor) {
       this.floor++;
