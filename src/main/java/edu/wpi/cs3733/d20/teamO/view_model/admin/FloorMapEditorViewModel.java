@@ -1,14 +1,17 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -31,6 +34,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML private JFXTextField shortNameField;
   @FXML private JFXTextField longNameField;
 
+  Node selection;
+  int xSelection;
+  int ySelection;
+
+  private Consumer<Node> onNodeTappedListener;
+
   @Override
   /**
    * Called when a ViewModel's views have been completely processed and can be used freely
@@ -41,6 +50,17 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
     super.start(location, resources);
     nodeMapViewController.setNodeMap(new HashMap<String, Node>());
+    nodeMapViewController.setOnNodeTappedListener(node -> {
+      selection = node;
+    });
+    nodeMapViewController.setOnMissTapListener((x, y) -> {
+      updateCoords(x, y);
+    });
+  }
+
+  private void updateCoords(int x, int y) {
+    nodeXField.setText(Integer.toString(x));
+    nodeYField.setText(Integer.toString(y));
   }
 
   /**
