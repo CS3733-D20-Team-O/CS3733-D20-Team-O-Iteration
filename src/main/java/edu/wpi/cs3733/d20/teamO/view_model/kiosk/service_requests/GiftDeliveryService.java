@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -101,7 +100,8 @@ public class GiftDeliveryService extends ViewModelBase {
 
       if (verifyCCInfo(ccNumber, ccYear, ccMonth, ccSecurity)) {
         //once everything is correct, save to DB
-        val database = get(DatabaseWrapper.class);
+        // val database = get(DatabaseWrapper.class);
+        // FIXME
 
         val newRequestID = "1";//this needs to be something different.
         // val requestRoomNode = inRoomComboBox.getItems().add() // on the right track, just need to figure out what to do here
@@ -110,14 +110,13 @@ public class GiftDeliveryService extends ViewModelBase {
         // boolean test = true;
         // if (!test) {
         // String requestID, String requestTime, requestNode, type, requesterName, whoMarked, employeeAssigned;
-        database
-            .addServiceRequest(newRequestID, getTime(), requestRoomNode, "Gift", toField.getText(),
-                "", "");
+        // database.addServiceRequest(newRequestID, getTime(), requestRoomNode, "Gift", toField.getText(), "", "");
         // }
+        // FIXME
 
-        val testRequest = new ServiceRequest(newRequestID, getTime(), requestRoomNode, "Gift",
-            toField.getText(), "", "");
-        System.out.println(testRequest);
+        // val testRequest = new ServiceRequest(newRequestID, getTime(), requestRoomNode, "Gift", toField.getText(), "", "");
+        // FIXME
+        // System.out.println(testRequest);
       }
     } else {
       log.error("Please fill out all fields.");
