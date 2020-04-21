@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
@@ -103,7 +102,7 @@ public class GiftDeliveryService extends ViewModelBase {
         // val database = get(DatabaseWrapper.class);
         // FIXME
 
-        val newRequestID = "1";//this needs to be something different.
+        // val newRequestID = "1";//this needs to be something different.
         // val requestRoomNode = inRoomComboBox.getItems().add() // on the right track, just need to figure out what to do here
 
         // this if statement will eventually be removed
@@ -117,6 +116,7 @@ public class GiftDeliveryService extends ViewModelBase {
         // val testRequest = new ServiceRequest(newRequestID, getTime(), requestRoomNode, "Gift", toField.getText(), "", "");
         // FIXME
         // System.out.println(testRequest);
+        int test = 0;
       }
     } else {
       log.error("Please fill out all fields.");
