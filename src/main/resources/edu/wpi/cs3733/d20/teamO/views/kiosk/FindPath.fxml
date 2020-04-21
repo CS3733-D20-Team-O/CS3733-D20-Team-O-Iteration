@@ -7,9 +7,9 @@
   <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml" />
    <Button fx:id="reset" layoutX="1127.0" layoutY="542.0" mnemonicParsing="false" onAction="#resetPath" text="reset" />
    <Label fx:id="prompt" layoutX="522.0" layoutY="28.0" text="Press Starting Point" />
-   <Label layoutX="1134.0" layoutY="57.0" text="Label" />
-   <Label layoutX="1134.0" layoutY="173.0" text="Label" />
-   <Label layoutX="1134.0" layoutY="259.0" text="Label" />
-   <Label layoutX="1134.0" layoutY="324.0" text="Label" />
+   <Label layoutX="1134.0" layoutY="57.0" text="Staring Point" />
+   <Label layoutX="1134.0" layoutY="173.0" text="" />
+   <Label layoutX="1134.0" layoutY="259.0" text="Ending Point" />
+   <Label layoutX="1134.0" layoutY="324.0" text="" />
 
 </AnchorPane>

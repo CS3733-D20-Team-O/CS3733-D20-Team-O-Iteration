@@ -27,6 +27,10 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   Label prompt;
   @FXML
+  Label start;
+  @FXML
+  Label end;
+  @FXML
   NodeMapView nodeMapViewController;
   @FXML
   Button reset;
@@ -42,12 +46,12 @@ public class FindPathViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
     super.start(location, resources);
     nodeMap = new HashMap<>();
-    Node a = new Node("thing", 700, 400, 1, "ehif", "odjfoi","fjoiej", "iejfio");
-    Node b = new Node("thing", 459, 540, 1, "ehif", "odjfoi","fjoiej", "iejfio");
-    Node c = new Node("thing", 348, 492, 1, "ehif", "odjfoi","fjoiej", "iejfio");
-    Node d = new Node("thing", 300, 987, 1, "ehif", "odjfoi","fjoiej", "iejfio");
-    Node e = new Node("thing", 339, 400, 1, "ehif", "odjfoi","fjoiej", "iejfio");
-    Node f = new Node("thing", 308, 434, 1, "ehif", "odjfoi","fjoiej", "iejfio");
+    Node a = new Node("thing", 700, 400, 1, "ehif", "odjfoi","a", "iejfio");
+    Node b = new Node("thing", 459, 540, 1, "ehif", "odjfoi","b", "iejfio");
+    Node c = new Node("thing", 348, 492, 1, "ehif", "odjfoi","c", "iejfio");
+    Node d = new Node("thing", 300, 987, 1, "ehif", "odjfoi","d", "iejfio");
+    Node e = new Node("thing", 339, 400, 1, "ehif", "odjfoi","e", "iejfio");
+    Node f = new Node("thing", 308, 434, 1, "ehif", "odjfoi","f", "iejfio");
     a.neighbors.add(b);
     a.neighbors.add(f);
     b.neighbors.add(a);
@@ -67,14 +71,16 @@ public class FindPathViewModel extends ViewModelBase {
 
     nodeMapViewController.setNodeMap(nodeMap);
     nodeMapViewController.setOnNodeTappedListener(node -> {
-      prompt.setText("It works");
+      prompt.setText("Follow path");
       switch (clicks){
         case 0:
           beginning = node;
           prompt.setText("Press Ending Location");
+          start.setText(node.getLongName());
           break;
         case 1:
           finish = node;
+          end.setText(node.getLongName());
           List<Node> nodes = path.findPathBetween(beginning,finish);
           for (int i = 0; i <= nodes.size() - 1; i++){
             if(i != nodes.size() - 1){
