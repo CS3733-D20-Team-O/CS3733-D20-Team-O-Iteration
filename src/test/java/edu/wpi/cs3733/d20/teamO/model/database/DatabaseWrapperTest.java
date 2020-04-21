@@ -28,23 +28,11 @@ public class DatabaseWrapperTest {
 
   private DatabaseWrapper database;
 
-  @BeforeEach
-  public void initializeDBandNodes() {
-    database = TestInjector.create(DatabaseWrapper.class);
-    database.addNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
-    database.addNode("0102", 9, 0, 1, "Faulkner", "ELEV", "Elevator 2", "Elev2");
-    database.addNode("0103", 0, 5, 1, "Faulkner", "ELEV", "Elevator 3", "Elev3");
-    database.addEdge("01", "0101", "0102");
-    database.addEdge("02", "0101", "0103");
-    database.addEdge("03", "0102", "0103");
-    database.addEmployee("01", "Jeff", "Gift", false);
-    database.addEmployee("02", "Jeff", "Gift", false);
-    database.addEmployee("03", "Liz", "Interpreter", true);
-    database.addServiceRequest("01", "10", "0101", "Gift", "Paul", "01", "02");
-    database.addServiceRequest("02", "0500", "0102", "Interpreter", "Jane", "01", "03");
-    database.addServiceRequest("03", "0900", "0101", "Gift", "Larry", "01", "02");
-
-  }
+  private final Employee[] testEmployees = {
+      new Employee("01", "Jeff", "Gift", "false"),
+      new Employee("02", "Jeff", "Gift", "false"),
+      new Employee("03", "Liz", "Interpreter", "true"),
+  };
 
   private final Node[] testNodes = {
       new Node("0101", 0, 0, 1,
@@ -61,11 +49,23 @@ public class DatabaseWrapperTest {
       new Edge("03", "0102", "0103"),
   };
 
-  private final Employee[] testEmployees = {
-      new Employee("01", "Jeff", "Gift", false),
-      new Employee("02", "Jeff", "Gift", false),
-      new Employee("03", "Liz", "Interpreter", true),
-  };
+  @BeforeEach
+  public void initializeDBandNodes() {
+    database = TestInjector.create(DatabaseWrapper.class);
+    database.addNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
+    database.addNode("0102", 9, 0, 1, "Faulkner", "ELEV", "Elevator 2", "Elev2");
+    database.addNode("0103", 0, 5, 1, "Faulkner", "ELEV", "Elevator 3", "Elev3");
+    database.addEdge("01", "0101", "0102");
+    database.addEdge("02", "0101", "0103");
+    database.addEdge("03", "0102", "0103");
+    database.addEmployee("01", "Jeff", "Gift", "false");
+    database.addEmployee("02", "Jeff", "Gift", "false");
+    database.addEmployee("03", "Liz", "Interpreter", "true");
+    database.addServiceRequest("01", "10", "0101", "Gift", "Paul", "01", "02");
+    database.addServiceRequest("02", "0500", "0102", "Interpreter", "Jane", "01", "03");
+    database.addServiceRequest("03", "0900", "0101", "Gift", "Larry", "01", "02");
+
+  }
 
   private final ServiceRequest[] testServiceRequests = {
       new ServiceRequest("01", "10", "0101", "Gift", "Paul", "01", "02"),
@@ -205,7 +205,7 @@ public class DatabaseWrapperTest {
   //ALL THE EMPLOYEE TESTS
   @Test
   public void addSameEmployeeTest() {
-    database.addEmployee("01", "Jeff", "Gift", false);
+    database.addEmployee("01", "Jeff", "Gift", "false");
     checkResultEmployees(testEmployees);
   }
 
@@ -228,7 +228,7 @@ public class DatabaseWrapperTest {
 
   @Test
   public void addManyAndUpdateEmployeeTest() {
-    Employee updatedEmployee = new Employee("01", "Jeff Sullivan", "Gift", false);
+    Employee updatedEmployee = new Employee("01", "Jeff Sullivan", "Gift", "false");
     database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, "01", EmployeeProperty.NAME,
         "Jeff Sullivan");
     checkResultEmployees(updatedEmployee, testEmployees[1], testEmployees[2]);
