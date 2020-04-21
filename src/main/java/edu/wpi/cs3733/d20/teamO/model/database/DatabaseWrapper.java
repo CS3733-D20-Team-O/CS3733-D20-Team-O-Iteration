@@ -67,7 +67,7 @@ public interface DatabaseWrapper {
    * @param isAvailable true if available, false if not available
    * @return the number of affected entries
    */
-  int addEmployee(String employeeID, String name, String type, boolean isAvailable);
+  int addEmployee(String employeeID, String name, String type, String isAvailable);
 
   /**
    * Deletes record(s) (example: a node or edge) from the specified table

@@ -108,22 +108,22 @@ public class DatabaseWrapperTest {
 
   @Test
   public void convertEmployeeIDtoNameTest() {
-    database.addEmployee("0123", "Fred", "Gift", true);
+    database.addEmployee("0123", "Fred", "Gift", "true");
     assertEquals("Fred", database.employeeNameFromID("0123"));
   }
 
   @Test
   public void chooseCorrectEmployeeIDtoNameTest() {
-    database.addEmployee("0123", "Fred", "Gift", true);
-    database.addEmployee("345", "Maria", "Gift", false);
-    database.addEmployee("4598", "Paul", "Interpreter", true);
+    database.addEmployee("0123", "Fred", "Gift", "true");
+    database.addEmployee("345", "Maria", "Gift", "false");
+    database.addEmployee("4598", "Paul", "Interpreter", "true");
     assertEquals("Maria", database.employeeNameFromID("345"));
   }
 
   @Test
   public void invalidEmployeeIDtoNameTest() {
-    database.addEmployee("0123", "Fred", "Gift", true);
-    database.addEmployee("345", "Maria", "Gift", false);
+    database.addEmployee("0123", "Fred", "Gift", "true");
+    database.addEmployee("345", "Maria", "Gift", "false");
     assertEquals("Failed to find name", database.employeeNameFromID("12345"));
   }
 

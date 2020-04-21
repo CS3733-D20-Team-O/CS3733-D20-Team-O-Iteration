@@ -72,7 +72,7 @@ class CSVHandlerImpl implements CSVHandler {
       scanner.nextLine();
       // Read each employee in the file and put its data into the database
       while (scanner.hasNext()) {
-        database.addEmployee(scanner.next(), scanner.next(), scanner.next(), scanner.nextBoolean());
+        database.addEmployee(scanner.next(), scanner.next(), scanner.next(), scanner.next());
       }
     } catch (FileNotFoundException e) {
       log.error("Could not read the file " + csvFileLocation, e);

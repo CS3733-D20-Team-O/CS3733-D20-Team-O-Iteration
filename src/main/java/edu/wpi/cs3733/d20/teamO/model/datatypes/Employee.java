@@ -8,6 +8,5 @@ import lombok.Value;
 @Value
 public class Employee {
 
-  String employeeID, name, type;
-  boolean isAvailable;
+  String employeeID, name, type, isAvailable;
 }

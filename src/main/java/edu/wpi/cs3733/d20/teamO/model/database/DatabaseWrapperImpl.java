@@ -101,7 +101,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(255), "
             + EmployeeProperty.NAME.getColumnName() + " VARCHAR(255), "
             + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(255), "
-            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
+            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " VARCHAR(255) CHECK ("
+            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " in ('true', 'false')), "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
@@ -240,13 +241,13 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * @return the number of affected entries
    */
   @Override
-  public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
+  public int addEmployee(String employeeID, String name, String type, String isAvailable) {
     val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, employeeID);
       stmt.setString(2, name);
       stmt.setString(3, type);
-      stmt.setBoolean(4, isAvailable);
+      stmt.setString(4, isAvailable);
       val employeesAffected = stmt.executeUpdate();
       log.info("Added employee with ID " + employeeID);
       log.debug("Result of add employee was " + employeesAffected);
@@ -427,7 +428,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         employees.add(new Employee(rset.getString(1),
             rset.getString(2),
             rset.getString(3),
-            rset.getBoolean(4)));
+            rset.getString(4)));
       }
     } catch (SQLException e) {
       log.error("Failed to export employees", e);
