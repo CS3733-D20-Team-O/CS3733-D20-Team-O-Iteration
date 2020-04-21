@@ -13,7 +13,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,35 +44,28 @@ public class NodeMapView extends ViewModelBase {
    * something else isn't really the appropriate data structure
    */
   private final Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
-  //private Map<String, Node> nodeMap = new HashMap<>();
 
-  @FXML
-  StackPane mapView;
   @FXML
   ImageView backgroundImage;
   @FXML
   Canvas nodeCanvas;
 
-  //@FXML JFXComboBox<Integer> floorList;
-
-
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    // Set the listeners for image change (including its height and width)
-    backgroundImage.imageProperty().addListener((observable, oldImage, newImage) -> {
-      nodeCanvas.setWidth(newImage.getWidth());
-      nodeCanvas.setHeight(newImage.getHeight());
+    // Set the listeners for width and height change
+    backgroundImage.fitHeightProperty().addListener((observable, oldNum, newNum) -> {
+      val image = backgroundImage.getImage();
+      val aspectRatio = image.getWidth() / image.getHeight();
+      val height = Math.min(newNum.doubleValue(), newNum.doubleValue() / aspectRatio);
+      nodeCanvas.setHeight(height);
       draw();
-      newImage.heightProperty().addListener(
-          (observableValue, oldHeight, newHeight) -> {
-            nodeCanvas.setHeight(newHeight.doubleValue());
-            draw();
-          });
-      newImage.widthProperty().addListener(
-          (observableValue, oldWidth, newWidth) -> {
-            nodeCanvas.setWidth(newWidth.doubleValue());
-            draw();
-          });
+    });
+    backgroundImage.fitWidthProperty().addListener((observable, oldNum, newNum) -> {
+      val image = backgroundImage.getImage();
+      val aspectRatio = image.getWidth() / image.getHeight();
+      val width = Math.min(newNum.doubleValue(), newNum.doubleValue() * aspectRatio);
+      nodeCanvas.setWidth(width);
+      draw();
     });
 
     // Display the current floor (and consequently call the above listeners)
@@ -82,21 +74,6 @@ public class NodeMapView extends ViewModelBase {
     // Set up event for when a node is selected (or not selected)
     nodeCanvas.setOnMouseClicked(event -> checkClick((int) event.getX(), (int) event.getY()));
   }
-
-  /*
-  todo
-  image view for floor
-  canvas for nodes and edges
-  use a StackPane to put canvas on top of ImageView
-  have a simple floor switcher like in the mockup. Your choice at either top or bottom of the view
-  listen for an on tap in the canvas
-    - fire either onNodeTappedListener if a node was tapped or the other one
-    - calculate distance from finger to node via Math.hypot
-    - go through the nodeMap and find the closest node (if map isnt empty)
-    - and if the closest node is within the radius + ~10 of each drawn node
-    - call on node tapped, otherwise call the other listener with the coordinates
-    - to call a listener, call its .accept() method
-   */
 
   /**
    * Sets a new node map and draws the new nodes
@@ -116,7 +93,7 @@ public class NodeMapView extends ViewModelBase {
    */
   public void addNote(Node node) {
     placeFloorNode(node.getNodeID(), node);
-    if(node.getFloor() == this.floor) {
+    if (node.getFloor() == this.floor) {
       draw();
     }
   }
@@ -129,7 +106,7 @@ public class NodeMapView extends ViewModelBase {
   public void deleteNode(Node node) {
     if (this.nodeMap.containsKey(node.getFloor())) {
       nodeMap.get(node.getFloor()).remove(node.getNodeID());
-      if(node.getFloor() == this.floor) {
+      if (node.getFloor() == this.floor) {
         draw();
       }
     }
