@@ -14,6 +14,8 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
+import java.time.Instant;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -40,6 +42,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private final CSVHandler csvHandler;
   private final List<Employee> employeeData = new LinkedList<Employee>();
   private boolean displayUnavail = false;
+
+  private String adminID;
+  private String adminName;
 
   @FXML
   private AnchorPane root;
@@ -69,7 +74,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
   protected TableView<Employee> employeeTable;
 
   /**
-   * Overrides start() to assign table columns.
+   * Overrides start() to assign table columns. Sets up the text, columns, database, and the
+   * dummy-admin (for iteration 1).
    *
    * @param location  the location used to resolve relative paths for the root object, or null
    * @param resources the resources used to localize the root object, or null
@@ -78,8 +84,24 @@ public class RequestHandlerViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
 
     setStepText(stepLbl);
-    //cbShowUnavail.setVisible(false);
 
+    setTableColumns();
+
+    firstRunOnly();
+    notFirstRun();
+    iterationOneAdminSet();
+  }
+
+  /**
+   * Creates a dummy admin for iteration one This is run after the database populated/checked CALLED
+   * AFTER firstRunOnly();
+   */
+  private void iterationOneAdminSet() {
+    adminID = "990099";
+    adminName = database.employeeNameFromID(adminID);
+  }
+
+  private void setTableColumns() {
     colRequestID.setCellValueFactory(new PropertyValueFactory<>("requestID"));
     colRequestTime.setCellValueFactory(new PropertyValueFactory<>("requestTime"));
     colRequestNode.setCellValueFactory(new PropertyValueFactory<>("requestNode"));
@@ -92,15 +114,14 @@ public class RequestHandlerViewModel extends ViewModelBase {
     empName.setCellValueFactory(new PropertyValueFactory<>("name"));
     empType.setCellValueFactory(new PropertyValueFactory<>("type"));
     empAvail.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
-    //database.addEmployee("TestEmp1", "TestName1", "TestType", true);
-    //testProperties();
-
-    firstRunOnly();
-    notFirstRun();
   }
 
+  /**
+   * Checks to see if there is already a database available If no database is available,
+   */
   protected void firstRunOnly() {
     if (database.exportEmployees().size() != 0) {
+      System.out.println("A Database already exists.");
       return;
     }
     //hard coding a dummy Admin - adding them to the DB
@@ -116,30 +137,26 @@ public class RequestHandlerViewModel extends ViewModelBase {
     database.addEmployee("1003", "Samuel", "Interpreter", true);
     database.addEmployee("1004", "Joeann", "Wash", true);
 
-    //adding a bunch to see if this will slow the system down.
+    //Creates a bunch of employees and services
     int end = 100;
     for (int i = 0; i < end; i++) {
       //employeeData.add(employee5);
       val theInt = Integer.toString(i);
+      val date = Date.from(Instant.now()).toString();
+      String reqType = "Gift";
       boolean avail = true;
       avail = i % 2 != 0;
-      database.addEmployee(theInt, "name" + theInt, "Wash", avail);
+
+      if (i % 2 == 0) {
+        reqType = "Wash";
+      }
+      if (i % 3 == 0) {
+        reqType = "Interpreter";
+      }
+      database.addEmployee(theInt, "name" + theInt, reqType, avail);
+      database.addServiceRequest(theInt, date, "RHVMNode", reqType, "00", "", "");
     }
-    database.addServiceRequest("14", "55", "RHVMNode", "Gift", "55", "", "");
-    database.addServiceRequest("15", "55", "RHVMNode", "Gift", "55", "", "");
-    database.addServiceRequest("16", "55", "RHVMNode", "Interpreter", "55", "", "");
-    database.addServiceRequest("17", "55", "RHVMNode", "Interpreter", "55", "", "");
-    database.addServiceRequest("18", "55", "RHVMNode", "Wash", "55", "", "");
-    database.addServiceRequest("19", "55", "RHVMNode", "Gift", "55", "", "");
-    database.addServiceRequest("20", "55", "RHVMNode", "Gift", "55", "", "");
-    database.addServiceRequest("21", "55", "RHVMNode", "Interpreter", "55", "", "");
-    database.addServiceRequest("22", "55", "RHVMNode", "Interpreter", "55", "", "");
-    database.addServiceRequest("23", "55", "RHVMNode", "Wash", "55", "", "");
-    database.addServiceRequest("24", "55", "RHVMNode", "Gift", "55", "", "");
-    database.addServiceRequest("25", "55", "RHVMNode", "Gift", "55", "", "");
-    database.addServiceRequest("26", "55", "RHVMNode", "Interpreter", "55", "", "");
-    database.addServiceRequest("27", "55", "RHVMNode", "Interpreter", "55", "", "");
-    database.addServiceRequest("28", "55", "RHVMNode", "Wash", "55", "", "");
+
   }
 
   //set all the shit to default state
@@ -233,67 +250,120 @@ public class RequestHandlerViewModel extends ViewModelBase {
    */
   @FXML
   private void assignEmployee() {
+    if (errorCheck()) {
+      return;
+    } //this returned an error - ending method
+
+    val selectedRequest = serviceTable.getSelectionModel().getSelectedItem();
+    val selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+
+    //using dummy admin value
+
+    //update the serviceRequest table
+    //Creates a new service request with the current selected service request
+    //Includes the assigned employee and the admin that assigned them.
+    updateServiceTable(adminName, selectedRequest, selectedEmployee);
+
+    //if this is false there was an error in updating the database and will not update the employee.
+    if (!updateDatabase(selectedEmployee, selectedRequest, adminID)) {
+      System.out.println("Exiting assignEmployee() due to updateDatabase error");
+      return;
+    }
+
+//    //update Employee
+//    val assignedEmployee = new Employee(selectedEmployee.getEmployeeID(), selectedEmployee.getName(),
+//        selectedEmployee.getType(), false);
+////    employeeData.remove(employee);
+////    employeeData.add(assignedEmployee);
+
+    System.out.println("Updating Employee Table from assignEmployee()");
+    updateEmployeeTable();
+  }
+
+  /**
+   * Updates the Employee and Service Request database. The employee needs to be updated first, then
+   * they can be added to the request. Finally the admin is added to the request.
+   *
+   * @param selectedEmployee = the employee being assigned to the service request
+   * @param selectedRequest  = the service request that has been assigned an employee.
+   * @param adminID          = the person's ID that is currently logged in.
+   * @return
+   */
+  private boolean updateDatabase(Employee selectedEmployee, ServiceRequest selectedRequest,
+      String adminID) {
+    try {
+      database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID,
+          selectedEmployee.getEmployeeID(), EmployeeProperty.IS_AVAILABLE, "false");
+      database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
+          selectedRequest.getRequestID(), ServiceRequestProperty.EMPLOYEE_ASSIGNED,
+          selectedEmployee.getEmployeeID());
+      database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
+          selectedRequest.getRequestID(), ServiceRequestProperty.WHO_MARKED, adminID);
+
+      return true;
+    } catch (Exception e) {
+      System.out.println(e);
+      System.out.println("There was an error updating the database.");
+      return false;
+    }
+
+  }
+
+  /**
+   * Updates the Service Request table on the screen, after being assigned an employee.
+   *
+   * @param adminName        = the name of the person logged in
+   * @param selectedRequest  = the service request currently selected in the Service Request table.
+   * @param selectedEmployee = the employee currentled selected in the Employee table to be
+   *                         assigned.
+   */
+  private void updateServiceTable(String adminName, ServiceRequest selectedRequest,
+      Employee selectedEmployee) {
+    val assignedService = new ServiceRequest(selectedRequest.getRequestID(),
+        selectedRequest.getRequestTime(),
+        selectedRequest.getRequestNode(), selectedRequest.getType(),
+        selectedRequest.getRequesterName(), adminName,
+        selectedEmployee.getEmployeeID());
+    serviceTable.getItems().remove(selectedRequest);
+    serviceTable.getItems().add(assignedService);
+  }
+
+  /**
+   * Checks if certain criteria are met to assign employee Otherwise shows a specific snackbar
+   * error.
+   *
+   * @return
+   */
+  private boolean errorCheck() {
     // "error" cases to do nothing
     //no serviceReq selected
     if (serviceTable.getSelectionModel().getSelectedItem() == null) {
       showErrorSnackbar("No Service Request selected.");
-      return;
+      return true;
     }
     //no employee selected
     if (employeeTable.getSelectionModel().getSelectedItem() == null) {
       showErrorSnackbar("No Employee selected.");
-      return;
+      return true;
     }
     //employee selected somehow does not have same type as request
     if (!employeeTable.getSelectionModel().getSelectedItem().getType()
         .equals(serviceTable.getSelectionModel().getSelectedItem().getType())) {
       showErrorSnackbar("Employee cannot complete this Service Request.");
-      return;
+      return true;
     }
     //employee is unavailable
     if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable().equals("true")) {
       showErrorSnackbar("Employee is unavailable.");
-      return;
+      return true;
     }
     //if the selected service has someone assigned
     if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned().equals("")) {
       showErrorSnackbar("An employee is already assigned to this service request");
-      return;
+      return true;
+    } else {
+      return false;
     }
-
-    val req = serviceTable.getSelectionModel().getSelectedItem();
-    val employee = employeeTable.getSelectionModel().getSelectedItem();
-    //user enters name into text field
-    //val markerName = serviceMarker.getText();
-    //THIS WILL WORK ONCE PUSHED
-    //val adminName = database.employeeNameFromID(990099);
-    val adminName = "990099";
-
-    //update the serviceRequest table
-    val assignedService = new ServiceRequest(req.getRequestID(), req.getRequestTime(),
-        req.getRequestNode(), req.getType(), req.getRequesterName(), adminName,
-        employee.getEmployeeID());
-    serviceTable.getItems().remove(req);
-    serviceTable.getItems().add(assignedService);
-    database
-        .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, req.getRequestID(),
-            ServiceRequestProperty.WHO_MARKED, adminName);
-
-    ///////////////////////THIS NEEDS TO BE UPDATED////////////////////////////////////////////////////
-    database
-        .update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, req.getRequestID(),
-            ServiceRequestProperty.EMPLOYEE_ASSIGNED,
-            employee.getEmployeeID()); //database.employeeNameFromID(employee.getEmployeeID())
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    //update Employee
-    val assignedEmployee = new Employee(employee.getEmployeeID(), employee.getName(),
-        employee.getType(), false);
-//    employeeData.remove(employee);
-//    employeeData.add(assignedEmployee);
-    database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, employee.getEmployeeID(),
-        EmployeeProperty.IS_AVAILABLE, "false");
-    updateEmployeeTable();
   }
 
 
@@ -309,6 +379,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
     updateEmployeeTable();
   }
 
+  /**
+   * Exports the current Service Request database to a user-set filename.
+   */
   @FXML
   private void exportServiceRequest() {
     if (exportServReqFilename.getText().equals("")) {
@@ -318,6 +391,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
     csvHandler.exportServiceRequests(exportServReqFilename.getText());
   }
 
+  /**
+   * Exports the current Employee database to a user-set filename.
+   */
   @FXML
   private void exportEmployee() {
     if (exportEmployeeFilename.getText().equals("")) {
@@ -327,6 +403,11 @@ public class RequestHandlerViewModel extends ViewModelBase {
     csvHandler.exportEmployees(exportEmployeeFilename.getText());
   }
 
+  /**
+   * Creates and sets the text for the steps to assign an employee.
+   *
+   * @param setTable
+   */
   public void setStepText(TextFlow setTable) {
     val step1 = new Text("Step 1.");
     step1.setStyle("-fx-font-weight: bold");
