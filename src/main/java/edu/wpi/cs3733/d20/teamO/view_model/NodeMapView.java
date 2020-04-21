@@ -46,12 +46,18 @@ public class NodeMapView extends ViewModelBase {
   private final Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
 
   @FXML
-  ImageView backgroundImage;
+  private StackPane root;
   @FXML
-  Canvas nodeCanvas;
+  private ImageView backgroundImage;
+  @FXML
+  private Canvas nodeCanvas;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+    // Set the image view width and height to listen to the stack pane
+    backgroundImage.fitWidthProperty().bind(root.widthProperty());
+    backgroundImage.fitHeightProperty().bind(root.heightProperty());
+
     // Set the listeners for width and height change
     backgroundImage.fitHeightProperty().addListener((observable, oldNum, newNum) -> {
       val image = backgroundImage.getImage();
@@ -91,7 +97,7 @@ public class NodeMapView extends ViewModelBase {
    *
    * @param node a node
    */
-  public void addNote(Node node) {
+  public void addNode(Node node) {
     placeFloorNode(node.getNodeID(), node);
     if (node.getFloor() == this.floor) {
       draw();
@@ -209,9 +215,13 @@ public class NodeMapView extends ViewModelBase {
 
     // Call the appropriate listener
     if (closestDistance > nodeSize / 2) {
-      onMissTapListener.accept(x, y);
+      if (onMissTapListener != null) {
+        onMissTapListener.accept(x, y);
+      }
     } else {
-      onNodeTappedListener.accept(closest);
+      if (onNodeTappedListener != null) {
+        onNodeTappedListener.accept(closest);
+      }
     }
   }
 
