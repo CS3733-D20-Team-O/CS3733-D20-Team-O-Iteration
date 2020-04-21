@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import edu.wpi.cs3733.d20.teamO.Main;
@@ -104,25 +103,6 @@ public class RequestHandlerViewModelTest extends FxRobot {
     stage.show();
   }
 
-//  @Test
-//  public void testNo1() {
-//    //database.addNode("", 0, 0, 0, "", "", "", "");
-//    //database.addEmployee("", "", "", true);
-//    //database.addServiceRequest("1", "0700", "", "Interpreter", "Bob", "", "");
-//    //database.addEmployee("1", "Jo", "Interpreter", true);
-//    viewModel.firstRunOnly();
-//    viewModel.notFirstRun();
-//    clickOn("Assign Employee");
-//    viewModel.serviceTable.getItems().add(new ServiceRequest("1", "0700", "", "Interpreter", "Bob", "", ""));
-//    viewModel.serviceTable.getSelectionModel().select(0);
-//    System.out.println(viewModel.serviceTable.getSelectionModel().getSelectedItem().getType());
-//    assertTrue(true);
-//  }
-
-  public RequestHandlerViewModelTest() {
-
-  }
-
   @Test
   public void assignAnEmployeeValid() {
     clickOn("1555");
@@ -160,22 +140,6 @@ public class RequestHandlerViewModelTest extends FxRobot {
     clickOn("576");
     assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(),
         "");
-  }
-
-  @Test
-  public void assignEmployeeTest_Admin() {
-    database.addEmployee("1414", "Admin Name", "Admin", true);
-    database.addEmployee("855", "employee Name", "Wash", true);
-    database.addEmployee("", "", "", true);
-    database.addNode("RHVMNode", 1, 1, 1, "Main", "Test", "TestNode", "testnode");
-    //can't add this service request for some reason
-    database.addServiceRequest("1555", "time", "RHVMNode", "Wash", "Request Name", "", "");
-    System.out.println("The database employees size: " + database.exportEmployees().size());
-    System.out.println("The database serv.req. size: " + database.exportServiceRequests().size());
-
-    //assertTrue(database.exportServiceRequests().size()>0);
-    assertTrue(database.exportEmployees().size() > 0);
-
   }
 
 

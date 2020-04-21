@@ -185,7 +185,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
    */
   private boolean updateDatabase(Employee selectedEmployee, ServiceRequest selectedRequest,
       String adminID) {
-    try {
       database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID,
           selectedEmployee.getEmployeeID(), EmployeeProperty.IS_AVAILABLE, "false");
       database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
@@ -193,14 +192,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
           selectedEmployee.getEmployeeID());
       database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
           selectedRequest.getRequestID(), ServiceRequestProperty.WHO_MARKED, adminID);
-
       return true;
-    } catch (Exception e) {
-      System.out.println(e);
-      System.out.println("There was an error updating the database.");
-      return false;
-    }
-
   }
 
   /**
