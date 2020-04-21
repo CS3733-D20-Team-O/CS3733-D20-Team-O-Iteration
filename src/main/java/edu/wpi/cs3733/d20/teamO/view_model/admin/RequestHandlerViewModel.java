@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.google.inject.Inject;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
@@ -45,9 +44,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
   /**
    * Buttons, Checkbox, TextField
    */
-  @FXML
-  private final JFXButton btnAssign = new JFXButton("Assign"), btnExportServiceReq = new JFXButton(
-      "Export Service Request"), btnExportEmployee = new JFXButton("Export Employee");
+//  @FXML
+//  private JFXButton btnAssign = new JFXButton("Assign"), btnExportServiceReq = new JFXButton(
+//      "Export Service Request"), btnExportEmployee = new JFXButton("Export Employee");
   @FXML
   private JFXCheckBox cbShowUnavail;
   @FXML
@@ -55,7 +54,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
   //Service Request Table Stuff
   @FXML
-  private TableView<ServiceRequest> serviceTable;
+  protected TableView<ServiceRequest> serviceTable;
   @FXML
   private TableColumn<String, ServiceRequest> colRequestID, colRequestTime, colRequestNode, colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType;
 
@@ -63,7 +62,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   @FXML
   private TableColumn<String, Employee> empID, empName, empType, empAvail;
   @FXML
-  private TableView<Employee> employeeTable;
+  protected TableView<Employee> employeeTable;
 
   /**
    * Overrides start() to assign table columns.
@@ -95,7 +94,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     notFirstRun();
   }
 
-  private void firstRunOnly() {
+  protected void firstRunOnly() {
     if (database.exportEmployees().size() != 0) {
       return;
     }
@@ -136,7 +135,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   }
 
   //set all the shit to default state
-  private void notFirstRun() {
+  protected void notFirstRun() {
     serviceTable.getItems().addAll(database.exportServiceRequests());
   }
 
