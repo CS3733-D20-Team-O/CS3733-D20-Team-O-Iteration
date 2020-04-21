@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,12 +22,12 @@ import lombok.val;
 @Getter
 public class NodeMapView extends ViewModelBase {
 
-  final static double nodeSize = 10;
+  private final static double nodeSize = 10;
 
   /**
    * The current floor being displayed
    */
-  private SimpleIntegerProperty floor = new SimpleIntegerProperty(1);
+  private int floor = 1;
   /**
    * The maximum floor
    */
@@ -191,14 +190,16 @@ public class NodeMapView extends ViewModelBase {
 
     Map<String, Node> floorMap = nodeMap.get(getFloor());
     //Node closestNode = floorMap.keySet().stream().collect(Collectors.minBy(Comparator.comparing(Math.hypot(imageX - Node::getXCoord, imageY - Node::getYCoord)).get(); // todo finish
-    floorMap.keySet().forEach((id) -> {
-      val node = floorMap.get(id);
-      double distance = Math.hypot(imageX - node.getXCoord(), imageY - node.getYCoord());
-      if (distance <= (nodeSize / 2.0)) {
-        onNodeTappedListener.accept(node);
-        nodeTrigger.set(true);
-      }
-    });
+    if (floorMap != null) {
+      floorMap.keySet().forEach((id) -> {
+        val node = floorMap.get(id);
+        double distance = Math.hypot(imageX - node.getXCoord(), imageY - node.getYCoord());
+        if (distance <= (nodeSize / 2.0)) {
+          onNodeTappedListener.accept(node);
+          nodeTrigger.set(true);
+        }
+      });
+    }
 
     if (nodeTrigger.get() == false) {
       onMissTapListener.accept((int) imageX, (int) imageY);
@@ -207,19 +208,17 @@ public class NodeMapView extends ViewModelBase {
 
   public void incrementFloor() {
     if (getFloor() < maxFloor) {
-      val floor = getFloor() + 1;
-      imageViewUpdate(floor);
-      draw(floor);
-      setFloor(floor);
+      this.floor++;
+      imageViewUpdate(this.floor);
+      draw(this.floor);
     }
   }
 
   public void decrementFloor() {
     if (getFloor() > 1) {
-      val floor = getFloor() - 1;
-      imageViewUpdate(floor);
-      draw(floor);
-      setFloor(floor);
+      this.floor--;
+      imageViewUpdate(this.floor);
+      draw(this.floor);
     }
   }
 
@@ -251,17 +250,5 @@ public class NodeMapView extends ViewModelBase {
     }
     nodeCanvas.setWidth(backgroundImage.getFitWidth());
     nodeCanvas.setHeight(backgroundImage.getFitHeight());
-  }
-
-  public int getFloor() {
-    return floor.get();
-  }
-
-  public void setFloor(int floor) {
-    this.floor.set(floor);
-  }
-
-  public SimpleIntegerProperty floorProperty() {
-    return floor;
   }
 }
