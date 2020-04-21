@@ -1,11 +1,18 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,7 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.val;
 
-public class FloorMapEditorViewModel extends ViewModelBase {
+public class FloorMapEditorViewModel extends ViewModelBase implements DatabaseWrapper {
   @FXML private NodeMapView nodeMapViewController;
   @FXML private JFXTextField nodeXField;
   @FXML private JFXTextField nodeYField;
@@ -77,14 +84,19 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   /**
    * Clears all content of the sidebar and empties all text fields
    */
-  private void clearSideBar() {addNodePane.setVisible(false);
+  private void clearSideBar() {
+    addNodePane.setVisible(false);
+    addEdgePane.setVisible(false);
     nodeXField.clear();
     nodeYField.clear();
     nodeIDField.clear();
     shortNameField.clear();
     longNameField.clear();
     nodeType.getSelectionModel().clearSelection();
+    node1Field.clear();
+    node2Field.clear();
     sideBar.setVisible(false);
+    // todo clear all other stuff
   }
 
   /**
@@ -111,8 +123,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void addEdge(ActionEvent actionEvent) {
+    clearSideBar();
     showSideBar();
-    addNodePane.setVisible(false);
     addEdgePane.setVisible(true);
   }
 
@@ -121,9 +133,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void addNode(ActionEvent actionEvent) {
+    clearSideBar();
     showSideBar();
     addNodePane.setVisible(true);
-    addEdgePane.setVisible(false);
   }
 
   /**
@@ -212,6 +224,70 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   public void clearEdge2Selection(ActionEvent actionEvent) {
     nodeSelection2 = null;
     node2Field.clear();
+  }
+
+  @Override
+  public int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
+      String nodeType, String longName, String shortName) {
+    return 0;
+  }
+
+  @Override
+  public int addEdge(String edgeID, String startNodeID, String stopNodeID) {
+    return 0;
+  }
+
+  @Override
+  public int addServiceRequest(String requestID, String requestTime, String requestNode,
+      String type, String requesterName, String whoMarked, String employeeAssigned) {
+    return 0;
+  }
+
+  @Override
+  public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
+    return 0;
+  }
+
+  @Override
+  public int deleteFromTable(Table table, TableProperty property, String matching) {
+    return 0;
+  }
+
+  @Override
+  public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
+      String data) {
+    return 0;
+  }
+
+  @Override
+  public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
+      int data) {
+    return 0;
+  }
+
+  @Override
+  public Map<String, Node> exportNodes() {
+    return null;
+  }
+
+  @Override
+  public List<Edge> exportEdges() {
+    return null;
+  }
+
+  @Override
+  public List<ServiceRequest> exportServiceRequests() {
+    return null;
+  }
+
+  @Override
+  public List<Employee> exportEmployees() {
+    return null;
+  }
+
+  @Override
+  public String employeeNameFromID(String id) {
+    return null;
   }
   // todo add listeners
 }
