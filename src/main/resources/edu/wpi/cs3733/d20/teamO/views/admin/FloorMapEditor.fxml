@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-
 <BorderPane maxHeight="720.0" maxWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #acd7fd;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel">
    <right>
       <AnchorPane fx:id="sideBar" style="-fx-background-color: FFFFFF; -fx-border-color: ADADAD;" visible="false" BorderPane.alignment="CENTER">
@@ -80,20 +79,20 @@
       </AnchorPane>
    </right>
    <center>
-      <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
+      <!--<fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>-->
    </center>
    <bottom>
       <AnchorPane style="-fx-background-color: FFFFFF; -fx-border-color: ADADAD;" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="869.0" spacing="10.0">
                <children>
-                  <JFXButton onAction="#floorDown" text="&lt;" />
-                  <Label fx:id="floorLabel" text="Floor 1" />
-                  <JFXButton onAction="#floorUp" text="&gt;" />
-                  <JFXButton onAction="#addNode" text="Add node" />
-                  <JFXButton onAction="#addEdge" text="Add edge" />
-                  <JFXButton onAction="#exportNodes" text="Export nodes" />
-                  <JFXButton onAction="#exportEdges" text="Export edges" />
+                  <JFXButton onAction="#floorDown" text="&lt;"/>
+                  <Label fx:id="floorLabel" text="Floor 1"/>
+                  <JFXButton onAction="#floorUp" text="&gt;"/>
+                  <JFXButton onAction="#addNodeButton" text="Add node"/>
+                  <JFXButton onAction="#addEdgeButton" text="Add edge"/>
+                  <JFXButton onAction="#exportNodesButton" text="Export nodes"/>
+                  <JFXButton onAction="#exportEdgesButton" text="Export edges"/>
                </children>
             </HBox>
          </children>

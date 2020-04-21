@@ -1,18 +1,11 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -25,24 +18,46 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.val;
 
-public class FloorMapEditorViewModel extends ViewModelBase implements DatabaseWrapper {
-  @FXML private NodeMapView nodeMapViewController;
-  @FXML private JFXTextField nodeXField;
-  @FXML private JFXTextField nodeYField;
-  @FXML private JFXTextField nodeIDField;
-  @FXML private AnchorPane sideBar;
-  @FXML private Label floorLabel;
-  @FXML private VBox addNodePane;
-  @FXML private VBox addEdgePane;
-  @FXML private ChoiceBox nodeType;
-  @FXML private JFXTextField shortNameField;
-  @FXML private JFXTextField longNameField;
-  @FXML private JFXTextField node1Field;
-  @FXML private JFXTextField node2Field;
+public class FloorMapEditorViewModel extends ViewModelBase {
+
+  @FXML
+  private NodeMapView nodeMapViewController;
+  @FXML
+  private JFXTextField nodeXField;
+  @FXML
+  private JFXTextField nodeYField;
+  @FXML
+  private JFXTextField nodeIDField;
+  @FXML
+  private AnchorPane sideBar;
+  @FXML
+  private Label floorLabel;
+  @FXML
+  private VBox addNodePane;
+  @FXML
+  private VBox addEdgePane;
+  @FXML
+  private ChoiceBox nodeType;
+  @FXML
+  private JFXTextField shortNameField;
+  @FXML
+  private JFXTextField longNameField;
+  @FXML
+  private JFXTextField node1Field;
+  @FXML
+  private JFXTextField node2Field;
+  @FXML
+  private VBox exportNodesPane;
+  @FXML
+  private VBox exportEdgesPane;
 
   private Map<String, Node> nodeMap = new HashMap<>();
   private Node nodeSelection1;
   private Node nodeSelection2;
+  //private final DatabaseWrapper database; //todo implement this
+
+  public FloorMapEditorViewModel() {
+  }
 
   @Override
   /**
@@ -78,6 +93,7 @@ public class FloorMapEditorViewModel extends ViewModelBase implements DatabaseWr
       }
     } else { // node is selected from elsewhere
       clearSideBar();
+      // todo implement node selection
     }
   }
 
@@ -120,9 +136,10 @@ public class FloorMapEditorViewModel extends ViewModelBase implements DatabaseWr
 
   /**
    * Called when the add edge button is pressed
+   *
    * @param actionEvent
    */
-  public void addEdge(ActionEvent actionEvent) {
+  public void addEdgeButton(ActionEvent actionEvent) {
     clearSideBar();
     showSideBar();
     addEdgePane.setVisible(true);
@@ -130,9 +147,10 @@ public class FloorMapEditorViewModel extends ViewModelBase implements DatabaseWr
 
   /**
    * Called when the add node button is pressed
+   *
    * @param actionEvent
    */
-  public void addNode(ActionEvent actionEvent) {
+  public void addNodeButton(ActionEvent actionEvent) {
     clearSideBar();
     showSideBar();
     addNodePane.setVisible(true);
@@ -176,9 +194,10 @@ public class FloorMapEditorViewModel extends ViewModelBase implements DatabaseWr
       val shortName = shortNameField.getText();
       val longName = longNameField.getText();
       val type = nodeType.getSelectionModel().getSelectedItem().toString();
-      Node node = new Node(id,x,y,nodeMapViewController.getFloor(),"Faulkner",type,longName,shortName);
-      nodeMap.put(id, node);
-      nodeMapViewController.setNodeMap(nodeMap);
+      Node node = new Node(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
+          shortName);
+      nodeMapViewController.addNote(node);
+      nodeMap.put(node.getNodeID(), node);
       clearSideBar();
     } catch (Exception e) {
       Alert alert = new Alert(AlertType.ERROR);
@@ -193,27 +212,34 @@ public class FloorMapEditorViewModel extends ViewModelBase implements DatabaseWr
    * @param actionEvent
    */
   public void createEdge(ActionEvent actionEvent) {
+    nodeMapViewController.drawEdge(nodeSelection1, nodeSelection2);
     // todo add edge in NodeMapView
   }
 
   /**
    * Called when the cancel button is clicked in the add edge menu
+   *
    * @param actionEvent
    */
   public void cancelAddEdge(ActionEvent actionEvent) {
     clearSideBar();
   }
 
-  public void exportNodes(ActionEvent actionEvent) {
+  public void exportNodesButton(ActionEvent actionEvent) {
+    clearSideBar();
+    exportNodesPane.setVisible(true);
   }
 
-  public void exportEdges(ActionEvent actionEvent) {
+  public void exportEdgesButton(ActionEvent actionEvent) {
+    clearSideBar();
+    exportEdgesPane.setVisible(true);
   }
 
   public void deleteSelectedNode(ActionEvent actionEvent) {
   }
 
   public void cancelNodeSelection(ActionEvent actionEvent) {
+    clearSideBar();
   }
 
   public void clearEdge1Selection(ActionEvent actionEvent) {
@@ -224,70 +250,6 @@ public class FloorMapEditorViewModel extends ViewModelBase implements DatabaseWr
   public void clearEdge2Selection(ActionEvent actionEvent) {
     nodeSelection2 = null;
     node2Field.clear();
-  }
-
-  @Override
-  public int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
-      String nodeType, String longName, String shortName) {
-    return 0;
-  }
-
-  @Override
-  public int addEdge(String edgeID, String startNodeID, String stopNodeID) {
-    return 0;
-  }
-
-  @Override
-  public int addServiceRequest(String requestID, String requestTime, String requestNode,
-      String type, String requesterName, String whoMarked, String employeeAssigned) {
-    return 0;
-  }
-
-  @Override
-  public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
-    return 0;
-  }
-
-  @Override
-  public int deleteFromTable(Table table, TableProperty property, String matching) {
-    return 0;
-  }
-
-  @Override
-  public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
-      String data) {
-    return 0;
-  }
-
-  @Override
-  public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
-      int data) {
-    return 0;
-  }
-
-  @Override
-  public Map<String, Node> exportNodes() {
-    return null;
-  }
-
-  @Override
-  public List<Edge> exportEdges() {
-    return null;
-  }
-
-  @Override
-  public List<ServiceRequest> exportServiceRequests() {
-    return null;
-  }
-
-  @Override
-  public List<Employee> exportEmployees() {
-    return null;
-  }
-
-  @Override
-  public String employeeNameFromID(String id) {
-    return null;
   }
   // todo add listeners
 }
