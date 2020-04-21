@@ -54,10 +54,6 @@ public class NodeMapView extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    // Set the image view width and height to listen to the stack pane
-    backgroundImage.fitWidthProperty().bind(root.widthProperty());
-    backgroundImage.fitHeightProperty().bind(root.heightProperty());
-
     // Set the listeners for width and height change
     backgroundImage.fitHeightProperty().addListener((observable, oldNum, newNum) -> {
       val image = backgroundImage.getImage();
@@ -73,6 +69,11 @@ public class NodeMapView extends ViewModelBase {
       nodeCanvas.setWidth(width);
       draw();
     });
+
+    // Set the image view width and height to listen to the stack pane
+    root.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
+    backgroundImage.fitWidthProperty().bind(root.widthProperty());
+    backgroundImage.fitHeightProperty().bind(root.heightProperty());
 
     // Display the current floor (and consequently call the above listeners)
     setFloor(minFloor);
