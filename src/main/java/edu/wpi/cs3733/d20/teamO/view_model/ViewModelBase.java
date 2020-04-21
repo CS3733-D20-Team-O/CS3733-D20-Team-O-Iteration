@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.LanguageSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
@@ -24,11 +23,11 @@ import org.greenrobot.eventbus.EventBus;
 @Slf4j
 public abstract class ViewModelBase implements Initializable {
 
-  /**
-   * The Injector used to create objects when they are needed (such as FXML loaders)
-   */
   @Inject
-  private Injector injector;
+  private EventBus eventBus;
+
+  @Inject
+  private LanguageHandler languageHandler;
 
   /**
    * Called to initialize a controller after its root element has been completely processed.
@@ -39,7 +38,7 @@ public abstract class ViewModelBase implements Initializable {
   @Override
   public final void initialize(URL location, ResourceBundle resources) {
     dispatch(new RegisterViewModelEvent(this));
-    switchToNewLocale(get(LanguageHandler.class).getCurrentBundle());
+    switchToNewLocale(languageHandler.getCurrentBundle());
     start(location, resources);
   }
 
@@ -61,24 +60,13 @@ public abstract class ViewModelBase implements Initializable {
   }
 
   /**
-   * Creates objects of the specified type
-   *
-   * @param tClass the class of the object to create
-   * @param <T>    the type of object to create
-   * @return the new object of the specified type
-   */
-  final protected <T> T get(Class<T> tClass) {
-    return injector.getInstance(tClass);
-  }
-
-  /**
    * Gets the translated string in the current language for a given key
    *
    * @param key the key in the Strings resource bundle
    * @return the localized string from the key
    */
   final protected String getString(String key) {
-    return get(LanguageHandler.class).getCurrentBundle().getString(key);
+    return languageHandler.getCurrentBundle().getString(key);
   }
 
   /**
@@ -87,7 +75,7 @@ public abstract class ViewModelBase implements Initializable {
    * @param event the event to post
    */
   final protected void dispatch(Event event) {
-    get(EventBus.class).post(event);
+    eventBus.post(event);
   }
 
   /**
