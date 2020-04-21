@@ -15,7 +15,6 @@
 <StackPane fx:id="mapView" prefHeight="594.0" prefWidth="990.0"
   xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView">
-  <!-- top anchor should be set in code by adding a listener to the above HBox's height -->
   <ImageView fx:id="backgroundImage" fitHeight="594.0" fitWidth="990.0" preserveRatio="true">
     <viewport>
       <Rectangle2D/>

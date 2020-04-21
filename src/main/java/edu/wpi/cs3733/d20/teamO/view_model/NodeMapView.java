@@ -24,11 +24,12 @@ public class NodeMapView extends ViewModelBase {
 
   private final static double nodeSize = 10;
   private final static int maxFloor = 5;
+  private final static int minFloor = 1;
 
   /**
    * The current floor being displayed
    */
-  private int floor = 1;
+  private int floor = minFloor;
   /**
    * Gets called when a node is clicked
    */
@@ -58,20 +59,25 @@ public class NodeMapView extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    // Display the current floor
-    imageViewUpdate();
+    // Set the listeners for image change (including its height and width)
+    backgroundImage.imageProperty().addListener((observable, oldImage, newImage) -> {
+      nodeCanvas.setWidth(newImage.getWidth());
+      nodeCanvas.setHeight(newImage.getHeight());
+      draw();
+      newImage.heightProperty().addListener(
+          (observableValue, oldHeight, newHeight) -> {
+            nodeCanvas.setHeight(newHeight.doubleValue());
+            draw();
+          });
+      newImage.widthProperty().addListener(
+          (observableValue, oldWidth, newWidth) -> {
+            nodeCanvas.setWidth(newWidth.doubleValue());
+            draw();
+          });
+    });
 
-    // Set the canvas' current size and draw the current floor
-    nodeCanvas.setWidth(backgroundImage.getFitWidth());
-    nodeCanvas.setHeight(backgroundImage.getFitHeight());
-    draw();
-
-    // Have the canvas automatically resize to the image's size todo redraw in these lambdas
-    // todo this may need to be .getImage().__Property()
-    backgroundImage.fitHeightProperty().addListener(((observable,
-        oldNum, newNum) -> nodeCanvas.setHeight(newNum.doubleValue())));
-    backgroundImage.fitWidthProperty()
-        .addListener(((observable, oldNum, newNum) -> nodeCanvas.setWidth(newNum.doubleValue())));
+    // Display the current floor (and consequently call the above listeners)
+    setFloor(minFloor);
 
     // Set up event for when a node is selected (or not selected)
     nodeCanvas.setOnMouseClicked(event -> checkClick((int) event.getX(), (int) event.getY()));
@@ -159,7 +165,7 @@ public class NodeMapView extends ViewModelBase {
     nodeGC.setFill(Color.RED);
     val x = node.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
     val y = node.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
-    nodeGC.fillOval(x + nodeSize/2, y + nodeSize/2, nodeSize, nodeSize);
+    nodeGC.fillOval(x + nodeSize / 2, y + nodeSize / 2, nodeSize, nodeSize);
   }
 
   /**
@@ -220,35 +226,17 @@ public class NodeMapView extends ViewModelBase {
   }
 
   public void setFloor(int floor) {
-    if(floor > 1 && floor < maxFloor) {
+    if (floor >= minFloor && floor <= maxFloor) {
       this.floor = floor;
-      imageViewUpdate();
-      draw();
+      backgroundImage.setImage(new Image("floors/" + floor + ".png"));
     }
   }
 
-  // Kept these two functions as there's still other people's code which rely upon it,
-  // probably will be phased out in a future iteration
   public void incrementFloor() {
-    if (getFloor() < maxFloor) {
-      this.floor++;
-      imageViewUpdate();
-      draw();
-    }
+    setFloor(++this.floor);
   }
 
   public void decrementFloor() {
-    if (getFloor() > 1) {
-      this.floor--;
-      imageViewUpdate();
-      draw();
-    }
-  }
-
-  /**
-   * Update the image view to the given floor
-   */
-  private void imageViewUpdate() {
-    backgroundImage.setImage(new Image("floors/" + floor + ".png"));
+    setFloor(--this.floor);
   }
 }
