@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- todo remove the prefHeight and prefWidth below -->
-
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.image.ImageView?>
