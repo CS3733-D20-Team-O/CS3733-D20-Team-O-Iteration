@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.d20.teamO.model.datatypes;
 
-import lombok.Setter;
 import lombok.Value;
 
 /**
@@ -9,6 +8,5 @@ import lombok.Value;
 @Value
 public class ServiceRequest {
 
-  @Setter
   String requestID, requestTime, requestNode, type, requesterName, whoMarked, employeeAssigned;
 }

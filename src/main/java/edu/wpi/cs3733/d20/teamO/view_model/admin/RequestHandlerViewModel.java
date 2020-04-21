@@ -14,8 +14,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
-import java.time.Instant;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -65,7 +63,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
   @FXML
   protected TableView<ServiceRequest> serviceTable;
   @FXML
-  private TableColumn<String, ServiceRequest> colRequestID, colRequestTime, colRequestNode, colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType;
+  private TableColumn<String, ServiceRequest> colRequestID, colRequestTime, colRequestNode,
+      colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType;
 
   //Employee Table Stuff
   @FXML
@@ -87,7 +86,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
     setTableColumns();
 
-    firstRunOnly();
     notFirstRun();
     iterationOneAdminSet();
   }
@@ -116,89 +114,12 @@ public class RequestHandlerViewModel extends ViewModelBase {
     empAvail.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
   }
 
-  /**
-   * Checks to see if there is already a database available If no database is available,
-   */
-  protected void firstRunOnly() {
-    if (database.exportEmployees().size() != 0) {
-      System.out.println("A Database already exists.");
-      return;
-    }
-    //hard coding a dummy Admin - adding them to the DB
-    database.addEmployee("990099", "Admin", "Admin", true);
 
-    database.addEmployee("null", "null", "null", true);
-    database.addEmployee("", "", "", true); //null employee
-    database
-        .addNode("RHVMNode", 0, 0, 0, "RHVMENode", "RHVMType", "RequestHandlerViewModel", "RHVM");
-    database.addEmployee("1000", "Paul", "Gift", true);
-    database.addEmployee("1001", "Randy", "Gift", true);
-    database.addEmployee("1002", "Bobo", "Interpreter", true);
-    database.addEmployee("1003", "Samuel", "Interpreter", true);
-    database.addEmployee("1004", "Joeann", "Wash", true);
 
-    //Creates a bunch of employees and services
-    int end = 100;
-    for (int i = 0; i < end; i++) {
-      //employeeData.add(employee5);
-      val theInt = Integer.toString(i);
-      val date = Date.from(Instant.now()).toString();
-      String reqType = "Gift";
-      boolean avail = true;
-      avail = i % 6 != 0;
-
-      if (i % 2 == 0) {
-        reqType = "Wash";
-      }
-      if (i % 3 == 0) {
-        reqType = "Interpreter";
-      }
-      database.addEmployee(theInt, "name" + theInt, reqType, avail);
-      database.addServiceRequest(theInt, date, "RHVMNode", reqType, "00", "", "");
-    }
-
-  }
-
-  //set all the shit to default state
   protected void notFirstRun() {
     serviceTable.getItems().addAll(database.exportServiceRequests());
   }
 
-
-  //DELETE THIS BEFORE PUSHING
-  private void testProperties() {
-    //String requestID, requestTime, requestNode, type, requesterName, whoMarked, employeeAssigned;
-    val service1 = new ServiceRequest("14", "55", "55", "Gift", "55", "", "");
-    val service2 = new ServiceRequest("14", "55", "55", "Gift", "55", "", "");
-    val service3 = new ServiceRequest("14", "55", "55", "Interpreter", "55", "", "");
-    val service4 = new ServiceRequest("14", "55", "55", "Interpreter", "55", "", "");
-    val service5 = new ServiceRequest("14", "55", "55", "Wash", "55", "", "");
-    serviceTable.getItems().add(service1);
-    serviceTable.getItems().add(service2);
-    serviceTable.getItems().add(service3);
-    serviceTable.getItems().add(service4);
-    serviceTable.getItems().add(service5);
-
-    val employee1 = new Employee("12", "Paul", "Gift", true);
-    val employee2 = new Employee("13", "Randy", "Gift", true);
-    val employee3 = new Employee("14", "Bobo", "Interpreter", true);
-    val employee4 = new Employee("15", "Samuel", "Interpreter", true);
-    val employee5 = new Employee("16", "Joeann", "Wash", true);
-//    employeeTable.getItems().add(employee1);
-//    employeeTable.getItems().add(employee2);
-//    employeeTable.getItems().add(employee3);
-//    employeeTable.getItems().add(employee4);
-//    employeeTable.getItems().add(employee5);
-
-    employeeData.add(employee1);
-    employeeData.add(employee2);
-    employeeData.add(employee3);
-    employeeData.add(employee4);
-    employeeData.add(employee5);
-
-    employeeTable.setPlaceholder(new Label("Select a Service Request to view employees"));
-
-  }//end test method
 
   /**
    * Updates the employee table based on the service request selected.
@@ -223,11 +144,11 @@ public class RequestHandlerViewModel extends ViewModelBase {
           else {
             tableItems.add(e);
           }
-        }//end if: type check
-      }//end for: employee loop
+        }
+      }
 
       employeeTable.setItems(tableItems);
-    } //end if: serviceTable cell not empty
+    }
     else {
       employeeTable.getItems().setAll(database.exportEmployees());
     }
@@ -269,12 +190,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
       System.out.println("Exiting assignEmployee() due to updateDatabase error");
       return;
     }
-
-//    //update Employee
-//    val assignedEmployee = new Employee(selectedEmployee.getEmployeeID(), selectedEmployee.getName(),
-//        selectedEmployee.getType(), false);
-////    employeeData.remove(employee);
-////    employeeData.add(assignedEmployee);
 
     System.out.println("Updating Employee Table from assignEmployee()");
     updateEmployeeTable();
