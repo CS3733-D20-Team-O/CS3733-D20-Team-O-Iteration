@@ -119,4 +119,10 @@ public interface DatabaseWrapper {
   List<ServiceRequest> exportServiceRequests();
 
   List<Employee> exportEmployees();
+
+  /**
+   * @param id the id of an Employee
+   * @return the name of the Employee
+   */
+  String employeeNameFromID(String id);
 }

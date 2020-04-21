@@ -3,7 +3,7 @@ package edu.wpi.cs3733.d20.teamO.injection_modules;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
-import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
+import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import javafx.fxml.FXMLLoader;
 import lombok.val;
 
