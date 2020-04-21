@@ -3,15 +3,13 @@ package edu.wpi.cs3733.d20.teamO.view_model;
 import org.testfx.framework.junit5.ApplicationTest;
 
 public class NodeMapViewTest extends ApplicationTest {
-
   /*
   NodeMapView controller;
   Map<String, Node> nodeMap;
 
   @Override
   public void start(Stage stage) throws Exception {
-    ResourceBundle resources = ResourceBundle.getBundle("String.properties");
-    FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/NodeMapView.fxml"), resources);
+    FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/NodeMapView.fxml"));
     // getClass().getResource("views/NodeMapView.fxml")
     controller = loader.getController();
     Parent root = loader.load();
@@ -63,7 +61,7 @@ public class NodeMapViewTest extends ApplicationTest {
     controller.drawEdge(nodeMap.get("Node5"), nodeMap.get("Node6"));
   }
 
-
+  /*
     Map<String, Node> nodeMap = new HashMap<>();
     nodeMap.put(node1.toString(), node1);
 
