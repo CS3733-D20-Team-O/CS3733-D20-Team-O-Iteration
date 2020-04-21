@@ -63,7 +63,6 @@ public class NodeMapViewTest extends FxRobot {
     nodeMap.put(node5.getNodeID(), node5);
     nodeMap.put(node6.getNodeID(), node6);
     viewModel.setNodeMap(nodeMap);
-
     viewModel.incrementFloor();
     viewModel.incrementFloor();
     viewModel.incrementFloor();
@@ -92,7 +91,6 @@ public class NodeMapViewTest extends FxRobot {
     nodeMap.put(node4.getNodeID(), node4);
     nodeMap.put(node5.getNodeID(), node5);
     nodeMap.put(node6.getNodeID(), node6);
-
     viewModel.setNodeMap(nodeMap);
     viewModel.drawEdge(nodeMap.get("Node1"), nodeMap.get("Node2"));
     viewModel.drawEdge(nodeMap.get("Node2"), nodeMap.get("Node3"));
