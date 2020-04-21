@@ -23,15 +23,12 @@ import lombok.val;
 public class NodeMapView extends ViewModelBase {
 
   private final static double nodeSize = 10;
+  private final static int maxFloor = 5;
 
   /**
    * The current floor being displayed
    */
   private int floor = 1;
-  /**
-   * The maximum floor
-   */
-  private int maxFloor = 5;
   /**
    * Gets called when a node is clicked
    */
@@ -43,9 +40,10 @@ public class NodeMapView extends ViewModelBase {
   @Setter
   private BiConsumer<Integer, Integer> onMissTapListener;
   /**
-   * The node map to use to fuel the display
+   * The node map to use to fuel the display todo make an arraylist todo using a map of integers to
+   * something else isn't really the appropriate data structure
    */
-  private Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
+  private final Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
   //private Map<String, Node> nodeMap = new HashMap<>();
 
   @FXML
@@ -57,24 +55,26 @@ public class NodeMapView extends ViewModelBase {
 
   //@FXML JFXComboBox<Integer> floorList;
 
-  Image floor1 = new Image("backgrounds/Floor1LM.png");
-  Image floor2 = new Image("backgrounds/Floor2LM.png");
-  Image floor3 = new Image("backgrounds/Floor3LM.png");
-  Image floor4 = new Image("backgrounds/Floor4LM.png");
-  Image floor5 = new Image("backgrounds/Floor5LM.png");
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    backgroundImage.setImage(floor1);
+    // Display the current floor
+    imageViewUpdate();
+
+    // Set the canvas' current size and draw the current floor
     nodeCanvas.setWidth(backgroundImage.getFitWidth());
     nodeCanvas.setHeight(backgroundImage.getFitHeight());
+    draw();
 
-    draw(getFloor());
+    // Have the canvas automatically resize to the image's size todo redraw in these lambdas
+    // todo this may need to be .getImage().__Property()
+    backgroundImage.fitHeightProperty().addListener(((observable,
+        oldNum, newNum) -> nodeCanvas.setHeight(newNum.doubleValue())));
+    backgroundImage.fitWidthProperty()
+        .addListener(((observable, oldNum, newNum) -> nodeCanvas.setWidth(newNum.doubleValue())));
 
     // Set up event for when a node is selected (or not selected)
-    nodeCanvas.setOnMouseClicked(event -> {
-      checkClick((int) event.getX(), (int) event.getY());
-    });
+    nodeCanvas.setOnMouseClicked(event -> checkClick((int) event.getX(), (int) event.getY()));
   }
 
   /*
@@ -102,7 +102,7 @@ public class NodeMapView extends ViewModelBase {
   public void setNodeMap(Map<String, Node> nodeMap) {
     this.nodeMap.clear(); // Clear the current node map
     nodeMap.keySet().forEach((id) -> placeFloorNode(id, nodeMap.get(id)));
-    draw(getFloor());
+    draw();
   }
 
   /**
@@ -112,20 +112,20 @@ public class NodeMapView extends ViewModelBase {
    * @param node   the node to be placed into the nodeMap
    */
   private void placeFloorNode(String string, Node node) {
+    // Make the new floor if it doesn't exist
     if (!this.nodeMap.containsKey(node.getFloor())) {
-      nodeMap.put(node.getFloor(), new HashMap<>()); // Make the new floor if it doesn't exist
+      nodeMap.put(node.getFloor(), new HashMap<>());
     }
+    // Place the node in the correct floor
     nodeMap.get(node.getFloor()).put(string, node);
   }
 
   /**
    * Clears the canvas and draws all the nodes on a certain floor
-   *
-   * @param floor given floor to draw
    */
-  private void draw(int floor) {
+  private void draw() {
     // Clear the canvas so we can draw fresh
-    GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
+    val nodeGC = nodeCanvas.getGraphicsContext2D();
     nodeGC.clearRect(0, 0, nodeCanvas.getWidth(), nodeCanvas.getHeight());
     // Draw all the nodes on a certain floor
     val floorMap = nodeMap.get(getFloor());
@@ -139,13 +139,11 @@ public class NodeMapView extends ViewModelBase {
    * @param node the node to draw to the canvas
    */
   private void drawNode(Node node) {
-    GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
+    val nodeGC = nodeCanvas.getGraphicsContext2D();
     nodeGC.setFill(Color.RED);
-    double canvasX =
-        (node.getXCoord() / backgroundImage.getImage().getWidth()) * nodeCanvas.getWidth();
-    double canvasY =
-        (node.getYCoord() / backgroundImage.getImage().getHeight()) * nodeCanvas.getHeight();
-    nodeGC.fillOval(canvasX, canvasY, nodeSize, nodeSize);
+    val x = node.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
+    val y = node.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
+    nodeGC.fillOval(x, y, nodeSize, nodeSize);
   }
 
   /**
@@ -160,15 +158,11 @@ public class NodeMapView extends ViewModelBase {
       GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
       nodeGC.setStroke(Color.GREEN);
       nodeGC.setLineWidth(3.0);
-      double canvasX1 =
-          (n1.getXCoord() / backgroundImage.getImage().getWidth()) * nodeCanvas.getWidth();
-      double canvasY1 =
-          (n1.getYCoord() / backgroundImage.getImage().getHeight()) * nodeCanvas.getHeight();
-      double canvasX2 =
-          (n2.getXCoord() / backgroundImage.getImage().getWidth()) * nodeCanvas.getWidth();
-      double canvasY2 =
-          (n2.getYCoord() / backgroundImage.getImage().getHeight()) * nodeCanvas.getHeight();
-      nodeGC.strokeLine(canvasX1, canvasY1, canvasX2, canvasY2);
+      val x1 = n1.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
+      val y1 = n1.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
+      val x2 = n2.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
+      val y2 = n2.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
+      nodeGC.strokeLine(x1, y1, x2, y2);
 
       // As drawing a line between the two points will lay on top of the nodes,
       //  redraw the nodes to be on top of the newly drawn line
@@ -184,9 +178,12 @@ public class NodeMapView extends ViewModelBase {
    * @param y the y coordinate of the MouseEvent
    */
   private void checkClick(int x, int y) {
-    double imageX = (x / nodeCanvas.getWidth()) * backgroundImage.getImage().getWidth();
-    double imageY = (y / nodeCanvas.getHeight()) * backgroundImage.getImage().getHeight();
+    double imageX = x / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
+    double imageY = y / nodeCanvas.getHeight() * backgroundImage.getImage().getHeight();
+    // atomic boolean? just scarp the forEach and use a regular for loop to use a regular boolean todo
     AtomicBoolean nodeTrigger = new AtomicBoolean(false);
+
+    // todo this logic is flawed so I'll change it later
 
     Map<String, Node> floorMap = nodeMap.get(getFloor());
     //Node closestNode = floorMap.keySet().stream().collect(Collectors.minBy(Comparator.comparing(Math.hypot(imageX - Node::getXCoord, imageY - Node::getYCoord)).get(); // todo finish
@@ -201,54 +198,33 @@ public class NodeMapView extends ViewModelBase {
       });
     }
 
-    if (nodeTrigger.get() == false) {
+    if (!nodeTrigger.get()) {
       onMissTapListener.accept((int) imageX, (int) imageY);
     }
   }
 
+  // todo just simplify this into a setFloor method! That will simplify things significantly
+
   public void incrementFloor() {
     if (getFloor() < maxFloor) {
       this.floor++;
-      imageViewUpdate(this.floor);
-      draw(this.floor);
+      imageViewUpdate();
+      draw();
     }
   }
 
   public void decrementFloor() {
     if (getFloor() > 1) {
       this.floor--;
-      imageViewUpdate(this.floor);
-      draw(this.floor);
+      imageViewUpdate();
+      draw();
     }
   }
 
   /**
    * Update the image view to the given floor
-   *
-   * @param floor
    */
-  private void imageViewUpdate(int floor) {
-    switch (floor) {
-      case 1:
-        backgroundImage.setImage(floor1);
-        break;
-      case 2:
-        backgroundImage.setImage(floor2);
-        break;
-      case 3:
-        backgroundImage.setImage(floor3);
-        break;
-      case 4:
-        backgroundImage.setImage(floor4);
-        break;
-      case 5:
-        backgroundImage.setImage(floor5);
-        break;
-      default:
-        // How did you get here?
-        break;
-    }
-    nodeCanvas.setWidth(backgroundImage.getFitWidth());
-    nodeCanvas.setHeight(backgroundImage.getFitHeight());
+  private void imageViewUpdate() {
+    backgroundImage.setImage(new Image("floors/" + floor + ".png"));
   }
 }
