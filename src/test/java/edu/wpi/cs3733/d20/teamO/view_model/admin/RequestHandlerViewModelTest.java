@@ -10,11 +10,8 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -24,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -45,32 +41,6 @@ public class RequestHandlerViewModelTest extends FxRobot {
   @InjectMocks
   RequestHandlerViewModel viewModel;
 
-  @Spy
-  private final ResourceBundle bundle = new ResourceBundle() {
-    @Override
-    protected Object handleGetObject(String s) {
-      if (s.equals("serviceRequestLookupSubmit")) {
-        return "Submit";
-      }
-      if (s.equals("serviceRequestConfirmationID")) {
-        return "Click me";
-      }
-      if (s.equals("serviceRequestLookupFail")) {
-        return "pass";
-      }
-      return "";
-    }
-
-    @Override
-    public boolean containsKey(String key) {
-      return true;
-    }
-
-    @Override
-    public Enumeration<String> getKeys() {
-      return Collections.emptyEnumeration();
-    }
-  };
 
   // Sets up the stage for testing
   @Start
@@ -80,17 +50,13 @@ public class RequestHandlerViewModelTest extends FxRobot {
     Employee e3 = new Employee("", "", "", true);
     Node n1 = new Node("RHVMNode", 1, 1, 1, "Main", "Test", "TestNode", "testnode");
     //can't add this service request for some reason
-    List<Employee> list = new LinkedList<Employee>();
-    list.add(e1);
-    list.add(e2);
-    list.add(e3);
+    List<Employee> list = Arrays.asList(e1, e2, e3);
+
     ServiceRequest req = new ServiceRequest("1555", "time", "RHVMNode", "Wash", "Request Name", "",
         "");
     ServiceRequest req2 = new ServiceRequest("576", "time", "RHVMNode", "Wash", "Request Name", "",
         "");
-    List<ServiceRequest> reqs = new LinkedList<>();
-    reqs.add(req);
-    reqs.add(req2);
+    List<ServiceRequest> reqs = Arrays.asList(req, req2);
     when(database.exportServiceRequests()).thenReturn(reqs);
     when(database.exportEmployees()).thenReturn(list);
 
