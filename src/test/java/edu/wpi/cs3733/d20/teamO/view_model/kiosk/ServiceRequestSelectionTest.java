@@ -1,21 +1,107 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
-import static org.testfx.api.FxToolkit.registerPrimaryStage;
+import static org.mockito.Mockito.when;
+import static org.testfx.api.FxAssert.verifyThat;
 
-import java.util.concurrent.TimeoutException;
+import edu.wpi.cs3733.d20.teamO.Main;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.ResourceBundle;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import lombok.val;
+import org.greenrobot.eventbus.EventBus;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
 
 /**
  * Tests ServiceRequestSelection
  */
-public class ServiceRequestSelectionTest {
+@ExtendWith({MockitoExtension.class, ApplicationExtension.class})
+public class ServiceRequestSelectionTest extends FxRobot {
 
-  /**
-   * Temporary test to satisfy code coverage requirements todo remove
-   */
+  @Mock
+  EventBus eventBus;
+  @Mock
+  DatabaseWrapper database;
+
+  @InjectMocks
+  ServiceRequestSelection viewModel;
+
+  @Spy
+  private final ResourceBundle bundle = new ResourceBundle() {
+    @Override
+    protected Object handleGetObject(String s) {
+      if (s.equals("serviceRequestLookupSubmit")) {
+        return "Submit";
+      }
+      if (s.equals("serviceRequestConfirmationID")) {
+        return "Click me";
+      }
+      if (s.equals("serviceRequestLookupFail")) {
+        return "pass";
+      }
+      return "";
+    }
+
+    @Override
+    public boolean containsKey(String key) {
+      return true;
+    }
+
+    @Override
+    public Enumeration<String> getKeys() {
+      return Collections.emptyEnumeration();
+    }
+  };
+
+  // Sets up the stage for testing
+  @Start
+  public void start(Stage stage) throws IOException {
+    val loader = new FXMLLoader();
+    loader.setControllerFactory(o -> viewModel);
+    loader.setResources(bundle);
+    stage.setScene(new Scene(loader.load(Main.class
+        .getResourceAsStream("views/kiosk/ServiceRequestSelection.fxml"))));
+    stage.setAlwaysOnTop(true);
+    stage.show();
+  }
+
   @Test
-  public void satisfyCodeCoverage() throws TimeoutException {
-    registerPrimaryStage();
-    new ServiceRequestSelection();
+  public void testDialog() {
+    val node = new Node("node", 0, 0, 1,
+        "", "", "Long Name", "");
+    val serviceRequest = new ServiceRequest("valid", "", "node",
+        "Gift", "", "", "");
+    when(database.exportNodes()).thenReturn(Collections.singletonMap(node.getNodeID(), node));
+    when(database.exportServiceRequests()).thenReturn(Collections.singletonList(serviceRequest));
+    clickOn("Click me");
+    write("valid");
+    clickOn("Submit");
+    verifyThat("Gift Service Request", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testSnackBar() {
+    clickOn("Submit");
+    verifyThat("pass", javafx.scene.Node::isVisible);
+  }
+
+  public void serviceSelectionNavigatesToNewPage() {
+    // todo
+    // test dispatch
+    // test service selection reset
   }
 }

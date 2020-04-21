@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
+import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
@@ -24,11 +25,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 @Slf4j
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class ServiceRequestSelection extends ViewModelBase {
+
+  private final DatabaseWrapper database;
 
   @FXML
   private AnchorPane root;
@@ -53,7 +58,7 @@ public class ServiceRequestSelection extends ViewModelBase {
 
   @FXML
   private void onSubmitClicked() {
-    for (val request : get(DatabaseWrapper.class).exportServiceRequests()) {
+    for (val request : database.exportServiceRequests()) {
       if (request.getRequestID().equals(confirmationCode.getText())) {
         showRequestConfirmationDialog(request);
         return;
@@ -80,7 +85,7 @@ public class ServiceRequestSelection extends ViewModelBase {
     // Create the dialog and its contents
     val dialog = new JFXDialog();
     val header = new Label(request.getType() + " Service Request");
-    val node = get(DatabaseWrapper.class).exportNodes().get(request.getRequestNode());
+    val node = database.exportNodes().get(request.getRequestNode());
     val infoText = getString("serviceRequestConfirmationID") + ": " + request.getRequestID()
         + "\n" + getString("serviceRequestAssignedTo") + ": " + request.getEmployeeAssigned()
         + "\n" + getString("serviceRequestLocation") + ": " + node.getLongName()
@@ -89,7 +94,7 @@ public class ServiceRequestSelection extends ViewModelBase {
     closeButton.setOnAction(e -> dialog.close());
     val deleteButton = new JFXButton(getString("serviceRequestDialogCancelRequest"));
     deleteButton.setOnAction(e -> {
-      get(DatabaseWrapper.class).deleteFromTable(Table.SERVICE_REQUESTS_TABLE,
+      database.deleteFromTable(Table.SERVICE_REQUESTS_TABLE,
           ServiceRequestProperty.REQUEST_ID, request.getRequestID());
       dialog.close();
     });
