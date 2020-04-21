@@ -8,6 +8,7 @@
 </StackPane>
 </AnchorPane>-->
 
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
@@ -16,7 +17,11 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView">
   <!-- top anchor should be set in code by adding a listener to the above HBox's height -->
   <Canvas fx:id="nodeCanvas"/>
-  <ImageView fx:id="backgroundImage"/>
+  <ImageView fx:id="backgroundImage" preserveRatio="true">
+    <viewport>
+      <Rectangle2D/>
+    </viewport>
+  </ImageView>
   <!-- the canvas height and width should listen to ImageView height and width and set its own properties to be the same -->
   <!-- and in the height and width listeners, if the canvas height/width is changed, REDRAW -->
 </StackPane>

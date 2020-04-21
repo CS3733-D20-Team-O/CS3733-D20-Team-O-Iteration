@@ -1,9 +1,18 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
+import edu.wpi.cs3733.d20.teamO.Main;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import java.util.HashMap;
+import java.util.Map;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 public class NodeMapViewTest extends ApplicationTest {
-  /*
+
   NodeMapView controller;
   Map<String, Node> nodeMap;
   @Override
@@ -30,6 +39,7 @@ public class NodeMapViewTest extends ApplicationTest {
     nodeMap.put(node5.getNodeID(), node5);
     nodeMap.put(node6.getNodeID(), node6);
   }
+
   @Test
   void testNodeMapFloorSelect() {
     controller.setNodeMap(nodeMap);
@@ -44,6 +54,7 @@ public class NodeMapViewTest extends ApplicationTest {
     clickOn("#btnDecrementFloor");
     clickOn("#btnDecrementFloor");
   }
+
   @Test
   void testNodeMapDrawNode() {
     controller.setNodeMap(nodeMap);
