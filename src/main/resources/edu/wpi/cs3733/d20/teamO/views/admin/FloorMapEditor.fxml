@@ -67,6 +67,8 @@
                   <JFXButton onAction="#floorUp" text="&gt;" />
                   <JFXButton onAction="#addNode" text="Add node" />
                   <JFXButton onAction="#addEdge" text="Add edge" />
+                  <JFXButton onAction="#exportNodes" text="Export nodes" />
+                  <JFXButton onAction="#exportEdges" text="Export edges" />
                </children>
             </HBox>
          </children>

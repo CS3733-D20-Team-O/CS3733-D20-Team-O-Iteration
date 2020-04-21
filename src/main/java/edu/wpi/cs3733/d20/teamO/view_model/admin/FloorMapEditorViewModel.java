@@ -1,24 +1,21 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.d20.teamO.events.Event;
-import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
-import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import lombok.Getter;
 import lombok.val;
 
 public class FloorMapEditorViewModel extends ViewModelBase {
@@ -40,18 +37,17 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @Override
   /**
    * Called when a ViewModel's views have been completely processed and can be used freely
-   *
    * @param location  the location used to resolve relative paths for the root object, or null
    * @param resources the resources used to localize the root object, or null
    */
   protected void start(URL location, ResourceBundle resources) {
     super.start(location, resources);
     nodeMapViewController.setNodeMap(nodeMap);
+    nodeType.getItems().addAll("STAI","ELEV","REST","DEPT","LABS","HALL","CONF");
     nodeMapViewController.setOnNodeTappedListener(node -> {
       selection = node;
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
-      System.out.println("Hit");
       updateCoords(x, y);
     });
   }
@@ -76,6 +72,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void addNode(ActionEvent actionEvent) {
+    nodeXField.clear();
+    nodeYField.clear();
+    nodeIDField.clear();
+    shortNameField.clear();
+    longNameField.clear();
+    nodeType.getSelectionModel().clearSelection();
     addNodePane.setVisible(true);
     addEdgePane.setVisible(false);
   }
@@ -110,22 +112,24 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * Called when the create node button is pressed in the add node menu
    * @param actionEvent
    */
-  public void createNode(ActionEvent actionEvent) {
-    nodeXField.clear();
-    nodeYField.clear();
-    nodeIDField.clear();
-    shortNameField.clear();
-    longNameField.clear();
-
-    val x = Integer.parseInt(nodeXField.getText());
-    val y = Integer.parseInt(nodeYField.getText());
-    val id = nodeIDField.getText();
-    val shortName = shortNameField.getText();
-    val longName = longNameField.getText();
+  public void createNode(ActionEvent actionEvent) throws Exception {
+    try {
+      val x = Integer.parseInt(nodeXField.getText());
+      val y = Integer.parseInt(nodeYField.getText());
+      val id = nodeIDField.getText();
+      val shortName = shortNameField.getText();
+      val longName = longNameField.getText();
+      val type = nodeType.getSelectionModel().getSelectedItem().toString();
+      Node node = new Node(id,x,y,nodeMapViewController.getFloor(),"Faulkner",type,longName,shortName);
+      nodeMap.put(id, node);
+      nodeMapViewController.setNodeMap(nodeMap);
+    } catch (Exception e) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setTitle("Invalid input");
+      alert.setContentText("The input you entered was invalid.");
+      alert.showAndWait();
+    }
     addNodePane.setVisible(false);
-    nodeMap.put(id, new Node(id, x, y, nodeMapViewController.getFloor(), "Faulkner", "", longName, shortName));
-    nodeMapViewController.setNodeMap(nodeMap);
-    // todo add node in NodeMapView
   }
 
   /**
@@ -143,6 +147,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   public void cancelAddEdge(ActionEvent actionEvent) {
     addEdgePane.setVisible(false);
   }
-  // todo add listeners
 
+  public void exportNodes(ActionEvent actionEvent) {
+  }
+
+  public void exportEdges(ActionEvent actionEvent) {
+  }
+  // todo add listeners
 }
