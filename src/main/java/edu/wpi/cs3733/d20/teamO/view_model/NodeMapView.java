@@ -12,7 +12,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,8 +45,6 @@ public class NodeMapView extends ViewModelBase {
   private final Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
 
   @FXML
-  private StackPane root;
-  @FXML
   private ImageView backgroundImage;
   @FXML
   private Canvas nodeCanvas;
@@ -69,11 +66,6 @@ public class NodeMapView extends ViewModelBase {
       nodeCanvas.setWidth(width);
       draw();
     });
-
-    // Set the image view width and height to listen to the stack pane
-    root.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
-    backgroundImage.fitWidthProperty().bind(root.widthProperty());
-    backgroundImage.fitHeightProperty().bind(root.heightProperty());
 
     // Display the current floor (and consequently call the above listeners)
     setFloor(minFloor);
@@ -157,7 +149,7 @@ public class NodeMapView extends ViewModelBase {
     nodeGC.setFill(Color.RED);
     val x = node.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
     val y = node.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
-    nodeGC.fillOval(x + nodeSize / 2, y + nodeSize / 2, nodeSize, nodeSize);
+    nodeGC.fillOval(x - nodeSize / 2, y - nodeSize / 2, nodeSize, nodeSize);
   }
 
   /**

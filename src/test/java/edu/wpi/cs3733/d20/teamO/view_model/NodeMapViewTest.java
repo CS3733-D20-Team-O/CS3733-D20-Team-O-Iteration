@@ -4,8 +4,8 @@ import com.google.common.eventbus.EventBus;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.io.IOException;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -28,10 +27,21 @@ public class NodeMapViewTest extends FxRobot {
 
   @Mock
   EventBus eventBus;
+  /*
   @Spy
-  Consumer<Node> onNodeTappedListener;
+  Consumer<Node> onNodeTappedListener = new Consumer<>() {
+    @Override
+    public void accept(Node node) {
+
+    }
+  };
   @Spy
-  BiConsumer<Integer, Integer> onMissTapListener;
+  BiConsumer<Integer, Integer> onMissTapListener = new BiConsumer<Integer, Integer>() {
+    @Override
+    public void accept(Integer integer, Integer integer2) {
+
+    }
+  };*/
 
   @InjectMocks
   NodeMapView viewModel;
@@ -40,15 +50,13 @@ public class NodeMapViewTest extends FxRobot {
   public void start(Stage stage) throws IOException {
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
-    stage
-        .setScene(new Scene(loader.load(Main.class.getResourceAsStream("views/NodeMapView.fxml"))));
+    stage.setScene(new Scene(loader.load(Main.class.getResourceAsStream("views/NodeMapView.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }
 
   @Test
   void testNodeMapFloorSelect() {
-    /*
     Node node1 = new Node("Node1", 100, 100, 1, "Test", "Test", "Test", "Test");
     Node node2 = new Node("Node2", 100, 200, 1, "Test", "Test", "Test", "Test");
     Node node3 = new Node("Node3", 200, 100, 1, "Test", "Test", "Test", "Test");
@@ -72,12 +80,11 @@ public class NodeMapViewTest extends FxRobot {
     viewModel.decrementFloor();
     viewModel.decrementFloor();
     viewModel.decrementFloor();
-    viewModel.decrementFloor();*/
+    viewModel.decrementFloor();
   }
 
   @Test
-  void testNodeMapDrawNode() {
-    /*
+  void testNodeMapDrawNodeEdge() {
     Node node1 = new Node("Node1", 100, 100, 1, "Test", "Test", "Test", "Test");
     Node node2 = new Node("Node2", 100, 200, 1, "Test", "Test", "Test", "Test");
     Node node3 = new Node("Node3", 200, 100, 1, "Test", "Test", "Test", "Test");
@@ -99,6 +106,6 @@ public class NodeMapViewTest extends FxRobot {
     viewModel.drawEdge(nodeMap.get("Node1"), nodeMap.get("Node3"));
     viewModel.drawEdge(nodeMap.get("Node5"), nodeMap.get("Node6"));
     viewModel.incrementFloor();
-    viewModel.drawEdge(nodeMap.get("Node5"), nodeMap.get("Node6"));*/
+    viewModel.drawEdge(nodeMap.get("Node5"), nodeMap.get("Node6"));
   }
 }
