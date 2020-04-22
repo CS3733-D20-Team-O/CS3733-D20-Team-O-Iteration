@@ -97,18 +97,6 @@ public class GiftDeliveryService extends ViewModelBase {
     //onFloorComboBox.setItems(listOfFloors);
     System.out.println(onFloorComboBox.getItems());
 
-//    // Set the prompt text to the currently selected language
-//    val currentLocale = languageHandler.getCurrentLocale();
-//    languageSwitcher.setPromptText(currentLocale.getDisplayName(currentLocale));
-//    // Load in the supported locales
-//    for (val locale : LanguageHandler.SUPPORTED_LOCALES) {
-//      languageSwitcher.getItems().add(locale.getDisplayName(locale));
-//    }
-//    // Add a listener to switch to the selected locale
-//    languageSwitcher.getSelectionModel().selectedIndexProperty().addListener(
-//        ((observableValue, oldValue, newValue) -> languageHandler
-//            .setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[newValue.intValue()])));
-
   }
 
   //rooms
