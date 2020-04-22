@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -16,8 +17,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javax.inject.Inject;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FloorMapEditorViewModel extends ViewModelBase {
 
   @FXML
@@ -52,12 +56,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private VBox exportEdgesPane;
 
   private Map<String, Node> nodeMap = new HashMap<>();
-  private Node nodeSelection1;
-  private Node nodeSelection2;
-  //private final DatabaseWrapper database; //todo implement this
-
-  public FloorMapEditorViewModel() {
-  }
+  private Node nodeSelection1, nodeSelection2;
+  private final DatabaseWrapper database; //todo implement this
 
   @Override
   /**
@@ -111,6 +111,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeType.getSelectionModel().clearSelection();
     node1Field.clear();
     node2Field.clear();
+    exportEdgesPane.setVisible(false);
+    exportNodesPane.setVisible(false);
     sideBar.setVisible(false);
     // todo clear all other stuff
   }
@@ -196,8 +198,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       val type = nodeType.getSelectionModel().getSelectedItem().toString();
       Node node = new Node(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
           shortName);
-      nodeMapViewController.addNote(node);
+      nodeMapViewController.addNode(node);
       nodeMap.put(node.getNodeID(), node);
+      database.addNode(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
+          shortName); //adds node to database
       clearSideBar();
     } catch (Exception e) {
       Alert alert = new Alert(AlertType.ERROR);
@@ -227,11 +231,13 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   public void exportNodesButton(ActionEvent actionEvent) {
     clearSideBar();
+    showSideBar();
     exportNodesPane.setVisible(true);
   }
 
   public void exportEdgesButton(ActionEvent actionEvent) {
     clearSideBar();
+    showSideBar();
     exportEdgesPane.setVisible(true);
   }
 
@@ -251,5 +257,4 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeSelection2 = null;
     node2Field.clear();
   }
-  // todo add listeners
 }
