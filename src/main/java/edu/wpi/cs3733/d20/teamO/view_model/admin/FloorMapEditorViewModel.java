@@ -219,23 +219,32 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   public void createNode(ActionEvent actionEvent) throws Exception {
     try {
-      val x = Integer.parseInt(nodeXField.getText());
-      val y = Integer.parseInt(nodeYField.getText());
       val id = nodeIDField.getText();
       val shortName = shortNameField.getText();
       val longName = longNameField.getText();
-      val type = nodeType.getSelectionModel().getSelectedItem().toString();
-      Node node = new Node(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
-          shortName);
-      nodeMapViewController.addNode(node);
-      for (val edge : edges) {
-        nodeMapViewController
-            .drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
+      if (id.isBlank() || nodeXField.getText().isBlank() || nodeYField.getText().isBlank()
+          || shortName.isBlank() || longName.isBlank() || nodeType.getValue() == null) {
+        showErrorSnackbar("You cannot leave any fields blank");
+        return;
       }
-      nodeMap.put(node.getNodeID(), node);
-      database.addNode(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
-          shortName); //adds node to database
-      clearFields(false);
+      if (nodeMap.get(id) != null) {
+        showErrorSnackbar("A node with that ID already exists");
+      } else {
+        val x = Integer.parseInt(nodeXField.getText());
+        val y = Integer.parseInt(nodeYField.getText());
+        val type = nodeType.getSelectionModel().getSelectedItem().toString();
+        Node node = new Node(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
+            shortName);
+        nodeMapViewController.addNode(node);
+        for (val edge : edges) {
+          nodeMapViewController
+              .drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
+        }
+        nodeMap.put(node.getNodeID(), node);
+        database.addNode(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
+            shortName); //adds node to database
+        clearFields(false);
+      }
     } catch (Exception e) {
       showErrorSnackbar("Invalid input");
     }
@@ -248,10 +257,31 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   public void createEdge(ActionEvent actionEvent) throws Exception {
     try {
+      val node1ID = node1Field.getText();
+      val node2ID = node2Field.getText();
+      val edgeID = edgeIDField.getText();
+      if (node1ID.isBlank() || node2ID.isBlank() || edgeID.isBlank()) {
+        showErrorSnackbar("You cannot leave any fields blank");
+        return;
+      }
+      for (val edge : edges) {
+        if (edge.getEdgeID().equals(edgeID)) {
+          showErrorSnackbar("An edge with that ID already exists");
+          return;
+        }
+      }
+      nodeSelection1 = nodeMap.get(node1ID);
+      nodeSelection2 = nodeMap.get(node2ID);
       if (!nodeSelection1.equals(nodeSelection2)) {
-        Edge newEdge = new Edge(edgeIDField.getText(), node1Field.getText(), node2Field.getText());
-        database.addEdge(edgeIDField.getText(), node1Field.getText(), node2Field.getText());
+        if (nodeSelection1.getNeighbors().contains(nodeSelection2)) {
+          showErrorSnackbar("An edge already exists between these two nodes");
+          return;
+        }
+        Edge newEdge = new Edge(edgeID, node1ID, node2ID);
+        database.addEdge(edgeID, node1ID, node2ID);
         edges.add(newEdge);
+        nodeSelection1.getNeighbors().add(nodeSelection2);
+        nodeSelection2.getNeighbors().add(nodeSelection1);
         nodeMapViewController.drawEdge(nodeSelection1, nodeSelection2);
         clearFields(false);
       } else {
@@ -304,7 +334,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void clearEdge1Selection(ActionEvent actionEvent) {
-    nodeSelection1 = null;
     node1Field.clear();
   }
 
@@ -314,7 +343,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void clearEdge2Selection(ActionEvent actionEvent) {
-    nodeSelection2 = null;
     node2Field.clear();
   }
 }
