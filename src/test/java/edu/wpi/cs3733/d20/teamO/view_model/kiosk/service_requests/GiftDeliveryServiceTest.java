@@ -6,16 +6,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.view_model.admin.RequestHandlerViewModel;
 import org.greenrobot.eventbus.EventBus;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 /**
  * Tests GiftDeliveryService
  */
-public class GiftDeliveryServiceTest {
+@ExtendWith({MockitoExtension.class, ApplicationExtension.class})
+public class GiftDeliveryServiceTest extends FxRobot {
 
   @Mock
   EventBus eventBus;
@@ -24,17 +28,18 @@ public class GiftDeliveryServiceTest {
   @Mock
   CSVHandler csvHandler;
   @InjectMocks
-  RequestHandlerViewModel viewModel;
+  GiftDeliveryService viewModel;
 
-  /**
-   * Temporary test to satisfy code coverage requirements todo remove
-   */
   /*
-  @Test
-  public void satisfyCodeCoverage() {
-    assertEquals(Double.MAX_VALUE, new GiftDeliveryService().getFlowNewLine());
-  }
-  */
+  @Start
+  public void start(Stage stage) throws IOException {
+    val loader = new FXMLLoader();
+    loader.setControllerFactory(o -> viewModel);
+    stage
+        .setScene(new Scene(loader.load(Main.class.getResourceAsStream("views/kiosk/ServiceRequestSelection.fxml"))));
+    stage.setAlwaysOnTop(true);
+    stage.show();
+  }*/
 
   @Test
   public void checkIfJFXTextFieldIsEmpty() {
