@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: #acd7fd"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.ImportExportCSVViewModel">
+  <VBox spacing="32" alignment="CENTER" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+    <HBox spacing="16" alignment="CENTER">
+      <JFXTextField fx:id="nodesFilename" promptText="Nodes CSV Filename"/>
+      <JFXButton onAction="#importNodes" text="Import"/>
+      <JFXButton onAction="#exportNodes" text="Export"/>
+    </HBox>
+    <HBox spacing="16" alignment="CENTER">
+      <JFXTextField fx:id="edgesFilename" promptText="Edges CSV Filename"/>
+      <JFXButton onAction="#importEdges" text="Import"/>
+      <JFXButton onAction="#exportEdges" text="Export"/>
+    </HBox>
+    <HBox spacing="16" alignment="CENTER">
+      <JFXTextField fx:id="employeesFilename" promptText="Employees CSV Filename"/>
+      <JFXButton onAction="#importEmployees" text="Import"/>
+      <JFXButton onAction="#exportEmployees" text="Export"/>
+    </HBox>
+    <HBox spacing="16" alignment="CENTER">
+      <JFXTextField fx:id="requestsFilename" promptText="Service Requests CSV Filename"/>
+      <JFXButton onAction="#importRequests" text="Import"/>
+      <JFXButton onAction="#exportRequests" text="Export"/>
+    </HBox>
+  </VBox>
+</AnchorPane>
