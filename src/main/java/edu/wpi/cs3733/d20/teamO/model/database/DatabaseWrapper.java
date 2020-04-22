@@ -43,8 +43,31 @@ public interface DatabaseWrapper {
    */
   int addEdge(String edgeID, String startNodeID, String stopNodeID);
 
-  // todo this
-  // int addServiceRequest(String requestID, String type);
+  /**
+   * Adds the specified service request to the database
+   *
+   * @param requestID        the id of the request
+   * @param requestTime      the time of the request as a string
+   * @param requestNode      the id of the node where the request is going
+   * @param type             the type of service request
+   * @param requesterName    the name of the person filling out the request
+   * @param whoMarked        the id of the admin (employee) who assigns the request
+   * @param employeeAssigned the id of the employee assigned to fulfill the request
+   * @return the number of affected entries
+   */
+  int addServiceRequest(String requestID, String requestTime, String requestNode, String type,
+      String requesterName, String whoMarked, String employeeAssigned);
+
+  /**
+   * Adds the specified employee to the database
+   *
+   * @param employeeID  the id of the employee
+   * @param name        the name of the employee
+   * @param type        the type of employee they are
+   * @param isAvailable true if available, false if not available
+   * @return the number of affected entries
+   */
+  int addEmployee(String employeeID, String name, String type, boolean isAvailable);
 
   /**
    * Deletes record(s) (example: a node or edge) from the specified table
@@ -59,24 +82,27 @@ public interface DatabaseWrapper {
   /**
    * Updates a String in a record of the specified column of the specified table
    *
-   * @param table    the table to perform the update on
-   * @param property the property (column) for the update
-   * @param id       the id of the record to update
-   * @param data     the new data for the specified property
+   * @param table           the table to perform the update on
+   * @param property        the property (column) for the update
+   * @param id              the id of the record to update
+   * @param newInfoProperty the property (column) for the new info
+   * @param data            the new data for the specified property
    * @return the number of affected entries
    */
-  int update(Table table, TableProperty property, String id, String data);
+  int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
+      String data);
 
   /**
    * Updates an int in a record of the specified column of the specified table
    *
-   * @param table    the table to perform the update on
-   * @param property the property (column) for the update
-   * @param id       the id of the record to update
-   * @param data     the new data for the specified property
+   * @param table           the table to perform the update on
+   * @param property        the property (column) for the update
+   * @param id              the id of the record to update
+   * @param newInfoProperty the property (column) for the new info
+   * @param data            the new data for the specified property
    * @return the number of affected entries
    */
-  int update(Table table, TableProperty property, String id, int data);
+  int update(Table table, TableProperty property, String id, TableProperty newInfoProperty, int data);
 
   /**
    * @return a map of all nodeIDs stored in this database to their corresponding Nodes
@@ -93,4 +119,10 @@ public interface DatabaseWrapper {
   List<ServiceRequest> exportServiceRequests();
 
   List<Employee> exportEmployees();
+
+  /**
+   * @param id the id of an Employee
+   * @return the name of the Employee
+   */
+  String employeeNameFromID(String id);
 }

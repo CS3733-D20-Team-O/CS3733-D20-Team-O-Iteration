@@ -1,37 +1,27 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
-import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.d20.teamO.model.language.LanguageHandler;
-import java.net.URL;
-import java.util.ResourceBundle;
+import edu.wpi.cs3733.d20.teamO.events.BackwardNavigationEvent;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 
 public class NavigationBar extends ViewModelBase {
 
-  @FXML
-  private AnchorPane root;
-
-  @FXML
-  private JFXButton backButton;
-
-  @FXML
-  private Label windowName;
-
-  @Override
-  protected void start(URL location, ResourceBundle resources) {
-    AnchorPane.setLeftAnchor(backButton, 0.0);
-    AnchorPane.setLeftAnchor(windowName, 0.0);
-    AnchorPane.setRightAnchor(windowName, 0.0);
-  }
+  private final SimpleStringProperty title = new SimpleStringProperty("Invalid Title");
 
   @FXML
   private void onBackPressed() {
-    // todo
+    dispatch(new BackwardNavigationEvent());
   }
 
-  public void setWindowName(String titleKey) {
-    windowName.setText(get(LanguageHandler.class).getCurrentLocaleBundle().getString(titleKey));
+  public String getTitle() {
+    return title.get();
+  }
+
+  public void setTitle(String title) {
+    this.title.set(title);
+  }
+
+  public SimpleStringProperty titleProperty() {
+    return title;
   }
 }

@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 public enum EmployeeProperty implements TableProperty {
   EMPLOYEE_ID("employeeID"),
   NAME("name"),
-  IS_AVAILABLE("isAvailable"),
-  TYPE("type");
+  TYPE("type"),
+  IS_AVAILABLE("isAvailable");
 
   @Getter
   private final String columnName;
