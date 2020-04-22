@@ -51,22 +51,6 @@ public class NodeMapView extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    // Set the listeners for width and height change
-    backgroundImage.fitHeightProperty().addListener((observable, oldNum, newNum) -> {
-      val image = backgroundImage.getImage();
-      val aspectRatio = image.getWidth() / image.getHeight();
-      val height = Math.min(newNum.doubleValue(), newNum.doubleValue() / aspectRatio);
-      nodeCanvas.setHeight(height);
-      draw();
-    });
-    backgroundImage.fitWidthProperty().addListener((observable, oldNum, newNum) -> {
-      val image = backgroundImage.getImage();
-      val aspectRatio = image.getWidth() / image.getHeight();
-      val width = Math.min(newNum.doubleValue(), newNum.doubleValue() * aspectRatio);
-      nodeCanvas.setWidth(width);
-      draw();
-    });
-
     // Display the current floor (and consequently call the above listeners)
     setFloor(minFloor);
 
@@ -209,7 +193,7 @@ public class NodeMapView extends ViewModelBase {
     // Call the appropriate listener
     if (closestDistance > nodeSize / 2) {
       if (onMissTapListener != null) {
-        onMissTapListener.accept(x, y);
+        onMissTapListener.accept((int) imageX, (int) imageY);
       }
     } else {
       if (onNodeTappedListener != null) {
@@ -223,13 +207,14 @@ public class NodeMapView extends ViewModelBase {
       this.floor = floor;
       backgroundImage.setImage(new Image("floors/" + floor + ".png"));
     }
+    draw();
   }
 
   public void incrementFloor() {
-    setFloor(++this.floor);
+    setFloor(this.floor + 1);
   }
 
   public void decrementFloor() {
-    setFloor(--this.floor);
+    setFloor(this.floor - 1);
   }
 }
