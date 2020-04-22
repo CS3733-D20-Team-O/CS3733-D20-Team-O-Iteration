@@ -133,6 +133,7 @@ public class NodeMapView extends ViewModelBase {
     nodeGC.setFill(Color.RED);
     val x = node.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
     val y = node.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
+    System.out.println(x + " " + y);
     nodeGC.fillOval(x - nodeSize / 2, y - nodeSize / 2, nodeSize, nodeSize);
   }
 
@@ -207,6 +208,7 @@ public class NodeMapView extends ViewModelBase {
       this.floor = floor;
       backgroundImage.setImage(new Image("floors/" + floor + ".png"));
     }
+    draw();
   }
 
   public void incrementFloor() {
