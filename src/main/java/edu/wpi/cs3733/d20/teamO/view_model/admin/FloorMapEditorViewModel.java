@@ -59,9 +59,23 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private VBox exportEdgesPane;
   @FXML
   private JFXTextField edgeIDField;
+  @FXML
+  private VBox selectNodePane;
+  @FXML
+  private Label selectedNodeID;
+  @FXML
+  private Label selectedNodeX;
+  @FXML
+  private Label selectedNodeY;
+  @FXML
+  private Label selectedNodeType;
+  @FXML
+  private Label selectedNodeShortName;
+  @FXML
+  private Label selectedNodeLongName;
 
   private Map<String, Node> nodeMap = new HashMap<>();
-  private Node nodeSelection1, nodeSelection2;
+  private Node nodeSelection, nodeSelection1, nodeSelection2; // nodeSelection is the node being selected in the normal node selection menu, 1 and 2 are for edge building
   private List<Edge> edges = new LinkedList<>();
   private final DatabaseWrapper database; //todo implement this
 
@@ -72,10 +86,14 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param resources the resources used to localize the root object, or null
    */
   protected void start(URL location, ResourceBundle resources) {
+    // todo draw edges from database
     super.start(location, resources);
     nodeMap.putAll(database.exportNodes());
     edges.addAll(database.exportEdges());
     nodeMapViewController.setNodeMap(nodeMap);
+    for (val edge : edges) {
+      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
+    }
     nodeType.getItems().addAll("STAI", "ELEV", "REST", "DEPT", "LABS", "HALL", "CONF");
     nodeMapViewController.setOnNodeTappedListener(node -> {
       select(node);
@@ -90,7 +108,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param node The selected node
    */
   private void select(Node node) {
-    if (addEdgePane.isVisible()) { // if the user is currently adding an edge
+    if (addEdgePane.isVisible()) {
       if (node1Field.getText().isBlank()) {
         node1Field.setText(node.getNodeID());
         nodeSelection1 = node;
@@ -98,11 +116,20 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         node2Field.setText(node.getNodeID());
         nodeSelection2 = node;
       }
-    } else { // node is selected from elsewhere
+    } else {
       clearSideBar();
+      showSideBar();
+      selectNodePane.setVisible(true);
+      selectedNodeID.setText(node.getNodeID());
+      selectedNodeLongName.setText(node.getLongName());
+      selectedNodeShortName.setText(node.getShortName());
+      selectedNodeType.setText(node.getNodeType());
+      selectedNodeX.setText(Integer.toString(node.getXCoord()));
+      selectedNodeY.setText(Integer.toString(node.getYCoord()));
+      nodeSelection = node;
       // todo implement node selection menu
     }
-  }
+    }
 
   /**
    * Clears all content of the sidebar and empties all text fields
@@ -119,6 +146,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     node1Field.clear();
     node2Field.clear();
     edgeIDField.clear();
+    selectNodePane.setVisible(false);
     exportEdgesPane.setVisible(false);
     exportNodesPane.setVisible(false);
     sideBar.setVisible(false);
@@ -172,7 +200,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   public void floorDown(ActionEvent actionEvent) {
     nodeMapViewController.decrementFloor();
-    floorLabel.setText("Floor "+ nodeMapViewController.getFloor());
+    for (val edge : edges) {
+      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
+    }
+    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
   /**
@@ -181,7 +212,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   public void floorUp(ActionEvent actionEvent) {
     nodeMapViewController.incrementFloor();
-    floorLabel.setText("Floor "+ nodeMapViewController.getFloor());
+    for (val edge : edges) {
+      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
+    }
+    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
   /**
@@ -253,6 +287,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   public void deleteSelectedNode(ActionEvent actionEvent) {
+    nodeMap.remove(nodeSelection.getNodeID());
+    nodeMapViewController.deleteNode(nodeSelection);
+    //todo remove from database
+    for (val edge : edges) {
+      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
+    }
   }
 
   public void cancelNodeSelection(ActionEvent actionEvent) {
