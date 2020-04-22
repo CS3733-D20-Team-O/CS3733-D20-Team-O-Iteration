@@ -17,4 +17,10 @@ public class MainAdminViewModel extends ViewModelBase {
     dispatch(new ForwardNavigationEvent("Service Request Handler",
         "views/admin/RequestHandler.fxml"));
   }
+
+  @FXML
+  private void openImportExportHandler() {
+    dispatch(new ForwardNavigationEvent("Import/Export CSV",
+        "views/admin/ImportExportCSV.fxml"));
+  }
 }
