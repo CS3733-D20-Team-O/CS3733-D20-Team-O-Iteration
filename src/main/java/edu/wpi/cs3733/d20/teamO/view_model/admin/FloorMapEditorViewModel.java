@@ -2,11 +2,14 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -54,9 +57,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private VBox exportNodesPane;
   @FXML
   private VBox exportEdgesPane;
+  @FXML
+  private JFXTextField edgeIDField;
 
   private Map<String, Node> nodeMap = new HashMap<>();
   private Node nodeSelection1, nodeSelection2;
+  private List<Edge> edges = new LinkedList<>();
   private final DatabaseWrapper database; //todo implement this
 
   @Override
@@ -67,8 +73,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   protected void start(URL location, ResourceBundle resources) {
     super.start(location, resources);
+    nodeMap.putAll(database.exportNodes());
+    edges.addAll(database.exportEdges());
     nodeMapViewController.setNodeMap(nodeMap);
-    nodeType.getItems().addAll("STAI","ELEV","REST","DEPT","LABS","HALL","CONF");
+    nodeType.getItems().addAll("STAI", "ELEV", "REST", "DEPT", "LABS", "HALL", "CONF");
     nodeMapViewController.setOnNodeTappedListener(node -> {
       select(node);
     });
@@ -82,7 +90,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param node The selected node
    */
   private void select(Node node) {
-    // todo write method
     if (addEdgePane.isVisible()) { // if the user is currently adding an edge
       if (node1Field.getText().isBlank()) {
         node1Field.setText(node.getNodeID());
@@ -93,7 +100,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       }
     } else { // node is selected from elsewhere
       clearSideBar();
-      // todo implement node selection
+      // todo implement node selection menu
     }
   }
 
@@ -111,6 +118,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeType.getSelectionModel().clearSelection();
     node1Field.clear();
     node2Field.clear();
+    edgeIDField.clear();
     exportEdgesPane.setVisible(false);
     exportNodesPane.setVisible(false);
     sideBar.setVisible(false);
@@ -216,8 +224,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void createEdge(ActionEvent actionEvent) {
+    Edge newEdge = new Edge(edgeIDField.getText(), node1Field.getText(), node2Field.getText());
+    database.addEdge(edgeIDField.getText(), node1Field.getText(), node2Field.getText());
+    edges.add(newEdge);
     nodeMapViewController.drawEdge(nodeSelection1, nodeSelection2);
-    // todo add edge in NodeMapView
+    clearSideBar();
   }
 
   /**
