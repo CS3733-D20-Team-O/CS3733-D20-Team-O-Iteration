@@ -85,8 +85,8 @@
                   <JFXButton onAction="#floorDown" text="&lt;"/>
                   <Label fx:id="floorLabel" text="Floor 1"/>
                   <JFXButton onAction="#floorUp" text="&gt;"/>
-                  <JFXButton onAction="#addNodeButton" text="Add node"/>
-                  <JFXButton onAction="#addEdgeButton" text="Add edge"/>
+                  <JFXButton onAction="#addNodePressed" text="Add node"/>
+                  <JFXButton onAction="#addEdgePressed" text="Add edge"/>
                </children>
             </HBox>
          </children>
