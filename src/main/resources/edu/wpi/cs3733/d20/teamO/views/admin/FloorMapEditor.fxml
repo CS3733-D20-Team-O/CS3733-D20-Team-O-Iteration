@@ -94,17 +94,18 @@
    <bottom>
       <AnchorPane style="-fx-background-color: FFFFFF; -fx-border-color: ADADAD;" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="869.0" spacing="10.0">
-               <children>
-                  <JFXButton onAction="#floorDown" text="&lt;"/>
-                  <Label fx:id="floorLabel" text="Floor 1"/>
-                  <JFXButton onAction="#floorUp" text="&gt;"/>
-                  <JFXButton onAction="#addNodeButton" text="Add node"/>
-                  <JFXButton onAction="#addEdgeButton" text="Add edge"/>
-                  <JFXButton onAction="#exportNodesButton" text="Export nodes"/>
-                  <JFXButton onAction="#exportEdgesButton" text="Export edges"/>
-               </children>
-            </HBox>
+           <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="869.0" spacing="10.0"
+             visible="true">
+             <children>
+               <JFXButton onAction="#floorDown" text="&lt;"/>
+               <Label fx:id="floorLabel" text="Floor 1"/>
+               <JFXButton onAction="#floorUp" text="&gt;"/>
+               <JFXButton onAction="#addNodeButton" text="Add node"/>
+               <JFXButton onAction="#addEdgeButton" text="Add edge"/>
+               <JFXButton onAction="#exportNodesButton" text="Export nodes"/>
+               <JFXButton onAction="#exportEdgesButton" text="Export edges"/>
+             </children>
+           </HBox>
          </children>
       </AnchorPane>
    </bottom>

@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FindPathViewModel extends ViewModelBase {
 
-  private final AStar path = new AStar();
   private final DatabaseWrapper database;
   private Node beginning;
   private Node finish;
@@ -44,7 +43,6 @@ public class FindPathViewModel extends ViewModelBase {
  * @param resources the resources used to localize the root object, or null
  */
   protected void start(URL location, ResourceBundle resources) {
-    super.start(location, resources);
     nodeMap = database.exportNodes();
     nodeMapViewController.setNodeMap(nodeMap);
     nodeMapViewController.setOnNodeTappedListener(node -> {
@@ -52,7 +50,7 @@ public class FindPathViewModel extends ViewModelBase {
       switch (clicks){
         case 0:
           beginning = node;
-          prompt.setText("Press Ending Location");
+          prompt.setText("Press Ending Point");
           start.setText(node.getLongName());
           break;
         case 1:
@@ -71,7 +69,7 @@ public class FindPathViewModel extends ViewModelBase {
       clicks++;
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
-      prompt.setText("Please Click a Room");
+      prompt.setText("Please Click a Point");
     });
   }
 
@@ -81,8 +79,10 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   void resetPath() {
     prompt.setText("Press Starting Point");
+    start.setText("");
+    end.setText("");
     clicks = 0;
-
+    nodeMapViewController.draw();
   }
 
 }
