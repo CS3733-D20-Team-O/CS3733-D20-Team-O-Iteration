@@ -32,7 +32,93 @@ public class GiftDeliveryService extends ViewModelBase {
   @FXML
   private JFXButton submitButton, cancelButton, clearButton, helpButton;
   @FXML
-  private JFXComboBox<Node> inRoomComboBox, onFloorComboBox;
+//  private JFXComboBox<Node> inRoomComboBox = new JFXComboBox<>(), onFloorComboBox = new JFXComboBox<>();
+  private final JFXComboBox<String> inRoomComboBox = new JFXComboBox<>();
+  @FXML
+//  private JFXComboBox<Node> inRoomComboBox = new JFXComboBox<>(), onFloorComboBox = new JFXComboBox<>();
+  private final JFXComboBox<String> onFloorComboBox = new JFXComboBox<>();
+
+  //set up combo boxes
+  public void setupComboBoxes() {
+
+    addAvailableFloors();
+    addAvailableRooms();
+
+
+  }
+
+  //floors
+//    private ArrayList<String> getAvailableFloors() {
+  private void addAvailableFloors() {
+    onFloorComboBox.setPromptText("Floors");
+    val listOfFloors = new ArrayList<String>();
+
+    for (Map.Entry<String, Node> node : database.exportNodes().entrySet()) {
+      val floorToAdd = Integer.toString(node.getValue().getFloor());
+      if (!listOfFloors.contains(floorToAdd)) {
+        listOfFloors.add(floorToAdd);
+        onFloorComboBox.getItems().add(floorToAdd);
+      }
+    }
+//    database.exportNodes().values().toArray();
+//      return listOfFloors;
+  }
+
+  //rooms
+  private void addAvailableRooms() {
+    inRoomComboBox.setPromptText("Rooms");
+    val listOfRooms = new ArrayList<String>();
+
+    for (Map.Entry<String, Node> node : database.exportNodes().entrySet()) {
+      val roomToAdd = node.getValue().getLongName();
+      if (!listOfRooms.contains(roomToAdd) &&
+          node.getValue().getNodeType() != "STAI" &&
+          node.getValue().getNodeType() != "ELEV" &&
+          node.getValue().getNodeType() != "REST" &&
+          node.getValue().getNodeType() != "HALL") {
+        listOfRooms.add(roomToAdd);
+        inRoomComboBox.getItems().add(roomToAdd);
+      }
+    }
+  }
+
+  //on submit
+  //check fields
+  private boolean checkField(JFXTextField tf) {
+    //take in a field, check the text so it's not empty
+    return !tf.getText().isEmpty();
+  }
+
+  //check comboboxes
+  private boolean checkComboBox(JFXComboBox<String> box) {
+    return !box.getSelectionModel().getSelectedItem().equals("Floors");
+  }
+
+  //verify CC
+  private boolean verifyCCInfo(long ccNumber, int ccYear, int ccMonth, int ccSecurity) {
+    String ccNumberString = Long.toString(ccNumber);
+    String ccYearString = Integer.toString(ccYear);
+    String ccMonthString = Integer.toString(ccMonth);
+    String ccSecurityString = Integer.toString(ccSecurity);
+    if ((ccNumberString.length() < 13) || (ccNumberString.length() > 19)) {
+      return (ccYearString.length() == 2) && (ccMonthString.length() == 2) && (
+          ccSecurityString.length() == 3);
+    }
+    return true;
+  }
+
+  //create service request
+  private String generateRequestID() {
+    val currentRequestID = database.exportServiceRequests()
+        .get(database.exportServiceRequests().size() - 1).getRequestID();
+    val currentIDInt = Integer.parseInt(currentRequestID) + 1;
+    return Integer.toString(currentIDInt);
+  }
+  //add request to database
+  //show request ID
+
+  //snackbar error
+
 
   /**
    * @return the width to make Panes in FlowPane cause the FlowPane to wrap to the next line
@@ -41,31 +127,31 @@ public class GiftDeliveryService extends ViewModelBase {
     return Double.MAX_VALUE;
   }
 
-  public JFXComboBox<Node> getInRoomComboBox() {
-    return inRoomComboBox;
-  }
-
-  public void setInRoomComboBox(
-      JFXComboBox<Node> inRoomComboBox) {
-    this.inRoomComboBox = inRoomComboBox;
-  }
-
-  public JFXComboBox<Node> getOnFloorComboBox() {
-    return onFloorComboBox;
-  }
-
-  public void setOnFloorComboBox(
-      JFXComboBox<Node> onFloorComboBox) {
-    this.onFloorComboBox = onFloorComboBox;
-  }
-
-  public void addRoomToComboBox(Node room) {
-    inRoomComboBox.getItems().add(room);
-  }
-
-  public void addFloorToComboBox(Node floor) {
-    onFloorComboBox.getItems().add(floor);
-  }
+//  public JFXComboBox<Node> getInRoomComboBox() {
+//    return inRoomComboBox;
+//  }
+//
+//  public void setInRoomComboBox(
+//      JFXComboBox<Node> inRoomComboBox) {
+//    this.inRoomComboBox = inRoomComboBox;
+//  }
+//
+//  public JFXComboBox<Node> getOnFloorComboBox() {
+//    return onFloorComboBox;
+//  }
+//
+//  public void setOnFloorComboBox(
+//      JFXComboBox<Node> onFloorComboBox) {
+//    this.onFloorComboBox = onFloorComboBox;
+//  }
+//
+//  public void addRoomToComboBox(Node room) {
+//    inRoomComboBox.getItems().add(room);
+//  }
+//
+//  public void addFloorToComboBox(Node floor) {
+//    onFloorComboBox.getItems().add(floor);
+//  }
 
   public CSVHandler getCsvHandler() {
     return csvHandler;
@@ -105,16 +191,16 @@ public class GiftDeliveryService extends ViewModelBase {
 
         val newRequestID = generateRequestID();  //this needs to be something different.
         val requestFloorNode = onFloorComboBox.getItems().addAll();
-        val requestRoomNode = inRoomComboBox.getItems().add(database
-            .exportServiceRequests(); // on the right track, just need to figure out what to do here
+//        val requestRoomNode = inRoomComboBox.getItems().add(database
+//            .exportServiceRequests(); // on the right track, just need to figure out what to do here
 
         // this if statement will eventually be removed
         // boolean test = true;
         // if (!test) {
         // String requestID, String requestTime, requestNode, type, requesterName, whoMarked, employeeAssigned;
-        database
-            .addServiceRequest(newRequestID, getTime(), requestRoomNode, "Gift", toField.getText(),
-                "", "");
+//        database
+//            .addServiceRequest(newRequestID, getTime(), requestRoomNode, "Gift", toField.getText(),
+//                "", "");
         // }
         // FIXME
 
@@ -128,47 +214,6 @@ public class GiftDeliveryService extends ViewModelBase {
     }
   }
 
-  private ArrayList<String> getAvailableFloors() {
-    ArrayList<String> listOfFloors = new ArrayList<String>();
-    for (Map.Entry<String, Node> node : database.exportNodes().entrySet()) {
-      int floorNum = node.getValue().getFloor();
-      String tempString = Integer.toString(floorNum);
-      if (listOfFloors.contains(node.getKey())) {
-
-      }
-    }
-    database.exportNodes().values().toArray();
-    return listOfFloors;
-  }
-
-  private ArrayList<String> getAvailableRooms() {
-    node.getValue().getFloor()
-  }
-
-  private String generateRequestID() {
-    val currentRequestID = database.exportServiceRequests()
-        .get(database.exportServiceRequests().size() - 1).getRequestID();
-    val currentIDInt = Integer.parseInt(currentRequestID) + 1;
-    return Integer.toString(currentIDInt);
-  }
-
-
-  private boolean checkField(JFXTextField tf) {
-    //take in a field, check the text so it's not empty
-    return !tf.getText().isEmpty();
-  }
-
-  private boolean verifyCCInfo(long ccNumber, int ccYear, int ccMonth, int ccSecurity) {
-    String ccNumberString = Long.toString(ccNumber);
-    String ccYearString = Integer.toString(ccYear);
-    String ccMonthString = Integer.toString(ccMonth);
-    String ccSecurityString = Integer.toString(ccSecurity);
-    if ((ccNumberString.length() < 13) || (ccNumberString.length() > 19)) {
-      return (ccYearString.length() == 2) && (ccMonthString.length() == 2) && (
-          ccSecurityString.length() == 3);
-    }
-    return true;
-  }
 
   private String getTime() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
