@@ -34,7 +34,7 @@ class CSVHandlerImpl implements CSVHandler {
   private final DatabaseWrapper database;
 
   @Override
-  public void importNodes(String csvFileLocation) {
+  public boolean importNodes(String csvFileLocation) {
     File nodeCsvFile = new File(csvFileLocation);
     try (val scanner = new Scanner(nodeCsvFile).useDelimiter(",|[\\r\\n]+")) {
       // Read in first line so that attribute names are not imported as a node
@@ -46,11 +46,13 @@ class CSVHandlerImpl implements CSVHandler {
       }
     } catch (FileNotFoundException e) {
       log.error("Could not read the file " + csvFileLocation, e);
+      return false;
     }
+    return true;
   }
 
   @Override
-  public void importEdges(String csvFileLocation) {
+  public boolean importEdges(String csvFileLocation) {
     File edgeCsvFile = new File(csvFileLocation);
     try (val scanner = new Scanner(edgeCsvFile).useDelimiter(",|[\\r\\n]+")) {
       // Read in first line so that attribute names are not imported as an edge
@@ -61,11 +63,13 @@ class CSVHandlerImpl implements CSVHandler {
       }
     } catch (FileNotFoundException e) {
       log.error("Could not read the file " + csvFileLocation, e);
+      return false;
     }
+    return true;
   }
 
   @Override
-  public void importEmployees(String csvFileLocation) {
+  public boolean importEmployees(String csvFileLocation) {
     File employeeCsvFile = new File(csvFileLocation);
     try (val scanner = new Scanner(employeeCsvFile).useDelimiter(",|[\\r\\n]+")) {
       // Read in first line so that attribute names are not imported as an employee
@@ -76,11 +80,13 @@ class CSVHandlerImpl implements CSVHandler {
       }
     } catch (FileNotFoundException e) {
       log.error("Could not read the file " + csvFileLocation, e);
+      return false;
     }
+    return true;
   }
 
   @Override
-  public void importServiceRequests(String csvFileLocation) {
+  public boolean importServiceRequests(String csvFileLocation) {
     File serviceRequestCsvFile = new File(csvFileLocation);
     try (val scanner = new Scanner(serviceRequestCsvFile).useDelimiter(",|[\\r\\n]+")) {
       // Read in first line so that attribute names are not imported as a serviceRequest
@@ -92,32 +98,34 @@ class CSVHandlerImpl implements CSVHandler {
       }
     } catch (FileNotFoundException e) {
       log.error("Could not read the file " + csvFileLocation, e);
+      return false;
     }
+    return true;
   }
 
   @Override
-  public void exportNodes(String csvFileLocation) {
+  public boolean exportNodes(String csvFileLocation) {
     val nodeMap = database.exportNodes();
     val nodeList = nodeMap.keySet().stream().map(nodeMap::get).collect(Collectors.toList());
-    exportGeneric(csvFileLocation, nodeList, Node.class, "neighbors");
+    return exportGeneric(csvFileLocation, nodeList, Node.class, "neighbors");
   }
 
   @Override
-  public void exportEdges(String csvFileLocation) {
-    exportGeneric(csvFileLocation, database.exportEdges(), Edge.class);
+  public boolean exportEdges(String csvFileLocation) {
+    return exportGeneric(csvFileLocation, database.exportEdges(), Edge.class);
   }
 
   @Override
-  public void exportEmployees(String csvFileLocation) {
-    exportGeneric(csvFileLocation, database.exportEmployees(), Employee.class);
+  public boolean exportEmployees(String csvFileLocation) {
+    return exportGeneric(csvFileLocation, database.exportEmployees(), Employee.class);
   }
 
   @Override
-  public void exportServiceRequests(String csvFileLocation) {
-    exportGeneric(csvFileLocation, database.exportServiceRequests(), ServiceRequest.class);
+  public boolean exportServiceRequests(String csvFileLocation) {
+    return exportGeneric(csvFileLocation, database.exportServiceRequests(), ServiceRequest.class);
   }
 
-  private <T> void exportGeneric(String csvFileLocation, List<T> entries,
+  private <T> boolean exportGeneric(String csvFileLocation, List<T> entries,
       Class<T> tClass, String... excludedFields) {
     // Create the list of lines to write
     val toWrite = new LinkedList<String>();
@@ -149,6 +157,8 @@ class CSVHandlerImpl implements CSVHandler {
       Files.write(Paths.get(csvFileLocation), toWrite);
     } catch (IOException e) {
       log.error("Failed to write to " + csvFileLocation, e);
+      return false;
     }
+    return true;
   }
 }
