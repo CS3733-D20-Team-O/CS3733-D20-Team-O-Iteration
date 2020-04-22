@@ -7,14 +7,12 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
@@ -60,7 +58,7 @@ public class FindPathViewModel extends ViewModelBase {
         case 1:
           finish = node;
           end.setText(node.getLongName());
-          List<Node> nodes = path.findPathBetween(beginning,finish);
+          List<Node> nodes = AStar.findPathBetween(beginning, finish);
           for (int i = 0; i <= nodes.size() - 1; i++){
             if(i != nodes.size() - 1){
               nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
@@ -77,10 +75,13 @@ public class FindPathViewModel extends ViewModelBase {
     });
   }
 
+  /**
+   * resets the path
+   */
   @FXML
-  void resetPath(){
-  prompt.setText("Press Starting Point");
-  clicks = 0;
+  void resetPath() {
+    prompt.setText("Press Starting Point");
+    clicks = 0;
 
   }
 
