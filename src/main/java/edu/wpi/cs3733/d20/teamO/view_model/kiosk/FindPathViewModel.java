@@ -57,9 +57,7 @@ public class FindPathViewModel extends ViewModelBase {
           end.setText(node.getLongName());
           List<Node> nodes = AStar.findPathBetween(beginning, finish);
           for (int i = 0; i < nodes.size() - 1; i++) {
-            if (i != nodes.size() - 1) {
               nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
-            }
           }
           break;
         default:
