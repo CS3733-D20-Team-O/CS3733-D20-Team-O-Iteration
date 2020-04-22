@@ -11,8 +11,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -35,51 +33,21 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML
   private NodeMapView nodeMapViewController;
   @FXML
-  private JFXTextField nodeXField;
-  @FXML
-  private JFXTextField nodeYField;
-  @FXML
-  private JFXTextField nodeIDField;
+  private JFXTextField nodeXField, nodeYField, nodeIDField, shortNameField, longNameField, node1Field, node2Field, edgeIDField;
   @FXML
   private AnchorPane sideBar;
   @FXML
-  private Label floorLabel;
-  @FXML
-  private VBox addNodePane;
-  @FXML
-  private VBox addEdgePane;
+  private VBox addNodePane, selectNodePane, addEdgePane;
   @FXML
   private ChoiceBox nodeType;
   @FXML
-  private JFXTextField shortNameField;
-  @FXML
-  private JFXTextField longNameField;
-  @FXML
-  private JFXTextField node1Field;
-  @FXML
-  private JFXTextField node2Field;
-  @FXML
-  private JFXTextField edgeIDField;
-  @FXML
-  private VBox selectNodePane;
-  @FXML
-  private Label selectedNodeID;
-  @FXML
-  private Label selectedNodeX;
-  @FXML
-  private Label selectedNodeY;
-  @FXML
-  private Label selectedNodeType;
-  @FXML
-  private Label selectedNodeShortName;
-  @FXML
-  private Label selectedNodeLongName;
+  private Label selectedNodeID, selectedNodeX, selectedNodeY, selectedNodeType, selectedNodeShortName, selectedNodeLongName, floorLabel;
   @FXML
   private BorderPane root;
-  private Map<String, Node> nodeMap = new HashMap<>();
+  private Map<String, Node> nodeMap;
   private Node nodeSelection, nodeSelection1, nodeSelection2; // nodeSelection is the node being selected in the normal node selection menu, 1 and 2 are for edge building
-  private List<Edge> edges = new LinkedList<>();
-  private final DatabaseWrapper database; //todo implement this
+  private List<Edge> edges;
+  private final DatabaseWrapper database;
 
   @Override
   /**
@@ -88,10 +56,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param resources the resources used to localize the root object, or null
    */
   protected void start(URL location, ResourceBundle resources) {
-    // todo draw edges from database
-    super.start(location, resources);
-    nodeMap.putAll(database.exportNodes());
-    edges.addAll(database.exportEdges());
+    nodeMap = database.exportNodes();
+    edges = database.exportEdges();
     nodeMapViewController.setNodeMap(nodeMap);
     for (val edge : edges) {
       nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
@@ -105,6 +71,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     });
   }
 
+  /**
+   * Shows an error snackbar
+   *
+   * @param errorText The text for the snackbar to display
+   */
   private void showErrorSnackbar(String errorText) {
     JFXSnackbar bar = new JFXSnackbar(root);
     val label = new Label(errorText);
@@ -131,8 +102,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         nodeSelection2 = node;
       }
     } else {
-      clearSideBar();
-      showSideBar();
+      clearFields(true);
+      sideBar.setVisible(true);
       selectNodePane.setVisible(true);
       selectedNodeID.setText("Node ID: " + node.getNodeID());
       selectedNodeLongName.setText("Long name: " + node.getLongName());
@@ -141,16 +112,22 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       selectedNodeX.setText("X pos: " + node.getXCoord());
       selectedNodeY.setText("Y pos: " + node.getYCoord());
       nodeSelection = node;
-      // todo implement node selection menu
     }
-    }
+  }
 
   /**
    * Clears all content of the sidebar and empties all text fields
+   *
+   * @param hideMenu Whether or not to hide the side menu
    */
-  private void clearSideBar() {
-    addNodePane.setVisible(false);
-    addEdgePane.setVisible(false);
+  private void clearFields(boolean hideMenu) {
+    if (hideMenu) {
+      addNodePane.setVisible(false);
+      addEdgePane.setVisible(false);
+      selectNodePane.setVisible(false);
+      sideBar.setVisible(false);
+    }
+
     nodeXField.clear();
     nodeYField.clear();
     nodeIDField.clear();
@@ -160,16 +137,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     node1Field.clear();
     node2Field.clear();
     edgeIDField.clear();
-    selectNodePane.setVisible(false);
-    sideBar.setVisible(false);
-    // todo clear all other stuff
-  }
-
-  /**
-   * Displays the sidebar
-   */
-  private void showSideBar() {
-    sideBar.setVisible(true);
   }
 
   /**
@@ -189,10 +156,14 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    *
    * @param actionEvent
    */
-  public void addEdgeButton(ActionEvent actionEvent) {
-    clearSideBar();
-    showSideBar();
-    addEdgePane.setVisible(true);
+  public void addEdgePressed(ActionEvent actionEvent) {
+    if (addEdgePane.isVisible()) {
+      clearFields(true);
+    } else {
+      clearFields(true);
+      sideBar.setVisible(true);
+      addEdgePane.setVisible(true);
+    }
   }
 
   /**
@@ -200,10 +171,14 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    *
    * @param actionEvent
    */
-  public void addNodeButton(ActionEvent actionEvent) {
-    clearSideBar();
-    showSideBar();
-    addNodePane.setVisible(true);
+  public void addNodePressed(ActionEvent actionEvent) {
+    if (addNodePane.isVisible()) {
+      clearFields(true);
+    } else {
+      clearFields(true);
+      sideBar.setVisible(true);
+      addNodePane.setVisible(true);
+    }
   }
 
   /**
@@ -235,7 +210,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void cancelAddNode(ActionEvent actionEvent) {
-    clearSideBar();
+    clearFields(true);
   }
 
   /**
@@ -253,10 +228,14 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       Node node = new Node(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
           shortName);
       nodeMapViewController.addNode(node);
+      for (val edge : edges) {
+        nodeMapViewController
+            .drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
+      }
       nodeMap.put(node.getNodeID(), node);
       database.addNode(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
           shortName); //adds node to database
-      clearSideBar();
+      clearFields(false);
     } catch (Exception e) {
       showErrorSnackbar("Invalid input");
     }
@@ -274,7 +253,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         database.addEdge(edgeIDField.getText(), node1Field.getText(), node2Field.getText());
         edges.add(newEdge);
         nodeMapViewController.drawEdge(nodeSelection1, nodeSelection2);
-        clearSideBar();
+        clearFields(false);
       } else {
         showErrorSnackbar("Cannot make a path between the same node");
       }
@@ -289,9 +268,14 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void cancelAddEdge(ActionEvent actionEvent) {
-    clearSideBar();
+    clearFields(true);
   }
 
+  /**
+   * Deletes the selected node
+   *
+   * @param actionEvent
+   */
   public void deleteSelectedNode(ActionEvent actionEvent) {
     nodeMap.remove(nodeSelection.getNodeID());
     nodeMapViewController.deleteNode(nodeSelection);
@@ -302,7 +286,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     for (val edge : edges) {
       nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
     }
-    clearSideBar();
+    clearFields(true);
   }
 
   /**
@@ -311,7 +295,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void cancelNodeSelection(ActionEvent actionEvent) {
-    clearSideBar();
+    clearFields(true);
   }
 
   /**
