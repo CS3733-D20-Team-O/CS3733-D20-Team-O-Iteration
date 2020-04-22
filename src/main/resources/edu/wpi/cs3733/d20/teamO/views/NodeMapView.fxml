@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView">
-  <ImageView fx:id="backgroundImage" preserveRatio="true" fitWidth="1000">
-    <viewport>
-      <Rectangle2D/>
-    </viewport>
-  </ImageView>
+  <ImageView fx:id="backgroundImage" preserveRatio="true" fitWidth="1000"/>
   <Canvas fx:id="nodeCanvas"/>
 </StackPane>
