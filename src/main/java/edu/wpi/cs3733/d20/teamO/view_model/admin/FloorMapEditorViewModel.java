@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
@@ -16,11 +18,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
@@ -56,10 +59,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML
   private JFXTextField node2Field;
   @FXML
-  private VBox exportNodesPane;
-  @FXML
-  private VBox exportEdgesPane;
-  @FXML
   private JFXTextField edgeIDField;
   @FXML
   private VBox selectNodePane;
@@ -75,7 +74,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private Label selectedNodeShortName;
   @FXML
   private Label selectedNodeLongName;
-
+  @FXML
+  private BorderPane root;
   private Map<String, Node> nodeMap = new HashMap<>();
   private Node nodeSelection, nodeSelection1, nodeSelection2; // nodeSelection is the node being selected in the normal node selection menu, 1 and 2 are for edge building
   private List<Edge> edges = new LinkedList<>();
@@ -105,8 +105,20 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     });
   }
 
+  private void showErrorSnackbar(String errorText) {
+    JFXSnackbar bar = new JFXSnackbar(root);
+    val label = new Label(errorText);
+    label.setStyle("-fx-text-fill: floralwhite");
+    val container = new HBox(label);
+    // Add 16 margin and 16 padding as per material design guidelines
+    container.setStyle("-fx-background-color: #323232;  -fx-background-insets: 16");
+    container.setPadding(new Insets(32)); // total padding, including margin
+    bar.enqueue(new SnackbarEvent(container));
+  }
+
   /**
    * Updates the currently selected node
+   *
    * @param node The selected node
    */
   private void select(Node node) {
@@ -149,8 +161,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     node2Field.clear();
     edgeIDField.clear();
     selectNodePane.setVisible(false);
-    exportEdgesPane.setVisible(false);
-    exportNodesPane.setVisible(false);
     sideBar.setVisible(false);
     // todo clear all other stuff
   }
@@ -248,23 +258,29 @@ public class FloorMapEditorViewModel extends ViewModelBase {
           shortName); //adds node to database
       clearSideBar();
     } catch (Exception e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.setTitle("Invalid input");
-      alert.setContentText("The input you entered was invalid.");
-      alert.showAndWait();
+      showErrorSnackbar("Invalid input");
     }
   }
 
   /**
    * Creates an edge between two selected nodes
+   *
    * @param actionEvent
    */
-  public void createEdge(ActionEvent actionEvent) {
-    Edge newEdge = new Edge(edgeIDField.getText(), node1Field.getText(), node2Field.getText());
-    database.addEdge(edgeIDField.getText(), node1Field.getText(), node2Field.getText());
-    edges.add(newEdge);
-    nodeMapViewController.drawEdge(nodeSelection1, nodeSelection2);
-    clearSideBar();
+  public void createEdge(ActionEvent actionEvent) throws Exception {
+    try {
+      if (!nodeSelection1.equals(nodeSelection2)) {
+        Edge newEdge = new Edge(edgeIDField.getText(), node1Field.getText(), node2Field.getText());
+        database.addEdge(edgeIDField.getText(), node1Field.getText(), node2Field.getText());
+        edges.add(newEdge);
+        nodeMapViewController.drawEdge(nodeSelection1, nodeSelection2);
+        clearSideBar();
+      } else {
+        showErrorSnackbar("Cannot make a path between the same node");
+      }
+    } catch (Exception e) {
+      showErrorSnackbar("Invalid input");
+    }
   }
 
   /**
@@ -274,18 +290,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   public void cancelAddEdge(ActionEvent actionEvent) {
     clearSideBar();
-  }
-
-  public void exportNodesButton(ActionEvent actionEvent) {
-    clearSideBar();
-    showSideBar();
-    exportNodesPane.setVisible(true);
-  }
-
-  public void exportEdgesButton(ActionEvent actionEvent) {
-    clearSideBar();
-    showSideBar();
-    exportEdgesPane.setVisible(true);
   }
 
   public void deleteSelectedNode(ActionEvent actionEvent) {
@@ -301,15 +305,30 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     clearSideBar();
   }
 
+  /**
+   * Called when the cancel button is pressed while a node is selected
+   *
+   * @param actionEvent
+   */
   public void cancelNodeSelection(ActionEvent actionEvent) {
     clearSideBar();
   }
 
+  /**
+   * Called when the clear button is pressed for edge 1 selection
+   *
+   * @param actionEvent
+   */
   public void clearEdge1Selection(ActionEvent actionEvent) {
     nodeSelection1 = null;
     node1Field.clear();
   }
 
+  /**
+   * Called when the clear button is pressed for edge 2 selection
+   *
+   * @param actionEvent
+   */
   public void clearEdge2Selection(ActionEvent actionEvent) {
     nodeSelection2 = null;
     node2Field.clear();
