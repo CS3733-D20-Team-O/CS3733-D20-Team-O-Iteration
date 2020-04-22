@@ -16,25 +16,26 @@
   prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1">
   <HBox prefHeight="100.0" prefWidth="200.0">
-    <Label fx:id="toLabel" text="%toLabel"/>
+    <Label fx:id="toLabel" text="%serviceGiftDeliveryToLabel"/>
     <Pane prefHeight="62.0" prefWidth="17.0"/>
-    <JFXTextField fx:id="toField" promptText="%toField"/>
+    <JFXTextField fx:id="toField" promptText="%serviceGiftDeliveryToField"/>
     <Pane prefHeight="62.0" prefWidth="17.0"/>
-    <Label fx:id="fromLabel" text="%fromLabel"/>
+    <Label fx:id="fromLabel" text="%serviceGiftDeliveryFromLabel"/>
     <Pane prefHeight="62.0" prefWidth="17.0"/>
-    <JFXTextField fx:id="fromField" promptText="%fromField"/>
+    <JFXTextField fx:id="fromField" promptText="%serviceGiftDeliveryFromField"/>
     <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
   </HBox>
   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
     <VBox prefHeight="234.0" prefWidth="300.0">
-      <Label fx:id="ccInfoLabel" prefHeight="47.0" prefWidth="126.0" text="%ccInfoLabel"/>
+      <Label fx:id="ccInfoLabel" prefHeight="47.0" prefWidth="126.0"
+        text="%serviceGiftDeliveryCCInfoLabel"/>
       <HBox prefHeight="100.0" prefWidth="200.0">
         <JFXTextField fx:id="ccNumberField" prefHeight="25.0" prefWidth="214.0"
-          promptText="%ccNumberField"/>
+          promptText="%serviceGiftDeliveryCCNumberField"/>
       </HBox>
-      <Label fx:id="ccExpirationLabel" text="%ccExpirationLabel"/>
+      <Label fx:id="ccExpirationLabel" text="%serviceGiftDeliveryCCExpirationLabel"/>
       <HBox prefHeight="100.0" prefWidth="200.0">
         <JFXTextField fx:id="ccMonthField" prefHeight="25.0" prefWidth="25.0" promptText="MM" />
         <Label prefHeight="22.0" prefWidth="6.0" text="/" />
@@ -42,13 +43,13 @@
         <Pane prefHeight="90.0" prefWidth="13.0" />
         <JFXTextField fx:id="ccSecurityField" prefHeight="25.0" prefWidth="29.0" promptText="SC" />
       </HBox>
-      <Label fx:id="ccNameLabel" text="%ccNameLabel"/>
+      <Label fx:id="ccNameLabel" text="%serviceGiftDeliveryCCNameLabel"/>
       <HBox prefHeight="100.0" prefWidth="200.0">
-        <JFXTextField fx:id="firstNameField" promptText="%firstNameField"/>
+        <JFXTextField fx:id="firstNameField" promptText="%serviceGiftDeliveryFirstNameField"/>
         <Pane prefHeight="55.0" prefWidth="54.0" />
-        <JFXTextField fx:id="middleNameField" promptText="%middleNameField"/>
+        <JFXTextField fx:id="middleNameField" promptText="%serviceGiftDeliveryMiddleNameField"/>
         <Pane prefHeight="55.0" prefWidth="54.0" />
-        <JFXTextField fx:id="lastNameField" promptText="%lastNameField"/>
+        <JFXTextField fx:id="lastNameField" promptText="%serviceGiftDeliveryLastNameField"/>
       </HBox>
       <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -56,16 +57,17 @@
     </VBox>
     <Pane prefHeight="234.0" prefWidth="27.0" />
     <VBox prefHeight="200.0" prefWidth="100.0">
-      <Label fx:id="emailAddressLabel" text="%emailAddressLabel"/>
-      <JFXTextField fx:id="emailAddressField" promptText="%emailAddressField"/>
+      <Label fx:id="emailAddressLabel" text="%serviceGiftDeliveryEmailAddressLabel"/>
+      <JFXTextField fx:id="emailAddressField" promptText="%serviceGiftDeliveryEmailAddressField"/>
       <Pane prefHeight="19.0" prefWidth="100.0"/>
     </VBox>
   </HBox>
-  <JFXButton fx:id="helpButton" text="%helpButton" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+  <JFXButton fx:id="helpButton" text="%serviceGiftDeliveryHelpButton" GridPane.columnIndex="1"
+    GridPane.rowIndex="2"/>
   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-    <JFXButton fx:id="submitButton" buttonType="RAISED" text="%serviceSelectionSubmitButton"/>
+    <JFXButton fx:id="submitButton" buttonType="RAISED" text="%serviceGiftDeliverySubmitButton"/>
     <Pane prefHeight="20.0" prefWidth="146.0" />
-    <JFXButton fx:id="cancelButton" buttonType="FLAT" text="%serviceSelectionCancelButton"/>
+    <JFXButton fx:id="cancelButton" buttonType="FLAT" text="%serviceGiftDeliveryCancelButton"/>
   </VBox>
   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
     <HBox prefHeight="53.0" prefWidth="359.0">
@@ -76,9 +78,9 @@
       <Pane prefHeight="62.0" prefWidth="17.0" />
       <JFXTimePicker prefHeight="200.0" prefWidth="200.0"/>
       <Pane prefHeight="62.0" prefWidth="17.0" />
-      <Label fx:id="deliveryTimeLabel" text="%deliveryTimeLabel"/>
+      <Label fx:id="deliveryTimeLabel" text="%serviceGiftDeliveryTimeLabel"/>
       <Pane prefHeight="62.0" prefWidth="17.0" />
-      <Label fx:id="toRoomLabel" text="%toRoomLabel"/>
+      <Label fx:id="toRoomLabel" text="%serviceGiftDeliveryToRoomLabel"/>
       <Pane prefHeight="62.0" prefWidth="17.0" />
     </HBox>
     <padding>
