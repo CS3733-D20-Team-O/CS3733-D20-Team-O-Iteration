@@ -12,75 +12,95 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-  prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+<GridPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1080.0"
+  style="-fx-background-color: #acd7fd" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1">
-  <HBox prefHeight="100.0" prefWidth="200.0">
+  <HBox prefHeight="164.0" prefWidth="808.0">
     <Label fx:id="toLabel" text="%serviceGiftDeliveryToLabel"/>
     <Pane prefHeight="62.0" prefWidth="17.0"/>
-    <JFXTextField fx:id="toField" promptText="%serviceGiftDeliveryToField"/>
+    <JFXTextField fx:id="toField" promptText="%serviceGiftDeliveryToField"
+      style="-fx-background-color: WHITE;"/>
     <Pane prefHeight="62.0" prefWidth="17.0"/>
     <Label fx:id="fromLabel" text="%serviceGiftDeliveryFromLabel"/>
     <Pane prefHeight="62.0" prefWidth="17.0"/>
-    <JFXTextField fx:id="fromField" promptText="%serviceGiftDeliveryFromField"/>
+    <JFXTextField fx:id="fromField" prefHeight="25.0" prefWidth="182.0"
+      promptText="%serviceGiftDeliveryFromField" style="-fx-background-color: WHITE;"/>
     <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
   </HBox>
   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
-    <VBox prefHeight="234.0" prefWidth="300.0">
+    <VBox prefHeight="393.0" prefWidth="405.0">
       <Label fx:id="ccInfoLabel" prefHeight="47.0" prefWidth="126.0"
         text="%serviceGiftDeliveryCCInfoLabel"/>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="98.0" prefWidth="301.0">
         <JFXTextField fx:id="ccNumberField" prefHeight="25.0" prefWidth="214.0"
-          promptText="%serviceGiftDeliveryCCNumberField"/>
+          promptText="%serviceGiftDeliveryCCNumberField" style="-fx-background-color: WHITE;"/>
       </HBox>
       <Label fx:id="ccExpirationLabel" text="%serviceGiftDeliveryCCExpirationLabel"/>
       <HBox prefHeight="100.0" prefWidth="200.0">
-        <JFXTextField fx:id="ccMonthField" prefHeight="25.0" prefWidth="25.0" promptText="MM"/>
+        <JFXTextField fx:id="ccMonthField" prefHeight="25.0" prefWidth="25.0" promptText="MM"
+          style="-fx-background-color: WHITE;"/>
         <Label prefHeight="22.0" prefWidth="6.0" text="/"/>
-        <JFXTextField fx:id="ccYearField" prefHeight="25.0" prefWidth="31.0" promptText="YYYY"/>
+        <JFXTextField fx:id="ccYearField" prefHeight="25.0" prefWidth="31.0" promptText="YYYY"
+          style="-fx-background-color: WHITE;"/>
         <Pane prefHeight="90.0" prefWidth="13.0"/>
-        <JFXTextField fx:id="ccSecurityField" prefHeight="25.0" prefWidth="29.0" promptText="SC"/>
+        <JFXTextField fx:id="ccSecurityField" prefHeight="25.0" prefWidth="29.0" promptText="SC"
+          style="-fx-background-color: WHITE;"/>
       </HBox>
       <Label fx:id="ccNameLabel" text="%serviceGiftDeliveryCCNameLabel"/>
       <HBox prefHeight="100.0" prefWidth="200.0">
-        <JFXTextField fx:id="firstNameField" promptText="%serviceGiftDeliveryFirstNameField"/>
+        <JFXTextField fx:id="firstNameField" promptText="%serviceGiftDeliveryFirstNameField"
+          style="-fx-background-color: WHITE;"/>
         <Pane prefHeight="55.0" prefWidth="54.0"/>
-        <JFXTextField fx:id="middleNameField" promptText="%serviceGiftDeliveryMiddleNameField"/>
+        <JFXTextField fx:id="middleNameField" promptText="%serviceGiftDeliveryMiddleNameField"
+          style="-fx-background-color: WHITE;"/>
         <Pane prefHeight="55.0" prefWidth="54.0"/>
-        <JFXTextField fx:id="lastNameField" promptText="%serviceGiftDeliveryLastNameField"/>
+        <JFXTextField fx:id="lastNameField" promptText="%serviceGiftDeliveryLastNameField"
+          style="-fx-background-color: WHITE;"/>
       </HBox>
       <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
       </padding>
     </VBox>
     <Pane prefHeight="234.0" prefWidth="27.0"/>
-    <VBox prefHeight="200.0" prefWidth="100.0">
+    <VBox prefHeight="393.0" prefWidth="296.0">
       <Label fx:id="emailAddressLabel" text="%serviceGiftDeliveryEmailAddressLabel"/>
-      <JFXTextField fx:id="emailAddressField" promptText="%serviceGiftDeliveryEmailAddressField"/>
+      <JFXTextField fx:id="emailAddressField" prefHeight="25.0" prefWidth="175.0"
+        promptText="%serviceGiftDeliveryEmailAddressField" style="-fx-background-color: WHITE;"/>
       <Pane prefHeight="19.0" prefWidth="100.0"/>
     </VBox>
   </HBox>
   <JFXButton fx:id="helpButton" text="%serviceGiftDeliveryHelpButton" GridPane.columnIndex="1"
     GridPane.rowIndex="2"/>
   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-    <JFXButton fx:id="submitButton" buttonType="RAISED" text="%serviceGiftDeliverySubmitButton"/>
+    <JFXButton fx:id="submitButton" buttonType="RAISED" prefHeight="69.0" prefWidth="197.0"
+      style="-fx-background-color: LIGHTGREY;" text="%serviceGiftDeliverySubmitButton"/>
     <Pane prefHeight="20.0" prefWidth="146.0"/>
-    <JFXButton fx:id="cancelButton" buttonType="FLAT" text="%serviceGiftDeliveryCancelButton"/>
+    <JFXButton fx:id="cancelButton" buttonType="RAISED" prefHeight="53.0" prefWidth="194.0"
+      style="-fx-background-color: LIGHTGREY;" text="%serviceGiftDeliveryCancelButton"/>
   </VBox>
   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
     <HBox prefHeight="53.0" prefWidth="359.0">
       <Label fx:id="giftDeliveryLabel" text="%serviceGiftDeliveryDescription"/>
     </HBox>
     <HBox prefHeight="100.0" prefWidth="200.0">
-      <JFXComboBox fx:id="inRoomComboBox" prefHeight="25.0" prefWidth="88.0"/>
+      <VBox>
+        <children>
+          <Label fx:id="toRoomLabel" text="%serviceGiftDeliveryToRoomLabel"/>
+          <JFXComboBox fx:id="inRoomComboBox" prefHeight="25.0" prefWidth="153.0"
+            style="-fx-background-color: WHITE;"/>
+        </children>
+      </VBox>
       <Pane prefHeight="62.0" prefWidth="17.0"/>
-      <JFXTimePicker prefHeight="200.0" prefWidth="200.0"/>
+      <VBox>
+        <children>
+          <Label fx:id="deliveryTimeLabel" text="%serviceGiftDeliveryTimeLabel"/>
+          <JFXTimePicker prefHeight="27.0" prefWidth="195.0" style="-fx-background-color: WHITE;"/>
+        </children>
+      </VBox>
       <Pane prefHeight="62.0" prefWidth="17.0"/>
-      <Label fx:id="deliveryTimeLabel" text="%serviceGiftDeliveryTimeLabel"/>
       <Pane prefHeight="62.0" prefWidth="17.0"/>
-      <Label fx:id="toRoomLabel" text="%serviceGiftDeliveryToRoomLabel"/>
       <Pane prefHeight="62.0" prefWidth="17.0"/>
     </HBox>
     <padding>
@@ -88,12 +108,12 @@
     </padding>
   </VBox>
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="454.0" minWidth="10.0" prefWidth="454.0"/>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="146.0"/>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="749.0" minWidth="10.0" prefWidth="749.0"/>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="0.0" prefWidth="0.0"/>
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-    <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES"/>
-    <RowConstraints maxHeight="234.0" minHeight="10.0" prefHeight="234.0" vgrow="SOMETIMES"/>
+    <RowConstraints maxHeight="433.0" minHeight="10.0" prefHeight="164.0" vgrow="SOMETIMES"/>
+    <RowConstraints maxHeight="416.0" minHeight="10.0" prefHeight="243.0" vgrow="SOMETIMES"/>
+    <RowConstraints maxHeight="447.0" minHeight="10.0" prefHeight="393.0" vgrow="SOMETIMES"/>
   </rowConstraints>
 </GridPane>
