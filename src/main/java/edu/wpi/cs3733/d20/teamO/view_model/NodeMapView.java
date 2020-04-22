@@ -113,7 +113,7 @@ public class NodeMapView extends ViewModelBase {
   /**
    * Clears the canvas and draws all the nodes on a certain floor
    */
-  private void draw() {
+  public void draw() {
     // Clear the canvas so we can draw fresh
     val nodeGC = nodeCanvas.getGraphicsContext2D();
     nodeGC.clearRect(0, 0, nodeCanvas.getWidth(), nodeCanvas.getHeight());
