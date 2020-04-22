@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- todo remove the prefHeight and prefWidth below -->
-
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
-<StackPane maxWidth="-Infinity" maxHeight="-Infinity" prefHeight="594.0" prefWidth="990.0"
-  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView">
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+  fx:id="root" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView">
   <ImageView fx:id="backgroundImage" preserveRatio="true">
     <viewport>
       <Rectangle2D/>
