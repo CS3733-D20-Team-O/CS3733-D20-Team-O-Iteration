@@ -37,14 +37,16 @@
             </VBox>
             <VBox fx:id="addEdgePane" alignment="TOP_CENTER" spacing="10.0" visible="false">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node 1 ID" />
-                  <JFXButton onAction="#clearEdge1Selection" text="Clear" />
-                  <JFXTextField fx:id="node1Field" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node 2 ID" />
-                  <JFXButton onAction="#clearEdge2Selection" text="Clear" />
-                  <JFXTextField fx:id="node2Field" />
-                  <JFXButton onAction="#createEdge" text="Create edge" />
-                  <JFXButton onAction="#cancelAddEdge" text="Cancel" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node 1 ID"/>
+                  <JFXButton onAction="#clearEdge1Selection" text="Clear"/>
+                  <JFXTextField fx:id="node1Field"/>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node 2 ID"/>
+                  <JFXButton onAction="#clearEdge2Selection" text="Clear"/>
+                  <JFXTextField fx:id="node2Field"/>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edge ID"/>
+                  <JFXTextField fx:id="edgeIDField"/>
+                  <JFXButton onAction="#createEdge" text="Create edge"/>
+                  <JFXButton onAction="#cancelAddEdge" text="Cancel"/>
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -55,31 +57,39 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Label fx:id="selectedNodeID" />
-                  <Label fx:id="selectedNodeX" layoutX="20.0" layoutY="20.0" />
-                  <Label fx:id="selectedNodeY" layoutX="20.0" layoutY="46.0" />
-                  <Label fx:id="selectedNodeType" layoutX="20.0" layoutY="98.0" />
-                  <Label fx:id="selectedNodeShortName" />
-                  <Label fx:id="selectedNodeLongName" layoutX="20.0" layoutY="124.0" />
-                  <JFXButton onAction="#deleteSelectedNode" text="Delete node" />
-                  <JFXButton onAction="#cancelNodeSelection" text="Cancel" />
+                  <Label fx:id="selectedNodeID"/>
+                  <Label fx:id="selectedNodeX" layoutX="20.0" layoutY="20.0"/>
+                  <Label fx:id="selectedNodeY" layoutX="20.0" layoutY="46.0"/>
+                  <Label fx:id="selectedNodeType" layoutX="20.0" layoutY="98.0"/>
+                  <Label fx:id="selectedNodeShortName"/>
+                  <Label fx:id="selectedNodeLongName" layoutX="20.0" layoutY="124.0"/>
+                  <JFXButton onAction="#deleteSelectedNode" text="Delete node"/>
+                  <JFXButton onAction="#cancelNodeSelection" text="Cancel"/>
                </children>
             </VBox>
-            <VBox fx:id="exportNodesPane" prefHeight="200.0" prefWidth="100.0" visible="false">
+            <VBox fx:id="exportNodesPane" alignment="TOP_CENTER" spacing="10.0" visible="false">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+               </padding>
                <children>
-                  <JFXButton text="Cancel" />
+                  <JFXButton text="Cancel"/>
+                  <JFXTextField/>
                </children>
             </VBox>
-            <VBox fx:id="exportEdgesPane" prefHeight="200.0" prefWidth="100.0" visible="false">
+            <VBox fx:id="exportEdgesPane" alignment="TOP_CENTER" spacing="10.0" visible="false">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+               </padding>
                <children>
-                  <JFXButton text="Cancel" />
+                  <JFXButton text="Cancel"/>
+                  <JFXTextField/>
                </children>
             </VBox>
          </children>
       </AnchorPane>
    </right>
    <center>
-      <!--<fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>-->
+      <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
    </center>
    <bottom>
       <AnchorPane style="-fx-background-color: FFFFFF; -fx-border-color: ADADAD;" BorderPane.alignment="CENTER">
