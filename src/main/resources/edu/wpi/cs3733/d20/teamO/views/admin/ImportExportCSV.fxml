@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: #acd7fd"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.ImportExportCSVViewModel">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.ImportExportCSVViewModel" fx:id="root">
   <VBox spacing="32" alignment="CENTER" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
     AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
     <HBox spacing="16" alignment="CENTER">
