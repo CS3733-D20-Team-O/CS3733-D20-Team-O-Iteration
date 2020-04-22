@@ -5,6 +5,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
     id "io.freefair.lombok" version "5.0.0-rc6"
 }
+
 mainClassName = 'edu.wpi.cs3733.d20.teamO.Main'
 
 repositories {
@@ -28,6 +29,8 @@ dependencies {
     testImplementation(
             'org.junit.jupiter:junit-jupiter:5.6.0',
             'org.testfx:testfx-junit5:4.0.16-alpha',
+            'org.mockito:mockito-core:3.+',
+            'org.mockito:mockito-junit-jupiter:3.+',
     )
     testRuntimeOnly(
             'org.testfx:openjfx-monocle:jdk-11+26',
@@ -71,13 +74,11 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.d20.teamO.injection_modules.*',
         // todo test these later
         'edu.wpi.cs3733.d20.teamO.Main',
-        'edu.wpi.cs3733.d20.teamO.view_model.kiosk.ServiceRequestSelection',
         'edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails',
-        'edu.wpi.cs3733.d20.teamO.view_model.NodeMapView',
         'edu.wpi.cs3733.d20.teamO.view_model.NavigationBar',
         'edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel',
+        'edu.wpi.cs3733.d20.teamO.view_model.admin.ImportExportCSVViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.MainKioskViewModel',
-        'edu.wpi.cs3733.d20.teamO.view_model.admin.RequestHandlerViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel',
 ]
