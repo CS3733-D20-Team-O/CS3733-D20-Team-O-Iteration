@@ -14,5 +14,5 @@ public class Node {
   String nodeID;
   int xCoord, yCoord, floor;
   String building, nodeType, longName, shortName;
-  public LinkedList<Node> neighbors = new LinkedList<>();
+  LinkedList<Node> neighbors = new LinkedList<>();
 }

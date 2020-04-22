@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import lombok.RequiredArgsConstructor;
 
@@ -24,15 +23,10 @@ public class FindPathViewModel extends ViewModelBase {
   private int clicks = 0;
 
   @FXML
-  Label prompt;
-  @FXML
-  Label start;
-  @FXML
-  Label end;
+  Label prompt, start, end;
+
   @FXML
   NodeMapView nodeMapViewController;
-  @FXML
-  Button reset;
 
   Map<String, Node> nodeMap;
 
@@ -47,18 +41,23 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.setNodeMap(nodeMap);
     nodeMapViewController.setOnNodeTappedListener(node -> {
       prompt.setText("Follow path");
-      switch (clicks){
+      switch (clicks) {
         case 0:
           beginning = node;
           prompt.setText("Press Ending Point");
           start.setText(node.getLongName());
           break;
         case 1:
+          if (node.equals(beginning)) {
+            prompt.setText("Invalid Location Try Again");
+            clicks = 0;
+            break;
+          }
           finish = node;
           end.setText(node.getLongName());
           List<Node> nodes = AStar.findPathBetween(beginning, finish);
-          for (int i = 0; i <= nodes.size() - 1; i++){
-            if(i != nodes.size() - 1){
+          for (int i = 0; i < nodes.size() - 1; i++) {
+            if (i != nodes.size() - 1) {
               nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
             }
           }
@@ -69,7 +68,7 @@ public class FindPathViewModel extends ViewModelBase {
       clicks++;
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
-      prompt.setText("Please Click a Point");
+      prompt.setText("Please Click a Possible Location");
     });
   }
 
