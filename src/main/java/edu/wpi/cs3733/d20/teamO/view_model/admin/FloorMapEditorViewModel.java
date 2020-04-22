@@ -2,6 +2,8 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
@@ -120,12 +122,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       clearSideBar();
       showSideBar();
       selectNodePane.setVisible(true);
-      selectedNodeID.setText(node.getNodeID());
-      selectedNodeLongName.setText(node.getLongName());
-      selectedNodeShortName.setText(node.getShortName());
-      selectedNodeType.setText(node.getNodeType());
-      selectedNodeX.setText(Integer.toString(node.getXCoord()));
-      selectedNodeY.setText(Integer.toString(node.getYCoord()));
+      selectedNodeID.setText("Node ID: " + node.getNodeID());
+      selectedNodeLongName.setText("Long name: " + node.getLongName());
+      selectedNodeShortName.setText("Short name: " + node.getShortName());
+      selectedNodeType.setText("Node type: " + node.getNodeType());
+      selectedNodeX.setText("X pos: " + node.getXCoord());
+      selectedNodeY.setText("Y pos: " + node.getYCoord());
       nodeSelection = node;
       // todo implement node selection menu
     }
@@ -289,10 +291,14 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   public void deleteSelectedNode(ActionEvent actionEvent) {
     nodeMap.remove(nodeSelection.getNodeID());
     nodeMapViewController.deleteNode(nodeSelection);
-    //todo remove from database
+    database.deleteFromTable(Table.NODES_TABLE, NodeProperty.NODE_ID, nodeSelection.getNodeID());
+    nodeMapViewController.setNodeMap(nodeMap);
+    // have to reload edges from database in case an edge is deleted in the process and then redraw
+    edges = database.exportEdges();
     for (val edge : edges) {
       nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
     }
+    clearSideBar();
   }
 
   public void cancelNodeSelection(ActionEvent actionEvent) {
