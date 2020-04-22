@@ -1,18 +1,28 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +36,8 @@ public class GiftDeliveryService extends ViewModelBase {
   private final CSVHandler csvHandler;
 
   @FXML
+  private AnchorPane root;
+  @FXML
   private Label toLabel, fromLabel, ccInfoLabel, ccExpirationLabel, ccNameLabel, emailAddressLabel, giftDeliveryLabel, deliveryTimeLabel, toRoomLabel;
   @FXML
   private JFXTextField toField, fromField, ccNumberField, ccMonthField, ccYearField, ccSecurityField, firstNameField, middleNameField, lastNameField, emailAddressField;
@@ -33,14 +45,31 @@ public class GiftDeliveryService extends ViewModelBase {
   private JFXButton submitButton, cancelButton, clearButton, helpButton;
   @FXML
 //  private JFXComboBox<Node> inRoomComboBox = new JFXComboBox<>(), onFloorComboBox = new JFXComboBox<>();
-  private final JFXComboBox<String> inRoomComboBox = new JFXComboBox<>();
-  @FXML
+  private final JFXComboBox<String> inRoomComboBox, onFloorComboBox;
+//  @FXML
 //  private JFXComboBox<Node> inRoomComboBox = new JFXComboBox<>(), onFloorComboBox = new JFXComboBox<>();
-  private final JFXComboBox<String> onFloorComboBox = new JFXComboBox<>();
+//  private final JFXComboBox<String> ;
+
+  @Override
+  protected void start(URL location, ResourceBundle resources) {
+
+    makeNodes();
+    setupComboBoxes();
+  }
+
+  private void makeNodes() {
+    database.addNode("Node1", 1, 1, 1, "Main", "DEPT", "Test Depart1", "testDept");
+    database.addNode("Node2", 1, 1, 2, "Main", "LABS", "Test Lab2", "testLab");
+    database.addNode("Node3", 1, 1, 3, "Main", "CONF", "Test CONF3", "testLab");
+    database.addNode("Node4", 1, 1, 4, "Main", "HALL", "Test HALL4", "testLab");
+    database.addNode("Node5", 1, 1, 5, "Main", "LABS", "Test Lab5", "testLab");
+    database.addNode("Node6", 1, 1, 5, "Main", "STAI", "Test STAI5", "testLab");
+  }
+
 
   //set up combo boxes
   public void setupComboBoxes() {
-
+    System.out.println("in setupComboBoxes");
     addAvailableFloors();
     addAvailableRooms();
 
@@ -50,18 +79,36 @@ public class GiftDeliveryService extends ViewModelBase {
   //floors
 //    private ArrayList<String> getAvailableFloors() {
   private void addAvailableFloors() {
+    System.out.println("in addAvailableFloors");
     onFloorComboBox.setPromptText("Floors");
-    val listOfFloors = new ArrayList<String>();
+    ObservableList<String> listOfFloors = FXCollections.observableArrayList();
 
-    for (Map.Entry<String, Node> node : database.exportNodes().entrySet()) {
+    for (val node : database.exportNodes().entrySet()) {
+      System.out.println(node);
       val floorToAdd = Integer.toString(node.getValue().getFloor());
       if (!listOfFloors.contains(floorToAdd)) {
         listOfFloors.add(floorToAdd);
+        System.out.println(listOfFloors);
         onFloorComboBox.getItems().add(floorToAdd);
       }
     }
 //    database.exportNodes().values().toArray();
 //      return listOfFloors;
+    //onFloorComboBox.setItems(listOfFloors);
+    System.out.println(onFloorComboBox.getItems());
+
+//    // Set the prompt text to the currently selected language
+//    val currentLocale = languageHandler.getCurrentLocale();
+//    languageSwitcher.setPromptText(currentLocale.getDisplayName(currentLocale));
+//    // Load in the supported locales
+//    for (val locale : LanguageHandler.SUPPORTED_LOCALES) {
+//      languageSwitcher.getItems().add(locale.getDisplayName(locale));
+//    }
+//    // Add a listener to switch to the selected locale
+//    languageSwitcher.getSelectionModel().selectedIndexProperty().addListener(
+//        ((observableValue, oldValue, newValue) -> languageHandler
+//            .setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[newValue.intValue()])));
+
   }
 
   //rooms
@@ -71,15 +118,18 @@ public class GiftDeliveryService extends ViewModelBase {
 
     for (Map.Entry<String, Node> node : database.exportNodes().entrySet()) {
       val roomToAdd = node.getValue().getLongName();
+
       if (!listOfRooms.contains(roomToAdd) &&
           node.getValue().getNodeType() != "STAI" &&
           node.getValue().getNodeType() != "ELEV" &&
           node.getValue().getNodeType() != "REST" &&
           node.getValue().getNodeType() != "HALL") {
         listOfRooms.add(roomToAdd);
+        System.out.println("Room to Add is " + roomToAdd);
         inRoomComboBox.getItems().add(roomToAdd);
-      }
-    }
+      }//end if
+    }//end for loop
+    System.out.println(inRoomComboBox.getItems());
   }
 
   //on submit
@@ -118,6 +168,16 @@ public class GiftDeliveryService extends ViewModelBase {
   //show request ID
 
   //snackbar error
+  private void showErrorSnackbar(String errorText) {
+    JFXSnackbar bar = new JFXSnackbar(root);
+    val label = new Label(errorText);
+    label.setStyle("-fx-text-fill: floralwhite");
+    val container = new HBox(label);
+    // Add 16 margin and 16 padding as per material design guidelines
+    container.setStyle("-fx-background-color: #323232;  -fx-background-insets: 16");
+    container.setPadding(new Insets(32)); // total padding, including margin
+    bar.enqueue(new SnackbarEvent(container));
+  }
 
 
   /**

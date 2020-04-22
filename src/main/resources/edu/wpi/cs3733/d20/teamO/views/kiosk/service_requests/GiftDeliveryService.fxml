@@ -14,7 +14,8 @@
 <?import javafx.scene.layout.VBox?>
 <GridPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1080.0"
   style="-fx-background-color: #acd7fd" xmlns="http://javafx.com/javafx/11.0.1"
-  xmlns:fx="http://javafx.com/fxml/1">
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.GiftDeliveryService">
   <HBox prefHeight="164.0" prefWidth="808.0">
     <Label fx:id="toLabel" text="%serviceGiftDeliveryToLabel"/>
     <Pane prefHeight="62.0" prefWidth="17.0"/>
@@ -84,11 +85,14 @@
     <HBox prefHeight="53.0" prefWidth="359.0">
       <Label fx:id="giftDeliveryLabel" text="%serviceGiftDeliveryDescription"/>
     </HBox>
-    <HBox prefHeight="100.0" prefWidth="200.0">
-      <VBox>
+    <HBox prefHeight="146.0" prefWidth="729.0">
+      <VBox prefHeight="113.0" prefWidth="181.0">
         <children>
           <Label fx:id="toRoomLabel" text="%serviceGiftDeliveryToRoomLabel"/>
           <JFXComboBox fx:id="inRoomComboBox" prefHeight="25.0" prefWidth="153.0"
+            style="-fx-background-color: WHITE;"/>
+          <Label prefHeight="27.0" prefWidth="181.0"/>
+          <JFXComboBox fx:id="onFloorComboBox" prefHeight="25.0" prefWidth="156.0"
             style="-fx-background-color: WHITE;"/>
         </children>
       </VBox>
