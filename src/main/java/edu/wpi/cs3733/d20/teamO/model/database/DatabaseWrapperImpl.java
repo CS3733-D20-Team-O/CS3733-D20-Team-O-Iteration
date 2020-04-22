@@ -41,7 +41,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    * Checks whether the supplied table is not initialized
    *
    * @param table the table to check for
-   * @return whether or note the table is not initialized
+   * @return whether or not the table is not initialized
    */
   private boolean isNotInitialized(Table table) {
     try {
@@ -83,9 +83,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         String query = "CREATE TABLE " + Table.EDGES_TABLE
             + "(" + EdgeProperty.EDGE_ID.getColumnName() + " VARCHAR(255), "
             + EdgeProperty.START_ID.getColumnName() + " VARCHAR(255) REFERENCES "
-            + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName() + "), "
+            + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName()
+            + ") ON DELETE CASCADE, "
             + EdgeProperty.STOP_ID.getColumnName() + " VARCHAR(255) REFERENCES "
-            + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName() + "), "
+            + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName()
+            + ") ON DELETE CASCADE, "
             + "PRIMARY KEY (" + EdgeProperty.EDGE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EDGES_TABLE + " created");
@@ -117,13 +119,16 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(255), "
             + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " VARCHAR(255), "
             + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(255) REFERENCES "
-            + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName() + "), "
+            + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName()
+            + ") ON DELETE CASCADE, "
             + ServiceRequestProperty.TYPE.getColumnName() + " VARCHAR(255), "
             + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " VARCHAR(255), "
             + ServiceRequestProperty.WHO_MARKED.getColumnName() + " VARCHAR(255) REFERENCES "
-            + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
+            + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
+            + ") ON DELETE CASCADE, "
             + ServiceRequestProperty.EMPLOYEE_ASSIGNED.getColumnName() + " VARCHAR(255) REFERENCES "
-            + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "), "
+            + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
+            + ") ON DELETE CASCADE, "
             + "PRIMARY KEY (" + ServiceRequestProperty.REQUEST_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
