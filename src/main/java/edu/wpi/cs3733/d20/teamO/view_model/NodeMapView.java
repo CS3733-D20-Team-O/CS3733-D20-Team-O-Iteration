@@ -194,7 +194,7 @@ public class NodeMapView extends ViewModelBase {
     // Call the appropriate listener
     if (closestDistance > nodeSize / 2) {
       if (onMissTapListener != null) {
-        onMissTapListener.accept(x, y);
+        onMissTapListener.accept((int) imageX, (int) imageY);
       }
     } else {
       if (onNodeTappedListener != null) {
