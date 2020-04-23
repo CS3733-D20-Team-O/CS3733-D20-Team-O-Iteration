@@ -29,7 +29,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 /**
- * Tests MainKioskViewModel
+ * Tests MainKioskViewModel todo fix up
  */
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 public class MainKioskViewModelTest extends FxRobot {
