@@ -14,34 +14,54 @@ public interface CSVHandler {
    *
    * @param csvFileLocation the path of the csv file to read
    */
-  void importNodes(String csvFileLocation);
+  boolean importNodes(String csvFileLocation);
 
   /**
    * Imports edges from the given csv file into the database
    *
    * @param csvFileLocation the path of the csv file to read
    */
-  void importEdges(String csvFileLocation);
+  boolean importEdges(String csvFileLocation);
 
-  void importEmployees(String csvFileLocation);
+  /**
+   * Imports employees from the given csv file into the database
+   *
+   * @param csvFileLocation the path of the csv file to read
+   */
+  boolean importEmployees(String csvFileLocation);
 
-  void importServiceRequests(String csvFileLocation);
+  /**
+   * Imports serviceRequests from the given csv file into the database
+   *
+   * @param csvFileLocation the path of the csv file to read
+   */
+  boolean importServiceRequests(String csvFileLocation);
 
   /**
    * Exports nodes from the database to the given csv file
    *
    * @param csvFileLocation the path of the csv file to write
    */
-  void exportNodes(String csvFileLocation);
+  boolean exportNodes(String csvFileLocation);
 
   /**
    * Exports edges from the database to the given csv file
    *
    * @param csvFileLocation the path of the csv file to write
    */
-  void exportEdges(String csvFileLocation);
+  boolean exportEdges(String csvFileLocation);
 
-  void exportEmployees(String csvFileLocation);
+  /**
+   * Exports employees from the database to the given csv file
+   *
+   * @param csvFileLocation the path of the csv file to write
+   */
+  boolean exportEmployees(String csvFileLocation);
 
-  void exportServiceRequests(String csvFileLocation);
+  /**
+   * Exports serviceRequests from the database to the given csv file
+   *
+   * @param csvFileLocation the path of the csv file to write
+   */
+  boolean exportServiceRequests(String csvFileLocation);
 }

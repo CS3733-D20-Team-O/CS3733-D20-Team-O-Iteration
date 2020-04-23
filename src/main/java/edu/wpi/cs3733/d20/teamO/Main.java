@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -168,7 +169,7 @@ public class Main extends Application {
       if (viewModel == null) {
         i.remove();
       } else {
-        viewModel.onEventReceived(event);
+        Platform.runLater(() -> viewModel.onEvent(event));
       }
     }
   }

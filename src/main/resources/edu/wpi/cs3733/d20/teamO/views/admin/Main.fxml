@@ -15,6 +15,8 @@
       <JFXButton onAction="#openFloorMapEditor" text="Floor Map Editor" style="-fx-font-size: 24"/>
       <JFXButton onAction="#openServiceRequestHandler" text="Service Request Handler"
         style="-fx-font-size: 24"/>
+      <JFXButton onAction="#openImportExportHandler" text="Import/Export CSV"
+        style="-fx-font-size: 24"/>
     </HBox>
   </VBox>
 </AnchorPane>
