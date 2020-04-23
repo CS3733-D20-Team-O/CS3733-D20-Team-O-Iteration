@@ -2,9 +2,7 @@ package edu.wpi.cs3733.d20.teamO;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import edu.wpi.cs3733.d20.teamO.events.BackwardNavigationEvent;
 import edu.wpi.cs3733.d20.teamO.events.Event;
-import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
 import edu.wpi.cs3733.d20.teamO.events.LanguageSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
 import edu.wpi.cs3733.d20.teamO.injection_modules.DatabaseModule;
@@ -95,36 +93,6 @@ public class Main extends Application {
    */
   private <T> T get(Class<T> tClass) {
     return injector.getInstance(tClass);
-  }
-
-  /**
-   * Navigates to a new window within the application
-   *
-   * @param event the navigation event
-   */
-  @Subscribe
-  @SuppressWarnings("unused") // called by EventBus
-  public void onForwardNavigationEvent(ForwardNavigationEvent event) {
-    try {
-      get(Navigator.class).push(event.getTitle(), event.getFxmlLocation());
-    } catch (IOException e) {
-      log.error("Failed to switch to a new window from " + event.getFxmlLocation(), e);
-    }
-  }
-
-  /**
-   * Navigates back one screen
-   *
-   * @param event the event that was fired
-   */
-  @Subscribe
-  @SuppressWarnings("unused") // called by EventBus
-  public void onBackwardNavigationEvent(BackwardNavigationEvent event) {
-    try {
-      get(Navigator.class).pop();
-    } catch (IOException e) {
-      log.error("Failed to go backwards in a backward navigation event", e);
-    }
   }
 
   /**
