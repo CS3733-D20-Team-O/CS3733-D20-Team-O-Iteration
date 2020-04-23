@@ -5,6 +5,7 @@ import lombok.Value;
 /**
  * Represents a "backwards" navigation event (going back to the main screen)
  */
+@Deprecated
 @Value
 public class BackwardNavigationEvent implements Event {
 
