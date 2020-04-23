@@ -79,7 +79,6 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.d20.teamO.view_model.NavigationBar',
         'edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.admin.ImportExportCSVViewModel',
-        'edu.wpi.cs3733.d20.teamO.view_model.kiosk.MainKioskViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.GiftDeliveryService',

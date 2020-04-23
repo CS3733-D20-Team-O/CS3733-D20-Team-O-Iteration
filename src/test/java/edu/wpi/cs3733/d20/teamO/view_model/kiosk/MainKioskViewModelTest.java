@@ -4,12 +4,14 @@ import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
 
 import edu.wpi.cs3733.d20.teamO.Main;
+import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,18 +29,20 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 /**
- * Tests ServiceRequestSelection
+ * Tests MainKioskViewModel
  */
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
-public class ServiceRequestSelectionTest extends FxRobot {
+public class MainKioskViewModelTest extends FxRobot {
 
   @Mock
   EventBus eventBus;
   @Mock
   DatabaseWrapper database;
+  @Mock
+  LanguageHandler languageHandler;
 
   @InjectMocks
-  ServiceRequestSelection viewModel;
+  MainKioskViewModel viewModel;
 
   @Spy
   private final ResourceBundle bundle = new ResourceBundle() {
@@ -70,11 +74,12 @@ public class ServiceRequestSelectionTest extends FxRobot {
   // Sets up the stage for testing
   @Start
   public void start(Stage stage) throws IOException {
+    when(languageHandler.getCurrentLocale()).thenReturn(Locale.ENGLISH);
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
     stage.setScene(new Scene(loader.load(Main.class
-        .getResourceAsStream("views/kiosk/ServiceRequestSelection.fxml"))));
+        .getResourceAsStream("views/kiosk/Main.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }
@@ -89,13 +94,13 @@ public class ServiceRequestSelectionTest extends FxRobot {
     when(database.exportServiceRequests()).thenReturn(Collections.singletonList(serviceRequest));
     clickOn("Click me");
     write("valid");
-    clickOn("Submit");
+    clickOn(viewModel.getLookupButton());
     verifyThat("Gift Service Request", javafx.scene.Node::isVisible);
   }
 
   @Test
   public void testSnackBar() {
-    clickOn("Submit");
+    clickOn(viewModel.getLookupButton());
     verifyThat("pass", javafx.scene.Node::isVisible);
   }
 
