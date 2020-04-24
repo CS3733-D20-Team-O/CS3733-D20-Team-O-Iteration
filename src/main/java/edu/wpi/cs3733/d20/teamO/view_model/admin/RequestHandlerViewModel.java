@@ -23,8 +23,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextFlow;
@@ -51,8 +49,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private JFXTextField exportServReqFilename, exportEmployeeFilename;
   @FXML
   private TextFlow stepLbl;
-  @FXML
-  private ImageView BWHLogo;
 
   //Service Request Table Stuff
   //Todo update the new table columns with appropriate names instead of the ones i have as a placeholder
@@ -80,8 +76,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
     setTableColumns();
     serviceTable.getItems().addAll(database.exportServiceRequests());
     iterationOneAdminSet();
-    BWHLogo.setImage(
-        new Image("file:src/main/resources/edu/wpi/cs3733/d20/teamO/views/admin/BWH-Logo.png"));
   }
 
   /**
