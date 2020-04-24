@@ -32,7 +32,6 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class RequestHandlerViewModel extends ViewModelBase {
 
-
   private final DatabaseWrapper database;
   private final CSVHandler csvHandler;
 
@@ -52,11 +51,12 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private TextFlow stepLbl;
 
   //Service Request Table Stuff
+  //Todo update the new table columns with appropriate names instead of the ones i have as a placeholder
   @FXML
   private TableView<ServiceRequest> serviceTable;
   @FXML
   private TableColumn<String, ServiceRequest> colRequestID, colRequestTime, colRequestNode,
-      colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType;
+      colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType, colServiceStatus, colServiceData;
 
   //Employee Table Stuff
   @FXML
@@ -87,6 +87,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     adminName = database.employeeNameFromID(adminID);
   }
 
+  //Todo add data names here too
   private void setTableColumns() {
     colRequestID.setCellValueFactory(new PropertyValueFactory<>("requestID"));
     colRequestTime.setCellValueFactory(new PropertyValueFactory<>("requestTime"));
@@ -95,6 +96,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
     colResquesterName.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
     colWhoMarked.setCellValueFactory(new PropertyValueFactory<>("whoMarked"));
     colEmployeeAssigned.setCellValueFactory(new PropertyValueFactory<>("employeeAssigned"));
+    //colServiceStatus.setCellValueFactory(new PropertyValueFactory<>("add data name"));
+    //colServiceData.setCellValueFactory(new PropertyValueFactory<>("add data name"));
 
     empID.setCellValueFactory(new PropertyValueFactory<>("employeeID"));
     empName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -252,31 +255,13 @@ public class RequestHandlerViewModel extends ViewModelBase {
     }
   }
 
-  /**
-   * Exports the current Service Request database to a user-set filename.
-   */
   @FXML
-  private void exportServiceRequest() {
-    if (exportServReqFilename.getText().isEmpty()) {
-      showErrorSnackbar("No file name entered.");
-      return;
-    }
-    csvHandler.exportServiceRequests(exportServReqFilename.getText());
+  public void resolve() {
+    //todo implement
   }
 
-  /**
-   * Exports the current Employee database to a user-set filename.
-   */
   @FXML
-  private void exportEmployee() {
-    if (exportEmployeeFilename.getText().isEmpty()) {
-      showErrorSnackbar("No file name entered.");
-      return;
-    }
-    csvHandler.exportEmployees(exportEmployeeFilename.getText());
-  }
-
-  public ServiceRequest getSelectedRequest() {
-    return serviceTable.getSelectionModel().getSelectedItem();
+  public void cancelRequest() {
+    //todo implement
   }
 }

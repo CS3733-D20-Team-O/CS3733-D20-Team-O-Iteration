@@ -2,7 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
-<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -10,17 +10,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.TextFlow?>
-<AnchorPane fx:id="root" maxHeight="1080.0" maxWidth="1920.0" prefHeight="800.0" prefWidth="1080.0"
+<AnchorPane fx:id="root" maxHeight="1080.0" maxWidth="1920.0" prefHeight="643.0" prefWidth="1280.0"
   style="-fx-background-color: acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.RequestHandlerViewModel">
   <children>
-    <VBox layoutX="14.0" layoutY="44.0" prefHeight="622.0" prefWidth="1035.0" spacing="20.0"
-      AnchorPane.leftAnchor="14.0">
+    <VBox layoutX="16.0" layoutY="16.0" prefHeight="617.0" prefWidth="1035.0" spacing="20.0"
+      AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="16.0">
       <children>
         <TableView fx:id="serviceTable" onKeyReleased="#updateEmployeeTable"
-          onMouseClicked="#updateEmployeeTable" prefHeight="285.0" prefWidth="1035.0">
+          onMouseClicked="#updateEmployeeTable" prefHeight="236.0" prefWidth="1035.0">
           <columns>
             <TableColumn fx:id="colServiceType" prefWidth="72.0" text="Service"/>
             <TableColumn fx:id="colRequestTime" prefWidth="106.0" text="Request Time"/>
@@ -29,62 +31,69 @@
             <TableColumn fx:id="colEmployeeAssigned" prefWidth="215.0" text="Employee"/>
             <TableColumn fx:id="colWhoMarked" prefWidth="226.0" text="Assigner"/>
             <TableColumn fx:id="colRequestID" prefWidth="149.0" text="Request ID"/>
+            <TableColumn fx:id="colServiceStatus" prefWidth="114.0" text="Status"/>
+            <TableColumn fx:id="colServiceData" prefWidth="103.0" text="Data" visible="false"/>
           </columns>
         </TableView>
-        <HBox spacing="20.0">
+        <HBox spacing="20.0" VBox.vgrow="ALWAYS">
           <children>
             <VBox spacing="10.0">
               <children>
-                <TableView fx:id="employeeTable" prefHeight="255.0" prefWidth="449.0">
+                <TableView fx:id="employeeTable" prefHeight="304.0" prefWidth="406.0">
                   <columns>
                     <TableColumn fx:id="empName" prefWidth="111.0" text="Name"/>
                     <TableColumn fx:id="empType" prefWidth="101.0" text="Type"/>
-                    <TableColumn fx:id="empID" prefWidth="84.0" text="ID"/>
-                    <TableColumn fx:id="empAvail" text="Available"/>
+                    <TableColumn fx:id="empID" prefWidth="77.0" text="ID"/>
+                    <TableColumn fx:id="empAvail" prefWidth="83.0" text="Available"/>
                   </columns>
                 </TableView>
-              </children>
-            </VBox>
-            <VBox prefHeight="266.0" prefWidth="419.0" spacing="20.0">
-              <children>
-                <!--                <JFXTextField fx:id="serviceMarker" prefHeight="25.0" prefWidth="277.0" promptText="Assigner Name" style="-fx-background-color: WHITE;" />-->
-                <JFXButton buttonType="RAISED" onAction="#assignEmployee" prefHeight="41.0"
-                  prefWidth="138.0" style="-fx-background-color: LIGHTGREY;"
-                  text="Assign Employee"/>
                 <JFXCheckBox fx:id="cbShowUnavail" onAction="#updateEmployeeTable" prefHeight="20.0"
                   prefWidth="138.0"
                   style="-fx-background-color: LIGHTGREY; -fx-border-color: BLACK;"
                   text="Show Unavailable"/>
-                <VBox alignment="TOP_CENTER" prefHeight="135.0" prefWidth="347.0" spacing="10.0">
-                  <children>
-                    <HBox alignment="CENTER" prefHeight="103.0" prefWidth="347.0" spacing="20.0"
-                      style="-fx-border-color: WHITE;">
-                      <children>
-                        <JFXButton fx:id="btnExportServiceReq" buttonType="RAISED"
-                          onAction="#exportServiceRequest" prefHeight="49.0" prefWidth="142.0"
-                          style="-fx-background-color: LIGHTGREY;" text="Export Service Requests"/>
-                        <JFXTextField fx:id="exportServReqFilename" prefHeight="25.0"
-                          prefWidth="173.0" promptText="Requests CSV filename"
-                          style="-fx-background-color: WHITE;"/>
-                      </children>
-                    </HBox>
-                    <HBox alignment="CENTER" prefHeight="89.0" prefWidth="347.0" spacing="20.0"
-                      style="-fx-border-color: WHITE;">
-                      <children>
-                        <JFXButton fx:id="btnExportEmployee" buttonType="RAISED"
-                          onAction="#exportEmployee" prefHeight="41.0" prefWidth="143.0"
-                          style="-fx-background-color: LIGHTGREY;" text="Export Employees"/>
-                        <JFXTextField fx:id="exportEmployeeFilename" prefHeight="25.0"
-                          prefWidth="172.0" promptText="Employees CSVfilename"
-                          style="-fx-background-color: WHITE;"/>
-                      </children>
-                    </HBox>
-                  </children>
-                </VBox>
               </children>
-              <padding>
-                <Insets top="30.0"/>
-              </padding>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="413.0" prefWidth="313.0" spacing="16.0">
+              <children>
+                <JFXTextArea editable="false" prefHeight="140.0" prefWidth="313.0"
+                  promptText="Select a request to view detailed information"
+                  style="-fx-background-color: white; -fx-border-color: gray;"
+                  unFocusColor="#bf9090">
+                  <focusColor>
+                    <LinearGradient endX="1.0" endY="1.0">
+                      <stops>
+                        <Stop color="#3918bf"/>
+                        <Stop color="WHITE" offset="1.0"/>
+                      </stops>
+                    </LinearGradient>
+                  </focusColor>
+                </JFXTextArea>
+                <!--                <JFXTextField fx:id="serviceMarker" prefHeight="25.0" prefWidth="277.0" promptText="Assigner Name" style="-fx-background-color: WHITE;" />-->
+                <JFXButton buttonType="RAISED" onAction="#assignEmployee" prefHeight="41.0"
+                  prefWidth="138.0" ripplerFill="#2200ff" style="-fx-background-color: LIGHTGREY;"
+                  text="Assign Employee">
+                  <VBox.margin>
+                    <Insets/>
+                  </VBox.margin>
+                </JFXButton>
+                <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="185.0" prefHeight="41.0"
+                  prefWidth="138.0" ripplerFill="#008221" style="-fx-background-color: LIGHTGREY;"
+                  text="Resolve Request">
+                  <VBox.margin>
+                    <Insets/>
+                  </VBox.margin>
+                </JFXButton>
+                <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="226.0" prefHeight="41.0"
+                  prefWidth="138.0" ripplerFill="#b90c0c" style="-fx-background-color: LIGHTGREY;"
+                  text="Cancel Request">
+                  <VBox.margin>
+                    <Insets/>
+                  </VBox.margin>
+                </JFXButton>
+              </children>
+              <HBox.margin>
+                <Insets/>
+              </HBox.margin>
             </VBox>
             <TextFlow fx:id="stepLbl" prefHeight="266.0" prefWidth="343.0">
               <children>
@@ -100,6 +109,9 @@
               </children>
             </TextFlow>
           </children>
+          <VBox.margin>
+            <Insets right="16.0"/>
+          </VBox.margin>
         </HBox>
       </children>
     </VBox>
