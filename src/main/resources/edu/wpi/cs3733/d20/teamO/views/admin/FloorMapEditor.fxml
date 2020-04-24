@@ -1,95 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 <BorderPane fx:id="root" maxHeight="720.0" maxWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
   style="-fx-background-color: #acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel">
+   <center>
+      <!--<fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>-->
+   </center>
    <right>
-      <AnchorPane fx:id="sideBar" style="-fx-background-color: FFFFFF; -fx-border-color: ADADAD;"
-        visible="false" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="sideBar" prefHeight="200.0" prefWidth="200.0"
+        BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="addNodePane" alignment="TOP_CENTER" spacing="10.0" visible="false">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node ID"/>
-                  <JFXTextField fx:id="nodeIDField"/>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node x"/>
-                  <JFXTextField fx:id="nodeXField"/>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node y"/>
-                  <JFXTextField fx:id="nodeYField" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node type" />
-                  <ChoiceBox fx:id="nodeType" prefWidth="150.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Short name" />
-                  <JFXTextField fx:id="shortNameField" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long name" />
-                  <JFXTextField fx:id="longNameField" />
-                  <JFXButton onAction="#createNode" text="Create node" />
-                  <JFXButton onAction="#cancelAddNode" text="Cancel" />
-               </children>
+            <VBox alignment="TOP_CENTER" spacing="8.0">
                <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
-            <VBox fx:id="addEdgePane" alignment="TOP_CENTER" spacing="10.0" visible="false">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node 1 ID"/>
-                  <JFXButton onAction="#clearEdge1Selection" text="Clear"/>
-                  <JFXTextField fx:id="node1Field"/>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node 2 ID"/>
-                  <JFXButton onAction="#clearEdge2Selection" text="Clear"/>
-                  <JFXTextField fx:id="node2Field"/>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edge ID"/>
-                  <JFXTextField fx:id="edgeIDField"/>
-                  <JFXButton onAction="#createEdge" text="Create edge"/>
-                  <JFXButton onAction="#cancelAddEdge" text="Cancel"/>
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
-            <VBox fx:id="selectNodePane" alignment="TOP_CENTER" spacing="10.0" visible="false">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
                </padding>
                <children>
-                  <Label fx:id="selectedNodeID"/>
-                  <Label fx:id="selectedNodeX" layoutX="20.0" layoutY="20.0"/>
-                  <Label fx:id="selectedNodeY" layoutX="20.0" layoutY="46.0"/>
-                  <Label fx:id="selectedNodeType" layoutX="20.0" layoutY="98.0"/>
-                  <Label fx:id="selectedNodeShortName"/>
-                  <Label fx:id="selectedNodeLongName" layoutX="20.0" layoutY="124.0"/>
-                  <JFXButton onAction="#deleteSelectedNode" text="Delete node"/>
-                  <JFXButton onAction="#cancelNodeSelection" text="Cancel"/>
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <JFXButton fx:id="floorDownPressed" text="&lt;"/>
+                        <Label fx:id="floorLabel" text="Floor 1"/>
+                        <JFXButton fx:id="floorUpPressed" text="&gt;"/>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>
       </AnchorPane>
    </right>
-   <center>
-      <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
-   </center>
-   <bottom>
-      <AnchorPane style="-fx-background-color: FFFFFF; -fx-border-color: ADADAD;" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="869.0" spacing="10.0">
-               <children>
-                  <JFXButton onAction="#floorDown" text="&lt;"/>
-                  <Label fx:id="floorLabel" text="Floor 1"/>
-                  <JFXButton onAction="#floorUp" text="&gt;"/>
-                  <JFXButton onAction="#addNodePressed" text="Add node"/>
-                  <JFXButton onAction="#addEdgePressed" text="Add edge"/>
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-   </bottom>
 </BorderPane>

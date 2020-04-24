@@ -1,11 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
-import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
-import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
@@ -14,18 +9,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FloorMapEditorViewModel extends ViewModelBase {
@@ -35,35 +24,29 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   private stateEnum state;
-
   @FXML
   private NodeMapView nodeMapViewController;
   @FXML
-  private JFXTextField nodeXField, nodeYField, nodeIDField, shortNameField, longNameField, node1Field, node2Field, edgeIDField;
-  @FXML
   private AnchorPane sideBar;
   @FXML
-  private VBox addNodePane, selectNodePane, addEdgePane;
-  @FXML
-  private ChoiceBox nodeType;
-  @FXML
-  private Label selectedNodeID, selectedNodeX, selectedNodeY, selectedNodeType, selectedNodeShortName, selectedNodeLongName, floorLabel;
-  @FXML
   private BorderPane root;
+  @FXML
+  private Label floorLabel;
   private Map<String, Node> nodeMap;
-  private Node nodeSelection, nodeSelection1, nodeSelection2; // nodeSelection is the node being selected in the normal node selection menu, 1 and 2 are for edge building
   private List<Edge> edges;
   private final DatabaseWrapper database;
 
   /**
    * Redraws all edges on the node map
    */
+  /*
   private void drawEdges() {
     for (val edge : edges) {
       nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
     }
   }
 
+   */
   @Override
   /**
    * Called when a ViewModel's views have been completely processed and can be used freely
@@ -71,25 +54,80 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param resources the resources used to localize the root object, or null
    */
   protected void start(URL location, ResourceBundle resources) {
+    // styling the UI components
+
+    // grabbing data from the database
     nodeMap = database.exportNodes();
     edges = database.exportEdges();
+    // drawing the map
     nodeMapViewController.setNodeMap(nodeMap);
-    drawEdges();
-    nodeType.getItems().addAll("STAI", "ELEV", "REST", "DEPT", "LABS", "HALL", "CONF");
+    //drawEdges();
+    // set the state
     state = stateEnum.MAIN;
+    /*
     nodeMapViewController.setOnNodeTappedListener(node -> {
       select(node);
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
       updateCoords(x, y);
     });
-  }
 
-  /**
-   * Shows an error snackbar
-   *
-   * @param errorText The text for the snackbar to display
-   */
+     */
+  }
+}
+
+/*
+ *//**
+ * Shows an error snackbar
+ *
+ * @param errorText The text for the snackbar to display
+ * <p>
+ * Updates the currently selected node
+ * @param node The selected node
+ * <p>
+ * Clears all content of the sidebar and empties all text fields
+ * @param hideMenu Whether or not to hide the side menu
+ * <p>
+ * Updates the selected coordinates when a part of the map is clicked (non-node)
+ * @param x The x-coordinate of the selection
+ * @param y The y-coordinate of the selection
+ * <p>
+ * Called when the add edge button is pressed
+ * @param actionEvent
+ * <p>
+ * Called when the add node button is pressed
+ * @param actionEvent
+ * <p>
+ * Called when the floor down button is pressed
+ * @param actionEvent
+ * <p>
+ * Called when the floor up button is pressed
+ * @param actionEvent The ActionEvent
+ * <p>
+ * Called when the cancel button is pressed for adding a node
+ * @param actionEvent
+ * <p>
+ * Called when the create node button is pressed in the add node menu
+ * @param actionEvent
+ * <p>
+ * Creates an edge between two selected nodes
+ * @param actionEvent
+ * <p>
+ * Called when the cancel button is clicked in the add edge menu
+ * @param actionEvent
+ * <p>
+ * Deletes the selected node
+ * @param actionEvent
+ * <p>
+ * Called when the cancel button is pressed while a node is selected
+ * @param actionEvent
+ * <p>
+ * Called when the clear button is pressed for edge 1 selection
+ * @param actionEvent
+ * <p>
+ * Called when the clear button is pressed for edge 2 selection
+ * @param actionEvent
+ *//*
   private void showErrorSnackbar(String errorText) {
     JFXSnackbar bar = new JFXSnackbar(root);
     val label = new Label(errorText);
@@ -101,11 +139,54 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     bar.enqueue(new SnackbarEvent(container));
   }
 
-  /**
-   * Updates the currently selected node
-   *
-   * @param node The selected node
-   */
+  *//**
+ * Updates the currently selected node
+ *
+ * @param node The selected node
+ * <p>
+ * Clears all content of the sidebar and empties all text fields
+ * @param hideMenu Whether or not to hide the side menu
+ * <p>
+ * Updates the selected coordinates when a part of the map is clicked (non-node)
+ * @param x The x-coordinate of the selection
+ * @param y The y-coordinate of the selection
+ * <p>
+ * Called when the add edge button is pressed
+ * @param actionEvent
+ * <p>
+ * Called when the add node button is pressed
+ * @param actionEvent
+ * <p>
+ * Called when the floor down button is pressed
+ * @param actionEvent
+ * <p>
+ * Called when the floor up button is pressed
+ * @param actionEvent The ActionEvent
+ * <p>
+ * Called when the cancel button is pressed for adding a node
+ * @param actionEvent
+ * <p>
+ * Called when the create node button is pressed in the add node menu
+ * @param actionEvent
+ * <p>
+ * Creates an edge between two selected nodes
+ * @param actionEvent
+ * <p>
+ * Called when the cancel button is clicked in the add edge menu
+ * @param actionEvent
+ * <p>
+ * Deletes the selected node
+ * @param actionEvent
+ * <p>
+ * Called when the cancel button is pressed while a node is selected
+ * @param actionEvent
+ * <p>
+ * Called when the clear button is pressed for edge 1 selection
+ * @param actionEvent
+ * <p>
+ * Called when the clear button is pressed for edge 2 selection
+ * @param actionEvent
+ *//*
   private void select(Node node) {
     switch (state) {
       case ADDEDGE:
@@ -133,11 +214,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     }
   }
 
-  /**
-   * Clears all content of the sidebar and empties all text fields
-   *
-   * @param hideMenu Whether or not to hide the side menu
-   */
+  *//**
+ * Clears all content of the sidebar and empties all text fields
+ *
+ * @param hideMenu Whether or not to hide the side menu
+ *//*
   private void clearFields(boolean hideMenu) {
     if (hideMenu) {
       addNodePane.setVisible(false);
@@ -157,21 +238,54 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     edgeIDField.clear();
   }
 
-  /**
-   * Updates the selected coordinates when a part of the map is clicked (non-node)
-   * @param x The x-coordinate of the selection
-   * @param y The y-coordinate of the selection
-   */
+  *//**
+ * Updates the selected coordinates when a part of the map is clicked (non-node)
+ * @param x The x-coordinate of the selection
+ * @param y The y-coordinate of the selection
+ *//*
   private void updateCoords(int x, int y) {
     nodeXField.setText(Integer.toString(x));
     nodeYField.setText(Integer.toString(y));
   }
 
-  /**
-   * Called when the add edge button is pressed
-   *
-   * @param actionEvent
-   */
+  *//**
+ * Called when the add edge button is pressed
+ *
+ * @param actionEvent
+ * <p>
+ * Called when the add node button is pressed
+ * @param actionEvent
+ * <p>
+ * Called when the floor down button is pressed
+ * @param actionEvent
+ * <p>
+ * Called when the floor up button is pressed
+ * @param actionEvent The ActionEvent
+ * <p>
+ * Called when the cancel button is pressed for adding a node
+ * @param actionEvent
+ * <p>
+ * Called when the create node button is pressed in the add node menu
+ * @param actionEvent
+ * <p>
+ * Creates an edge between two selected nodes
+ * @param actionEvent
+ * <p>
+ * Called when the cancel button is clicked in the add edge menu
+ * @param actionEvent
+ * <p>
+ * Deletes the selected node
+ * @param actionEvent
+ * <p>
+ * Called when the cancel button is pressed while a node is selected
+ * @param actionEvent
+ * <p>
+ * Called when the clear button is pressed for edge 1 selection
+ * @param actionEvent
+ * <p>
+ * Called when the clear button is pressed for edge 2 selection
+ * @param actionEvent
+ *//*
   public void addEdgePressed(ActionEvent actionEvent) {
     clearFields(true);
     if (state == stateEnum.ADDEDGE) {
@@ -181,10 +295,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     }
   }
 
-  /**
-   * Called when the add node button is pressed
-   * @param actionEvent
-   */
+  *//**
+ * Called when the add node button is pressed
+ * @param actionEvent
+ *//*
   public void addNodePressed(ActionEvent actionEvent) {
     clearFields(true);
     if (state == stateEnum.ADDEDGE) {
@@ -194,39 +308,67 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     }
   }
 
-  /**
-   * Called when the floor down button is pressed
-   * @param actionEvent
-   */
+  *//**
+ * Called when the floor down button is pressed
+ *
+ * @param actionEvent
+ * <p>
+ * Called when the floor up button is pressed
+ * @param actionEvent The ActionEvent
+ * <p>
+ * Called when the cancel button is pressed for adding a node
+ * @param actionEvent
+ * <p>
+ * Called when the create node button is pressed in the add node menu
+ * @param actionEvent
+ * <p>
+ * Creates an edge between two selected nodes
+ * @param actionEvent
+ * <p>
+ * Called when the cancel button is clicked in the add edge menu
+ * @param actionEvent
+ * <p>
+ * Deletes the selected node
+ * @param actionEvent
+ * <p>
+ * Called when the cancel button is pressed while a node is selected
+ * @param actionEvent
+ * <p>
+ * Called when the clear button is pressed for edge 1 selection
+ * @param actionEvent
+ * <p>
+ * Called when the clear button is pressed for edge 2 selection
+ * @param actionEvent
+ *//*
   public void floorDown(ActionEvent actionEvent) {
     nodeMapViewController.decrementFloor();
     drawEdges();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
-  /**
-   * Called when the floor up button is pressed
-   * @param actionEvent The ActionEvent
-   */
+  *//**
+ * Called when the floor up button is pressed
+ * @param actionEvent The ActionEvent
+ *//*
   public void floorUp(ActionEvent actionEvent) {
     nodeMapViewController.incrementFloor();
     drawEdges();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
-  /**
-   * Called when the cancel button is pressed for adding a node
-   * @param actionEvent
-   */
+  *//**
+ * Called when the cancel button is pressed for adding a node
+ * @param actionEvent
+ *//*
   public void cancelAddNode(ActionEvent actionEvent) {
     clearFields(true);
   }
 
-  /**
-   * Called when the create node button is pressed in the add node menu
-   *
-   * @param actionEvent
-   */
+  *//**
+ * Called when the create node button is pressed in the add node menu
+ *
+ * @param actionEvent
+ *//*
   public void createNode(ActionEvent actionEvent) {
     // fix this piece of garbage
     if (nodeIDField.getText().isBlank() || nodeXField.getText().isBlank() || nodeYField.getText()
@@ -261,10 +403,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     }
   }
 
-  /**
+  *//**
    * Creates an edge between two selected nodes
    * @param actionEvent
-   */
+   *//*
   public void createEdge(ActionEvent actionEvent) throws Exception {
     // also fix this piece of garbage
     try {
@@ -303,20 +445,20 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     }
   }
 
-  /**
+  *//**
    * Called when the cancel button is clicked in the add edge menu
    *
    * @param actionEvent
-   */
+   *//*
   public void cancelAddEdge(ActionEvent actionEvent) {
     clearFields(true);
   }
 
-  /**
+  *//**
    * Deletes the selected node
    *
    * @param actionEvent
-   */
+   *//*
   public void deleteSelectedNode(ActionEvent actionEvent) {
     nodeMap.remove(nodeSelection.getNodeID());
     nodeMapViewController.deleteNode(nodeSelection);
@@ -328,30 +470,30 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     clearFields(true);
   }
 
-  /**
+  *//**
    * Called when the cancel button is pressed while a node is selected
    *
    * @param actionEvent
-   */
+   *//*
   public void cancelNodeSelection(ActionEvent actionEvent) {
     clearFields(true);
   }
 
-  /**
+  *//**
    * Called when the clear button is pressed for edge 1 selection
    *
    * @param actionEvent
-   */
+   *//*
   public void clearEdge1Selection(ActionEvent actionEvent) {
     node1Field.clear();
   }
 
-  /**
+  *//**
    * Called when the clear button is pressed for edge 2 selection
    *
    * @param actionEvent
-   */
+   *//*
   public void clearEdge2Selection(ActionEvent actionEvent) {
     node2Field.clear();
   }
-}
+}*/
