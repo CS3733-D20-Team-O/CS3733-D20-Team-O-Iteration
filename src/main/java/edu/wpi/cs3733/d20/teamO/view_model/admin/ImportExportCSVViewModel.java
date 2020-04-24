@@ -31,6 +31,7 @@ import lombok.val;
 public class ImportExportCSVViewModel extends ViewModelBase {
 
   private final CSVHandler csvHandler;
+  private final FileChooser fileChooser;
 
   private final SimpleStringProperty fileLocation = new SimpleStringProperty("");
 
@@ -83,10 +84,9 @@ public class ImportExportCSVViewModel extends ViewModelBase {
 
   @FXML
   private void selectFile() {
-    val fileChooser = new FileChooser();
     fileChooser.setTitle("Open CSV Data File");
-    fileChooser.getExtensionFilters()
-        .addAll(new ExtensionFilter("CSV Files", "*.csv"));
+    val csvExtensionFilter = new ExtensionFilter("CSV Files", "*.csv");
+    fileChooser.getExtensionFilters().add(csvExtensionFilter);
     val selectedFile = fileChooser.showOpenDialog(root.getScene().getWindow());
     if (selectedFile != null) {
       importButton.setDisable(false);
