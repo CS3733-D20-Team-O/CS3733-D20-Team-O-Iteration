@@ -261,13 +261,17 @@ public class RequestHandlerViewModel extends ViewModelBase {
     }
   }
 
+  public ServiceRequest getSelectedRequest() {
+    return serviceTable.getSelectionModel().getSelectedItem();
+  }
+
   @FXML
-  public void resolveRequest() {
+  private void resolveRequest() {
     //todo implement
   }
 
   @FXML
-  public void cancelRequest() {
+  private void cancelRequest() {
     //todo implement
   }
 }
