@@ -30,6 +30,12 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FloorMapEditorViewModel extends ViewModelBase {
 
+  private enum stateEnum {
+    MAIN, ADDNODE, ADDEDGE, SELECTNODE, SELECTEDGE
+  }
+
+  private stateEnum state;
+
   @FXML
   private NodeMapView nodeMapViewController;
   @FXML
@@ -49,6 +55,15 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private List<Edge> edges;
   private final DatabaseWrapper database;
 
+  /**
+   * Redraws all edges on the node map
+   */
+  private void drawEdges() {
+    for (val edge : edges) {
+      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
+    }
+  }
+
   @Override
   /**
    * Called when a ViewModel's views have been completely processed and can be used freely
@@ -59,10 +74,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeMap = database.exportNodes();
     edges = database.exportEdges();
     nodeMapViewController.setNodeMap(nodeMap);
-    for (val edge : edges) {
-      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
-    }
+    drawEdges();
     nodeType.getItems().addAll("STAI", "ELEV", "REST", "DEPT", "LABS", "HALL", "CONF");
+    state = stateEnum.MAIN;
     nodeMapViewController.setOnNodeTappedListener(node -> {
       select(node);
     });
@@ -93,25 +107,29 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param node The selected node
    */
   private void select(Node node) {
-    if (addEdgePane.isVisible()) {
-      if (node1Field.getText().isBlank()) {
-        node1Field.setText(node.getNodeID());
-        nodeSelection1 = node;
-      } else if (node2Field.getText().isBlank()) {
-        node2Field.setText(node.getNodeID());
-        nodeSelection2 = node;
-      }
-    } else {
-      clearFields(true);
-      sideBar.setVisible(true);
-      selectNodePane.setVisible(true);
-      selectedNodeID.setText("Node ID: " + node.getNodeID());
-      selectedNodeLongName.setText("Long name: " + node.getLongName());
-      selectedNodeShortName.setText("Short name: " + node.getShortName());
-      selectedNodeType.setText("Node type: " + node.getNodeType());
-      selectedNodeX.setText("X pos: " + node.getXCoord());
-      selectedNodeY.setText("Y pos: " + node.getYCoord());
-      nodeSelection = node;
+    switch (state) {
+      case ADDEDGE:
+        if (node1Field.getText().isBlank()) {
+          node1Field.setText(node.getNodeID());
+          nodeSelection1 = node;
+        } else if (node2Field.getText().isBlank()) {
+          node2Field.setText(node.getNodeID());
+          nodeSelection2 = node;
+        }
+        break;
+      default:
+        state = stateEnum.SELECTNODE;
+        clearFields(true);
+        sideBar.setVisible(true);
+        selectNodePane.setVisible(true);
+        selectedNodeID.setText("Node ID: " + node.getNodeID());
+        selectedNodeLongName.setText("Long name: " + node.getLongName());
+        selectedNodeShortName.setText("Short name: " + node.getShortName());
+        selectedNodeType.setText("Node type: " + node.getNodeType());
+        selectedNodeX.setText("X pos: " + node.getXCoord());
+        selectedNodeY.setText("Y pos: " + node.getYCoord());
+        nodeSelection = node;
+        break;
     }
   }
 
@@ -127,7 +145,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       selectNodePane.setVisible(false);
       sideBar.setVisible(false);
     }
-
+    // todo put all fields into array to clear at once
     nodeXField.clear();
     nodeYField.clear();
     nodeIDField.clear();
@@ -145,10 +163,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param y The y-coordinate of the selection
    */
   private void updateCoords(int x, int y) {
-    if (addNodePane.isVisible()) {
-      nodeXField.setText(Integer.toString(x));
-      nodeYField.setText(Integer.toString(y));
-    }
+    nodeXField.setText(Integer.toString(x));
+    nodeYField.setText(Integer.toString(y));
   }
 
   /**
@@ -157,27 +173,24 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param actionEvent
    */
   public void addEdgePressed(ActionEvent actionEvent) {
-    if (addEdgePane.isVisible()) {
-      clearFields(true);
-    } else {
-      clearFields(true);
+    clearFields(true);
+    if (state == stateEnum.ADDEDGE) {
       sideBar.setVisible(true);
       addEdgePane.setVisible(true);
+      state = stateEnum.MAIN;
     }
   }
 
   /**
    * Called when the add node button is pressed
-   *
    * @param actionEvent
    */
   public void addNodePressed(ActionEvent actionEvent) {
-    if (addNodePane.isVisible()) {
-      clearFields(true);
-    } else {
-      clearFields(true);
+    clearFields(true);
+    if (state == stateEnum.ADDEDGE) {
       sideBar.setVisible(true);
       addNodePane.setVisible(true);
+      state = stateEnum.MAIN;
     }
   }
 
@@ -187,9 +200,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   public void floorDown(ActionEvent actionEvent) {
     nodeMapViewController.decrementFloor();
-    for (val edge : edges) {
-      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
-    }
+    drawEdges();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
@@ -199,9 +210,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   public void floorUp(ActionEvent actionEvent) {
     nodeMapViewController.incrementFloor();
-    for (val edge : edges) {
-      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
-    }
+    drawEdges();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
@@ -215,47 +224,49 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   /**
    * Called when the create node button is pressed in the add node menu
+   *
    * @param actionEvent
    */
-  public void createNode(ActionEvent actionEvent) throws Exception {
+  public void createNode(ActionEvent actionEvent) {
+    // fix this piece of garbage
+    if (nodeIDField.getText().isBlank() || nodeXField.getText().isBlank() || nodeYField.getText()
+        .isBlank()
+        || shortNameField.getText().isBlank() || longNameField.getText().isBlank()
+        || nodeType.getValue() == null) {
+      showErrorSnackbar("You cannot leave any fields blank");
+      return;
+    }
+    if (nodeMap.get(nodeIDField.getText()) != null) {
+      showErrorSnackbar("A node with that ID already exists");
+      return;
+    }
     try {
+      val x = Integer.parseInt(nodeXField.getText());
+      val y = Integer.parseInt(nodeYField.getText());
       val id = nodeIDField.getText();
       val shortName = shortNameField.getText();
       val longName = longNameField.getText();
-      if (id.isBlank() || nodeXField.getText().isBlank() || nodeYField.getText().isBlank()
-          || shortName.isBlank() || longName.isBlank() || nodeType.getValue() == null) {
-        showErrorSnackbar("You cannot leave any fields blank");
-        return;
-      }
-      if (nodeMap.get(id) != null) {
-        showErrorSnackbar("A node with that ID already exists");
-      } else {
-        val x = Integer.parseInt(nodeXField.getText());
-        val y = Integer.parseInt(nodeYField.getText());
-        val type = nodeType.getSelectionModel().getSelectedItem().toString();
-        Node node = new Node(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
-            shortName);
-        nodeMapViewController.addNode(node);
-        for (val edge : edges) {
-          nodeMapViewController
-              .drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
-        }
-        nodeMap.put(node.getNodeID(), node);
-        database.addNode(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
-            shortName); //adds node to database
-        clearFields(false);
-      }
+      val type = nodeType.getSelectionModel().getSelectedItem().toString();
+      Node node = new Node(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
+          shortName);
+      nodeMapViewController.addNode(node);
+      drawEdges();
+      nodeMap.put(node.getNodeID(), node);
+      database.addNode(id, x, y, nodeMapViewController.getFloor(), "Faulkner", type, longName,
+          shortName); //adds node to database
+      clearFields(false);
     } catch (Exception e) {
-      showErrorSnackbar("Invalid input");
+      showErrorSnackbar("You must enter numbers for the coordinates");
+      return;
     }
   }
 
   /**
    * Creates an edge between two selected nodes
-   *
    * @param actionEvent
    */
   public void createEdge(ActionEvent actionEvent) throws Exception {
+    // also fix this piece of garbage
     try {
       val node1ID = node1Field.getText();
       val node2ID = node2Field.getText();
@@ -313,9 +324,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeMapViewController.setNodeMap(nodeMap);
     // have to reload edges from database in case an edge is deleted in the process and then redraw
     edges = database.exportEdges();
-    for (val edge : edges) {
-      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
-    }
+    drawEdges();
     clearFields(true);
   }
 
