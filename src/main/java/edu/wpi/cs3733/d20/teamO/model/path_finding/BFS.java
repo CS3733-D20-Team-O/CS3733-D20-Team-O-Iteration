@@ -3,7 +3,7 @@ package edu.wpi.cs3733.d20.teamO.model.path_finding;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.util.List;
 
-public class BFS implements PathFinder {
+class BFS implements PathFinder {
 
   /**
    * Finds the path (if one exists) between the start and stop nodes

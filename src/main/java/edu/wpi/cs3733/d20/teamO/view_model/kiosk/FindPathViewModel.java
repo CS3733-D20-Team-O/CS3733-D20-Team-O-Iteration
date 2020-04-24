@@ -3,7 +3,7 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 import com.google.inject.Inject;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.path_finding.AStar;
+import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FindPathViewModel extends ViewModelBase {
 
+  private final SelectedPathFinder pathFinder;
   private final DatabaseWrapper database;
   private Node beginning;
   private Node finish;
@@ -55,7 +56,7 @@ public class FindPathViewModel extends ViewModelBase {
           }
           finish = node;
           end.setText(node.getLongName());
-          List<Node> nodes = AStar.findPathBetween(beginning, finish);
+          List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
           for (int i = 0; i < nodes.size() - 1; i++) {
               nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
           }
