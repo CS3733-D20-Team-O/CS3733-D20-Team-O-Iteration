@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.model;
+package edu.wpi.cs3733.d20.teamO.model.path_finding;
 
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.util.HashMap;
