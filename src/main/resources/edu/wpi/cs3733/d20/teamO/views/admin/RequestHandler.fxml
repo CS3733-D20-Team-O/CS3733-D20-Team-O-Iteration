@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -22,14 +23,14 @@
       AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="16.0">
       <children>
         <TableView fx:id="serviceTable" onKeyReleased="#updateEmployeeTable"
-          onMouseClicked="#updateEmployeeTable" prefHeight="236.0" prefWidth="1035.0">
+          onMouseClicked="#updateEmployeeTable" prefHeight="236.0" prefWidth="1371.0">
           <columns>
-            <TableColumn fx:id="colServiceType" prefWidth="72.0" text="Service"/>
-            <TableColumn fx:id="colRequestTime" prefWidth="106.0" text="Request Time"/>
-            <TableColumn fx:id="colRequestNode" prefWidth="98.0" text="Request Node"/>
-            <TableColumn fx:id="colResquesterName" prefWidth="164.0" text="Requester Name"/>
-            <TableColumn fx:id="colEmployeeAssigned" prefWidth="215.0" text="Employee"/>
-            <TableColumn fx:id="colWhoMarked" prefWidth="226.0" text="Assigner"/>
+            <TableColumn fx:id="colServiceType" prefWidth="123.0" text="Service"/>
+            <TableColumn fx:id="colRequestTime" prefWidth="92.0" text="Request Time"/>
+            <TableColumn fx:id="colRequestNode" prefWidth="91.0" text="Request Node"/>
+            <TableColumn fx:id="colResquesterName" prefWidth="166.0" text="Requester Name"/>
+            <TableColumn fx:id="colEmployeeAssigned" prefWidth="219.0" text="Employee"/>
+            <TableColumn fx:id="colWhoMarked" prefWidth="190.0" text="Assigner"/>
             <TableColumn fx:id="colRequestID" prefWidth="149.0" text="Request ID"/>
             <TableColumn fx:id="colServiceStatus" prefWidth="114.0" text="Status"/>
             <TableColumn fx:id="colServiceData" prefWidth="103.0" text="Data" visible="false"/>
@@ -76,15 +77,17 @@
                     <Insets/>
                   </VBox.margin>
                 </JFXButton>
-                <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="185.0" prefHeight="41.0"
-                  prefWidth="138.0" ripplerFill="#008221" style="-fx-background-color: LIGHTGREY;"
+                <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="185.0"
+                  onAction="#resolveRequest" prefHeight="41.0" prefWidth="138.0"
+                  ripplerFill="#008221" style="-fx-background-color: LIGHTGREY;"
                   text="Resolve Request">
                   <VBox.margin>
                     <Insets/>
                   </VBox.margin>
                 </JFXButton>
-                <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="226.0" prefHeight="41.0"
-                  prefWidth="138.0" ripplerFill="#b90c0c" style="-fx-background-color: LIGHTGREY;"
+                <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="226.0"
+                  onAction="#cancelRequest" prefHeight="41.0" prefWidth="138.0"
+                  ripplerFill="#b90c0c" style="-fx-background-color: LIGHTGREY;"
                   text="Cancel Request">
                   <VBox.margin>
                     <Insets/>
@@ -95,19 +98,26 @@
                 <Insets/>
               </HBox.margin>
             </VBox>
-            <TextFlow fx:id="stepLbl" prefHeight="266.0" prefWidth="343.0">
+            <VBox alignment="TOP_CENTER">
               <children>
-                <Label prefHeight="13.0" prefWidth="272.0"
-                  text="Step 1. Select a Service Request from the"/>
-                <Label prefHeight="17.0" prefWidth="268.0" text=" Service Request table."/>
-                <Label prefHeight="17.0" prefWidth="271.0"
-                  text="Step 2. Select an available employee to be"/>
-                <Label text=" asigned to the request from the Employee table"/>
-                <Label text="Step 3. Click the Assign button to assign that "/>
-                <Label text=" employee to the request. They won't be available "/>
-                <Label text=" for other requests until it is completed."/>
+                <TextFlow fx:id="stepLbl" prefHeight="130.0" prefWidth="343.0">
+                  <children>
+                    <Label prefHeight="13.0" prefWidth="272.0"
+                      text="Step 1. Select a Service Request from the"/>
+                    <Label prefHeight="17.0" prefWidth="268.0" text=" Service Request table."/>
+                    <Label prefHeight="17.0" prefWidth="271.0"
+                      text="Step 2. Select an available employee to be"/>
+                    <Label text=" asigned to the request from the Employee table"/>
+                    <Label text="Step 3. Click the Assign button to assign that "/>
+                    <Label text=" employee to the request. They won't be available "/>
+                    <Label text=" for other requests until it is completed."/>
+                  </children>
+                </TextFlow>
+                <ImageView fx:id="BWHLogo" fitHeight="253.0" fitWidth="310.0" pickOnBounds="true"
+                  preserveRatio="true">
+                </ImageView>
               </children>
-            </TextFlow>
+            </VBox>
           </children>
           <VBox.margin>
             <Insets right="16.0"/>
