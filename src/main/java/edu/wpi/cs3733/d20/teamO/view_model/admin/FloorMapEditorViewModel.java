@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
+import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
@@ -19,11 +20,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FloorMapEditorViewModel extends ViewModelBase {
 
-  private enum stateEnum {
+  private enum State {
     MAIN, ADDNODE, ADDEDGE, SELECTNODE, SELECTEDGE
   }
 
-  private stateEnum state;
+  private State state;
   @FXML
   private NodeMapView nodeMapViewController;
   @FXML
@@ -55,7 +56,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   protected void start(URL location, ResourceBundle resources) {
     // styling the UI components
-
+    JFXDepthManager.setDepth(sideBar, 2);
     // grabbing data from the database
     nodeMap = database.exportNodes();
     edges = database.exportEdges();
@@ -63,7 +64,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeMapViewController.setNodeMap(nodeMap);
     //drawEdges();
     // set the state
-    state = stateEnum.MAIN;
+    state = State.MAIN;
     /*
     nodeMapViewController.setOnNodeTappedListener(node -> {
       select(node);

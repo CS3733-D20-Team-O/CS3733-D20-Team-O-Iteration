@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSlider?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -12,22 +15,41 @@
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel">
    <center>
-      <!--<fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>-->
+      <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
    </center>
    <right>
       <AnchorPane fx:id="sideBar" prefHeight="200.0" prefWidth="200.0"
-        BorderPane.alignment="CENTER">
+        style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="TOP_CENTER" spacing="8.0">
                <padding>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
                </padding>
                <children>
-                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
                      <children>
                         <JFXButton fx:id="floorDownPressed" text="&lt;"/>
-                        <Label fx:id="floorLabel" text="Floor 1"/>
+                        <Label fx:id="floorLabel" prefHeight="22.0" text="Floor 1"/>
                         <JFXButton fx:id="floorUpPressed" text="&gt;"/>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
+                     <children>
+                        <JFXButton>
+                           <graphic>
+                              <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@/zoom_out-24px.png"/>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXSlider prefWidth="168.0"/>
+                        <JFXButton fx:id="zoomInButton">
+                           <graphic>
+                              <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@/zoom_in-24px.png"/>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                      </children>
                   </HBox>
                </children>
