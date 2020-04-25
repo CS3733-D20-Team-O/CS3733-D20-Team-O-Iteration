@@ -14,18 +14,18 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.SanitationService">
   <VBox spacing="32" style="-fx-padding: 32; -fx-background-radius: 16" alignment="CENTER">
     <Label text="Sanitation Service Request Creation"/>
-    <JFXTextField accessibleText="Your Name">
+    <JFXTextField fx:id="requesterName" promptText="Your Name">
       <validators>
         <RequiredFieldValidator message="Your name is required!"/>
       </validators>
     </JFXTextField>
     <HBox>
-      <JFXComboBox promptText="Floor">
+      <JFXComboBox fx:id="floor" promptText="Floor">
         <validators>
           <RequiredFieldValidator message="You need to select the floor of the spill!"/>
         </validators>
       </JFXComboBox>
-      <JFXComboBox promptText="Room/Location on Floor">
+      <JFXComboBox fx:id="location" promptText="Room/Location on Floor">
         <validators>
           <RequiredFieldValidator message="You need to select the location of the spill!"/>
         </validators>
@@ -41,8 +41,7 @@
       <JFXRadioButton text="Wet Spill" toggleGroup="$levelSelection"/>
       <JFXRadioButton text="Hazardous Spill" toggleGroup="$levelSelection"/>
     </VBox>
-    <!-- todo what is this accessible text stuff? -->
-    <JFXTextArea promptText="Additional Notes" accessibleText="Notes"/>
+    <JFXTextArea fx:id="additionalNotes" promptText="Additional Notes"/>
     <HBox alignment="CENTER_RIGHT" spacing="16">
       <JFXButton text="Submit" onAction="#submitRequest"/>
       <JFXButton text="Cancel" onAction="#cancelRequest"/>
