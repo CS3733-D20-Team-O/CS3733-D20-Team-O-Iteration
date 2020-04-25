@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
@@ -13,9 +14,9 @@ import javafx.scene.control.TabPane;
 public class InternalTransportationService extends ViewModelBase {
 
   @FXML
-  private JFXComboBox floor;
+  private JFXComboBox currentFloor;
   @FXML
-  private JFXComboBox room;
+  private JFXComboBox currentRoom;
   @FXML
   private JFXTextField reqName;
   @FXML
@@ -24,6 +25,8 @@ public class InternalTransportationService extends ViewModelBase {
   private TabPane transportationType;
   @FXML
   private Tab assistedTransportation, unassistedTransportation;
+  @FXML
+  private JFXButton submit;
 
   //assisted
   @FXML
