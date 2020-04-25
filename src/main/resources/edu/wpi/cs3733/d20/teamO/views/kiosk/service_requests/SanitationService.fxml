@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.SanitationService">
+  <VBox spacing="32" style="-fx-padding: 32; -fx-background-radius: 16" alignment="CENTER">
+    <Label text="Sanitation Service Request Creation"/>
+    <JFXTextField accessibleText="Your Name">
+      <validators>
+        <RequiredFieldValidator message="Your name is required!"/>
+      </validators>
+    </JFXTextField>
+    <HBox>
+      <JFXComboBox promptText="Floor">
+        <validators>
+          <RequiredFieldValidator message="You need to select the floor of the spill!"/>
+        </validators>
+      </JFXComboBox>
+      <JFXComboBox promptText="Room/Location on Floor">
+        <validators>
+          <RequiredFieldValidator message="You need to select the location of the spill!"/>
+        </validators>
+      </JFXComboBox>
+    </HBox>
+    <VBox spacing="16" alignment="CENTER_LEFT">
+      <Label text="Hazard Level"/>
+      <JFXRadioButton text="Dry Spill" selected="true">
+        <toggleGroup>
+          <ToggleGroup fx:id="levelSelection"/>
+        </toggleGroup>
+      </JFXRadioButton>
+      <JFXRadioButton text="Wet Spill" toggleGroup="$levelSelection"/>
+      <JFXRadioButton text="Hazardous Spill" toggleGroup="$levelSelection"/>
+    </VBox>
+    <!-- todo what is this accessible text stuff? -->
+    <JFXTextArea promptText="Additional Notes" accessibleText="Notes"/>
+    <HBox alignment="CENTER_RIGHT" spacing="16">
+      <JFXButton text="Submit" onAction="#submitRequest"/>
+      <JFXButton text="Cancel" onAction="#cancelRequest"/>
+    </HBox>
+  </VBox>
+</StackPane>
