@@ -117,10 +117,10 @@
                   </Tab>
                </tabs>
             </TabPane>
-            <VBox prefHeight="72.0" prefWidth="413.0" spacing="8.0">
+            <VBox alignment="CENTER" prefHeight="72.0" prefWidth="413.0" spacing="8.0">
                <children>
-                  <JFXButton fx:id="submit" buttonType="RAISED" ripplerFill="#413ee1"
-                    text="Submit"/>
+                  <JFXButton fx:id="submit" alignment="TOP_CENTER" buttonType="RAISED"
+                    ripplerFill="#413ee1" text="Submit"/>
                </children>
             </VBox>
          </children>
