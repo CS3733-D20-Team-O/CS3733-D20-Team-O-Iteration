@@ -12,14 +12,15 @@
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.SanitationService">
-  <VBox spacing="32" style="-fx-padding: 32; -fx-background-radius: 16" alignment="CENTER">
-    <Label text="Sanitation Service Request Creation"/>
+  <VBox spacing="32" alignment="CENTER"
+    style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
+    <Label text="Sanitation Service Request Creation" style="-fx-font-size: 32"/>
     <JFXTextField fx:id="requesterName" promptText="Your Name">
       <validators>
         <RequiredFieldValidator message="Your name is required!"/>
       </validators>
     </JFXTextField>
-    <HBox>
+    <HBox alignment="CENTER" spacing="32">
       <JFXComboBox fx:id="floor" promptText="Floor">
         <validators>
           <RequiredFieldValidator message="You need to select the floor of the spill!"/>
