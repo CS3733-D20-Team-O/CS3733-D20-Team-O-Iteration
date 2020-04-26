@@ -92,7 +92,7 @@ public class MainKioskViewModelTest extends FxRobot {
     val node = new Node("node", 0, 0, 1,
         "", "", "Long Name", "");
     val serviceRequest = new ServiceRequest("valid", "", "node",
-        "Gift", "", "", "");
+        "Gift", "", "", "", null);
     when(database.exportNodes()).thenReturn(Collections.singletonMap(node.getNodeID(), node));
     when(database.exportServiceRequests()).thenReturn(Collections.singletonList(serviceRequest));
     clickOn("Click me");

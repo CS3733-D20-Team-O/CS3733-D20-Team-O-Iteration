@@ -16,7 +16,7 @@ public class InternalTransportationRequestData implements ServiceRequestData {
    */
   @Override
   public String getDisplayable() {
-    return "" + assistance + " transport is required" + "\nMode of transport: " + transportationType
+    return assistance + " transport is required" + "\nMode of transport: " + transportationType
         + "\nDestination: " + destination;
   }
 }

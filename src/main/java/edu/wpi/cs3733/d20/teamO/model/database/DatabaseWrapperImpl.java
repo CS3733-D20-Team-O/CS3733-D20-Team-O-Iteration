@@ -415,7 +415,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             rset.getString(4),
             rset.getString(5),
             rset.getString(6),
-            rset.getString(7)));
+            rset.getString(7), null));
       }
     } catch (SQLException e) {
       log.error("Failed to export service requests", e);
