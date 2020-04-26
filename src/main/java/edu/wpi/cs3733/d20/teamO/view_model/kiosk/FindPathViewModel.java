@@ -22,28 +22,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FindPathViewModel extends ViewModelBase {
 
-  private enum State {
+  enum State {
     START,
     END
   }
 
-  private int clicks = 0;
+  int clicks = 0;
 
   @FXML
-  private BorderPane root;
+  BorderPane root;
   @FXML
-  private NodeMapView nodeMapViewController;
+  NodeMapView nodeMapViewController;
   @FXML
-  private AnchorPane sideBar;
+  AnchorPane sideBar;
   @FXML
-  private Label floorLabel;
+  Label floorLabel;
   @FXML
-  private JFXSlider zoomSlider;
+  JFXSlider zoomSlider;
 
-  private Map<String, Node> nodeMap;
+  Map<String, Node> nodeMap;
   private final DatabaseWrapper database;
-  private Node beginning;
-  private Node finish;
+  Node beginning;
+  Node finish;
 
   @Override
 /**
@@ -90,20 +90,24 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.draw();
   }
 
+  @FXML
   public void floorDownPressed(ActionEvent actionEvent) {
     nodeMapViewController.decrementFloor();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
+  @FXML
   public void floorUpPressed(ActionEvent actionEvent) {
     nodeMapViewController.incrementFloor();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
+  @FXML
   public void zoomOutPressed() {
 
   }
 
+  @FXML
   public void zoomInPressed() {
 
   }
