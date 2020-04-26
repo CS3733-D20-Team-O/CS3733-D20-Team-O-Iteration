@@ -1,12 +1,16 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.base.IFXValidatableControl;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -61,14 +65,21 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   public void deleteNodePressed(ActionEvent actionEvent) {
-    // todo implement
+    // todo finish
+    nodeMap.remove(selectedNode.getNodeID());
+    nodeMapViewController.deleteNode(selectedNode);
+    database.deleteFromTable(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode.getNodeID());
+    // nodeMapViewController.setNodeMap(nodeMap);
+    // have to reload edges from database in case an edge is deleted in the process and then redraw
+    edges = database.exportEdges();
+    drawEdges();
+    sideBar.setVisible(false);
+    state = State.MAIN;
   }
 
   public void saveNodeChangesPressed(ActionEvent actionEvent) {
-    val isValid = Stream.of(nodeIDField, shortNameField, longNameField).allMatch(
-        IFXValidatableControl::validate); // validates that all required fields are pressed
-    // todo replace with validator that checks all fields at once
-    if (isValid) {
+    val valid = validator.validate(nodeIDField, shortNameField, longNameField);
+    if (valid) {
       // todo save all changes to local node and to database
       nodeSelectView.setVisible(false);
       state = State.MAIN;
@@ -76,7 +87,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   private enum State {
-    MAIN, EDITNODE
+    MAIN, EDIT_NODE
   }
 
   private State state; // current state of view
@@ -94,10 +105,15 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private JFXTextField nodeIDField, shortNameField, longNameField;
   @FXML
   private JFXSlider zoomSlider;
+  @FXML
+  private JFXComboBox nodeCategoryPicker;
+  @FXML
+  private JFXListView neighboringNodesList;
   private Map<String, Node> nodeMap;
   private List<Edge> edges;
   private final DatabaseWrapper database;
   private Node selectedNode;
+  private final Validator validator;
 
   @Override
   /**
@@ -109,6 +125,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     // styling the UI components
     JFXDepthManager.setDepth(sideBar, 2);
     nodeSelectView.setVisible(false);
+    nodeCategoryPicker.getItems()
+        .addAll("STAI", "ELEV", "REST", "DEPT", "LABS", "SERV", "CONF", "HALL");
+    nodeCategoryPicker.setPromptText("Choose");
     // grabbing data from the database
     nodeMap = database.exportNodes();
     edges = database.exportEdges();
@@ -143,13 +162,38 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     switch (state) {
       case MAIN:
         nodeSelectView.setVisible(true);
-        state = State.EDITNODE;
+        state = State.EDIT_NODE;
       default:
         selectedNode = node;
+        clearFields();
+        nodeIDField.setText(node.getNodeID());
+        shortNameField.setText(node.getShortName());
+        longNameField.setText(node.getLongName());
+        for (val neighbor : node.getNeighbors()) {
+          neighboringNodesList.getItems().add(neighbor.getNodeID());
+        }
+        // todo set node category
         break;
     }
   }
 
+  /**
+   * Clears all fields in the program
+   */
+  private void clearFields() {
+    Stream.of(nodeIDField, shortNameField, longNameField).forEach(node -> node.clear());
+    neighboringNodesList.getItems().clear();
+  }
+
+  /**
+   * Creates a new node
+   *
+   * @param x The x-coord of the node
+   * @param y The y-coord of the node
+   */
+  private void createNode(int x, int y) {
+    // todo implement
+  }
 
 }
 
