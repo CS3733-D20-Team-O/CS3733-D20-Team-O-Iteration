@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.model.AStar;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
@@ -10,31 +12,38 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FindPathViewModel extends ViewModelBase {
-
-  private final DatabaseWrapper database;
-  private Node beginning;
-  private Node finish;
 
   private enum State {
     START,
     END
   }
 
-  int clicks = 0;
+  private int clicks = 0;
 
   @FXML
-  Label prompt, start, end;
-
+  private BorderPane root;
   @FXML
-  NodeMapView nodeMapViewController;
+  private NodeMapView nodeMapViewController;
+  @FXML
+  private AnchorPane sideBar;
+  @FXML
+  private Label floorLabel;
+  @FXML
+  private JFXSlider zoomSlider;
 
-  Map<String, Node> nodeMap;
+  private Map<String, Node> nodeMap;
+  private final DatabaseWrapper database;
+  private Node beginning;
+  private Node finish;
 
   @Override
 /**
@@ -43,24 +52,21 @@ public class FindPathViewModel extends ViewModelBase {
  * @param resources the resources used to localize the root object, or null
  */
   protected void start(URL location, ResourceBundle resources) {
+    JFXDepthManager.setDepth(sideBar, 2);
     nodeMap = database.exportNodes();
     nodeMapViewController.setNodeMap(nodeMap);
     nodeMapViewController.setOnNodeTappedListener(node -> {
-      prompt.setText("Follow path");
+
       switch (clicks) {
         case 0:
           beginning = node;
-          prompt.setText("Press Ending Point");
-          start.setText(node.getLongName());
           break;
         case 1:
           if (node.equals(beginning)) {
-            prompt.setText("Invalid Location Try Again");
             clicks = 0;
             break;
           }
           finish = node;
-          end.setText(node.getLongName());
           List<Node> nodes = AStar.findPathBetween(beginning, finish);
           for (int i = 0; i < nodes.size() - 1; i++) {
               nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
@@ -72,7 +78,6 @@ public class FindPathViewModel extends ViewModelBase {
       clicks++;
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
-      prompt.setText("Please Click a Possible Location");
     });
   }
 
@@ -81,11 +86,26 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
-    prompt.setText("Press Starting Point");
-    start.setText("");
-    end.setText("");
     clicks = 0;
     nodeMapViewController.draw();
+  }
+
+  public void floorDownPressed(ActionEvent actionEvent) {
+    nodeMapViewController.decrementFloor();
+    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+  }
+
+  public void floorUpPressed(ActionEvent actionEvent) {
+    nodeMapViewController.incrementFloor();
+    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+  }
+
+  public void zoomOutPressed() {
+
+  }
+
+  public void zoomInPressed() {
+
   }
 
 }

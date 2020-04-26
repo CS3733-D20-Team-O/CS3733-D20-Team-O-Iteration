@@ -29,7 +29,8 @@
           <children>
             <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
               <children>
-                <JFXButton fx:id="floorDownPressed" buttonType="FLAT" text="&lt;">
+                <JFXButton fx:id="floorDownPressed" buttonType="FLAT" onAction="#floorDownPressed"
+                  text="&lt;">
                   <font>
                     <Font size="18.0"/>
                   </font>
@@ -39,7 +40,8 @@
                     <Font size="18.0"/>
                   </font>
                 </Label>
-                <JFXButton fx:id="floorUpPressed" buttonType="FLAT" text="&gt;">
+                <JFXButton fx:id="floorUpPressed" buttonType="FLAT" onAction="#floorUpPressed"
+                  text="&gt;">
                   <font>
                     <Font size="18.0"/>
                   </font>
@@ -50,8 +52,7 @@
               <children>
                 <JFXButton buttonType="FLAT" onAction="#zoomOutPressed">
                   <graphic>
-                    <ImageView fx:id="zoomOutPressed" fitHeight="24" pickOnBounds="true"
-                      preserveRatio="true">
+                    <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
                       <Image url="@/zoom_out-24px.png"/>
                     </ImageView>
                   </graphic>
@@ -73,4 +74,3 @@
     </AnchorPane>
   </right>
 </BorderPane>
-
