@@ -24,10 +24,11 @@ public class FindPathViewModel extends ViewModelBase {
 
   enum State {
     START,
-    END
+    END,
+    PATH_DRAWN
   }
 
-  int clicks = 0;
+  State currentState = State.START;
 
   @FXML
   BorderPane root;
@@ -42,8 +43,8 @@ public class FindPathViewModel extends ViewModelBase {
 
   Map<String, Node> nodeMap;
   private final DatabaseWrapper database;
-  Node beginning;
-  Node finish;
+  private Node beginning;
+  private Node finish;
 
   @Override
 /**
@@ -57,25 +58,27 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.setNodeMap(nodeMap);
     nodeMapViewController.setOnNodeTappedListener(node -> {
 
-      switch (clicks) {
-        case 0:
+      switch (currentState) {
+        case START:
           beginning = node;
+          currentState = State.END;
           break;
-        case 1:
+        case END:
           if (node.equals(beginning)) {
-            clicks = 0;
+            currentState = State.START;
             break;
           }
           finish = node;
+          currentState = State.PATH_DRAWN;
           List<Node> nodes = AStar.findPathBetween(beginning, finish);
+          assert nodes != null;
           for (int i = 0; i < nodes.size() - 1; i++) {
-              nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
+            nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
           }
           break;
         default:
           break;
       }
-      clicks++;
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
     });
@@ -86,7 +89,7 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
-    clicks = 0;
+    currentState = State.START;
     nodeMapViewController.draw();
   }
 
