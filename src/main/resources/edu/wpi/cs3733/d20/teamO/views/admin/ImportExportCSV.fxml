@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox fx:id="root" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="32"
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="32"
   xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 32; -fx-font-size: 16"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.ImportExportCSVViewModel">
   <Label text="Import/Export CSV Data" style="-fx-font-size: 32"/>

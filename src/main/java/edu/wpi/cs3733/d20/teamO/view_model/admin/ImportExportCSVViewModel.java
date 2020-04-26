@@ -15,7 +15,6 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +33,6 @@ public class ImportExportCSVViewModel extends ViewModelBase {
   private List<DataType> dataTypes;
   private DataType currentDataType;
 
-  @FXML
-  private VBox root;
   @FXML
   private JFXComboBox<String> typeSelector;
   @FXML
@@ -64,7 +61,7 @@ public class ImportExportCSVViewModel extends ViewModelBase {
     fileChooser.setTitle("Open CSV Data File");
     val csvExtensionFilter = new ExtensionFilter("CSV Files", "*.csv");
     fileChooser.getExtensionFilters().add(csvExtensionFilter);
-    val selectedFile = fileChooser.showOpenDialog(root.getScene().getWindow());
+    val selectedFile = fileChooser.showOpenDialog(closeButton.getScene().getWindow());
     if (selectedFile != null) {
       importButton.setDisable(false);
       exportButton.setDisable(false);
@@ -101,6 +98,7 @@ public class ImportExportCSVViewModel extends ViewModelBase {
     return fileLocation.get();
   }
 
+  @SuppressWarnings("unused") // Called by JavaFX
   public SimpleStringProperty fileLocationProperty() {
     return fileLocation;
   }
