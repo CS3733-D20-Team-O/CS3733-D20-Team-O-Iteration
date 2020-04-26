@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.ToggleGroup;
 
 public class InternalTransportationService extends ViewModelBase {
 
@@ -27,6 +28,8 @@ public class InternalTransportationService extends ViewModelBase {
   private Tab assistedTransportation, unassistedTransportation;
   @FXML
   private JFXButton submit;
+  @FXML
+  private ToggleGroup allRadio;
 
   //assisted
   @FXML

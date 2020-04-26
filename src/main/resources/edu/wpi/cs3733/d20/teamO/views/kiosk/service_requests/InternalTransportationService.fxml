@@ -7,6 +7,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -15,15 +16,14 @@
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InternalTransportationService">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="302.0" layoutY="180.0" prefHeight="440.0"
-        prefWidth="477.0"
+      <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="302.0" layoutY="180.0"
+        minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="477.0"
         style="-fx-padding: 32; -fx-background-color: whitesmoke; -fx-background-radius: 16; -fx-opacity: 0.8"
-        AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="302.0" AnchorPane.rightAnchor="301.0"
+        AnchorPane.bottomAnchor="214.0" AnchorPane.leftAnchor="302.0" AnchorPane.rightAnchor="301.0"
         AnchorPane.topAnchor="180.0">
          <children>
-            <VBox prefHeight="142.0" prefWidth="453.0">
+            <VBox prefHeight="119.0" prefWidth="413.0">
                <children>
-                  <JFXTextField alignment="CENTER" editable="false" text="Current Location"/>
                   <HBox>
                      <children>
                         <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="238.0"
@@ -52,16 +52,16 @@
                   </HBox>
                </children>
             </VBox>
-            <TabPane fx:id="transportationType" prefHeight="163.0" prefWidth="462.0"
-              tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="transportationType" prefHeight="160.0" prefWidth="413.0"
+              style="-fx-border-color: gray;" tabClosingPolicy="UNAVAILABLE">
                <tabs>
                   <Tab fx:id="assistedTransportation" text="Assisted Transportation">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                          prefWidth="200.0" style="-fx-background-color: lightgray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="126.0"
+                          prefWidth="413.0" style="-fx-background-color: lightgray;">
                            <children>
-                              <HBox prefHeight="134.0" prefWidth="486.0"
-                                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                              <HBox prefHeight="135.0" prefWidth="413.0"
+                                AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="0.0"
                                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <VBox prefHeight="221.0" prefWidth="139.0" spacing="16.0">
@@ -69,13 +69,20 @@
                                           <Insets left="8.0" top="8.0"/>
                                        </padding>
                                        <children>
-                                          <JFXRadioButton fx:id="wheelchair" text="Wheelchair"/>
-                                          <JFXRadioButton fx:id="bed" text="Bed Move"/>
-                                          <JFXRadioButton fx:id="gurney" text="Gurney"/>
-                                          <JFXRadioButton fx:id="escort" text="Escort"/>
+                                          <JFXRadioButton fx:id="wheelchair" text="Wheelchair">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="allRadio"/>
+                                             </toggleGroup>
+                                          </JFXRadioButton>
+                                          <JFXRadioButton fx:id="bed" text="Bed Move"
+                                            toggleGroup="$allRadio"/>
+                                          <JFXRadioButton fx:id="gurney" text="Gurney"
+                                            toggleGroup="$allRadio"/>
+                                          <JFXRadioButton fx:id="escort" text="Escort"
+                                            toggleGroup="$allRadio"/>
                                        </children>
                                     </VBox>
-                                    <VBox spacing="16.0">
+                                    <VBox prefHeight="133.0" prefWidth="142.0" spacing="16.0">
                                        <children>
                                           <JFXComboBox fx:id="destinationFloor" prefHeight="25.0"
                                             prefWidth="139.0" promptText="Destination Floor"/>
@@ -104,11 +111,14 @@
                                     <Insets left="8.0" top="8.0"/>
                                  </padding>
                                  <children>
-                                    <JFXRadioButton fx:id="crutches" text="Crutches"/>
-                                    <JFXRadioButton fx:id="independentWheelchair"
-                                      text="Wheelchair"/>
-                                    <JFXRadioButton fx:id="legScooter" text="Cast Scooter"/>
-                                    <JFXRadioButton fx:id="mobileIV" text="Mobile IV Stand"/>
+                                    <JFXRadioButton fx:id="crutches" text="Crutches"
+                                      toggleGroup="$allRadio"/>
+                                    <JFXRadioButton fx:id="independentWheelchair" text="Wheelchair"
+                                      toggleGroup="$allRadio"/>
+                                    <JFXRadioButton fx:id="legScooter" text="Cast Scooter"
+                                      toggleGroup="$allRadio"/>
+                                    <JFXRadioButton fx:id="mobileIV" text="Mobile IV Stand"
+                                      toggleGroup="$allRadio"/>
                                  </children>
                               </VBox>
                            </children>
@@ -117,10 +127,11 @@
                   </Tab>
                </tabs>
             </TabPane>
-            <VBox alignment="CENTER" prefHeight="72.0" prefWidth="413.0" spacing="8.0">
+            <VBox alignment="CENTER" prefHeight="61.0" prefWidth="413.0" spacing="8.0">
                <children>
-                  <JFXButton fx:id="submit" alignment="TOP_CENTER" buttonType="RAISED"
-                    ripplerFill="#413ee1" text="Submit"/>
+                  <JFXButton fx:id="submit" alignment="CENTER" buttonType="RAISED" prefHeight="35.0"
+                    prefWidth="102.0" ripplerFill="#302de1" style="-fx-background-color: lightblue;"
+                    text="Submit"/>
                </children>
             </VBox>
          </children>
