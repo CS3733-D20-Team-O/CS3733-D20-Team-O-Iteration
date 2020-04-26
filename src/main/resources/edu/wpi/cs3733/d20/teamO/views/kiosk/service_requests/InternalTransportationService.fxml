@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -29,10 +30,14 @@
                         <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="238.0"
                           spacing="16.0">
                            <children>
-                              <JFXComboBox fx:id="currentFloor" prefHeight="25.0" prefWidth="176.0"
-                                promptText="Current Floor"/>
-                              <JFXComboBox fx:id="currentRoom" prefHeight="25.0" prefWidth="177.0"
-                                promptText="Current Room"/>
+                              <JFXComboBox fx:id="currentFloor" onAction="#doCurrentFloor"
+                                prefHeight="25.0" prefWidth="176.0" promptText="Current Floor"/>
+                              <JFXComboBox fx:id="currentRoom" onAction="#setNode" prefHeight="25.0"
+                                prefWidth="177.0" promptText="Current Room">
+                                 <validators>
+                                    <RequiredFieldValidator message="A room is required"/>
+                                 </validators>
+                              </JFXComboBox>
                            </children>
                         </VBox>
                         <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="187.0"
@@ -40,12 +45,19 @@
                            <children>
                               <JFXTextField fx:id="reqName" promptText="Requester Name"
                                 style="-fx-background-color: lightgray;">
+                                 <validators>
+                                    <RequiredFieldValidator message="Your name is required"/>
+                                 </validators>
                                  <VBox.margin>
                                     <Insets top="8.0"/>
                                  </VBox.margin>
                               </JFXTextField>
                               <JFXTextField fx:id="reqTime" promptText="Request Time"
-                                style="-fx-background-color: lightgray;"/>
+                                style="-fx-background-color: lightgray;">
+                                 <validators>
+                                    <RequiredFieldValidator message="The request time is required"/>
+                                 </validators>
+                              </JFXTextField>
                            </children>
                         </VBox>
                      </children>
@@ -55,7 +67,8 @@
             <TabPane fx:id="transportationType" prefHeight="160.0" prefWidth="413.0"
               style="-fx-border-color: gray;" tabClosingPolicy="UNAVAILABLE">
                <tabs>
-                  <Tab fx:id="assistedTransportation" text="Assisted Transportation">
+                  <Tab fx:id="assistedTransportation" onSelectionChanged="#switchTabs"
+                    text="Assisted Transportation">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="126.0"
                           prefWidth="413.0" style="-fx-background-color: lightgray;">
@@ -84,10 +97,16 @@
                                     </VBox>
                                     <VBox prefHeight="133.0" prefWidth="142.0" spacing="16.0">
                                        <children>
-                                          <JFXComboBox fx:id="destinationFloor" prefHeight="25.0"
+                                          <JFXComboBox fx:id="destinationFloor"
+                                            onAction="#doDestinationFloor" prefHeight="25.0"
                                             prefWidth="139.0" promptText="Destination Floor"/>
                                           <JFXComboBox fx:id="destinationRoom" prefHeight="25.0"
-                                            prefWidth="142.0" promptText="Destination Room"/>
+                                            prefWidth="142.0" promptText="Destination Room">
+                                             <validators>
+                                                <RequiredFieldValidator
+                                                  message="A destination is required for Assisted Transportation"/>
+                                             </validators>
+                                          </JFXComboBox>
                                        </children>
                                        <padding>
                                           <Insets top="8.0"/>
@@ -99,7 +118,8 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="unassistedTransportation" text="Unassisted Transportation">
+                  <Tab fx:id="unassistedTransportation" onSelectionChanged="#switchTabs"
+                    text="Unassisted Transportation">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                           prefWidth="200.0" style="-fx-background-color: lightgray;">
