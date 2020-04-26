@@ -27,6 +27,7 @@ public class SanitationService extends ViewModelBase {
 
   @FXML
   private void submitRequest() {
+    // to get time: https://stackoverflow.com/a/26225884/10003008
 //    if (validator.validate(requesterName, floor, location)) {
 //      val requestData = new SanitationRequestData(
 //          ((JFXRadioButton) levelSelection.getSelectedToggle()).getText(),
