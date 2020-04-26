@@ -6,7 +6,7 @@ import lombok.Value;
  * Represents the extra data of an internal transportation request
  */
 @Value
-public class InternalTranportationRequestData implements ServiceRequestData {
+public class InternalTransportationRequestData implements ServiceRequestData {
 
   String assistance, transportationType, destination;
 

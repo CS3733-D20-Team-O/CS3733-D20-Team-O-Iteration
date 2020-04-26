@@ -4,14 +4,15 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransportationRequestData;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
-import lombok.val;
 
 public class InternalTransportationService extends ViewModelBase {
 
@@ -50,18 +51,19 @@ public class InternalTransportationService extends ViewModelBase {
 
   @FXML
   private void onSubmit() {
-    val isValid = false;
-
+    InternalTransportationRequestData data;
     //select which fields to validate
     if (assistedTransportation.isSelected() /* && validate appropriate fields*/) {
-      //set data params
+      data = new InternalTransportationRequestData("Assisted",
+          ((RadioButton) allRadio.getSelectedToggle()).getText(),
+          destinationFloor.getSelectionModel().getSelectedItem().toString());
     } else if (unassistedTransportation.isSelected() /* && validate appropriate fields*/) {
-      //set data params
+      data = new InternalTransportationRequestData("Unassisted",
+          ((RadioButton) allRadio.getSelectedToggle()).getText(), "None required");
     } else {
       //snack bar error
       return;
     }
-
     //make database entry
   }
 }
