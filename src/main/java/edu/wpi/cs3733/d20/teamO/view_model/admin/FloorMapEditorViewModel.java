@@ -20,8 +20,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FloorMapEditorViewModel extends ViewModelBase {
 
+  // todo add validators for fields (double validator)
   private enum State {
-    MAIN, ADDNODE, ADDEDGE, SELECTNODE, SELECTEDGE
+    MAIN, EDITNODE
   }
 
   private State state;
