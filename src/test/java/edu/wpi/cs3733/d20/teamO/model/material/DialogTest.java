@@ -18,28 +18,37 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
-public class SnackBarTest {
+public class DialogTest {
 
   @Spy
-  StackPane root;
+  StackPane root, testContent;
   @Mock
   Navigator navigator;
 
   @InjectMocks
-  SnackBar snackBar;
+  Dialog dialog;
 
   @Start
   public void start(Stage stage) {
     root = new StackPane();
+    testContent = new StackPane();
     when(navigator.getRoot()).thenReturn(root);
     stage.setScene(new Scene(root));
     stage.setAlwaysOnTop(true);
     stage.show();
-    snackBar.show("Test Passed");
+    dialog.showBasic("Test 1", "Test 2", "Test 3");
+    dialog.showFullscreen(testContent);
   }
 
   @Test
-  public void testShow() {
-    verifyThat("Test Passed", Node::isVisible);
+  public void testShowBasic() {
+    verifyThat("Test 1", Node::isVisible);
+    verifyThat("Test 2", Node::isVisible);
+    verifyThat("Test 3", Node::isVisible);
+  }
+
+  @Test
+  public void testShowFullscreen() {
+    verifyThat(testContent, Node::isVisible);
   }
 }
