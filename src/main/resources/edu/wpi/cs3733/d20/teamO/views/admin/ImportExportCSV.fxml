@@ -3,16 +3,32 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox fx:id="root" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="32"
-  xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 32"
+  xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 32; -fx-font-size: 16"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.ImportExportCSVViewModel">
-  <Label text="Select the type of data you would like to import/export"/>
-  <JFXComboBox fx:id="typeSelector"/>
-  <Label text="Select the CSV file you would like to read from/write to"/>
-  <JFXButton onAction="#selectFile" text="Select a file"/>
-  <Label text="Currently selected file: "/>
+  <Label text="Import/Export CSV Data" style="-fx-font-size: 32"/>
+  <HBox spacing="32" alignment="CENTER" style="-fx-padding: 16 0">
+    <VBox spacing="8" alignment="CENTER" prefWidth="250">
+      <Label text="Select the type of data"/>
+      <JFXComboBox fx:id="typeSelector"/>
+    </VBox>
+    <VBox spacing="8" alignment="CENTER" prefWidth="250">
+      <Label text="Select the CSV data file"/>
+      <JFXButton onAction="#selectFile" text="Select a file" buttonType="RAISED"
+        style="-fx-background-color: lightgrey">
+        <graphic>
+          <ImageView fitHeight="22" pickOnBounds="true" preserveRatio="true">
+            <Image url="@/file-icon.png"/>
+          </ImageView>
+        </graphic>
+      </JFXButton>
+    </VBox>
+  </HBox>
+  <Label text="Currently selected file:"/>
   <Label text="${controller.fileLocation}"/>
   <HBox alignment="CENTER_RIGHT" spacing="16">
     <JFXButton fx:id="importButton" disable="true" onAction="#importData" text="Import"/>
