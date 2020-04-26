@@ -1,5 +1,8 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
+import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.base.IFXValidatableControl;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
@@ -10,45 +13,92 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
-@RequiredArgsConstructor(onConstructor_ = {@Inject})
+@RequiredArgsConstructor(onConstructor_ = {@Inject}) // required for database
 public class FloorMapEditorViewModel extends ViewModelBase {
 
-  // todo add validators for fields (double validator)
+  public void closeEditNodePressed(ActionEvent actionEvent) {
+    nodeSelectView.setVisible(false);
+    state = State.MAIN;
+  }
+
+  public void floorDownPressed(ActionEvent actionEvent) {
+    nodeMapViewController.decrementFloor();
+    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+  }
+
+  public void floorUpPressed(ActionEvent actionEvent) {
+    nodeMapViewController.incrementFloor();
+    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+  }
+
+  public void zoomOutPressed(ActionEvent actionEvent) {
+    zoomSlider.decrement();
+    // todo implement actual zooming
+  }
+
+  public void zoomInPressed(ActionEvent actionEvent) {
+    zoomSlider.increment();
+    // todo implement actual zooming
+  }
+
+  public void addNeighborPressed(ActionEvent actionEvent) {
+    // todo implement
+  }
+
+  public void removeNeighborPressed(ActionEvent actionEvent) {
+    // todo implement
+  }
+
+  public void deleteNodePressed(ActionEvent actionEvent) {
+    // todo implement
+  }
+
+  public void saveNodeChangesPressed(ActionEvent actionEvent) {
+    val isValid = Stream.of(nodeIDField, shortNameField, longNameField).allMatch(
+        IFXValidatableControl::validate); // validates that all required fields are pressed
+    // todo replace with validator that checks all fields at once
+    if (isValid) {
+      // todo save all changes to local node and to database
+      nodeSelectView.setVisible(false);
+      state = State.MAIN;
+    }
+  }
+
   private enum State {
     MAIN, EDITNODE
   }
 
-  private State state;
+  private State state; // current state of view
   @FXML
   private NodeMapView nodeMapViewController;
   @FXML
   private AnchorPane sideBar;
   @FXML
+  private VBox nodeSelectView;
+  @FXML
   private BorderPane root;
   @FXML
   private Label floorLabel;
+  @FXML
+  private JFXTextField nodeIDField, shortNameField, longNameField;
+  @FXML
+  private JFXSlider zoomSlider;
   private Map<String, Node> nodeMap;
   private List<Edge> edges;
   private final DatabaseWrapper database;
+  private Node selectedNode;
 
-  /**
-   * Redraws all edges on the node map
-   */
-  /*
-  private void drawEdges() {
-    for (val edge : edges) {
-      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
-    }
-  }
-
-   */
   @Override
   /**
    * Called when a ViewModel's views have been completely processed and can be used freely
@@ -58,25 +108,51 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
     // styling the UI components
     JFXDepthManager.setDepth(sideBar, 2);
+    nodeSelectView.setVisible(false);
     // grabbing data from the database
     nodeMap = database.exportNodes();
     edges = database.exportEdges();
     // drawing the map
     nodeMapViewController.setNodeMap(nodeMap);
-    //drawEdges();
+    drawEdges();
     // set the state
     state = State.MAIN;
-    /*
     nodeMapViewController.setOnNodeTappedListener(node -> {
       select(node);
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
-      updateCoords(x, y);
+      // todo implement
     });
-
-     */
   }
+
+  /**
+   * Redraws all edges on the node map
+   */
+  private void drawEdges() {
+    for (val edge : edges) {
+      nodeMapViewController.drawEdge(nodeMap.get(edge.getStartID()), nodeMap.get(edge.getStopID()));
+    }
+  }
+
+  /**
+   * Selects a given node
+   *
+   * @param node The node to select
+   */
+  private void select(Node node) {
+    switch (state) {
+      case MAIN:
+        nodeSelectView.setVisible(true);
+        state = State.EDITNODE;
+      default:
+        selectedNode = node;
+        break;
+    }
+  }
+
+
 }
+
 
 /*
  *//**
