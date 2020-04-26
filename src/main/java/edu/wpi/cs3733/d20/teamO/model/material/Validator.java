@@ -16,7 +16,8 @@ public class Validator {
    * @param nodes the nodes to test for validation
    * @return true if and only if all the supplied nodes are valid (as per their validators)
    */
-  public <T extends Node & IFXValidatableControl> boolean validate(T... nodes) {
+  @SafeVarargs
+  public final <T extends Node & IFXValidatableControl> boolean validate(T... nodes) {
     // firstInvalid (the accumulating result) is set to the first invalid node in the stream,
     //  so if it is null that means every node is valid (it was never set to an invalid node)
     return null == Stream.of(nodes).reduce(null, (firstInvalid, node) -> {
