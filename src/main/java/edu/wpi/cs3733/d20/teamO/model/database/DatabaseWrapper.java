@@ -52,7 +52,7 @@ public interface DatabaseWrapper {
    * @param type          the type of service request
    * @param requesterName the name of the person filling out the request
    * @param data          the data for the specific type of request
-   * @return the ID of the request or "Error" if request failed to add
+   * @return the ID of the request or "NULL" if request failed to add
    */
   String addServiceRequest(String requestTime, String requestNode, String type,
       String requesterName, ServiceRequestData data);

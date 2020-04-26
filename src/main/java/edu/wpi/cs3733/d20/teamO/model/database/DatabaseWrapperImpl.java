@@ -114,10 +114,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
-    }
-
-    // Initialize the service requests table if not initialized
-    if (isNotInitialized(Table.SERVICE_REQUESTS_TABLE)) {
       val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
       try (val stmt = connection.prepareStatement(query)) {
         stmt.setString(1, "0");
@@ -129,6 +125,10 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to add a NULL employee", e);
       }
+    }
+
+    // Initialize the service requests table if not initialized
+    if (isNotInitialized(Table.SERVICE_REQUESTS_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String queryTable = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
             + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(MAX), "
@@ -230,8 +230,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public String addServiceRequest(String requestTime, String requestNode, String type,
       String requesterName, ServiceRequestData data) {
-    Gson gson = new Gson();
-    String json = gson.toJson(data);
     val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     val length = 8;
     val randomID = new StringBuilder(length);
@@ -247,17 +245,17 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(2, requestTime);
       stmt.setString(3, requestNode);
       stmt.setString(4, type);
-      stmt.setString(5, "New");
+      stmt.setString(5, "Unassigned");
       stmt.setString(6, requesterName);
       stmt.setString(7, "0");
       stmt.setString(8, "0");
-      stmt.setString(9, json);
+      stmt.setString(9, new Gson().toJson(data));
       stmt.executeUpdate();
       log.info("Added service request with ID " + randomID.toString());
       return randomID.toString();
     } catch (SQLException e) {
       log.error("Failed to add a new service request with ID " + randomID.toString(), e);
-      return "Error";
+      return null;
     }
   }
 
@@ -436,7 +434,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     val query = "SELECT * from " + Table.SERVICE_REQUESTS_TABLE;
     try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
       while (rset.next()) {
-        ServiceRequestData data = new SanitationRequestData(" ", " ");
+        ServiceRequestData data = null;
         switch (rset.getString(4)) {
           case "Sanitation":
             data = gson.fromJson(rset.getString(9), SanitationRequestData.class);
