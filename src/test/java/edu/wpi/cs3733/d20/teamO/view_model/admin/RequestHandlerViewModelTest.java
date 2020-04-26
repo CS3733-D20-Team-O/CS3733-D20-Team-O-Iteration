@@ -53,9 +53,9 @@ public class RequestHandlerViewModelTest extends FxRobot {
     List<Employee> list = Arrays.asList(e1, e2, e3);
 
     ServiceRequest req = new ServiceRequest("1555", "time", "RHVMNode", "Wash", "Request Name", "",
-        "");
+        "", null);
     ServiceRequest req2 = new ServiceRequest("576", "time", "RHVMNode", "Wash", "Request Name", "",
-        "");
+        "", null);
     List<ServiceRequest> reqs = Arrays.asList(req, req2);
     when(database.exportServiceRequests()).thenReturn(reqs);
     when(database.exportEmployees()).thenReturn(list);
@@ -108,6 +108,10 @@ public class RequestHandlerViewModelTest extends FxRobot {
         "");
   }
 
+  //todo add test for assigning an employee to a cancelled request - dont add emp, also dont remove employee from request
+  //todo add test for changing an employee status after a request is cancelled or resolved - gotta be able to reassign
+  //todo add test for assigning an employee to a resolved request - dont add emp
+  //todo add test for adding employee after request resolved/cancelled - leave employee in the request and change status
 
 }
 

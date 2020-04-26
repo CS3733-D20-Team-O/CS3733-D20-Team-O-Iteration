@@ -97,7 +97,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     colWhoMarked.setCellValueFactory(new PropertyValueFactory<>("whoMarked"));
     colEmployeeAssigned.setCellValueFactory(new PropertyValueFactory<>("employeeAssigned"));
     //colServiceStatus.setCellValueFactory(new PropertyValueFactory<>("add data name"));
-    //colServiceData.setCellValueFactory(new PropertyValueFactory<>("add data name"));
+    colServiceData.setCellValueFactory(new PropertyValueFactory<>("add data name"));
 
     empID.setCellValueFactory(new PropertyValueFactory<>("employeeID"));
     empName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -212,7 +212,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
         selectedRequest.getRequestTime(),
         selectedRequest.getRequestNode(), selectedRequest.getType(),
         selectedRequest.getRequesterName(), adminName,
-        selectedEmployee.getEmployeeID());
+        selectedEmployee.getEmployeeID(), selectedRequest.getRequestData());
     serviceTable.getItems().remove(selectedRequest);
     serviceTable.getItems().add(assignedService);
   }
