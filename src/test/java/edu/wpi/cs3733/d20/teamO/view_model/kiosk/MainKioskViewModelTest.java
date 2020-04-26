@@ -4,6 +4,7 @@ import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
 
 import edu.wpi.cs3733.d20.teamO.Main;
+import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
@@ -40,6 +41,8 @@ public class MainKioskViewModelTest extends FxRobot {
   DatabaseWrapper database;
   @Mock
   LanguageHandler languageHandler;
+  @Mock
+  Navigator navigator;
 
   @InjectMocks
   MainKioskViewModel viewModel;

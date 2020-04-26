@@ -9,13 +9,14 @@ import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import com.jfoenix.effects.JFXDepthManager;
-import edu.wpi.cs3733.d20.teamO.events.ForwardNavigationEvent;
+import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -29,13 +30,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+@Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class MainKioskViewModel extends ViewModelBase {
 
   private final LanguageHandler languageHandler;
   private final DatabaseWrapper database;
+  private final Navigator navigator;
 
   @FXML
   private AnchorPane root;
@@ -79,15 +83,22 @@ public class MainKioskViewModel extends ViewModelBase {
     // Whenever a service is requested in the combobox, navigate to it and clear the selection
     serviceSelector.getSelectionModel().selectedItemProperty()
         .addListener(((observable, oldValue, newValue) -> {
-          dispatch(new ForwardNavigationEvent(newValue, descriptionToFXML.get(newValue)));
+          try {
+            navigator.push(newValue, descriptionToFXML.get(newValue));
+          } catch (IOException e) {
+            log.error("Failed to open " + newValue, e);
+          }
           serviceSelector.getSelectionModel().clearSelection();
         }));
   }
 
   @FXML
   private void openPathFinder() {
-    dispatch(new ForwardNavigationEvent(getString("mainLeftButton"),
-        "views/kiosk/FindPath.fxml"));
+    try {
+      navigator.push(getString("mainLeftButton"), "views/kiosk/FindPath.fxml");
+    } catch (IOException e) {
+      log.error("Failed to open the path finder", e);
+    }
   }
 
   @FXML
