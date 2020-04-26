@@ -7,6 +7,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import java.util.List;
 import java.util.Map;
 
@@ -46,16 +47,15 @@ public interface DatabaseWrapper {
   /**
    * Adds the specified service request to the database
    *
-   * @param requestTime      the time of the request as a string
-   * @param requestNode      the id of the node where the request is going
-   * @param type             the type of service request
-   * @param requesterName    the name of the person filling out the request
-   * @param whoMarked        the id of the admin (employee) who assigns the request
-   * @param employeeAssigned the id of the employee assigned to fulfill the request
-   * @return the number of affected entries
+   * @param requestTime   the time of the request as a string
+   * @param requestNode   the id of the node where the request is going
+   * @param type          the type of service request
+   * @param requesterName the name of the person filling out the request
+   * @param data          the data for the specific type of request
+   * @return the ID of the request or "Error" if request failed to add
    */
-  int addServiceRequest(String requestTime, String requestNode, String type, String status,
-      String requesterName, String whoMarked, String employeeAssigned, String data);
+  String addServiceRequest(String requestTime, String requestNode, String type,
+      String requesterName, ServiceRequestData data);
 
   /**
    * Adds the specified employee to the database
