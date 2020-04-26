@@ -12,6 +12,8 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +31,7 @@ public class DatabaseWrapperTest {
   private DatabaseWrapper database;
 
   @BeforeEach
-  public void initializeDBandNodes() {
+  public void initializeDB() {
     database = TestInjector.create(DatabaseWrapper.class);
     database.addNode("0101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
     database.addNode("0102", 9, 0, 1, "Faulkner", "ELEV", "Elevator 2", "Elev2");
@@ -40,10 +42,6 @@ public class DatabaseWrapperTest {
     database.addEmployee("01", "Jeff", "Gift", false);
     database.addEmployee("02", "Jeff", "Gift", false);
     database.addEmployee("03", "Liz", "Interpreter", true);
-    database.addServiceRequest("01", "10", "0101", "Gift", "Paul", "01", "02");
-    database.addServiceRequest("02", "0500", "0102", "Interpreter", "Jane", "01", "03");
-    database.addServiceRequest("03", "0900", "0101", "Gift", "Larry", "01", "02");
-
   }
 
   private final Node[] testNodes = {
@@ -65,12 +63,6 @@ public class DatabaseWrapperTest {
       new Employee("01", "Jeff", "Gift", false),
       new Employee("02", "Jeff", "Gift", false),
       new Employee("03", "Liz", "Interpreter", true),
-  };
-
-  private final ServiceRequest[] testServiceRequests = {
-      new ServiceRequest("01", "10", "0101", "Gift", "Paul", "01", "02"),
-      new ServiceRequest("02", "0500", "0102", "Interpreter", "Jane", "01", "03"),
-      new ServiceRequest("03", "0900", "0101", "Gift", "Larry", "01", "02"),
   };
 
   private void checkResultEdges(Edge... expected) {
@@ -251,49 +243,101 @@ public class DatabaseWrapperTest {
 
   //ALL THE SERVICE REQUEST TESTS
   @Test
-  public void addSameServiceRequestTest() {
-    database.addServiceRequest("03", "0900", "0101", "Gift", "Larry", "01", "02");
-    checkResultServiceRequests(testServiceRequests);
-  }
-
-  @Test
   public void addMultipleServiceRequestsTest() {
+    ServiceRequestData sanitationData = new SanitationRequestData("Wet spill", "Coffee spill");
+    String id1 = database.addServiceRequest("0500", "0101", "Sanitation", "Bob", sanitationData);
+    String id2 = database.addServiceRequest("1000", "0102", "Sanitation", "Marcy", sanitationData);
+    String id3 = database.addServiceRequest("1600", "0101", "Sanitation", "Deb", sanitationData);
+    ServiceRequest SR1 = new ServiceRequest(id1, "0500", "0101", "Sanitation", "New", "Bob", "0",
+        "0", sanitationData);
+    ServiceRequest SR2 = new ServiceRequest(id2, "1000", "0102", "Sanitation", "New", "Marcy", "0",
+        "0", sanitationData);
+    ServiceRequest SR3 = new ServiceRequest(id3, "1600", "0101", "Sanitation", "New", "Deb", "0",
+        "0", sanitationData);
+    ServiceRequest[] testServiceRequests = {SR1, SR2, SR3};
     checkResultServiceRequests(testServiceRequests);
   }
 
   @Test
   public void addAndDeleteServiceRequestsTest() {
-    database.deleteFromTable(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, "02");
+    ServiceRequestData sanitationData = new SanitationRequestData("Wet spill", "Coffee spill");
+    String id1 = database.addServiceRequest("0500", "0101", "Sanitation", "Bob", sanitationData);
+    String id2 = database.addServiceRequest("1000", "0102", "Sanitation", "Marcy", sanitationData);
+    String id3 = database.addServiceRequest("1600", "0101", "Sanitation", "Deb", sanitationData);
+    ServiceRequest SR1 = new ServiceRequest(id1, "0500", "0101", "Sanitation", "New", "Bob", "0",
+        "0", sanitationData);
+    ServiceRequest SR2 = new ServiceRequest(id2, "1000", "0102", "Sanitation", "New", "Marcy", "0",
+        "0", sanitationData);
+    ServiceRequest SR3 = new ServiceRequest(id3, "1600", "0101", "Sanitation", "New", "Deb", "0",
+        "0", sanitationData);
+    ServiceRequest[] testServiceRequests = {SR1, SR2, SR3};
+    database.deleteFromTable(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, id2);
     checkResultServiceRequests(testServiceRequests[0], testServiceRequests[2]);
   }
 
   @Test
   public void failToDeleteServiceRequestsTest() {
-    database
-        .deleteFromTable(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, "982654");
-    checkResultServiceRequests(testServiceRequests);
+    ServiceRequestData sanitationData = new SanitationRequestData("Wet spill", "Coffee spill");
+    String id1 = database.addServiceRequest("0500", "0101", "Sanitation", "Bob", sanitationData);
+    String id2 = database.addServiceRequest("1000", "0102", "Sanitation", "Marcy", sanitationData);
+    String id3 = database.addServiceRequest("1600", "0101", "Sanitation", "Deb", sanitationData);
+    ServiceRequest SR1 = new ServiceRequest(id1, "0500", "0101", "Sanitation", "New", "Bob", "0",
+        "0", sanitationData);
+    ServiceRequest SR2 = new ServiceRequest(id2, "1000", "0102", "Sanitation", "New", "Marcy", "0",
+        "0", sanitationData);
+    ServiceRequest SR3 = new ServiceRequest(id3, "1600", "0101", "Sanitation", "New", "Deb", "0",
+        "0", sanitationData);
+    ServiceRequest[] testServiceRequests = {SR1, SR2, SR3};
+    database.deleteFromTable(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, "1");
+    checkResultServiceRequests(testServiceRequests[0], testServiceRequests[2]);
   }
 
   @Test
   public void addManyAndUpdateServiceRequestTest() {
-    ServiceRequest updatedServiceRequest = new ServiceRequest("03", "0900", "0102", "Gift", "Larry",
-        "01", "02");
-    database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, "03",
-        ServiceRequestProperty.REQUEST_NODE, "0102");
+    ServiceRequestData sanitationData = new SanitationRequestData("Wet spill", "Coffee spill");
+    String id1 = database.addServiceRequest("0500", "0101", "Sanitation", "Bob", sanitationData);
+    String id2 = database.addServiceRequest("1000", "0102", "Sanitation", "Marcy", sanitationData);
+    String id3 = database.addServiceRequest("1600", "0101", "Sanitation", "Deb", sanitationData);
+    ServiceRequest SR1 = new ServiceRequest(id1, "0500", "0101", "Sanitation", "New", "Bob", "0",
+        "0", sanitationData);
+    ServiceRequest SR2 = new ServiceRequest(id2, "1000", "0102", "Sanitation", "New", "Marcy", "0",
+        "0", sanitationData);
+    ServiceRequest SR3 = new ServiceRequest(id3, "1600", "0101", "Sanitation", "New", "Deb", "0",
+        "0", sanitationData);
+    ServiceRequest[] testServiceRequests = {SR1, SR2, SR3};
+    ServiceRequest updatedServiceRequest = new ServiceRequest(id3, "1600", "0103", "Sanitation",
+        "New",
+        "Deb", "0", "0", sanitationData);
+    database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, id3,
+        ServiceRequestProperty.REQUEST_NODE, "0103");
     checkResultServiceRequests(testServiceRequests[0], testServiceRequests[1],
         updatedServiceRequest);
   }
 
   @Test
   public void failUpdateServiceRequestsTest() {
-    database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, "04",
-        ServiceRequestProperty.REQUEST_NODE, "0102");
+    ServiceRequestData sanitationData = new SanitationRequestData("Wet spill", "Coffee spill");
+    String id1 = database.addServiceRequest("0500", "0101", "Sanitation", "Bob", sanitationData);
+    String id2 = database.addServiceRequest("1000", "0102", "Sanitation", "Marcy", sanitationData);
+    String id3 = database.addServiceRequest("1600", "0101", "Sanitation", "Deb", sanitationData);
+    ServiceRequest SR1 = new ServiceRequest(id1, "0500", "0101", "Sanitation", "New", "Bob", "0",
+        "0", sanitationData);
+    ServiceRequest SR2 = new ServiceRequest(id2, "1000", "0102", "Sanitation", "New", "Marcy", "0",
+        "0", sanitationData);
+    ServiceRequest SR3 = new ServiceRequest(id3, "1600", "0101", "Sanitation", "New", "Deb", "0",
+        "0", sanitationData);
+    ServiceRequest[] testServiceRequests = {SR1, SR2, SR3};
+    ServiceRequest updatedServiceRequest = new ServiceRequest(id3, "1600", "0103", "Sanitation",
+        "New",
+        "Deb", "0", "0", sanitationData);
+    database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID, "98",
+        ServiceRequestProperty.REQUEST_NODE, "0103");
     checkResultServiceRequests(testServiceRequests);
   }
 
   @Test
   public void exportEmptyServiceRequestTest() {
-    database.deleteFromTable(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED, "01");
+    database.deleteFromTable(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED, "0");
     List<ServiceRequest> list = new LinkedList<>(); // tests empty list with database.export()
     assertEquals(list, database.exportServiceRequests());
   }

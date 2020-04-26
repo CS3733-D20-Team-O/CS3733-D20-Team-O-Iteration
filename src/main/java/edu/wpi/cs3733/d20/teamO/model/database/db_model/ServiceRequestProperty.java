@@ -12,9 +12,11 @@ public enum ServiceRequestProperty implements TableProperty {
   REQUEST_TIME("requestTime"),
   REQUEST_NODE("requestNode"),
   TYPE("type"),
+  STATUS("status"),
   REQUESTER_NAME("requesterName"),
   WHO_MARKED("whoMarked"),
-  EMPLOYEE_ASSIGNED("employeeAssigned");
+  EMPLOYEE_ASSIGNED("employeeAssigned"),
+  DATA("data");
 
   @Getter
   private final String columnName;
