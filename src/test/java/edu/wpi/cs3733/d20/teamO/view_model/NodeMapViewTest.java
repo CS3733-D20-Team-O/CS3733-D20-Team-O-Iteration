@@ -36,7 +36,8 @@ public class NodeMapViewTest extends FxRobot {
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
 
-    stage.setScene(new Scene(loader.load(Main.class.getResourceAsStream("views/NodeMapView.fxml"))));
+    stage
+        .setScene(new Scene(loader.load(Main.class.getResourceAsStream("views/NodeMapView.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }
