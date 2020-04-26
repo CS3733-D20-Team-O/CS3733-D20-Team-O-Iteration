@@ -96,12 +96,14 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   public void floorDownPressed(ActionEvent actionEvent) {
     nodeMapViewController.decrementFloor();
+    nodeMapViewController.draw();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
   @FXML
   public void floorUpPressed(ActionEvent actionEvent) {
     nodeMapViewController.incrementFloor();
+    nodeMapViewController.draw();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
   }
 
