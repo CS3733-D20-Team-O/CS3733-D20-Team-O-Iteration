@@ -191,7 +191,7 @@ public class GiftDeliveryService extends ViewModelBase {
       val code = new Random().nextInt(99999999);
       database.addEmployee("", "", "", true);
       val newRequestID = new ServiceRequest(Integer.toString(code), reqTime, reqNodeID, reqNodeType,
-          requestorName, "", "");
+          requestorName, "", "", null);
 
       database.addServiceRequest(newRequestID.getRequestID(), newRequestID.getRequestTime(),
           newRequestID.getRequestNode(),
@@ -207,7 +207,7 @@ public class GiftDeliveryService extends ViewModelBase {
       val reqIDString = Integer.toString(currentRequestID + 1);
 
       val newRequestID = new ServiceRequest(reqIDString, reqTime, reqNodeID, reqNodeType,
-          requestorName, "", "");
+          requestorName, "", "", null);
 
       System.out.println(newRequestID);
       //requestID, requestTime, requestNode, type, requesterName, whoMarked, employeeAssigned;

@@ -209,7 +209,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
         selectedRequest.getRequestTime(),
         selectedRequest.getRequestNode(), selectedRequest.getType(),
         selectedRequest.getRequesterName(), adminName,
-        selectedEmployee.getEmployeeID());
+        selectedEmployee.getEmployeeID(), selectedRequest.getRequestData());
     serviceTable.getItems().remove(selectedRequest);
     serviceTable.getItems().add(assignedService);
   }
