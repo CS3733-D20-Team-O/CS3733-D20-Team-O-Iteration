@@ -20,7 +20,13 @@ public class FindPathViewModel extends ViewModelBase {
   private final DatabaseWrapper database;
   private Node beginning;
   private Node finish;
-  private int clicks = 0;
+
+  private enum State {
+    START,
+    END
+  }
+
+  int clicks = 0;
 
   @FXML
   Label prompt, start, end;
