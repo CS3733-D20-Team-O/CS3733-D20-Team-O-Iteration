@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -25,6 +26,7 @@ public class SanitationService extends ViewModelBase {
   private final DatabaseWrapper database;
   private final Validator validator;
   private final SnackBar snackBar;
+  private final Dialog dialog;
 
   @FXML
   private JFXTextField requesterName;
@@ -64,16 +66,25 @@ public class SanitationService extends ViewModelBase {
       val requestData = new SanitationRequestData(
           ((JFXRadioButton) levelSelection.getSelectedToggle()).getText(),
           additionalNotes.getText());
-      LocalDateTime.now().toString(); // todo format this
-      // val confirmationCode = database.addServiceRequest()
-      // confirmationCode = null;
-      // todo show dialog with confirmation number
-      snackBar.show("Failed to create the sanitation service request");
+      val time = LocalDateTime.now().toString(); // todo format this
+      // todo use enum for sanitation string below
+      // todo extract strings
+      val confirmationCode = database.addServiceRequest(
+          time, locations.getSelectionModel().getSelectedItem(),
+          "Sanitation", requesterName.getText(), requestData);
+      if (confirmationCode == null) {
+        snackBar.show("Failed to create the sanitation service request");
+      } else {
+        closeRequest();
+        dialog.showBasic("Sanitation Request Submitted Successfully",
+            "Your confirmation code is:\n" + confirmationCode, "Close");
+
+      }
     }
   }
 
   @FXML
-  private void cancelRequest() {
-    // todo
+  private void closeRequest() {
+    // todo (dialog -> close manual, window, navigator.pop())
   }
 }
