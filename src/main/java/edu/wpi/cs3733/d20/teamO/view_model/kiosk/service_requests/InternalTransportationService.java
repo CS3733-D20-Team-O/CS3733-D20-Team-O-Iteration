@@ -59,6 +59,9 @@ public class InternalTransportationService extends ViewModelBase {
       //set data params
     } else {
       //snack bar error
+      return;
     }
+
+    //make database entry
   }
 }
