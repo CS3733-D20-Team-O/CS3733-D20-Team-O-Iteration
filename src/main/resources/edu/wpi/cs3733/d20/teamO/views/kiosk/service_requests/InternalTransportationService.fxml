@@ -129,9 +129,9 @@
             </TabPane>
             <VBox alignment="CENTER" prefHeight="61.0" prefWidth="413.0" spacing="8.0">
                <children>
-                  <JFXButton fx:id="submit" alignment="CENTER" buttonType="RAISED" prefHeight="35.0"
-                    prefWidth="102.0" ripplerFill="#302de1" style="-fx-background-color: lightblue;"
-                    text="Submit"/>
+                  <JFXButton fx:id="submit" alignment="CENTER" buttonType="RAISED"
+                    onAction="#onSubmit" prefHeight="35.0" prefWidth="102.0" ripplerFill="#302de1"
+                    style="-fx-background-color: lightblue;" text="Submit"/>
                </children>
             </VBox>
          </children>

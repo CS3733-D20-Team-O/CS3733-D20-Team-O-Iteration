@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
+import lombok.val;
 
 public class InternalTransportationService extends ViewModelBase {
 
@@ -44,6 +45,20 @@ public class InternalTransportationService extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+    //todo initialize the drop downs
+  }
 
+  @FXML
+  private void onSubmit() {
+    val isValid = false;
+
+    //select which fields to validate
+    if (assistedTransportation.isSelected() /* && validate appropriate fields*/) {
+      //set data params
+    } else if (unassistedTransportation.isSelected() /* && validate appropriate fields*/) {
+      //set data params
+    } else {
+      //snack bar error
+    }
   }
 }
