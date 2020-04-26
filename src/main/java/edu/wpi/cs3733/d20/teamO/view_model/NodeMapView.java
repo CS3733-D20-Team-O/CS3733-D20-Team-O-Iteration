@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.net.URL;
 import java.util.HashMap;
@@ -9,10 +10,13 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
@@ -23,6 +27,8 @@ public class NodeMapView extends ViewModelBase {
   private final static double nodeSize = 10;
   private final static int maxFloor = 5;
   private final static int minFloor = 1;
+  private final static Paint nodeColor = Color.web("#58A5F0"); // Light blue
+  private final static Paint edgeColor = Color.web("#00991f"); // Green
 
   /**
    * The current floor being displayed
@@ -43,11 +49,11 @@ public class NodeMapView extends ViewModelBase {
    * something else isn't really the appropriate data structure
    */
   private final Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
+  private final Map<Integer, Map<Node, Circle>> newNodeMap = new HashMap<>();
 
-  @FXML
-  private ImageView backgroundImage;
-  @FXML
-  private Canvas nodeCanvas;
+  @FXML private ImageView backgroundImage;
+  @FXML private Canvas nodeCanvas;
+  @FXML private StackPane floorPane;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -55,11 +61,11 @@ public class NodeMapView extends ViewModelBase {
     setFloor(minFloor);
 
     // Set up event for when a node is selected (or not selected)
-    nodeCanvas.setOnMouseClicked(event -> checkClick((int) event.getX(), (int) event.getY()));
+    floorPane.setOnMouseClicked(event -> checkClick((int) event.getX(), (int) event.getY()));
   }
 
   /**
-   * Sets a new node map and draws the new nodes
+   * Sets a new node map, deletes the previous nodes and draws the new nodes
    *
    * @param nodeMap the new node map to fuel this view
    */
@@ -114,9 +120,9 @@ public class NodeMapView extends ViewModelBase {
    * Clears the canvas and draws all the nodes on a certain floor
    */
   public void draw() {
-    // Clear the canvas so we can draw fresh
-    val nodeGC = nodeCanvas.getGraphicsContext2D();
-    nodeGC.clearRect(0, 0, nodeCanvas.getWidth(), nodeCanvas.getHeight());
+    // Clear the items in the group
+    floorPane.getChildren().removeAll();
+    floorPane.getChildren().add(backgroundImage);
     // Draw all the nodes on a certain floor
     val floorMap = nodeMap.get(getFloor());
     // Check if nodes for the floor exist
@@ -129,11 +135,10 @@ public class NodeMapView extends ViewModelBase {
    * @param node the node to draw to the canvas
    */
   private void drawNode(Node node) {
-    val nodeGC = nodeCanvas.getGraphicsContext2D();
-    nodeGC.setFill(Color.RED);
     val x = node.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
     val y = node.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
-    nodeGC.fillOval(x - nodeSize / 2, y - nodeSize / 2, nodeSize, nodeSize);
+    val drawnNode = new Circle(x, y, nodeSize, nodeColor);
+    floorPane.getChildren().add(drawnNode);
   }
 
   /**
@@ -145,17 +150,17 @@ public class NodeMapView extends ViewModelBase {
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
     if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
-      GraphicsContext nodeGC = nodeCanvas.getGraphicsContext2D();
-      nodeGC.setStroke(Color.GREEN);
-      nodeGC.setLineWidth(3.0);
       val x1 = n1.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
       val y1 = n1.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
       val x2 = n2.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
       val y2 = n2.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
-      nodeGC.strokeLine(x1, y1, x2, y2);
+      val drawnEdge = new Line(x1, y1, x2, y2);
+      drawnEdge.setStrokeWidth(3.0);
+      floorPane.getChildren().add(drawnEdge);
 
       // As drawing a line between the two points will lay on top of the nodes,
       //  redraw the nodes to be on top of the newly drawn line
+      // todo figure out how to redraw nodes without redrawing everything
       drawNode(n1);
       drawNode(n2);
     }
@@ -168,8 +173,6 @@ public class NodeMapView extends ViewModelBase {
    * @param y the y coordinate of the MouseEvent
    */
   private void checkClick(int x, int y) {
-    // todo offset the x and y
-    // todo check drawing nodes at corners (and ensuring they only get a quarter drawn)
     val imageX = x / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
     val imageY = y / nodeCanvas.getHeight() * backgroundImage.getImage().getHeight();
 
@@ -216,5 +219,13 @@ public class NodeMapView extends ViewModelBase {
 
   public void decrementFloor() {
     setFloor(this.floor - 1);
+  }
+
+  private class NodeCircle extends Circle {
+    public Node node;
+  }
+
+  private class NodeLine extends Line {
+    public Edge edge;
   }
 }
