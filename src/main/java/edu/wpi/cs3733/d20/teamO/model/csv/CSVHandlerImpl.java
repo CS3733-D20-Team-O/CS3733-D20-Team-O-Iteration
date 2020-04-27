@@ -94,7 +94,7 @@ class CSVHandlerImpl implements CSVHandler {
       // Read each serviceRequest in the file and put its data into the database
       while (scanner.hasNext()) {
         database.addServiceRequest(scanner.next(), scanner.next(), scanner.next(), scanner.next(),
-            scanner.next(), scanner.next(), scanner.next());
+            scanner.next(), scanner.next(), scanner.next(), scanner.next(), scanner.next());
       }
     } catch (FileNotFoundException e) {
       log.error("Could not read the file " + csvFileLocation, e);
