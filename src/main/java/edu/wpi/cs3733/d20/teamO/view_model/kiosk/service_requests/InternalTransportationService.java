@@ -69,11 +69,14 @@ public class InternalTransportationService extends ViewModelBase {
         .map(Node::getFloor).distinct().sorted()
         .forEachOrdered(currentFloor.getItems()::add);
     // Set up the populating of locations on each floor
-    currentFloor.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) ->
-        database.exportNodes().values().stream()
-            .filter(node -> newFloor.equals(node.getFloor()))
-            .map(Node::getLongName).sorted()
-            .forEachOrdered(currentRoom.getItems()::add));
+    currentFloor.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
+      currentRoom.getItems().clear();
+      database.exportNodes().values().stream()
+          .filter(node -> newFloor.equals(node.getFloor()))
+          .map(Node::getLongName).sorted()
+          .forEachOrdered(currentRoom.getItems()::add);
+      currentRoom.getSelectionModel().select(0);
+    });
     // Preselect the first floor and the first location on that floor
     if (!currentFloor.getItems().isEmpty()) {
       currentFloor.getSelectionModel().select(0);
@@ -86,11 +89,14 @@ public class InternalTransportationService extends ViewModelBase {
         .forEachOrdered(destinationFloor.getItems()::add);
     // Set up the populating of locations on each floor
     destinationFloor.getSelectionModel().selectedItemProperty()
-        .addListener((o, oldFloor, newFloor) ->
-            database.exportNodes().values().stream()
-                .filter(node -> newFloor.equals(node.getFloor()))
-                .map(Node::getLongName).sorted()
-                .forEachOrdered(destinationRoom.getItems()::add));
+        .addListener((o, oldFloor, newFloor) -> {
+          destinationRoom.getItems().clear();
+          database.exportNodes().values().stream()
+              .filter(node -> newFloor.equals(node.getFloor()))
+              .map(Node::getLongName).sorted()
+              .forEachOrdered(destinationRoom.getItems()::add);
+          destinationRoom.getSelectionModel().select(0);
+        });
     // Preselect the first floor and the first location on that floor
     if (!destinationFloor.getItems().isEmpty()) {
       destinationFloor.getSelectionModel().select(0);
