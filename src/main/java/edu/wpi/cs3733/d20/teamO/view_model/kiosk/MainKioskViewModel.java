@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -94,11 +95,14 @@ public class MainKioskViewModel extends ViewModelBase {
 
     // Load the admin dialog if appropriate
     if (loginDetails.isValid()) {
-      try {
-        dialog.showFullscreenFXML("views/admin/Main.fxml");
-      } catch (IOException e) {
-        log.error("Could not load the admin dialog", e);
-      }
+      // Put this in a run later so it doesn't mess up navigation
+      Platform.runLater(() -> {
+        try {
+          dialog.showFullscreenFXML("views/admin/Main.fxml");
+        } catch (IOException e) {
+          log.error("Could not load the admin dialog", e);
+        }
+      });
     }
   }
 

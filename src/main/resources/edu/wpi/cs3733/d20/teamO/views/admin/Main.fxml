@@ -15,7 +15,7 @@
     buttonType="RAISED" style="-fx-background-color: lightgray"/>
   <JFXButton onAction="#openImportExportHandler" text="Import/Export CSV" buttonType="RAISED"
     style="-fx-background-color: lightgray"/>
-  <HBox spacing="16">
+  <HBox spacing="16" alignment="CENTER">
     <Label text="Path Finding Algorithm:"/>
     <JFXComboBox fx:id="searchAlgorithms">
       <items>
@@ -28,6 +28,6 @@
     </JFXComboBox>
   </HBox>
   <HBox alignment="CENTER_RIGHT">
-    <JFXButton text="Logout" onAction="#logout"/>
+    <JFXButton text="Logout" onAction="#close"/>
   </HBox>
 </VBox>

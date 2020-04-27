@@ -61,12 +61,10 @@ public class Main extends Application {
     log.info("Starting up the application");
     // Register this application to receive events
     get(EventBus.class).register(this);
-    // Setup the navigator to use the correct main screen fxml by checking login validity
-    val loginDetails = get(LoginDetails.class);
-    loginDetails.setFromParameters(getParameters().getRaw());
-    val isValid = loginDetails
-        .isValid(); // todo make load main page and main page pops up admin options
-    get(Navigator.class).setMainFXML(isValid ? "views/admin/Main.fxml" : "views/kiosk/Main.fxml");
+    // Set the login details to the parameters provided (if there are any)
+    get(LoginDetails.class).setFromParameters(getParameters().getRaw());
+    // Set the main fxml of the application
+    get(Navigator.class).setMainFXML("views/kiosk/Main.fxml");
     // Set English as the default language (and trigger the loading of the main screen)
     get(LanguageHandler.class).setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[0]);
   }

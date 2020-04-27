@@ -2,7 +2,6 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -11,7 +10,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +21,6 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
 
   private final Navigator navigator;
   private final Dialog dialog;
-  private final FXMLLoader fxmlLoader;
   private final SelectedPathFinder selectedPathFinder;
   private final LoginDetails loginDetails;
 
@@ -71,24 +68,15 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
   @FXML
   private void openImportExportHandler() {
     try {
-      // Clear any previously usage of the fxmlLoader
-      fxmlLoader.setRoot(null);
-      fxmlLoader.setController(null);
-      // Show the dialog in full screen mode
-      val displayedDialog = dialog.showFullscreen(fxmlLoader.load(Main.class
-          .getResourceAsStream("views/admin/ImportExportCSV.fxml")));
-      // Connect the dialog's back button to the actual dialog via setDialog()
-      ((ImportExportCSVViewModel) fxmlLoader.getController()).setDialog(displayedDialog);
+      dialog.showFullscreenFXML("views/admin/ImportExportCSV.fxml");
     } catch (IOException e) {
       log.error("Failed to open the import/export csv dialog", e);
     }
   }
 
-  @FXML
-  private void logout() {
+  @Override
+  protected void onClose() {
+    log.info("Resetting login details");
     loginDetails.reset();
-    close();
   }
-
-  // todo on close dialog listener
 }
