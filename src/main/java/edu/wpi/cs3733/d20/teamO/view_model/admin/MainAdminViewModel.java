@@ -1,11 +1,14 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,18 @@ public class MainAdminViewModel extends ViewModelBase {
   private final Navigator navigator;
   private final Dialog dialog;
   private final FXMLLoader fxmlLoader;
+  // todo selected algo
+  public JFXComboBox<String> searchAlgorithms;
+
+  @Override
+  protected void start(URL location, ResourceBundle resources) {
+    searchAlgorithms.getSelectionModel().selectedIndexProperty()
+        .addListener((o, oldInt, newInt) -> {
+
+        });
+
+    searchAlgorithms.getSelectionModel().select(0);
+  }
 
   @FXML
   private void openFloorMapEditor() {
