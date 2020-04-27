@@ -52,11 +52,11 @@ public class MainKioskViewModelTest extends FxRobot {
   @Mock
   Dialog dialog;
 
-  @InjectMocks
-  MainKioskViewModel viewModel;
-
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
+
+  @InjectMocks
+  MainKioskViewModel viewModel;
 
   @Start
   public void start(Stage stage) throws IOException {
