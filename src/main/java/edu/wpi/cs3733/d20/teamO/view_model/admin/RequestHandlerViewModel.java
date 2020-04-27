@@ -295,7 +295,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     }
 
     val request = serviceTable.getSelectionModel().getSelectedItem();
-    if (!request.getStatus().equals("Assigned") || !request.getStatus().equals("Unassigned")) {
+    if (!request.getStatus().equals("Assigned") && !request.getStatus().equals("Unassigned")) {
       showErrorSnackbar("cannot modify a closed request");
       return;
     }
@@ -308,6 +308,11 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //update service request
     database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
         request.getRequestID(), ServiceRequestProperty.STATUS, input);
+    serviceTable.getItems().remove(request);
+    serviceTable.getItems().add(new ServiceRequest(request.getRequestID(), request.getRequestTime(),
+        request.getRequestNode(), request.getType(), input, request.getRequesterName(),
+        request.getWhoMarked(), request.getEmployeeAssigned(), request.getRequestData()));
+    updateDisplays();
   }
 
 }

@@ -111,10 +111,86 @@ public class RequestHandlerViewModelTest extends FxRobot {
         "");
   }
 
-  //todo add test for assigning an employee to a cancelled request - dont add emp, also dont remove employee from request
-  //todo add test for changing an employee status after a request is cancelled or resolved - gotta be able to reassign
-  //todo add test for assigning an employee to a resolved request - dont add emp
-  //todo add test for adding employee after request resolved/cancelled - leave employee in the request and change status
+  @Test
+  public void assignEmployeeToACancelledRequest() {
+    clickOn("1555");
+    clickOn("Cancel Request");
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
 
+    clickOn("1555");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "");
+  }
+
+  @Test
+  public void assignEmployeeToAResolvedRequest() {
+    clickOn("1555");
+    clickOn("Resolve Request");
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "");
+  }
+
+  @Test
+  public void reassignEmployeeAfterResolve() {
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    clickOn("Resolve Request");
+    clickOn("1414");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1414");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "855");
+  }
+
+  @Test
+  public void reassignEmployeeAfterCancel() {
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    clickOn("Cancel Request");
+    clickOn("1414");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1414");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "855");
+  }
+
+  @Test
+  public void employeePersistenceInCancel() {
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    clickOn("Cancel Request");
+
+    clickOn("1555");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "855");
+  }
+
+  @Test
+  public void employeePersistenceInResolve() {
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    clickOn("Resolve Request");
+
+    clickOn("1555");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "855");
+  }
 }
 
