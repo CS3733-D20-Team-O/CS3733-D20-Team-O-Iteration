@@ -210,7 +210,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
       Employee selectedEmployee) {
     val assignedService = new ServiceRequest(selectedRequest.getRequestID(),
         selectedRequest.getRequestTime(),
-        selectedRequest.getRequestNode(), selectedRequest.getType(),
+        selectedRequest.getRequestNode(), selectedRequest.getType(), selectedRequest.getStatus(),
         selectedRequest.getRequesterName(), adminName,
         selectedEmployee.getEmployeeID(), selectedRequest.getRequestData());
     serviceTable.getItems().remove(selectedRequest);
