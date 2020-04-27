@@ -27,8 +27,8 @@
       <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
    </center>
    <right>
-      <AnchorPane fx:id="sideBar" prefHeight="720.0" prefWidth="250.0"
-        style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="sideBar" prefWidth="250.0" style="-fx-background-color: FFFFFF;"
+        BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="TOP_CENTER" spacing="8.0">
                <padding>
@@ -156,9 +156,9 @@
                                     <JFXButton buttonType="RAISED" onAction="#deletePressed"
                                       ripplerFill="#c30e0e" style="-fx-background-color: E5E5E5;"
                                       text="Delete node"/>
-                                    <JFXButton buttonType="RAISED" onAction="#saveChangesPressed"
-                                      ripplerFill="#3e9444" style="-fx-background-color: E5E5E5;"
-                                      text="Save changes"/>
+                                    <JFXButton buttonType="RAISED"
+                                      onAction="#saveNodeChangesPressed" ripplerFill="#3e9444"
+                                      style="-fx-background-color: E5E5E5;" text="Save changes"/>
                                  </children>
                               </HBox>
                               <JFXButton buttonType="RAISED" onAction="#cancelPressed"
@@ -236,7 +236,11 @@
                                        </validators>
                                     </JFXTextField>
                                     <JFXComboBox fx:id="newNodeCategory" promptText="Select"
-                                      GridPane.columnIndex="1"/>
+                                      GridPane.columnIndex="1">
+                                       <validators>
+                                          <RequiredFieldValidator message="Required"/>
+                                       </validators>
+                                    </JFXComboBox>
                                  </children>
                                  <VBox.margin>
                                     <Insets/>
@@ -245,7 +249,7 @@
                                     <Insets bottom="16.0"/>
                                  </padding>
                               </GridPane>
-                              <JFXButton buttonType="RAISED" onAction="#saveChangesPressed"
+                              <JFXButton buttonType="RAISED" onAction="#createNodePressed"
                                 ripplerFill="#3e9444" style="-fx-background-color: E5E5E5;"
                                 text="Create node"/>
                               <JFXButton buttonType="RAISED" onAction="#cancelPressed"
@@ -289,7 +293,7 @@
                            </children>
                         </VBox>
                         <VBox fx:id="addNeighborView" alignment="TOP_CENTER" layoutX="20.0"
-                          layoutY="20.0" spacing="8.0" visible="false">
+                          layoutY="20.0" spacing="8.0">
                            <children>
                               <Label text="Select a node to add as a neighbor"/>
                               <HBox alignment="TOP_CENTER">
@@ -299,7 +303,8 @@
                                  </children>
                               </HBox>
                               <JFXButton buttonType="RAISED" onAction="#addNeighborPressed"
-                                style="-fx-background-color: E5E5E5;" text="Add neighbor"/>
+                                ripplerFill="#3e9444" style="-fx-background-color: E5E5E5;"
+                                text="Add neighbor"/>
                               <JFXButton buttonType="RAISED" onAction="#cancelPressed"
                                 style="-fx-background-color: E5E5E5;" text="Cancel"/>
                            </children>

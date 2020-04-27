@@ -34,6 +34,8 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject}) // required for database
 public class FloorMapEditorViewModel extends ViewModelBase {
 
+  // FXML methods
+
   public void cancelPressed(ActionEvent actionEvent) {
     switch (state) {
       case ADD_NEIGHBOR:
@@ -45,15 +47,19 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   public void floorDownPressed(ActionEvent actionEvent) {
-    nodeMapViewController.decrementFloor();
-    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
-    drawEdges();
+    if (state == State.MAIN) {
+      nodeMapViewController.decrementFloor();
+      floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+      drawEdges();
+    }
   }
 
   public void floorUpPressed(ActionEvent actionEvent) {
-    nodeMapViewController.incrementFloor();
-    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
-    drawEdges();
+    if (state == State.MAIN) {
+      nodeMapViewController.incrementFloor();
+      floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+      drawEdges();
+    }
   }
 
   public void zoomOutPressed(ActionEvent actionEvent) {
@@ -69,15 +75,16 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   public void addNeighborPressed(ActionEvent actionEvent) {
     switch (state) {
       case SELECT_NODE:
+        selectedNeighbor = null;
+        selectedNeighborLabel.setText("");
         setState(State.ADD_NEIGHBOR);
         break;
       case ADD_NEIGHBOR:
-        if (neighborSelection == null) {
-          snackBar.show("No node selected");
-          return;
+        boolean success = createEdge(selectedNode, selectedNeighbor);
+        if (success) {
+          neighboringNodesList.getItems().add(selectedNode.getLongName());
+          setState(State.SELECT_NODE);
         }
-        createEdge(selectedNode, neighborSelection);
-        setState(State.SELECT_NODE);
     }
 
   }
@@ -91,9 +98,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         .getSelectedIndex()); // gets the selected node by using the index in the list
     Edge edge = findEdge(selectedNode, node); // finds the edge between the two nodes
     deleteEdge(edge); // deletes the edge
+    neighboringNodesList.getItems()
+        .remove(neighboringNodesList.getSelectionModel().getSelectedIndex());
     snackBar.show(node.getLongName() + " removed as neighbor");
-    neighboringNodesList.getItems().clear();
-    // todo refresh list
   }
 
   public void deletePressed(ActionEvent actionEvent) {
@@ -108,12 +115,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     setState(State.MAIN);
   }
 
-  public void saveChangesPressed(ActionEvent actionEvent) {
+  public void saveNodeChangesPressed(ActionEvent actionEvent) {
     val valid = validator.validate(shortNameField, longNameField);
     if (valid) {
       if (shortNameField.getText().equals(selectedNode.getShortName()) && longNameField.getText()
           .equals(selectedNode.getLongName())) { // no changes made
-        setState(State.MAIN);
         return;
       }
       database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode.getNodeID(),
@@ -121,7 +127,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode.getNodeID(),
           NodeProperty.SHORT_NAME, shortNameField.getText()); // update short name
       exportDatabase();
-      setState(State.MAIN);
+      redraw();
       snackBar.show("Node updated");
     }
   }
@@ -130,11 +136,23 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     // todo implement
   }
 
+  public void createNodePressed(ActionEvent actionEvent) {
+    val valid = validator.validate(newNodeLongName, newNodeShortName, newNodeCategory);
+    if (valid) {
+      boolean success = createNode(xSelection, ySelection,
+          newNodeCategory.getSelectionModel().getSelectedItem().toString(),
+          newNodeLongName.getText(), newNodeShortName.getText());
+      if (success) {
+        setState(State.MAIN);
+      }
+    }
+  }
+
   private enum State {
     MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR
   }
 
-  private State state; // current state of view
+  // FXML fields
   @FXML
   private NodeMapView nodeMapViewController;
   @FXML
@@ -146,7 +164,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML
   private Label floorLabel, nodeCategoryLabel, selectedNeighborLabel;
   @FXML
-  private JFXTextField shortNameField, longNameField;
+  private JFXTextField shortNameField, longNameField, newNodeShortName, newNodeLongName;
   @FXML
   private JFXSlider zoomSlider;
   @FXML
@@ -155,9 +173,15 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private JFXComboBox newNodeCategory;
   private Map<String, Node> nodeMap;
   private List<Edge> edges;
-  private final DatabaseWrapper database;
-  private Node selectedNode, edgeTarget, neighborSelection;
+
+  // globally accessible fields
+  private State state; // current state of view
+  private Node selectedNode, selectedEdgeTarget, selectedNeighbor;
   private Edge selectedEdge;
+  private int xSelection, ySelection; // the selected x and y coords
+
+  // misc tools
+  private final DatabaseWrapper database;
   private final Validator validator;
   private final SnackBar snackBar;
   private final Dialog dialog;
@@ -184,7 +208,20 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       selectNode(node);
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
-      // todo implement
+      switch (state) {
+        // these break cases should not be where nodes can be added
+        case ADD_NEIGHBOR:
+          break;
+        case ADD_NODE:
+          break;
+        case ADD_EDGE:
+          break;
+        default:
+          // todo change over to right-click listener
+          xSelection = x;
+          ySelection = y;
+          setState(State.ADD_NODE);
+      }
     });
   }
 
@@ -204,12 +241,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private void selectNode(Node node) {
     switch (state) {
       case ADD_NEIGHBOR:
-        neighborSelection = node;
+        selectedNeighbor = node;
         selectedNeighborLabel.setText(node.getLongName());
         break;
       case ADD_EDGE:
-        if (edgeTarget == null) { // no target node has been selected
-          edgeTarget = node;
+        if (selectedEdgeTarget == null) { // no target node has been selected
+          selectedEdgeTarget = node;
         }
         break;
       case ADD_NODE: // cannot select node in this state
@@ -250,7 +287,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     exportDatabase();
     redraw();
     snackBar.show("Edge deleted");
-    setState(State.MAIN);
   }
 
   /**
@@ -266,7 +302,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * Clears all fields in the program
    */
   private void clearFields() {
-    Stream.of(shortNameField, longNameField).forEach(node -> node.clear());
+    Stream.of(shortNameField, longNameField, newNodeShortName, newNodeLongName)
+        .forEach(node -> node.clear());
+    newNodeLongName.clear();
     neighboringNodesList.getItems().clear();
     // todo clear validator
   }
@@ -274,11 +312,20 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   /**
    * Creates a new node
    *
-   * @param x The x-coord of the node
-   * @param y The y-coord of the node
+   * @param x         The x-position of the node
+   * @param y         The y-position of the node
+   * @param nodeType  The type of the node
+   * @param longName  The short name of the node
+   * @param shortName The short name of the node
+   * @return True if the node was successfully created, false otherwise
    */
-  private void createNode(int x, int y) {
-    // todo implement
+  private boolean createNode(int x, int y, String nodeType, String longName, String shortName) {
+    // todo get actual node id
+    database.addNode("placeholder", x, y, nodeMapViewController.getFloor(), "Faulkner",
+        nodeType, longName, shortName);
+    exportDatabase();
+    redraw();
+    return true;
   }
 
   /**
@@ -286,19 +333,34 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    *
    * @param node1 The source node
    * @param node2 The dest node
+   * @return True if the edge was created successfully, false otherwise
    */
-  private void createEdge(Node node1, Node node2) {
+  private boolean createEdge(Node node1, Node node2) {
+    if (node1 == null || node2 == null) {
+      snackBar.show("No node was selected");
+      return false;
+    }
+    if (node1.equals(node2)) {
+      snackBar.show("Cannot add an edge between a node and itself");
+      return false;
+    }
+    if (node1.getNeighbors().contains(node2)) {
+      snackBar.show("An edge already exists between these two nodes");
+      return false;
+    }
     String id = "placeholder";
+    // todo get actual node id
     node1.getNeighbors().add(node2);
     node2.getNeighbors().add(node1);
     database.addEdge(id, node1.getNodeID(), node2.getNodeID());
     exportDatabase();
     drawEdges();
+    snackBar.show("Edge created successfully");
+    return true;
   }
 
   /**
    * Finds the edge for two connected nodes
-   *
    * @param node1 The first node
    * @param node2 The second node
    * @return The edge, or null is no edge is found
@@ -319,42 +381,35 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   /**
    * Sets the state of the application
-   *
    * @param state The state to set
    */
   private void setState(State state) {
     if (this.state == state) {
       return; // if the state is not changing then do nothing
     }
+    nodeSelectView.setVisible(false);
+    edgeSelectView.setVisible(false);
+    addNodeView.setVisible(false);
+    addEdgeView.setVisible(false);
+    addNeighborView.setVisible(false);
     switch (state) {
       case MAIN:
         clearFields();
-        nodeSelectView.setVisible(false);
-        edgeSelectView.setVisible(false);
-        addNodeView.setVisible(false);
-        addEdgeView.setVisible(false);
         break;
       case SELECT_EDGE:
-        nodeSelectView.setVisible(false);
         edgeSelectView.setVisible(true);
         break;
       case SELECT_NODE:
-        edgeSelectView.setVisible(false);
         nodeSelectView.setVisible(true);
-        addNeighborView.setVisible(false);
         break;
       case ADD_NODE:
-        nodeSelectView.setVisible(false);
-        edgeSelectView.setVisible(false);
+        clearFields();
         addNodeView.setVisible(true);
         break;
       case ADD_EDGE:
-        nodeSelectView.setVisible(false);
-        edgeSelectView.setVisible(false);
         addEdgeView.setVisible(true);
         break;
       case ADD_NEIGHBOR:
-        nodeSelectView.setVisible(false);
         addNeighborView.setVisible(true);
     }
     this.state = state;
@@ -366,16 +421,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private void exportDatabase() {
     nodeMap = database.exportNodes();
     edges = database.exportEdges();
-  }
-
-  /**
-   * Gets a list of the long names of the neighbors to a node
-   *
-   * @return
-   */
-  private String[] getNeighborsList() {
-    // todo implement
-    return null;
   }
 
   /**
