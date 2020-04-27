@@ -160,10 +160,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     val takenIDs = exportNodes().keySet().stream()
         .filter(id -> id.substring(1, 5).equals(type))
         .filter(id -> Integer.parseInt(id.substring(8)) == floor)
-        .map(id -> Integer.parseInt(id.substring(5, 8))).collect(Collectors.toSet());
+        .map(id -> Integer.parseInt(id.substring(5, 8)))
+        .collect(Collectors.toSet());
     for (int i = 0; i < 1000; ++i) {
       if (!takenIDs.contains(i)) {
-        return String.format("%3s", i).replace(' ', '0');
+        return String.format("O%s%3s%2s", type, i, floor).replace(' ', '0');
       }
     }
     return null;
@@ -184,7 +185,13 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public String addNode(int xCoord, int yCoord, int floor, String building,
       String nodeType, String longName, String shortName) {
-    val id = getID(nodeType, floor);
+    val id = "";
+    if (!nodeType.equals("ELEV")) {
+      id = getID(nodeType, floor);
+    } else {
+      val elevLetter = longName.substring(9);
+      id = "O" + nodeType + "00" + elevLetter + "0" + floor;
+    }
     val numAffected = addNode(id, xCoord, yCoord, floor, building, nodeType, longName, shortName);
     return (numAffected == 1) ? id : null;
   }
