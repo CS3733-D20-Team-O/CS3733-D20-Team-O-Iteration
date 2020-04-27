@@ -21,12 +21,12 @@
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
-      <JFXComboBox fx:id="floor" promptText="Floor">
+      <JFXComboBox fx:id="floors" promptText="Floor">
         <validators>
           <RequiredFieldValidator message="You need to select the floor of the spill!"/>
         </validators>
       </JFXComboBox>
-      <JFXComboBox fx:id="location" promptText="Room/Location on Floor">
+      <JFXComboBox fx:id="locations" promptText="Room/Location on Floor">
         <validators>
           <RequiredFieldValidator message="You need to select the location of the spill!"/>
         </validators>
@@ -45,7 +45,7 @@
     <JFXTextArea fx:id="additionalNotes" promptText="Additional Notes"/>
     <HBox alignment="CENTER_RIGHT" spacing="16">
       <JFXButton text="Submit" onAction="#submitRequest"/>
-      <JFXButton text="Cancel" onAction="#cancelRequest"/>
+      <JFXButton text="Cancel" onAction="#closeRequest"/>
     </HBox>
   </VBox>
 </StackPane>
