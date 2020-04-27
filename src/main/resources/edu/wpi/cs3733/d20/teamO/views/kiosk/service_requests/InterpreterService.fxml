@@ -52,7 +52,7 @@
       promptText="Additional Notes" style="-fx-background-color: WHITE;"/>
     <HBox alignment="CENTER_RIGHT" spacing="16">
       <JFXButton onAction="#submitRequest" text="Submit"/>
-      <JFXButton onAction="#cancelRequest" text="Cancel"/>
+      <JFXButton onAction="#closeRequest" text="Cancel"/>
     </HBox>
   </VBox>
 </StackPane>
