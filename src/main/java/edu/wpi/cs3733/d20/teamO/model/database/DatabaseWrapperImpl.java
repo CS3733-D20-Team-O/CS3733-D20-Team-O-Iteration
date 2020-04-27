@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -120,7 +121,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         stmt.setString(2, "");
         stmt.setString(3, "");
         stmt.setBoolean(4, false);
-        stmt.executeUpdate(query);
+        stmt.executeUpdate();
         log.info("Added NULL employee");
       } catch (SQLException e) {
         log.error("Failed to add a NULL employee", e);
@@ -153,6 +154,39 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
       }
     }
+  }
+
+  public String getID(String type, int floor) {
+    val takenIDs = exportNodes().keySet().stream()
+        .filter(id -> id.substring(1, 5).equals(type))
+        .filter(id -> Integer.parseInt(id.substring(8)) == floor)
+        .map(id -> Integer.parseInt(id.substring(5, 8))).collect(Collectors.toSet());
+    for (int i = 0; i < 1000; ++i) {
+      if (!takenIDs.contains(i)) {
+        return String.format("%3s", i).replace(' ', '0');
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Adds the specified node to the database
+   *
+   * @param xCoord    the x coordinate of the node
+   * @param yCoord    the y coordinate of the node
+   * @param floor     the floor of the building that the node lies on
+   * @param building  the building the node is in
+   * @param nodeType  the type of the node
+   * @param longName  the long name of the node
+   * @param shortName the short name of the node
+   * @return the number of affected entries
+   */
+  @Override
+  public String addNode(int xCoord, int yCoord, int floor, String building,
+      String nodeType, String longName, String shortName) {
+    val id = getID(nodeType, floor);
+    val numAffected = addNode(id, xCoord, yCoord, floor, building, nodeType, longName, shortName);
+    return (numAffected == 1) ? id : null;
   }
 
   /**
@@ -190,6 +224,20 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       log.error("Failed to add a new node with ID " + nodeID, e);
       return -1;
     }
+  }
+
+  /**
+   * Adds the specified edge to the database
+   *
+   * @param startNodeID the id of the start node
+   * @param stopNodeID  the id of the stop node
+   * @return the number of affected entries
+   */
+  @Override
+  public String addEdge(String startNodeID, String stopNodeID) {
+    val id = startNodeID + "_" + stopNodeID;
+    val numAffected = addEdge(id, startNodeID, stopNodeID);
+    return (numAffected == 1) ? id : null;
   }
 
   /**
