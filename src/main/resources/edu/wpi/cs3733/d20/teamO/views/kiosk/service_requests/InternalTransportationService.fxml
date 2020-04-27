@@ -19,6 +19,7 @@
    <children>
       <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="302.0" layoutY="180.0"
         minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="477.0"
+        spacing="8.0"
         style="-fx-padding: 32; -fx-background-color: whitesmoke; -fx-background-radius: 16; -fx-opacity: 0.8"
         AnchorPane.bottomAnchor="214.0" AnchorPane.leftAnchor="302.0" AnchorPane.rightAnchor="301.0"
         AnchorPane.topAnchor="180.0">
@@ -147,13 +148,9 @@
                   </Tab>
                </tabs>
             </TabPane>
-            <VBox alignment="CENTER" prefHeight="61.0" prefWidth="413.0" spacing="8.0">
-               <children>
-                  <JFXButton fx:id="submit" alignment="CENTER" buttonType="RAISED"
-                    onAction="#onSubmit" prefHeight="35.0" prefWidth="102.0" ripplerFill="#302de1"
-                    style="-fx-background-color: lightblue;" text="Submit"/>
-               </children>
-            </VBox>
+            <JFXButton fx:id="submit" alignment="CENTER" buttonType="RAISED" onAction="#onSubmit"
+              prefHeight="35.0" prefWidth="102.0" ripplerFill="#302de1"
+              style="-fx-background-color: lightblue;" text="Submit"/>
          </children>
       </VBox>
    </children>

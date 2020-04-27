@@ -15,4 +15,5 @@ public class ServiceRequest {
    * The associated extra data with this request
    */
   ServiceRequestData requestData;
+
 }

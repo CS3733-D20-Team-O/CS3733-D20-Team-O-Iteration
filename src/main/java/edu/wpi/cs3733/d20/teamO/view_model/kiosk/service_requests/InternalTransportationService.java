@@ -68,7 +68,6 @@ public class InternalTransportationService extends ViewModelBase {
   private void onSubmit() {
     InternalTransportationRequestData data;
 
-
     //select which fields to validate
     if (assistedTransportation.isSelected() && validateAssisted()) {
       data = new InternalTransportationRequestData("Assisted",
@@ -81,8 +80,8 @@ public class InternalTransportationService extends ViewModelBase {
       return; //cancel for if no data was created;
     }
     //todo make it so data happens
-    database.addServiceRequest("TEMPID", reqTime.getText(), entryNode.getNodeID(), "Int. Transport",
-        reqName.getText(), "", "");
+    database.addServiceRequest(reqTime.getText(), entryNode.getNodeID(), "Int. Transport",
+        reqName.getText(), data);
   }
 
 
@@ -156,11 +155,14 @@ public class InternalTransportationService extends ViewModelBase {
     allRadio.selectToggle(null);
   }
 
+  /**
+   * searches the database to get the node which matches the node selected in the room dropdown
+   */
   @FXML
   private void setNode() {
-    for (Map.Entry<String, Node> n : database.exportNodes().entrySet()) {
-      if (n.getValue().getLongName().equals(currentFloor.getSelectionModel().getSelectedItem())) {
-        entryNode = n.getValue();
+    for (val n : database.exportNodes().values()) {
+      if (n.getLongName().equals(currentFloor.getSelectionModel().getSelectedItem())) {
+        entryNode = n;
         break;
       }
     }
