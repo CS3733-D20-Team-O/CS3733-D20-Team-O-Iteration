@@ -66,7 +66,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.NODES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.NODES_TABLE
-            + "(" + NodeProperty.NODE_ID.getColumnName() + " LONG VARCHAR, "
+            + "(" + NodeProperty.NODE_ID.getColumnName() + " VARCHAR(999), "
             + NodeProperty.X_COORD.getColumnName() + " INT, "
             + NodeProperty.Y_COORD.getColumnName() + " INT, "
             + NodeProperty.FLOOR.getColumnName() + " INT, "
@@ -86,11 +86,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.EDGES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EDGES_TABLE
-            + "(" + EdgeProperty.EDGE_ID.getColumnName() + " LONG VARCHAR, "
-            + EdgeProperty.START_ID.getColumnName() + " LONG VARCHAR REFERENCES "
+            + "(" + EdgeProperty.EDGE_ID.getColumnName() + " VARCHAR(999), "
+            + EdgeProperty.START_ID.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + EdgeProperty.STOP_ID.getColumnName() + " LONG VARCHAR REFERENCES "
+            + EdgeProperty.STOP_ID.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
             + "PRIMARY KEY (" + EdgeProperty.EDGE_ID.getColumnName() + "))";
@@ -105,7 +105,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.EMPLOYEE_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
-            + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " LONG VARCHAR, "
+            + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.NAME.getColumnName() + " LONG VARCHAR, "
             + EmployeeProperty.TYPE.getColumnName() + " LONG VARCHAR, "
             + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
@@ -132,18 +132,18 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.SERVICE_REQUESTS_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String queryTable = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
-            + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " LONG VARCHAR, "
+            + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(999), "
             + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " LONG VARCHAR, "
-            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " LONG VARCHAR REFERENCES "
+            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
             + ServiceRequestProperty.TYPE.getColumnName() + " LONG VARCHAR, "
             + ServiceRequestProperty.STATUS.getColumnName() + " LONG VARCHAR, "
             + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " LONG VARCHAR, "
-            + ServiceRequestProperty.WHO_MARKED.getColumnName() + " LONG VARCHAR REFERENCES "
+            + ServiceRequestProperty.WHO_MARKED.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + ServiceRequestProperty.EMPLOYEE_ASSIGNED.getColumnName() + " LONG VARCHAR REFERENCES "
+            + ServiceRequestProperty.EMPLOYEE_ASSIGNED.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
             + ServiceRequestProperty.DATA.getColumnName() + " LONG VARCHAR, "
