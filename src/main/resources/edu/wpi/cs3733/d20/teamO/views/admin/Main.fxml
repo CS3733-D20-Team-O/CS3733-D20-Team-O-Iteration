@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox alignment="CENTER" spacing="64" xmlns:fx="http://javafx.com/fxml"
+<VBox alignment="CENTER" spacing="32" xmlns:fx="http://javafx.com/fxml"
+  style="-fx-padding: 40; -fx-font-size: 16"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel">
   <Label text="Admin Options" style="-fx-font-size: 36"/>
-  <JFXButton onAction="#openFloorMapEditor" text="Floor Map Editor" style="-fx-font-size: 24"/>
+  <JFXButton onAction="#openFloorMapEditor" text="Floor Map Editor" buttonType="RAISED"
+    style="-fx-background-color: lightgray"/>
   <JFXButton onAction="#openServiceRequestHandler" text="Service Request Handler"
-    style="-fx-font-size: 24"/>
-  <JFXButton onAction="#openImportExportHandler" text="Import/Export CSV"
-    style="-fx-font-size: 24"/>
+    buttonType="RAISED" style="-fx-background-color: lightgray"/>
+  <JFXButton onAction="#openImportExportHandler" text="Import/Export CSV" buttonType="RAISED"
+    style="-fx-background-color: lightgray"/>
   <HBox spacing="16">
-    <Label text="Path Finding Algorithm"/>
+    <Label text="Path Finding Algorithm:"/>
     <JFXComboBox fx:id="searchAlgorithms">
       <items>
         <FXCollections fx:factory="observableArrayList">
-          <String value="Fastest Route (A*)"/>
-          <String value="Quick Route (BFS)"/>
-          <String value="Scenic Route (DFS)"/>
+          <Label text="Fastest Route (A*)"/>
+          <Label text="Quick Route (BFS)"/>
+          <Label text="Scenic Route (DFS)"/>
         </FXCollections>
       </items>
     </JFXComboBox>
