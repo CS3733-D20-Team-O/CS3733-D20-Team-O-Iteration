@@ -201,14 +201,16 @@ public class RequestHandlerViewModel extends ViewModelBase {
    */
   private boolean updateDatabase(Employee selectedEmployee, ServiceRequest selectedRequest,
       String adminID) {
-      database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID,
-          selectedEmployee.getEmployeeID(), EmployeeProperty.IS_AVAILABLE, "false");
-      database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
-          selectedRequest.getRequestID(), ServiceRequestProperty.EMPLOYEE_ASSIGNED,
-          selectedEmployee.getEmployeeID());
-      database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
-          selectedRequest.getRequestID(), ServiceRequestProperty.WHO_MARKED, adminID);
-      return true;
+    database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID,
+        selectedEmployee.getEmployeeID(), EmployeeProperty.IS_AVAILABLE, "false");
+    database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
+        selectedRequest.getRequestID(), ServiceRequestProperty.EMPLOYEE_ASSIGNED,
+        selectedEmployee.getEmployeeID());
+    database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
+        selectedRequest.getRequestID(), ServiceRequestProperty.WHO_MARKED, adminID);
+    database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
+        selectedRequest.getRequestID(), ServiceRequestProperty.STATUS, "Assigned");
+    return true;
   }
 
   /**
@@ -279,11 +281,33 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
   @FXML
   private void resolveRequest() {
-    //todo implement
+    finishRequest("Resolved");
   }
 
   @FXML
   private void cancelRequest() {
-    //todo implement
+    finishRequest("Cancelled");
   }
+
+  private void finishRequest(String input) {
+    if (serviceTable.getSelectionModel().getSelectedItem() == null) {
+      return;
+    }
+
+    val request = serviceTable.getSelectionModel().getSelectedItem();
+    if (!request.getStatus().equals("Assigned") || !request.getStatus().equals("Unassigned")) {
+      showErrorSnackbar("cannot modify a closed request");
+      return;
+    }
+
+    //update employee if one is assigned
+    if (!request.getEmployeeAssigned().isEmpty()) {
+      database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID,
+          request.getEmployeeAssigned(), EmployeeProperty.IS_AVAILABLE, "true");
+    }
+    //update service request
+    database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
+        request.getRequestID(), ServiceRequestProperty.STATUS, input);
+  }
+
 }
