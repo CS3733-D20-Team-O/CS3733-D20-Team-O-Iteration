@@ -45,13 +45,20 @@ public class InterpreterService extends ViewModelBase {
     database.exportNodes().values().stream()
         .map(Node::getFloor).distinct().sorted()
         .forEachOrdered(floors.getItems()::add);
-
     // Set up the populating of locations on each floor
-    floors.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) ->
-        database.exportNodes().values().stream()
-            .filter(node -> newFloor.equals(node.getFloor()))
-            .map(Node::getLongName).sorted()
-            .forEachOrdered(locations.getItems()::add));
+    floors.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
+      locations.getItems().clear();
+      database.exportNodes().values().stream()
+          .filter(node -> newFloor.equals(node.getFloor()))
+          .map(Node::getLongName).sorted()
+          .forEachOrdered(locations.getItems()::add);
+      locations.getSelectionModel().select(0);
+    });
+    // Preselect the first floor and the first location on that floor
+    if (!floors.getItems().isEmpty()) {
+      floors.getSelectionModel().select(0);
+      locations.getSelectionModel().select(0);
+    }
 
     language.getItems().add("Spanish");
     language.getItems().add("French");
@@ -63,11 +70,6 @@ public class InterpreterService extends ViewModelBase {
     gender.getItems().add("Female");
     gender.getItems().add("No Preference");
 
-    // Preselect the first floor and the first location on that floor
-    if (!floors.getItems().isEmpty()) {
-      floors.getSelectionModel().select(0);
-      locations.getSelectionModel().select(0);
-    }
   }
 
   @FXML
