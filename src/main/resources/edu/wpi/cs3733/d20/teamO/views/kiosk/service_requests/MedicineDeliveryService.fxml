@@ -61,8 +61,19 @@
                         <Image url="@../../../../../../../../baseline_room_black_18dp.png"/>
                      </image>
                   </ImageView>
-                  <JFXTextField fx:id="roomNumber" layoutX="218.0" layoutY="10.0"
-                    promptText="Room number"/>
+                  <JFXComboBox promptText="Room name"/>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" layoutX="18.0" layoutY="83.0" spacing="8.0">
+               <children>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+                    preserveRatio="true">
+                     <image>
+                        <Image
+                          url="@../../../../../../../../baseline_format_list_numbered_black_18dp.png"/>
+                     </image>
+                  </ImageView>
+                  <JFXComboBox fx:id="floorNumber" promptText="Floor number"/>
                </children>
             </HBox>
             <JFXButton onAction="#submitRequest" text="Submit request"/>
