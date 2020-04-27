@@ -3,7 +3,12 @@ package edu.wpi.cs3733.d20.teamO.model.material;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.events.JFXDialogEvent;
+import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.Navigator;
+import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -21,6 +26,7 @@ import lombok.val;
 public class Dialog {
 
   private final Navigator navigator;
+  private final FXMLLoader fxmlLoader;
 
   /**
    * Shows a dialog above the root StackPane specified only
@@ -65,5 +71,47 @@ public class Dialog {
     container.setSpacing(16);
     dialog.setContent(container);
     dialog.show(navigator.getRoot());
+  }
+
+  /**
+   * Displays a fullscreen dialog feeding from the given fxml file
+   *
+   * @param fxml the fxml file to read
+   * @throws IOException        in case the fxml file cannot be read
+   * @throws ClassCastException in case the view model of the fxml is not a DialogViewModel
+   */
+  public void showFullscreenFXML(String fxml) throws IOException, ClassCastException {
+    // Clear any previously usage of the fxmlLoader
+    fxmlLoader.setRoot(null);
+    fxmlLoader.setController(null);
+    // Show the dialog in full screen mode and connect the view model to the dialog
+    val dialog = showFullscreen(fxmlLoader.load(Main.class.getResourceAsStream(fxml)));
+    val dialogViewModel = (DialogViewModel) fxmlLoader.getController();
+    dialogViewModel.parent = dialog;
+    dialog.addEventHandler(JFXDialogEvent.CLOSED, event -> dialogViewModel.onClose());
+  }
+
+  /**
+   * A class that all fxml-loaded fxml-loaded dialog view models MUST extend
+   */
+  public static abstract class DialogViewModel extends ViewModelBase {
+
+    /**
+     * The parent to this dialog
+     */
+    private JFXDialog parent;
+
+    /**
+     * Closes this dialog
+     */
+    protected final void close() {
+      parent.close();
+    }
+
+    /**
+     * Is called when the dialog is closed
+     */
+    protected void onClose() {
+    }
   }
 }
