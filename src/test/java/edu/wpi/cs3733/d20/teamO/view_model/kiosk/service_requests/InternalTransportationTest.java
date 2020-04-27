@@ -1,19 +1,15 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.testfx.api.FxAssert.verifyThat;
 
 import edu.wpi.cs3733.d20.teamO.Main;
+import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransportationRequestData;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,9 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
@@ -37,42 +32,65 @@ public class InternalTransportationTest extends FxRobot {
   EventBus eventBus;
   @Mock
   DatabaseWrapper database;
+  @Spy
+  private final ResourceBundleMock bundle = new ResourceBundleMock();
+
   @InjectMocks
   InternalTransportationService ITS;
 
   @Start
   public void start(Stage stage) throws IOException {
-    Node n1 = new Node("RHVMNode", 1, 1, 1, "Main", "Test", "TestNode", "testnode");
-    LinkedList<Node> nodesList = new LinkedList<Node>();
-    Map<String, Node> nodeMap = new HashMap<String, Node>();
-    nodeMap.put("RHVMNode", n1);
-    when(database.exportNodes()).thenReturn(nodeMap);
-    when(database.addServiceRequest(anyString(), anyString(), anyString(), anyString(), any(
-        ServiceRequestData.class))).thenAnswer(new Answer() {
-      public Object answer(InvocationOnMock invocation) {
-        Object[] args = invocation.getArguments();
-        Object mock = invocation.getMock();
-        System.out.println((String) args[0]);
-        System.out.println((String) args[1]);
-        System.out.println((String) args[2]);
-        System.out.println((String) args[3]);
-        System.out.println(((InternalTransportationRequestData) args[4]).getDisplayable());
-
-        return "called with arguments: " + args;
-      }
-    });
+    bundle.put("Sample", "Sample"); // todo load the necessary strings
+    populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> ITS);
-    //loader.setResources(bundle);
+    loader.setResources(bundle);
     stage.setScene(new Scene(loader.load(Main.class
         .getResourceAsStream("views/kiosk/service_requests/InternalTransportationService.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }
 
+  private void populateFloorAndLocation() {
+    val map = new HashMap<String, Node>();
+    map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
+    map.put("b", new Node("b", 0, 0, 3, "", "", "Floor 3-1", ""));
+    map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
+    map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
+    when(database.exportNodes()).thenReturn(map);
+  }
+
+  @Test
+  public void testFloorLocationPopulated() {
+    clickOn("Unassisted Transportation");
+
+    // Verify that all floors are populated
+    clickOn("1");
+    verifyThat("1", javafx.scene.Node::isVisible);
+    verifyThat("3", javafx.scene.Node::isVisible);
+    verifyThat("5", javafx.scene.Node::isVisible);
+
+    // Now that we know all floors are correct, lets check to see if the locations are present
+    // First floor
+    clickOn("Floor 1");
+    verifyThat("Floor 1", javafx.scene.Node::isVisible);
+
+    // Third floor
+    clickOn("1");
+    clickOn("3");
+    clickOn("Floor 3-1");
+    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
+    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
+
+    // Fifth floor
+    clickOn("3");
+    clickOn("5");
+    verifyThat("Floor 5", javafx.scene.Node::isVisible);
+  }
+
   @Test
   public void waitToSeeIfItWorks() {
-    sleep(30000);
+    //sleep(30000);
     assertTrue(true);
   }
 }

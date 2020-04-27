@@ -193,8 +193,8 @@ public class InternalTransportationService extends ViewModelBase {
    */
   @FXML
   private void switchTabs() {
-    unassistedToggle.selectToggle(crutches);
-    assistedToggle.selectToggle(wheelchair);
+//    unassistedToggle.selectToggle(crutches);
+//    assistedToggle.selectToggle(wheelchair);
   }
 
   /**
