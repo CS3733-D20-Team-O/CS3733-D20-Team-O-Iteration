@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -14,9 +13,9 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: acd7fd;"
   xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.views.kiosk.service_requests.MedicineDeliveryService">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.MedicineDeliveryService">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="461.0" layoutY="290.0" spacing="8.0"
+      <VBox fx:id="centerBox" alignment="TOP_CENTER" layoutX="461.0" layoutY="290.0" spacing="8.0"
         style="-fx-background-color: FFFFFF;">
          <padding>
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
@@ -35,7 +34,7 @@
                         <Image url="@../../../../../../../../baseline_face_black_18dp.png"/>
                      </image>
                   </ImageView>
-                  <JFXTextField promptText="Patient name"/>
+                  <JFXTextField fx:id="patientName" promptText="Patient name"/>
                   <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
                     pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -43,7 +42,8 @@
                           url="@../../../../../../../../baseline_local_hospital_black_18dp.png"/>
                      </image>
                   </ImageView>
-                  <JFXTextField layoutX="218.0" layoutY="10.0" promptText="Medication name"/>
+                  <JFXTextField fx:id="medicationName" layoutX="218.0" layoutY="10.0"
+                    promptText="Medication name"/>
                </children>
             </HBox>
             <HBox layoutX="18.0" layoutY="18.0" spacing="8.0">
@@ -54,18 +54,19 @@
                         <Image url="@../../../../../../../../baseline_list_black_18dp.png"/>
                      </image>
                   </ImageView>
-                  <JFXComboBox promptText="Delivery method"/>
+                  <JFXComboBox fx:id="deliveryMethod" promptText="Delivery method"/>
                   <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
                     pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../../../../../baseline_room_black_18dp.png"/>
                      </image>
                   </ImageView>
-                  <JFXTextField layoutX="218.0" layoutY="10.0" promptText="Room number"/>
+                  <JFXTextField fx:id="roomNumber" layoutX="218.0" layoutY="10.0"
+                    promptText="Room number"/>
                </children>
             </HBox>
-            <JFXButton text="Submit request"/>
-            <JFXButton text="Cancel"/>
+            <JFXButton onAction="#submitRequest" text="Submit request"/>
+            <JFXButton onAction="#cancel" text="Cancel"/>
          </children>
       </VBox>
    </children>
