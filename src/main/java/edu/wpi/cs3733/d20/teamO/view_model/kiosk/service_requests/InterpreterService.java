@@ -80,12 +80,12 @@ public class InterpreterService extends ViewModelBase {
       // todo extract strings
       val confirmationCode = database.addServiceRequest(
           time, locations.getSelectionModel().getSelectedItem(),
-          "Sanitation", requesterName.getText(), requestData);
+          "Interpreter", requesterName.getText(), requestData);
       if (confirmationCode == null) {
-        snackBar.show("Failed to create the sanitation service request");
+        snackBar.show("Failed to create the interpreter service request");
       } else {
         closeRequest();
-        dialog.showBasic("Sanitation Request Submitted Successfully",
+        dialog.showBasic("Interpreter Request Submitted Successfully",
             "Your confirmation code is:\n" + confirmationCode, "Close");
 
       }

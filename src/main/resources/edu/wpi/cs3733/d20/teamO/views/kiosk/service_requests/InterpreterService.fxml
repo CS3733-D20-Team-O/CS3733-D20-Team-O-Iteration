@@ -31,29 +31,18 @@
         </validators>
       </JFXComboBox>
     </HBox>
-    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+    <HBox alignment="CENTER" layoutX="42.0" layoutY="191.0" spacing="32">
       <children>
-        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="193.0" spacing="16">
-          <Label text="Select a language:"/>
-          <JFXComboBox fx:id="language" promptText="Language">
-            <validators>
-              <RequiredFieldValidator
-                message="You need to select the language for the interpreter!"/>
-            </validators>
-          </JFXComboBox>
-        </VBox>
-        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="218.0"
-          spacing="16">
-          <children>
-            <Label text="Select a preferred gender:"/>
-            <JFXComboBox fx:id="gender" promptText="Gender">
-              <validators>
-                <RequiredFieldValidator
-                  message="You need to select the preferred gender for the interpreter!"/>
-              </validators>
-            </JFXComboBox>
-          </children>
-        </VBox>
+        <JFXComboBox fx:id="language" promptText="Language">
+          <validators>
+            <RequiredFieldValidator message="You need to select the floor for the interpreter!"/>
+          </validators>
+        </JFXComboBox>
+        <JFXComboBox fx:id="gender" promptText="Preferred Gender">
+          <validators>
+            <RequiredFieldValidator message="You need to select the location for the interpreter!"/>
+          </validators>
+        </JFXComboBox>
       </children>
     </HBox>
     <JFXTextArea fx:id="additionalNotes" prefHeight="119.0" prefWidth="618.0"
