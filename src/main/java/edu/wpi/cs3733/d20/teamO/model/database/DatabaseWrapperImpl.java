@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.model.database;
 
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
@@ -11,12 +12,16 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -61,14 +66,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.NODES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.NODES_TABLE
-            + "(" + NodeProperty.NODE_ID.getColumnName() + " VARCHAR(255), "
+            + "(" + NodeProperty.NODE_ID.getColumnName() + " VARCHAR(999), "
             + NodeProperty.X_COORD.getColumnName() + " INT, "
             + NodeProperty.Y_COORD.getColumnName() + " INT, "
             + NodeProperty.FLOOR.getColumnName() + " INT, "
-            + NodeProperty.BUILDING.getColumnName() + " VARCHAR(255), "
-            + NodeProperty.NODE_TYPE.getColumnName() + " VARCHAR(255), "
-            + NodeProperty.LONG_NAME.getColumnName() + " VARCHAR(255), "
-            + NodeProperty.SHORT_NAME.getColumnName() + " VARCHAR(255), "
+            + NodeProperty.BUILDING.getColumnName() + " VARCHAR(999), "
+            + NodeProperty.NODE_TYPE.getColumnName() + " VARCHAR(999), "
+            + NodeProperty.LONG_NAME.getColumnName() + " VARCHAR(999), "
+            + NodeProperty.SHORT_NAME.getColumnName() + " VARCHAR(999), "
             + "PRIMARY KEY (" + NodeProperty.NODE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.NODES_TABLE + " created");
@@ -81,11 +86,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.EDGES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EDGES_TABLE
-            + "(" + EdgeProperty.EDGE_ID.getColumnName() + " VARCHAR(255), "
-            + EdgeProperty.START_ID.getColumnName() + " VARCHAR(255) REFERENCES "
+            + "(" + EdgeProperty.EDGE_ID.getColumnName() + " VARCHAR(999), "
+            + EdgeProperty.START_ID.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + EdgeProperty.STOP_ID.getColumnName() + " VARCHAR(255) REFERENCES "
+            + EdgeProperty.STOP_ID.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
             + "PRIMARY KEY (" + EdgeProperty.EDGE_ID.getColumnName() + "))";
@@ -100,9 +105,9 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.EMPLOYEE_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
-            + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(255), "
-            + EmployeeProperty.NAME.getColumnName() + " VARCHAR(255), "
-            + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(255), "
+            + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(999), "
+            + EmployeeProperty.NAME.getColumnName() + " VARCHAR(999), "
+            + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
@@ -110,32 +115,85 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
+      val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
+      try (val stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, "0");
+        stmt.setString(2, "");
+        stmt.setString(3, "");
+        stmt.setBoolean(4, false);
+        stmt.executeUpdate();
+        log.info("Added NULL employee");
+      } catch (SQLException e) {
+        log.error("Failed to add a NULL employee", e);
+      }
     }
 
     // Initialize the service requests table if not initialized
     if (isNotInitialized(Table.SERVICE_REQUESTS_TABLE)) {
       try (val stmt = connection.createStatement()) {
-        String query = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
-            + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(255), "
-            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " VARCHAR(255), "
-            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(255) REFERENCES "
+        String queryTable = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
+            + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + ServiceRequestProperty.TYPE.getColumnName() + " VARCHAR(255), "
-            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " VARCHAR(255), "
-            + ServiceRequestProperty.WHO_MARKED.getColumnName() + " VARCHAR(255) REFERENCES "
+            + ServiceRequestProperty.TYPE.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.STATUS.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.WHO_MARKED.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + ServiceRequestProperty.EMPLOYEE_ASSIGNED.getColumnName() + " VARCHAR(255) REFERENCES "
+            + ServiceRequestProperty.EMPLOYEE_ASSIGNED.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
+            + ServiceRequestProperty.DATA.getColumnName() + " LONG VARCHAR, "
             + "PRIMARY KEY (" + ServiceRequestProperty.REQUEST_ID.getColumnName() + "))";
-        stmt.execute(query);
+        stmt.execute(queryTable);
         log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
       }
     }
+  }
+
+  public String getID(String type, int floor) {
+    val takenIDs = exportNodes().keySet().stream()
+        .filter(id -> id.substring(1, 5).equals(type))
+        .filter(id -> Integer.parseInt(id.substring(8)) == floor)
+        .map(id -> Integer.parseInt(id.substring(5, 8)))
+        .collect(Collectors.toSet());
+    for (int i = 1; i < 1000; ++i) {
+      if (!takenIDs.contains(i)) {
+        return String.format("O%s%3s%2s", type, i, floor).replace(' ', '0');
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Adds the specified node to the database
+   *
+   * @param xCoord    the x coordinate of the node
+   * @param yCoord    the y coordinate of the node
+   * @param floor     the floor of the building that the node lies on
+   * @param building  the building the node is in
+   * @param nodeType  the type of the node
+   * @param longName  the long name of the node
+   * @param shortName the short name of the node
+   * @return the number of affected entries
+   */
+  @Override
+  public String addNode(int xCoord, int yCoord, int floor, String building,
+      String nodeType, String longName, String shortName) {
+    String id = "";
+    if (!nodeType.equals("ELEV")) {
+      id = getID(nodeType, floor);
+    } else {
+      val elevLetter = longName.substring(9);
+      id = "O" + nodeType + "00" + elevLetter + "0" + floor;
+    }
+    val numAffected = addNode(id, xCoord, yCoord, floor, building, nodeType, longName, shortName);
+    return (numAffected == 1) ? id : null;
   }
 
   /**
@@ -178,6 +236,20 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   /**
    * Adds the specified edge to the database
    *
+   * @param startNodeID the id of the start node
+   * @param stopNodeID  the id of the stop node
+   * @return the number of affected entries
+   */
+  @Override
+  public String addEdge(String startNodeID, String stopNodeID) {
+    val id = startNodeID + "_" + stopNodeID;
+    val numAffected = addEdge(id, startNodeID, stopNodeID);
+    return (numAffected == 1) ? id : null;
+  }
+
+  /**
+   * Adds the specified edge to the database
+   *
    * @param edgeID      the id of the edge
    * @param startNodeID the id of the start node
    * @param stopNodeID  the id of the stop node
@@ -203,28 +275,60 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   /**
    * Adds the specified service request to the database
    *
+   * @param requestTime   the time of the request as a string
+   * @param requestNode   the id of the node where the request is going
+   * @param type          the type of service request
+   * @param requesterName the name of the person filling out the request
+   * @param data          the data for the specific type of request
+   * @return the ID of the request or "Error" if request failed to add
+   */
+  @Override
+  public String addServiceRequest(String requestTime, String requestNode, String type,
+      String requesterName, ServiceRequestData data) {
+    val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    val length = 8;
+    val randomID = new StringBuilder(length);
+    val rand = new Random();
+    for (int i = 0; i < length; ++i) {
+      val index = rand.nextInt(chars.length());
+      randomID.append(chars.charAt(index));
+    }
+    val id = randomID.toString();
+    val numAffected = addServiceRequest(id, requestTime, requestNode, type, "Unassigned",
+        requesterName, "0", "0", new Gson().toJson(data));
+    return (numAffected == 1) ? id : null;
+  }
+
+  /**
+   * Adds the specified service request to the database
+   *
    * @param requestID        the id of the request
    * @param requestTime      the time of the request as a string
    * @param requestNode      the id of the node where the request is going
    * @param type             the type of service request
+   * @param status           the status of the service request
    * @param requesterName    the name of the person filling out the request
    * @param whoMarked        the id of the admin (employee) who assigns the request
    * @param employeeAssigned the id of the employee assigned to fulfill the request
+   * @param data             the data for the specific type of request
    * @return the number of affected entries
    */
   @Override
   public int addServiceRequest(String requestID, String requestTime, String requestNode,
-      String type, String requesterName, String whoMarked, String employeeAssigned) {
+      String type, String status, String requesterName, String whoMarked, String employeeAssigned,
+      String data) {
     val query = "INSERT into " + Table.SERVICE_REQUESTS_TABLE
-        + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, requestID);
       stmt.setString(2, requestTime);
       stmt.setString(3, requestNode);
       stmt.setString(4, type);
-      stmt.setString(5, requesterName);
-      stmt.setString(6, whoMarked);
-      stmt.setString(7, employeeAssigned);
+      stmt.setString(5, status);
+      stmt.setString(6, requesterName);
+      stmt.setString(7, whoMarked);
+      stmt.setString(8, employeeAssigned);
+      stmt.setString(9, data);
       val requestsAffected = stmt.executeUpdate();
       log.info("Added service request with ID " + requestID);
       log.debug("Result of add service request was " + requestsAffected);
@@ -409,13 +513,22 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     val query = "SELECT * from " + Table.SERVICE_REQUESTS_TABLE;
     try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
       while (rset.next()) {
-        serviceRequests.add(new ServiceRequest(rset.getString(1),
+        Class<? extends ServiceRequestData> clazz = null;
+        switch (rset.getString(4)) {
+          case "Sanitation":
+            clazz = SanitationRequestData.class;
+            break;
+        }
+        serviceRequests.add(new ServiceRequest(
+            rset.getString(1),
             rset.getString(2),
             rset.getString(3),
             rset.getString(4),
             rset.getString(5),
             rset.getString(6),
-            rset.getString(7)));
+            rset.getString(7),
+            rset.getString(8),
+            new Gson().fromJson(rset.getString(9), clazz)));
       }
     } catch (SQLException e) {
       log.error("Failed to export service requests", e);
@@ -441,9 +554,9 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   }
 
   @Override
+  @Deprecated
   public String employeeNameFromID(String id) {
     val query = "SELECT " + EmployeeProperty.NAME.getColumnName() + " from " + Table.EMPLOYEE_TABLE
-        .getTableName()
         + " WHERE " + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " = ?";
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, id);
