@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXSlider?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -15,9 +16,9 @@
   style="-fx-background-color: #acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel">
-  <center>
-    <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
-  </center>
+  <!--  <center>-->
+  <!--    <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>-->
+  <!--  </center>-->
   <left>
     <AnchorPane fx:id="sideBar" prefHeight="200.0" prefWidth="200.0"
       style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
@@ -69,7 +70,16 @@
             </HBox>
           </children>
         </VBox>
-        <JFXButton layoutX="92.0" layoutY="200.0" onAction="#resetPath" text="Clear"/>
+        <JFXButton layoutX="87.0" layoutY="373.0" onAction="#resetPath" text="Clear"/>
+        <JFXComboBox layoutX="14.0" layoutY="154.0" prefHeight="25.0" prefWidth="59.0"
+          promptText="Floor"/>
+        <JFXComboBox layoutX="86.0" layoutY="154.0" prefHeight="25.0" prefWidth="110.0"
+          promptText="Room"/>
+        <JFXComboBox layoutX="18.0" layoutY="250.0" promptText="Floor"/>
+        <JFXComboBox layoutX="90.0" layoutY="250.0" prefHeight="25.0" prefWidth="110.0"
+          promptText="Room"/>
+        <Label layoutX="18.0" layoutY="129.0" text="Start Location"/>
+        <Label layoutX="18.0" layoutY="233.0" text="Stop Location"/>
       </children>
     </AnchorPane>
   </left>

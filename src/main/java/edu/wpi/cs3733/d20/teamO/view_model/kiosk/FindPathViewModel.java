@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.model.AStar;
@@ -39,6 +40,9 @@ public class FindPathViewModel extends ViewModelBase {
   Label floorLabel;
   @FXML
   JFXSlider zoomSlider;
+
+  @FXML
+  JFXComboBox startRoom, startFloor, stopRoom, stopFloor;
 
   Map<String, Node> nodeMap;
   private final DatabaseWrapper database;
@@ -80,6 +84,44 @@ public class FindPathViewModel extends ViewModelBase {
     });
     nodeMapViewController.setOnMissTapListener((x, y) -> {
     });
+
+    // Populate the floors combobox with available nodes
+    database.exportNodes().values().stream()
+        .map(Node::getFloor).distinct().sorted()
+        .forEachOrdered(startFloor.getItems()::add);
+    // Set up the populating of locations on each floor
+    startFloor.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
+      startRoom.getItems().clear();
+      database.exportNodes().values().stream()
+          .filter(node -> newFloor.equals(node.getFloor()))
+          .map(Node::getLongName).sorted()
+          .forEachOrdered(startRoom.getItems()::add);
+      startRoom.getSelectionModel().select(0);
+    });
+    // Preselect the first floor and the first location on that floor
+    if (!startFloor.getItems().isEmpty()) {
+      startFloor.getSelectionModel().select(0);
+      startRoom.getSelectionModel().select(0);
+    }
+
+    // Populate the floors combobox with available nodes
+    database.exportNodes().values().stream()
+        .map(Node::getFloor).distinct().sorted()
+        .forEachOrdered(stopFloor.getItems()::add);
+    // Set up the populating of locations on each floor
+    stopFloor.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
+      stopRoom.getItems().clear();
+      database.exportNodes().values().stream()
+          .filter(node -> newFloor.equals(node.getFloor()))
+          .map(Node::getLongName).sorted()
+          .forEachOrdered(stopRoom.getItems()::add);
+      stopRoom.getSelectionModel().select(0);
+    });
+    // Preselect the first floor and the first location on that floor
+    if (!stopFloor.getItems().isEmpty()) {
+      stopFloor.getSelectionModel().select(0);
+      stopRoom.getSelectionModel().select(0);
+    }
   }
 
   /**
