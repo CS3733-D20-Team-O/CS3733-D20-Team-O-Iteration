@@ -85,15 +85,15 @@
                                        <children>
                                           <JFXRadioButton fx:id="wheelchair" text="Wheelchair">
                                              <toggleGroup>
-                                                <ToggleGroup fx:id="allRadio"/>
+                                                <ToggleGroup fx:id="assistedToggle"/>
                                              </toggleGroup>
                                           </JFXRadioButton>
                                           <JFXRadioButton fx:id="bed" text="Bed Move"
-                                            toggleGroup="$allRadio"/>
+                                            toggleGroup="$assistedToggle"/>
                                           <JFXRadioButton fx:id="gurney" text="Gurney"
-                                            toggleGroup="$allRadio"/>
+                                            toggleGroup="$assistedToggle"/>
                                           <JFXRadioButton fx:id="escort" text="Escort"
-                                            toggleGroup="$allRadio"/>
+                                            toggleGroup="$assistedToggle"/>
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="133.0" prefWidth="142.0" spacing="16.0">
@@ -132,14 +132,17 @@
                                     <Insets left="8.0" top="8.0"/>
                                  </padding>
                                  <children>
-                                    <JFXRadioButton fx:id="crutches" text="Crutches"
-                                      toggleGroup="$allRadio"/>
+                                    <JFXRadioButton fx:id="crutches" text="Crutches">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="unassistedToggle"/>
+                                       </toggleGroup>
+                                    </JFXRadioButton>
                                     <JFXRadioButton fx:id="independentWheelchair" text="Wheelchair"
-                                      toggleGroup="$allRadio"/>
+                                      toggleGroup="$unassistedToggle"/>
                                     <JFXRadioButton fx:id="legScooter" text="Cast Scooter"
-                                      toggleGroup="$allRadio"/>
+                                      toggleGroup="$unassistedToggle"/>
                                     <JFXRadioButton fx:id="mobileIV" text="Mobile IV Stand"
-                                      toggleGroup="$allRadio"/>
+                                      toggleGroup="$unassistedToggle"/>
                                  </children>
                               </VBox>
                            </children>

@@ -29,9 +29,9 @@ public class InternalTransportationService extends ViewModelBase {
   private final DatabaseWrapper database;
 
   @FXML
-  private JFXComboBox<String> currentFloor;
+  private JFXComboBox currentFloor;
   @FXML
-  private JFXComboBox<String> currentRoom;
+  private JFXComboBox currentRoom;
   @FXML
   private JFXTextField reqName;
   @FXML
@@ -43,13 +43,13 @@ public class InternalTransportationService extends ViewModelBase {
   @FXML
   private JFXButton submit;
   @FXML
-  private ToggleGroup allRadio;
+  private ToggleGroup assistedToggle, unassistedToggle;
 
   //assisted
   @FXML
   private JFXRadioButton wheelchair, bed, gurney, escort;
   @FXML
-  private JFXComboBox<String> destinationFloor, destinationRoom;
+  private JFXComboBox destinationFloor, destinationRoom;
 
   //assisted
   @FXML
@@ -60,7 +60,42 @@ public class InternalTransportationService extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    addAvailableFloors();
+    //set radio buttons to default
+    unassistedToggle.selectToggle(crutches);
+    assistedToggle.selectToggle(wheelchair);
+
+    // Populate the current floors combobox with available nodes
+    database.exportNodes().values().stream()
+        .map(Node::getFloor).distinct().sorted()
+        .forEachOrdered(currentFloor.getItems()::add);
+    // Set up the populating of locations on each floor
+    currentFloor.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) ->
+        database.exportNodes().values().stream()
+            .filter(node -> newFloor.equals(node.getFloor()))
+            .map(Node::getLongName).sorted()
+            .forEachOrdered(currentRoom.getItems()::add));
+    // Preselect the first floor and the first location on that floor
+    if (!currentFloor.getItems().isEmpty()) {
+      currentFloor.getSelectionModel().select(0);
+      currentRoom.getSelectionModel().select(0);
+    }
+
+    // Populate the destination floors combobox with available nodes
+    database.exportNodes().values().stream()
+        .map(Node::getFloor).distinct().sorted()
+        .forEachOrdered(destinationFloor.getItems()::add);
+    // Set up the populating of locations on each floor
+    destinationFloor.getSelectionModel().selectedItemProperty()
+        .addListener((o, oldFloor, newFloor) ->
+            database.exportNodes().values().stream()
+                .filter(node -> newFloor.equals(node.getFloor()))
+                .map(Node::getLongName).sorted()
+                .forEachOrdered(destinationRoom.getItems()::add));
+    // Preselect the first floor and the first location on that floor
+    if (!destinationFloor.getItems().isEmpty()) {
+      destinationFloor.getSelectionModel().select(0);
+      destinationRoom.getSelectionModel().select(0);
+    }
 
   }
 
@@ -71,39 +106,39 @@ public class InternalTransportationService extends ViewModelBase {
     //select which fields to validate
     if (assistedTransportation.isSelected() && validateAssisted()) {
       data = new InternalTransportationRequestData("Assisted",
-          ((RadioButton) allRadio.getSelectedToggle()).getText(),
-          destinationFloor.getSelectionModel().getSelectedItem());
+          ((RadioButton) assistedToggle.getSelectedToggle()).getText(),
+          destinationFloor.getSelectionModel().getSelectedItem().toString());
     } else if (unassistedTransportation.isSelected() && validateUnassisted()) {
       data = new InternalTransportationRequestData("Unassisted",
-          ((RadioButton) allRadio.getSelectedToggle()).getText(), "None required");
+          ((RadioButton) unassistedToggle.getSelectedToggle()).getText(), "None required");
     } else {
       return; //cancel for if no data was created;
     }
-    //todo make it so data happens
+
     database.addServiceRequest(reqTime.getText(), entryNode.getNodeID(), "Int. Transport",
         reqName.getText(), data);
   }
 
-
+  /**
+   * checks if all fields needed for an assisted transport request
+   *
+   * @return true if request has all needed data, false otherwise
+   */
   private boolean validateAssisted() {
-    return (allRadio.getSelectedToggle() != null) &&
+    return (assistedToggle.getSelectedToggle() != null) &&
         Stream.of(currentRoom, reqName, reqTime, destinationRoom)
             .allMatch(IFXValidatableControl::validate);
   }
 
+  /**
+   * checks if all fields needed for an unassisted transport request
+   *
+   * @return true if request has all needed data, false otherwise
+   */
   private boolean validateUnassisted() {
-    return (allRadio.getSelectedToggle() != null) &&
-        Stream.of(currentRoom, reqTime)
+    return (unassistedToggle.getSelectedToggle() != null) &&
+        Stream.of(currentRoom, reqName, reqTime)
             .allMatch(IFXValidatableControl::validate);
-  }
-
-  private void addAvailableFloors() {
-    currentFloor.getItems().addAll("1", "2", "3", "4", "5");
-    destinationFloor.getItems().addAll("1", "2", "3", "4", "5");
-    currentFloor.getSelectionModel().selectFirst();
-    destinationFloor.getSelectionModel().selectFirst();
-    doCurrentFloor();
-    doDestinationFloor();
   }
 
   /**
@@ -111,7 +146,7 @@ public class InternalTransportationService extends ViewModelBase {
    */
   @FXML
   private void doCurrentFloor() {
-    doFloor(currentRoom, currentFloor.getSelectionModel().getSelectedItem());
+    doFloor(currentRoom, currentFloor.getSelectionModel().getSelectedItem().toString());
   }
 
   /**
@@ -119,7 +154,7 @@ public class InternalTransportationService extends ViewModelBase {
    */
   @FXML
   private void doDestinationFloor() {
-    doFloor(destinationRoom, destinationFloor.getSelectionModel().getSelectedItem());
+    doFloor(destinationRoom, destinationFloor.getSelectionModel().getSelectedItem().toString());
   }
 
   /**
@@ -152,7 +187,8 @@ public class InternalTransportationService extends ViewModelBase {
    */
   @FXML
   private void switchTabs() {
-    allRadio.selectToggle(null);
+    unassistedToggle.selectToggle(crutches);
+    assistedToggle.selectToggle(wheelchair);
   }
 
   /**
