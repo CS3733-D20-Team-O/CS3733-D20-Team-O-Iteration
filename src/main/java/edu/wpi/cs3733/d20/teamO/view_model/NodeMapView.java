@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -24,11 +25,20 @@ import lombok.val;
 @Getter
 public class NodeMapView extends ViewModelBase {
 
+  private enum NodeState {
+    NodeUnselected {
+      // todo Node Unselected State
+    },
+    NodeSelected {
+      // todo Node Selected State
+    }
+  }
+
   private final static double nodeSize = 10;
   private final static int maxFloor = 5;
   private final static int minFloor = 1;
-  private final static Paint nodeColor = Color.web("#58A5F0"); // Light blue
-  private final static Paint edgeColor = Color.web("#00991f"); // Green
+  private final static Paint nodeColor = Color.web("#00991f"); // Green
+  private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
 
   /**
    * The current floor being displayed
@@ -61,7 +71,9 @@ public class NodeMapView extends ViewModelBase {
     setFloor(minFloor);
 
     // Set up event for when a node is selected (or not selected)
-    floorPane.setOnMouseClicked(event -> checkClick((int) event.getX(), (int) event.getY()));
+    floorPane.setOnMouseClicked(event -> checkClick(event));
+    // Set up event for a drag event
+    floorPane.setOnMouseDragged(event -> dragEvent(event)); // todo set up mouse drag event
   }
 
   /**
@@ -169,12 +181,16 @@ public class NodeMapView extends ViewModelBase {
   /**
    * Used to calculate if a click was next to a node or not
    *
-   * @param x the x coordinate of the MouseEvent
-   * @param y the y coordinate of the MouseEvent
+   * @param event the MouseEvent
    */
-  private void checkClick(int x, int y) {
-    val imageX = x / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
-    val imageY = y / nodeCanvas.getHeight() * backgroundImage.getImage().getHeight();
+  private void checkClick(MouseEvent event) {
+    if(event.isPrimaryButtonDown()) { // Left-click
+
+    } else if(event.isSecondaryButtonDown()) { // Right-click
+
+    }
+    val imageX = event.getX() / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
+    val imageY = event.getY() / nodeCanvas.getHeight() * backgroundImage.getImage().getHeight();
 
     // Setup the closest node algorithm
     Node closest = null;
@@ -203,6 +219,17 @@ public class NodeMapView extends ViewModelBase {
         onNodeTappedListener.accept(closest);
       }
     }
+  }
+
+  /**
+   * Handles a drag event on the canvas
+   *
+   * @param event the MouseEvent
+   */
+  private void dragEvent(MouseEvent event) {
+    // todo handle drag event
+    // Either the screen is dragged
+    // or a node is dragged
   }
 
   public void setFloor(int floor) {
