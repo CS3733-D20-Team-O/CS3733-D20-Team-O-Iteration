@@ -25,7 +25,8 @@ public class FindPathViewModel extends ViewModelBase {
 
   enum State {
     START,
-    END
+    END,
+    DRAWN
   }
 
   State currentState = State.START;
@@ -67,16 +68,13 @@ public class FindPathViewModel extends ViewModelBase {
           currentState = State.END;
           break;
         case END:
-          if (node.equals(beginning)) {
-            currentState = State.START;
-            break;
-          }
+//          if (node.equals(beginning)) {
+//            currentState = State.START;
+//            break;
+//          }
           finish = node;
-          List<Node> nodes = AStar.findPathBetween(beginning, finish);
-          assert nodes != null;
-          for (int i = 0; i < nodes.size() - 1; i++) {
-            nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
-          }
+          drawPath();
+          currentState = State.DRAWN;
           break;
         default:
           break;
@@ -130,6 +128,8 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   void resetPath() {
     currentState = State.START;
+    beginning = null;
+    finish = null;
     nodeMapViewController.draw();
   }
 
@@ -138,6 +138,9 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.decrementFloor();
     nodeMapViewController.draw();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+    if (currentState == State.DRAWN) {
+      drawPath();
+    }
   }
 
   @FXML
@@ -145,6 +148,9 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.incrementFloor();
     nodeMapViewController.draw();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+    if (currentState == State.DRAWN) {
+      drawPath();
+    }
   }
 
   @FXML
@@ -157,4 +163,11 @@ public class FindPathViewModel extends ViewModelBase {
 
   }
 
+  private void drawPath() {
+    List<Node> nodes = AStar.findPathBetween(beginning, finish);
+    assert nodes != null;
+    for (int i = 0; i < nodes.size() - 1; i++) {
+      nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
+    }
+  }
 }
