@@ -14,31 +14,34 @@
   <VBox alignment="CENTER" spacing="32"
     style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
     <Label style="-fx-font-size: 32" text="Interpreter Service Request Creation"/>
-    <JFXTextField fx:id="requesterName" promptText="Your Name">
+    <JFXTextField fx:id="requesterName" promptText="Your Name" style="-fx-background-color: WHITE;">
       <validators>
         <RequiredFieldValidator message="Your name is required!"/>
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
-      <JFXComboBox fx:id="floor" promptText="Floor">
+      <JFXComboBox fx:id="floor" promptText="Floor" style="-fx-background-color: WHITE;">
         <validators>
           <RequiredFieldValidator message="You need to select the floor for the interpreter!"/>
         </validators>
       </JFXComboBox>
-      <JFXComboBox fx:id="location" promptText="Room/Location on Floor">
+      <JFXComboBox fx:id="location" promptText="Room/Location on Floor"
+        style="-fx-background-color: WHITE;">
         <validators>
           <RequiredFieldValidator message="You need to select the location for the interpreter!"/>
         </validators>
       </JFXComboBox>
     </HBox>
-    <HBox alignment="CENTER" layoutX="42.0" layoutY="191.0" spacing="32">
+    <HBox alignment="CENTER" layoutX="42.0" layoutY="191.0" spacing="32" style="-fx-spacing: 16;">
       <children>
-        <JFXComboBox fx:id="language" promptText="Language">
+        <JFXComboBox fx:id="language" prefHeight="38.0" prefWidth="137.0" promptText="Language"
+          style="-fx-background-color: WHITE;">
           <validators>
             <RequiredFieldValidator message="You need to select the floor for the interpreter!"/>
           </validators>
         </JFXComboBox>
-        <JFXComboBox fx:id="gender" promptText="Preferred Gender">
+        <JFXComboBox fx:id="gender" promptText="Preferred Gender"
+          style="-fx-background-color: WHITE;">
           <validators>
             <RequiredFieldValidator message="You need to select the location for the interpreter!"/>
           </validators>
@@ -46,7 +49,7 @@
       </children>
     </HBox>
     <JFXTextArea fx:id="additionalNotes" prefHeight="119.0" prefWidth="618.0"
-      promptText="Additional Notes"/>
+      promptText="Additional Notes" style="-fx-background-color: WHITE;"/>
     <HBox alignment="CENTER_RIGHT" spacing="16">
       <JFXButton onAction="#submitRequest" text="Submit"/>
       <JFXButton onAction="#cancelRequest" text="Cancel"/>
