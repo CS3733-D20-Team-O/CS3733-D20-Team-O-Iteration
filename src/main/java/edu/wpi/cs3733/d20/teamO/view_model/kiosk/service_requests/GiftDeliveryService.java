@@ -6,12 +6,10 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -173,6 +171,7 @@ public class GiftDeliveryService extends ViewModelBase {
 
   //create service request
   private void generateRequest() {
+    /*
     Integer reqIndex = database.exportServiceRequests().size();
     val requestorName = fromField.getText();
     Node requestNode = null;
@@ -190,6 +189,7 @@ public class GiftDeliveryService extends ViewModelBase {
       System.out.println("In first index");
       val code = new Random().nextInt(99999999);
       database.addEmployee("", "", "", true);
+
       val newRequestID = new ServiceRequest(Integer.toString(code), reqTime, reqNodeID, reqNodeType,
           requestorName, "", "");
 
@@ -219,7 +219,7 @@ public class GiftDeliveryService extends ViewModelBase {
       System.out.println(database);
     }
 
-
+*/
   }
 
   private void showError(String displayText) {

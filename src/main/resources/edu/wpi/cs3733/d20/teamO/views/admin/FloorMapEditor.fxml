@@ -155,10 +155,24 @@
                                  <children>
                                     <JFXButton buttonType="RAISED" onAction="#deletePressed"
                                       ripplerFill="#c30e0e" style="-fx-background-color: E5E5E5;"
-                                      text="Delete node"/>
+                                      text="Delete node">
+                                       <graphic>
+                                          <ImageView fitHeight="16" pickOnBounds="true"
+                                            preserveRatio="true">
+                                             <Image url="@/baseline_delete_black_18dp.png"/>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
                                     <JFXButton buttonType="RAISED"
                                       onAction="#saveNodeChangesPressed" ripplerFill="#3e9444"
-                                      style="-fx-background-color: E5E5E5;" text="Save changes"/>
+                                      style="-fx-background-color: E5E5E5;" text="Save changes">
+                                       <graphic>
+                                          <ImageView fitHeight="16" pickOnBounds="true"
+                                            preserveRatio="true">
+                                             <Image url="@/baseline_save_black_18dp.png"/>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
                                  </children>
                               </HBox>
                               <JFXButton buttonType="RAISED" onAction="#cancelPressed"
@@ -251,7 +265,14 @@
                               </GridPane>
                               <JFXButton buttonType="RAISED" onAction="#createNodePressed"
                                 ripplerFill="#3e9444" style="-fx-background-color: E5E5E5;"
-                                text="Create node"/>
+                                text="Create node">
+                                 <graphic>
+                                    <ImageView fitHeight="16" pickOnBounds="true"
+                                      preserveRatio="true">
+                                       <Image url="@/baseline_add_black_18dp.png"/>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
                               <JFXButton buttonType="RAISED" onAction="#cancelPressed"
                                 style="-fx-background-color: E5E5E5;" text="Cancel"/>
                            </children>
@@ -304,7 +325,14 @@
                               </HBox>
                               <JFXButton buttonType="RAISED" onAction="#addNeighborPressed"
                                 ripplerFill="#3e9444" style="-fx-background-color: E5E5E5;"
-                                text="Add neighbor"/>
+                                text="Add neighbor">
+                                 <graphic>
+                                    <ImageView fitHeight="16" pickOnBounds="true"
+                                      preserveRatio="true">
+                                       <Image url="@/baseline_add_black_18dp.png"/>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
                               <JFXButton buttonType="RAISED" onAction="#cancelPressed"
                                 style="-fx-background-color: E5E5E5;" text="Cancel"/>
                            </children>

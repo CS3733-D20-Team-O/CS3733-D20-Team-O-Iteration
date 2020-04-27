@@ -320,11 +320,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @return True if the node was successfully created, false otherwise
    */
   private boolean createNode(int x, int y, String nodeType, String longName, String shortName) {
-    // todo get actual node id
-    database.addNode("placeholder", x, y, nodeMapViewController.getFloor(), "Faulkner",
+    database.addNode(x, y, nodeMapViewController.getFloor(), "Faulkner",
         nodeType, longName, shortName);
     exportDatabase();
     redraw();
+    snackBar.show("Node created successfully");
     return true;
   }
 
@@ -348,11 +348,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       snackBar.show("An edge already exists between these two nodes");
       return false;
     }
-    String id = "placeholder";
-    // todo get actual node id
     node1.getNeighbors().add(node2);
     node2.getNeighbors().add(node1);
-    database.addEdge(id, node1.getNodeID(), node2.getNodeID());
+    database.addEdge(node1.getNodeID(), node2.getNodeID());
     exportDatabase();
     drawEdges();
     snackBar.show("Edge created successfully");
