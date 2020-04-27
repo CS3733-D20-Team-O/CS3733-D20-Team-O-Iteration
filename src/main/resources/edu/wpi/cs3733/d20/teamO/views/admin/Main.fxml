@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel"
-  prefHeight="720" prefWidth="1280" style="-fx-background-color: #acd7fd">
-  <VBox alignment="CENTER" spacing="64" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
-    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-    <Label text="Welcome to the Brigham and Women's Hospital Admin Utility!"
-      style="-fx-font-size: 36"/>
-    <HBox spacing="32" alignment="CENTER">
-      <JFXButton onAction="#openFloorMapEditor" text="Floor Map Editor" style="-fx-font-size: 24"/>
-      <JFXButton onAction="#openServiceRequestHandler" text="Service Request Handler"
-        style="-fx-font-size: 24"/>
-      <JFXButton onAction="#openImportExportHandler" text="Import/Export CSV"
-        style="-fx-font-size: 24"/>
+
+<AnchorPane prefHeight="720" prefWidth="1280" style="-fx-background-color: #acd7fd" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel">
+
+  <HBox fx:id="adminWelcomeBar" alignment="CENTER" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 36; -fx-text-fill: floralwhite; -fx-padding: 16" text="Welcome to the Brigham and Women's Hospital Admin Utility!" />
+  </HBox>
+
+  <VBox alignment="CENTER" spacing="64" style="-fx-background-image: url('https://www.brighamandwomens.org/assets/BWH/about-bwh/images/locations-bwfh_700x400.jpg'); -fx-background-size: 100% 100%" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="83.0">
+    <HBox alignment="CENTER" spacing="32" >
+      <JFXButton onAction="#openFloorMapEditor" style="-fx-font-size: 24; -fx-background-color: floralwhite; -fx-background-radius: 16; -fx-opacity: 0.8"  text="Floor Map Editor" />
+      <JFXButton onAction="#openServiceRequestHandler" style="-fx-font-size: 24; -fx-background-color: floralwhite; -fx-background-radius: 16; -fx-opacity: 0.8" text="Service Request Handler" />
+      <JFXButton onAction="#openImportExportHandler" style="-fx-font-size: 24; -fx-background-color: floralwhite; -fx-background-radius: 16; -fx-opacity: 0.8" text="Import/Export CSV" />
     </HBox>
   </VBox>
 </AnchorPane>
