@@ -103,7 +103,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   private void lookupServiceRequest() {
     for (val request : database.exportServiceRequests()) {
-      if (request.getRequestID().equals(confirmationCode.getText())) {
+      if (request.getRequestID().equals(confirmationCode.getText().toUpperCase())) {
         showRequestConfirmationDialog(request);
         return;
       }
