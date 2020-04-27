@@ -29,6 +29,6 @@ public class LoginDetails {
   }
 
   public boolean isValid() {
-    return !username.isBlank() && !password.isBlank();
+    return username.equals("staff") && password.equals("staff");
   }
 }
