@@ -1,19 +1,23 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testfx.api.FxAssert.verifyThat;
 
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.Navigator;
+import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
+import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -30,7 +34,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 /**
- * Tests MainKioskViewModel todo fix up
+ * Tests MainKioskViewModel
  */
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 public class MainKioskViewModelTest extends FxRobot {
@@ -43,40 +47,25 @@ public class MainKioskViewModelTest extends FxRobot {
   LanguageHandler languageHandler;
   @Mock
   Navigator navigator;
+  @Mock
+  SnackBar snackBar;
+  @Mock
+  Dialog dialog;
 
   @InjectMocks
   MainKioskViewModel viewModel;
 
   @Spy
-  private final ResourceBundle bundle = new ResourceBundle() {
-    @Override
-    protected Object handleGetObject(String s) {
-      if (s.equals("serviceRequestLookupSubmit")) {
-        return "Submit";
-      }
-      if (s.equals("serviceRequestConfirmationID")) {
-        return "Click me";
-      }
-      if (s.equals("serviceRequestLookupFail")) {
-        return "pass";
-      }
-      return "";
-    }
+  private final ResourceBundleMock bundle = new ResourceBundleMock();
 
-    @Override
-    public boolean containsKey(String key) {
-      return true;
-    }
-
-    @Override
-    public Enumeration<String> getKeys() {
-      return Collections.emptyEnumeration();
-    }
-  };
-
-  // Sets up the stage for testing
   @Start
   public void start(Stage stage) throws IOException {
+    // Add the necessary strings to the bundle
+    bundle.put("serviceRequestLookupSubmit", "Submit");
+    bundle.put("serviceRequestConfirmationID", "Click me");
+    bundle.put("serviceRequestLookupFail", "pass");
+
+    // Load the actual test environment
     when(languageHandler.getCurrentLocale()).thenReturn(Locale.ENGLISH);
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
@@ -91,25 +80,29 @@ public class MainKioskViewModelTest extends FxRobot {
   public void testDialog() {
     val node = new Node("node", 0, 0, 1,
         "", "", "Long Name", "");
-    val serviceRequest = new ServiceRequest("valid", "", "node",
-        "Gift", "", "", "", null);
+    val serviceRequest = new ServiceRequest("ABCDEFGH", "", "",
+        "Sanitation", "Unassigned", "", "", "",
+        new SanitationRequestData("Dry Spill", ""));
     when(database.exportNodes()).thenReturn(Collections.singletonMap(node.getNodeID(), node));
     when(database.exportServiceRequests()).thenReturn(Collections.singletonList(serviceRequest));
     clickOn("Click me");
-    write("valid");
+    write("ABCDEFGH");
     clickOn(viewModel.getLookupButton());
-    verifyThat("Gift Service Request", javafx.scene.Node::isVisible);
+    verify(dialog, times(1)).showFullscreen(any());
+    verify(snackBar, times(0)).show("pass");
   }
 
   @Test
   public void testSnackBar() {
     clickOn(viewModel.getLookupButton());
-    verifyThat("pass", javafx.scene.Node::isVisible);
+    verify(snackBar, times(1)).show("pass");
+    verify(dialog, times(0)).showFullscreen(any());
   }
 
+  @Test
   public void serviceSelectionNavigatesToNewPage() {
     // todo
-    // test dispatch
+    // test navigator call
     // test service selection reset
   }
 }

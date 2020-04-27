@@ -9,7 +9,7 @@ import lombok.Value;
 @Value
 public class ServiceRequest {
 
-  String requestID, requestTime, requestNode, type, requesterName, whoMarked, employeeAssigned;
+  String requestID, requestTime, requestNode, type, status, requesterName, whoMarked, employeeAssigned;
 
   /**
    * The associated extra data with this request
