@@ -70,10 +70,10 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + NodeProperty.X_COORD.getColumnName() + " INT, "
             + NodeProperty.Y_COORD.getColumnName() + " INT, "
             + NodeProperty.FLOOR.getColumnName() + " INT, "
-            + NodeProperty.BUILDING.getColumnName() + " LONG VARCHAR, "
-            + NodeProperty.NODE_TYPE.getColumnName() + " LONG VARCHAR, "
-            + NodeProperty.LONG_NAME.getColumnName() + " LONG VARCHAR, "
-            + NodeProperty.SHORT_NAME.getColumnName() + " LONG VARCHAR, "
+            + NodeProperty.BUILDING.getColumnName() + " VARCHAR(999), "
+            + NodeProperty.NODE_TYPE.getColumnName() + " VARCHAR(999), "
+            + NodeProperty.LONG_NAME.getColumnName() + " VARCHAR(999), "
+            + NodeProperty.SHORT_NAME.getColumnName() + " VARCHAR(999), "
             + "PRIMARY KEY (" + NodeProperty.NODE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.NODES_TABLE + " created");
@@ -106,8 +106,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
             + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(999), "
-            + EmployeeProperty.NAME.getColumnName() + " LONG VARCHAR, "
-            + EmployeeProperty.TYPE.getColumnName() + " LONG VARCHAR, "
+            + EmployeeProperty.NAME.getColumnName() + " VARCHAR(999), "
+            + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
@@ -133,13 +133,13 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       try (val stmt = connection.createStatement()) {
         String queryTable = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
             + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(999), "
-            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " LONG VARCHAR, "
+            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " VARCHAR(999), "
             + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + ServiceRequestProperty.TYPE.getColumnName() + " LONG VARCHAR, "
-            + ServiceRequestProperty.STATUS.getColumnName() + " LONG VARCHAR, "
-            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " LONG VARCHAR, "
+            + ServiceRequestProperty.TYPE.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.STATUS.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " VARCHAR(999), "
             + ServiceRequestProperty.WHO_MARKED.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
