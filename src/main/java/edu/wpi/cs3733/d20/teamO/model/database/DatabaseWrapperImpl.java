@@ -65,14 +65,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.NODES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.NODES_TABLE
-            + "(" + NodeProperty.NODE_ID.getColumnName() + " VARCHAR(MAX), "
+            + "(" + NodeProperty.NODE_ID.getColumnName() + " LONG VARCHAR, "
             + NodeProperty.X_COORD.getColumnName() + " INT, "
             + NodeProperty.Y_COORD.getColumnName() + " INT, "
             + NodeProperty.FLOOR.getColumnName() + " INT, "
-            + NodeProperty.BUILDING.getColumnName() + " VARCHAR(MAX), "
-            + NodeProperty.NODE_TYPE.getColumnName() + " VARCHAR(MAX), "
-            + NodeProperty.LONG_NAME.getColumnName() + " VARCHAR(MAX), "
-            + NodeProperty.SHORT_NAME.getColumnName() + " VARCHAR(MAX), "
+            + NodeProperty.BUILDING.getColumnName() + " LONG VARCHAR, "
+            + NodeProperty.NODE_TYPE.getColumnName() + " LONG VARCHAR, "
+            + NodeProperty.LONG_NAME.getColumnName() + " LONG VARCHAR, "
+            + NodeProperty.SHORT_NAME.getColumnName() + " LONG VARCHAR, "
             + "PRIMARY KEY (" + NodeProperty.NODE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.NODES_TABLE + " created");
@@ -85,11 +85,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.EDGES_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EDGES_TABLE
-            + "(" + EdgeProperty.EDGE_ID.getColumnName() + " VARCHAR(MAX), "
-            + EdgeProperty.START_ID.getColumnName() + " VARCHAR(MAX) REFERENCES "
+            + "(" + EdgeProperty.EDGE_ID.getColumnName() + " LONG VARCHAR, "
+            + EdgeProperty.START_ID.getColumnName() + " LONG VARCHAR REFERENCES "
             + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + EdgeProperty.STOP_ID.getColumnName() + " VARCHAR(MAX) REFERENCES "
+            + EdgeProperty.STOP_ID.getColumnName() + " LONG VARCHAR REFERENCES "
             + Table.NODES_TABLE + " (" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
             + "PRIMARY KEY (" + EdgeProperty.EDGE_ID.getColumnName() + "))";
@@ -104,10 +104,10 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.EMPLOYEE_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
-            + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(MAX), "
-            + EmployeeProperty.NAME.getColumnName() + " VARCHAR(MAX), "
-            + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(MAX), "
-            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
+            + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " LONG VARCHAR, "
+            + EmployeeProperty.NAME.getColumnName() + " LONG VARCHAR, "
+            + EmployeeProperty.TYPE.getColumnName() + " LONG VARCHAR, "
+            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " LONG VARCHAR, "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
@@ -131,21 +131,21 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     if (isNotInitialized(Table.SERVICE_REQUESTS_TABLE)) {
       try (val stmt = connection.createStatement()) {
         String queryTable = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
-            + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(MAX), "
-            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " VARCHAR(MAX), "
-            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(MAX) REFERENCES "
+            + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " LONG VARCHAR, "
+            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " LONG VARCHAR, "
+            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " LONG VARCHAR REFERENCES "
             + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + ServiceRequestProperty.TYPE.getColumnName() + " VARCHAR(MAX), "
-            + ServiceRequestProperty.STATUS.getColumnName() + " VARCHAR(MAX), "
-            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " VARCHAR(MAX), "
-            + ServiceRequestProperty.WHO_MARKED.getColumnName() + " VARCHAR(MAX) REFERENCES "
+            + ServiceRequestProperty.TYPE.getColumnName() + " LONG VARCHAR, "
+            + ServiceRequestProperty.STATUS.getColumnName() + " LONG VARCHAR, "
+            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " LONG VARCHAR, "
+            + ServiceRequestProperty.WHO_MARKED.getColumnName() + " LONG VARCHAR REFERENCES "
             + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + ServiceRequestProperty.EMPLOYEE_ASSIGNED.getColumnName() + " VARCHAR(MAX) REFERENCES "
+            + ServiceRequestProperty.EMPLOYEE_ASSIGNED.getColumnName() + " LONG VARCHAR REFERENCES "
             + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
-            + ServiceRequestProperty.DATA.getColumnName() + " VARCHAR(MAX), "
+            + ServiceRequestProperty.DATA.getColumnName() + " LONG VARCHAR, "
             + "PRIMARY KEY (" + ServiceRequestProperty.REQUEST_ID.getColumnName() + "))";
         stmt.execute(queryTable);
         log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
@@ -296,6 +296,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public int deleteFromTable(Table table, TableProperty property, String matching) {
+    //ADD CHECK FOR EMPLOYEES
     val query = "DELETE from " + table.getTableName() +
         " WHERE " + property.getColumnName() + " = ?";
     try (val stmt = connection.prepareStatement(query)) {
