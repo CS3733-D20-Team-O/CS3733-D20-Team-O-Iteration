@@ -44,6 +44,6 @@
   <JFXTextArea fx:id="additionalNotes" promptText="Additional Notes"/>
   <HBox alignment="CENTER_RIGHT" spacing="16">
     <JFXButton text="Submit" onAction="#submitRequest"/>
-    <JFXButton text="Cancel" onAction="#closeRequest"/>
+    <JFXButton text="Cancel" onAction="#close"/>
   </HBox>
 </VBox>
