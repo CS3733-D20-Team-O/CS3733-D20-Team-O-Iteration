@@ -53,14 +53,7 @@ public class SanitationService extends ViewModelBase {
           .filter(node -> newFloor.equals(node.getFloor()))
           .map(Node::getLongName).sorted()
           .forEachOrdered(locations.getItems()::add);
-      locations.getSelectionModel().select(0);
     });
-
-    // Preselect the first floor and the first location on that floor
-    if (!floors.getItems().isEmpty()) {
-      floors.getSelectionModel().select(0);
-      locations.getSelectionModel().select(0);
-    }
   }
 
   @FXML
