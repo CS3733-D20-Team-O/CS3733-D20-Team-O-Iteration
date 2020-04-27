@@ -33,6 +33,6 @@
   <HBox alignment="CENTER_RIGHT" spacing="16">
     <JFXButton fx:id="importButton" disable="true" onAction="#importData" text="Import"/>
     <JFXButton fx:id="exportButton" disable="true" onAction="#exportData" text="Export"/>
-    <JFXButton fx:id="closeButton" text="Close"/>
+    <JFXButton text="Close" onAction="#close"/>
   </HBox>
 </VBox>

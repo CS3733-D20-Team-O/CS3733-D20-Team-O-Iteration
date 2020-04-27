@@ -3,10 +3,9 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +21,7 @@ import lombok.Value;
 import lombok.val;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class ImportExportCSVViewModel extends ViewModelBase {
+public class ImportExportCSVViewModel extends Dialog.DialogViewModel {
 
   private final CSVHandler csvHandler;
   private final SnackBar snackBar;
@@ -36,7 +35,7 @@ public class ImportExportCSVViewModel extends ViewModelBase {
   @FXML
   private JFXComboBox<String> typeSelector;
   @FXML
-  private JFXButton importButton, exportButton, closeButton;
+  private JFXButton importButton, exportButton;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -61,7 +60,7 @@ public class ImportExportCSVViewModel extends ViewModelBase {
     fileChooser.setTitle("Open CSV Data File");
     val csvExtensionFilter = new ExtensionFilter("CSV Files", "*.csv");
     fileChooser.getExtensionFilters().add(csvExtensionFilter);
-    val selectedFile = fileChooser.showOpenDialog(closeButton.getScene().getWindow());
+    val selectedFile = fileChooser.showOpenDialog(typeSelector.getScene().getWindow());
     if (selectedFile != null) {
       importButton.setDisable(false);
       exportButton.setDisable(false);
@@ -85,13 +84,6 @@ public class ImportExportCSVViewModel extends ViewModelBase {
     } else {
       snackBar.show("Failed to export the " + currentDataType.name.toLowerCase());
     }
-  }
-
-  /**
-   * @param dialog the dialog that owns this view model (and will be closed by the close button)
-   */
-  public void setDialog(JFXDialog dialog) {
-    closeButton.setOnAction(e -> dialog.close());
   }
 
   public String getFileLocation() {
