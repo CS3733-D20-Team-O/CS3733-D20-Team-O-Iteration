@@ -6,6 +6,6 @@ public class MedicineDeliveryServiceData implements ServiceRequestData {
 
   @Override
   public String getDisplayable() {
-    return null;
+    return "Medicine type: " + medicineType + "\nDelivery method: " + deliveryMethod;
   }
 }

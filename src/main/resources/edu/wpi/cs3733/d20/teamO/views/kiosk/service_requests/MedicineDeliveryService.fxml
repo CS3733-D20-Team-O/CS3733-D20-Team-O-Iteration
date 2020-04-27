@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -26,56 +27,76 @@
                   <Font size="18.0"/>
                </font>
             </Text>
-            <HBox spacing="8.0">
-               <children>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                    preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../../../baseline_face_black_18dp.png"/>
-                     </image>
-                  </ImageView>
-                  <JFXTextField fx:id="patientName" promptText="Patient name"/>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
-                    pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image
-                          url="@../../../../../../../../baseline_local_hospital_black_18dp.png"/>
-                     </image>
-                  </ImageView>
-                  <JFXTextField fx:id="medicationName" layoutX="218.0" layoutY="10.0"
-                    promptText="Medication name"/>
-               </children>
-            </HBox>
-            <HBox layoutX="18.0" layoutY="18.0" spacing="8.0">
-               <children>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                    preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../../../baseline_list_black_18dp.png"/>
-                     </image>
-                  </ImageView>
-                  <JFXComboBox fx:id="deliveryMethod" promptText="Delivery method"/>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
-                    pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../../../baseline_room_black_18dp.png"/>
-                     </image>
-                  </ImageView>
-                  <JFXComboBox promptText="Room name"/>
-               </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER" layoutX="18.0" layoutY="83.0" spacing="8.0">
-               <children>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-                    preserveRatio="true">
-                     <image>
-                        <Image
-                          url="@../../../../../../../../baseline_format_list_numbered_black_18dp.png"/>
-                     </image>
-                  </ImageView>
-                  <JFXComboBox fx:id="floorNumber" promptText="Floor number"/>
-               </children>
-            </HBox>
+           <HBox spacing="8.0">
+             <children>
+               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+                 preserveRatio="true">
+                 <image>
+                   <Image url="@/baseline_face_black_18dp.png"/>
+                 </image>
+               </ImageView>
+               <JFXTextField fx:id="patientName" promptText="Patient name">
+                 <validators>
+                   <RequiredFieldValidator message="Required"/>
+                 </validators>
+               </JFXTextField>
+               <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
+                 pickOnBounds="true" preserveRatio="true">
+                 <image>
+                   <Image
+                     url="@/baseline_local_hospital_black_18dp.png"/>
+                 </image>
+               </ImageView>
+               <JFXTextField fx:id="medicationName" layoutX="218.0" layoutY="10.0"
+                 promptText="Medication name">
+                 <validators>
+                   <RequiredFieldValidator message="Required"/>
+                 </validators>
+               </JFXTextField>
+             </children>
+           </HBox>
+           <HBox layoutX="18.0" layoutY="18.0" spacing="8.0">
+             <children>
+               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+                 preserveRatio="true">
+                 <image>
+                   <Image url="@/baseline_list_black_18dp.png"/>
+                 </image>
+               </ImageView>
+               <JFXComboBox fx:id="deliveryMethod" promptText="Delivery method">
+                 <validators>
+                   <RequiredFieldValidator message="Required"/>
+                 </validators>
+               </JFXComboBox>
+               <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
+                 pickOnBounds="true" preserveRatio="true">
+                 <image>
+                   <Image url="@/baseline_room_black_18dp.png"/>
+                 </image>
+               </ImageView>
+               <JFXComboBox fx:id="roomName" promptText="Room name">
+                 <validators>
+                   <RequiredFieldValidator message="Required"/>
+                 </validators>
+               </JFXComboBox>
+             </children>
+           </HBox>
+           <HBox alignment="TOP_CENTER" layoutX="18.0" layoutY="83.0" spacing="8.0">
+             <children>
+               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+                 preserveRatio="true">
+                 <image>
+                   <Image
+                     url="@/baseline_format_list_numbered_black_18dp.png"/>
+                 </image>
+               </ImageView>
+               <JFXComboBox fx:id="floorNumber" promptText="Floor number">
+                 <validators>
+                   <RequiredFieldValidator message="Required"/>
+                 </validators>
+               </JFXComboBox>
+             </children>
+           </HBox>
             <JFXButton onAction="#submitRequest" text="Submit request"/>
             <JFXButton onAction="#cancel" text="Cancel"/>
          </children>
