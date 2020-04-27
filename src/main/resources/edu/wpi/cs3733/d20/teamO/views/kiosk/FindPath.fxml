@@ -16,9 +16,9 @@
   style="-fx-background-color: #acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel">
-  <!--  <center>-->
-  <!--    <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>-->
-  <!--  </center>-->
+  <center>
+    <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
+  </center>
   <left>
     <AnchorPane fx:id="sideBar" prefHeight="200.0" prefWidth="200.0"
       style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
