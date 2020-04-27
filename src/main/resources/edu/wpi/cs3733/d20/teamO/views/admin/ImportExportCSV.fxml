@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: #acd7fd"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.ImportExportCSVViewModel" fx:id="root">
-  <VBox spacing="32" alignment="CENTER" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
-    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-    <HBox spacing="16" alignment="CENTER">
-      <JFXTextField fx:id="nodesFilename" promptText="Nodes CSV Filename"/>
-      <JFXButton onAction="#importNodes" text="Import"/>
-      <JFXButton onAction="#exportNodes" text="Export"/>
-    </HBox>
-    <HBox spacing="16" alignment="CENTER">
-      <JFXTextField fx:id="edgesFilename" promptText="Edges CSV Filename"/>
-      <JFXButton onAction="#importEdges" text="Import"/>
-      <JFXButton onAction="#exportEdges" text="Export"/>
-    </HBox>
-    <HBox spacing="16" alignment="CENTER">
-      <JFXTextField fx:id="employeesFilename" promptText="Employees CSV Filename"/>
-      <JFXButton onAction="#importEmployees" text="Import"/>
-      <JFXButton onAction="#exportEmployees" text="Export"/>
-    </HBox>
-    <HBox spacing="16" alignment="CENTER">
-      <JFXTextField fx:id="requestsFilename" promptText="Service Requests CSV Filename"/>
-      <JFXButton onAction="#importRequests" text="Import"/>
-      <JFXButton onAction="#exportRequests" text="Export"/>
-    </HBox>
-  </VBox>
-</AnchorPane>
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="32"
+  xmlns:fx="http://javafx.com/fxml/1" style="-fx-padding: 32; -fx-font-size: 16"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.ImportExportCSVViewModel">
+  <Label text="Import/Export CSV Data" style="-fx-font-size: 32"/>
+  <HBox spacing="32" alignment="CENTER" style="-fx-padding: 16 0">
+    <VBox spacing="8" alignment="CENTER" prefWidth="250">
+      <Label text="Select the type of data"/>
+      <JFXComboBox fx:id="typeSelector"/>
+    </VBox>
+    <VBox spacing="8" alignment="CENTER" prefWidth="250">
+      <Label text="Select the CSV data file"/>
+      <JFXButton onAction="#selectFile" text="Select a file" buttonType="RAISED"
+        style="-fx-background-color: lightgrey">
+        <graphic>
+          <ImageView fitHeight="22" pickOnBounds="true" preserveRatio="true">
+            <Image url="@/file-icon.png"/>
+          </ImageView>
+        </graphic>
+      </JFXButton>
+    </VBox>
+  </HBox>
+  <Label text="Currently selected file:"/>
+  <Label text="${controller.fileLocation}"/>
+  <HBox alignment="CENTER_RIGHT" spacing="16">
+    <JFXButton fx:id="importButton" disable="true" onAction="#importData" text="Import"/>
+    <JFXButton fx:id="exportButton" disable="true" onAction="#exportData" text="Export"/>
+    <JFXButton fx:id="closeButton" text="Close"/>
+  </HBox>
+</VBox>
