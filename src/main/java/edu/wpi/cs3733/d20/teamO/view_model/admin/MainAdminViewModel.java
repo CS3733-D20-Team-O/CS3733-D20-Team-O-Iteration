@@ -10,7 +10,6 @@ import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -86,8 +85,10 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
   }
 
   @FXML
-  private void logout(ActionEvent actionEvent) {
-    // todo set login etails
+  private void logout() {
+    loginDetails.reset();
     close();
   }
+
+  // todo on close dialog listener
 }

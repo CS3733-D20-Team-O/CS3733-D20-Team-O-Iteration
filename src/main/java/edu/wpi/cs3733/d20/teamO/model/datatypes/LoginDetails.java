@@ -24,6 +24,10 @@ public class LoginDetails {
     }
   }
 
+  public void reset() {
+    username = password = "";
+  }
+
   public boolean isValid() {
     return !username.isBlank() && !password.isBlank();
   }
