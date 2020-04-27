@@ -304,7 +304,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private void clearFields() {
     Stream.of(shortNameField, longNameField, newNodeShortName, newNodeLongName)
         .forEach(node -> node.clear());
-    newNodeLongName.clear();
+    Stream.of(shortNameField, longNameField, newNodeShortName, newNodeLongName, newNodeCategory)
+        .forEach(node -> node.resetValidation());
+    newNodeCategory.getSelectionModel().clearSelection();
     neighboringNodesList.getItems().clear();
     // todo clear validator
   }
