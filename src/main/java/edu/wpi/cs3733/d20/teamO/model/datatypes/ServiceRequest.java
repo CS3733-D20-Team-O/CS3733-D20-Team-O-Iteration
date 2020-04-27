@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.model.datatypes;
 
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import lombok.Value;
 
 /**
@@ -8,5 +9,10 @@ import lombok.Value;
 @Value
 public class ServiceRequest {
 
-  String requestID, requestTime, requestNode, type, requesterName, whoMarked, employeeAssigned;
+  String requestID, requestTime, requestNode, type, status, requesterName, whoMarked, employeeAssigned;
+
+  /**
+   * The associated extra data with this request
+   */
+  ServiceRequestData requestData;
 }
