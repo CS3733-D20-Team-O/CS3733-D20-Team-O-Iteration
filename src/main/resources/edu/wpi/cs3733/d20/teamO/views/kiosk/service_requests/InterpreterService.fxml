@@ -35,13 +35,23 @@
       <children>
         <VBox alignment="CENTER" prefHeight="100.0" prefWidth="193.0" spacing="16">
           <Label text="Select a language:"/>
-          <JFXComboBox promptText="Language"/>
+          <JFXComboBox fx:id="language" promptText="Language">
+            <validators>
+              <RequiredFieldValidator
+                message="You need to select the language for the interpreter!"/>
+            </validators>
+          </JFXComboBox>
         </VBox>
         <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="218.0"
           spacing="16">
           <children>
             <Label text="Select a preferred gender:"/>
-            <JFXComboBox promptText="Gender"/>
+            <JFXComboBox fx:id="gender" promptText="Gender">
+              <validators>
+                <RequiredFieldValidator
+                  message="You need to select the preferred gender for the interpreter!"/>
+              </validators>
+            </JFXComboBox>
           </children>
         </VBox>
       </children>
