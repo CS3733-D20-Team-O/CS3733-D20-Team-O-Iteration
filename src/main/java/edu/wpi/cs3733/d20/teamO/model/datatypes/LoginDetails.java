@@ -1,19 +1,20 @@
 package edu.wpi.cs3733.d20.teamO.model.datatypes;
 
+import com.google.inject.Singleton;
 import java.util.List;
-import lombok.Value;
+import lombok.Data;
 import lombok.val;
 
 /**
  * Represents login details passed in via the command line
  */
-@Value
+@Data
+@Singleton
 public class LoginDetails {
 
-  String username, password;
+  private String username = "", password = "";
 
-  public LoginDetails(List<String> args) {
-    String username = "", password = "";
+  public void setFromParameters(List<String> args) {
     for (val arg : args) {
       if (arg.startsWith("--username=")) {
         username = arg.substring(11);
@@ -21,11 +22,9 @@ public class LoginDetails {
         password = arg.substring(11);
       }
     }
-    this.username = username;
-    this.password = password;
   }
 
   public boolean isValid() {
-    return !username.isBlank() && !password.isBlank();
+    return username.equals("staff") && password.equals("staff");
   }
 }
