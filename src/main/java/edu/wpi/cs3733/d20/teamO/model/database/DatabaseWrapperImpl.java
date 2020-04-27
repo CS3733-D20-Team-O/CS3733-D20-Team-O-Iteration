@@ -296,7 +296,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public int deleteFromTable(Table table, TableProperty property, String matching) {
-    //ADD CHECK FOR EMPLOYEES
+    //todo ADD CHECK FOR EMPLOYEES
     val query = "DELETE from " + table.getTableName() +
         " WHERE " + property.getColumnName() + " = ?";
     try (val stmt = connection.prepareStatement(query)) {
