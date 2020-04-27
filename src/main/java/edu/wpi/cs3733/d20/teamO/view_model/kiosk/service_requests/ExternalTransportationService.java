@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ExternalTransportationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
@@ -56,6 +56,8 @@ public class ExternalTransportationService extends ViewModelBase {
       locations.getSelectionModel().select(0);
     });
 
+    //todo populate transportation type
+
     // Preselect the first floor and the first location on that floor
     if (!floors.getItems().isEmpty()) {
       floors.getSelectionModel().select(0);
@@ -66,11 +68,11 @@ public class ExternalTransportationService extends ViewModelBase {
   @FXML
   private void submitRequest() {
     if (validator.validate(requesterName, floors, locations)) {
-      val requestData = new SanitationRequestData(
+      val requestData = new ExternalTransportationRequestData(
           transportationType.getSelectionModel().getSelectedItem(),
+          destination.getText(),
           additionalNotes.getText());
       val time = LocalDateTime.now().toString(); // todo format this
-      // todo use enum for type of transportation below
       // todo extract strings
       val confirmationCode = database.addServiceRequest(
           time, locations.getSelectionModel().getSelectedItem(),

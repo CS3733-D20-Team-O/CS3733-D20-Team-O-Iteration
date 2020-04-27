@@ -19,14 +19,14 @@
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
-      <JFXComboBox fx:id="floor" promptText="Floor">
+      <JFXComboBox fx:id="floors" promptText="Floor">
         <validators>
           <RequiredFieldValidator message="You need to specify the floor you are on!"/>
         </validators>
       </JFXComboBox>
-      <JFXComboBox fx:id="location" promptText="Current Room/Location">
+      <JFXComboBox fx:id="locations" promptText="Current Room/Location">
         <validators>
-          <RequiredFieldValidator message="You need to specify the room/location you are at"/>
+          <RequiredFieldValidator message="You need to specify the room/location you are at!"/>
         </validators>
       </JFXComboBox>
     </HBox>

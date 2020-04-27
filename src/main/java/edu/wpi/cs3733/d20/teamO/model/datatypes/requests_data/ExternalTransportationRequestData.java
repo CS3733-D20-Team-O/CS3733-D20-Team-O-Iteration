@@ -8,13 +8,14 @@ import lombok.Value;
 @Value
 public class ExternalTransportationRequestData implements ServiceRequestData {
 
-  String destination, notes;
+  String transportationType, destination, notes;
 
   /**
    * @return a multiline string fit for displaying directly to an end user
    */
   @Override
   public String getDisplayable() {
-    return "Destination: " + destination + "\nAdditional Notes: " + notes;
+    return "Mode of Transportation: " + transportationType + "\nDestination: " + destination
+        + "\nAdditional Notes: " + notes;
   }
 }
