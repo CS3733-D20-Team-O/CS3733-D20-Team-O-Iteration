@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d20.teamO.model.material;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -84,14 +85,16 @@ public class Dialog {
     fxmlLoader.setRoot(null);
     fxmlLoader.setController(null);
     // Show the dialog in full screen mode and connect the view model to the dialog
-    ((DialogViewModel) fxmlLoader.getController()).parent =
-        showFullscreen(fxmlLoader.load(Main.class.getResourceAsStream(fxml)));
+    val dialog = showFullscreen(fxmlLoader.load(Main.class.getResourceAsStream(fxml)));
+    val dialogViewModel = (DialogViewModel) fxmlLoader.getController();
+    dialogViewModel.parent = dialog;
+    dialog.addEventHandler(JFXDialogEvent.CLOSED, event -> dialogViewModel.onClose());
   }
 
   /**
    * A class that all fxml-loaded fxml-loaded dialog view models MUST extend
    */
-  public static class DialogViewModel extends ViewModelBase {
+  public static abstract class DialogViewModel extends ViewModelBase {
 
     /**
      * The parent to this dialog
@@ -103,6 +106,12 @@ public class Dialog {
      */
     protected final void close() {
       parent.close();
+    }
+
+    /**
+     * Is called when the dialog is closed
+     */
+    protected void onClose() {
     }
   }
 }
