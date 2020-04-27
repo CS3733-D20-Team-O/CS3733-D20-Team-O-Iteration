@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
@@ -12,6 +13,7 @@ import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,6 +52,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
   @FXML
   private TextFlow stepLbl;
 
+  @FXML
+  private JFXTextArea dataSpace;
+
   //Service Request Table Stuff
   //Todo update the new table columns with appropriate names instead of the ones i have as a placeholder
   @FXML
@@ -85,6 +90,11 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private void iterationOneAdminSet() {
     adminID = "990099";
     adminName = database.employeeNameFromID(adminID);
+
+    database.addNode("TN", 1, 1, 1, "", "", "", "");
+    database.addEmployee("1234", "JOOne", "Test1", true);
+    database.addServiceRequest("NO", "TN", "Test1", "beezwax, nunya",
+        new SanitationRequestData("Low", "it do be a spill tho"));
   }
 
   //Todo add data names here too
@@ -96,7 +106,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     colResquesterName.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
     colWhoMarked.setCellValueFactory(new PropertyValueFactory<>("whoMarked"));
     colEmployeeAssigned.setCellValueFactory(new PropertyValueFactory<>("employeeAssigned"));
-    //colServiceStatus.setCellValueFactory(new PropertyValueFactory<>("add data name"));
+    colServiceStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
     colServiceData.setCellValueFactory(new PropertyValueFactory<>("add data name"));
 
     empID.setCellValueFactory(new PropertyValueFactory<>("employeeID"));
@@ -106,16 +116,19 @@ public class RequestHandlerViewModel extends ViewModelBase {
   }
 
   /**
-   * Updates the employee table based on the service request selected.
+   * Updates the employee table based on the service request selected. Updates the data box to show
+   * data
    */
   @FXML
-  private void updateEmployeeTable() {
+  private void updateDisplays() {
     cbShowUnavail.setVisible(true);
 
     ObservableList<Employee> tableItems = FXCollections.observableArrayList();
 
     if (serviceTable.getSelectionModel().getSelectedItem() != null) {
+
       val req = serviceTable.getSelectionModel().getSelectedItem();
+      dataSpace.setText(req.getRequestData().getDisplayable());
       for (Employee e : database.exportEmployees()) {
 
         if (e.getType().equals(req.getType())) {
@@ -174,7 +187,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     }
 
     System.out.println("Updating Employee Table from assignEmployee()");
-    updateEmployeeTable();
+    updateDisplays();
   }
 
   /**
@@ -210,7 +223,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
       Employee selectedEmployee) {
     val assignedService = new ServiceRequest(selectedRequest.getRequestID(),
         selectedRequest.getRequestTime(),
-        selectedRequest.getRequestNode(), selectedRequest.getType(), selectedRequest.getStatus(),
+        selectedRequest.getRequestNode(), selectedRequest.getType(), "Assigned",
         selectedRequest.getRequesterName(), adminName,
         selectedEmployee.getEmployeeID(), selectedRequest.getRequestData());
     serviceTable.getItems().remove(selectedRequest);
@@ -218,10 +231,10 @@ public class RequestHandlerViewModel extends ViewModelBase {
   }
 
   /**
-   * todo add checking for cancelled and resolved status Checks if certain criteria are met to
-   * assign employee Otherwise shows a specific snackbar error.
+   * Checks if certain criteria are met to assign employee Otherwise shows a specific snackbar
+   * error.
    *
-   * @return
+   * @return false is it is safe to add an employee
    */
   private boolean criteraToAssignEmployeeMet() {
     // "error" cases to do nothing
@@ -231,23 +244,28 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return true;
     }
     //no employee selected
-    if (employeeTable.getSelectionModel().getSelectedItem() == null) {
+    else if (employeeTable.getSelectionModel().getSelectedItem() == null) {
       showErrorSnackbar("No Employee selected.");
       return true;
     }
+    //task is unavailable
+    else if (!serviceTable.getSelectionModel().getSelectedItem().getStatus().equals("Unassigned")) {
+      showErrorSnackbar("An employee cannot be assigned to this task");
+      return true;
+    }
     //employee selected somehow does not have same type as request
-    if (!employeeTable.getSelectionModel().getSelectedItem().getType()
+    else if (!employeeTable.getSelectionModel().getSelectedItem().getType()
         .equals(serviceTable.getSelectionModel().getSelectedItem().getType())) {
       showErrorSnackbar("Employee cannot complete this Service Request.");
       return true;
     }
     //employee is unavailable
-    if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable()) {
+    else if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable()) {
       showErrorSnackbar("Employee is unavailable.");
       return true;
     }
     //if the selected service has someone assigned
-    if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned().equals("")) {
+    else if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned().equals("")) {
       showErrorSnackbar("An employee is already assigned to this service request");
       return true;
     } else {
