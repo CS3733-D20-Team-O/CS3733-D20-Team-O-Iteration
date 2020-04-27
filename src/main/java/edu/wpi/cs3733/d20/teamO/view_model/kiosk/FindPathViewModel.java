@@ -26,7 +26,9 @@ public class FindPathViewModel extends ViewModelBase {
   enum State {
     START,
     END,
-    DRAWN
+    DRAWN,
+    COMBO_START,
+    COMBO_STOP
   }
 
   State currentState = State.START;
@@ -49,6 +51,8 @@ public class FindPathViewModel extends ViewModelBase {
   private final DatabaseWrapper database;
   private Node beginning;
   private Node finish;
+  private Node defaultStart;
+  private Node defaultStop;
 
   @Override
 /**
@@ -60,19 +64,20 @@ public class FindPathViewModel extends ViewModelBase {
     JFXDepthManager.setDepth(sideBar, 2);
     nodeMap = database.exportNodes();
     nodeMapViewController.setNodeMap(nodeMap);
+    defaultStart = nodeMap.get("AEXIT00101");
+    defaultStop = nodeMap.get("AEXIT00101");
     nodeMapViewController.setOnNodeTappedListener(node -> {
-
       switch (currentState) {
         case START:
           beginning = node;
-          currentState = State.END;
+          startFloor.getSelectionModel().select(node.getFloor() - 1);
+          startRoom.getSelectionModel().select(node.getLongName());
+          currentState = State.DRAWN;
           break;
         case END:
-//          if (node.equals(beginning)) {
-//            currentState = State.START;
-//            break;
-//          }
           finish = node;
+          stopFloor.getSelectionModel().select(node.getFloor() - 1);
+          stopRoom.getSelectionModel().select(node.getLongName());
           drawPath();
           currentState = State.DRAWN;
           break;
@@ -120,6 +125,9 @@ public class FindPathViewModel extends ViewModelBase {
       stopFloor.getSelectionModel().select(0);
       stopRoom.getSelectionModel().select(0);
     }
+
+    resetPath();
+
   }
 
   /**
@@ -127,9 +135,12 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
-    currentState = State.START;
-    beginning = null;
-    finish = null;
+    beginning = defaultStart;
+    finish = defaultStop;
+    startFloor.getSelectionModel().select(defaultStart.getFloor() - 1);
+    startRoom.getSelectionModel().select(defaultStart.getLongName());
+    stopFloor.getSelectionModel().select(defaultStop.getFloor() - 1);
+    stopRoom.getSelectionModel().select(defaultStop.getLongName());
     nodeMapViewController.draw();
   }
 
@@ -138,9 +149,7 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.decrementFloor();
     nodeMapViewController.draw();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
-    if (currentState == State.DRAWN) {
-      drawPath();
-    }
+    drawPath();
   }
 
   @FXML
@@ -148,9 +157,7 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.incrementFloor();
     nodeMapViewController.draw();
     floorLabel.setText("Floor " + nodeMapViewController.getFloor());
-    if (currentState == State.DRAWN) {
-      drawPath();
-    }
+    drawPath();
   }
 
   @FXML
@@ -168,6 +175,64 @@ public class FindPathViewModel extends ViewModelBase {
     assert nodes != null;
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
+    }
+  }
+
+  /**
+   * sets beginning on combo box change
+   */
+  @FXML
+  private void onStartCombo() {
+    currentState = State.COMBO_START;
+    comboState();
+  }
+
+  /**
+   * sets finish on combo box change
+   */
+  @FXML
+  private void onStopCombo() {
+    currentState = State.COMBO_STOP;
+    comboState();
+  }
+
+  @FXML
+  private void setStart() {
+    currentState = State.START;
+  }
+
+  @FXML
+  private void setEnd() {
+    currentState = State.END;
+  }
+
+  /**
+   * sets beginning or finish based on combo box input
+   */
+  private void comboState() {
+    switch (currentState) {
+      case COMBO_START:
+        for (Node n : nodeMap.values()) {
+          if (n.getLongName().equals(startRoom.getSelectionModel().getSelectedItem().toString())) {
+            beginning = n;
+            break;
+          }
+        }
+        nodeMapViewController.draw();
+        drawPath();
+        break;
+      case COMBO_STOP:
+        for (Node n : nodeMap.values()) {
+          if (n.getLongName().equals(stopRoom.getSelectionModel().getSelectedItem().toString())) {
+            finish = n;
+            break;
+          }
+        }
+        nodeMapViewController.draw();
+        drawPath();
+        break;
+      default:
+        break;
     }
   }
 }
