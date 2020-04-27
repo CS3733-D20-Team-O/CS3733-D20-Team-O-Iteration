@@ -80,7 +80,7 @@ public class MainKioskViewModelTest extends FxRobot {
   public void testDialog() {
     val node = new Node("node", 0, 0, 1,
         "", "", "Long Name", "");
-    val serviceRequest = new ServiceRequest("ABCDEFGH", "", "",
+    val serviceRequest = new ServiceRequest("ABCDEFGH", "", "node",
         "Sanitation", "Unassigned", "", "", "",
         new SanitationRequestData("Dry Spill", ""));
     when(database.exportNodes()).thenReturn(Collections.singletonMap(node.getNodeID(), node));
