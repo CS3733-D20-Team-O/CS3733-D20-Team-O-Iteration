@@ -12,7 +12,7 @@
     <Label style="-fx-font-size: 36; -fx-text-fill: floralwhite; -fx-padding: 16" text="Welcome to the Brigham and Women's Hospital Admin Utility!" />
   </HBox>
 
-  <VBox alignment="CENTER" spacing="64" style="-fx-background-image: url('https://www.brighamandwomens.org/assets/BWH/about-bwh/images/locations-bwfh_700x400.jpg'); -fx-background-size: 100% 100%" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="83.0">
+  <VBox alignment="CENTER" spacing="64" style="-fx-background-image: url('https://www.brighamandwomens.org/assets/BWH/about-bwh/images/locations-bwfh_700x400.jpg'); -fx-background-size: 100% 100%" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="83.0">
     <HBox alignment="CENTER" spacing="32" >
       <JFXButton onAction="#openFloorMapEditor" style="-fx-font-size: 24; -fx-background-color: floralwhite; -fx-background-radius: 16; -fx-opacity: 0.8"  text="Floor Map Editor" />
       <JFXButton onAction="#openServiceRequestHandler" style="-fx-font-size: 24; -fx-background-color: floralwhite; -fx-background-radius: 16; -fx-opacity: 0.8" text="Service Request Handler" />

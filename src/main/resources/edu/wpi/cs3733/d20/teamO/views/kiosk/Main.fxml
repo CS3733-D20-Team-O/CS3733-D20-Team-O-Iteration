@@ -20,13 +20,13 @@
   </HBox>
 
   <!-- Wrapper to center the main content -->
-  <StackPane fx:id="kioskMain" accessibleRole="IMAGE_VIEW" layoutY="43.0" style="-fx-background-image: url('https://patch.com/img/cdn/users/22857729/2015/12/raw/2015125668b67cb68bf.jpg'); -fx-background-size: 100% 100%;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="83.0">
+  <StackPane fx:id="kioskMain" accessibleRole="IMAGE_VIEW" layoutY="43.0" style="-fx-background-image: url('https://give.brighamandwomens.org/wp-content/uploads/2017/08/17NamingOpportunity-BWFH.jpg'); -fx-background-size: 100% 100%;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="83.0">
     <!-- The actual main content box todo and various styling -->
-    <VBox fx:id="contentContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-padding: 32; -fx-background-color: whitesmoke; -fx-background-radius: 16; -fx-opacity: 0.8">
+    <VBox fx:id="contentContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-padding: 32; -fx-background-color: whitesmoke; -fx-background-radius: 16; -fx-opacity: 0.9">
       <Label style="-fx-font-size: 36; -fx-padding: 0 0 64 0" text="%mainQuestionPrompt" />
       <VBox alignment="CENTER" spacing="32">
         <!-- Path finding todo separate label and button -->
-        <JFXButton buttonType="RAISED" onAction="#openPathFinder" style="-fx-font-size: 32; -fx-background-color: floralwhite" text="%mainLeftButton" />
+        <JFXButton buttonType="RAISED" onAction="#openPathFinder" style="-fx-font-size: 32; -fx-background-color: floralwhite; -fx-padding: 10; -fx-background-radius: 12; -fx-opacity: 0.8" text="%mainLeftButton" />
         <!-- Service Request Creation -->
         <Label style="-fx-font-size: 32" text="%serviceRequestCreationLabel" />
         <JFXComboBox fx:id="serviceSelector" promptText="%serviceRequestCreationPrompt" style="-fx-font-size: 24" />
