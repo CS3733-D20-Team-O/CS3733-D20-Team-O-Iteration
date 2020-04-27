@@ -24,8 +24,7 @@ public class FindPathViewModel extends ViewModelBase {
 
   enum State {
     START,
-    END,
-    PATH_DRAWN
+    END
   }
 
   State currentState = State.START;
@@ -69,7 +68,6 @@ public class FindPathViewModel extends ViewModelBase {
             break;
           }
           finish = node;
-          currentState = State.PATH_DRAWN;
           List<Node> nodes = AStar.findPathBetween(beginning, finish);
           assert nodes != null;
           for (int i = 0; i < nodes.size() - 1; i++) {

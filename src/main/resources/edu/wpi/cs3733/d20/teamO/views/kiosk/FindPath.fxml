@@ -18,7 +18,7 @@
   <center>
     <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
   </center>
-  <right>
+  <left>
     <AnchorPane fx:id="sideBar" prefHeight="200.0" prefWidth="200.0"
       style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
       <children>
@@ -72,5 +72,5 @@
         <JFXButton layoutX="92.0" layoutY="200.0" onAction="#resetPath" text="Clear"/>
       </children>
     </AnchorPane>
-  </right>
+  </left>
 </BorderPane>
