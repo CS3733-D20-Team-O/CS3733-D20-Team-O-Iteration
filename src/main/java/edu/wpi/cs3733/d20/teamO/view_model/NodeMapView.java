@@ -9,10 +9,12 @@ import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -34,11 +36,16 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
-  private final static double nodeSize = 10;
+  private double nodeSize = 10;
+  private double edgeSize = 3;
   private final static int maxFloor = 5;
   private final static int minFloor = 1;
   private final static Paint nodeColor = Color.web("#00991f"); // Green
   private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
+  private final static Paint highlightColor = Color.RED; // Red
+
+  private Node selectedNode = null;
+  private NodeState state = NodeState.NodeUnselected;
 
   /**
    * The current floor being displayed
@@ -59,21 +66,36 @@ public class NodeMapView extends ViewModelBase {
    * something else isn't really the appropriate data structure
    */
   private final Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
-  private final Map<Integer, Map<Node, Circle>> newNodeMap = new HashMap<>();
 
-  @FXML private ImageView backgroundImage;
-  @FXML private Canvas nodeCanvas;
-  @FXML private StackPane floorPane;
+  @FXML
+  private ImageView backgroundImage;
+  @FXML
+  private Canvas nodeCanvas;
+  @FXML
+  private StackPane floorPane;
+
+  private Group nodeGroup;
+  private Group edgeGroup;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+
+    nodeGroup = new Group();
+    edgeGroup = new Group();
+    floorPane.getChildren().addAll(edgeGroup, nodeGroup);
+
     // Display the current floor (and consequently call the above listeners)
     setFloor(minFloor);
 
     // Set up event for when a node is selected (or not selected)
-    floorPane.setOnMouseClicked(event -> checkClick(event));
+    floorPane.setOnMouseClicked(this::checkClick);
     // Set up event for a drag event
-    floorPane.setOnMouseDragged(event -> dragEvent(event)); // todo set up mouse drag event
+    floorPane.setOnMouseDragged(this::dragEvent);
+    // Set up event for a scroll event
+    floorPane.setOnScroll(this::scrollEvent);
+    // Set up event for a mouse moved event
+    // (this seems redundant, but is critical for supplying the current x and y locations for the scroll event
+    floorPane.setOnMouseMoved(this::moveEvent);
   }
 
   /**
@@ -82,33 +104,39 @@ public class NodeMapView extends ViewModelBase {
    * @param nodeMap the new node map to fuel this view
    */
   public void setNodeMap(Map<String, Node> nodeMap) {
-    this.nodeMap.clear(); // Clear the current node map
+    this.nodeMap.clear(); // Clear the current node map and the current nodeGroup and edgeGroup
+
     nodeMap.keySet().forEach((id) -> placeFloorNode(id, nodeMap.get(id)));
     draw();
   }
 
   /**
-   * Adds a node (and redraws if on the current floor)
+   * Adds a node (and adds it to the current map if on the correct floor)
    *
    * @param node a node
    */
   public void addNode(Node node) {
     placeFloorNode(node.getNodeID(), node);
     if (node.getFloor() == this.floor) {
-      draw();
+      drawNode(node);
     }
   }
 
   /**
-   * Deletes a node (and redraws if on the current floor)
+   * Deletes a node from the map
    *
    * @param node a node
    */
   public void deleteNode(Node node) {
     if (this.nodeMap.containsKey(node.getFloor())) {
       nodeMap.get(node.getFloor()).remove(node.getNodeID());
+
       if (node.getFloor() == this.floor) {
-        draw();
+        val target = findNode(node);
+        if (target
+            != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
+          nodeGroup.getChildren().remove(target);
+        }
       }
     }
   }
@@ -129,12 +157,13 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
-   * Clears the canvas and draws all the nodes on a certain floor
+   * Clears the map of nodes/edges and draws all the nodes on a certain floor
    */
   public void draw() {
-    // Clear the items in the group
-    floorPane.getChildren().removeAll();
-    floorPane.getChildren().add(backgroundImage);
+    // Clear the items displayed
+    nodeGroup.getChildren().clear();
+    edgeGroup.getChildren().clear();
+
     // Draw all the nodes on a certain floor
     val floorMap = nodeMap.get(getFloor());
     // Check if nodes for the floor exist
@@ -149,8 +178,8 @@ public class NodeMapView extends ViewModelBase {
   private void drawNode(Node node) {
     val x = node.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
     val y = node.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
-    val drawnNode = new Circle(x, y, nodeSize, nodeColor);
-    floorPane.getChildren().add(drawnNode);
+    val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
+    nodeGroup.getChildren().add(drawnNode);
   }
 
   /**
@@ -168,14 +197,20 @@ public class NodeMapView extends ViewModelBase {
       val y2 = n2.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
       val drawnEdge = new Line(x1, y1, x2, y2);
       drawnEdge.setStrokeWidth(3.0);
-      floorPane.getChildren().add(drawnEdge);
-
-      // As drawing a line between the two points will lay on top of the nodes,
-      //  redraw the nodes to be on top of the newly drawn line
-      // todo figure out how to redraw nodes without redrawing everything
-      drawNode(n1);
-      drawNode(n2);
+      drawnEdge.setStroke(edgeColor);
+      edgeGroup.getChildren().add(drawnEdge);
     }
+  }
+
+  /**
+   * Draws an edge (represented as a line) between the origin and the given nodes
+   *
+   * @param origin  the origin
+   * @param xTarget the given xTarget
+   * @param yTarget the given yTarget
+   */
+  public void drawEdge(Node origin, int xTarget, int yTarget) {
+    // todo finish this!
   }
 
   /**
@@ -184,9 +219,9 @@ public class NodeMapView extends ViewModelBase {
    * @param event the MouseEvent
    */
   private void checkClick(MouseEvent event) {
-    if(event.isPrimaryButtonDown()) { // Left-click
-
-    } else if(event.isSecondaryButtonDown()) { // Right-click
+    if (event.isPrimaryButtonDown()) { // Left-click
+      // todo finish this
+    } else if (event.isSecondaryButtonDown()) { // Right-click
 
     }
     val imageX = event.getX() / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
@@ -232,6 +267,38 @@ public class NodeMapView extends ViewModelBase {
     // or a node is dragged
   }
 
+  /**
+   * Handles a drag event on the canvas
+   *
+   * @param event the MouseEvent
+   */
+  private void scrollEvent(ScrollEvent event) {
+    // todo finish this
+  }
+
+  /**
+   * Handles a move event on the canvas
+   *
+   * @param event the MouseEvent
+   */
+  private void moveEvent(MouseEvent event) {
+    // todo finish this
+  }
+
+  /**
+   * Zooms the canvas in using this multiplier
+   *
+   * @param zoom the amount of zoom (1.0 is default)
+   */
+  public void zoom(double zoom) {
+    // todo finish
+  }
+
+  /**
+   * Sets the currently drawn floor to the given floor and updates the NodeMapView
+   *
+   * @param floor the floor to swap to
+   */
   public void setFloor(int floor) {
     if (floor >= minFloor && floor <= maxFloor) {
       this.floor = floor;
@@ -240,19 +307,151 @@ public class NodeMapView extends ViewModelBase {
     draw();
   }
 
+  /**
+   * Increments the current floor to the floor above
+   */
   public void incrementFloor() {
     setFloor(this.floor + 1);
   }
 
+  /**
+   * Increments the current floor to the floor below
+   */
   public void decrementFloor() {
     setFloor(this.floor - 1);
   }
 
-  private class NodeCircle extends Circle {
-    public Node node;
+  /**
+   * Highlights the current node on the NodeMap
+   *
+   * @param node the node to highlight
+   */
+  public void selectNode(Node node) {
+    //state = NodeState.NodeSelected;
+
+    val nodeCircle = findNode(node);
+
+    // todo highlight the node
   }
 
-  private class NodeLine extends Line {
-    public Edge edge;
+  /**
+   * Un-highlights the current node on the NodeMap
+   *
+   * @param node the node to stop highlighting
+   */
+  public void deselectNode(Node node) {
+    //state = NodeState.NodeUnselected;
+
+    // todo unhighlight the node
+  }
+
+  /**
+   * Highlights the current edge on the NodeMap
+   *
+   * @param edge the edge to highlight
+   */
+  public void selectEdge(Edge edge) {
+    val line = findLine(edge);
+    line.setStroke(highlightColor);
+  }
+
+  /**
+   * Un-highlights the current edge on the NodeMap
+   *
+   * @param edge the edge to stop highlighting
+   */
+  public void deselectEdge(Edge edge) {
+    val line = findLine(edge);
+    line.setStroke(edgeColor);
+  }
+
+  /**
+   * Allows to set the size of drawn nodes (note: cannot resize edges once they are placed on the
+   * map)
+   *
+   * @param size the multiplier for the size
+   */
+  public void setNodeSize(double size) {
+    this.nodeSize = size;
+  }
+
+  /**
+   * Allows to set the size of drawn edges (note: cannot resize nodes once they are placed on the
+   * map)
+   *
+   * @param size the multiplier for the size
+   */
+  public void setEdgeSize(double size) {
+    this.edgeSize = size;
+  }
+
+  /**
+   * Allows for the given node to be relocated
+   *
+   * @param node the node to be relocated
+   * @param x    the new x location
+   * @param y    the new y location
+   */
+  public void relocateNode(Node node, double x, double y) {
+    // todo work on this
+  }
+
+  /**
+   * Make all nodes on the floor visible
+   */
+  public void makeVisible() {
+    nodeGroup.getChildren().forEach(nodeCircle -> {
+      nodeCircle.setVisible(true);
+    });
+  }
+
+  /**
+   * Make all nodes on the floor invisible
+   */
+  public void makeInvisible() {
+    nodeGroup.getChildren().forEach(nodeCircle -> {
+      nodeCircle.setVisible(false);
+    });
+  }
+
+  private void sort() {
+    // todo LAST RESORT
+  }
+
+  /**
+   * Finds a NodeCircle that a given node is represented by
+   *
+   * @param node the given node
+   * @return the nodeCircle node refers to (or null if no nodeCircle is found)
+   */
+  private NodeCircle findNode(Node node) {
+    for (val child : nodeGroup.getChildren()) {
+      val nodeCircle = (NodeCircle) child;
+      if (nodeCircle.node.equals(node)) {
+        return nodeCircle;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @param edge
+   * @return
+   */
+  private Line findLine(Edge edge) {
+    for (val child : edgeGroup.getChildren()) {
+
+    }
+    return null;
+  }
+
+  private class NodeCircle extends Circle {
+
+    public Node node;
+
+    public NodeCircle(Node node, double x, double y, double nodeSize, Paint nodeColor) {
+      super(x, y, nodeSize, nodeColor);
+      this.node = node;
+    }
   }
 }
