@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.AnchorPane;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -21,7 +21,7 @@ public class MedicineDeliveryService extends ViewModelBase {
   private final DatabaseWrapper database;
   private final Validator validator;
   @FXML
-  private VBox centerBox;
+  private AnchorPane root;
   @FXML
   private JFXTextField patientName, medicationName;
   @FXML
