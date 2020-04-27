@@ -19,8 +19,8 @@
     <VBox layoutX="16.0" layoutY="16.0" prefHeight="617.0" prefWidth="1035.0" spacing="20.0"
       AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="16.0">
       <children>
-        <TableView fx:id="serviceTable" onKeyReleased="#updateEmployeeTable"
-          onMouseClicked="#updateEmployeeTable" prefHeight="236.0" prefWidth="1371.0">
+        <TableView fx:id="serviceTable" onKeyReleased="#updateDisplays"
+          onMouseClicked="#updateDisplays" prefHeight="236.0" prefWidth="1371.0">
           <columns>
             <TableColumn fx:id="colServiceType" editable="false" prefWidth="123.0" text="Service"/>
             <TableColumn fx:id="colRequestTime" editable="false" prefWidth="126.0"
@@ -51,7 +51,7 @@
                     <TableColumn fx:id="empName" editable="false" prefWidth="111.0" text="Name"/>
                   </columns>
                 </TableView>
-                <JFXCheckBox fx:id="cbShowUnavail" onAction="#updateEmployeeTable" prefHeight="20.0"
+                <JFXCheckBox fx:id="cbShowUnavail" onAction="#updateDisplays" prefHeight="20.0"
                   prefWidth="138.0"
                   style="-fx-background-color: LIGHTGREY; -fx-border-color: BLACK;"
                   text="Show Unavailable"/>
@@ -59,7 +59,8 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="413.0" prefWidth="313.0" spacing="16.0">
               <children>
-                <JFXTextArea editable="false" labelFloat="true" prefHeight="140.0" prefWidth="313.0"
+                <JFXTextArea fx:id="dataSpace" editable="false" labelFloat="true" prefHeight="140.0"
+                  prefWidth="313.0"
                   promptText="Select a request to view detailed information"
                   style="-fx-background-color: white; -fx-border-color: gray;"
                   unFocusColor="#bf9090">

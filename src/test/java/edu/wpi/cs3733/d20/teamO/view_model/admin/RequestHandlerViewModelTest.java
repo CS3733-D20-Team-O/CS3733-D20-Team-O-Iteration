@@ -9,6 +9,7 @@ import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -52,12 +53,12 @@ public class RequestHandlerViewModelTest extends FxRobot {
     //can't add this service request for some reason
     List<Employee> list = Arrays.asList(e1, e2, e3);
 
-    ServiceRequest req = new ServiceRequest("1555", "time", "RHVMNode", "Wash", "Status",
+    ServiceRequest req = new ServiceRequest("1555", "time", "RHVMNode", "Wash", "Unassigned",
         "Request Name", "",
-        "", null);
-    ServiceRequest req2 = new ServiceRequest("576", "time", "RHVMNode", "Wash", "Status",
+        "", new SanitationRequestData("test", "test1"));
+    ServiceRequest req2 = new ServiceRequest("576", "time", "RHVMNode", "Wash", "Unassigned",
         "Request Name", "",
-        "", null);
+        "", new SanitationRequestData("test,", "test2"));
     List<ServiceRequest> reqs = Arrays.asList(req, req2);
     when(database.exportServiceRequests()).thenReturn(reqs);
     when(database.exportEmployees()).thenReturn(list);
