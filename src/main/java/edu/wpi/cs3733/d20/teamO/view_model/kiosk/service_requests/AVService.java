@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
+import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
@@ -7,13 +8,17 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
+import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
+import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -23,11 +28,14 @@ import lombok.val;
 public class AVService {
 
   private final DatabaseWrapper database;
+  private final Validator validator;
+  private final SnackBar snackBar;
+  private final Dialog dialog;
 
   @FXML
   private JFXButton submitButton, clearButton;
   @FXML
-  private JFXComboBox<String> durationComboBox, serviceRequestComboBox, roomComboBox, floorNumberComboBox;
+  private JFXComboBox<String> durationComboBox, serviceRequestComboBox, locationComboBox, floorNumberComboBox;
   @FXML
   private JFXTextField requesterNameField;
   @FXML
@@ -61,6 +69,10 @@ public class AVService {
       durationComboBox.getItems().add(service);
     }
 
+    setupComboFloorAndRoomComboBoxes();
+  }
+
+  public void setupComboFloorAndRoomComboBoxes() {
     // add floors to floor CB
     floorNumberComboBox.getItems().addAll("1", "2", "3", "4", "5");
 
@@ -75,8 +87,52 @@ public class AVService {
           !node.getValue().getNodeType().equals("REST") &&
           !node.getValue().getNodeType().equals("HALL")) {
         listOfRooms.add(roomNode);
-        roomComboBox.getItems().add(roomToAdd);
+        locationComboBox.getItems().add(roomToAdd);
       }
     }
+
+    // Populate the floor CB with available nodes
+    database.exportNodes().values().stream().map(Node::getFloor).distinct().sorted()
+        .forEachOrdered(floorNumberComboBox.getItems()::add);
+
+    // Set up the populating of locations on each floor
+    floorNumberComboBox.getSelectionModel().selectedItemProperty()
+        .addListener((o, oldFloor, newFloor) ->
+            database.exportNodes().values().stream()
+                .filter(node -> newFloor.equals(node.getFloor()))
+                .map(Node::getLongName).sorted()
+                .forEachOrdered(floorNumberComboBox.getItems()::add));
+
+    // Preselect the first floor and the first location on that floor
+    if (!floorNumberComboBox.getItems().isEmpty()) {
+      floorNumberComboBox.getSelectionModel().select(0);
+      locationComboBox.getSelectionModel().select(0);
+    }
+  }
+
+  @FXML
+  private void submitRequest() {
+    if (validator.validate(requesterNameField, floorNumberComboBox, locationComboBox)) {
+      val requestData = new AVRequestData(
+          serviceRequestComboBox.getSelectionModel().getSelectedItem(), commentTextArea.getText());
+      val time = LocalDateTime.now().toString(); // todo format this
+      // todo use enum for sanitation string below
+      // todo extract strings
+      val confirmationCode = database.addServiceRequest(time,
+          locationComboBox.getSelectionModel().getSelectedItem(),
+          "A/V", requesterNameField.getText(), requestData);
+      if (confirmationCode == null) {
+        snackBar.show("Failed to create the A/V service request");
+      } else {
+        closeRequest();
+        dialog.showBasic("A/V Request Submitted Successfully",
+            "Your confirmation code is:\n" + confirmationCode, "Close");
+      }
+    }
+  }
+
+  @FXML
+  private void closeRequest() {
+    // todo (dialog -> close manual, window, navigator.pop())
   }
 }
