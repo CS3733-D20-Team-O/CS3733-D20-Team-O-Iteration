@@ -92,8 +92,13 @@ public class MainKioskViewModel extends ViewModelBase {
           serviceSelector.getSelectionModel().clearSelection();
         }));
 
+    // Load the admin dialog if appropriate
     if (loginDetails.isValid()) {
-      // todo load admin stuff into dialog
+      try {
+        dialog.showFullscreenFXML("views/admin/Main.fxml");
+      } catch (IOException e) {
+        log.error("Could not load the admin dialog", e);
+      }
     }
   }
 

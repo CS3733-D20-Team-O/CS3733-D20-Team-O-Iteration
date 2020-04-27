@@ -4,12 +4,13 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.Navigator;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -19,13 +20,16 @@ import lombok.val;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class MainAdminViewModel extends ViewModelBase {
+public class MainAdminViewModel extends Dialog.DialogViewModel {
 
   private final Navigator navigator;
   private final Dialog dialog;
   private final FXMLLoader fxmlLoader;
   private final SelectedPathFinder selectedPathFinder;
-  public JFXComboBox<Label> searchAlgorithms;
+  private final LoginDetails loginDetails;
+
+  @FXML
+  private JFXComboBox<Label> searchAlgorithms;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -79,5 +83,11 @@ public class MainAdminViewModel extends ViewModelBase {
     } catch (IOException e) {
       log.error("Failed to open the import/export csv dialog", e);
     }
+  }
+
+  @FXML
+  private void logout(ActionEvent actionEvent) {
+    // todo set login etails
+    close();
   }
 }

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox alignment="CENTER" spacing="32" xmlns:fx="http://javafx.com/fxml"
-  style="-fx-padding: 40; -fx-font-size: 16"
+  style="-fx-padding: 32; -fx-font-size: 16"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel">
   <Label text="Admin Options" style="-fx-font-size: 36"/>
   <JFXButton onAction="#openFloorMapEditor" text="Floor Map Editor" buttonType="RAISED"
@@ -26,5 +26,8 @@
         </FXCollections>
       </items>
     </JFXComboBox>
+  </HBox>
+  <HBox alignment="CENTER_RIGHT">
+    <JFXButton text="Logout" onAction="#logout"/>
   </HBox>
 </VBox>
