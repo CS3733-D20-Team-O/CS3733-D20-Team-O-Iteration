@@ -10,6 +10,7 @@ import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
@@ -36,6 +37,7 @@ public class MainKioskViewModel extends ViewModelBase {
 
   private final LanguageHandler languageHandler;
   private final DatabaseWrapper database;
+  private final LoginDetails loginDetails;
   private final Navigator navigator;
   private final SnackBar snackBar;
   private final Dialog dialog;
@@ -89,6 +91,10 @@ public class MainKioskViewModel extends ViewModelBase {
           }
           serviceSelector.getSelectionModel().clearSelection();
         }));
+
+    if (loginDetails.isValid()) {
+      // todo load admin stuff into dialog
+    }
   }
 
   @FXML
