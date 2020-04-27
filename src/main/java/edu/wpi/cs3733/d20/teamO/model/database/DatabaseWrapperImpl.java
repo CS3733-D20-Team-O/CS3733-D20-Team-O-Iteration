@@ -107,7 +107,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " LONG VARCHAR, "
             + EmployeeProperty.NAME.getColumnName() + " LONG VARCHAR, "
             + EmployeeProperty.TYPE.getColumnName() + " LONG VARCHAR, "
-            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " LONG VARCHAR, "
+            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
@@ -230,7 +230,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public String addServiceRequest(String requestTime, String requestNode, String type,
       String requesterName, ServiceRequestData data) {
-    val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     val length = 8;
     val randomID = new StringBuilder(length);
     val rand = new Random();
@@ -238,24 +238,49 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       val index = rand.nextInt(chars.length());
       randomID.append(chars.charAt(index));
     }
+    val id = randomID.toString();
+    val numAffected = addServiceRequest(id, requestTime, requestNode, type, "Unassigned",
+        requesterName, "0", "0", new Gson().toJson(data));
+    return (numAffected == 1) ? id : null;
+  }
+
+  /**
+   * Adds the specified service request to the database
+   *
+   * @param requestID        the id of the request
+   * @param requestTime      the time of the request as a string
+   * @param requestNode      the id of the node where the request is going
+   * @param type             the type of service request
+   * @param status           the status of the service request
+   * @param requesterName    the name of the person filling out the request
+   * @param whoMarked        the id of the admin (employee) who assigns the request
+   * @param employeeAssigned the id of the employee assigned to fulfill the request
+   * @param data             the data for the specific type of request
+   * @return the number of affected entries
+   */
+  @Override
+  public int addServiceRequest(String requestID, String requestTime, String requestNode,
+      String type, String status, String requesterName, String whoMarked, String employeeAssigned,
+      String data) {
     val query = "INSERT into " + Table.SERVICE_REQUESTS_TABLE
         + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try (val stmt = connection.prepareStatement(query)) {
-      stmt.setString(1, randomID.toString());
+      stmt.setString(1, requestID);
       stmt.setString(2, requestTime);
       stmt.setString(3, requestNode);
       stmt.setString(4, type);
-      stmt.setString(5, "Unassigned");
+      stmt.setString(5, status);
       stmt.setString(6, requesterName);
-      stmt.setString(7, "0");
-      stmt.setString(8, "0");
-      stmt.setString(9, new Gson().toJson(data));
-      stmt.executeUpdate();
-      log.info("Added service request with ID " + randomID.toString());
-      return randomID.toString();
+      stmt.setString(7, whoMarked);
+      stmt.setString(8, employeeAssigned);
+      stmt.setString(9, data);
+      val requestsAffected = stmt.executeUpdate();
+      log.info("Added service request with ID " + requestID);
+      log.debug("Result of add service request was " + requestsAffected);
+      return requestsAffected;
     } catch (SQLException e) {
-      log.error("Failed to add a new service request with ID " + randomID.toString(), e);
-      return null;
+      log.error("Failed to add a new service request with ID " + requestID, e);
+      return -1;
     }
   }
 
@@ -296,7 +321,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public int deleteFromTable(Table table, TableProperty property, String matching) {
-    //todo ADD CHECK FOR EMPLOYEES
     val query = "DELETE from " + table.getTableName() +
         " WHERE " + property.getColumnName() + " = ?";
     try (val stmt = connection.prepareStatement(query)) {
@@ -430,18 +454,18 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
 
   @Override
   public List<ServiceRequest> exportServiceRequests() {
-    val gson = new Gson();
     val serviceRequests = new LinkedList<ServiceRequest>();
     val query = "SELECT * from " + Table.SERVICE_REQUESTS_TABLE;
     try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
       while (rset.next()) {
-        ServiceRequestData data = null;
+        Class<? extends ServiceRequestData> clazz = null;
         switch (rset.getString(4)) {
           case "Sanitation":
-            data = gson.fromJson(rset.getString(9), SanitationRequestData.class);
+            clazz = SanitationRequestData.class;
             break;
         }
-        serviceRequests.add(new ServiceRequest(rset.getString(1),
+        serviceRequests.add(new ServiceRequest(
+            rset.getString(1),
             rset.getString(2),
             rset.getString(3),
             rset.getString(4),
@@ -449,7 +473,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             rset.getString(6),
             rset.getString(7),
             rset.getString(8),
-            data));
+            new Gson().fromJson(rset.getString(9), clazz)));
       }
     } catch (SQLException e) {
       log.error("Failed to export service requests", e);
@@ -475,9 +499,9 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   }
 
   @Override
+  @Deprecated
   public String employeeNameFromID(String id) {
     val query = "SELECT " + EmployeeProperty.NAME.getColumnName() + " from " + Table.EMPLOYEE_TABLE
-        .getTableName()
         + " WHERE " + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " = ?";
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, id);
