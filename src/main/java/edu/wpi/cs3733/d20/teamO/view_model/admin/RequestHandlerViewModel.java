@@ -15,6 +15,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
+import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,6 +39,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private final DatabaseWrapper database;
   private final CSVHandler csvHandler;
   private final LoginDetails loginDetails;
+  private final SnackBar snackBar;
 
   @FXML
   private AnchorPane root;
