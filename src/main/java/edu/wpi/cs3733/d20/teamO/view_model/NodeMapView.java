@@ -305,7 +305,6 @@ public class NodeMapView extends ViewModelBase {
    *
   private void checkClick(MouseEvent event) {
     if (event.isPrimaryButtonDown()) { // Left-click
-      // todo finish this
     } else if (event.isSecondaryButtonDown()) { // Right-click
 
     }
