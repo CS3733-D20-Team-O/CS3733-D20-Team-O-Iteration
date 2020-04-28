@@ -7,6 +7,7 @@ import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
@@ -39,6 +40,9 @@ public class RequestHandlerViewModelTest extends FxRobot {
   DatabaseWrapper database;
   @Mock
   CSVHandler csvHandler;
+  @Mock
+  LoginDetails loginDetails;
+
   @InjectMocks
   RequestHandlerViewModel viewModel;
 
@@ -62,7 +66,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
     List<ServiceRequest> reqs = Arrays.asList(req, req2);
     when(database.exportServiceRequests()).thenReturn(reqs);
     when(database.exportEmployees()).thenReturn(list);
-
+    when(loginDetails.getUsername()).thenReturn("staff");
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     //loader.setResources(bundle);

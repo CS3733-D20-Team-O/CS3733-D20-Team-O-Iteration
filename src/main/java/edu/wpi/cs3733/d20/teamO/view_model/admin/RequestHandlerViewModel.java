@@ -14,7 +14,7 @@ import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,10 +39,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private final CSVHandler csvHandler;
   private final LoginDetails loginDetails;
 
-
-  private String adminID;
-  private String adminName;
-
   @FXML
   private AnchorPane root;
   /**
@@ -64,7 +60,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private TableView<ServiceRequest> serviceTable;
   @FXML
   private TableColumn<String, ServiceRequest> colRequestID, colRequestTime, colRequestNode,
-      colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType, colServiceStatus, colServiceData;
+      colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType, colServiceStatus;
+  @FXML
+  private TableColumn<ServiceRequestData, ServiceRequest> colServiceData;
 
   //Employee Table Stuff
   @FXML
@@ -83,21 +81,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
     setTableColumns();
     serviceTable.getItems().addAll(database.exportServiceRequests());
-    iterationOneAdminSet();
-  }
-
-  /**
-   * Creates a dummy admin for iteration one This is run after the database populated/checked CALLED
-   * AFTER firstRunOnly();
-   */
-  private void iterationOneAdminSet() {
-    adminID = "990099";
-    adminName = database.employeeNameFromID(adminID);
-
-    database.addNode("TN", 1, 1, 1, "", "", "", "");
-    database.addEmployee("1234", "JOOne", "Test1", true);
-    database.addServiceRequest("NO", "TN", "Test1", "beezwax, nunya",
-        new SanitationRequestData("Low", "it do be a spill tho"));
   }
 
   //Todo add data names here too
@@ -110,7 +93,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     colWhoMarked.setCellValueFactory(new PropertyValueFactory<>("whoMarked"));
     colEmployeeAssigned.setCellValueFactory(new PropertyValueFactory<>("employeeAssigned"));
     colServiceStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-    colServiceData.setCellValueFactory(new PropertyValueFactory<>("add data name"));
+    colServiceData.setCellValueFactory(new PropertyValueFactory<>("requestData"));
 
     empID.setCellValueFactory(new PropertyValueFactory<>("employeeID"));
     empName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -181,10 +164,10 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //update the serviceRequest table
     //Creates a new service request with the current selected service request
     //Includes the assigned employee and the admin that assigned them.
-    updateServiceTable(adminID, selectedRequest, selectedEmployee);
+    updateServiceTable(loginDetails.getUsername(), selectedRequest, selectedEmployee);
 
     //if this is false there was an error in updating the database and will not update the employee.
-    if (!updateDatabase(selectedEmployee, selectedRequest, adminID)) {
+    if (!updateDatabase(selectedEmployee, selectedRequest, loginDetails.getUsername())) {
       System.out.println("Exiting assignEmployee() due to updateDatabase error");
       return;
     }
@@ -210,7 +193,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
         selectedRequest.getRequestID(), ServiceRequestProperty.EMPLOYEE_ASSIGNED,
         selectedEmployee.getEmployeeID());
     database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
-        selectedRequest.getRequestID(), ServiceRequestProperty.WHO_MARKED, adminID);
+        selectedRequest.getRequestID(), ServiceRequestProperty.WHO_MARKED,
+        loginDetails.getUsername());
     database.update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.REQUEST_ID,
         selectedRequest.getRequestID(), ServiceRequestProperty.STATUS, "Assigned");
     return true;
@@ -229,7 +213,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     val assignedService = new ServiceRequest(selectedRequest.getRequestID(),
         selectedRequest.getRequestTime(),
         selectedRequest.getRequestNode(), selectedRequest.getType(), "Assigned",
-        selectedRequest.getRequesterName(), adminName,
+        selectedRequest.getRequesterName(), loginDetails.getUsername(),
         selectedEmployee.getEmployeeID(), selectedRequest.getRequestData());
     serviceTable.getItems().remove(selectedRequest);
     serviceTable.getItems().add(assignedService);
@@ -270,7 +254,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return true;
     }
     //if the selected service has someone assigned
-    else if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned().equals("")) {
+    else if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned()
+        .equals("0")) {
       showErrorSnackbar("An employee is already assigned to this service request");
       return true;
     } else {
