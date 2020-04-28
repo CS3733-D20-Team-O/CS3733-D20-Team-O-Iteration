@@ -9,6 +9,8 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransporta
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
+import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -16,8 +18,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+@Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class InternalTransportationService extends ServiceRequestBase {
 
@@ -32,7 +36,6 @@ public class InternalTransportationService extends ServiceRequestBase {
   private final Dialog dialog;
 
   private State currentState;
-
 
   @FXML
   private JFXTextField reqName;
@@ -96,8 +99,24 @@ public class InternalTransportationService extends ServiceRequestBase {
         break;
     }
 
-    database.addServiceRequest(reqTime.getText(), entryNode.getNodeID(), "Int. Transport",
-        reqName.getText(), data);
+    val confirmation = database
+        .addServiceRequest(reqTime.getText(), entryNode.getNodeID(), "Int. Transport",
+            reqName.getText(), data);
+
+    if (confirmation == null) {
+      snackBar.show("Failed to create the internal transportation request");
+    } else {
+      close();
+      try {
+        ((RequestConfirmationViewModel)
+            dialog.showFullscreenFXML("views/kiosk/RequestConfirmation.fxml"))
+            .setServiceRequest(confirmation);
+      } catch (IOException e) {
+        log.error("Failed to show the detailed confirmation dialog", e);
+        dialog.showBasic("Internal Transportation Request Submitted Successfully",
+            "Your confirmation code is:\n" + confirmation, "Close");
+      }
+    }
   }
 
   /**
