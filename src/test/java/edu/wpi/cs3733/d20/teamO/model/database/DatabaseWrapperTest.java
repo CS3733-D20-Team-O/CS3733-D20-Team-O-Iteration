@@ -247,6 +247,28 @@ public class DatabaseWrapperTest {
   }
 
   @Test
+  public void addMultipleEmployeesAutoIDTest() {
+    String id1 = database.addEmployee("Steve", "Admin", false);
+    String id2 = database.addEmployee("Larry", "Admin", true);
+    String id3 = database.addEmployee("Jane", "Gift", false);
+    String id4 = database.addEmployee("Marie", "Interpreter", true);
+    Employee E1 = new Employee(id1, "Steve", "Admin", false);
+    Employee E2 = new Employee(id2, "Larry", "Admin", true);
+    Employee E3 = new Employee(id3, "Jane", "Gift", false);
+    Employee E4 = new Employee(id4, "Marie", "Interpreter", true);
+    Employee[] testEmployeesAutoID = {E1, E2, E3, E4, testEmployees[0], testEmployees[1],
+        testEmployees[2], testEmployees[3]};
+    LinkedList<String> idList = new LinkedList<String>();
+    for (Employee e : database.exportEmployees()) {
+      idList.add(e.getEmployeeID());
+    }
+    for (Employee e : testEmployeesAutoID) {
+      assertTrue(idList.contains(e.getEmployeeID()));
+    }
+    assertEquals(8, database.exportEmployees().size());
+  }
+
+  @Test
   public void addMultipleEmployeesTest() {
     checkResultEmployees(testEmployees);
   }
@@ -282,9 +304,7 @@ public class DatabaseWrapperTest {
   public void exportEmptyEmployeeTest() {
     database.deleteFromTable(Table.EMPLOYEE_TABLE, EmployeeProperty.TYPE, "Gift");
     database.deleteFromTable(Table.EMPLOYEE_TABLE, EmployeeProperty.TYPE, "Interpreter");
-    database.deleteFromTable(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, "0");
-    List<Employee> list = new LinkedList<>(); // tests empty list with database.export()
-    assertEquals(list, database.exportEmployees());
+    assertEquals(1, database.exportEmployees().size());
   }
 
   //ALL THE SERVICE REQUEST TESTS
