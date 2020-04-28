@@ -34,6 +34,7 @@ import lombok.val;
 public class FloorMapEditorViewModel extends ViewModelBase {
 
   // todo add translations
+  // todo prevent commas from being added
 
   private enum State {
     MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR
@@ -104,7 +105,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         default:
           previewNode = new Node("", x, y, nodeMapViewController.getFloor(), "", "", "", "");
           nodeMapViewController.addNode(previewNode); // displays a preview
-          nodeMapViewController.highlightNode(previewNode);
           xSelection = x;
           ySelection = y;
           setState(State.ADD_NODE);
@@ -128,11 +128,24 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeMapViewController.setOnNodeLeftDragListener((node, mouseEvent) -> { // node dragged
       if (state == State.SELECT_NODE) {
         nodeMapViewController.relocateNode(node, mouseEvent.getX(), mouseEvent.getY());
-        // todo drag release event
+        drawEdges();
       }
     });
+    nodeMapViewController
+        .setOnNodeLeftDragReleaseListener((node, mouseEvent) -> { // node drag released
+          if (state == State.SELECT_NODE) {
+            database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
+                NodeProperty.X_COORD, Double.toString(mouseEvent.getX()));
+            database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
+                NodeProperty.Y_COORD, Double.toString(mouseEvent.getY()));
+            exportDatabase();
+            redraw();
+          }
+        });
+    nodeMapViewController.setOnEdgeLeftTapListener((node1, node2) -> {
+      selectEdge(findEdge(node1, node2));
+    });
   }
-
   // FXML methods
 
   public void setZoom() {
@@ -341,6 +354,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         break;
       default:
         setState(State.SELECT_EDGE);
+        nodeMapViewController.highlightEdge(edge);
         selectedEdge = edge;
         newEdgeStartNode.setText(nodeMap.get(edge.getStartID()).getLongName());
         newEdgeDestNode.setText(nodeMap.get(edge.getStopID()).getLongName());
@@ -369,6 +383,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     if (previewNode != null) {
       nodeMapViewController.deleteNode(previewNode);
       previewNode = null;
+    }
+    if (selectedEdge != null) {
+      nodeMapViewController.unhighlightEdge(selectedEdge);
+      selectedEdge = null;
     }
   }
 

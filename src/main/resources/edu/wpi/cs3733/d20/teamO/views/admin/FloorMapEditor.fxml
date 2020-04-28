@@ -242,6 +242,7 @@
                                 GridPane.columnIndex="1">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
+                                    <!--<RegexValidator message="Elevator long names must be formatted as Elevator (letter)"/>-->
                                  </validators>
                               </JFXComboBox>
                            </children>
