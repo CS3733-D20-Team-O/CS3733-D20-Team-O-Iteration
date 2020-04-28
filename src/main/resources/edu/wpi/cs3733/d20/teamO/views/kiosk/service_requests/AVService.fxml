@@ -9,34 +9,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.AVService">
   <VBox alignment="TOP_CENTER" spacing="32.0"
     style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16;">
-    <Label style="-fx-font-size: 32;" text="Audio/Visual Request Creation"/>
-    <JFXTextField fx:id="requesterNameField" promptText="Your Name"/>
+    <Label style="-fx-font-size: 32;" text="%serviceAVRequestCreation"/>
+    <JFXTextField fx:id="requesterNameField" promptText="%serviceAVRequesterNameField"/>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="32.0">
-      <children>
-        <JFXComboBox fx:id="floorNumberComboBox" promptText="Floor"/>
-        <JFXComboBox fx:id="roomComboBox" promptText="Room/Location on Floor"/>
-      </children>
+      <JFXComboBox fx:id="floorNumberComboBox" promptText="%serviceAVFloorNumberComboBox"/>
+      <JFXComboBox fx:id="locationComboBox" promptText="%serviceAVLocationComboBox"/>
     </HBox>
     <VBox alignment="CENTER" spacing="32.0">
-      <children>
-        <JFXComboBox fx:id="serviceRequestComboBox" prefHeight="37.0" prefWidth="222.0"
-          promptText="Request a service"/>
-        <JFXTimePicker fx:id="startTimeTimePicker" promptText="Delivery time"/>
-        <JFXComboBox fx:id="durationComboBox" prefHeight="37.0" prefWidth="224.0"
-          promptText="Length of time"/>
-      </children>
+      <JFXComboBox fx:id="serviceRequestComboBox" prefHeight="37.0" prefWidth="222.0"
+        promptText="%serviceAVRequestComboBox"/>
+      <JFXTimePicker fx:id="startTimePicker" promptText="%serviceAVStartTimePicker"/>
+      <JFXComboBox fx:id="durationComboBox" prefHeight="37.0" prefWidth="224.0"
+        promptText="%serviceAVDurationComboBox"/>
     </VBox>
-    <JFXTextArea fx:id="commentTextArea" promptText="Additional Notes"/>
+    <JFXTextArea fx:id="commentTextArea" promptText="%serviceAVCommentTextArea"/>
     <HBox alignment="CENTER_RIGHT" spacing="16.0">
-      <children>
-        <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#submitRequest"
-          style="-fx-background-color: #00BB00; -fx-text-fill: WHITE;" text="SUBMIT"/>
-        <JFXButton fx:id="clearButton" buttonType="RAISED" style="-fx-background-color: LIGHTGRAY;"
-          text="CANCEL"/>
-      </children>
+      <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#submitRequest"
+        style="-fx-background-color: #00BB00; -fx-text-fill: WHITE;" text="%serviceAVSubmitButton"/>
+      <JFXButton fx:id="cancelButton" buttonType="RAISED" onAction="#close"
+        style="-fx-background-color: LIGHTGRAY;" text="%serviceAVCancelButton"/>
     </HBox>
   </VBox>
 </StackPane>
