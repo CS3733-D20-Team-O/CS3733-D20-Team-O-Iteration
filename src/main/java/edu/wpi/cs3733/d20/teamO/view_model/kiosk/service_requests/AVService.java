@@ -58,9 +58,7 @@ public class AVService extends ServiceRequestBase {
 
   @FXML
   private void submitRequest() {
-    if (validator
-        .validate(requesterNameField, floorNumberComboBox, locationComboBox, durationComboBox,
-            serviceRequestComboBox)) {
+    if (validator.validate(requesterNameField, floorNumberComboBox, locationComboBox, durationComboBox, serviceRequestComboBox)) {
       startTimePicker = new JFXTimePicker();
       val time = startTimePicker.getValue().toString();
       val requestData = new AVRequestData(
