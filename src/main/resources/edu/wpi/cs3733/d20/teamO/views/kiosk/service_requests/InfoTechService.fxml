@@ -18,7 +18,7 @@
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
       preserveRatio="true">
       <image>
-        <Image url="@../../../../../../../../baseline_person_black_18dp.png"/>
+        <Image url="/person-icon.png"/>
       </image>
     </ImageView>
     <JFXTextField fx:id="requesterName" promptText="Your Name">
@@ -32,7 +32,7 @@
       <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
         preserveRatio="true">
         <image>
-          <Image url="@../../../../../../../../baseline_apartment_black_18dp.png"/>
+          <Image url="/floor-icon.png"/>
         </image>
       </ImageView>
       <JFXComboBox fx:id="floors" promptText="Floor">
@@ -45,7 +45,7 @@
       <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
         preserveRatio="true">
         <image>
-          <Image url="@../../../../../../../../baseline_room_black_18dp.png"/>
+          <Image url="/location-icon.png"/>
         </image>
       </ImageView>
       <JFXComboBox fx:id="locations" promptText="Room/Location on Floor">
@@ -59,7 +59,7 @@
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
       preserveRatio="true">
       <image>
-        <Image url="@../../../../../../../../baseline_build_black_18dp.png"/>
+        <Image url="/wrench-icon.png"/>
       </image>
     </ImageView>
     <JFXComboBox fx:id="ITProblems" promptText="Select your current IT issue">
@@ -72,7 +72,7 @@
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
       preserveRatio="true">
       <image>
-        <Image url="@../../../../../../../../baseline_description_black_18dp.png"/>
+        <Image url="/desc-icon.png"/>
       </image>
     </ImageView>
     <JFXTextArea fx:id="additionalNotes" promptText="Description" maxHeight="100"/>

@@ -55,7 +55,7 @@ public class InfoTechService extends ServiceRequestBase {
 
   @FXML
   private void submitRequest() {
-    if (validator.validate(requesterName, floors, locations, additionalNotes)) {
+    if (validator.validate(requesterName, floors, locations, ITProblems, additionalNotes)) {
       val requestData = new InfoTechRequestData(
           ITProblems.getValue().toString(),
           additionalNotes.getText());
