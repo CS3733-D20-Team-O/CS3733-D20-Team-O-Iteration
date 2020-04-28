@@ -10,7 +10,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.GiftDeliveryReques
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import lombok.val;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class GiftDeliveryService extends ViewModelBase {
+public class GiftDeliveryService extends ServiceRequestBase {
 
   @FXML
   private VBox root;
