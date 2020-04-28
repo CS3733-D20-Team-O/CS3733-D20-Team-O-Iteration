@@ -94,18 +94,22 @@ public class InfoTechServiceTest extends FxRobot {
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
-    // Test when there are fields filled out (but adding fails)
+    //Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
     clickOn("Floor");
     clickOn("1");
     clickOn("Room/Location on Floor");
     clickOn("Floor 1");
+    clickOn("Select your current IT issue");
+    clickOn("Wireless Connection");
+    clickOn("Description");
+    write("Test");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("Info Tech"), eq("John Smith"),
-        eq(new InfoTechRequestData("Wireless Connection", "Test")));
+        eq(new InfoTechRequestData(eq("Wireless Connection"), anyString())));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
