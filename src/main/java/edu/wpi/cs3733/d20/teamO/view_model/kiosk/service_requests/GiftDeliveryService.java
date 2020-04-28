@@ -84,7 +84,11 @@ public class GiftDeliveryService extends ServiceRequestBase {
 
   @FXML
   private void updateTotal() {
-    totalLabel.setText("Total: " + splitItem().get(1));
+    if (splitItem().get(1).equals(null)) {
+      return;
+    }
+
+    totalLabel.setText("Total: $" + splitItem().get(1));
   }
 
   private void addComboBoxOptions() {
@@ -102,7 +106,6 @@ public class GiftDeliveryService extends ServiceRequestBase {
           !(node.getValue().getNodeType().equals("HALL"))) {
         listOfRooms.add(roomNode);
         inRoomComboBox.getItems().add(roomToAdd);
-        System.out.println(listOfRooms);
       }
     }
 
@@ -177,24 +180,7 @@ public class GiftDeliveryService extends ServiceRequestBase {
     }
 
     generateRequest();
-    clearScreen();
-  }
-
-  private void clearScreen() {
-    giftComboBox.getSelectionModel().clearSelection();
-    toField.clear();
-    fromField.clear();
-    onFloorComboBox.getSelectionModel().clearSelection();
-    inRoomComboBox.getSelectionModel().clearSelection();
-    ccFirstNameField.clear();
-    ccLastNameField.clear();
-    ccTypeComboBox.getSelectionModel().clearSelection();
-    ccMonthComboBox.getSelectionModel().clearSelection();
-    ccYearComboBox.getSelectionModel().clearSelection();
-    ccNumberField.clear();
-    ccSecurityField.clear();
-    emailAddressField.clear();
-    totalLabel.setText("Total: 0.00");
+    close();
   }
 
   private void generateRequest() {
@@ -209,11 +195,14 @@ public class GiftDeliveryService extends ServiceRequestBase {
     }
 
     val confirmationCode = database.addServiceRequest(
-        timePicker.getValue().format(DateTimeFormatter.ofPattern("HH:mm")),
-        requestNode.getNodeID(), "Gift", fromField.getText(), requestedData);
+        timePicker.getValue().format(DateTimeFormatter.ofPattern("HH:mm:")),
+        requestNode.getNodeID(),
+        "Gift",
+        fromField.getText(),
+        requestedData);
 
     if (confirmationCode == null) {
-      snackbar.show("Failed to create the sanitation service request");
+      snackbar.show("Failed to create the Gift Delivery Service Request");
     } else {
       dialog.showBasic("Sanitation Request Submitted Successfully",
           "Your confirmation code is:\n" + confirmationCode, "Close");

@@ -74,10 +74,8 @@
                         </VBox>
                         <VBox style="-fx-spacing: 16;">
                           <children>
-                            <Label alignment="CENTER" prefHeight="17.0" prefWidth="145.0"
-                              text="Delivery Time"/>
-                            <JFXTimePicker fx:id="timePicker" prefHeight="28.0"
-                              prefWidth="206.0"
+                            <JFXTimePicker fx:id="timePicker" prefHeight="28.0" prefWidth="206.0"
+                              promptText="Delivery Time"
                               style="-fx-background-color: WHITE; -fx-padding: 16;">
                               <validators>
                                 <RequiredFieldValidator message="Input is required"/>
