@@ -58,12 +58,20 @@ public class RequestConfirmationViewModel extends DialogViewModel {
       database.deleteFromTable(Table.SERVICE_REQUESTS_TABLE,
           ServiceRequestProperty.REQUEST_ID, confirmationCode);
       val undoButton = new JFXButton(getString("serviceRequestDeleteSnackbarUndo"));
-      undoButton.setStyle("-fx-text-fill: beige");
-      undoButton.setOnAction(e -> database.addServiceRequest(serviceRequest.getRequestID(),
-          serviceRequest.getRequestTime(), serviceRequest.getRequestNode(),
-          serviceRequest.getType(), serviceRequest.getStatus(), serviceRequest.getRequesterName(),
-          serviceRequest.getWhoMarked(), serviceRequest.getEmployeeAssigned(),
-          new Gson().toJson(serviceRequest.getRequestData())));
+      undoButton.setStyle("-fx-text-fill: greenyellow");
+      undoButton.setOnAction(e -> {
+        database.exportServiceRequests().forEach(System.out::println);
+        if (1 == database.addServiceRequest(serviceRequest.getRequestID(),
+            serviceRequest.getRequestTime(), serviceRequest.getRequestNode(),
+            serviceRequest.getType(), serviceRequest.getStatus(), serviceRequest.getRequesterName(),
+            serviceRequest.getWhoMarked(), serviceRequest.getEmployeeAssigned(),
+            new Gson().toJson(serviceRequest.getRequestData()))) {
+          snackBar.show("Successfully restored the service request");
+        } else {
+          snackBar.show("Failed to restore the service request");
+        }
+
+      });
       snackBar.show(getString("serviceRequestDeleteSnackbar"), undoButton);
     }
     close();
