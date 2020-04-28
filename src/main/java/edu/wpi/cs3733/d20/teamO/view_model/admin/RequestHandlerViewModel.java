@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
@@ -29,7 +28,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.TextFlow;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
@@ -48,10 +46,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
    */
   @FXML
   private JFXCheckBox cbShowUnavail;
-  @FXML
-  private JFXTextField exportServReqFilename, exportEmployeeFilename;
-  @FXML
-  private TextFlow stepLbl;
 
   @FXML
   private JFXTextArea dataSpace;
@@ -231,6 +225,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //no serviceReq selected
     if (serviceTable.getSelectionModel().getSelectedItem() == null) {
       showErrorSnackbar("No Service Request selected.");
+      snackBar.show("No service Request selected");
       return true;
     }
     //no employee selected
