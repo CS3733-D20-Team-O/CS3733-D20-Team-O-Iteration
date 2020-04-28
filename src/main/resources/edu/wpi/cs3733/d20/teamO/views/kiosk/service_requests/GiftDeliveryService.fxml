@@ -53,38 +53,37 @@
                     </JFXTextField>
                     <HBox alignment="CENTER" style="-fx-spacing: 32;">
                       <children>
-                        <VBox prefHeight="50.0" prefWidth="265.0" style="-fx-spacing: 32;">
+                        <VBox prefHeight="114.0" prefWidth="208.0" style="-fx-spacing: 32;">
                           <children>
                             <JFXComboBox fx:id="onFloorComboBox" labelFloat="true"
-                              onAction="#setRoomsByFloors" prefHeight="25.0" prefWidth="152.0"
+                              onAction="#setRoomsByFloors" prefHeight="41.0" prefWidth="210.0"
                               promptText="Select Floor"
                               style="-fx-background-color: WHITE; -fx-padding: 8;">
                               <validators>
                                 <RequiredFieldValidator message="Input is required"/>
                               </validators>
                             </JFXComboBox>
-                            <JFXComboBox fx:id="inRoomComboBox" labelFloat="true"
-                              prefHeight="25.0" prefWidth="151.0" promptText="Select Room"
+                            <JFXComboBox fx:id="inRoomComboBox" labelFloat="true" prefHeight="41.0"
+                              prefWidth="231.0" promptText="Select Room"
                               style="-fx-background-color: WHITE; -fx-padding: 8;">
                               <validators>
                                 <RequiredFieldValidator message="Input is required"/>
                               </validators>
                             </JFXComboBox>
                           </children>
-                            </VBox>
-                            <VBox style="-fx-spacing: 16;">
-                              <children>
-                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="145.0"
-                                  text="Delivery Time"/>
-                                <JFXTimePicker fx:id="timePicker" prefHeight="28.0"
-                                  prefWidth="206.0"
-                                  style="-fx-background-color: WHITE; -fx-padding: 16;">
-                                  <validators>
-                                    <RequiredFieldValidator message="Input is required"/>
-                                  </validators>
-                                </JFXTimePicker>
-                              </children>
-                            </VBox>
+                        </VBox>
+                        <VBox style="-fx-spacing: 16;">
+                          <children>
+                            <Label alignment="CENTER" prefHeight="17.0" prefWidth="145.0"
+                              text="Delivery Time"/>
+                            <JFXTimePicker fx:id="timePicker" prefHeight="28.0" prefWidth="206.0"
+                              style="-fx-background-color: WHITE; -fx-padding: 16;">
+                              <validators>
+                                <RequiredFieldValidator message="Input is required"/>
+                              </validators>
+                            </JFXTimePicker>
+                          </children>
+                        </VBox>
                       </children>
                     </HBox>
                   </children>
@@ -136,42 +135,42 @@
                     </JFXTextField>
                   </children>
                 </HBox>
-                    <HBox alignment="CENTER" style="-fx-spacing: 32; -fx-padding: 16;">
-                      <children>
-                        <JFXComboBox fx:id="ccMonthComboBox" labelFloat="true" prefHeight="57.0"
-                          prefWidth="106.0" promptText="MM"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXComboBox>
-                        <JFXComboBox fx:id="ccYearComboBox" labelFloat="true" prefHeight="57.0"
-                          prefWidth="114.0" promptText="YYYY"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXComboBox>
-                        <JFXTextField fx:id="ccSecurityField" alignment="CENTER" labelFloat="true"
-                          prefHeight="49.0" prefWidth="105.0" promptText="CCV"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXTextField>
+                <HBox alignment="CENTER" style="-fx-spacing: 32; -fx-padding: 16;">
+                  <children>
+                    <JFXComboBox fx:id="ccMonthComboBox" labelFloat="true" prefHeight="57.0"
+                      prefWidth="106.0" promptText="MM"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXComboBox>
+                    <JFXComboBox fx:id="ccYearComboBox" labelFloat="true" prefHeight="57.0"
+                      prefWidth="114.0" promptText="YYYY"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXComboBox>
+                    <JFXTextField fx:id="ccSecurityField" alignment="CENTER" labelFloat="true"
+                      prefHeight="49.0" prefWidth="105.0" promptText="CCV"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXTextField>
                       </children>
-                    </HBox>
-                    <HBox alignment="CENTER" style="-fx-padding: 16;">
-                      <children>
-                        <JFXTextField fx:id="emailAddressField" alignment="CENTER" labelFloat="true"
-                          prefHeight="25.0" prefWidth="321.0" promptText="Email Address for recipet"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXTextField>
-                      </children>
-                    </HBox>
+                </HBox>
+                <HBox alignment="CENTER" style="-fx-padding: 16;">
+                  <children>
+                    <JFXTextField fx:id="emailAddressField" alignment="CENTER" labelFloat="true"
+                      prefHeight="25.0" prefWidth="321.0" promptText="Email Address for recipet"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXTextField>
+                  </children>
+                </HBox>
               </children>
             </VBox>
           </children>
@@ -185,8 +184,8 @@
     </Label>
     <HBox alignment="CENTER" prefHeight="41.0" prefWidth="1248.0" style="-fx-spacing: 60;">
       <children>
-        <JFXButton alignment="CENTER" onAction="#onSubmitPress" prefHeight="25.0"
-          prefWidth="79.0" text="Submit"/>
+        <JFXButton alignment="CENTER" onAction="#onSubmitPress" prefHeight="25.0" prefWidth="79.0"
+          text="Submit"/>
         <JFXButton alignment="CENTER" onAction="#close" prefHeight="25.0" prefWidth="74.0"
           text="Cancel"/>
       </children>
