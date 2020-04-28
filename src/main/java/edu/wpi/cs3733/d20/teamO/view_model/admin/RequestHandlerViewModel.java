@@ -2,8 +2,6 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
@@ -21,13 +19,10 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
@@ -130,18 +125,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
     }
   }
 
-
-  private void showErrorSnackbar(String errorText) {
-    JFXSnackbar bar = new JFXSnackbar(root);
-    val label = new Label(errorText);
-    label.setStyle("-fx-text-fill: floralwhite");
-    val container = new HBox(label);
-    // Add 16 margin and 16 padding as per material design guidelines
-    container.setStyle("-fx-background-color: #323232;  -fx-background-insets: 16");
-    container.setPadding(new Insets(32)); // total padding, including margin
-    bar.enqueue(new SnackbarEvent(container));
-  }
-
   /**
    * Updates the table and database when assign button is pressed.
    */
@@ -224,35 +207,34 @@ public class RequestHandlerViewModel extends ViewModelBase {
     // "error" cases to do nothing
     //no serviceReq selected
     if (serviceTable.getSelectionModel().getSelectedItem() == null) {
-      showErrorSnackbar("No Service Request selected.");
       snackBar.show("No service Request selected");
       return true;
     }
     //no employee selected
     else if (employeeTable.getSelectionModel().getSelectedItem() == null) {
-      showErrorSnackbar("No Employee selected.");
+      snackBar.show("No Employee selected.");
       return true;
     }
     //task is unavailable
     else if (!serviceTable.getSelectionModel().getSelectedItem().getStatus().equals("Unassigned")) {
-      showErrorSnackbar("An employee cannot be assigned to this task");
+      snackBar.show("An employee cannot be assigned to this task");
       return true;
     }
     //employee selected somehow does not have same type as request
     else if (!employeeTable.getSelectionModel().getSelectedItem().getType()
         .equals(serviceTable.getSelectionModel().getSelectedItem().getType())) {
-      showErrorSnackbar("Employee cannot complete this Service Request.");
+      snackBar.show("Employee cannot complete this Service Request.");
       return true;
     }
     //employee is unavailable
     else if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable()) {
-      showErrorSnackbar("Employee is unavailable.");
+      snackBar.show("Employee is unavailable.");
       return true;
     }
     //if the selected service has someone assigned
     else if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned()
         .equals("0")) {
-      showErrorSnackbar("An employee is already assigned to this service request");
+      snackBar.show("An employee is already assigned to this service request");
       return true;
     } else {
       return false;
@@ -280,7 +262,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
     val request = serviceTable.getSelectionModel().getSelectedItem();
     if (!request.getStatus().equals("Assigned") && !request.getStatus().equals("Unassigned")) {
-      showErrorSnackbar("cannot modify a closed request");
+      snackBar.show("cannot modify a closed request");
       return;
     }
 

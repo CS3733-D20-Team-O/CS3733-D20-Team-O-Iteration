@@ -11,6 +11,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +43,8 @@ public class RequestHandlerViewModelTest extends FxRobot {
   CSVHandler csvHandler;
   @Mock
   LoginDetails loginDetails;
+  @Mock
+  SnackBar snackBar;
 
   @InjectMocks
   RequestHandlerViewModel viewModel;
