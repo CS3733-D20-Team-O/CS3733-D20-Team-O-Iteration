@@ -376,6 +376,37 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public int deleteFromTable(Table table, TableProperty property, String matching) {
+    //val takenIDs = exportNodes().keySet().stream()
+    //        .filter(id -> id.substring(1, 5).equals(type))
+    //        .filter(id -> Integer.parseInt(id.substring(8)) == floor)
+    //        .map(id -> Integer.parseInt(id.substring(5, 8)))
+    //        .collect(Collectors.toSet());
+    if (table.equals(Table.EMPLOYEE_TABLE.getTableName())) {
+      if (property.equals(EmployeeProperty.EMPLOYEE_ID.getColumnName())) {
+        exportServiceRequests().stream().filter(id -> id.getWhoMarked().equals(matching))
+            .forEach(entry -> entry.s = "0");
+      } else if (property.equals(EmployeeProperty.NAME.getColumnName()) || property
+          .equals(EmployeeProperty.TYPE.getColumnName())
+          || property.equals(EmployeeProperty.IS_AVAILABLE.getColumnName())) {
+        val query = "SELECT " + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " FROM "
+            + Table.EMPLOYEE_TABLE.getTableName()
+            + " WHERE " + property.getColumnName() + " = ?";
+        try {
+          val stmt = connection.prepareStatement(query);
+          stmt.setString(1, matching);
+          val rset = stmt.executeQuery();
+          while (rset.next()) {
+            val empID = rset.getString(1);
+            exportServiceRequests().stream().filter(id -> id.getWhoMarked().equals(empID))
+                .forEach(entry -> entry.s = "0");
+          }
+        } catch (SQLException e) {
+          val error = "Failed to find record(s) from " + table.getTableName() +
+              " using property " + property.getColumnName() + " and matching " + matching;
+          log.error(error, e);
+        }
+      }
+    }
     val query = "DELETE from " + table.getTableName() +
         " WHERE " + property.getColumnName() + " = ?";
     try (val stmt = connection.prepareStatement(query)) {
