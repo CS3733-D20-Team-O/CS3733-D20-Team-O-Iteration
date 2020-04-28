@@ -29,7 +29,7 @@ public interface DatabaseWrapper {
    * @param nodeType  the type of the node
    * @param longName  the long name of the node
    * @param shortName the short name of the node
-   * @return the number of affected entries
+   * @return the id of the added node
    */
   String addNode(int xCoord, int yCoord, int floor, String building,
       String nodeType, String longName, String shortName);
@@ -55,7 +55,7 @@ public interface DatabaseWrapper {
    *
    * @param startNodeID the id of the start node
    * @param stopNodeID  the id of the stop node
-   * @return the number of affected entries
+   * @return the id of the added edge
    */
   String addEdge(String startNodeID, String stopNodeID);
 
@@ -98,6 +98,16 @@ public interface DatabaseWrapper {
    */
   int addServiceRequest(String requestID, String requestTime, String requestNode, String type,
       String status, String requesterName, String whoMarked, String employeeAssigned, String data);
+
+  /**
+   * Adds the specified employee to the database
+   *
+   * @param name        the name of the employee
+   * @param type        the type of employee they are
+   * @param isAvailable true if available, false if not available
+   * @return the id of the added employee
+   */
+  String addEmployee(String name, String type, boolean isAvailable);
 
   /**
    * Adds the specified employee to the database
