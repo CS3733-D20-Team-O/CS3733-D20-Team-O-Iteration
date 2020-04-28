@@ -84,7 +84,8 @@ public class MainKioskViewModel extends ViewModelBase {
         } catch (IOException e) {
           log.error("Failed to open " + desc, e);
         }
-        serviceSelector.getSelectionModel().clearSelection();
+        // Silences the "IndexOutOfBounds" exception by wrapping in run later
+        Platform.runLater(serviceSelector.getSelectionModel()::clearSelection);
       }
     }));
 
