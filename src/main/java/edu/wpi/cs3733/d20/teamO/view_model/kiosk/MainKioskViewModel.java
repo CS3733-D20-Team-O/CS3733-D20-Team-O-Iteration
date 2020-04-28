@@ -3,14 +3,17 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
+import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +21,8 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
@@ -32,6 +37,7 @@ public class MainKioskViewModel extends ViewModelBase {
   private final LanguageHandler languageHandler;
   private final DatabaseWrapper database;
   private final LoginDetails loginDetails;
+  private final Validator validator;
   private final Navigator navigator;
   private final SnackBar snackBar;
   private final Dialog dialog;
@@ -72,24 +78,64 @@ public class MainKioskViewModel extends ViewModelBase {
     requests.put(getString("serviceSanitationDescription"), "SanitationService.fxml");
     requests.keySet().forEach(serviceSelector.getItems()::add);
     serviceSelector.getSelectionModel().selectedItemProperty().addListener(((o, old, desc) -> {
-      try {
-        dialog.showFullscreenFXML("views/kiosk/service_requests/" + requests.get(desc));
-      } catch (IOException e) {
-        log.error("Failed to open " + desc, e);
+      if (desc != null) {
+        try {
+          dialog.showFullscreenFXML("views/kiosk/service_requests/" + requests.get(desc));
+        } catch (IOException e) {
+          log.error("Failed to open " + desc, e);
+        }
+        // Silences the "IndexOutOfBounds" exception by wrapping in run later
+        Platform.runLater(serviceSelector.getSelectionModel()::clearSelection);
       }
-      serviceSelector.getSelectionModel().clearSelection();
     }));
 
     // Load the admin dialog if appropriate
     if (loginDetails.isValid()) {
       // Put this in a run later so it doesn't mess up navigation
-      Platform.runLater(() -> {
-        try {
-          dialog.showFullscreenFXML("views/admin/Main.fxml");
-        } catch (IOException e) {
-          log.error("Could not load the admin dialog", e);
+      Platform.runLater(this::openAdminDialog);
+    }
+  }
+
+  @FXML
+  private void openLoginDialog() {
+    val header = new Label("Login");
+    header.setStyle("-fx-font-size: 32");
+    val username = new JFXTextField();
+    username.setPromptText("Username");
+    username.setValidators(new RequiredFieldValidator("Username is required"));
+    val password = new JFXPasswordField();
+    password.setPromptText("Password");
+    password.setValidators(new RequiredFieldValidator("Password is required"));
+    val loginButton = new JFXButton("LOGIN");
+    val closeButton = new JFXButton("CLOSE");
+    val buttonContainer = new HBox(loginButton, closeButton);
+    buttonContainer.setAlignment(Pos.CENTER_RIGHT);
+    val root = new VBox(header, username, password, buttonContainer);
+    root.setAlignment(Pos.CENTER);
+    root.setSpacing(16);
+    root.setStyle("-fx-font-size: 16");
+    val jfxDialog = dialog.showFullscreen(root);
+    closeButton.setOnAction(e -> jfxDialog.close());
+    loginButton.setOnAction(e -> {
+      if (validator.validate(username, password)) {
+        loginDetails.setUsername(username.getText());
+        loginDetails.setPassword(password.getText());
+        if (loginDetails.isValid()) {
+          jfxDialog.close();
+          openAdminDialog();
+        } else {
+          loginDetails.reset();
+          snackBar.show("Login failed; invalid credentials?");
         }
-      });
+      }
+    });
+  }
+
+  private void openAdminDialog() {
+    try {
+      dialog.showFullscreenFXML("views/admin/Main.fxml");
+    } catch (IOException e) {
+      log.error("Could not load the admin dialog", e);
     }
   }
 

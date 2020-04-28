@@ -51,6 +51,7 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
   private void openFloorMapEditor() {
     try {
       navigator.push("Floor Map Editor", "views/admin/FloorMapEditor.fxml");
+      loginDetails.reset(); // todo remove
     } catch (IOException e) {
       log.error("Failed to open the floor map editor", e);
     }
@@ -60,6 +61,7 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
   private void openServiceRequestHandler() {
     try {
       navigator.push("Service Request Handler", "views/admin/RequestHandler.fxml");
+      loginDetails.reset(); // todo remove
     } catch (IOException e) {
       log.error("Failed to open the service request handler", e);
     }

@@ -2,21 +2,19 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testfx.api.FxAssert.verifyThat;
 
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InfoTechRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +33,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
-public class InfoTechServiceTest extends FxRobot {
+public class MedicineDeliveryServiceTest extends FxRobot {
 
   @Mock
   EventBus eventBus;
@@ -49,14 +47,11 @@ public class InfoTechServiceTest extends FxRobot {
   Dialog dialog;
   @Mock
   JFXDialog jfxDialog;
-  @Mock
-  RequestConfirmationViewModel requestConfirmationViewModel;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
-
   @InjectMocks
-  InfoTechService viewModel;
+  MedicineDeliveryService viewModel;
 
   @Start
   public void start(Stage stage) throws IOException {
@@ -66,7 +61,7 @@ public class InfoTechServiceTest extends FxRobot {
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
     stage.setScene(new Scene(loader.load(Main.class
-        .getResourceAsStream("views/kiosk/service_requests/InfoTechService.fxml"))));
+        .getResourceAsStream("views/kiosk/service_requests/MedicineDeliveryService.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }
@@ -81,46 +76,74 @@ public class InfoTechServiceTest extends FxRobot {
   }
 
   @Test
-  public void testSubmitITService() throws IOException {
-    when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
-    when(database.addServiceRequest(any(), any(), any(), any(), any()))
-        .thenReturn(null).thenReturn("ABCDEFGH");
-    when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
+  public void testFloorLocationPopulated() {
+    // Verify that all floors are populated
+    clickOn("Floor");
+    verifyThat("1", javafx.scene.Node::isVisible);
+    verifyThat("3", javafx.scene.Node::isVisible);
+    verifyThat("5",
+        javafx.scene.Node::isVisible);    // Now that we know all floors are correct, lets check to see if the locations are present
+    // First floor
+    clickOn("1");
+    clickOn("Room/Location on Floor");
+    verifyThat("Floor 1", javafx.scene.Node::isVisible);    // Third floor
+    clickOn("1");
+    clickOn("3");
+    clickOn("Room/Location on Floor");
+    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
+    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);    // Fifth floor
+    clickOn("3");
+    clickOn("5");
+    clickOn("Room/Location on Floor");
+    verifyThat("Floor 5", javafx.scene.Node::isVisible);
+  }
 
+  @Test
+  public void testSubmit1() {
     // Test when there are fields not filled out
     clickOn("Submit");
     verify(validator, times(1)).validate(any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
+  }
 
-    //Test when there are fields filled out (but adding fails)
-    clickOn("Your Name");
+  @Test
+  public void testSubmit2() {
+    // Test when there are fields filled out (but adding fails)
+    clickOn("Your name");
     write("John Smith");
     clickOn("Floor");
     clickOn("1");
     clickOn("Room/Location on Floor");
     clickOn("Floor 1");
-    clickOn("Select your current IT issue");
-    clickOn("Wireless Connection");
-    clickOn("Description");
-    write("Test");
     clickOn("Submit");
-    verify(validator, times(2)).validate(any());
-    verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Info Tech"), eq("John Smith"),
-        eq(new InfoTechRequestData(eq("Wireless Connection"), anyString())));
-    verify(snackBar, times(1)).show(anyString());
-    verify(dialog, times(0)).showBasic(any(), any(), any());
+    verify(validator, times(1)).validate(any());
+  }
 
-    // Test when there are fields filled out (and adding succeeds)
+  @Test
+  public void testSubmit3() throws IOException {
+    // todo finish this test case
+    // Test successful submission
+    clickOn("Your name");
+    write("John Smith");
+    clickOn("Medicine name");
+    write("Ibuprofen");
+    clickOn("Floor");
+    clickOn("1");
+    clickOn("Room/Location on Floor");
+    clickOn("Floor 1");
+    clickOn("Delivery method");
+    clickOn("Oral");
     clickOn("Submit");
-    verify(validator, times(3)).validate(any());
+    verify(validator, times(1)).validate(any());
+    /*
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Info Tech"), eq("John Smith"),
-        eq(new InfoTechRequestData("Wireless Connection", "Test")));
+        eq("Floor 1"), eq("Medicine delivery"), eq("John Smith"),
+        eq(new MedicineDeliveryServiceData("Ibuprofen", "Oral")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1)).showFullscreenFXML(anyString());
     verify(jfxDialog, times(1)).close();
+     */
   }
 }

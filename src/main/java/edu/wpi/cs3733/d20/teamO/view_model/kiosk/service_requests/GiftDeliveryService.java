@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +28,6 @@ import lombok.val;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class GiftDeliveryService extends ServiceRequestBase {
-
-  @FXML
-  private VBox root;
-
 
   private final Validator validator;
   private final SnackBar snackbar;
