@@ -87,23 +87,23 @@ public class InternalTransportationService extends ServiceRequestBase {
    * @param data the ServiceRequestData accompanying the request
    */
   private void addToDatabase(ServiceRequestData data) {
-    val confirmation = database
+    val confirmationCode = database
         .addServiceRequest(reqTime.getText(), currentRoom.getSelectionModel().getSelectedItem(),
             "Internal Transportation",
             reqName.getText(), data);
 
-    if (confirmation == null) {
+    if (confirmationCode == null) {
       snackBar.show("Failed to create the internal transportation request");
     } else {
       close();
       try {
         ((RequestConfirmationViewModel)
             dialog.showFullscreenFXML("views/kiosk/RequestConfirmation.fxml"))
-            .setServiceRequest(confirmation);
+            .setServiceRequest(confirmationCode);
       } catch (IOException e) {
         log.error("Failed to show the detailed confirmation dialog", e);
         dialog.showBasic("Internal Transportation Request Submitted Successfully",
-            "Your confirmation code is:\n" + confirmation, "Close");
+            "Your confirmation code is:\n" + confirmationCode, "Close");
       }
     }
   }
