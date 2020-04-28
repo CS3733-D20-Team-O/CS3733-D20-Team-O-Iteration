@@ -24,7 +24,6 @@ import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javax.inject.Inject;
@@ -47,7 +46,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   public void floorDownPressed(ActionEvent actionEvent) {
-    if (state == State.MAIN) {
+    if (state != State.ADD_NODE) {
       nodeMapViewController.decrementFloor();
       floorLabel.setText("Floor " + nodeMapViewController.getFloor());
       drawEdges();
@@ -55,7 +54,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   public void floorUpPressed(ActionEvent actionEvent) {
-    if (state == State.MAIN) {
+    if (true) {
       nodeMapViewController.incrementFloor();
       floorLabel.setText("Floor " + nodeMapViewController.getFloor());
       drawEdges();
@@ -133,7 +132,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   public void createEdgePressed(ActionEvent actionEvent) {
-    // todo implement
+    boolean success = createEdge(selectedNode, edgeDestNode);
+    if (success) {
+      setState(State.MAIN);
+    }
   }
 
   public void createNodePressed(ActionEvent actionEvent) {
@@ -156,13 +158,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML
   private NodeMapView nodeMapViewController;
   @FXML
-  private AnchorPane sideBar;
-  @FXML
-  private VBox nodeSelectView, edgeSelectView, addNodeView, addEdgeView, addNeighborView;
+  private VBox nodeSelectView, edgeSelectView, addNodeView, addEdgeView, addNeighborView, sideBar;
   @FXML
   private BorderPane root;
   @FXML
-  private Label floorLabel, nodeCategoryLabel, selectedNeighborLabel;
+  private Label floorLabel, nodeCategoryLabel, selectedNeighborLabel, newEdgeNodeName1, newEdgeNodeName2;
   @FXML
   private JFXTextField shortNameField, longNameField, newNodeShortName, newNodeLongName;
   @FXML
@@ -176,7 +176,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   // globally accessible fields
   private State state; // current state of view
-  private Node selectedNode, selectedEdgeTarget, selectedNeighbor;
+  private Node selectedNode, edgeDestNode, selectedNeighbor;
   private Edge selectedEdge;
   private int xSelection, ySelection; // the selected x and y coords
 
@@ -245,8 +245,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         selectedNeighborLabel.setText(node.getLongName());
         break;
       case ADD_EDGE:
-        if (selectedEdgeTarget == null) { // no target node has been selected
-          selectedEdgeTarget = node;
+        if (edgeDestNode == null) { // no target node has been selected
+          edgeDestNode = node;
         }
         break;
       case ADD_NODE: // cannot select node in this state
@@ -295,7 +295,20 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param edge The edge to select
    */
   private void selectEdge(Edge edge) {
-    // todo implement
+    switch (state) {
+      case ADD_NEIGHBOR:
+        break;
+      case ADD_NODE:
+        break;
+      case ADD_EDGE:
+        break;
+      default:
+        setState(State.SELECT_EDGE);
+        selectedEdge = edge;
+        newEdgeNodeName1.setText(nodeMap.get(edge.getStartID()).getLongName());
+        newEdgeNodeName2.setText(nodeMap.get(edge.getStopID()).getLongName());
+        break;
+    }
   }
 
   /**
@@ -308,7 +321,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         .forEach(node -> node.resetValidation());
     newNodeCategory.getSelectionModel().clearSelection();
     neighboringNodesList.getItems().clear();
-    // todo clear validator
+    selectedNode = null;
+    selectedNeighbor = null;
+    edgeDestNode = null;
   }
 
   /**

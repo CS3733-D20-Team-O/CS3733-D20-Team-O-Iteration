@@ -11,7 +11,6 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -28,321 +27,303 @@
       <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
    </center>
    <right>
-      <AnchorPane fx:id="sideBar" style="-fx-background-color: FFFFFF;"
-        BorderPane.alignment="CENTER">
+      <VBox fx:id="sideBar" alignment="TOP_CENTER" prefWidth="300.0" spacing="8.0"
+        style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="TOP_CENTER" prefWidth="300.0" spacing="8.0">
+            <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
                <children>
-                  <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
-                     <children>
-                        <JFXButton buttonType="FLAT" onAction="#floorDownPressed" text="&lt;">
-                           <font>
-                              <Font size="18.0"/>
-                           </font>
-                        </JFXButton>
-                        <Label fx:id="floorLabel" prefHeight="22.0" text="Floor 1">
-                           <font>
-                              <Font size="18.0"/>
-                           </font>
-                        </Label>
-                        <JFXButton buttonType="FLAT" onAction="#floorUpPressed" text="&gt;">
-                           <font>
-                              <Font size="18.0"/>
-                           </font>
-                        </JFXButton>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" spacing="4.0">
-                     <children>
-                        <JFXButton buttonType="FLAT" onAction="#zoomOutPressed">
-                           <graphic>
-                              <ImageView fx:id="zoomOutPressed" fitHeight="24" pickOnBounds="true"
-                                preserveRatio="true">
-                                 <Image url="@/zoom_out-24px.png"/>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXSlider fx:id="zoomSlider" prefWidth="168.0"/>
-                        <JFXButton buttonType="FLAT" onAction="#zoomInPressed">
-                           <graphic>
-                              <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
-                                 <Image url="@/zoom_in-24px.png"/>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                     </children>
-                  </HBox>
-                  <Label prefWidth="200.0"
-                    text="Left-click to select a node or edge, right-click to add a node or edge"
-                    textAlignment="CENTER" wrapText="true"/>
-                  <Group>
-                     <children>
-                        <VBox fx:id="nodeSelectView" alignment="TOP_CENTER" prefWidth="250.0"
-                          spacing="8.0">
-                           <children>
-                              <GridPane hgap="12.0" prefWidth="0.0" vgap="12.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-                                      prefWidth="100.0"/>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-                                      prefWidth="100.0"/>
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                 </rowConstraints>
-                                 <children>
-                                    <Label text="Node category"/>
-                                    <Label text="Short name" GridPane.rowIndex="1"/>
-                                    <Label text="Long name" GridPane.rowIndex="2"/>
-                                    <JFXTextField fx:id="shortNameField" GridPane.columnIndex="1"
-                                      GridPane.rowIndex="1">
-                                       <validators>
-                                          <RequiredFieldValidator message="Required"/>
-                                       </validators>
-                                    </JFXTextField>
-                                    <JFXTextField fx:id="longNameField" GridPane.columnIndex="1"
-                                      GridPane.rowIndex="2">
-                                       <validators>
-                                          <RequiredFieldValidator message="Required"/>
-                                       </validators>
-                                    </JFXTextField>
-                                    <Label fx:id="nodeCategoryLabel" text="Label"
-                                      GridPane.columnIndex="1"/>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets/>
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="24.0"/>
-                                 </padding>
-                              </GridPane>
-                              <HBox alignment="TOP_CENTER" spacing="8.0">
-                                 <children>
-                                    <JFXButton buttonType="RAISED" onAction="#deletePressed"
-                                      style="-fx-background-color: LIGHTGREY;" text="Delete node">
-                                       <graphic>
-                                          <ImageView fitHeight="16" pickOnBounds="true"
-                                            preserveRatio="true">
-                                             <Image url="@/baseline_delete_black_18dp.png"/>
-                                          </ImageView>
-                                       </graphic>
-                                    </JFXButton>
-                                    <JFXButton buttonType="RAISED"
-                                      onAction="#saveNodeChangesPressed" ripplerFill="#00BB00"
-                                      style="-fx-background-color: LIGHTGREY;" text="Save changes">
-                                       <graphic>
-                                          <ImageView fitHeight="16" pickOnBounds="true"
-                                            preserveRatio="true">
-                                             <Image url="@/baseline_save_black_18dp.png"/>
-                                          </ImageView>
-                                       </graphic>
-                                    </JFXButton>
-                                 </children>
-                              </HBox>
-                              <Line endX="100.0" startX="-130.0" stroke="#727272">
-                                 <VBox.margin>
-                                    <Insets bottom="8.0" top="8.0"/>
-                                 </VBox.margin>
-                              </Line>
-                              <HBox alignment="CENTER" spacing="8.0">
-                                 <children>
-                                    <Label text="Neighboring nodes"/>
-                                    <JFXButton onAction="#addNeighborPressed"
-                                      style="-fx-background-color: LIGHTGREY;">
-                                       <graphic>
-                                          <ImageView fitHeight="16" pickOnBounds="true"
-                                            preserveRatio="true">
-                                             <Image url="@/baseline_add_black_18dp.png"/>
-                                          </ImageView>
-                                       </graphic>
-                                    </JFXButton>
-                                    <JFXButton onAction="#removeNeighborPressed"
-                                      style="-fx-background-color: LIGHTGREY;">
-                                       <graphic>
-                                          <ImageView fitHeight="16" pickOnBounds="true"
-                                            preserveRatio="true">
-                                             <Image url="@/baseline_remove_black_18dp.png"/>
-                                          </ImageView>
-                                       </graphic>
-                                    </JFXButton>
-                                 </children>
-                              </HBox>
-                              <JFXListView fx:id="neighboringNodesList" prefHeight="200">
-                                 <VBox.margin>
-                                    <Insets/>
-                                 </VBox.margin>
-                              </JFXListView>
-                              <JFXButton buttonType="RAISED" onAction="#cancelPressed"
-                                style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
-                           </children>
-                        </VBox>
-                        <VBox fx:id="edgeSelectView" alignment="TOP_CENTER" spacing="8.0"
-                          visible="false">
-                           <children>
-                              <GridPane hgap="8.0" vgap="8.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-                                      prefWidth="100.0"/>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-                                      prefWidth="100.0"/>
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                 </rowConstraints>
-                                 <children>
-                                    <Label text="Node 1"/>
-                                    <Label text="Node 2" GridPane.rowIndex="1"/>
-                                    <Label fx:id="edgeNode1ID" text="Label"
-                                      GridPane.columnIndex="1"/>
-                                    <Label fx:id="edgeNode2ID" text="Label" GridPane.columnIndex="1"
-                                      GridPane.rowIndex="1"/>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
-                                 </padding>
-                              </GridPane>
-                              <HBox alignment="CENTER" spacing="8.0"/>
-                              <JFXButton buttonType="RAISED" onAction="#deletePressed"
-                                style="-fx-background-color: LIGHTGREY;" text="Delete edge"/>
-                              <JFXButton buttonType="RAISED" onAction="#cancelPressed"
-                                style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
-                           </children>
-                        </VBox>
-                        <VBox fx:id="addNodeView" alignment="TOP_CENTER" layoutX="10.0"
-                          layoutY="10.0" spacing="8.0" visible="false">
-                           <children>
-                              <GridPane hgap="12.0" vgap="12.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-                                      prefWidth="100.0"/>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-                                      prefWidth="100.0"/>
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                 </rowConstraints>
-                                 <children>
-                                    <Label text="Node category"/>
-                                    <Label text="Short name" GridPane.rowIndex="1"/>
-                                    <Label text="Long name" GridPane.rowIndex="2"/>
-                                    <JFXTextField fx:id="newNodeShortName" GridPane.columnIndex="1"
-                                      GridPane.rowIndex="1">
-                                       <validators>
-                                          <RequiredFieldValidator message="Required"/>
-                                       </validators>
-                                    </JFXTextField>
-                                    <JFXTextField fx:id="newNodeLongName" GridPane.columnIndex="1"
-                                      GridPane.rowIndex="2">
-                                       <validators>
-                                          <RequiredFieldValidator message="Required"/>
-                                       </validators>
-                                    </JFXTextField>
-                                    <JFXComboBox fx:id="newNodeCategory" promptText="Select"
-                                      GridPane.columnIndex="1">
-                                       <validators>
-                                          <RequiredFieldValidator message="Required"/>
-                                       </validators>
-                                    </JFXComboBox>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets/>
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="16.0"/>
-                                 </padding>
-                              </GridPane>
-                              <JFXButton buttonType="RAISED" onAction="#createNodePressed"
-                                ripplerFill="#00BB00" style="-fx-background-color: LIGHTGREY;"
-                                text="Create node">
-                                 <graphic>
-                                    <ImageView fitHeight="16" pickOnBounds="true"
-                                      preserveRatio="true">
-                                       <Image url="@/baseline_add_black_18dp.png"/>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton buttonType="RAISED" onAction="#cancelPressed"
-                                style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
-                           </children>
-                        </VBox>
-                        <VBox fx:id="addEdgeView" alignment="TOP_CENTER" layoutX="10.0"
-                          layoutY="10.0" spacing="8.0" visible="false">
-                           <children>
-                              <GridPane hgap="8.0" vgap="8.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-                                      prefWidth="100.0"/>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-                                      prefWidth="100.0"/>
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
-                                      vgrow="SOMETIMES"/>
-                                 </rowConstraints>
-                                 <children>
-                                    <Label text="Node 1"/>
-                                    <Label text="Node 2" GridPane.rowIndex="1"/>
-                                    <Label fx:id="newEdgeNode1ID" text="Label"
-                                      GridPane.columnIndex="1"/>
-                                    <Label fx:id="newEdgeNode2ID" text="Label"
-                                      GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
-                                 </padding>
-                              </GridPane>
-                              <HBox alignment="CENTER" spacing="8.0"/>
-                              <JFXButton buttonType="RAISED" onAction="#createEdgePressed"
-                                ripplerFill="#00BB00" style="-fx-background-color: LIGHTGRAY;"
-                                text="Create edge"/>
-                              <JFXButton buttonType="RAISED" onAction="#cancelPressed"
-                                style="-fx-background-color: LIGHTGRAY;" text="Cancel"/>
-                           </children>
-                        </VBox>
-                        <VBox fx:id="addNeighborView" alignment="TOP_CENTER" layoutX="20.0"
-                          layoutY="20.0" spacing="8.0" visible="false">
-                           <children>
-                              <Label text="Select a node to add as a neighbor"/>
-                              <HBox alignment="TOP_CENTER">
-                                 <children>
-                                    <Label text="Selected node: "/>
-                                    <Label fx:id="selectedNeighborLabel"/>
-                                 </children>
-                              </HBox>
-                              <JFXButton buttonType="RAISED" onAction="#addNeighborPressed"
-                                ripplerFill="#00bb00" style="-fx-background-color: LIGHTGREY;"
-                                text="Add neighbor">
-                                 <graphic>
-                                    <ImageView fitHeight="16" pickOnBounds="true"
-                                      preserveRatio="true">
-                                       <Image url="@/baseline_add_black_18dp.png"/>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton buttonType="RAISED" onAction="#cancelPressed"
-                                style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
-                           </children>
-                        </VBox>
-                     </children>
-                  </Group>
+                  <JFXButton buttonType="FLAT" onAction="#floorDownPressed" text="&lt;">
+                     <font>
+                        <Font size="18.0"/>
+                     </font>
+                  </JFXButton>
+                  <Label fx:id="floorLabel" prefHeight="22.0" text="Floor 1">
+                     <font>
+                        <Font size="18.0"/>
+                     </font>
+                  </Label>
+                  <JFXButton buttonType="FLAT" onAction="#floorUpPressed" text="&gt;">
+                     <font>
+                        <Font size="18.0"/>
+                     </font>
+                  </JFXButton>
                </children>
-            </VBox>
+            </HBox>
+            <HBox alignment="CENTER" spacing="4.0">
+               <children>
+                  <JFXButton buttonType="FLAT" onAction="#zoomOutPressed">
+                     <graphic>
+                        <ImageView fx:id="zoomOutPressed" fitHeight="24" pickOnBounds="true"
+                          preserveRatio="true">
+                           <Image url="@/zoom_out-24px.png"/>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXSlider fx:id="zoomSlider" prefWidth="168.0"/>
+                  <JFXButton buttonType="FLAT" onAction="#zoomInPressed">
+                     <graphic>
+                        <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
+                           <Image url="@/zoom_in-24px.png"/>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <Label prefWidth="200.0"
+              text="Left-click to select a node or edge, right-click to add a node or edge"
+              textAlignment="CENTER" wrapText="true"/>
+            <Group>
+               <children>
+                  <VBox fx:id="nodeSelectView" alignment="TOP_CENTER" prefWidth="250.0"
+                    spacing="8.0">
+                     <children>
+                        <GridPane hgap="12.0" prefWidth="0.0" vgap="12.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                prefWidth="100.0"/>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                prefWidth="100.0"/>
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                           </rowConstraints>
+                           <children>
+                              <Label text="Node category"/>
+                              <Label text="Short name" GridPane.rowIndex="1"/>
+                              <Label text="Long name" GridPane.rowIndex="2"/>
+                              <JFXTextField fx:id="shortNameField" GridPane.columnIndex="1"
+                                GridPane.rowIndex="1">
+                                 <validators>
+                                    <RequiredFieldValidator message="Required"/>
+                                 </validators>
+                              </JFXTextField>
+                              <JFXTextField fx:id="longNameField" GridPane.columnIndex="1"
+                                GridPane.rowIndex="2">
+                                 <validators>
+                                    <RequiredFieldValidator message="Required"/>
+                                 </validators>
+                              </JFXTextField>
+                              <Label fx:id="nodeCategoryLabel" text="Label"
+                                GridPane.columnIndex="1"/>
+                           </children>
+                           <VBox.margin>
+                              <Insets/>
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="24.0"/>
+                           </padding>
+                        </GridPane>
+                        <HBox alignment="TOP_CENTER" spacing="8.0" prefWidth="Infinity">
+                           <children>
+                              <JFXButton buttonType="RAISED" onAction="#deletePressed"
+                                style="-fx-background-color: LIGHTGREY;" text="Delete node">
+                                 <graphic>
+                                    <ImageView fitHeight="16" pickOnBounds="true"
+                                      preserveRatio="true">
+                                       <Image url="@/baseline_delete_black_18dp.png"/>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton buttonType="RAISED" onAction="#saveNodeChangesPressed"
+                                ripplerFill="#00BB00" style="-fx-background-color: LIGHTGREY;"
+                                text="Save changes">
+                                 <graphic>
+                                    <ImageView fitHeight="16" pickOnBounds="true"
+                                      preserveRatio="true">
+                                       <Image url="@/baseline_save_black_18dp.png"/>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                        <Line endX="100.0" startX="-130.0" stroke="#727272">
+                           <VBox.margin>
+                              <Insets bottom="8.0" top="8.0"/>
+                           </VBox.margin>
+                        </Line>
+                        <HBox alignment="CENTER" spacing="8.0">
+                           <children>
+                              <Label text="Neighboring nodes"/>
+                              <JFXButton onAction="#addNeighborPressed"
+                                style="-fx-background-color: LIGHTGREY;">
+                                 <graphic>
+                                    <ImageView fitHeight="16" pickOnBounds="true"
+                                      preserveRatio="true">
+                                       <Image url="@/baseline_add_black_18dp.png"/>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton onAction="#removeNeighborPressed"
+                                style="-fx-background-color: LIGHTGREY;">
+                                 <graphic>
+                                    <ImageView fitHeight="16" pickOnBounds="true"
+                                      preserveRatio="true">
+                                       <Image url="@/baseline_remove_black_18dp.png"/>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                        <JFXListView fx:id="neighboringNodesList" prefHeight="200">
+                           <VBox.margin>
+                              <Insets/>
+                           </VBox.margin>
+                        </JFXListView>
+                        <JFXButton buttonType="RAISED" onAction="#cancelPressed"
+                          style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="edgeSelectView" alignment="TOP_CENTER" spacing="8.0" visible="false">
+                     <children>
+                        <GridPane hgap="8.0" vgap="8.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                prefWidth="100.0"/>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                prefWidth="100.0"/>
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                           </rowConstraints>
+                           <children>
+                              <Label text="Node 1"/>
+                              <Label text="Node 2" GridPane.rowIndex="1"/>
+                              <Label fx:id="edgeNode1ID" text="Label" GridPane.columnIndex="1"/>
+                              <Label fx:id="edgeNode2ID" text="Label" GridPane.columnIndex="1"
+                                GridPane.rowIndex="1"/>
+                           </children>
+                           <padding>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+                           </padding>
+                        </GridPane>
+                        <HBox alignment="CENTER" spacing="8.0"/>
+                        <JFXButton buttonType="RAISED" onAction="#deletePressed"
+                          style="-fx-background-color: LIGHTGREY;" text="Delete edge"/>
+                        <JFXButton buttonType="RAISED" onAction="#cancelPressed"
+                          style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="addNodeView" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0"
+                    spacing="8.0" visible="false">
+                     <children>
+                        <GridPane hgap="12.0" vgap="12.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                prefWidth="100.0"/>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                prefWidth="100.0"/>
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                           </rowConstraints>
+                           <children>
+                              <Label text="Node category"/>
+                              <Label text="Short name" GridPane.rowIndex="1"/>
+                              <Label text="Long name" GridPane.rowIndex="2"/>
+                              <JFXTextField fx:id="newNodeShortName" GridPane.columnIndex="1"
+                                GridPane.rowIndex="1">
+                                 <validators>
+                                    <RequiredFieldValidator message="Required"/>
+                                 </validators>
+                              </JFXTextField>
+                              <JFXTextField fx:id="newNodeLongName" GridPane.columnIndex="1"
+                                GridPane.rowIndex="2">
+                                 <validators>
+                                    <RequiredFieldValidator message="Required"/>
+                                 </validators>
+                              </JFXTextField>
+                              <JFXComboBox fx:id="newNodeCategory" promptText="Select"
+                                GridPane.columnIndex="1">
+                                 <validators>
+                                    <RequiredFieldValidator message="Required"/>
+                                 </validators>
+                              </JFXComboBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets/>
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="16.0"/>
+                           </padding>
+                        </GridPane>
+                        <JFXButton buttonType="RAISED" onAction="#createNodePressed"
+                          ripplerFill="#00BB00" style="-fx-background-color: LIGHTGREY;"
+                          text="Create node">
+                           <graphic>
+                              <ImageView fitHeight="16" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@/baseline_add_black_18dp.png"/>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" onAction="#cancelPressed"
+                          style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="addEdgeView" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0"
+                    spacing="8.0" visible="false">
+                     <children>
+                        <GridPane hgap="8.0" vgap="8.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                prefWidth="100.0"/>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                prefWidth="100.0"/>
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                           </rowConstraints>
+                           <children>
+                              <Label text="Node 1"/>
+                              <Label text="Node 2" GridPane.rowIndex="1"/>
+                              <Label fx:id="newEdgeNodeName1" text="Label"
+                                GridPane.columnIndex="1"/>
+                              <Label fx:id="newEdgeNodeName2" text="Label" GridPane.columnIndex="1"
+                                GridPane.rowIndex="1"/>
+                           </children>
+                           <padding>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+                           </padding>
+                        </GridPane>
+                        <HBox alignment="CENTER" spacing="8.0"/>
+                        <JFXButton buttonType="RAISED" onAction="#createEdgePressed"
+                          ripplerFill="#00BB00" style="-fx-background-color: LIGHTGRAY;"
+                          text="Create edge"/>
+                        <JFXButton buttonType="RAISED" onAction="#cancelPressed"
+                          style="-fx-background-color: LIGHTGRAY;" text="Cancel"/>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="addNeighborView" alignment="TOP_CENTER" layoutX="20.0" layoutY="20.0"
+                    spacing="8.0" visible="false">
+                     <children>
+                        <Label text="Select a node to add as a neighbor"/>
+                        <HBox alignment="TOP_CENTER">
+                           <children>
+                              <Label text="Selected node: "/>
+                              <Label fx:id="selectedNeighborLabel"/>
+                           </children>
+                        </HBox>
+                        <JFXButton buttonType="RAISED" onAction="#addNeighborPressed"
+                          ripplerFill="#00bb00" style="-fx-background-color: LIGHTGREY;"
+                          text="Add neighbor">
+                           <graphic>
+                              <ImageView fitHeight="16" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@/baseline_add_black_18dp.png"/>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" onAction="#cancelPressed"
+                          style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
+                     </children>
+                  </VBox>
+               </children>
+            </Group>
          </children>
-      </AnchorPane>
+      </VBox>
    </right>
 </BorderPane>
