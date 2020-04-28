@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
 import com.google.inject.Inject;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
@@ -15,8 +14,6 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -41,12 +38,7 @@ public class InternalTransportationService extends ServiceRequestBase {
   private JFXTextField reqName;
   @FXML
   private JFXTextField reqTime;
-  @FXML
-  private TabPane transportationType;
-  @FXML
-  private Tab assistedTransportation, unassistedTransportation;
-  @FXML
-  private JFXButton submit;
+
   @FXML
   private ToggleGroup assistedToggle, unassistedToggle;
 
@@ -106,26 +98,6 @@ public class InternalTransportationService extends ServiceRequestBase {
 
     database.addServiceRequest(reqTime.getText(), entryNode.getNodeID(), "Int. Transport",
         reqName.getText(), data);
-  }
-
-  /**
-   * checks if all fields needed for an assisted transport request
-   *
-   * @return true if request has all needed data, false otherwise
-   */
-  private boolean validateAssisted() {
-    return (assistedToggle.getSelectedToggle() != null) &&
-        validator.validate(currentRoom, reqName, reqTime, destinationRoom);
-  }
-
-  /**
-   * checks if all fields needed for an unassisted transport request
-   *
-   * @return true if request has all needed data, false otherwise
-   */
-  private boolean validateUnassisted() {
-    return (unassistedToggle.getSelectedToggle() != null) &&
-        validator.validate(currentRoom, reqName, reqTime);
   }
 
   /**
