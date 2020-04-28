@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
@@ -37,8 +36,6 @@ public class MainKioskViewModel extends ViewModelBase {
   private final SnackBar snackBar;
   private final Dialog dialog;
 
-  @FXML
-  private AnchorPane root;
   @FXML
   private HBox welcomeBar, langContainer;
   @FXML
