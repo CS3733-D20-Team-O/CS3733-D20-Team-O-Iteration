@@ -87,7 +87,7 @@ public class Dialog {
     fxmlLoader.setController(null);
     // Show the dialog in full screen mode and connect the view model to the dialog
     val dialog = showFullscreen(fxmlLoader.load(Main.class.getResourceAsStream(fxml)));
-    val dialogViewModel = fxmlLoader.getController();
+    val dialogViewModel = (DialogViewModel) fxmlLoader.getController();
     dialogViewModel.parent = dialog;
     dialog.addEventHandler(JFXDialogEvent.CLOSED, event -> dialogViewModel.onClose());
     return dialogViewModel;
