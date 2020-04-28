@@ -55,10 +55,6 @@ public class InternalTransportationService extends ServiceRequestBase {
     setLocations(currentFloor, currentRoom);
     setLocations(destinationFloor, destinationRoom);
 
-    //set radio buttons to default
-    unassistedToggle.getToggles().get(0).setSelected(true);
-    assistedToggle.getToggles().get(0).setSelected(true);
-
   }
 
   @FXML
