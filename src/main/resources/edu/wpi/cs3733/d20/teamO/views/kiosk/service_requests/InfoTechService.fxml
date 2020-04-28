@@ -9,65 +9,35 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns="http://javafx.com/javafx"
-  xmlns:fx="http://javafx.com/fxml"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InfoTechService">
-  <VBox spacing="32" alignment="CENTER"
-    style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
-    <Label text="IT Support Request" style="-fx-font-size: 32"/>
+<VBox spacing="32" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InfoTechService"
+  style="-fx-padding: 32; -fx-font-size: 16">
+  <Label text="IT Support Request" style="-fx-font-size: 32"/>
+  <HBox alignment="CENTER" spacing="8">
+    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+      preserveRatio="true">
+      <image>
+        <Image url="/person-icon.png"/>
+      </image>
+    </ImageView>
+    <JFXTextField fx:id="requesterName" promptText="Your Name">
+      <validators>
+        <RequiredFieldValidator message="Your name is required!"/>
+      </validators>
+    </JFXTextField>
+  </HBox>
+  <HBox alignment="CENTER" spacing="32">
     <HBox alignment="CENTER" spacing="8">
       <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
         preserveRatio="true">
         <image>
-          <Image url="@../../../../../../../../baseline_person_black_18dp.png"/>
+          <Image url="/floor-icon.png"/>
         </image>
       </ImageView>
-      <JFXTextField fx:id="requesterName" promptText="Your Name">
+      <JFXComboBox fx:id="floors" promptText="Floor">
         <validators>
-          <RequiredFieldValidator message="Your name is required!"/>
-        </validators>
-      </JFXTextField>
-    </HBox>
-    <HBox alignment="CENTER" spacing="32">
-      <HBox alignment="CENTER" spacing="8">
-        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-          preserveRatio="true">
-          <image>
-            <Image url="@../../../../../../../../baseline_apartment_black_18dp.png"/>
-          </image>
-        </ImageView>
-        <JFXComboBox fx:id="floors" promptText="Floor">
-          <validators>
-            <RequiredFieldValidator message="You need to select the floor for the IT request!"/>
-          </validators>
-        </JFXComboBox>
-      </HBox>
-      <HBox alignment="CENTER" spacing="8">
-        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-          preserveRatio="true">
-          <image>
-            <Image url="@../../../../../../../../baseline_room_black_18dp.png"/>
-          </image>
-        </ImageView>
-        <JFXComboBox fx:id="locations" promptText="Room/Location on Floor">
-          <validators>
-            <RequiredFieldValidator message="You need to select the location of the IT request!"/>
-          </validators>
-        </JFXComboBox>
-      </HBox>
-    </HBox>
-    <HBox alignment="CENTER" spacing="8">
-      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-        preserveRatio="true">
-        <image>
-          <Image url="@../../../../../../../../baseline_build_black_18dp.png"/>
-        </image>
-      </ImageView>
-      <JFXComboBox fx:id="ITProblems" promptText="Select your current IT issue">
-        <validators>
-          <RequiredFieldValidator message="You need to select your current IT issue!"/>
+          <RequiredFieldValidator message="You need to select the floor for the IT request!"/>
         </validators>
       </JFXComboBox>
     </HBox>
@@ -75,14 +45,40 @@
       <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
         preserveRatio="true">
         <image>
-          <Image url="@../../../../../../../../baseline_description_black_18dp.png"/>
+          <Image url="/location-icon.png"/>
         </image>
       </ImageView>
-      <JFXTextArea fx:id="additionalNotes" promptText="Description"/>
+      <JFXComboBox fx:id="locations" promptText="Room/Location on Floor">
+        <validators>
+          <RequiredFieldValidator message="You need to select the location of the IT request!"/>
+        </validators>
+      </JFXComboBox>
     </HBox>
-    <HBox alignment="CENTER_RIGHT" spacing="16">
-      <JFXButton text="Submit" onAction="#submitRequest"/>
-      <JFXButton text="Cancel" onAction="#closeRequest"/>
-    </HBox>
-  </VBox>
-</StackPane>
+  </HBox>
+  <HBox alignment="CENTER" spacing="8">
+    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+      preserveRatio="true">
+      <image>
+        <Image url="/wrench-icon.png"/>
+      </image>
+    </ImageView>
+    <JFXComboBox fx:id="ITProblems" promptText="Select your current IT issue">
+      <validators>
+        <RequiredFieldValidator message="You need to select your current IT issue!"/>
+      </validators>
+    </JFXComboBox>
+  </HBox>
+  <HBox alignment="CENTER" spacing="8">
+    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+      preserveRatio="true">
+      <image>
+        <Image url="/desc-icon.png"/>
+      </image>
+    </ImageView>
+    <JFXTextArea fx:id="additionalNotes" promptText="Description" maxHeight="100"/>
+  </HBox>
+  <HBox alignment="CENTER_RIGHT" spacing="16">
+    <JFXButton text="Submit" onAction="#submitRequest" style="-fx-background-color: #00BB00"/>
+    <JFXButton text="Cancel" onAction="#close" style="-fx-background-color: LIGHTGREY"/>
+  </HBox>
+</VBox>
