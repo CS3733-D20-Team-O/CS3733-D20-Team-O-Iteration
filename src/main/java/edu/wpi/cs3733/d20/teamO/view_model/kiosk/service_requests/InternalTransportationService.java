@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransportationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
@@ -37,7 +38,9 @@ public class InternalTransportationService extends ServiceRequestBase {
   private State currentState;
 
   @FXML
-  private JFXTextField reqName, reqTime;
+  private JFXTextField reqName;
+  @FXML
+  private JFXTimePicker reqTime;
   @FXML
   private ToggleGroup assistedToggle, unassistedToggle;
   @FXML
@@ -88,7 +91,7 @@ public class InternalTransportationService extends ServiceRequestBase {
    */
   private void addToDatabase(ServiceRequestData data) {
     val confirmationCode = database
-        .addServiceRequest(reqTime.getText(), currentRoom.getSelectionModel().getSelectedItem(),
+        .addServiceRequest(reqTime.toString(), currentRoom.getSelectionModel().getSelectedItem(),
             "Internal Transportation",
             reqName.getText(), data);
 

@@ -57,10 +57,36 @@ public class InternalTransportationTest extends FxRobot {
   @InjectMocks
   InternalTransportationService viewModel;
 
+  private void initializeBundle() {
+    bundle.put("serviceIntTransportTitle", "Internal Transportation");
+    bundle.put("serviceIntTransportCurrentFloor", "Current Floor");
+    bundle.put("serviceIntTransportCurrentRoom", "Current Room");
+    bundle.put("serviceIntTransportRoomValidator", "A room is required");
+    bundle.put("serviceIntTransportRequesterName", "Requester Name");
+    bundle.put("serviceIntTransportNameValidator", "Your name is required");
+    bundle.put("serviceIntTransportRequestTime", "Request Time");
+    bundle.put("serviceIntTransportTimeValidator", "Time is required");
+    bundle.put("serviceIntTransportAssistedTabTitle", "Assisted Transportation");
+    bundle.put("serviceIntTransportWheelchair", "Wheelchair");
+    bundle.put("serviceIntTransportBed", "Bed Move");
+    bundle.put("serviceIntTransportGurney", "Gurney");
+    bundle.put("serviceIntTransportEscort", "Escort");
+    bundle.put("serviceIntTransportDestinationFloor", "Destination Floor");
+    bundle.put("serviceIntTransportDestinationRoom", "Destination Room");
+    bundle.put("serviceIntTransportDestinationRoomValidator",
+        "A destination is required for Assisted Transportation");
+    bundle.put("serviceIntTransportUnassistedTabTitle", "Unassisted Transportation");
+    bundle.put("serviceIntTransportCrutches", "Crutches");
+    bundle.put("serviceIntTransportCast", "Cast Scooter");
+    bundle.put("serviceIntTransportIV", "Mobile IV Stand");
+    bundle.put("serviceIntTransportSubmit", "Submit");
+    bundle.put("serviceIntTransportCancel", "Cancel");
+  }
+
   @Start
   public void start(Stage stage) throws IOException {
-    bundle.put("Sample", "Sample"); // todo load the necessary strings
     populateFloorAndLocation();
+    initializeBundle();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
@@ -97,7 +123,7 @@ public class InternalTransportationTest extends FxRobot {
     clickOn("Requester Name");
     write("John Smith");
     clickOn("Request Time");
-    write("12:43");
+    write("12:43 PM");
     clickOn("Unassisted Transportation");
     clickOn("Current Floor");
     clickOn("1");

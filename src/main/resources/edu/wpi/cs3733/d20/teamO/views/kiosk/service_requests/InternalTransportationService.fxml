@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -21,51 +22,49 @@
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InternalTransportationService">
    <children>
-      <Label style="-fx-font-size: 32;" text="Internal Transportation"/>
+      <Label style="-fx-font-size: 32;" text="%serviceIntTransportTitle"/>
       <VBox prefHeight="119.0" prefWidth="413.0">
          <children>
             <HBox>
                <children>
                   <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="238.0" spacing="16.0">
                      <children>
-                        <JFXComboBox fx:id="currentFloor"
-                          prefHeight="25.0" prefWidth="176.0" promptText="Current Floor"/>
-                        <JFXComboBox fx:id="currentRoom" prefHeight="25.0"
-                          prefWidth="177.0" promptText="Current Room">
+                        <JFXComboBox fx:id="currentFloor" prefHeight="25.0" prefWidth="176.0"
+                          promptText="%serviceIntTransportCurrentFloor"/>
+                        <JFXComboBox fx:id="currentRoom" prefHeight="25.0" prefWidth="177.0"
+                          promptText="%serviceIntTransportCurrentRoom">
                            <validators>
-                              <RequiredFieldValidator message="A room is required"/>
+                              <RequiredFieldValidator message="%serviceIntTransportRoomValidator"/>
                            </validators>
                         </JFXComboBox>
                      </children>
                   </VBox>
                   <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="187.0" spacing="16.0">
                      <children>
-                        <JFXTextField fx:id="reqName" promptText="Requester Name"
+                        <JFXTextField fx:id="reqName" promptText="%serviceIntTransportRequesterName"
                           style="-fx-background-color: lightgray;">
                            <validators>
-                              <RequiredFieldValidator message="Your name is required"/>
+                              <RequiredFieldValidator message="%serviceIntTransportNameValidator"/>
                            </validators>
                            <VBox.margin>
                               <Insets top="8.0"/>
                            </VBox.margin>
                         </JFXTextField>
-                        <JFXTextField fx:id="reqTime" promptText="Request Time"
-                          style="-fx-background-color: lightgray;">
+                        <JFXTimePicker fx:id="reqTime" promptText="%serviceIntTransportRequestTime">
                            <validators>
-                              <RequiredFieldValidator message="The request time is required"/>
+                              <RequiredFieldValidator message="%serviceIntTransportTimeValidator"/>
                            </validators>
-                        </JFXTextField>
+                        </JFXTimePicker>
                      </children>
                   </VBox>
                </children>
             </HBox>
          </children>
       </VBox>
-      <TabPane prefHeight="160.0" prefWidth="413.0"
-        style="-fx-border-color: gray;" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="160.0" prefWidth="413.0" style="-fx-border-color: gray;"
+        tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab onSelectionChanged="#assistedSelected"
-              text="Assisted Transportation">
+            <Tab onSelectionChanged="#assistedSelected" text="%serviceIntTransportAssistedTabTitle">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="126.0" prefWidth="413.0"
                     style="-fx-background-color: lightgray;">
@@ -79,29 +78,30 @@
                                     <Insets left="8.0" top="8.0"/>
                                  </padding>
                                  <children>
-                                    <JFXRadioButton text="Wheelchair">
+                                    <JFXRadioButton text="%serviceIntTransportWheelchair">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="assistedToggle"/>
                                        </toggleGroup>
                                     </JFXRadioButton>
-                                    <JFXRadioButton text="Bed Move"
+                                    <JFXRadioButton text="%serviceIntTransportBed"
                                       toggleGroup="$assistedToggle"/>
-                                    <JFXRadioButton text="Gurney"
+                                    <JFXRadioButton text="%serviceIntTransportGurney"
                                       toggleGroup="$assistedToggle"/>
-                                    <JFXRadioButton text="Escort"
+                                    <JFXRadioButton text="%serviceIntTransportEscort"
                                       toggleGroup="$assistedToggle"/>
                                  </children>
                               </VBox>
                               <VBox prefHeight="133.0" prefWidth="142.0" spacing="16.0">
                                  <children>
-                                    <JFXComboBox fx:id="destinationFloor"
-                                      prefHeight="25.0"
-                                      prefWidth="139.0" promptText="Destination Floor"/>
+                                    <JFXComboBox fx:id="destinationFloor" prefHeight="25.0"
+                                      prefWidth="139.0"
+                                      promptText="%serviceIntTransportDestinationFloor"/>
                                     <JFXComboBox fx:id="destinationRoom" prefHeight="25.0"
-                                      prefWidth="142.0" promptText="Destination Room">
+                                      prefWidth="142.0"
+                                      promptText="%serviceIntTransportDestinationRoom">
                                        <validators>
                                           <RequiredFieldValidator
-                                            message="A destination is required for Assisted Transportation"/>
+                                            message="%serviceIntTransportDestinationRoomValidator"/>
                                        </validators>
                                     </JFXComboBox>
                                  </children>
@@ -116,7 +116,7 @@
                </content>
             </Tab>
             <Tab onSelectionChanged="#unassistedSelected"
-              text="Unassisted Transportation">
+              text="%serviceIntTransportUnassistedTabTitle">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
                     style="-fx-background-color: lightgray;">
@@ -128,16 +128,16 @@
                               <Insets left="8.0" top="8.0"/>
                            </padding>
                            <children>
-                              <JFXRadioButton text="Crutches">
+                              <JFXRadioButton text="%serviceIntTransportCrutches">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="unassistedToggle"/>
                                  </toggleGroup>
                               </JFXRadioButton>
-                              <JFXRadioButton text="Wheelchair"
+                              <JFXRadioButton text="%serviceIntTransportWheelchair"
                                 toggleGroup="$unassistedToggle"/>
-                              <JFXRadioButton text="Cast Scooter"
+                              <JFXRadioButton text="%serviceIntTransportCast"
                                 toggleGroup="$unassistedToggle"/>
-                              <JFXRadioButton text="Mobile IV Stand"
+                              <JFXRadioButton text="%serviceIntTransportIV"
                                 toggleGroup="$unassistedToggle"/>
                            </children>
                         </VBox>
@@ -149,12 +149,12 @@
       </TabPane>
       <HBox spacing="32.0">
          <children>
-            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onSubmit"
-              prefHeight="35.0" prefWidth="102.0" ripplerFill="#302de1"
-              style="-fx-background-color: lightgray;" text="Submit"/>
+            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onSubmit" prefHeight="35.0"
+              prefWidth="102.0" ripplerFill="#302de1" style="-fx-background-color: lightgray;"
+              text="%serviceIntTransportSubmit"/>
             <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="10.0" layoutY="10.0"
               onAction="#close" prefHeight="35.0" prefWidth="102.0" ripplerFill="#e42121"
-              style="-fx-background-color: lightgray;" text="Cancel"/>
+              style="-fx-background-color: lightgray;" text="%serviceIntTransportCancel"/>
          </children>
       </HBox>
    </children>
