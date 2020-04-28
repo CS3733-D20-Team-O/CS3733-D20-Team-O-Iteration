@@ -17,6 +17,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestD
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
@@ -49,6 +50,8 @@ public class SanitationServiceTest extends FxRobot {
   Dialog dialog;
   @Mock
   JFXDialog jfxDialog;
+  @Mock
+  RequestConfirmationViewModel requestConfirmationViewModel;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
@@ -107,10 +110,11 @@ public class SanitationServiceTest extends FxRobot {
   }
 
   @Test
-  public void testSubmit() {
+  public void testSubmit() throws IOException {
     when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
     when(database.addServiceRequest(any(), any(), any(), any(), any()))
         .thenReturn(null).thenReturn("ABCDEFGH");
+    when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
 
     // Test when there are fields not filled out
     clickOn("Submit");
@@ -140,8 +144,7 @@ public class SanitationServiceTest extends FxRobot {
         eq("Floor 1"), eq("Sanitation"), eq("John Smith"),
         eq(new SanitationRequestData("Dry Spill", "")));
     verify(snackBar, times(1)).show(anyString());
-    verify(dialog, times(1))
-        .showBasic(anyString(), eq("Your confirmation code is:\nABCDEFGH"), anyString());
+    verify(dialog, times(1)).showFullscreenFXML(anyString());
     verify(jfxDialog, times(1)).close();
   }
 }
