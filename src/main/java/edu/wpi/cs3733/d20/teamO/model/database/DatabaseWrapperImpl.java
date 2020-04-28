@@ -115,16 +115,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
-      val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
-      try (val stmt = connection.prepareStatement(query)) {
-        stmt.setString(1, "0");
-        stmt.setString(2, "");
-        stmt.setString(3, "");
-        stmt.setBoolean(4, false);
-        stmt.executeUpdate();
-        log.info("Added NULL employee");
-      } catch (SQLException e) {
-        log.error("Failed to add a NULL employee", e);
+      if (addEmployee("0", "", "", false) != 1) {
+        log.error("Failed to add the null employee!");
       }
     }
 
@@ -134,9 +126,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         String queryTable = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
             + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(999), "
             + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " VARCHAR(999), "
-            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(999) REFERENCES "
-            + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName()
-            + ") ON DELETE CASCADE, "
+            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(999), "
             + ServiceRequestProperty.TYPE.getColumnName() + " VARCHAR(999), "
             + ServiceRequestProperty.STATUS.getColumnName() + " VARCHAR(999), "
             + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " VARCHAR(999), "
@@ -156,7 +146,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  public String getID(String type, int floor) {
+  public String getNodeID(String type, int floor) {
     val takenIDs = exportNodes().keySet().stream()
         .filter(id -> id.substring(1, 5).equals(type))
         .filter(id -> Integer.parseInt(id.substring(8)) == floor)
@@ -187,7 +177,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       String nodeType, String longName, String shortName) {
     String id = "";
     if (!nodeType.equals("ELEV")) {
-      id = getID(nodeType, floor);
+      id = getNodeID(nodeType, floor);
     } else {
       val elevLetter = longName.substring(9);
       id = "O" + nodeType + "00" + elevLetter + "0" + floor;
@@ -339,6 +329,20 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
+  @Override
+  public String addEmployee(String name, String type, boolean isAvailable) {
+    val employees = exportEmployees().stream()
+        .map(Employee::getEmployeeID)
+        .map(Integer::parseInt)
+        .collect(Collectors.toSet());
+    for (int i = 1; true; ++i) {
+      if (!employees.contains(i)) {
+        addEmployee(Integer.toString(i), name, type, isAvailable);
+        return Integer.toString(i);
+      }
+    }
+  }
+
   /**
    * Adds the specified employee to the database
    *
@@ -376,37 +380,31 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public int deleteFromTable(Table table, TableProperty property, String matching) {
-    //val takenIDs = exportNodes().keySet().stream()
-    //        .filter(id -> id.substring(1, 5).equals(type))
-    //        .filter(id -> Integer.parseInt(id.substring(8)) == floor)
-    //        .map(id -> Integer.parseInt(id.substring(5, 8)))
-    //        .collect(Collectors.toSet());
-    if (table.equals(Table.EMPLOYEE_TABLE.getTableName())) {
-      if (property.equals(EmployeeProperty.EMPLOYEE_ID.getColumnName())) {
-        exportServiceRequests().stream().filter(id -> id.getWhoMarked().equals(matching))
-            .forEach(entry -> entry.s = "0");
-      } else if (property.equals(EmployeeProperty.NAME.getColumnName()) || property
-          .equals(EmployeeProperty.TYPE.getColumnName())
-          || property.equals(EmployeeProperty.IS_AVAILABLE.getColumnName())) {
-        val query = "SELECT " + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " FROM "
-            + Table.EMPLOYEE_TABLE.getTableName()
-            + " WHERE " + property.getColumnName() + " = ?";
-        try {
-          val stmt = connection.prepareStatement(query);
-          stmt.setString(1, matching);
-          val rset = stmt.executeQuery();
-          while (rset.next()) {
-            val empID = rset.getString(1);
-            exportServiceRequests().stream().filter(id -> id.getWhoMarked().equals(empID))
-                .forEach(entry -> entry.s = "0");
-          }
-        } catch (SQLException e) {
-          val error = "Failed to find record(s) from " + table.getTableName() +
-              " using property " + property.getColumnName() + " and matching " + matching;
-          log.error(error, e);
+    // First, check to see if we are deleting from the employee table
+    //  If so, we need to set corresponding service requests to the null employee
+    if (Table.EMPLOYEE_TABLE.equals(table)) {
+      val query = "SELECT " + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " FROM "
+          + Table.EMPLOYEE_TABLE + " WHERE " + property.getColumnName() + " = ?";
+      try {
+        val stmt = connection.prepareStatement(query);
+        stmt.setString(1, matching);
+        val rset = stmt.executeQuery();
+        while (rset.next()) {
+          val empID = rset.getString(1);
+          update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.EMPLOYEE_ASSIGNED, empID,
+              ServiceRequestProperty.EMPLOYEE_ASSIGNED, "0");
+          update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED, empID,
+              ServiceRequestProperty.WHO_MARKED, "0");
         }
+      } catch (SQLException e) {
+        val error = "Failed to find matching record(s) from employee table using property "
+            + property.getColumnName() + " and matching " + matching;
+        log.error(error, e);
       }
+      addEmployee("0", "", "", false);
     }
+
+    // Execute the delete
     val query = "DELETE from " + table.getTableName() +
         " WHERE " + property.getColumnName() + " = ?";
     try (val stmt = connection.prepareStatement(query)) {
@@ -549,17 +547,21 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
           case "Sanitation":
             clazz = SanitationRequestData.class;
             break;
+          default:
+            log.error("Unhandled request type");
         }
-        serviceRequests.add(new ServiceRequest(
-            rset.getString(1),
-            rset.getString(2),
-            rset.getString(3),
-            rset.getString(4),
-            rset.getString(5),
-            rset.getString(6),
-            rset.getString(7),
-            rset.getString(8),
-            new Gson().fromJson(rset.getString(9), clazz)));
+        if (clazz != null) {
+          serviceRequests.add(new ServiceRequest(
+              rset.getString(1),
+              rset.getString(2),
+              rset.getString(3),
+              rset.getString(4),
+              rset.getString(5),
+              rset.getString(6),
+              rset.getString(7),
+              rset.getString(8),
+              new Gson().fromJson(rset.getString(9), clazz)));
+        }
       }
     } catch (SQLException e) {
       log.error("Failed to export service requests", e);
