@@ -14,6 +14,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -167,39 +168,40 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private boolean criteraToAssignEmployeeMet() {
     // "error" cases to do nothing
     //no serviceReq selected
+    LinkedList<String> errors = new LinkedList<String>();
+
     if (getSelectedRequest() == null) {
-      snackBar.show("No service Request selected");
-      return true;
+      errors.add("No service Request selected");
     }
     //no employee selected
     else if (getSelectedEmployee() == null) {
-      snackBar.show("No Employee selected.");
-      return true;
+      errors.add("No Employee selected.");
     }
     //task is unavailable
     else if (!getSelectedRequest().getStatus().equals("Unassigned")) {
-      snackBar.show("An employee cannot be assigned to this task");
-      return true;
+      errors.add("An employee cannot be assigned to this task");
     }
     //employee selected somehow does not have same type as request
     else if (!getSelectedEmployee().getType()
         .equals(getSelectedRequest().getType())) {
-      snackBar.show("Employee cannot complete this Service Request.");
-      return true;
+      errors.add("Employee cannot complete this Service Request.");
     }
     //employee is unavailable
     else if (!getSelectedEmployee().getIsAvailable()) {
-      snackBar.show("Employee is unavailable.");
-      return true;
+      errors.add("Employee is unavailable.");
     }
     //if the selected service has someone assigned
     else if (!getSelectedRequest().getEmployeeAssigned()
         .equals("0")) {
-      snackBar.show("An employee is already assigned to this service request");
-      return true;
-    } else {
-      return false;
+      errors.add("An employee is already assigned to this service request");
     }
+
+    for (String s : errors) {
+      snackBar.show(s);
+    }
+
+    return errors.size() != 0;
+
   }
 
   ServiceRequest getSelectedRequest() {
@@ -230,7 +232,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     //if the request is not Assigned and it is not Unassigned,
     //then and only then is it able to be cancelled or resolved, so if it is equal to
     //either Assigned or Unassigned, the if fails and code continues
-    if (!request.getStatus().equals("Assigned") && !request.getStatus().equals("Unassigned")) {
+    if (request.getStatus().equals("Cancelled") || request.getStatus().equals("Resolved")) {
       snackBar.show("Cannot modify a closed request");
       return;
     }
