@@ -116,15 +116,15 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         case ADD_EDGE:
           break;
         default:
-          selectNode(node);
+          nodeMapViewController.highlightNode(node);
           setState(State.ADD_EDGE);
       }
     });
     nodeMapViewController
         .setOnNodeLeftDragListener((node, mouseEvent) -> { // setting up node repositioning
-          if (state == State.SELECT_NODE) {
-            // todo implement node moving
-          }
+          //if (state == State.SELECT_NODE) {
+          nodeMapViewController.relocateNode(node, mouseEvent.getX(), mouseEvent.getY());
+          //}
         });
   }
 
