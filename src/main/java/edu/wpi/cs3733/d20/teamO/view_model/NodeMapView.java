@@ -360,7 +360,7 @@ public class NodeMapView extends ViewModelBase {
   public void setFloor(int floor) {
     if (floor >= minFloor && floor <= maxFloor) {
       this.floor = floor;
-      backgroundImage.setImage(new Image("floorNumber/" + floor + ".png"));
+      backgroundImage.setImage(new Image("floors/" + floor + ".png"));
     }
     draw();
   }
