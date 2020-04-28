@@ -38,6 +38,7 @@ public class MedicineDeliveryService extends ServiceRequestBase {
     super.setLocations(floorNumber, roomName);
   }
 
+  @FXML
   public void submitRequest() {
     val valid = validator
         .validate(patientName, medicationName, deliveryMethod, floorNumber, roomName);
@@ -54,16 +55,17 @@ public class MedicineDeliveryService extends ServiceRequestBase {
       val time = LocalTime.now();
       val confirmationCode = database
           .addServiceRequest(time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-              requestNode.getNodeID(), "Medication delivery", patientName.getText(), data);
+              requestNode.getLongName(), "Medicine delivery", patientName.getText(), data);
       if (confirmationCode == null) {
-        snackBar.show("Failed to create medication delivery service request");
+        snackBar.show("Failed to create medicine delivery service request");
       } else {
         dialog.showBasic("Success", "Your confirmation code is:\n" + confirmationCode, "Close");
       }
     }
   }
 
+  @FXML
   public void cancel() {
-    // todo implement
+    super.close();
   }
 }
