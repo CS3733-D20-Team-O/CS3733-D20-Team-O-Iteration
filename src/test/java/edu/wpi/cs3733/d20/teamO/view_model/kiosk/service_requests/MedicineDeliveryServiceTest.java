@@ -53,9 +53,24 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   @InjectMocks
   MedicineDeliveryService viewModel;
 
+  private void initializeBundle() {
+    bundle.put("serviceMedicineDeliveryMedicationRequest", "Medication Delivery Request");
+    bundle.put("serviceMedicineDeliveryPatientNameField", "Patient Name");
+    bundle.put("serviceMedicineDeliveryPatientNameFieldValidator", "Patient Name is Required!");
+    bundle.put("serviceMedicineDeliveryMedicationNameField", "Medication Name");
+    bundle.put("serviceMedicineDeliveryMedicationNameFieldValidator", "Medication Name is Required!");
+    bundle.put("serviceMedicineFloorRequest", "Floor");
+    bundle.put("serviceMedicineFloorRequestValidator", "Floor information is Required!");
+    bundle.put("serviceMedicineLocationRequest", "Room/Location on Floor");
+    bundle.put("serviceMedicineLocationRequestValidator", "Location info is Required!");
+    bundle.put("serviceMedicineDeliveryDeliveryMethod", "Delivery Method");
+    bundle.put("serviceMedicineDeliveryDeliveryMethodValidator", "Delivery Method is Required!");
+  }
+
   @Start
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
+    initializeBundle();
     populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
