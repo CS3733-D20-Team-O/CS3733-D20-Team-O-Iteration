@@ -59,9 +59,11 @@
          </children>
       </VBox>
       <JFXTabPane prefHeight="175.0" prefWidth="413.0"
-        style="-fx-border-color: gray; -fx-background-color: gray;" tabClosingPolicy="UNAVAILABLE">
+        style="-fx-border-color: gray; -fx-background-color: gray; -fx-progress-color: gray;"
+        tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab onSelectionChanged="#assistedSelected" text="%serviceIntTransportAssistedTabTitle">
+            <Tab closable="false" onSelectionChanged="#assistedSelected"
+              text="%serviceIntTransportAssistedTabTitle">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="126.0" prefWidth="413.0"
                     style="-fx-background-color: lightgray;">
@@ -113,7 +115,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab onSelectionChanged="#unassistedSelected"
+            <Tab closable="false" onSelectionChanged="#unassistedSelected"
               text="%serviceIntTransportUnassistedTabTitle">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
