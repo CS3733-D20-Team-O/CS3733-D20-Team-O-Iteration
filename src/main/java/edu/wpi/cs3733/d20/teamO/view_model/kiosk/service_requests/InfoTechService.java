@@ -36,7 +36,7 @@ public class InfoTechService extends ServiceRequestBase {
   @FXML
   private JFXComboBox<String> locations;
   @FXML
-  private JFXComboBox ITProblems;
+  private JFXComboBox<String> ITProblems;
   @FXML
   private JFXTextArea additionalNotes;
 
@@ -57,7 +57,7 @@ public class InfoTechService extends ServiceRequestBase {
   private void submitRequest() {
     if (validator.validate(requesterName, floors, locations, ITProblems, additionalNotes)) {
       val requestData = new InfoTechRequestData(
-          ITProblems.getValue().toString(),
+          ITProblems.getValue(),
           additionalNotes.getText());
       val time = LocalDateTime.now().toString(); // todo format this
       // todo use enum for sanitation string below

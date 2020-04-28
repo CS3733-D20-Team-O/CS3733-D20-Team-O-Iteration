@@ -61,6 +61,7 @@ public class InfoTechServiceTest extends FxRobot {
   @Start
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
+    initializeResources();
     populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
@@ -78,6 +79,21 @@ public class InfoTechServiceTest extends FxRobot {
     map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
     map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
+  }
+
+  private void initializeResources() {
+    bundle.put("ITServiceTitle", "IT Support Request");
+    bundle.put("ITServiceName", "Your Name");
+    bundle.put("ITServiceNameValidator", "Your name is required!");
+    bundle.put("ITServiceFloor", "Floor");
+    bundle.put("ITServiceFloorValidator", "You need to select the floor for the IT request!");
+    bundle.put("ITServiceLocation", "Room/Location on Floor");
+    bundle.put("ITServiceLocationValidator", "You need to select the location of the IT request!");
+    bundle.put("ITServiceIssueBox", "Select your current IT issue");
+    bundle.put("ITServiceIssueBoxValidator", "You need to select your current IT issue!");
+    bundle.put("ITServiceDescription", "Description");
+    bundle.put("ITServiceSubmit", "Submit");
+    bundle.put("ITServiceCancel", "Cancel");
   }
 
   @Test
@@ -108,16 +124,16 @@ public class InfoTechServiceTest extends FxRobot {
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Info Tech"), eq("John Smith"),
-        eq(new InfoTechRequestData(eq("Wireless Connection"), anyString())));
+        eq("Floor 1"), eq("InfoTech"), eq("John Smith"),
+        eq(new InfoTechRequestData("Wireless Connection", "Test")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Submit");
     verify(validator, times(3)).validate(any());
-    verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Info Tech"), eq("John Smith"),
+    verify(database, times(2)).addServiceRequest(anyString(),
+        eq("Floor 1"), eq("InfoTech"), eq("John Smith"),
         eq(new InfoTechRequestData("Wireless Connection", "Test")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1)).showFullscreenFXML(anyString());
