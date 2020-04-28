@@ -33,9 +33,6 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject}) // required for database
 public class FloorMapEditorViewModel extends ViewModelBase {
 
-
-
-
   private enum State {
     MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR
   }
