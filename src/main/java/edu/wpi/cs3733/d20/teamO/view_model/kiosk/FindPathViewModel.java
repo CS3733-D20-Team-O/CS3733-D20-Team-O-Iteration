@@ -4,9 +4,9 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.effects.JFXDepthManager;
-import edu.wpi.cs3733.d20.teamO.model.AStar;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -53,6 +53,8 @@ public class FindPathViewModel extends ViewModelBase {
   private Node finish;
   private Node defaultStart;
   private Node defaultStop;
+
+  private final SelectedPathFinder pathFinder;
 
   @Override
 /**
@@ -171,7 +173,7 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
-    List<Node> nodes = AStar.findPathBetween(beginning, finish);
+    List<Node> nodes = pathFinder.getPathFinders()[2].findPathBetween(beginning, finish);
     assert nodes != null;
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
