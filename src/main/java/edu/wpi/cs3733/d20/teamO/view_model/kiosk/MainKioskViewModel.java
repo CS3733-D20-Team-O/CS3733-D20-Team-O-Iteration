@@ -8,10 +8,7 @@ import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -21,9 +18,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -119,40 +113,17 @@ public class MainKioskViewModel extends ViewModelBase {
   private void lookupServiceRequest() {
     for (val request : database.exportServiceRequests()) {
       if (request.getRequestID().equals(confirmationCode.getText().toUpperCase())) {
-        showRequestConfirmationDialog(request);
-        return;
+        try {
+          ((RequestConfirmationViewModel)
+              dialog.showFullscreenFXML("views/kiosk/RequestConfirmation.fxml"))
+              .setServiceRequest(request.getRequestID());
+          return;
+        } catch (IOException e) {
+          log.error("Failed to show the service request confirmation dialog", e);
+        }
       }
     }
     // If we didn't return in the for loop, that means the request isn't in the database
     snackBar.show(getString("serviceRequestLookupFail"));
-  }
-
-  /**
-   * Creates and shows a dialog based on the provided request
-   *
-   * @param request the request to fill in the dialog information
-   */
-  private void showRequestConfirmationDialog(ServiceRequest request) {
-    val header = new Label(request.getType() + " Service Request");
-    val node = database.exportNodes().get(request.getRequestNode());
-    val infoText = getString("serviceRequestConfirmationID") + ": " + request.getRequestID()
-        + "\n" + getString("serviceRequestAssignedTo") + ": " + request.getEmployeeAssigned()
-        + "\n" + getString("serviceRequestLocation") + ": " + node.getLongName()
-        + "\n" + getString("serviceRequestFloor") + ": " + node.getFloor();
-    val closeButton = new JFXButton(getString("serviceRequestDialogClose"));
-    val deleteButton = new JFXButton(getString("serviceRequestDialogCancelRequest"));
-    val buttonContainer = new HBox(deleteButton, closeButton);
-    buttonContainer.setAlignment(Pos.CENTER_RIGHT);
-    val container = new VBox(header, new Label(infoText), buttonContainer);
-    container.setAlignment(Pos.CENTER);
-    container.setPadding(new Insets(16));
-    container.setSpacing(16);
-    val requestConfirmationDialog = dialog.showFullscreen(container);
-    closeButton.setOnAction(e -> requestConfirmationDialog.close());
-    deleteButton.setOnAction(e -> {
-      database.deleteFromTable(Table.SERVICE_REQUESTS_TABLE,
-          ServiceRequestProperty.REQUEST_ID, request.getRequestID());
-      requestConfirmationDialog.close();
-    });
   }
 }
