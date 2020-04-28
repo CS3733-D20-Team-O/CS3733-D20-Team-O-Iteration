@@ -43,9 +43,7 @@ public class ImportExportCSVViewModel extends Dialog.DialogViewModel {
     dataTypes = new ArrayList<>(Arrays.asList(
         new DataType("Nodes", csvHandler::importNodes, csvHandler::exportNodes),
         new DataType("Edges", csvHandler::importEdges, csvHandler::exportEdges),
-        new DataType("Employees", csvHandler::importEmployees, csvHandler::exportEmployees),
-        new DataType("Service Requests",
-            csvHandler::importServiceRequests, csvHandler::exportServiceRequests)));
+        new DataType("Employees", csvHandler::importEmployees, csvHandler::exportEmployees)));
     // Add all the data types to the selection box
     dataTypes.forEach(dataType -> typeSelector.getItems().add(dataType.name));
     // Add a listener to the selection box
