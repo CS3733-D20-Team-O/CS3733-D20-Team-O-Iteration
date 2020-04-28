@@ -76,7 +76,8 @@
                                     <Insets left="8.0" top="8.0"/>
                                  </padding>
                                  <children>
-                                    <JFXRadioButton text="%serviceIntTransportWheelchair">
+                                    <JFXRadioButton text="%serviceIntTransportWheelchair"
+                                      selected="true">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="assistedToggle"/>
                                        </toggleGroup>
@@ -126,7 +127,7 @@
                               <Insets left="8.0" top="8.0"/>
                            </padding>
                            <children>
-                              <JFXRadioButton text="%serviceIntTransportCrutches">
+                              <JFXRadioButton text="%serviceIntTransportCrutches" selected="true">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="unassistedToggle"/>
                                  </toggleGroup>
