@@ -12,6 +12,7 @@ import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -36,6 +37,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
   private final DatabaseWrapper database;
   private final CSVHandler csvHandler;
+  private final LoginDetails loginDetails;
+
 
   private String adminID;
   private String adminName;
