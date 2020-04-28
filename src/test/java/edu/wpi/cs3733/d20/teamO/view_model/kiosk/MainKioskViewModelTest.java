@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -10,7 +11,7 @@ import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -34,7 +35,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 /**
- * Tests MainKioskViewModel
+ * Tests MainKioskViewModel todo rewrite
  */
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 public class MainKioskViewModelTest extends FxRobot {
@@ -51,6 +52,10 @@ public class MainKioskViewModelTest extends FxRobot {
   SnackBar snackBar;
   @Mock
   Dialog dialog;
+  @Mock
+  LoginDetails loginDetails;
+  @Mock
+  RequestConfirmationViewModel requestConfirmationViewModel;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
@@ -67,6 +72,7 @@ public class MainKioskViewModelTest extends FxRobot {
 
     // Load the actual test environment
     when(languageHandler.getCurrentLocale()).thenReturn(Locale.ENGLISH);
+    when(loginDetails.isValid()).thenReturn(false); // we can't properly test this
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
@@ -77,19 +83,17 @@ public class MainKioskViewModelTest extends FxRobot {
   }
 
   @Test
-  public void testDialog() {
-    val node = new Node("node", 0, 0, 1,
-        "", "", "Long Name", "");
+  public void testDialog() throws IOException {
     val serviceRequest = new ServiceRequest("ABCDEFGH", "", "node",
         "Sanitation", "Unassigned", "", "", "",
         new SanitationRequestData("Dry Spill", ""));
-    when(database.exportNodes()).thenReturn(Collections.singletonMap(node.getNodeID(), node));
     when(database.exportServiceRequests()).thenReturn(Collections.singletonList(serviceRequest));
+    when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
     clickOn("Click me");
     write("ABCDEFGH");
     clickOn(viewModel.getLookupButton());
-    verify(dialog, times(1)).showFullscreen(any());
-    verify(snackBar, times(0)).show("pass");
+    verify(dialog, times(1)).showFullscreenFXML(any());
+    verify(snackBar, times(0)).show(anyString());
   }
 
   @Test
@@ -97,12 +101,5 @@ public class MainKioskViewModelTest extends FxRobot {
     clickOn(viewModel.getLookupButton());
     verify(snackBar, times(1)).show("pass");
     verify(dialog, times(0)).showFullscreen(any());
-  }
-
-  @Test
-  public void serviceSelectionNavigatesToNewPage() {
-    // todo
-    // test navigator call
-    // test service selection reset
   }
 }
