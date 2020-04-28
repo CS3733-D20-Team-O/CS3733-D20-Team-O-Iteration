@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" style="-fx-background-color: #acd7fd"
-  xmlns:fx="http://javafx.com/fxml/1" prefHeight="720" prefWidth="1280" fx:id="root"
+  xmlns:fx="http://javafx.com/fxml/1" prefHeight="720" prefWidth="1280"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.MainKioskViewModel">
 
   <!-- Main Welcome Bar todo size and spacing, login logo button -->
