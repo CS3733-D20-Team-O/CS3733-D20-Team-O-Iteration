@@ -33,7 +33,109 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject}) // required for database
 public class FloorMapEditorViewModel extends ViewModelBase {
 
+
+
+
+  private enum State {
+    MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR
+  }
+
+  // FXML fields
+  @FXML
+  private NodeMapView nodeMapViewController;
+  @FXML
+  private VBox nodeSelectView, edgeSelectView, addNodeView, addEdgeView, addNeighborView, sideBar;
+  @FXML
+  private BorderPane root;
+  @FXML
+  private Label floorLabel, nodeCategoryLabel, selectedNeighborLabel, newEdgeNodeName1, newEdgeNodeName2;
+  @FXML
+  private JFXTextField shortNameField, longNameField, newNodeShortName, newNodeLongName;
+  @FXML
+  private JFXSlider zoomSlider;
+  @FXML
+  private JFXListView neighboringNodesList;
+  @FXML
+  private JFXComboBox newNodeCategory;
+  private Map<String, Node> nodeMap;
+  private List<Edge> edges;
+
+  // globally accessible fields
+  private State state; // current state of view
+  private Node selectedNode, edgeDestNode, selectedNeighbor;
+  private Edge selectedEdge;
+  private int xSelection, ySelection; // the selected x and y coords
+
+  // misc tools
+  private final DatabaseWrapper database;
+  private final Validator validator;
+  private final SnackBar snackBar;
+  private final Dialog dialog;
+
+  @Override
+  /**
+   * Called when a ViewModel's views have been completely processed and can be used freely
+   * @param location  the location used to resolve relative paths for the root object, or null
+   * @param resources the resources used to localize the root object, or null
+   */
+  protected void start(URL location, ResourceBundle resources) {
+    // styling the UI components
+    zoomSlider.setValue(100);
+    JFXDepthManager.setDepth(sideBar, 2);
+    newNodeCategory.getItems()
+        .addAll("STAI", "ELEV", "REST", "DEPT", "LABS", "SERV", "CONF", "HALL");
+    // grabbing data from the database
+    exportDatabase();
+    // drawing the map
+    redraw();
+    // set the state
+    setState(State.MAIN);
+    // configure listeners
+    nodeMapViewController.setOnNodeLeftTapListener(node -> {
+      selectNode(node);
+    });
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> {
+      switch (state) {
+        // these break cases should not be where nodes can be added
+        case ADD_NEIGHBOR:
+          break;
+        case ADD_NODE:
+          break;
+        case ADD_EDGE:
+          break;
+        default:
+          xSelection = x;
+          ySelection = y;
+          setState(State.ADD_NODE);
+      }
+    });
+    nodeMapViewController.setOnNodeRightTapListener(node -> { // edge adding
+      switch (state) {
+        // these break cases should not be where edges can be added
+        case ADD_NEIGHBOR:
+          break;
+        case ADD_NODE:
+          break;
+        case ADD_EDGE:
+          break;
+        default:
+          selectNode(node);
+          setState(State.ADD_EDGE);
+      }
+    });
+    nodeMapViewController
+        .setOnNodeLeftDragListener((node, mouseEvent) -> { // setting up node repositioning
+          if (state == State.SELECT_NODE) {
+            // todo implement node moving
+          }
+        });
+  }
+
   // FXML methods
+
+  public void setZoom() {
+    nodeMapViewController.zoom(zoomSlider.getValue() / 100);
+  }
 
   public void cancelPressed(ActionEvent actionEvent) {
     switch (state) {
@@ -63,12 +165,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   public void zoomOutPressed(ActionEvent actionEvent) {
     zoomSlider.decrement();
-    // todo implement actual zooming
+    setZoom();
   }
 
   public void zoomInPressed(ActionEvent actionEvent) {
     zoomSlider.increment();
-    // todo implement actual zooming
+    setZoom();
   }
 
   public void addNeighborPressed(ActionEvent actionEvent) {
@@ -148,81 +250,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         setState(State.MAIN);
       }
     }
-  }
-
-  private enum State {
-    MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR
-  }
-
-  // FXML fields
-  @FXML
-  private NodeMapView nodeMapViewController;
-  @FXML
-  private VBox nodeSelectView, edgeSelectView, addNodeView, addEdgeView, addNeighborView, sideBar;
-  @FXML
-  private BorderPane root;
-  @FXML
-  private Label floorLabel, nodeCategoryLabel, selectedNeighborLabel, newEdgeNodeName1, newEdgeNodeName2;
-  @FXML
-  private JFXTextField shortNameField, longNameField, newNodeShortName, newNodeLongName;
-  @FXML
-  private JFXSlider zoomSlider;
-  @FXML
-  private JFXListView neighboringNodesList;
-  @FXML
-  private JFXComboBox newNodeCategory;
-  private Map<String, Node> nodeMap;
-  private List<Edge> edges;
-
-  // globally accessible fields
-  private State state; // current state of view
-  private Node selectedNode, edgeDestNode, selectedNeighbor;
-  private Edge selectedEdge;
-  private int xSelection, ySelection; // the selected x and y coords
-
-  // misc tools
-  private final DatabaseWrapper database;
-  private final Validator validator;
-  private final SnackBar snackBar;
-  private final Dialog dialog;
-
-  @Override
-  /**
-   * Called when a ViewModel's views have been completely processed and can be used freely
-   * @param location  the location used to resolve relative paths for the root object, or null
-   * @param resources the resources used to localize the root object, or null
-   */
-  protected void start(URL location, ResourceBundle resources) {
-    // styling the UI components
-    JFXDepthManager.setDepth(sideBar, 2);
-    newNodeCategory.getItems()
-        .addAll("STAI", "ELEV", "REST", "DEPT", "LABS", "SERV", "CONF", "HALL");
-    // grabbing data from the database
-    exportDatabase();
-    // drawing the map
-    redraw();
-    // set the state
-    setState(State.MAIN);
-    // configure listeners
-    nodeMapViewController.setOnNodeLeftTapListener(node -> {
-      selectNode(node);
-    });
-    nodeMapViewController.setOnMissRightTapListener((x, y) -> {
-      switch (state) {
-        // these break cases should not be where nodes can be added
-        case ADD_NEIGHBOR:
-          break;
-        case ADD_NODE:
-          break;
-        case ADD_EDGE:
-          break;
-        default:
-          // todo change over to right-click listener
-          xSelection = x;
-          ySelection = y;
-          setState(State.ADD_NODE);
-      }
-    });
   }
 
   /**
