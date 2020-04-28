@@ -117,8 +117,10 @@ public class AVService {
             serviceRequestComboBox)) {
       val time = LocalDateTime.now().toString();
       val requestData = new AVRequestData(
-          serviceRequestComboBox.getSelectionModel().getSelectedItem(), commentTextArea.getText(),
-          durationComboBox.getSelectionModel().getSelectedItem(), time);
+          serviceRequestComboBox.getSelectionModel().getSelectedItem(),
+          commentTextArea.getText(),
+          durationComboBox.getSelectionModel().getSelectedItem(),
+          time);
       val confirmationCode = database.addServiceRequest(time,
           locationComboBox.getSelectionModel().getSelectedItem(),
           "A/V", requesterNameField.getText(), requestData);
