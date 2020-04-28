@@ -10,40 +10,40 @@
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.ExternalTransportationService">
-  <VBox spacing="32" alignment="CENTER"
+  <VBox spacing="32" maxWidth="-Infinity" maxHeight="-Infinity" alignment="CENTER"
     style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
-    <Label text="External Transportation Service Request Creation" style="-fx-font-size: 32"/>
-    <JFXTextField fx:id="requesterName" promptText="Your Name">
+    <Label text="%externalTransportationTitle" style="-fx-font-size: 32"/>
+    <JFXTextField fx:id="requesterName" promptText="%externalTransportationNamePrompt">
       <validators>
-        <RequiredFieldValidator message="Your name is required!"/>
+        <RequiredFieldValidator message="%externalTransportationNameMissing"/>
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
-      <JFXComboBox fx:id="floors" promptText="Floor">
+      <JFXComboBox fx:id="floors" promptText="%externalTransportationFloorPrompt">
         <validators>
-          <RequiredFieldValidator message="You need to specify the floor you are on!"/>
+          <RequiredFieldValidator message="%externalTransportationFloorMissing"/>
         </validators>
       </JFXComboBox>
-      <JFXComboBox fx:id="locations" promptText="Current Room/Location">
+      <JFXComboBox fx:id="locations" promptText="%externalTransportationLocationPrompt">
         <validators>
-          <RequiredFieldValidator message="You need to specify the room/location you are at!"/>
+          <RequiredFieldValidator message="%externalTransportationLocationMissing"/>
         </validators>
       </JFXComboBox>
     </HBox>
-    <JFXComboBox fx:id="transportationType" promptText="Mode of Transportation">
+    <JFXComboBox fx:id="transportationType" promptText="%externalTransportationModePrompt">
       <validators>
-        <RequiredFieldValidator message="You need to select a mode of transportation!"/>
+        <RequiredFieldValidator message="%externalTransportationModeMissing"/>
       </validators>
     </JFXComboBox>
-    <JFXTextField fx:id="destination" promptText="Destination">
+    <JFXTextField fx:id="destination" promptText="%externalTransportationDestinationPrompt">
       <validators>
-        <RequiredFieldValidator message="You need to enter a destination!"/>
+        <RequiredFieldValidator message="%externalTransportationDestinationMissing"/>
       </validators>
     </JFXTextField>
-    <JFXTextArea fx:id="additionalNotes" promptText="Additional Notes"/>
+    <JFXTextArea fx:id="additionalNotes" promptText="%externalTransportationNotes"/>
     <HBox alignment="CENTER_RIGHT" spacing="16">
-      <JFXButton text="Submit" onAction="#submitRequest"/>
-      <JFXButton text="Cancel" onAction="#cancelRequest"/>
+      <JFXButton text="%externalTransportationSubmit" onAction="#submitRequest"/>
+      <JFXButton text="%externalTransportationCancel" onAction="#cancelRequest"/>
     </HBox>
   </VBox>
 </StackPane>

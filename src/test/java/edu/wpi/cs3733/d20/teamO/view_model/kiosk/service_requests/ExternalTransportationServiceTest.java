@@ -55,7 +55,15 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
   @Start
   public void start(Stage stage) throws IOException {
-    bundle.put("Sample", "Sample"); // todo load the necessary strings
+    //add the necessary strings to the bundle
+    bundle.put("externalTransportationNamePrompt", "Your Name");
+    bundle.put("externalTransportationFloorPrompt", "Floor");
+    bundle.put("externalTransportationLocationPrompt", "Current Room/Location");
+    bundle.put("externalTransportationModePrompt", "Mode of Transportation");
+    bundle.put("externalTransportationDestinationPrompt", "Destination");
+    bundle.put("externalTransportationNotes", "Additional Notes");
+    bundle.put("externalTransportationSubmit", "Submit");
+
     populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
