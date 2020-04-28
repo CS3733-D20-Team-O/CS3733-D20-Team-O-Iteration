@@ -22,21 +22,6 @@ public interface DatabaseWrapper {
   /**
    * Adds the specified node to the database
    *
-   * @param xCoord    the x coordinate of the node
-   * @param yCoord    the y coordinate of the node
-   * @param floor     the floor of the building that the node lies on
-   * @param building  the building the node is in
-   * @param nodeType  the type of the node
-   * @param longName  the long name of the node
-   * @param shortName the short name of the node
-   * @return the id of the added node
-   */
-  String addNode(int xCoord, int yCoord, int floor, String building,
-      String nodeType, String longName, String shortName);
-
-  /**
-   * Adds the specified node to the database
-   *
    * @param nodeID    the id of the node
    * @param xCoord    the x coordinate of the node
    * @param yCoord    the y coordinate of the node
@@ -49,15 +34,6 @@ public interface DatabaseWrapper {
    */
   int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
       String nodeType, String longName, String shortName);
-
-  /**
-   * Adds the specified edge to the database
-   *
-   * @param startNodeID the id of the start node
-   * @param stopNodeID  the id of the stop node
-   * @return the id of the added edge
-   */
-  String addEdge(String startNodeID, String stopNodeID);
 
   /**
    * Adds the specified edge to the database
@@ -98,16 +74,6 @@ public interface DatabaseWrapper {
    */
   int addServiceRequest(String requestID, String requestTime, String requestNode, String type,
       String status, String requesterName, String whoMarked, String employeeAssigned, String data);
-
-  /**
-   * Adds the specified employee to the database
-   *
-   * @param name        the name of the employee
-   * @param type        the type of employee they are
-   * @param isAvailable true if available, false if not available
-   * @return the id of the added employee
-   */
-  String addEmployee(String name, String type, boolean isAvailable);
 
   /**
    * Adds the specified employee to the database

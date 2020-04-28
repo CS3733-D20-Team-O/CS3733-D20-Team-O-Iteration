@@ -3,8 +3,6 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
 
@@ -18,6 +16,7 @@ import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -74,7 +73,7 @@ public class GiftDeliveryServiceTest extends FxRobot {
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
     populateFloorAndLocation();
-//    populateGifts();
+    populateGifts();
 //    populateCreditCardBoxes();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
@@ -85,6 +84,23 @@ public class GiftDeliveryServiceTest extends FxRobot {
     stage.show();
   }
 
+//  private void populateCreditCardBoxes() {
+//    //sets CC Type
+//    ccTypeComboBox.getItems().addAll("Visa", "Mastercard", "AMEX", "Discover");
+//
+//    //sets CC MM
+//    ccMonthComboBox.getItems()
+//        .addAll("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+//
+//    //sets CC YYYY
+//    val curYear = Calendar.getInstance().get(Calendar.YEAR);
+//    val endYearAmount = 20;
+//    for (int i = 0; i <= endYearAmount; i++) {
+//      ccYearComboBox.getItems().add(Integer.toString(curYear + i));
+//    }
+//
+//  }
+
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
     map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
@@ -94,13 +110,13 @@ public class GiftDeliveryServiceTest extends FxRobot {
     when(database.exportNodes()).thenReturn(map);
   }
 
-//  public void populateGifts() {
-//    Map<String, String> giftList_Map = new HashMap<>();
-//    giftList_Map.put("Stuffed Animal", "9.99");
-//    giftList_Map.put("Card", "4.99");
-//    giftList_Map.put("Box of Chocolates", "12.99");
-//    giftList_Map.put("Toy", "3.99");
-//  }
+  public void populateGifts() {
+    Map<String, String> giftList_Map = new HashMap<>();
+    giftList_Map.put("Stuffed Animal", "9.99");
+    giftList_Map.put("Card", "4.99");
+    giftList_Map.put("Box of Chocolates", "12.99");
+    giftList_Map.put("Toy", "3.99");
+  }
 
   @Test
   public void testFloorLocationPopulated() {
@@ -158,120 +174,6 @@ public class GiftDeliveryServiceTest extends FxRobot {
   public void toNameTest1() {
     clickOn("Recipient Name");
     clickOn("Submit");
-  }
-
-  @Test
-  public void testCCType1() {
-    clickOn("Type");
-    verifyThat("Visa", javafx.scene.Node::isVisible);
-    verifyThat("Mastercard", javafx.scene.Node::isVisible);
-    verifyThat("AMEX", javafx.scene.Node::isVisible);
-    verifyThat("Discover", javafx.scene.Node::isVisible);
-  }
-
-  @Test
-  public void testMMTest1() {
-    clickOn("MM");
-    verifyThat("01", javafx.scene.Node::isVisible);
-    verifyThat("02", javafx.scene.Node::isVisible);
-    verifyThat("03", javafx.scene.Node::isVisible);
-    verifyThat("04", javafx.scene.Node::isVisible);
-    verifyThat("05", javafx.scene.Node::isVisible);
-
-  }
-
-  @Test
-  public void testYYYYTest1() {
-    clickOn("YYYY");
-    verifyThat("2020", javafx.scene.Node::isVisible);
-    verifyThat("2021", javafx.scene.Node::isVisible);
-    verifyThat("2022", javafx.scene.Node::isVisible);
-    verifyThat("2023", javafx.scene.Node::isVisible);
-    verifyThat("2024", javafx.scene.Node::isVisible);
-  }
-
-
-  @Test
-  public void toFieldEmpty() {
-    clickOn("Items");
-    clickOn("Stuffed Animal: $9.99");
-    clickOn("Submit");
-    verify(validator, times(1)).validate(any());
-
-    clickOn("Recipient Name");
-    write("Getter Name");
-    clickOn("Submit");
-    verify(validator, times(2)).validate(any());
-
-    clickOn("Sender Name");
-    write("SenderTest");
-    clickOn("Submit");
-    verify(validator, times(3)).validate(any());
-
-    clickOn("Select Floor");
-    clickOn("3");
-    clickOn("Submit");
-    verify(validator, times(4)).validate(any());
-
-    clickOn("Select Room");
-    clickOn("Floor 3-1");
-    clickOn("Submit");
-    verify(validator, times(5)).validate(any());
-
-    write("\\tab");
-    write("12:09");
-    clickOn("Submit");
-    verify(validator, times(6)).validate(any());
-
-    clickOn("First Name On Card");
-    write("FirstTest");
-    clickOn("Submit");
-    verify(validator, times(7)).validate(any());
-
-    clickOn("Last Name On Card");
-    write("LastTest");
-    clickOn("Submit");
-    verify(validator, times(8)).validate(any());
-
-    clickOn("Type");
-    clickOn("Visa");
-    clickOn("Submit");
-    verify(validator, times(9)).validate(any());
-
-    clickOn("Card Number");
-    write("1234567891234564");
-    clickOn("Submit");
-    verify(validator, times(10)).validate(any());
-
-    clickOn("MM");
-    clickOn("06");
-    clickOn("Submit");
-    verify(validator, times(11)).validate(any());
-
-    clickOn("YYYY");
-    clickOn("2023");
-    clickOn("Submit");
-    verify(validator, times(12)).validate(any());
-
-    clickOn("CCV");
-    write("456");
-    clickOn("Submit");
-    verify(validator, times(13)).validate(any());
-
-    clickOn("Email Address for recipet");
-    write("asdf@asdfff.com");
-    clickOn("Submit");
-    verify(validator, times(14)).validate(any());
-
-    verifyThat("Total: 9.99", javafx.scene.Node::isVisible);
-
-
-  }
-
-  @Test
-  public void everythingEmpty() {
-    clickOn("Submit");
-    verify(validator, times(1)).validate(any());
   }
 
   /**

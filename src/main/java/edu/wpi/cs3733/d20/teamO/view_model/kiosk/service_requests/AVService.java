@@ -50,7 +50,8 @@ public class AVService extends ServiceRequestBase {
     // add times to duration CB
     for (int i = 0; i <= 60; i += 5) {
       val time = "";
-      time = i + " minutes";
+      time = time.concat(Integer.toString(i));
+      time = time.concat(" minutes");
       durationComboBox.getItems().add(time);
     }
   }
