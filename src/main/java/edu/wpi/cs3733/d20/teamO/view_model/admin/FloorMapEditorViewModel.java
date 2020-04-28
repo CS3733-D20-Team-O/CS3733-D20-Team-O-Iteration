@@ -204,10 +204,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     // set the state
     setState(State.MAIN);
     // configure listeners
-    nodeMapViewController.setOnNodeTappedListener(node -> {
+    nodeMapViewController.setOnNodeLeftTapListener(node -> {
       selectNode(node);
     });
-    nodeMapViewController.setOnMissTapListener((x, y) -> {
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> {
       switch (state) {
         // these break cases should not be where nodes can be added
         case ADD_NEIGHBOR:

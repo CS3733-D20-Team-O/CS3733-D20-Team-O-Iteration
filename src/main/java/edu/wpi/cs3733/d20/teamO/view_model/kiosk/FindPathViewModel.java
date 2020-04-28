@@ -40,7 +40,7 @@ public class FindPathViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
     nodeMap = database.exportNodes();
     nodeMapViewController.setNodeMap(nodeMap);
-    nodeMapViewController.setOnNodeTappedListener(node -> {
+    nodeMapViewController.setOnNodeLeftTapListener(node -> {
       prompt.setText("Follow path");
       switch (clicks) {
         case 0:
@@ -66,7 +66,7 @@ public class FindPathViewModel extends ViewModelBase {
       }
       clicks++;
     });
-    nodeMapViewController.setOnMissTapListener((x, y) -> {
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> {
       prompt.setText("Please Click a Possible Location");
     });
   }
