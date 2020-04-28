@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- todo background image -->
-
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -12,22 +9,20 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane fx:id="root" prefHeight="720" prefWidth="1280"
+<AnchorPane prefHeight="720" prefWidth="1280"
   style="-fx-background-image: url('https://give.brighamandwomens.org/wp-content/uploads/2017/08/17NamingOpportunity-BWFH.jpg'); -fx-background-size: 100% 100%; -fx-background-color: #acd7fd"
   xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.MainKioskViewModel">
 
   <!-- Main Welcome Bar todo size and spacing, login logo button -->
-  <HBox fx:id="welcomeBar" alignment="CENTER" style="-fx-background-color: #004c8c"
-    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-    <Label style="-fx-font-size: 36; -fx-text-fill: floralwhite; -fx-padding: 16"
-      text="%mainWelcomeMessage"/>
-  </HBox>
+  <StackPane style="-fx-background-color: #004c8c" fx:id="welcomeBar" prefHeight="64"
+    AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
+    <Label text="%mainWelcomeMessage" style="-fx-font-size: 32; -fx-text-fill: floralwhite"/>
+  </StackPane>
 
   <!-- Wrapper to center the main content -->
-  <StackPane fx:id="kioskMain" accessibleRole="IMAGE_VIEW" layoutY="43.0" style=""
-    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-    AnchorPane.topAnchor="83.0">
+  <StackPane fx:id="container" AnchorPane.topAnchor="64" AnchorPane.bottomAnchor="0"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
     <!-- The actual main content box todo and various styling -->
     <VBox fx:id="contentContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
       style="-fx-padding: 32; -fx-background-color: whitesmoke; -fx-background-radius: 16; -fx-opacity: 0.9">
