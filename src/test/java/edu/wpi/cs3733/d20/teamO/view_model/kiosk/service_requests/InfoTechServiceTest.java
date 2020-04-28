@@ -61,6 +61,7 @@ public class InfoTechServiceTest extends FxRobot {
   @Start
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
+    initializeResources();
     populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
@@ -80,6 +81,21 @@ public class InfoTechServiceTest extends FxRobot {
     when(database.exportNodes()).thenReturn(map);
   }
 
+  private void initializeResources() {
+    bundle.put("ITServiceTitle", "IT Support Request");
+    bundle.put("ITServiceName", "Your Name");
+    bundle.put("ITServiceNameValidator", "Your name is required!");
+    bundle.put("ITServiceFloor", "Floor");
+    bundle.put("ITServiceFloorValidator", "You need to select the floor for the IT request!");
+    bundle.put("ITServiceLocation", "Room/Location on Floor");
+    bundle.put("ITServiceLocationValidator", "You need to select the location of the IT request!");
+    bundle.put("ITServiceIssueBox", "Select your current IT issue");
+    bundle.put("ITServiceIssueBoxValidator", "You need to select your current IT issue!");
+    bundle.put("ITServiceDescription", "Description");
+    bundle.put("ITServiceSubmit", "Submit");
+    bundle.put("ITServiceCancel", "Cancel");
+  }
+
   @Test
   public void testSubmitITService() throws IOException {
     when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
@@ -94,17 +110,21 @@ public class InfoTechServiceTest extends FxRobot {
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
-    // Test when there are fields filled out (but adding fails)
+    //Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
     clickOn("Floor");
     clickOn("1");
     clickOn("Room/Location on Floor");
     clickOn("Floor 1");
+    clickOn("Select your current IT issue");
+    clickOn("Wireless Connection");
+    clickOn("Description");
+    write("Test");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Info Tech"), eq("John Smith"),
+        eq("Floor 1"), eq("InfoTech"), eq("John Smith"),
         eq(new InfoTechRequestData("Wireless Connection", "Test")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
@@ -112,8 +132,8 @@ public class InfoTechServiceTest extends FxRobot {
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Submit");
     verify(validator, times(3)).validate(any());
-    verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Info Tech"), eq("John Smith"),
+    verify(database, times(2)).addServiceRequest(anyString(),
+        eq("Floor 1"), eq("InfoTech"), eq("John Smith"),
         eq(new InfoTechRequestData("Wireless Connection", "Test")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1)).showFullscreenFXML(anyString());
