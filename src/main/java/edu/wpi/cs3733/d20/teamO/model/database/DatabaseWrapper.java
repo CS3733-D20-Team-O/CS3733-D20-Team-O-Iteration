@@ -22,6 +22,21 @@ public interface DatabaseWrapper {
   /**
    * Adds the specified node to the database
    *
+   * @param xCoord    the x coordinate of the node
+   * @param yCoord    the y coordinate of the node
+   * @param floor     the floor of the building that the node lies on
+   * @param building  the building the node is in
+   * @param nodeType  the type of the node
+   * @param longName  the long name of the node
+   * @param shortName the short name of the node
+   * @return the number of affected entries
+   */
+  String addNode(int xCoord, int yCoord, int floor, String building,
+      String nodeType, String longName, String shortName);
+
+  /**
+   * Adds the specified node to the database
+   *
    * @param nodeID    the id of the node
    * @param xCoord    the x coordinate of the node
    * @param yCoord    the y coordinate of the node
@@ -34,6 +49,15 @@ public interface DatabaseWrapper {
    */
   int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
       String nodeType, String longName, String shortName);
+
+  /**
+   * Adds the specified edge to the database
+   *
+   * @param startNodeID the id of the start node
+   * @param stopNodeID  the id of the stop node
+   * @return the number of affected entries
+   */
+  String addEdge(String startNodeID, String stopNodeID);
 
   /**
    * Adds the specified edge to the database
