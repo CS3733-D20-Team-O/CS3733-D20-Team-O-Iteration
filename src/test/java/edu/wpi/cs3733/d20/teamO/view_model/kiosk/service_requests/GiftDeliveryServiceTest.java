@@ -84,23 +84,6 @@ public class GiftDeliveryServiceTest extends FxRobot {
     stage.show();
   }
 
-//  private void populateCreditCardBoxes() {
-//    //sets CC Type
-//    ccTypeComboBox.getItems().addAll("Visa", "Mastercard", "AMEX", "Discover");
-//
-//    //sets CC MM
-//    ccMonthComboBox.getItems()
-//        .addAll("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
-//
-//    //sets CC YYYY
-//    val curYear = Calendar.getInstance().get(Calendar.YEAR);
-//    val endYearAmount = 20;
-//    for (int i = 0; i <= endYearAmount; i++) {
-//      ccYearComboBox.getItems().add(Integer.toString(curYear + i));
-//    }
-//
-//  }
-
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
     map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));

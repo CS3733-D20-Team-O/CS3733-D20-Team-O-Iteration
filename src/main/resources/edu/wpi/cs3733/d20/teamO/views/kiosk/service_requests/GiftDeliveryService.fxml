@@ -7,168 +7,153 @@
 <?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-  style="-fx-background-color: #acd7fd" xmlns="http://javafx.com/javafx/11.0.1"
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+  minWidth="-Infinity" prefHeight="584.0" prefWidth="923.0"
+  style="-fx-padding: 16; -fx-spacing: 16;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.GiftDeliveryService">
   <children>
-    <VBox alignment="TOP_CENTER" prefHeight="642.0" prefWidth="1280.0"
-      style="-fx-padding: 16; -fx-spacing: 16;">
+    <HBox alignment="CENTER">
       <children>
-        <HBox alignment="CENTER" prefHeight="482.0" prefWidth="1177.0">
+        <HBox prefHeight="453.0" prefWidth="960.0">
           <children>
-            <HBox prefHeight="453.0" prefWidth="960.0">
+            <HBox alignment="CENTER" prefHeight="200.0" prefWidth="468.0" style="-fx-spacing: 16;">
               <children>
-                <HBox alignment="CENTER" prefHeight="200.0" prefWidth="468.0"
-                  style="-fx-spacing: 16;">
-                  <children>
-                    <VBox alignment="CENTER" prefHeight="453.0" prefWidth="427.0"
-                      style="-fx-spacing: 32;">
-                      <children>
-                        <Label alignment="CENTER" prefHeight="32.0" prefWidth="208.0"
-                          text="Gifts Available for Purchase">
-                          <font>
-                            <Font name="System Bold" size="16.0"/>
-                          </font>
-                        </Label>
-                        <JFXComboBox fx:id="giftComboBox" prefHeight="26.0"
-                          prefWidth="226.0" promptText="Items"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXComboBox>
-                        <JFXTextField fx:id="toField" labelFloat="true"
-                          prefHeight="25.0" prefWidth="353.0"
-                          promptText="Recipient Name"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXTextField>
-                        <JFXTextField fx:id="fromField" labelFloat="true"
-                          prefHeight="25.0" prefWidth="481.0" promptText="Sender Name"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXTextField>
-                        <HBox alignment="CENTER" style="-fx-spacing: 32;">
-                          <children>
-                            <VBox prefHeight="50.0" prefWidth="265.0"
-                              style="-fx-spacing: 32;">
-                              <children>
-                                <JFXComboBox fx:id="onFloorComboBox"
-                                  labelFloat="true" onAction="#setRoomsByFloors"
-                                  prefHeight="25.0" prefWidth="152.0"
-                                  promptText="Select Floor"
-                                  style="-fx-background-color: WHITE; -fx-padding: 8;">
-                                  <validators>
-                                    <RequiredFieldValidator
-                                      message="Input is required"/>
-                                  </validators>
-                                </JFXComboBox>
-                                <JFXComboBox fx:id="inRoomComboBox"
-                                  labelFloat="true" prefHeight="25.0"
-                                  prefWidth="151.0" promptText="Select Room"
-                                  style="-fx-background-color: WHITE; -fx-padding: 8;">
-                                  <validators>
-                                    <RequiredFieldValidator
-                                      message="Input is required"/>
-                                  </validators>
-                                </JFXComboBox>
-                              </children>
-                            </VBox>
-                            <VBox style="-fx-spacing: 16;">
-                              <children>
-                                <Label alignment="CENTER" prefHeight="17.0"
-                                  prefWidth="145.0" text="Delivery Time"/>
-                                <JFXTimePicker fx:id="timePicker" prefHeight="28.0"
-                                  prefWidth="206.0"
-                                  style="-fx-background-color: WHITE; -fx-padding: 16;">
-                                  <validators>
-                                    <RequiredFieldValidator
-                                      message="Input is required"/>
-                                  </validators>
-                                </JFXTimePicker>
-                              </children>
-                            </VBox>
-                          </children>
-                        </HBox>
-                      </children>
-                    </VBox>
-                  </children>
-                </HBox>
-                <VBox alignment="CENTER" prefHeight="414.0" prefWidth="491.0"
-                  style="-fx-spacing: 16;">
+                <VBox alignment="CENTER" prefHeight="453.0" prefWidth="427.0"
+                  style="-fx-spacing: 32;">
                   <children>
                     <Label alignment="CENTER" prefHeight="32.0" prefWidth="208.0"
-                      text="Payment Details">
+                      text="Gifts Available for Purchase">
                       <font>
                         <Font name="System Bold" size="16.0"/>
                       </font>
                     </Label>
-                    <HBox alignment="CENTER" prefHeight="25.0" prefWidth="622.0"
-                      style="-fx-padding: 16; -fx-spacing: 32;">
+                    <JFXComboBox fx:id="giftComboBox" onAction="#updateTotal" prefHeight="26.0"
+                      prefWidth="226.0" promptText="Items"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXComboBox>
+                    <JFXTextField fx:id="toField" labelFloat="true" prefHeight="25.0"
+                      prefWidth="353.0" promptText="Recipient Name"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXTextField>
+                    <JFXTextField fx:id="fromField" labelFloat="true" prefHeight="25.0"
+                      prefWidth="481.0" promptText="Sender Name"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXTextField>
+                    <HBox alignment="CENTER" style="-fx-spacing: 32;">
                       <children>
-                        <JFXTextField fx:id="ccFirstNameField" alignment="CENTER"
-                          labelFloat="true" prefHeight="25.0" prefWidth="351.0"
-                          promptText="First Name On Card"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXTextField>
-                        <JFXTextField fx:id="ccLastNameField" alignment="CENTER"
-                          labelFloat="true" prefHeight="25.0" prefWidth="351.0"
-                          promptText="Last Name On Card"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXTextField>
+                        <VBox prefHeight="50.0" prefWidth="265.0" style="-fx-spacing: 32;">
+                          <children>
+                            <JFXComboBox fx:id="onFloorComboBox" labelFloat="true"
+                              onAction="#setRoomsByFloors" prefHeight="25.0" prefWidth="152.0"
+                              promptText="Select Floor"
+                              style="-fx-background-color: WHITE; -fx-padding: 8;">
+                              <validators>
+                                <RequiredFieldValidator message="Input is required"/>
+                              </validators>
+                            </JFXComboBox>
+                            <JFXComboBox fx:id="inRoomComboBox" labelFloat="true"
+                              prefHeight="25.0" prefWidth="151.0" promptText="Select Room"
+                              style="-fx-background-color: WHITE; -fx-padding: 8;">
+                              <validators>
+                                <RequiredFieldValidator message="Input is required"/>
+                              </validators>
+                            </JFXComboBox>
+                          </children>
+                            </VBox>
+                            <VBox style="-fx-spacing: 16;">
+                              <children>
+                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="145.0"
+                                  text="Delivery Time"/>
+                                <JFXTimePicker fx:id="timePicker" prefHeight="28.0"
+                                  prefWidth="206.0"
+                                  style="-fx-background-color: WHITE; -fx-padding: 16;">
+                                  <validators>
+                                    <RequiredFieldValidator message="Input is required"/>
+                                  </validators>
+                                </JFXTimePicker>
+                              </children>
+                            </VBox>
                       </children>
                     </HBox>
+                  </children>
+                </VBox>
+              </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="414.0" prefWidth="491.0" style="-fx-spacing: 16;">
+              <children>
+                <Label alignment="CENTER" prefHeight="32.0" prefWidth="208.0"
+                  text="Payment Details">
+                  <font>
+                    <Font name="System Bold" size="16.0"/>
+                  </font>
+                </Label>
+                <HBox alignment="CENTER" prefHeight="25.0" prefWidth="622.0"
+                  style="-fx-padding: 16; -fx-spacing: 32;">
+                  <children>
+                    <JFXTextField fx:id="ccFirstNameField" alignment="CENTER" labelFloat="true"
+                      prefHeight="25.0" prefWidth="351.0" promptText="First Name On Card"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXTextField>
+                    <JFXTextField fx:id="ccLastNameField" alignment="CENTER" labelFloat="true"
+                      prefHeight="25.0" prefWidth="351.0" promptText="Last Name On Card"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXTextField>
+                  </children>
+                </HBox>
+                <HBox alignment="CENTER" style="-fx-spacing: 32; -fx-padding: 16;">
+                  <children>
+                    <JFXComboBox fx:id="ccTypeComboBox" labelFloat="true" prefHeight="25.0"
+                      prefWidth="140.0" promptText="Type"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXComboBox>
+                    <JFXTextField fx:id="ccNumberField" labelFloat="true" prefHeight="25.0"
+                      prefWidth="249.0" promptText="Card Number"
+                      style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <validators>
+                        <RequiredFieldValidator message="Input is required"/>
+                      </validators>
+                    </JFXTextField>
+                  </children>
+                </HBox>
                     <HBox alignment="CENTER" style="-fx-spacing: 32; -fx-padding: 16;">
                       <children>
-                        <JFXComboBox fx:id="ccTypeComboBox" labelFloat="true"
-                          prefHeight="25.0" prefWidth="140.0" promptText="Type"
+                        <JFXComboBox fx:id="ccMonthComboBox" labelFloat="true" prefHeight="57.0"
+                          prefWidth="106.0" promptText="MM"
                           style="-fx-background-color: WHITE; -fx-padding: 16;">
                           <validators>
                             <RequiredFieldValidator message="Input is required"/>
                           </validators>
                         </JFXComboBox>
-                        <JFXTextField fx:id="ccNumberField" labelFloat="true"
-                          prefHeight="25.0" prefWidth="249.0" promptText="Card Number"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXTextField>
-                      </children>
-                    </HBox>
-                    <HBox alignment="CENTER" style="-fx-spacing: 32; -fx-padding: 16;">
-                      <children>
-                        <JFXComboBox fx:id="ccMonthComboBox" labelFloat="true"
-                          prefHeight="57.0" prefWidth="106.0" promptText="MM"
+                        <JFXComboBox fx:id="ccYearComboBox" labelFloat="true" prefHeight="57.0"
+                          prefWidth="114.0" promptText="YYYY"
                           style="-fx-background-color: WHITE; -fx-padding: 16;">
                           <validators>
                             <RequiredFieldValidator message="Input is required"/>
                           </validators>
                         </JFXComboBox>
-                        <JFXComboBox fx:id="ccYearComboBox" labelFloat="true"
-                          prefHeight="57.0" prefWidth="114.0" promptText="YYYY"
-                          style="-fx-background-color: WHITE; -fx-padding: 16;">
-                          <validators>
-                            <RequiredFieldValidator message="Input is required"/>
-                          </validators>
-                        </JFXComboBox>
-                        <JFXTextField fx:id="ccSecurityField" alignment="CENTER"
-                          labelFloat="true" prefHeight="49.0" prefWidth="105.0"
-                          promptText="CCV"
+                        <JFXTextField fx:id="ccSecurityField" alignment="CENTER" labelFloat="true"
+                          prefHeight="49.0" prefWidth="105.0" promptText="CCV"
                           style="-fx-background-color: WHITE; -fx-padding: 16;">
                           <validators>
                             <RequiredFieldValidator message="Input is required"/>
@@ -178,9 +163,8 @@
                     </HBox>
                     <HBox alignment="CENTER" style="-fx-padding: 16;">
                       <children>
-                        <JFXTextField fx:id="emailAddressField" alignment="CENTER"
-                          labelFloat="true" prefHeight="25.0" prefWidth="321.0"
-                          promptText="Email Address for recipet"
+                        <JFXTextField fx:id="emailAddressField" alignment="CENTER" labelFloat="true"
+                          prefHeight="25.0" prefWidth="321.0" promptText="Email Address for recipet"
                           style="-fx-background-color: WHITE; -fx-padding: 16;">
                           <validators>
                             <RequiredFieldValidator message="Input is required"/>
@@ -188,27 +172,24 @@
                         </JFXTextField>
                       </children>
                     </HBox>
-                  </children>
-                </VBox>
               </children>
-            </HBox>
-          </children>
-        </HBox>
-        <Label alignment="CENTER" prefHeight="3.0" prefWidth="39.0" text="Total">
-          <font>
-            <Font name="System Bold" size="16.0"/>
-          </font>
-        </Label>
-        <HBox alignment="CENTER" prefHeight="41.0" prefWidth="1248.0" style="-fx-spacing: 60;">
-          <children>
-            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onSubmitPress"
-              prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: LIGHTGREY;"
-              text="Submit"/>
-            <JFXButton alignment="CENTER" buttonType="RAISED" prefHeight="25.0"
-              prefWidth="74.0" style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
+            </VBox>
           </children>
         </HBox>
       </children>
-    </VBox>
+    </HBox>
+    <Label fx:id="totalLabel" alignment="CENTER" prefHeight="25.0" prefWidth="258.0" text="Total">
+      <font>
+        <Font name="System Bold" size="16.0"/>
+      </font>
+    </Label>
+    <HBox alignment="CENTER" prefHeight="41.0" prefWidth="1248.0" style="-fx-spacing: 60;">
+      <children>
+        <JFXButton alignment="CENTER" onAction="#onSubmitPress" prefHeight="25.0"
+          prefWidth="79.0" text="Submit"/>
+        <JFXButton alignment="CENTER" onAction="#close" prefHeight="25.0" prefWidth="74.0"
+          text="Cancel"/>
+      </children>
+    </HBox>
   </children>
-</StackPane>
+    </VBox>

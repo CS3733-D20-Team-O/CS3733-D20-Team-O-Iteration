@@ -10,7 +10,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.GiftDeliveryReques
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import lombok.val;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class GiftDeliveryService extends ViewModelBase {
+public class GiftDeliveryService extends ServiceRequestBase {
 
   @FXML
   private VBox root;
@@ -40,8 +40,6 @@ public class GiftDeliveryService extends ViewModelBase {
   private final DatabaseWrapper database;
   ArrayList<Node> listOfRooms = new ArrayList<>();
   Map<String, String> giftList_Map = new HashMap<>();
-//  Map<String, String> cartList_Map = new HashMap<>();
-
 
   @FXML
   private JFXTextField toField, fromField, ccNumberField,
@@ -50,6 +48,9 @@ public class GiftDeliveryService extends ViewModelBase {
   private JFXComboBox<String> inRoomComboBox, onFloorComboBox, ccTypeComboBox,
       ccMonthComboBox, ccYearComboBox,
       giftComboBox;
+
+  @FXML
+  private Label totalLabel;
 
   @FXML
   private JFXTimePicker timePicker;
@@ -86,9 +87,9 @@ public class GiftDeliveryService extends ViewModelBase {
     giftList_Map.put("Toy", "3.99");
   }
 
-
+  @FXML
   private void updateTotal() {
-
+    totalLabel.setText("Total: " + splitItem().get(1));
   }
 
   private void addComboBoxOptions() {
@@ -181,11 +182,29 @@ public class GiftDeliveryService extends ViewModelBase {
     }
 
     generateRequest();
+    clearScreen();
+  }
+
+  private void clearScreen() {
+    giftComboBox.getSelectionModel().clearSelection();
+    toField.clear();
+    fromField.clear();
+    onFloorComboBox.getSelectionModel().clearSelection();
+    inRoomComboBox.getSelectionModel().clearSelection();
+    ccFirstNameField.clear();
+    ccLastNameField.clear();
+    ccTypeComboBox.getSelectionModel().clearSelection();
+    ccMonthComboBox.getSelectionModel().clearSelection();
+    ccYearComboBox.getSelectionModel().clearSelection();
+    ccNumberField.clear();
+    ccSecurityField.clear();
+    emailAddressField.clear();
+    totalLabel.setText("Total: 0.00");
   }
 
   private void generateRequest() {
-    val itemName = splitItem();
-    val requestedData = new GiftDeliveryRequestData(itemName, toField.getText());
+    //splitItem().get(0) is the <name> from the combo box "<name>: $<price>"
+    val requestedData = new GiftDeliveryRequestData(splitItem().get(0), toField.getText());
     Node requestNode = null;
     for (Node node : database.exportNodes().values()) {
       if (node.getLongName().equals(inRoomComboBox.getSelectionModel().getSelectedItem())) {
@@ -208,10 +227,13 @@ public class GiftDeliveryService extends ViewModelBase {
   }
 
 
-  private String splitItem() {
+  private ArrayList<String> splitItem() {
     String selectedItem = giftComboBox.getSelectionModel().getSelectedItem();
     String[] parts = selectedItem.split(": \\$");
-    return parts[0];
+    val itemInfoList = new ArrayList<String>();
+    itemInfoList.add(parts[0]);
+    itemInfoList.add(parts[1]);
+    return itemInfoList;
   }
 
   private boolean checkEmail() {
