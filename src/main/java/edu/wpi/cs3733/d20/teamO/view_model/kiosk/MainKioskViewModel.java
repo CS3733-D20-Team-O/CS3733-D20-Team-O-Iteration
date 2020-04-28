@@ -78,12 +78,14 @@ public class MainKioskViewModel extends ViewModelBase {
     requests.put(getString("serviceSanitationDescription"), "SanitationService.fxml");
     requests.keySet().forEach(serviceSelector.getItems()::add);
     serviceSelector.getSelectionModel().selectedItemProperty().addListener(((o, old, desc) -> {
-      try {
-        dialog.showFullscreenFXML("views/kiosk/service_requests/" + requests.get(desc));
-      } catch (IOException e) {
-        log.error("Failed to open " + desc, e);
+      if (desc != null) {
+        try {
+          dialog.showFullscreenFXML("views/kiosk/service_requests/" + requests.get(desc));
+        } catch (IOException e) {
+          log.error("Failed to open " + desc, e);
+        }
+        serviceSelector.getSelectionModel().clearSelection();
       }
-      serviceSelector.getSelectionModel().clearSelection();
     }));
 
     // Load the admin dialog if appropriate
