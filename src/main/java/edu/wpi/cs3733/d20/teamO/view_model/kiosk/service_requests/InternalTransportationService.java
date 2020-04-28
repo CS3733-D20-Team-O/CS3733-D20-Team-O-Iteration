@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransportationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -13,7 +12,6 @@ import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
@@ -26,7 +24,7 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class InternalTransportationService extends ServiceRequestBase {
 
-  enum State {
+  private enum State {
     ASSISTED,
     UNASSISTED
   }
@@ -37,12 +35,9 @@ public class InternalTransportationService extends ServiceRequestBase {
   private final Dialog dialog;
 
   private State currentState;
-  private Node entryNode;
 
   @FXML
-  private JFXTextField reqName;
-  @FXML
-  private JFXTextField reqTime;
+  private JFXTextField reqName, reqTime;
   @FXML
   private ToggleGroup assistedToggle, unassistedToggle;
   @FXML
@@ -60,17 +55,6 @@ public class InternalTransportationService extends ServiceRequestBase {
     //set radio buttons to default
     unassistedToggle.getToggles().get(0).setSelected(true);
     assistedToggle.getToggles().get(0).setSelected(true);
-    // Preselect the first floor and the first location on that floor
-    if (!currentFloor.getItems().isEmpty()) {
-      currentFloor.getSelectionModel().select(0);
-      currentRoom.getSelectionModel().select(0);
-    }
-
-    // Preselect the first floor and the first location on that floor
-    if (!destinationFloor.getItems().isEmpty()) {
-      destinationFloor.getSelectionModel().select(0);
-      destinationRoom.getSelectionModel().select(0);
-    }
 
   }
 
@@ -79,7 +63,7 @@ public class InternalTransportationService extends ServiceRequestBase {
     switch (currentState) {
       case ASSISTED:
         if (validator.validate(currentRoom, reqName, reqTime, destinationRoom)) {
-          InternalTransportationRequestData data = new InternalTransportationRequestData("Assisted",
+          val data = new InternalTransportationRequestData("Assisted",
               ((RadioButton) assistedToggle.getSelectedToggle()).getText(),
               destinationFloor.getSelectionModel().getSelectedItem().toString());
           addToDatabase(data);
@@ -88,7 +72,7 @@ public class InternalTransportationService extends ServiceRequestBase {
       default:
       case UNASSISTED:
         if (validator.validate(currentRoom, reqName, reqTime)) {
-          InternalTransportationRequestData data = new InternalTransportationRequestData(
+          val data = new InternalTransportationRequestData(
               "Unassisted",
               ((RadioButton) unassistedToggle.getSelectedToggle()).getText(), "None required");
           addToDatabase(data);
@@ -105,7 +89,7 @@ public class InternalTransportationService extends ServiceRequestBase {
   private void addToDatabase(ServiceRequestData data) {
     val confirmation = database
         .addServiceRequest(reqTime.getText(), currentRoom.getSelectionModel().getSelectedItem(),
-            "Int. Transport",
+            "Internal Transportation",
             reqName.getText(), data);
 
     if (confirmation == null) {
@@ -139,44 +123,6 @@ public class InternalTransportationService extends ServiceRequestBase {
   @FXML
   private void assistedSelected() {
     currentState = State.ASSISTED;
-  }
-
-  /**
-   * function to display appropriate rooms when a floor is selected in current floor
-   */
-  @FXML
-  private void doCurrentFloor() {
-    doFloor(currentRoom, currentFloor.getSelectionModel().getSelectedItem().toString());
-  }
-
-  /**
-   * function to display appropriate rooms when a floor is selected in destination floor
-   */
-  @FXML
-  private void doDestinationFloor() {
-    doFloor(destinationRoom, destinationFloor.getSelectionModel().getSelectedItem().toString());
-  }
-
-  /**
-   * takes a combobox of floors and populates the corresponding room combo box with appropriate
-   * values
-   *
-   * @param rooms the combobox to populate
-   * @param floor           the floor selected
-   */
-  private void doFloor(JFXComboBox rooms, String floor) {
-    rooms.getItems().clear();
-    for (Node node : database.exportNodes().values()) {
-      val roomToAdd = node.getLongName();
-      val listOfRooms = new LinkedList<String>();
-      if (!node.getNodeType().equals("STAI") &&
-          !node.getNodeType().equals("ELEV") &&
-          !node.getNodeType().equals("REST") &&
-          !node.getNodeType().equals("HALL") &&
-          node.getFloor() == Integer.parseInt(floor)) {
-        rooms.getItems().add(roomToAdd);
-      }
-    }
   }
 
 }

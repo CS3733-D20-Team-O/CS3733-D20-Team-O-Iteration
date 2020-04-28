@@ -28,7 +28,7 @@
                <children>
                   <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="238.0" spacing="16.0">
                      <children>
-                        <JFXComboBox fx:id="currentFloor" onAction="#doCurrentFloor"
+                        <JFXComboBox fx:id="currentFloor"
                           prefHeight="25.0" prefWidth="176.0" promptText="Current Floor"/>
                         <JFXComboBox fx:id="currentRoom" prefHeight="25.0"
                           prefWidth="177.0" promptText="Current Room">
@@ -95,7 +95,7 @@
                               <VBox prefHeight="133.0" prefWidth="142.0" spacing="16.0">
                                  <children>
                                     <JFXComboBox fx:id="destinationFloor"
-                                      onAction="#doDestinationFloor" prefHeight="25.0"
+                                      prefHeight="25.0"
                                       prefWidth="139.0" promptText="Destination Floor"/>
                                     <JFXComboBox fx:id="destinationRoom" prefHeight="25.0"
                                       prefWidth="142.0" promptText="Destination Room">
