@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NavigationBar"
   style="-fx-background-color: #004c8c">
-  <HBox AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="0"
-    AnchorPane.rightAnchor="0" AnchorPane.topAnchor="16" alignment="CENTER">
+  <StackPane AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="0"
+    AnchorPane.rightAnchor="0" AnchorPane.topAnchor="16">
     <Label text="${controller.title}" style="-fx-font-size: 24px; -fx-text-fill: floralwhite"/>
-  </HBox>
-  <HBox AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16" AnchorPane.topAnchor="16"
-    alignment="CENTER">
-    <JFXButton onAction="#onBackPressed" text="%backButton"
-      style="-fx-font-size: 20; -fx-text-fill: floralwhite"/>
-  </HBox>
+  </StackPane>
+  <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="4" AnchorPane.topAnchor="0">
+    <JFXButton onAction="#onBackPressed">
+      <graphic>
+        <ImageView fitHeight="40" pickOnBounds="true" preserveRatio="true">
+          <Image url="@/back-arrow.png"/>
+        </ImageView>
+      </graphic>
+    </JFXButton>
+  </StackPane>
 </AnchorPane>
