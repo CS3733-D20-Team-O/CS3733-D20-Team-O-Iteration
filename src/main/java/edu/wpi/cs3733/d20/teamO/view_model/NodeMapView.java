@@ -123,7 +123,7 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the the background is clicked
-    backgroundImage.setOnMouseClicked(event -> {
+    backgroundImage.setOnMouseClicked(event -> { // todo check for right-click
       val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage()
           .getWidth(); // todo fix size
       val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
@@ -131,7 +131,7 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the background is dragged
-    backgroundImage.setOnMouseDragged(event -> {
+    backgroundImage.setOnMouseDragged(event -> { // todo lmao
       floorPane.setTranslateX(floorPane.getTranslateX() - event.getX());
       floorPane.setTranslateY(floorPane.getTranslateY() - event.getY());
     });
@@ -221,7 +221,7 @@ public class NodeMapView extends ViewModelBase {
     val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
     //System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
     //System.out.println("Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY() + "]");
-    drawnNode.setOnMouseClicked(event -> {
+    drawnNode.setOnMouseClicked(event -> { // todo Fix click (rightclick is left, left is right)
       if (onNodeLeftTapListener != null && event.isPrimaryButtonDown()) {
         onNodeLeftTapListener.accept(drawnNode.node);
       } else if (onNodeRightTapListener != null) {
