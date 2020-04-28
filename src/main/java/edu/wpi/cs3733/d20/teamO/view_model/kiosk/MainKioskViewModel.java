@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,9 @@ public class MainKioskViewModel extends ViewModelBase {
   private final Dialog dialog;
 
   @FXML
-  private HBox welcomeBar, langContainer;
+  private StackPane welcomeBar, container;
+  @FXML
+  private HBox langContainer;
   @FXML
   private VBox contentContainer;
   @FXML
@@ -133,7 +136,7 @@ public class MainKioskViewModel extends ViewModelBase {
 
   private void openAdminDialog() {
     try {
-      dialog.showFullscreenFXML("views/admin/Main.fxml");
+      dialog.showFXML(container, "views/admin/Main.fxml");
     } catch (IOException e) {
       log.error("Could not load the admin dialog", e);
     }
