@@ -3,21 +3,19 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox alignment="TOP_CENTER" fillWidth="false" spacing="8.0"
-  style="-fx-padding: 32;"
-  xmlns="http://javafx.com/javafx/11.0.1"
-  xmlns:fx="http://javafx.com/fxml/1"
+<VBox alignment="TOP_CENTER" fillWidth="false" spacing="8.0" style="-fx-padding: 32;"
+  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InternalTransportationService">
    <children>
       <Label style="-fx-font-size: 32;" text="%serviceIntTransportTitle"/>
@@ -48,7 +46,8 @@
                               <Insets top="8.0"/>
                            </VBox.margin>
                         </JFXTextField>
-                        <JFXTimePicker fx:id="reqTime" promptText="%serviceIntTransportRequestTime">
+                        <JFXTimePicker fx:id="reqTime" promptText="%serviceIntTransportRequestTime"
+                          style="-fx-background-color: lightgray;">
                            <validators>
                               <RequiredFieldValidator message="%serviceIntTransportTimeValidator"/>
                            </validators>
@@ -59,10 +58,12 @@
             </HBox>
          </children>
       </VBox>
-      <TabPane prefHeight="160.0" prefWidth="413.0" style="-fx-border-color: gray;"
+      <JFXTabPane prefHeight="175.0" prefWidth="413.0"
+        style="-fx-border-color: gray; -fx-background-color: gray; -fx-progress-color: gray;"
         tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab onSelectionChanged="#assistedSelected" text="%serviceIntTransportAssistedTabTitle">
+            <Tab closable="false" onSelectionChanged="#assistedSelected"
+              text="%serviceIntTransportAssistedTabTitle">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="126.0" prefWidth="413.0"
                     style="-fx-background-color: lightgray;">
@@ -76,8 +77,8 @@
                                     <Insets left="8.0" top="8.0"/>
                                  </padding>
                                  <children>
-                                    <JFXRadioButton text="%serviceIntTransportWheelchair"
-                                      selected="true">
+                                    <JFXRadioButton selected="true"
+                                      text="%serviceIntTransportWheelchair">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="assistedToggle"/>
                                        </toggleGroup>
@@ -114,7 +115,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab onSelectionChanged="#unassistedSelected"
+            <Tab closable="false" onSelectionChanged="#unassistedSelected"
               text="%serviceIntTransportUnassistedTabTitle">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
@@ -127,7 +128,7 @@
                               <Insets left="8.0" top="8.0"/>
                            </padding>
                            <children>
-                              <JFXRadioButton text="%serviceIntTransportCrutches" selected="true">
+                              <JFXRadioButton selected="true" text="%serviceIntTransportCrutches">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="unassistedToggle"/>
                                  </toggleGroup>
@@ -145,7 +146,7 @@
                </content>
             </Tab>
          </tabs>
-      </TabPane>
+      </JFXTabPane>
       <HBox spacing="32.0">
          <children>
             <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onSubmit" prefHeight="35.0"
