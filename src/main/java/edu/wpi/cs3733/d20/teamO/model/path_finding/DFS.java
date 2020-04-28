@@ -39,7 +39,7 @@ class DFS implements PathFinder {
 
       // Iterate through the current node's neighbors
       for (val n : current.getNeighbors()) {
-        // It takes this long to get to the new node
+        // for depth first it adds to the front of the queue so it acts like a stack instead of a queue
         if (!cameFrom.containsKey(n)) {
           frontier.addFirst(n);
           // We went through current to get here
