@@ -66,7 +66,6 @@ public class RequestHandlerViewModelTest extends FxRobot {
     List<ServiceRequest> reqs = Arrays.asList(req, req2);
     when(database.exportServiceRequests()).thenReturn(reqs);
     when(database.exportEmployees()).thenReturn(list);
-    when(loginDetails.getUsername()).thenReturn("staff");
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     //loader.setResources(bundle);
@@ -78,6 +77,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
 
   @Test
   public void assignAnEmployeeValid() {
+    when(loginDetails.getUsername()).thenReturn("staff");
     clickOn("1555");
     clickOn("855");
     clickOn("Assign Employee");
@@ -88,6 +88,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
 
   @Test
   public void assignEmployeeInvalidAlreadyAssigned() {
+    when(loginDetails.getUsername()).thenReturn("staff");
     clickOn("1555");
     clickOn("855");
     clickOn("Assign Employee");
@@ -112,7 +113,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
     clickOn("Assign Employee");
     clickOn("576");
     assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(),
-        "");
+        "0");
   }
 
   @Test
@@ -124,7 +125,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
     clickOn("Assign Employee");
 
     clickOn("1555");
-    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "0");
   }
 
   @Test
@@ -136,11 +137,13 @@ public class RequestHandlerViewModelTest extends FxRobot {
     clickOn("Assign Employee");
 
     clickOn("1555");
-    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "0");
   }
 
   @Test
   public void reassignEmployeeAfterResolve() {
+    when(loginDetails.getUsername()).thenReturn("staff");
+
     clickOn("1555");
     clickOn("855");
     clickOn("Assign Employee");
@@ -157,6 +160,8 @@ public class RequestHandlerViewModelTest extends FxRobot {
 
   @Test
   public void reassignEmployeeAfterCancel() {
+    when(loginDetails.getUsername()).thenReturn("staff");
+
     clickOn("1555");
     clickOn("855");
     clickOn("Assign Employee");
@@ -173,6 +178,8 @@ public class RequestHandlerViewModelTest extends FxRobot {
 
   @Test
   public void employeePersistenceInCancel() {
+    when(loginDetails.getUsername()).thenReturn("staff");
+
     clickOn("1555");
     clickOn("855");
     clickOn("Assign Employee");
@@ -186,6 +193,8 @@ public class RequestHandlerViewModelTest extends FxRobot {
 
   @Test
   public void employeePersistenceInResolve() {
+    when(loginDetails.getUsername()).thenReturn("staff");
+
     clickOn("1555");
     clickOn("855");
     clickOn("Assign Employee");

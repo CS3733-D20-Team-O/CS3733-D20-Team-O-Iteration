@@ -71,8 +71,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private TableView<Employee> employeeTable;
 
   /**
-   * Overrides start() to assign table columns. Sets up the text, columns, database, and the
-   * dummy-admin (for iteration 1).
+   * Overrides start() to assign table columns. Sets up the text, columns, database
    *
    * @param location  the location used to resolve relative paths for the root object, or null
    * @param resources the resources used to localize the root object, or null
