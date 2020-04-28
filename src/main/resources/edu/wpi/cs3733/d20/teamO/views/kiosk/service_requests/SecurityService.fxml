@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.SecurityService">
+
+  <VBox alignment="CENTER" spacing="32"
+    style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
+    <Label style="-fx-font-size: 32" text="Emergency Security Service Request Creation"/>
+
+    <HBox alignment="CENTER" spacing="8">
+      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+          <Image url="@../../../../../../../../baseline_person_black_18dp.png"/>
+        </image>
+      </ImageView>
+
+      <JFXTextField fx:id="requesterName" prefHeight="37.0" prefWidth="443.0"
+        promptText="Your Name">
+        <validators>
+          <RequiredFieldValidator message="Your name is required!"/>
+        </validators>
+      </JFXTextField>
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="20">
+      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+          <Image url="@../../../../../../../../baseline_apartment_black_18dp.png"/>
+        </image>
+      </ImageView>
+      <JFXComboBox fx:id="floors" promptText="Floor">
+        <validators>
+          <RequiredFieldValidator message="You need to select the floor of the incident!"/>
+        </validators>
+      </JFXComboBox>
+      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+          <Image url="@../../../../../../../../baseline_room_black_18dp.png"/>
+        </image>
+      </ImageView>
+      <JFXComboBox fx:id="locations" promptText="Room/Location on Floor">
+        <validators>
+          <RequiredFieldValidator message="Lease indicate a location for responder to be sent!"/>
+        </validators>
+      </JFXComboBox>
+    </HBox>
+
+    <VBox alignment="CENTER_LEFT" spacing="16">
+      <Label text="Emergency Type"/>
+      <JFXRadioButton text="Code pink: Amber alert/Code Adam: infant abduction">
+        <toggleGroup>
+          <ToggleGroup fx:id="levelSelection"/>
+        </toggleGroup>
+      </JFXRadioButton>
+      <JFXRadioButton text="Code Grey: Combative/Violent Individual" toggleGroup="$levelSelection"/>
+      <JFXRadioButton text="Code Silver: Armed Individual" toggleGroup="$levelSelection"/>
+      <JFXRadioButton text="Code Red: fire" toggleGroup="$levelSelection"/>
+      <JFXRadioButton text="External triage: external disaster" toggleGroup="$levelSelection"/>
+      <JFXRadioButton text="Internal triage: internal emergency" toggleGroup="$levelSelection"/>
+      <JFXRadioButton text="Lost or Runaway Patient" toggleGroup="$levelSelection"/>
+      <JFXRadioButton text="Scuicidal Patient" toggleGroup="$levelSelection"/>
+    </VBox>
+
+    <JFXTextArea fx:id="additionalNotes" prefHeight="119.0" prefWidth="636.0"
+      promptText="Additional Notes"/>
+    <HBox alignment="CENTER_RIGHT" spacing="16">
+      <JFXButton buttonType="RAISED" onAction="#submitRequest"
+        style="-fx-padding: 15; -fx-background-color: chartreuse; -fx-background-radius: 16; -fx-opacity: 0.9"
+        text="Submit"/>
+      <JFXButton buttonType="RAISED" onAction="#cancelRequest"
+        style="-fx-padding: 15; -fx-background-color: tomato; -fx-background-radius: 16; -fx-opacity: 0.9"
+        text="Cancel"/>
+    </HBox>
+  </VBox>
+</StackPane>
