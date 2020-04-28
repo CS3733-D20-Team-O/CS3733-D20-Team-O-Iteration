@@ -10,7 +10,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InterpreterData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
@@ -19,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class InterpreterService extends ViewModelBase {
+public class InterpreterService extends ServiceRequestBase {
 
   private final DatabaseWrapper database;
   private final Validator validator;

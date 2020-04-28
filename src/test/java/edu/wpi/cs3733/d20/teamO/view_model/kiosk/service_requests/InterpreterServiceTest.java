@@ -6,8 +6,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testfx.api.FxAssert.verifyThat;
 
+import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
@@ -46,6 +46,8 @@ public class InterpreterServiceTest extends FxRobot {
   SnackBar snackBar;
   @Mock
   Dialog dialog;
+  @Mock
+  JFXDialog jfxDialog;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
@@ -76,32 +78,6 @@ public class InterpreterServiceTest extends FxRobot {
   }
 
   @Test
-  public void testFloorLocationPopulated() {
-    // Verify that all floors are populated
-    clickOn("1");
-    verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("5", javafx.scene.Node::isVisible);
-
-    // Now that we know all floors are correct, lets check to see if the locations are present
-    // First floor
-    clickOn("Floor 1");
-    verifyThat("Floor 1", javafx.scene.Node::isVisible);
-
-    // Third floor
-    clickOn("1");
-    clickOn("3");
-    clickOn("Floor 3-1");
-    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
-
-    // Fifth floor
-    clickOn("3");
-    clickOn("5");
-    verifyThat("Floor 5", javafx.scene.Node::isVisible);
-  }
-
-  @Test
   public void testSubmit() {
     when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
     when(database.addServiceRequest(any(), any(), any(), any(), any()))
@@ -117,6 +93,10 @@ public class InterpreterServiceTest extends FxRobot {
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
+    clickOn("Floor");
+    clickOn("1");
+    clickOn("Room/Location on Floor");
+    clickOn("Floor 1");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
@@ -124,15 +104,15 @@ public class InterpreterServiceTest extends FxRobot {
         eq(new InterpreterData("Chinese", "Male", "")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
-
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Submit");
     verify(validator, times(3)).validate(any());
     verify(database, times(2)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("Interpreter"), eq("John Smith"),
-        eq(new InterpreterData("Spanish", "No preference", "")));
+        eq(new InterpreterData("Spanish", "No preference", "Hello")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1))
         .showBasic(anyString(), eq("Your confirmation code is:\nABCDEFGH"), anyString());
+    verify(jfxDialog, times(1)).close();
   }
 }
