@@ -187,7 +187,7 @@ public class NodeMapView extends ViewModelBase {
         val target = findNode(node);
         if (target
             != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
-          nodeGroup.getChildren().remove(target);
+          floorPane.getChildren().remove(target);
         }
       }
     }
@@ -213,8 +213,9 @@ public class NodeMapView extends ViewModelBase {
    */
   public void draw() {
     // Clear the items displayed
-    nodeGroup.getChildren().clear();
-    edgeGroup.getChildren().clear();
+    floorPane.getChildren().clear();
+
+    floorPane.getChildren().add(backgroundImage);
 
     // Draw all the nodes on a certain floor
     val floorMap = nodeMap.get(getFloor());
@@ -255,7 +256,7 @@ public class NodeMapView extends ViewModelBase {
         onNodeRightDragReleaseListener.accept(drawnNode.node, event);
       }
     });
-    nodeGroup.getChildren().add(drawnNode);
+    floorPane.getChildren().add(drawnNode);
   }
 
   /**
@@ -280,7 +281,7 @@ public class NodeMapView extends ViewModelBase {
       });
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
-      edgeGroup.getChildren().add(drawnEdge);
+      floorPane.getChildren().add(drawnEdge);
     }
   }
 
@@ -306,7 +307,7 @@ public class NodeMapView extends ViewModelBase {
       });
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
-      edgeGroup.getChildren().add(drawnEdge);
+      floorPane.getChildren().add(drawnEdge);
     }
   }
 
@@ -476,7 +477,7 @@ public class NodeMapView extends ViewModelBase {
    * Make all nodes on the floor visible
    */
   public void makeNodeVisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> {
+    floorPane.getChildren().forEach(nodeCircle -> {
       nodeCircle.setVisible(true);
     });
   }
@@ -485,7 +486,7 @@ public class NodeMapView extends ViewModelBase {
    * Make all nodes on the floor invisible
    */
   public void makeNodeInvisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> {
+    floorPane.getChildren().forEach(nodeCircle -> {
       nodeCircle.setVisible(false);
     });
   }
@@ -497,7 +498,7 @@ public class NodeMapView extends ViewModelBase {
    * @return the nodeCircle that node refers to (or null if no nodeCircle is found)
    */
   private NodeCircle findNode(Node node) {
-    for (val child : nodeGroup.getChildren()) {
+    for (val child : floorPane.getChildren()) {
       val nodeCircle = (NodeCircle) child;
       if (nodeCircle.node.equals(node)) {
         return nodeCircle;
@@ -513,7 +514,7 @@ public class NodeMapView extends ViewModelBase {
    * @return the NodeLine that node refers to (or null if no NodeLine is found)
    */
   private NodeLine findLine(Edge edge) {
-    for (val child : edgeGroup.getChildren()) {
+    for (val child : floorPane.getChildren()) {
       val nodeLine = (NodeLine) child;
       if (nodeLine.node1.getNodeID().equals(edge.getStartID()) && nodeLine.node2.getNodeID()
           .equals(edge.getStopID())) {
