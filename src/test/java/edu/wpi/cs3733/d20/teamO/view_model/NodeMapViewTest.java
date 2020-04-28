@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.io.IOException;
@@ -57,17 +59,29 @@ public class NodeMapViewTest extends FxRobot {
     nodeMap.put(node4.getNodeID(), node4);
     nodeMap.put(node5.getNodeID(), node5);
     nodeMap.put(node6.getNodeID(), node6);
+
     viewModel.setNodeMap(nodeMap);
+    assertEquals(4, viewModel.getNodeGroupList().size());
     viewModel.incrementFloor();
+    assertEquals(2, viewModel.getNodeGroupList().size());
     viewModel.incrementFloor();
+    assertEquals(0, viewModel.getNodeGroupList().size());
     viewModel.incrementFloor();
+    assertEquals(0, viewModel.getNodeGroupList().size());
     viewModel.incrementFloor();
+    assertEquals(0, viewModel.getNodeGroupList().size());
     viewModel.incrementFloor();
+    assertEquals(0, viewModel.getNodeGroupList().size());
     viewModel.decrementFloor();
+    assertEquals(0, viewModel.getNodeGroupList().size());
     viewModel.decrementFloor();
+    assertEquals(0, viewModel.getNodeGroupList().size());
     viewModel.decrementFloor();
+    assertEquals(2, viewModel.getNodeGroupList().size());
     viewModel.decrementFloor();
+    assertEquals(4, viewModel.getNodeGroupList().size());
     viewModel.decrementFloor();
+    assertEquals(4, viewModel.getNodeGroupList().size());
   }
 
   @Test

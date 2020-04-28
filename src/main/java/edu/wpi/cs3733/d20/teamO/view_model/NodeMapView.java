@@ -3,7 +3,9 @@ package edu.wpi.cs3733.d20.teamO.view_model;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
@@ -527,5 +529,26 @@ public class NodeMapView extends ViewModelBase {
       this.node1 = node1;
       this.node2 = node2;
     }
+  }
+
+  // This is really sketchy for testing if you ask me.
+  // I think what this does is give a copy of the list, so the list isn't directly interacted with
+
+  /**
+   * Used for testing
+   *
+   * @return a list
+   */
+  public List<javafx.scene.Node> getNodeGroupList() {
+    return new ArrayList<>(nodeGroup.getChildren());
+  }
+
+  /**
+   * Used for testing
+   *
+   * @return a list
+   */
+  public List<javafx.scene.Node> getEdgeGroupList() {
+    return new ArrayList<>(edgeGroup.getChildren());
   }
 }
