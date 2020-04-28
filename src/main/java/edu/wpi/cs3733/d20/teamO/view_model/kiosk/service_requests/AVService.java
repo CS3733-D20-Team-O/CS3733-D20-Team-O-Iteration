@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
@@ -14,7 +13,6 @@ import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +38,6 @@ public class AVService extends ServiceRequestBase {
   private JFXTextArea commentTextArea;
   @FXML
   private JFXTimePicker startTimePicker;
-
-  ArrayList<Node> listOfRooms = new ArrayList<>();
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
