@@ -112,27 +112,22 @@ public class AVService {
 
   @FXML
   private void submitRequest() {
-    if (validator.validate(requesterNameField, floorNumberComboBox, locationComboBox)) {
+    if (validator
+        .validate(requesterNameField, floorNumberComboBox, locationComboBox, durationComboBox,
+            serviceRequestComboBox)) {
+      val time = LocalDateTime.now().toString();
       val requestData = new AVRequestData(
-          serviceRequestComboBox.getSelectionModel().getSelectedItem(), commentTextArea.getText());
-      val time = LocalDateTime.now().toString(); // todo format this
-      // todo use enum for sanitation string below
-      // todo extract strings
+          serviceRequestComboBox.getSelectionModel().getSelectedItem(), commentTextArea.getText(),
+          durationComboBox.getSelectionModel().getSelectedItem(), time);
       val confirmationCode = database.addServiceRequest(time,
           locationComboBox.getSelectionModel().getSelectedItem(),
           "A/V", requesterNameField.getText(), requestData);
       if (confirmationCode == null) {
         snackBar.show("Failed to create the A/V service request");
       } else {
-        closeRequest();
         dialog.showBasic("A/V Request Submitted Successfully",
             "Your confirmation code is:\n" + confirmationCode, "Close");
       }
     }
-  }
-
-  @FXML
-  private void closeRequest() {
-    // todo (dialog -> close manual, window, navigator.pop())
   }
 }
