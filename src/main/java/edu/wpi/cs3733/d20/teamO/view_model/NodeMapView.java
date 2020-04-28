@@ -12,7 +12,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +27,7 @@ import lombok.val;
 @Getter
 public class NodeMapView extends ViewModelBase {
 
-  private double nodeSize = 10;
+  private double nodeSize = 5;
   private double edgeSize = 3;
   private final static int maxFloor = 5;
   private final static int minFloor = 1;
@@ -94,18 +93,21 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private ImageView backgroundImage;
   @FXML
-  private Canvas nodeCanvas;
-  @FXML
   private StackPane floorPane;
-
-  private Group nodeGroup;
-  private Group edgeGroup;
+  @FXML
+  private Group nodeGroup, edgeGroup;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
     nodeGroup = new Group();
     edgeGroup = new Group();
+
+    nodeGroup.prefWidth(990.4);
+    nodeGroup.prefHeight(594.4);
+    edgeGroup.prefWidth(990.4);
+    edgeGroup.prefHeight(594.4);
+
     floorPane.getChildren().addAll(edgeGroup, nodeGroup);
 
     // Display the current floor (and consequently call the above listeners)
@@ -122,8 +124,9 @@ public class NodeMapView extends ViewModelBase {
 
     // Set up event for when the the background is clicked
     backgroundImage.setOnMouseClicked(event -> {
-      val imageX = event.getX() / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
-      val imageY = event.getY() / nodeCanvas.getHeight() * backgroundImage.getImage().getHeight();
+      val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage()
+          .getWidth(); // todo fix size
+      val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
       onMissRightTapListener.accept((int) imageX, (int) imageY);
     });
 
@@ -212,9 +215,12 @@ public class NodeMapView extends ViewModelBase {
    * @param node the node to draw to the canvas
    */
   private void drawNode(Node node) {
-    val x = node.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
-    val y = node.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
+    val x = node.getXCoord() / backgroundImage.getImage().getWidth() * floorPane
+        .getWidth(); // todo fix size
+    val y = node.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
     val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
+    //System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
+    //System.out.println("Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY() + "]");
     drawnNode.setOnMouseClicked(event -> {
       if (onNodeLeftTapListener != null && event.isPrimaryButtonDown()) {
         onNodeLeftTapListener.accept(drawnNode.node);
@@ -248,10 +254,11 @@ public class NodeMapView extends ViewModelBase {
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
     if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
-      val x1 = n1.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
-      val y1 = n1.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
-      val x2 = n2.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
-      val y2 = n2.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
+      val x1 = n1.getXCoord() / backgroundImage.getImage().getWidth() * floorPane
+          .getWidth(); // todo fix size
+      val y1 = n1.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
+      val x2 = n2.getXCoord() / backgroundImage.getImage().getWidth() * floorPane.getWidth();
+      val y2 = n2.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
       drawnEdge.setOnMouseClicked(event -> {
         if (event.isPrimaryButtonDown()) {
@@ -275,8 +282,9 @@ public class NodeMapView extends ViewModelBase {
     // todo check the logic with this
     // Only draw this edge if the node is on this floor
     if (origin.getFloor() == getFloor()) {
-      val x = origin.getXCoord() / backgroundImage.getImage().getWidth() * nodeCanvas.getWidth();
-      val y = origin.getYCoord() / backgroundImage.getImage().getHeight() * nodeCanvas.getHeight();
+      val x = origin.getXCoord() / backgroundImage.getImage().getWidth() * floorPane
+          .getWidth(); // todo fix size
+      val y = origin.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
       val drawnEdge = new NodeLine(origin, null, x, y, xTarget, yTarget);
       drawnEdge.setOnMouseClicked(event -> {
         if (event.isPrimaryButtonDown()) {
