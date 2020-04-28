@@ -104,7 +104,7 @@ public class Dialog {
     /**
      * Closes this dialog
      */
-    protected final void close() {
+    public final void close() {
       parent.close();
     }
 
