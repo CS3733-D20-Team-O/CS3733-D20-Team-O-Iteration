@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.FloristDeliveryService">
+  <VBox alignment="CENTER" spacing="32"
+    style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
+    <Label style="-fx-font-size: 32" text="Flourist Delivery Service"/>
+    <JFXTextField fx:id="requesterName" promptText="Your Name">
+      <validators>
+        <RequiredFieldValidator message="Your name is required!"/>
+      </validators>
+    </JFXTextField>
+    <HBox alignment="CENTER" spacing="32">
+      <JFXComboBox fx:id="floors" promptText="Floor">
+        <validators>
+          <RequiredFieldValidator message="You need to select the floor"/>
+        </validators>
+      </JFXComboBox>
+      <JFXComboBox fx:id="locations" promptText="Room/Location on Floor">
+        <validators>
+          <RequiredFieldValidator message="You need to select the location"/>
+        </validators>
+      </JFXComboBox>
+      <JFXComboBox fx:id="bouquet" prefHeight="37.0" prefWidth="173.0" promptText="Bouquet Type">
+        <items>
+          <String fx:value="Basket 9.99"/>
+          <String fx:value="Biedermeier 7.99"/>
+          <String fx:value="Cascade 19.99"/>
+          <String fx:value="Nosegay 99.99"/>
+          <String fx:value="Pomander 39.99"/>
+          <String fx:value="Posy 28.99"/>
+          <String fx:value="Presentation 49.99"/>
+          <String fx:value="Round 9.99"/>
+          <String fx:value="Single Stem 38.99"/>
+          <String fx:value="Shower 3.99"/>
+        </items>
+        <validators>
+          <RequiredFieldValidator message="You need to select the Bouquet type"/>
+        </validators>
+      </JFXComboBox>
+    </HBox>
+    <Label fx:id="price" text="Price: "/>
+    <JFXTextArea fx:id="additionalNotes" prefHeight="221.0" prefWidth="618.0"
+      promptText="Additional Notes"/>
+    <HBox alignment="CENTER_RIGHT" spacing="16">
+      <JFXButton onAction="#submitRequest" text="Submit"/>
+      <JFXButton onAction="#close" text="Cancel"/>
+    </HBox>
+  </VBox>
+</StackPane>
