@@ -13,7 +13,7 @@
 <VBox spacing="32" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InfoTechService"
   style="-fx-padding: 32; -fx-font-size: 16">
-  <Label text="IT Support Request" style="-fx-font-size: 32"/>
+  <Label text="%ITServiceTitle" style="-fx-font-size: 32"/>
   <HBox alignment="CENTER" spacing="8">
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
       preserveRatio="true">
@@ -21,9 +21,9 @@
         <Image url="/person-icon.png"/>
       </image>
     </ImageView>
-    <JFXTextField fx:id="requesterName" promptText="Your Name">
+    <JFXTextField fx:id="requesterName" promptText="%ITServiceName">
       <validators>
-        <RequiredFieldValidator message="Your name is required!"/>
+        <RequiredFieldValidator message="%ITServiceNameValidator"/>
       </validators>
     </JFXTextField>
   </HBox>
@@ -35,9 +35,9 @@
           <Image url="/floor-icon.png"/>
         </image>
       </ImageView>
-      <JFXComboBox fx:id="floors" promptText="Floor">
+      <JFXComboBox fx:id="floors" promptText="%ITServiceFloor">
         <validators>
-          <RequiredFieldValidator message="You need to select the floor for the IT request!"/>
+          <RequiredFieldValidator message="%ITServiceFloorValidator"/>
         </validators>
       </JFXComboBox>
     </HBox>
@@ -48,9 +48,9 @@
           <Image url="/location-icon.png"/>
         </image>
       </ImageView>
-      <JFXComboBox fx:id="locations" promptText="Room/Location on Floor">
+      <JFXComboBox fx:id="locations" promptText="%ITServiceLocation">
         <validators>
-          <RequiredFieldValidator message="You need to select the location of the IT request!"/>
+          <RequiredFieldValidator message="%ITServiceLocationValidator"/>
         </validators>
       </JFXComboBox>
     </HBox>
@@ -62,9 +62,9 @@
         <Image url="/wrench-icon.png"/>
       </image>
     </ImageView>
-    <JFXComboBox fx:id="ITProblems" promptText="Select your current IT issue">
+    <JFXComboBox fx:id="ITProblems" promptText="%ITServiceIssueBox">
       <validators>
-        <RequiredFieldValidator message="You need to select your current IT issue!"/>
+        <RequiredFieldValidator message="%ITServiceIssueBoxValidator"/>
       </validators>
     </JFXComboBox>
   </HBox>
@@ -75,10 +75,11 @@
         <Image url="/desc-icon.png"/>
       </image>
     </ImageView>
-    <JFXTextArea fx:id="additionalNotes" promptText="Description" maxHeight="100"/>
+    <JFXTextArea fx:id="additionalNotes" promptText="%ITServiceDescription" maxHeight="100"/>
   </HBox>
   <HBox alignment="CENTER_RIGHT" spacing="16">
-    <JFXButton text="Submit" onAction="#submitRequest" style="-fx-background-color: #00BB00"/>
-    <JFXButton text="Cancel" onAction="#close" style="-fx-background-color: LIGHTGREY"/>
+    <JFXButton text="%ITServiceSubmit" onAction="#submitRequest"
+      style="-fx-background-color: #00BB00"/>
+    <JFXButton text="%ITServiceCancel" onAction="#close" style="-fx-background-color: LIGHTGREY"/>
   </HBox>
 </VBox>
