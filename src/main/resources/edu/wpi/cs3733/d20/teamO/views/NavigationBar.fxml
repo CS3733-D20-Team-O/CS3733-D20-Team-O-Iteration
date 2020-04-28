@@ -12,13 +12,12 @@
     AnchorPane.rightAnchor="0" AnchorPane.topAnchor="16">
     <Label text="${controller.title}" style="-fx-font-size: 24px; -fx-text-fill: floralwhite"/>
   </StackPane>
-  <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="4" AnchorPane.topAnchor="0">
-    <JFXButton onAction="#onBackPressed">
-      <graphic>
-        <ImageView fitHeight="40" pickOnBounds="true" preserveRatio="true">
-          <Image url="@/back-arrow.png"/>
-        </ImageView>
-      </graphic>
-    </JFXButton>
-  </StackPane>
+  <JFXButton onAction="#onBackPressed" AnchorPane.leftAnchor="0"
+    AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+    <graphic>
+      <ImageView fitHeight="40" pickOnBounds="true" preserveRatio="true">
+        <Image url="@/back-arrow.png"/>
+      </ImageView>
+    </graphic>
+  </JFXButton>
 </AnchorPane>
