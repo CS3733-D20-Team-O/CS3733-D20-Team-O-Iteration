@@ -76,7 +76,15 @@ class CSVHandlerImpl implements CSVHandler {
       scanner.nextLine();
       // Read each employee in the file and put its data into the database
       while (scanner.hasNext()) {
-        database.addEmployee(scanner.next(), scanner.next(), scanner.next(), scanner.nextBoolean());
+        String id = scanner.next();
+        //only import employee if it is not the dummy employee to avoid duplicate
+        if (!id.equals("0")) {
+          database.addEmployee(id, scanner.next(), scanner.next(), scanner.nextBoolean());
+        } else {
+          scanner.next();
+          scanner.next();
+          scanner.nextBoolean();
+        }
       }
     } catch (FileNotFoundException e) {
       log.error("Could not read the file " + csvFileLocation, e);
@@ -117,7 +125,10 @@ class CSVHandlerImpl implements CSVHandler {
 
   @Override
   public boolean exportEmployees(String csvFileLocation) {
-    return exportGeneric(csvFileLocation, database.exportEmployees(), Employee.class);
+    List<Employee> employeesToExport = database.exportEmployees();
+    //remove dummy employee from list before exporting
+    employeesToExport.removeIf(employee -> employee.getEmployeeID().equals("0"));
+    return exportGeneric(csvFileLocation, employeesToExport, Employee.class);
   }
 
   @Override
