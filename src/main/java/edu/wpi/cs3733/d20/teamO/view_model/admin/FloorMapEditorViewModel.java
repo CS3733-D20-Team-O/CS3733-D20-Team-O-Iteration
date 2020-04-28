@@ -35,6 +35,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   // todo add translations
   // todo prevent commas from being added
+  // todo add validator for elevator names
 
   private enum State {
     MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR
