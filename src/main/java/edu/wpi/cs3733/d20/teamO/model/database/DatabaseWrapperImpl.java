@@ -13,6 +13,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ExternalTransportationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.GiftDeliveryRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InfoTechRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransportationRequestData;
@@ -574,6 +575,9 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             break;
           case "A/V":
             clazz = AVRequestData.class;
+            break;
+          case "External Transportation":
+            clazz = ExternalTransportationRequestData.class;
             break;
           default:
             log.error("Unhandled request type");
