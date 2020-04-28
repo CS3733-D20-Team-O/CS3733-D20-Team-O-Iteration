@@ -19,7 +19,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
@@ -31,8 +30,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private final LoginDetails loginDetails;
   private final SnackBar snackBar;
 
-  @FXML
-  private AnchorPane root;
+
   @FXML
   private JFXCheckBox cbShowUnavail;
   @FXML
@@ -63,9 +61,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
     ObservableList<Employee> tableItems = FXCollections.observableArrayList();
 
-    if (serviceTable.getSelectionModel().getSelectedItem() != null) {
+    if (getSelectedRequest() != null) {
 
-      val req = serviceTable.getSelectionModel().getSelectedItem();
+      val req = getSelectedRequest();
       dataSpace.setText(req.getRequestData().getDisplayable());
       for (Employee e : database.exportEmployees()) {
 
@@ -168,7 +166,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
   private boolean criteraToAssignEmployeeMet() {
     // "error" cases to do nothing
     //no serviceReq selected
-    if (serviceTable.getSelectionModel().getSelectedItem() == null) {
+    if (getSelectedRequest() == null) {
       snackBar.show("No service Request selected");
       return true;
     }
@@ -178,13 +176,13 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return true;
     }
     //task is unavailable
-    else if (!serviceTable.getSelectionModel().getSelectedItem().getStatus().equals("Unassigned")) {
+    else if (!getSelectedRequest().getStatus().equals("Unassigned")) {
       snackBar.show("An employee cannot be assigned to this task");
       return true;
     }
     //employee selected somehow does not have same type as request
     else if (!employeeTable.getSelectionModel().getSelectedItem().getType()
-        .equals(serviceTable.getSelectionModel().getSelectedItem().getType())) {
+        .equals(getSelectedRequest().getType())) {
       snackBar.show("Employee cannot complete this Service Request.");
       return true;
     }
@@ -194,7 +192,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return true;
     }
     //if the selected service has someone assigned
-    else if (!serviceTable.getSelectionModel().getSelectedItem().getEmployeeAssigned()
+    else if (!getSelectedRequest().getEmployeeAssigned()
         .equals("0")) {
       snackBar.show("An employee is already assigned to this service request");
       return true;
@@ -203,7 +201,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
     }
   }
 
-  public ServiceRequest getSelectedRequest() {
+  ServiceRequest getSelectedRequest() {
     return serviceTable.getSelectionModel().getSelectedItem();
   }
 
@@ -222,7 +220,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return;
     }
 
-    val request = serviceTable.getSelectionModel().getSelectedItem();
+    val request = getSelectedRequest();
     if (!request.getStatus().equals("Assigned") && !request.getStatus().equals("Unassigned")) {
       snackBar.show("cannot modify a closed request");
       return;
