@@ -53,9 +53,28 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   @InjectMocks
   MedicineDeliveryService viewModel;
 
+  private void initializeBundle() {
+    bundle.put("serviceMedicineDeliveryMedicationRequest", "Medicine Delivery Request");
+    bundle.put("serviceMedicineDeliveryPatientNameField", "Patient name");
+    bundle.put("serviceMedicineDeliveryPatientNameFieldValidator", "Patient Name is Required!");
+    bundle.put("serviceMedicineDeliveryMedicationNameField", "Medicine name");
+    bundle.put("serviceMedicineDeliveryMedicationNameFieldValidator", "Medicine Name is Required!");
+    bundle.put("serviceMedicineFloorRequest", "Floor");
+    bundle.put("serviceMedicineFloorRequestValidator", "Floor information is Required!");
+    bundle.put("serviceMedicineLocationRequest", "Room/Location on Floor");
+    bundle.put("serviceMedicineLocationRequestValidator", "Location info is Required!");
+    bundle.put("serviceMedicineDeliveryDeliveryMethod", "Delivery method");
+    bundle.put("serviceMedicineDeliveryDeliveryMethodValidator", "Delivery Method is Required!");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+    bundle.put("serviceRequestTime", "Time");
+    bundle.put("serviceMedicineDeliveryTimeValidator", "Time is required");
+  }
+
   @Start
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
+    initializeBundle();
     populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
@@ -81,22 +100,17 @@ public class MedicineDeliveryServiceTest extends FxRobot {
     clickOn("Floor");
     verifyThat("1", javafx.scene.Node::isVisible);
     verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("5", javafx.scene.Node::isVisible);
-
-    // Now that we know all floors are correct, lets check to see if the locations are present
+    verifyThat("5",
+        javafx.scene.Node::isVisible);    // Now that we know all floors are correct, lets check to see if the locations are present
     // First floor
     clickOn("1");
     clickOn("Room/Location on Floor");
-    verifyThat("Floor 1", javafx.scene.Node::isVisible);
-
-    // Third floor
+    verifyThat("Floor 1", javafx.scene.Node::isVisible);    // Third floor
     clickOn("1");
     clickOn("3");
     clickOn("Room/Location on Floor");
     verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
-
-    // Fifth floor
+    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);    // Fifth floor
     clickOn("3");
     clickOn("5");
     clickOn("Room/Location on Floor");
@@ -116,7 +130,7 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   @Test
   public void testSubmit2() {
     // Test when there are fields filled out (but adding fails)
-    clickOn("Your name");
+    clickOn("Patient name");
     write("John Smith");
     clickOn("Floor");
     clickOn("1");
@@ -130,7 +144,7 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   public void testSubmit3() throws IOException {
     // todo finish this test case
     // Test successful submission
-    clickOn("Your name");
+    clickOn("Patient name");
     write("John Smith");
     clickOn("Medicine name");
     write("Ibuprofen");
@@ -140,6 +154,8 @@ public class MedicineDeliveryServiceTest extends FxRobot {
     clickOn("Floor 1");
     clickOn("Delivery method");
     clickOn("Oral");
+    clickOn("Time");
+    write("20:00");
     clickOn("Submit");
     verify(validator, times(1)).validate(any());
     /*
