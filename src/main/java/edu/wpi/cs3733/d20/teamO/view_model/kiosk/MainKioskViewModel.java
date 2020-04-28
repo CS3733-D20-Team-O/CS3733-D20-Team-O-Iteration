@@ -10,6 +10,7 @@ import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -36,6 +38,7 @@ public class MainKioskViewModel extends ViewModelBase {
 
   private final LanguageHandler languageHandler;
   private final DatabaseWrapper database;
+  private final LoginDetails loginDetails;
   private final Navigator navigator;
   private final SnackBar snackBar;
   private final Dialog dialog;
@@ -89,6 +92,18 @@ public class MainKioskViewModel extends ViewModelBase {
           }
           serviceSelector.getSelectionModel().clearSelection();
         }));
+
+    // Load the admin dialog if appropriate
+    if (loginDetails.isValid()) {
+      // Put this in a run later so it doesn't mess up navigation
+      Platform.runLater(() -> {
+        try {
+          dialog.showFullscreenFXML("views/admin/Main.fxml");
+        } catch (IOException e) {
+          log.error("Could not load the admin dialog", e);
+        }
+      });
+    }
   }
 
   @FXML
