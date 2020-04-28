@@ -17,17 +17,24 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class AVService {
+public class AVService extends ServiceRequestBase {
 
+  @Inject
   private final DatabaseWrapper database;
+
+  @Setter
+  private Predicate<Node> locationFilter = n -> true;
+
   private final Validator validator;
   private final SnackBar snackBar;
   private final Dialog dialog;
@@ -35,7 +42,9 @@ public class AVService {
   @FXML
   private JFXButton submitButton, clearButton;
   @FXML
-  private JFXComboBox<String> durationComboBox, serviceRequestComboBox, locationComboBox, floorNumberComboBox;
+  private JFXComboBox<String> durationComboBox, serviceRequestComboBox, locationComboBox;
+  @FXML
+  private JFXComboBox<Integer> floorNumberComboBox;
   @FXML
   private JFXTextField requesterNameField;
   @FXML
@@ -48,8 +57,10 @@ public class AVService {
 
   ArrayList<Node> listOfRooms = new ArrayList<>();
 
+  @Override
   protected void start(URL location, ResourceBundle resources) {
     setupComboBoxes();
+    setLocations(floorNumberComboBox, locationComboBox);
   }
 
   // set up combo boxes
@@ -74,14 +85,14 @@ public class AVService {
 
   public void setupComboFloorAndRoomComboBoxes() {
     // add floors to floor CB
-    floorNumberComboBox.getItems().addAll("1", "2", "3", "4", "5");
+    floorNumberComboBox.getItems().addAll(1, 2, 3, 4, 5);
 
     // add rooms to room CB
     for (Map.Entry<String, Node> node : database.exportNodes().entrySet()) {
       val roomToAdd = node.getValue().getLongName();
       val roomNode = node.getValue();
 
-      if (!listOfRooms.contains(roomToAdd) &&
+      if (!listOfRooms.contains(roomNode) &&
           !node.getValue().getNodeType().equals("STAI") &&
           !node.getValue().getNodeType().equals("ELEV") &&
           !node.getValue().getNodeType().equals("REST") &&
@@ -92,16 +103,20 @@ public class AVService {
     }
 
     // Populate the floor CB with available nodes
-    database.exportNodes().values().stream().map(Node::getFloor).distinct().sorted()
+    database.exportNodes().values().stream()
+        .map(Node::getFloor).distinct().sorted()
         .forEachOrdered(floorNumberComboBox.getItems()::add);
 
     // Set up the populating of locations on each floor
     floorNumberComboBox.getSelectionModel().selectedItemProperty()
-        .addListener((o, oldFloor, newFloor) ->
-            database.exportNodes().values().stream()
-                .filter(node -> newFloor.equals(node.getFloor()))
-                .map(Node::getLongName).sorted()
-                .forEachOrdered(floorNumberComboBox.getItems()::add));
+        .addListener((o, oldFloor, newFloor) -> {
+          locationComboBox.getItems().clear();
+          database.exportNodes().values().stream()
+              .filter(node -> node.getFloor() == newFloor)
+              .filter(locationFilter)
+              .map(Node::getLongName).sorted()
+              .forEachOrdered(locationComboBox.getItems()::add);
+        });
 
     // Preselect the first floor and the first location on that floor
     if (!floorNumberComboBox.getItems().isEmpty()) {
