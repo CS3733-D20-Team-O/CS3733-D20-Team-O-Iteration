@@ -30,7 +30,22 @@
         promptText="%serviceAVRequestComboBox"/>
       <JFXTimePicker fx:id="startTimePicker" promptText="%serviceAVStartTimePicker"/>
       <JFXComboBox fx:id="durationComboBox" prefHeight="37.0" prefWidth="224.0"
-        promptText="%serviceAVDurationComboBox"/>
+        promptText="%serviceAVDurationComboBox">
+        <items>
+          <String fx:value="5 minutes"/>
+          <String fx:value="10 minutes"/>
+          <String fx:value="15 minutes"/>
+          <String fx:value="20 minutes"/>
+          <String fx:value="25 minutes"/>
+          <String fx:value="30 minutes"/>
+          <String fx:value="35 minutes"/>
+          <String fx:value="40 minutes"/>
+          <String fx:value="45 minutes"/>
+          <String fx:value="50 minutes"/>
+          <String fx:value="55 minutes"/>
+          <String fx:value="60 minutes"/>
+        </items>
+      </JFXComboBox>
     </VBox>
     <JFXTextArea fx:id="commentTextArea" promptText="%serviceAVCommentTextArea"/>
     <HBox alignment="CENTER_RIGHT" spacing="16.0">

@@ -41,19 +41,7 @@ public class AVService extends ServiceRequestBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    setupComboBoxes();
     setLocations(floorNumberComboBox, locationComboBox);
-  }
-
-  // set up combo boxes
-  public void setupComboBoxes() {
-    // add times to duration CB
-    for (int i = 0; i <= 60; i += 5) {
-      val time = "";
-      time = time.concat(Integer.toString(i));
-      time = time.concat(" minutes");
-      durationComboBox.getItems().add(time);
-    }
   }
 
   @FXML
