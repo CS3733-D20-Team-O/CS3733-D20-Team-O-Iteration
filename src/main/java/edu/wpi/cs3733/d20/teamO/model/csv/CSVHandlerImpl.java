@@ -5,7 +5,6 @@ import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -94,24 +93,6 @@ class CSVHandlerImpl implements CSVHandler {
   }
 
   @Override
-  public boolean importServiceRequests(String csvFileLocation) {
-    File serviceRequestCsvFile = new File(csvFileLocation);
-    try (val scanner = new Scanner(serviceRequestCsvFile).useDelimiter(",|[\\r\\n]+")) {
-      // Read in first line so that attribute names are not imported as a serviceRequest
-      scanner.nextLine();
-      // Read each serviceRequest in the file and put its data into the database
-      while (scanner.hasNext()) {
-        database.addServiceRequest(scanner.next(), scanner.next(), scanner.next(), scanner.next(),
-            scanner.next(), scanner.next(), scanner.next(), scanner.next(), scanner.next());
-      }
-    } catch (FileNotFoundException e) {
-      log.error("Could not read the file " + csvFileLocation, e);
-      return false;
-    }
-    return true;
-  }
-
-  @Override
   public boolean exportNodes(String csvFileLocation) {
     val nodeMap = database.exportNodes();
     val nodeList = nodeMap.keySet().stream().map(nodeMap::get).collect(Collectors.toList());
@@ -129,11 +110,6 @@ class CSVHandlerImpl implements CSVHandler {
     //remove dummy employee from list before exporting
     employeesToExport.removeIf(employee -> employee.getEmployeeID().equals("0"));
     return exportGeneric(csvFileLocation, employeesToExport, Employee.class);
-  }
-
-  @Override
-  public boolean exportServiceRequests(String csvFileLocation) {
-    return exportGeneric(csvFileLocation, database.exportServiceRequests(), ServiceRequest.class);
   }
 
   private <T> boolean exportGeneric(String csvFileLocation, List<T> entries,
