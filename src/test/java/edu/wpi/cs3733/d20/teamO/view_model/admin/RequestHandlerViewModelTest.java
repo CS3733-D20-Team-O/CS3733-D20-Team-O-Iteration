@@ -58,11 +58,11 @@ public class RequestHandlerViewModelTest extends FxRobot {
     List<Employee> list = Arrays.asList(e1, e2, e3);
 
     ServiceRequest req = new ServiceRequest("1555", "time", "RHVMNode", "Wash", "Unassigned",
-        "Request Name", "",
-        "", new SanitationRequestData("test", "test1"));
+        "Request Name", "0",
+        "0", new SanitationRequestData("test", "test1"));
     ServiceRequest req2 = new ServiceRequest("576", "time", "RHVMNode", "Wash", "Unassigned",
-        "Request Name", "",
-        "", new SanitationRequestData("test,", "test2"));
+        "Request Name", "0",
+        "0", new SanitationRequestData("test,", "test2"));
     List<ServiceRequest> reqs = Arrays.asList(req, req2);
     when(database.exportServiceRequests()).thenReturn(reqs);
     when(database.exportEmployees()).thenReturn(list);

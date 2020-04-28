@@ -14,6 +14,7 @@ import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -80,6 +81,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
     setTableColumns();
+    database.addServiceRequest("1", "TN", "Sanitation", "Bo",
+        new SanitationRequestData("yes", "oh yea"));
     serviceTable.getItems().addAll(database.exportServiceRequests());
   }
 
