@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import edu.wpi.cs3733.d20.teamO.Navigator;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -30,10 +30,11 @@ public class SnackBar {
     val label = new Label(text);
     label.setStyle("-fx-text-fill: floralwhite");
     val container = new HBox(label);
-    // Add 16 margin and 16 padding as per material design guidelines
-    container.setStyle("-fx-background-color: #323232;  -fx-background-insets: 16");
-    container.setPadding(new Insets(32)); // total padding, including margin
     container.getChildren().addAll(nodes);
+    container.setAlignment(Pos.CENTER);
+    container.setSpacing(16);
+    // Add 16 margin and 16 padding as per material design guidelines with total padding (w/ margin)
+    container.setStyle("-fx-background-color: #323232; -fx-background-insets: 16; -fx-padding: 32");
     bar.enqueue(new SnackbarEvent(container));
   }
 }

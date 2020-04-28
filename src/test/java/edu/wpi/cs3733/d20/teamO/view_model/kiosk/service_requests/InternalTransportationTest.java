@@ -66,7 +66,7 @@ public class InternalTransportationTest extends FxRobot {
     bundle.put("serviceIntTransportNameValidator", "Your name is required");
     bundle.put("serviceIntTransportRequestTime", "Request Time");
     bundle.put("serviceIntTransportTimeValidator", "Time is required");
-    bundle.put("serviceIntTransportAssistedTabTitle", "Assisted Transportation");
+    bundle.put("serviceIntTransportAssistedTabTitle", "Assisted");
     bundle.put("serviceIntTransportWheelchair", "Wheelchair");
     bundle.put("serviceIntTransportBed", "Bed Move");
     bundle.put("serviceIntTransportGurney", "Gurney");
@@ -75,7 +75,7 @@ public class InternalTransportationTest extends FxRobot {
     bundle.put("serviceIntTransportDestinationRoom", "Destination Room");
     bundle.put("serviceIntTransportDestinationRoomValidator",
         "A destination is required for Assisted Transportation");
-    bundle.put("serviceIntTransportUnassistedTabTitle", "Unassisted Transportation");
+    bundle.put("serviceIntTransportUnassistedTabTitle", "Unassisted");
     bundle.put("serviceIntTransportCrutches", "Crutches");
     bundle.put("serviceIntTransportCast", "Cast Scooter");
     bundle.put("serviceIntTransportIV", "Mobile IV Stand");
@@ -124,7 +124,7 @@ public class InternalTransportationTest extends FxRobot {
     write("John Smith");
     clickOn("Request Time");
     write("12:43 PM");
-    clickOn("Unassisted Transportation");
+    clickOn("Unassisted");
     clickOn("Current Floor");
     clickOn("1");
     clickOn("Current Room");
