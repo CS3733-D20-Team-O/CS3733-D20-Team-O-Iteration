@@ -20,12 +20,12 @@
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
-      <JFXComboBox fx:id="floor" promptText="Floor" style="-fx-background-color: WHITE;">
+      <JFXComboBox fx:id="floors" promptText="Floor" style="-fx-background-color: WHITE;">
         <validators>
           <RequiredFieldValidator message="You need to select the floor for the interpreter!"/>
         </validators>
       </JFXComboBox>
-      <JFXComboBox fx:id="location" promptText="Room/Location on Floor"
+      <JFXComboBox fx:id="locations" promptText="Room/Location on Floor"
         style="-fx-background-color: WHITE;">
         <validators>
           <RequiredFieldValidator message="You need to select the location for the interpreter!"/>

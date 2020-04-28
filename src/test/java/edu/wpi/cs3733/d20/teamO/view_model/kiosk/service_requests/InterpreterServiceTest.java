@@ -53,7 +53,7 @@ public class InterpreterServiceTest extends FxRobot {
   private final ResourceBundleMock bundle = new ResourceBundleMock();
 
   @InjectMocks
-  SanitationService viewModel;
+  InterpreterService viewModel;
 
   @Start
   public void start(Stage stage) throws IOException {
@@ -97,6 +97,10 @@ public class InterpreterServiceTest extends FxRobot {
     clickOn("1");
     clickOn("Room/Location on Floor");
     clickOn("Floor 1");
+    clickOn("Language");
+    clickOn("Chinese");
+    clickOn("Preferred Gender");
+    clickOn("Male");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
@@ -109,7 +113,7 @@ public class InterpreterServiceTest extends FxRobot {
     verify(validator, times(3)).validate(any());
     verify(database, times(2)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("Interpreter"), eq("John Smith"),
-        eq(new InterpreterData("Spanish", "No preference", "Hello")));
+        eq(new InterpreterData("Chinese", "Male", "")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1))
         .showBasic(anyString(), eq("Your confirmation code is:\nABCDEFGH"), anyString());
