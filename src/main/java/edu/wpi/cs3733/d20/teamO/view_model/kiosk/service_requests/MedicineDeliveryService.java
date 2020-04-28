@@ -8,7 +8,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.MedicineDeliverySe
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -20,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class MedicineDeliveryService extends ViewModelBase {
+public class MedicineDeliveryService extends ServiceRequestBase {
 
   private final DatabaseWrapper database;
   private final Validator validator;
@@ -36,24 +35,7 @@ public class MedicineDeliveryService extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
     deliveryMethod.getItems().addAll("Oral", "Topical", "Injectable");
-    // Populate the floors combobox with available nodes
-    database.exportNodes().values().stream()
-        .map(Node::getFloor).distinct().sorted()
-        .forEachOrdered(floorNumber.getItems()::add);
-    // Set up the populating of locations on each floor
-    floorNumber.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
-      roomName.getItems().clear();
-      database.exportNodes().values().stream()
-          .filter(node -> newFloor.equals(node.getFloor()))
-          .map(Node::getLongName).sorted()
-          .forEachOrdered(roomName.getItems()::add);
-      roomName.getSelectionModel().select(0);
-    });
-    // Preselect the first floor and the first location on that floor
-    if (!floorNumber.getItems().isEmpty()) {
-      floorNumber.getSelectionModel().select(0);
-      roomName.getSelectionModel().select(0);
-    }
+    super.setLocations(floorNumber, roomName);
   }
 
   public void submitRequest() {
