@@ -22,7 +22,7 @@
         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
       </padding>
       <children>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Delivery Request">
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%serviceMedicineDeliveryMedicationRequest">
           <font>
             <Font size="18.0"/>
           </font>
@@ -34,9 +34,9 @@
                 <Image url="/face-icon.png"/>
               </image>
             </ImageView>
-            <JFXTextField fx:id="patientName" promptText="Your name">
+            <JFXTextField fx:id="patientName" promptText="%serviceMedicineDeliveryPatientNameField">
               <validators>
-                <RequiredFieldValidator message="Required"/>
+                <RequiredFieldValidator message="%serviceMedicineDeliveryPatientNameFieldValidator"/>
               </validators>
             </JFXTextField>
             <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
@@ -46,9 +46,9 @@
               </image>
             </ImageView>
             <JFXTextField fx:id="medicationName" layoutX="218.0" layoutY="10.0"
-              promptText="Medicine name">
+              promptText="%serviceMedicineDeliveryMedicationNameField">
               <validators>
-                <RequiredFieldValidator message="Required"/>
+                <RequiredFieldValidator message="%serviceMedicineDeliveryMedicationNameFieldValidator"/>
               </validators>
             </JFXTextField>
           </children>
@@ -60,9 +60,9 @@
                 <Image url="/numbered-list-icon.png"/>
               </image>
             </ImageView>
-            <JFXComboBox fx:id="floorNumber" promptText="Floor">
+            <JFXComboBox fx:id="floorNumber" promptText="%serviceMedicineFloorRequest">
               <validators>
-                <RequiredFieldValidator message="Required"/>
+                <RequiredFieldValidator message="%serviceMedicineFloorRequestValidator"/>
               </validators>
             </JFXComboBox>
             <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
@@ -71,9 +71,9 @@
                 <Image url="/location-icon.png"/>
               </image>
             </ImageView>
-            <JFXComboBox fx:id="roomName" promptText="Room/Location on Floor">
+            <JFXComboBox fx:id="roomName" promptText="%serviceMedicineLocationRequest">
               <validators>
-                <RequiredFieldValidator message="Required"/>
+                <RequiredFieldValidator message="%serviceMedicineLocationRequestValidator"/>
               </validators>
             </JFXComboBox>
           </children>
@@ -85,15 +85,15 @@
                 <Image url="/list-icon.png"/>
               </image>
             </ImageView>
-            <JFXComboBox fx:id="deliveryMethod" promptText="Delivery method">
+            <JFXComboBox fx:id="deliveryMethod" promptText="%serviceMedicineDeliveryDeliveryMethod">
               <validators>
-                <RequiredFieldValidator message="Required"/>
+                <RequiredFieldValidator message="%serviceMedicineDeliveryDeliveryMethodValidator"/>
               </validators>
             </JFXComboBox>
           </children>
         </HBox>
-        <JFXButton onAction="#submitRequest" text="Submit"/>
-        <JFXButton layoutX="149.0" layoutY="253.0" onAction="#cancel" text="Cancel"/>
+        <JFXButton onAction="#submitRequest" text="%submitButton"/>
+        <JFXButton layoutX="149.0" layoutY="253.0" onAction="#cancel" text="%cancelButton"/>
       </children>
     </VBox>
   </children>
