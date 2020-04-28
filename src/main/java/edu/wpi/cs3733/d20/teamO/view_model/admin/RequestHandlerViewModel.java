@@ -11,7 +11,6 @@ import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -19,9 +18,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -36,28 +33,13 @@ public class RequestHandlerViewModel extends ViewModelBase {
 
   @FXML
   private AnchorPane root;
-  /**
-   * Buttons, Checkbox, TextField
-   */
   @FXML
   private JFXCheckBox cbShowUnavail;
-
   @FXML
   private JFXTextArea dataSpace;
-
-  //Service Request Table Stuff
-  //Todo update the new table columns with appropriate names instead of the ones i have as a placeholder
   @FXML
   private TableView<ServiceRequest> serviceTable;
-  @FXML
-  private TableColumn<String, ServiceRequest> colRequestID, colRequestTime, colRequestNode,
-      colResquesterName, colWhoMarked, colEmployeeAssigned, colServiceType, colServiceStatus;
-  @FXML
-  private TableColumn<ServiceRequestData, ServiceRequest> colServiceData;
 
-  //Employee Table Stuff
-  @FXML
-  private TableColumn<String, Employee> empID, empName, empType, empAvail;
   @FXML
   private TableView<Employee> employeeTable;
 
@@ -69,26 +51,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
    */
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    setTableColumns();
     serviceTable.getItems().addAll(database.exportServiceRequests());
-  }
-
-  //Todo add data names here too
-  private void setTableColumns() {
-    colRequestID.setCellValueFactory(new PropertyValueFactory<>("requestID"));
-    colRequestTime.setCellValueFactory(new PropertyValueFactory<>("requestTime"));
-    colRequestNode.setCellValueFactory(new PropertyValueFactory<>("requestNode"));
-    colServiceType.setCellValueFactory(new PropertyValueFactory<>("type"));
-    colResquesterName.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
-    colWhoMarked.setCellValueFactory(new PropertyValueFactory<>("whoMarked"));
-    colEmployeeAssigned.setCellValueFactory(new PropertyValueFactory<>("employeeAssigned"));
-    colServiceStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-    colServiceData.setCellValueFactory(new PropertyValueFactory<>("requestData"));
-
-    empID.setCellValueFactory(new PropertyValueFactory<>("employeeID"));
-    empName.setCellValueFactory(new PropertyValueFactory<>("name"));
-    empType.setCellValueFactory(new PropertyValueFactory<>("type"));
-    empAvail.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
   }
 
   /**
