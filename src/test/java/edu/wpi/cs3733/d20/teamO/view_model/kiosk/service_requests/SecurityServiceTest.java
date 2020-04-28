@@ -8,26 +8,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
-import edu.wpi.cs3733.d20.teamO.Main;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
-
-import org.testfx.framework.junit5.ApplicationExtension;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.testfx.framework.junit5.Start;
-import org.greenrobot.eventbus.EventBus;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.testfx.api.FxRobot;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import com.jfoenix.controls.JFXDialog;
+import edu.wpi.cs3733.d20.teamO.Main;
 
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
@@ -36,8 +26,22 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import lombok.val;
 
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.testfx.framework.junit5.Start;
+import org.greenrobot.eventbus.EventBus;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.testfx.api.FxRobot;
+import org.mockito.Mock;
+import org.mockito.Spy;
+
+
+
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 public class SecurityServiceTest extends FxRobot {
+
   @Mock
   EventBus eventBus;
   @Mock
@@ -48,15 +52,20 @@ public class SecurityServiceTest extends FxRobot {
   SnackBar snackBar;
   @Mock
   Dialog dialog;
+  @Mock
+  JFXDialog jfxDialog;
+  @Mock
+  RequestConfirmationViewModel requestConfirmationViewModel;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
+
   @InjectMocks
   SecurityService viewModel;
 
   @Start
   public void start(Stage stage) throws IOException {
-    bundle.put("Sample", "Sample"); // todo load the necessary strings
+    bundle.put("Sample", "Sample");
     populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
@@ -67,10 +76,6 @@ public class SecurityServiceTest extends FxRobot {
     stage.show();
   }
 
-
-  /**
-   * Populates floor and tests it to make sure nodes are properly assigned and aligned
-   */
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
     map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
@@ -79,42 +84,41 @@ public class SecurityServiceTest extends FxRobot {
     map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
+
   @Test
   public void testFloorLocationPopulated() {
     // Verify that all floors are populated
-    clickOn("1");
+    clickOn("Floor");
     verifyThat("1", javafx.scene.Node::isVisible);
     verifyThat("3", javafx.scene.Node::isVisible);
     verifyThat("5", javafx.scene.Node::isVisible);
 
     // Now that we know all floors are correct, lets check to see if the locations are present
     // First floor
-    clickOn("Floor 1");
+    clickOn("1");
+    clickOn("Room/Location on Floor");
     verifyThat("Floor 1", javafx.scene.Node::isVisible);
 
     // Third floor
     clickOn("1");
     clickOn("3");
-    clickOn("Floor 3-1");
+    clickOn("Room/Location on Floor");
     verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
     verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
 
     // Fifth floor
     clickOn("3");
     clickOn("5");
+    clickOn("Room/Location on Floor");
     verifyThat("Floor 5", javafx.scene.Node::isVisible);
   }
 
-
-  /**
-   * Tests for the submission of input data
-   * Including tests for black spaces
-   */
   @Test
-  public void testSubmit() {
+  public void testSubmit() throws IOException {
     when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
     when(database.addServiceRequest(any(), any(), any(), any(), any()))
         .thenReturn(null).thenReturn("ABCDEFGH");
+    when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
 
     // Test when there are fields not filled out
     clickOn("Submit");
@@ -126,11 +130,15 @@ public class SecurityServiceTest extends FxRobot {
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
+    clickOn("Floor");
+    clickOn("1");
+    clickOn("Room/Location on Floor");
+    clickOn("Floor 1");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Sanitation"), eq("John Smith"),
-        eq(new SanitationRequestData("Dry Spill", "")));
+        eq("Floor 1"), eq("Security"), eq("John Smith"),
+        eq(new SecurityRequestData("Code Grey: Combative/Violent Individual", "")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
@@ -138,10 +146,12 @@ public class SecurityServiceTest extends FxRobot {
     clickOn("Submit");
     verify(validator, times(3)).validate(any());
     verify(database, times(2)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Sanitation"), eq("John Smith"),
-        eq(new SanitationRequestData("Dry Spill", "")));
+        eq("Floor 1"), eq("Security"), eq("John Smith"),
+        eq(new SecurityRequestData("Code Grey: Combative/Violent Individual", "")));
     verify(snackBar, times(1)).show(anyString());
-    verify(dialog, times(1))
-        .showBasic(anyString(), eq("Your confirmation code is:\nABCDEFGH"), anyString());
+    verify(dialog, times(1)).showFullscreenFXML(anyString());
+    verify(jfxDialog, times(1)).close();
   }
+
+  //todo add more tests for different types of emergencies
 }
