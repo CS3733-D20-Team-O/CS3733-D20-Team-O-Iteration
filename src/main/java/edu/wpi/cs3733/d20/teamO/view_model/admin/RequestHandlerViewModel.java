@@ -94,8 +94,8 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return;
     } //this returned an error - ending method
 
-    val selectedRequest = serviceTable.getSelectionModel().getSelectedItem();
-    val selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
+    val selectedRequest = getSelectedRequest();
+    val selectedEmployee = getSelectedEmployee();
 
     //using dummy admin value
 
@@ -115,8 +115,9 @@ public class RequestHandlerViewModel extends ViewModelBase {
   }
 
   /**
-   * Updates the Employee and Service Request database. The employee needs to be updated first, then
-   * they can be added to the request. Finally the admin is added to the request.
+   * todo listen to database updates and output their results Updates the Employee and Service
+   * Request database. The employee needs to be updated first, then they can be added to the
+   * request. Finally the admin is added to the request.
    *
    * @param selectedEmployee = the employee being assigned to the service request
    * @param selectedRequest  = the service request that has been assigned an employee.
@@ -171,7 +172,7 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return true;
     }
     //no employee selected
-    else if (employeeTable.getSelectionModel().getSelectedItem() == null) {
+    else if (getSelectedEmployee() == null) {
       snackBar.show("No Employee selected.");
       return true;
     }
@@ -181,13 +182,13 @@ public class RequestHandlerViewModel extends ViewModelBase {
       return true;
     }
     //employee selected somehow does not have same type as request
-    else if (!employeeTable.getSelectionModel().getSelectedItem().getType()
+    else if (!getSelectedEmployee().getType()
         .equals(getSelectedRequest().getType())) {
       snackBar.show("Employee cannot complete this Service Request.");
       return true;
     }
     //employee is unavailable
-    else if (!employeeTable.getSelectionModel().getSelectedItem().getIsAvailable()) {
+    else if (!getSelectedEmployee().getIsAvailable()) {
       snackBar.show("Employee is unavailable.");
       return true;
     }
@@ -205,6 +206,11 @@ public class RequestHandlerViewModel extends ViewModelBase {
     return serviceTable.getSelectionModel().getSelectedItem();
   }
 
+  Employee getSelectedEmployee() {
+    return employeeTable.getSelectionModel().getSelectedItem();
+  }
+
+
   @FXML
   private void resolveRequest() {
     finishRequest("Resolved");
@@ -216,18 +222,21 @@ public class RequestHandlerViewModel extends ViewModelBase {
   }
 
   private void finishRequest(String input) {
-    if (serviceTable.getSelectionModel().getSelectedItem() == null) {
+    if (getSelectedRequest() == null) {
       return;
     }
 
     val request = getSelectedRequest();
+    //if the request is not Assigned and it is not Unassigned,
+    //then and only then is it able to be cancelled or resolved, so if it is equal to
+    //either Assigned or Unassigned, the if fails and code continues
     if (!request.getStatus().equals("Assigned") && !request.getStatus().equals("Unassigned")) {
-      snackBar.show("cannot modify a closed request");
+      snackBar.show("Cannot modify a closed request");
       return;
     }
 
     //update employee if one is assigned
-    if (!request.getEmployeeAssigned().isEmpty()) {
+    if (!request.getEmployeeAssigned().equals("0")) {
       database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID,
           request.getEmployeeAssigned(), EmployeeProperty.IS_AVAILABLE, "true");
     }
