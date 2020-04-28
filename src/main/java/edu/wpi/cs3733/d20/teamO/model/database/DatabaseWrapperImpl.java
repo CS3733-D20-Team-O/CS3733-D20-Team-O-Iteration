@@ -12,7 +12,14 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.GiftDeliveryRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InfoTechRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransportationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InterpreterData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.MedicineDeliveryServiceData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -69,10 +77,10 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + NodeProperty.X_COORD.getColumnName() + " INT, "
             + NodeProperty.Y_COORD.getColumnName() + " INT, "
             + NodeProperty.FLOOR.getColumnName() + " INT, "
-            + NodeProperty.BUILDING.getColumnName() + " LONG VARCHAR, "
-            + NodeProperty.NODE_TYPE.getColumnName() + " LONG VARCHAR, "
-            + NodeProperty.LONG_NAME.getColumnName() + " LONG VARCHAR, "
-            + NodeProperty.SHORT_NAME.getColumnName() + " LONG VARCHAR, "
+            + NodeProperty.BUILDING.getColumnName() + " VARCHAR(999), "
+            + NodeProperty.NODE_TYPE.getColumnName() + " VARCHAR(999), "
+            + NodeProperty.LONG_NAME.getColumnName() + " VARCHAR(999), "
+            + NodeProperty.SHORT_NAME.getColumnName() + " VARCHAR(999), "
             + "PRIMARY KEY (" + NodeProperty.NODE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.NODES_TABLE + " created");
@@ -105,8 +113,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       try (val stmt = connection.createStatement()) {
         String query = "CREATE TABLE " + Table.EMPLOYEE_TABLE
             + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(999), "
-            + EmployeeProperty.NAME.getColumnName() + " LONG VARCHAR, "
-            + EmployeeProperty.TYPE.getColumnName() + " LONG VARCHAR, "
+            + EmployeeProperty.NAME.getColumnName() + " VARCHAR(999), "
+            + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
@@ -114,16 +122,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
-      val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
-      try (val stmt = connection.prepareStatement(query)) {
-        stmt.setString(1, "0");
-        stmt.setString(2, "");
-        stmt.setString(3, "");
-        stmt.setBoolean(4, false);
-        stmt.executeUpdate(query);
-        log.info("Added NULL employee");
-      } catch (SQLException e) {
-        log.error("Failed to add a NULL employee", e);
+      if (addEmployee("0", "", "", false) != 1) {
+        log.error("Failed to add the null employee!");
       }
     }
 
@@ -132,13 +132,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       try (val stmt = connection.createStatement()) {
         String queryTable = "CREATE TABLE " + Table.SERVICE_REQUESTS_TABLE
             + "(" + ServiceRequestProperty.REQUEST_ID.getColumnName() + " VARCHAR(999), "
-            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " LONG VARCHAR, "
-            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(999) REFERENCES "
-            + Table.NODES_TABLE + "(" + NodeProperty.NODE_ID.getColumnName()
-            + ") ON DELETE CASCADE, "
-            + ServiceRequestProperty.TYPE.getColumnName() + " LONG VARCHAR, "
-            + ServiceRequestProperty.STATUS.getColumnName() + " LONG VARCHAR, "
-            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " LONG VARCHAR, "
+            + ServiceRequestProperty.REQUEST_TIME.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.REQUEST_NODE.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.TYPE.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.STATUS.getColumnName() + " VARCHAR(999), "
+            + ServiceRequestProperty.REQUESTER_NAME.getColumnName() + " VARCHAR(999), "
             + ServiceRequestProperty.WHO_MARKED.getColumnName() + " VARCHAR(999) REFERENCES "
             + Table.EMPLOYEE_TABLE + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName()
             + ") ON DELETE CASCADE, "
@@ -153,6 +151,46 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
       }
     }
+  }
+
+  public String getNodeID(String type, int floor) {
+    val takenIDs = exportNodes().keySet().stream()
+        .filter(id -> id.substring(1, 5).equals(type))
+        .filter(id -> Integer.parseInt(id.substring(8)) == floor)
+        .map(id -> Integer.parseInt(id.substring(5, 8)))
+        .collect(Collectors.toSet());
+    for (int i = 1; i < 1000; ++i) {
+      if (!takenIDs.contains(i)) {
+        return String.format("O%s%3s%2s", type, i, floor).replace(' ', '0');
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Adds the specified node to the database
+   *
+   * @param xCoord    the x coordinate of the node
+   * @param yCoord    the y coordinate of the node
+   * @param floor     the floor of the building that the node lies on
+   * @param building  the building the node is in
+   * @param nodeType  the type of the node
+   * @param longName  the long name of the node
+   * @param shortName the short name of the node
+   * @return the number of affected entries
+   */
+  @Override
+  public String addNode(int xCoord, int yCoord, int floor, String building,
+      String nodeType, String longName, String shortName) {
+    String id = "";
+    if (!nodeType.equals("ELEV")) {
+      id = getNodeID(nodeType, floor);
+    } else {
+      val elevLetter = longName.substring(9);
+      id = "O" + nodeType + "00" + elevLetter + "0" + floor;
+    }
+    val numAffected = addNode(id, xCoord, yCoord, floor, building, nodeType, longName, shortName);
+    return (numAffected == 1) ? id : null;
   }
 
   /**
@@ -190,6 +228,20 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       log.error("Failed to add a new node with ID " + nodeID, e);
       return -1;
     }
+  }
+
+  /**
+   * Adds the specified edge to the database
+   *
+   * @param startNodeID the id of the start node
+   * @param stopNodeID  the id of the stop node
+   * @return the number of affected entries
+   */
+  @Override
+  public String addEdge(String startNodeID, String stopNodeID) {
+    val id = startNodeID + "_" + stopNodeID;
+    val numAffected = addEdge(id, startNodeID, stopNodeID);
+    return (numAffected == 1) ? id : null;
   }
 
   /**
@@ -284,6 +336,20 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
+  @Override
+  public String addEmployee(String name, String type, boolean isAvailable) {
+    val employees = exportEmployees().stream()
+        .map(Employee::getEmployeeID)
+        .map(Integer::parseInt)
+        .collect(Collectors.toSet());
+    for (int i = 1; true; ++i) {
+      if (!employees.contains(i)) {
+        addEmployee(Integer.toString(i), name, type, isAvailable);
+        return Integer.toString(i);
+      }
+    }
+  }
+
   /**
    * Adds the specified employee to the database
    *
@@ -321,6 +387,30 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
    */
   @Override
   public int deleteFromTable(Table table, TableProperty property, String matching) {
+    // First, check to see if we are deleting from the employee table
+    //  If so, we need to set corresponding service requests to the null employee
+    if (Table.EMPLOYEE_TABLE.equals(table)) {
+      val query = "SELECT " + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " FROM "
+          + Table.EMPLOYEE_TABLE + " WHERE " + property.getColumnName() + " = ?";
+      try {
+        val stmt = connection.prepareStatement(query);
+        stmt.setString(1, matching);
+        val rset = stmt.executeQuery();
+        while (rset.next()) {
+          val empID = rset.getString(1);
+          update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.EMPLOYEE_ASSIGNED, empID,
+              ServiceRequestProperty.EMPLOYEE_ASSIGNED, "0");
+          update(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED, empID,
+              ServiceRequestProperty.WHO_MARKED, "0");
+        }
+      } catch (SQLException e) {
+        val error = "Failed to find matching record(s) from employee table using property "
+            + property.getColumnName() + " and matching " + matching;
+        log.error(error, e);
+      }
+    }
+
+    // Execute the delete
     val query = "DELETE from " + table.getTableName() +
         " WHERE " + property.getColumnName() + " = ?";
     try (val stmt = connection.prepareStatement(query)) {
@@ -328,6 +418,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       val affected = stmt.executeUpdate();
       log.info("Deleted " + affected + " record(s) from " + table.getTableName());
       log.debug("Result of deletion was " + affected);
+      addEmployee("0", "", "", false); // add null back if removed
       return affected;
     } catch (SQLException e) {
       val error = "Failed to delete record(s) from " + table.getTableName() +
@@ -463,17 +554,42 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
           case "Sanitation":
             clazz = SanitationRequestData.class;
             break;
+          case "Interpreter":
+            clazz = InterpreterData.class;
+            break;
+          case "Gift":
+            clazz = GiftDeliveryRequestData.class;
+            break;
+          case "InfoTech":
+            clazz = InfoTechRequestData.class;
+            break;
+          case "Internal Transportation":
+            clazz = InternalTransportationRequestData.class;
+            break;
+          case "Security":
+            clazz = SecurityRequestData.class;
+            break;
+          case "Medicine delivery":
+            clazz = MedicineDeliveryServiceData.class;
+            break;
+          case "A/V":
+            clazz = AVRequestData.class;
+            break;
+          default:
+            log.error("Unhandled request type");
         }
-        serviceRequests.add(new ServiceRequest(
-            rset.getString(1),
-            rset.getString(2),
-            rset.getString(3),
-            rset.getString(4),
-            rset.getString(5),
-            rset.getString(6),
-            rset.getString(7),
-            rset.getString(8),
-            new Gson().fromJson(rset.getString(9), clazz)));
+        if (clazz != null) {
+          serviceRequests.add(new ServiceRequest(
+              rset.getString(1),
+              rset.getString(2),
+              rset.getString(3),
+              rset.getString(4),
+              rset.getString(5),
+              rset.getString(6),
+              rset.getString(7),
+              rset.getString(8),
+              new Gson().fromJson(rset.getString(9), clazz)));
+        }
       }
     } catch (SQLException e) {
       log.error("Failed to export service requests", e);
