@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -35,6 +34,7 @@ public class NodeMapView extends ViewModelBase {
   private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
   private final static Paint highlightColor = Color.RED; // Red
   private final static double zoomInc = 0.1;
+  private final static double dragInc = 2;
 
   /**
    * The current floor being displayed
@@ -95,20 +95,28 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private StackPane floorPane;
   @FXML
-  private Group nodeGroup, edgeGroup;
+  private StackPane nodeGroup, edgeGroup;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
-    nodeGroup = new Group();
-    edgeGroup = new Group();
+    //nodeGroup = new StackPane();
+    //edgeGroup = new StackPane();
 
-    nodeGroup.prefWidth(990.4);
-    nodeGroup.prefHeight(594.4);
-    edgeGroup.prefWidth(990.4);
-    edgeGroup.prefHeight(594.4);
+    backgroundImage.fitWidthProperty().addListener((o, old, newWidth) -> {
+      nodeGroup.setPrefWidth(newWidth.doubleValue());
+      edgeGroup.setPrefWidth(newWidth.doubleValue());
+    });
 
-    floorPane.getChildren().addAll(edgeGroup, nodeGroup);
+    backgroundImage.fitHeightProperty().addListener((o, old, newHeight) -> {
+      nodeGroup.setPrefHeight(newHeight.doubleValue());
+      edgeGroup.setPrefHeight(newHeight.doubleValue());
+    });
+
+    backgroundImage.setFitWidth(990.4);
+    backgroundImage.setFitHeight(594.4);
+
+    //floorPane.getChildren().addAll(edgeGroup, nodeGroup);
 
     // Display the current floor (and consequently call the above listeners)
     setFloor(minFloor);
@@ -123,17 +131,22 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the the background is clicked
-    backgroundImage.setOnMouseClicked(event -> { // todo check for right-click
-      val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage()
-          .getWidth(); // todo fix size
-      val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
-      onMissRightTapListener.accept((int) imageX, (int) imageY);
+    backgroundImage.setOnMouseClicked(event -> { // todo check
+      if (onMissRightTapListener != null && event.isSecondaryButtonDown()) {
+        val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage()
+            .getWidth(); // todo fix size
+        val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
+        onMissRightTapListener.accept((int) imageX, (int) imageY);
+      }
     });
 
     // Set up event for when the background is dragged
-    backgroundImage.setOnMouseDragged(event -> { // todo lmao
-      floorPane.setTranslateX(floorPane.getTranslateX() - event.getX());
-      floorPane.setTranslateY(floorPane.getTranslateY() - event.getY());
+    backgroundImage.setOnMouseDragged(event -> {
+      if (event.isPrimaryButtonDown()) {
+        // todo fix
+        floorPane.setTranslateX(floorPane.getTranslateX() - event.getX());
+        floorPane.setTranslateY(floorPane.getTranslateY() - event.getY());
+      }
     });
   }
 
@@ -224,7 +237,7 @@ public class NodeMapView extends ViewModelBase {
     drawnNode.setOnMouseClicked(event -> { // todo Fix click (rightclick is left, left is right)
       if (onNodeLeftTapListener != null && event.isPrimaryButtonDown()) {
         onNodeLeftTapListener.accept(drawnNode.node);
-      } else if (onNodeRightTapListener != null) {
+      } else if (onNodeRightTapListener != null && event.isSecondaryButtonDown()) {
         onNodeRightTapListener.accept(drawnNode.node);
       }
     });
@@ -518,7 +531,9 @@ public class NodeMapView extends ViewModelBase {
     public Node node;
 
     public NodeCircle(Node node, double x, double y, double nodeSize, Paint nodeColor) {
-      super(x, y, nodeSize, nodeColor);
+      super(0, 0, nodeSize, nodeColor);
+      setTranslateX(x);
+      setTranslateY(y);
       this.node = node;
     }
   }
@@ -533,6 +548,8 @@ public class NodeMapView extends ViewModelBase {
 
     public NodeLine(Node node1, Node node2, double x1, double y1, double x2, double y2) {
       super(x1, y1, x2, y2);
+      setTranslateX((x1 + x2) / 2);
+      setTranslateX((y1 + y2) / 2);
       this.node1 = node1;
       this.node2 = node2;
     }

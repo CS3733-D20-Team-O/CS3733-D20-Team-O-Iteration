@@ -188,16 +188,4 @@ public class NodeMapViewTest extends FxRobot {
     assertEquals(0, result24);
     assertEquals(0, result25);
   }
-
-  @Test
-  void testNodeRelocate() {
-    assertEquals(400, result26);
-    assertEquals(450, result27);
-  }
-
-  @Test
-  void testNodeVisibility() {
-    assertEquals(0, result28);
-    assertEquals(1, result29);
-  }
 }
