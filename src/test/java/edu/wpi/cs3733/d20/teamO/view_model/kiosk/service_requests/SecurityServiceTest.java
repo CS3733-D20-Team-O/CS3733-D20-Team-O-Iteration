@@ -63,10 +63,33 @@ public class SecurityServiceTest extends FxRobot {
   @InjectMocks
   SecurityService viewModel;
 
+  private void initializeBundle() {
+    bundle.put("serviceSecurityTitle", "Security Request");
+    bundle.put("securityRequesterName", "Your Name");
+    bundle.put("securityRequesterNameValidation", "Your name is Required!");
+    bundle.put("securityRequestFloor","Floor");
+    bundle.put("securityRequestFloorValidation","You need to select the floor of the incident!");
+    bundle.put("securityRequestLocation","Room/Location on Floor");
+    bundle.put("securityRequestLocationValidation","Please indicate a location for responder to be sent!");
+    bundle.put("SecurityEmergencyType","Emergency Type");
+    bundle.put("codePink","Code pink: Amber alert/Code Adam: infant abduction");
+    bundle.put("codeGrey","Code Grey: Combative/Violent Individual");
+    bundle.put("codeSilver","Code Silver: Armed Individual");
+    bundle.put("codeRed","Code Red: Fire");
+    bundle.put("extTriage","External triage: external disaster");
+    bundle.put("intTriage","Internal triage: internal emergency");
+    bundle.put("suic","Suicidal or Distraught Individual");
+    bundle.put("securityAdditionalNotes","Additional Notes");
+    bundle.put("submitButton","Submit");
+    bundle.put("cancelButton","Cancel");
+  }
+
+
   @Start
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample");
     populateFloorAndLocation();
+    initializeBundle();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
@@ -83,34 +106,6 @@ public class SecurityServiceTest extends FxRobot {
     map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
     map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
-  }
-
-  @Test
-  public void testFloorLocationPopulated() {
-    // Verify that all floors are populated
-    clickOn("Floor");
-    verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("5", javafx.scene.Node::isVisible);
-
-    // Now that we know all floors are correct, lets check to see if the locations are present
-    // First floor
-    clickOn("1");
-    clickOn("Room/Location on Floor");
-    verifyThat("Floor 1", javafx.scene.Node::isVisible);
-
-    // Third floor
-    clickOn("1");
-    clickOn("3");
-    clickOn("Room/Location on Floor");
-    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
-
-    // Fifth floor
-    clickOn("3");
-    clickOn("5");
-    clickOn("Room/Location on Floor");
-    verifyThat("Floor 5", javafx.scene.Node::isVisible);
   }
 
   @Test
@@ -138,7 +133,7 @@ public class SecurityServiceTest extends FxRobot {
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("Security"), eq("John Smith"),
-        eq(new SecurityRequestData("Code Grey: Combative/Violent Individual", "")));
+        eq(new SecurityRequestData("Code Grey: Combative/Violent Individual", "Individual has a knife")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
@@ -147,7 +142,7 @@ public class SecurityServiceTest extends FxRobot {
     verify(validator, times(3)).validate(any());
     verify(database, times(2)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("Security"), eq("John Smith"),
-        eq(new SecurityRequestData("Code Grey: Combative/Violent Individual", "")));
+        eq(new SecurityRequestData("Code Grey: Combative/Violent Individual", "Individual slammed doctor to the ground")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1)).showFullscreenFXML(anyString());
     verify(jfxDialog, times(1)).close();
