@@ -17,6 +17,7 @@ import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -115,13 +116,14 @@ public class AVServiceTest extends FxRobot {
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
     // Test when there are fields filled out (but adding fails)
-    clickOn("Your Name");
-    write("John Smith");
+    clickOn("My Name");
+    write("Alan Smithee");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("AV"), eq("John Smith"),
-        eq(new AVRequestData("Dry Spill", "")));
+        eq("Floor 1"), eq("AV"), eq("Alan Smithee"),
+        eq(new AVRequestData("Video Call", "call with loved ones", "20 minutes",
+            LocalDateTime.now().toString())));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
@@ -129,8 +131,8 @@ public class AVServiceTest extends FxRobot {
     clickOn("Submit");
     verify(validator, times(3)).validate(any());
     verify(database, times(2)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("AV"), eq("John Smith"),
-        eq(new AVRequestData("Dry Spill", "")));
+        eq("Floor 1"), eq("AV"), eq("Alan Smithee"),
+        eq(new AVRequestData("Music", "", "10 minutes", LocalDateTime.now().toString())));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1))
         .showBasic(anyString(), eq("Your confirmation code is:\nY4NK3EW1THN0BR1M"), anyString());
