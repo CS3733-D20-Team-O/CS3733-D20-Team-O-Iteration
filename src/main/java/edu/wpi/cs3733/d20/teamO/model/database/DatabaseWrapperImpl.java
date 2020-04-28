@@ -401,7 +401,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + property.getColumnName() + " and matching " + matching;
         log.error(error, e);
       }
-      addEmployee("0", "", "", false);
     }
 
     // Execute the delete
@@ -412,6 +411,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       val affected = stmt.executeUpdate();
       log.info("Deleted " + affected + " record(s) from " + table.getTableName());
       log.debug("Result of deletion was " + affected);
+      addEmployee("0", "", "", false); // add null back if removed
       return affected;
     } catch (SQLException e) {
       val error = "Failed to delete record(s) from " + table.getTableName() +
