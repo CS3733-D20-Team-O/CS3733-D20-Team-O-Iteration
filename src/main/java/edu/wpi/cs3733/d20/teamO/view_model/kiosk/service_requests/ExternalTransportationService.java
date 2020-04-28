@@ -5,12 +5,10 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ExternalTransportationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
@@ -19,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class ExternalTransportationService extends ViewModelBase {
+public class ExternalTransportationService extends ServiceRequestBase {
 
   //needs: requester name, destination, floor, location, transportation type, additional notes
 
@@ -41,28 +39,13 @@ public class ExternalTransportationService extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    // Populate the floors combobox with available nodes
-    database.exportNodes().values().stream()
-        .map(Node::getFloor).distinct().sorted()
-        .forEachOrdered(floors.getItems()::add);
+    setLocations(floors, locations);
 
-    // Set up the populating of locations on each floor
-    floors.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
-      locations.getItems().clear();
-      database.exportNodes().values().stream()
-          .filter(node -> newFloor.equals(node.getFloor()))
-          .map(Node::getLongName).sorted()
-          .forEachOrdered(locations.getItems()::add);
-      locations.getSelectionModel().select(0);
-    });
-
-    //todo populate transportation type
-
-    // Preselect the first floor and the first location on that floor
-    if (!floors.getItems().isEmpty()) {
-      floors.getSelectionModel().select(0);
-      locations.getSelectionModel().select(0);
-    }
+    transportationType.getItems().add("Emergency Air Ambulance");
+    transportationType.getItems().add("Non-Emergency Ground Ambulance");
+    transportationType.getItems().add("Medical Car and Wheelchair Van");
+    transportationType.getItems().add("Local Ground Ambulance Emergency Medical Services");
+    transportationType.getItems().add("Shuttle Service");
   }
 
   @FXML
