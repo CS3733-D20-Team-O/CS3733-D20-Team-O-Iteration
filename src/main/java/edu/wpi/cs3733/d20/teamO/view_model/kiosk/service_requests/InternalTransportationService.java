@@ -48,7 +48,6 @@ public class InternalTransportationService extends ServiceRequestBase {
   @FXML
   private JFXComboBox<String> currentRoom, destinationRoom;
 
-
   @Override
   protected void start(URL location, ResourceBundle resources) {
     currentState = State.ASSISTED;
@@ -71,8 +70,7 @@ public class InternalTransportationService extends ServiceRequestBase {
       default:
       case UNASSISTED:
         if (validator.validate(currentRoom, reqName, reqTime)) {
-          val data = new InternalTransportationRequestData(
-              "Unassisted",
+          val data = new InternalTransportationRequestData("Unassisted",
               ((RadioButton) unassistedToggle.getSelectedToggle()).getText(), "None required");
           addToDatabase(data);
         }
@@ -88,9 +86,7 @@ public class InternalTransportationService extends ServiceRequestBase {
   private void addToDatabase(ServiceRequestData data) {
     val confirmationCode = database
         .addServiceRequest(reqTime.toString(), currentRoom.getSelectionModel().getSelectedItem(),
-            "Internal Transportation",
-            reqName.getText(), data);
-
+            "Internal Transportation", reqName.getText(), data);
     if (confirmationCode == null) {
       snackBar.show("Failed to create the internal transportation request");
     } else {
@@ -123,5 +119,4 @@ public class InternalTransportationService extends ServiceRequestBase {
   private void assistedSelected() {
     currentState = State.ASSISTED;
   }
-
 }
