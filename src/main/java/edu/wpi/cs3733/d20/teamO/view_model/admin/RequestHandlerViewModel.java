@@ -60,7 +60,6 @@ public class RequestHandlerViewModel extends ViewModelBase {
    */
   @FXML
   private void updateDisplays() {
-    cbShowUnavail.setVisible(true);
 
     ObservableList<Employee> tableItems = FXCollections.observableArrayList();
 
