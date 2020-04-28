@@ -46,11 +46,14 @@ public class SecurityService extends ViewModelBase {
         .forEachOrdered(floors.getItems()::add);
 
     // Set up the populating of locations on each floor
-    floors.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) ->
-        database.exportNodes().values().stream()
-            .filter(node -> newFloor.equals(node.getFloor()))
-            .map(Node::getLongName).sorted()
-            .forEachOrdered(locations.getItems()::add));
+    floors.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
+      locations.getItems().clear();
+      database.exportNodes().values().stream()
+          .filter(node -> newFloor.equals(node.getFloor()))
+          .map(Node::getLongName).sorted()
+          .forEachOrdered(locations.getItems()::add);
+      locations.getSelectionModel().select(0);
+    });
 
     // Preselect the first floor and the first location on that floor
     if (!floors.getItems().isEmpty()) {
