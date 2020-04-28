@@ -12,7 +12,7 @@ import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ExternalTransportationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
@@ -68,37 +68,69 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Floor 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
+    map.put("a", new Node("a", 0, 0, 1, "", "", "Room 1", ""));
+    map.put("b", new Node("b", 0, 0, 3, "", "", "Room 3-1", ""));
+    map.put("c", new Node("c", 0, 0, 3, "", "", "Room 3-2", ""));
+    map.put("d", new Node("d", 0, 0, 5, "", "", "Room 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
 
   @Test
   public void testFloorLocationPopulated() {
     // Verify that all floors are populated
-    clickOn("1");
+    clickOn("Floor");
     verifyThat("1", javafx.scene.Node::isVisible);
     verifyThat("3", javafx.scene.Node::isVisible);
     verifyThat("5", javafx.scene.Node::isVisible);
 
     // Now that we know all floors are correct, lets check to see if the locations are present
     // First floor
-    clickOn("Floor 1");
-    verifyThat("Floor 1", javafx.scene.Node::isVisible);
+    clickOn("1");
+    clickOn("Current Room/Location");
+    verifyThat("Room 1", javafx.scene.Node::isVisible);
 
     // Third floor
     clickOn("1");
     clickOn("3");
-    clickOn("Floor 3-1");
-    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
+    clickOn("Current Room/Location");
+    verifyThat("Room 3-1", javafx.scene.Node::isVisible);
+    verifyThat("Room 3-2", javafx.scene.Node::isVisible);
 
     // Fifth floor
     clickOn("3");
     clickOn("5");
-    verifyThat("Floor 5", javafx.scene.Node::isVisible);
+    clickOn("Current Room/Location");
+    verifyThat("Room 5", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testTransportationTypePopulated() {
+    // Verify that all modes of transportation are populated
+    clickOn("Mode of Transportation");
+    verifyThat("Emergency Air Ambulance", javafx.scene.Node::isVisible);
+    verifyThat("Non-Emergency Ground Ambulance", javafx.scene.Node::isVisible);
+    verifyThat("Medical Car and Wheelchair Van", javafx.scene.Node::isVisible);
+    verifyThat("Local Ground Ambulance Emergency Medical Services", javafx.scene.Node::isVisible);
+    verifyThat("Shuttle Service", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testNameAndNotes() {
+    // Verify that text fields work
+    clickOn("Your Name");
+    write("John Smith");
+    verifyThat("John Smith", javafx.scene.Node::isVisible);
+    clickOn("Additional Notes");
+    write("Test Note");
+    verifyThat("Test Note", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testDestination() {
+    // Verify that text fields work (not generalizable)
+    clickOn("Destination");
+    write("My Home");
+    verifyThat("My Home", javafx.scene.Node::isVisible);
   }
 
   @Test
@@ -117,11 +149,17 @@ public class ExternalTransportationServiceTest extends FxRobot {
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
+    clickOn("Floor");
+    clickOn("1");
+    clickOn("Current Room/Location");
+    clickOn("Room 1");
+    clickOn("Mode of Transportation");
+    clickOn("Shuttle Service");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("ExternalTransportation"), eq("John Smith"),
-        eq(new SanitationRequestData("Ambulance", "")));
+        eq("Room 1"), eq("External Transportation"), eq("John Smith"),
+        eq(new ExternalTransportationRequestData("Shuttle Service", "", "")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
@@ -129,8 +167,8 @@ public class ExternalTransportationServiceTest extends FxRobot {
     clickOn("Submit");
     verify(validator, times(3)).validate(any());
     verify(database, times(2)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("ExternalTransportation"), eq("John Smith"),
-        eq(new SanitationRequestData("Ambulance", "")));
+        eq("Room 1"), eq("External Transportation"), eq("John Smith"),
+        eq(new ExternalTransportationRequestData("Shuttle Service", "", "")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1))
         .showBasic(anyString(), eq("Your confirmation code is:\nABCDEFGH"), anyString());
