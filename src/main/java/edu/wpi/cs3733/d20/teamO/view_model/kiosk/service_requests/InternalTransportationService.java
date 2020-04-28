@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransportationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
@@ -36,22 +37,19 @@ public class InternalTransportationService extends ServiceRequestBase {
   private final Dialog dialog;
 
   private State currentState;
+  private Node entryNode;
 
   @FXML
   private JFXTextField reqName;
   @FXML
   private JFXTextField reqTime;
-
   @FXML
   private ToggleGroup assistedToggle, unassistedToggle;
-
   @FXML
   private JFXComboBox<Integer> destinationFloor, currentFloor;
-
   @FXML
   private JFXComboBox<String> currentRoom, destinationRoom;
 
-  private Node entryNode;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -62,7 +60,6 @@ public class InternalTransportationService extends ServiceRequestBase {
     //set radio buttons to default
     unassistedToggle.getToggles().get(0).setSelected(true);
     assistedToggle.getToggles().get(0).setSelected(true);
-
     // Preselect the first floor and the first location on that floor
     if (!currentFloor.getItems().isEmpty()) {
       currentFloor.getSelectionModel().select(0);
@@ -79,28 +76,36 @@ public class InternalTransportationService extends ServiceRequestBase {
 
   @FXML
   private void onSubmit() {
-    InternalTransportationRequestData data = null;
-
     switch (currentState) {
       case ASSISTED:
         if (validator.validate(currentRoom, reqName, reqTime, destinationRoom)) {
-          data = new InternalTransportationRequestData("Assisted",
+          InternalTransportationRequestData data = new InternalTransportationRequestData("Assisted",
               ((RadioButton) assistedToggle.getSelectedToggle()).getText(),
               destinationFloor.getSelectionModel().getSelectedItem().toString());
-        }
-        break;
-      case UNASSISTED:
-        if (validator.validate(currentRoom, reqName, reqTime)) {
-          data = new InternalTransportationRequestData("Unassisted",
-              ((RadioButton) unassistedToggle.getSelectedToggle()).getText(), "None required");
+          addToDatabase(data);
         }
         break;
       default:
+      case UNASSISTED:
+        if (validator.validate(currentRoom, reqName, reqTime)) {
+          InternalTransportationRequestData data = new InternalTransportationRequestData(
+              "Unassisted",
+              ((RadioButton) unassistedToggle.getSelectedToggle()).getText(), "None required");
+          addToDatabase(data);
+        }
         break;
     }
+  }
 
+  /**
+   * adds a service request to the database
+   *
+   * @param data the ServiceRequestData accompanying the request
+   */
+  private void addToDatabase(ServiceRequestData data) {
     val confirmation = database
-        .addServiceRequest(reqTime.getText(), entryNode.getNodeID(), "Int. Transport",
+        .addServiceRequest(reqTime.getText(), currentRoom.getSelectionModel().getSelectedItem(),
+            "Int. Transport",
             reqName.getText(), data);
 
     if (confirmation == null) {
@@ -174,16 +179,4 @@ public class InternalTransportationService extends ServiceRequestBase {
     }
   }
 
-  /**
-   * searches the database to get the node which matches the node selected in the room dropdown
-   */
-  @FXML
-  private void setNode() {
-    for (val n : database.exportNodes().values()) {
-      if (n.getLongName().equals(currentFloor.getSelectionModel().getSelectedItem())) {
-        entryNode = n;
-        break;
-      }
-    }
-  }
 }
