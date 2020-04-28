@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data;
 import lombok.Value;
 
-// Represents the extra data of an Emergency Security request
+/**
+ * Represents the extra data of an Emergency Security request
+ */
 @Value
 public class SecurityRequestData implements ServiceRequestData {
   String emergencyType, notes;
@@ -16,4 +18,3 @@ public class SecurityRequestData implements ServiceRequestData {
     return "Emergency Type: " + emergencyType + "\nAdditional Notes: " + notes;
   }
 }
-
