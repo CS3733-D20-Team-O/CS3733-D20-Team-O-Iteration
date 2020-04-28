@@ -14,11 +14,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox alignment="TOP_CENTER" fillWidth="false" layoutX="0" layoutY="0" minHeight="-Infinity"
-  minWidth="-Infinity" prefHeight="475.0" prefWidth="477.0" spacing="8.0"
-  style="-fx-padding: 32; -fx-background-color: whitesmoke; -fx-background-radius: 16; -fx-opacity: 0.8"
-  AnchorPane.bottomAnchor="214.0" AnchorPane.leftAnchor="302.0" AnchorPane.rightAnchor="301.0"
-  AnchorPane.topAnchor="180.0" xmlns="http://javafx.com/javafx/11.0.1"
+<VBox alignment="TOP_CENTER" fillWidth="false" spacing="8.0"
+  style="-fx-padding: 32;"
+  xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InternalTransportationService">
    <children>
