@@ -3,18 +3,16 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.base.IFXValidatableControl;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransportationRequestData;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
+import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
+import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import java.net.URL;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
@@ -24,14 +22,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class InternalTransportationService extends ViewModelBase {
+public class InternalTransportationService extends ServiceRequestBase {
+
+  enum State {
+    ASSISTED,
+    UNASSISTED
+  }
 
   private final DatabaseWrapper database;
+  private final Validator validator;
+  private final SnackBar snackBar;
+  private final Dialog dialog;
 
-  @FXML
-  private JFXComboBox currentFloor;
-  @FXML
-  private JFXComboBox currentRoom;
+  private State currentState;
+
+
   @FXML
   private JFXTextField reqName;
   @FXML
@@ -45,58 +50,30 @@ public class InternalTransportationService extends ViewModelBase {
   @FXML
   private ToggleGroup assistedToggle, unassistedToggle;
 
-  //assisted
   @FXML
-  private JFXRadioButton wheelchair, bed, gurney, escort;
-  @FXML
-  private JFXComboBox destinationFloor, destinationRoom;
+  private JFXComboBox<Integer> destinationFloor, currentFloor;
 
-  //assisted
   @FXML
-  private JFXRadioButton crutches, independentWheelchair, legScooter, mobileIV;
-
+  private JFXComboBox<String> currentRoom, destinationRoom;
 
   private Node entryNode;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    //set radio buttons to default
-    unassistedToggle.selectToggle(crutches);
-    assistedToggle.selectToggle(wheelchair);
+    currentState = State.ASSISTED;
+    setLocations(currentFloor, currentRoom);
+    setLocations(destinationFloor, destinationRoom);
 
-    // Populate the current floors combobox with available nodes
-    database.exportNodes().values().stream()
-        .map(Node::getFloor).distinct().sorted()
-        .forEachOrdered(currentFloor.getItems()::add);
-    // Set up the populating of locations on each floor
-    currentFloor.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
-      currentRoom.getItems().clear();
-      database.exportNodes().values().stream()
-          .filter(node -> newFloor.equals(node.getFloor()))
-          .map(Node::getLongName).sorted()
-          .forEachOrdered(currentRoom.getItems()::add);
-      currentRoom.getSelectionModel().select(0);
-    });
+    //set radio buttons to default
+    unassistedToggle.getToggles().get(0).setSelected(true);
+    assistedToggle.getToggles().get(0).setSelected(true);
+
     // Preselect the first floor and the first location on that floor
     if (!currentFloor.getItems().isEmpty()) {
       currentFloor.getSelectionModel().select(0);
       currentRoom.getSelectionModel().select(0);
     }
 
-    // Populate the destination floors combobox with available nodes
-    database.exportNodes().values().stream()
-        .map(Node::getFloor).distinct().sorted()
-        .forEachOrdered(destinationFloor.getItems()::add);
-    // Set up the populating of locations on each floor
-    destinationFloor.getSelectionModel().selectedItemProperty()
-        .addListener((o, oldFloor, newFloor) -> {
-          destinationRoom.getItems().clear();
-          database.exportNodes().values().stream()
-              .filter(node -> newFloor.equals(node.getFloor()))
-              .map(Node::getLongName).sorted()
-              .forEachOrdered(destinationRoom.getItems()::add);
-          destinationRoom.getSelectionModel().select(0);
-        });
     // Preselect the first floor and the first location on that floor
     if (!destinationFloor.getItems().isEmpty()) {
       destinationFloor.getSelectionModel().select(0);
@@ -107,18 +84,24 @@ public class InternalTransportationService extends ViewModelBase {
 
   @FXML
   private void onSubmit() {
-    InternalTransportationRequestData data;
+    InternalTransportationRequestData data = null;
 
-    //select which fields to validate
-    if (assistedTransportation.isSelected() && validateAssisted()) {
-      data = new InternalTransportationRequestData("Assisted",
-          ((RadioButton) assistedToggle.getSelectedToggle()).getText(),
-          destinationFloor.getSelectionModel().getSelectedItem().toString());
-    } else if (unassistedTransportation.isSelected() && validateUnassisted()) {
-      data = new InternalTransportationRequestData("Unassisted",
-          ((RadioButton) unassistedToggle.getSelectedToggle()).getText(), "None required");
-    } else {
-      return; //cancel for if no data was created;
+    switch (currentState) {
+      case ASSISTED:
+        if (validator.validate(currentRoom, reqName, reqTime, destinationRoom)) {
+          data = new InternalTransportationRequestData("Assisted",
+              ((RadioButton) assistedToggle.getSelectedToggle()).getText(),
+              destinationFloor.getSelectionModel().getSelectedItem().toString());
+        }
+        break;
+      case UNASSISTED:
+        if (validator.validate(currentRoom, reqName, reqTime)) {
+          data = new InternalTransportationRequestData("Unassisted",
+              ((RadioButton) unassistedToggle.getSelectedToggle()).getText(), "None required");
+        }
+        break;
+      default:
+        break;
     }
 
     database.addServiceRequest(reqTime.getText(), entryNode.getNodeID(), "Int. Transport",
@@ -132,8 +115,7 @@ public class InternalTransportationService extends ViewModelBase {
    */
   private boolean validateAssisted() {
     return (assistedToggle.getSelectedToggle() != null) &&
-        Stream.of(currentRoom, reqName, reqTime, destinationRoom)
-            .allMatch(IFXValidatableControl::validate);
+        validator.validate(currentRoom, reqName, reqTime, destinationRoom);
   }
 
   /**
@@ -143,8 +125,24 @@ public class InternalTransportationService extends ViewModelBase {
    */
   private boolean validateUnassisted() {
     return (unassistedToggle.getSelectedToggle() != null) &&
-        Stream.of(currentRoom, reqName, reqTime)
-            .allMatch(IFXValidatableControl::validate);
+        validator.validate(currentRoom, reqName, reqTime);
+  }
+
+  /**
+   * function to change state of system to UNASSISTED when the view is in the unassisted service
+   * tab
+   */
+  @FXML
+  private void unassistedSelected() {
+    currentState = State.UNASSISTED;
+  }
+
+  /**
+   * function to change state of system to ASSISTED when the view is in the assisted service tab
+   */
+  @FXML
+  private void assistedSelected() {
+    currentState = State.ASSISTED;
   }
 
   /**
@@ -167,34 +165,22 @@ public class InternalTransportationService extends ViewModelBase {
    * takes a combobox of floors and populates the corresponding room combo box with appropriate
    * values
    *
-   * @param destinationRoom the combobox to populate
+   * @param rooms the combobox to populate
    * @param floor           the floor selected
    */
-  private void doFloor(JFXComboBox destinationRoom, String floor) {
-    destinationRoom.getItems().clear();
-    for (Map.Entry<String, Node> node : database.exportNodes().entrySet()) {
-      val roomToAdd = node.getValue().getLongName();
-      // roomNode = node.getValue();
+  private void doFloor(JFXComboBox rooms, String floor) {
+    rooms.getItems().clear();
+    for (Node node : database.exportNodes().values()) {
+      val roomToAdd = node.getLongName();
       val listOfRooms = new LinkedList<String>();
-      if (/*!listOfRooms.contains(roomToAdd) &&*/
-          !node.getValue().getNodeType().equals("STAI") &&
-              !node.getValue().getNodeType().equals("ELEV") &&
-              !node.getValue().getNodeType().equals("REST") &&
-              !node.getValue().getNodeType().equals("HALL") &&
-              node.getValue().getFloor() == Integer.parseInt(floor)) {
-        //listOfRooms.add(roomNode);
-        destinationRoom.getItems().add(roomToAdd);
+      if (!node.getNodeType().equals("STAI") &&
+          !node.getNodeType().equals("ELEV") &&
+          !node.getNodeType().equals("REST") &&
+          !node.getNodeType().equals("HALL") &&
+          node.getFloor() == Integer.parseInt(floor)) {
+        rooms.getItems().add(roomToAdd);
       }
     }
-  }
-
-  /**
-   * clears the radio buttons when the tab is switched
-   */
-  @FXML
-  private void switchTabs() {
-//    unassistedToggle.selectToggle(crutches);
-//    assistedToggle.selectToggle(wheelchair);
   }
 
   /**

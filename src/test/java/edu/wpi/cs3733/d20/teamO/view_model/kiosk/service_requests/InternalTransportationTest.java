@@ -90,7 +90,7 @@ public class InternalTransportationTest extends FxRobot {
 
   @Test
   public void waitToSeeIfItWorks() {
-    //sleep(30000);
+    sleep(30000);
     assertTrue(true);
   }
 }
