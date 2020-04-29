@@ -36,7 +36,8 @@ public class NodeMapView extends ViewModelBase {
   private final static double zoomInc = 0.1;
   private final static double dragInc = 2;
 
-  private final int counter = 0;
+  private double dragX = 0;
+  private double dragY = 0;
 
   /**
    * The current floor being displayed
@@ -126,11 +127,18 @@ public class NodeMapView extends ViewModelBase {
       }
     });
 
-    // Set up event for when the background is dragged
-    backgroundImage.setOnMouseDragged(event -> {
+    nodeGroup.setOnMousePressed(event -> {
       if (event.getButton() == MouseButton.PRIMARY) {
-        floorPane.setTranslateX(floorPane.getTranslateX() - event.getX());
-        floorPane.setTranslateY(floorPane.getTranslateY() - event.getY());
+        dragX = floorPane.getLayoutX() - event.getSceneX();
+        dragY = floorPane.getLayoutY() - event.getSceneY();
+      }
+    });
+
+    // Set up event for when the background is dragged
+    nodeGroup.setOnMouseDragged(event -> {
+      if (event.getButton() == MouseButton.PRIMARY) {
+        floorPane.setLayoutX(event.getSceneX() + dragX);
+        floorPane.setLayoutY(event.getSceneY() + dragY);
       }
     });
   }
