@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
@@ -30,11 +31,18 @@
         </validators>
       </JFXComboBox>
     </HBox>
-    <JFXComboBox fx:id="transportationType" promptText="%externalTransportationModePrompt">
-      <validators>
-        <RequiredFieldValidator message="%externalTransportationModeMissing"/>
-      </validators>
-    </JFXComboBox>
+    <HBox>
+      <JFXComboBox fx:id="transportationType" promptText="%externalTransportationModePrompt">
+        <validators>
+          <RequiredFieldValidator message="%externalTransportationModeMissing"/>
+        </validators>
+      </JFXComboBox>
+      <JFXTimePicker fx:id="timePicker" promptText="%externalTransportationTimePrompt">
+        <validators>
+          <RequiredFieldValidator message="%externalTransportationTimeMissing"/>
+        </validators>
+      </JFXTimePicker>
+    </HBox>
     <JFXTextField fx:id="destination" promptText="%externalTransportationDestinationPrompt">
       <validators>
         <RequiredFieldValidator message="%externalTransportationDestinationMissing"/>

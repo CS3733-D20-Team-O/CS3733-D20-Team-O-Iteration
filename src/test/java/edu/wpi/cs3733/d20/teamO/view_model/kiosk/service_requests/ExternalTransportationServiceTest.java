@@ -60,6 +60,7 @@ public class ExternalTransportationServiceTest extends FxRobot {
     bundle.put("externalTransportationFloorPrompt", "Floor");
     bundle.put("externalTransportationLocationPrompt", "Current Room/Location");
     bundle.put("externalTransportationModePrompt", "Mode of Transportation");
+    bundle.put("externalTransportationTimePrompt", "Time");
     bundle.put("externalTransportationDestinationPrompt", "Destination");
     bundle.put("externalTransportationNotes", "Additional Notes");
     bundle.put("externalTransportationSubmit", "Submit");
@@ -149,7 +150,7 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
     // Test when there are fields not filled out
     clickOn("Submit");
-    verify(validator, times(1)).validate(any());
+    verify(validator, times(1)).validate(any(), any(), any(), any(), any(), any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
@@ -163,9 +164,11 @@ public class ExternalTransportationServiceTest extends FxRobot {
     clickOn("Room 1");
     clickOn("Mode of Transportation");
     clickOn("Shuttle Service");
+    clickOn("Time");
+    write("12:34 PM");
     clickOn("Submit");
-    verify(validator, times(2)).validate(any());
-    verify(database, times(1)).addServiceRequest(anyString(),
+    verify(validator, times(2)).validate(any(), any(), any(), any(), any(), any());
+    verify(database, times(1)).addServiceRequest(eq("12:34"),
         eq("Room 1"), eq("External Transportation"), eq("John Smith"),
         eq(new ExternalTransportationRequestData("Shuttle Service", "", "")));
     verify(snackBar, times(1)).show(anyString());
@@ -173,8 +176,8 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Submit");
-    verify(validator, times(3)).validate(any());
-    verify(database, times(2)).addServiceRequest(anyString(),
+    verify(validator, times(3)).validate(any(), any(), any(), any(), any(), any());
+    verify(database, times(2)).addServiceRequest(eq("12:34"),
         eq("Room 1"), eq("External Transportation"), eq("John Smith"),
         eq(new ExternalTransportationRequestData("Shuttle Service", "", "")));
     verify(snackBar, times(1)).show(anyString());
