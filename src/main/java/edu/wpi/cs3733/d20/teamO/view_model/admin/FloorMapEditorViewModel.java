@@ -85,12 +85,13 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     JFXDepthManager.setDepth(sideBar, 2);
     newNodeCategory.getItems()
         .addAll("STAI", "ELEV", "REST", "DEPT", "LABS", "SERV", "CONF", "HALL");
-    // grabbing data from the database
-    exportDatabase();
-    // drawing the map
-    redraw();
     // set the state
     setState(State.MAIN);
+    // grabbing data from the database
+    exportDatabase();
+    nodeMapViewController.setNodeMap(nodeMap);
+    // drawing the map
+    redraw();
     // configure listeners
     nodeMapViewController.setOnNodeLeftTapListener(node -> { // node left-clicked
       selectNode(node);
@@ -103,22 +104,19 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     });
     nodeMapViewController.setOnNodeLeftDragListener((node, mouseEvent) -> { // node dragged
       if (state == State.SELECT_NODE) { // only can drag a node if the node is selected
-        nodeMapViewController.relocateNode(node, mouseEvent.getX(), mouseEvent.getY());
-        //drawEdges(); // redraw edges in case any are moved
+        int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
+        int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
+        nodeMapViewController.relocateNode(node, adjX, adjY);
         database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-            NodeProperty.X_COORD, Integer.toString((int) mouseEvent.getX()));
+            NodeProperty.X_COORD, Integer.toString(adjX));
         database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-            NodeProperty.Y_COORD, Integer.toString((int) mouseEvent.getY()));
+            NodeProperty.Y_COORD, Integer.toString(adjY));
       }
     });
     nodeMapViewController
         .setOnNodeLeftDragReleaseListener((node, mouseEvent) -> { // node drag released
           if (state == State.SELECT_NODE) {
-            database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-                NodeProperty.X_COORD, Double.toString(mouseEvent.getX()));
-            database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-                NodeProperty.Y_COORD, Double.toString(mouseEvent.getY()));
-
+            System.out.println("Node relocated");
           }
         });
     nodeMapViewController.setOnEdgeLeftTapListener((node1, node2) -> {
@@ -258,8 +256,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
       return;
     }
-    previewNode = new Node("", x, y, nodeMapViewController.getFloor(), "", "", "", "");
-    nodeMapViewController.addNode(previewNode); // displays a preview
+    previewNode = new Node("", x, y, nodeMapViewController.getFloor(), "Faulkner", "", "", "");
+    nodeMapViewController.addNode(previewNode);
     xSelection = x;
     ySelection = y;
     setState(State.ADD_NODE);
@@ -489,7 +487,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         nodeSelectView.setVisible(true);
         break;
       case ADD_NODE:
-        clearFields();
         addNodeView.setVisible(true);
         break;
       case ADD_EDGE:
