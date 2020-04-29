@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -117,8 +118,8 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the the background is clicked
-    backgroundImage.setOnMouseClicked(event -> { // todo check
-      if (onMissRightTapListener != null && event.isSecondaryButtonDown()) {
+    nodeGroup.setOnMouseClicked(event -> { // todo check
+      if (event.getButton() == MouseButton.SECONDARY) {
         val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage()
             .getWidth(); // todo fix size
         val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
@@ -128,7 +129,7 @@ public class NodeMapView extends ViewModelBase {
 
     // Set up event for when the background is dragged
     backgroundImage.setOnMouseDragged(event -> {
-      if (event.isPrimaryButtonDown()) {
+      if (event.getButton() == MouseButton.PRIMARY) {
         // todo fix
         floorPane.setTranslateX(floorPane.getTranslateX() - event.getX());
         floorPane.setTranslateY(floorPane.getTranslateY() - event.getY());
@@ -221,24 +222,26 @@ public class NodeMapView extends ViewModelBase {
         .getWidth(); // todo fix size
     val y = node.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
     val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
-    //System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
-    //System.out.println("Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY() + "]");
+    System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
+    System.out.println(
+        "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
+            + "]");
     drawnNode.setOnMouseClicked(event -> { // todo Fix click (rightclick is left, left is right)
-      if (onNodeLeftTapListener != null && event.isPrimaryButtonDown()) {
+      if (onNodeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
         onNodeLeftTapListener.accept(drawnNode.node);
-      } else if (onNodeRightTapListener != null && event.isSecondaryButtonDown()) {
+      } else if (onNodeRightTapListener != null && event.getButton() == MouseButton.SECONDARY) {
         onNodeRightTapListener.accept(drawnNode.node);
       }
     });
     drawnNode.setOnMouseDragged(event -> {
-      if (onNodeLeftDragListener != null && event.isPrimaryButtonDown()) {
+      if (onNodeLeftDragListener != null && event.getButton() == MouseButton.PRIMARY) {
         onNodeLeftDragListener.accept(drawnNode.node, event);
       } else if (onNodeRightDragListener != null) {
         onNodeRightDragListener.accept(drawnNode.node, event);
       }
     });
     drawnNode.setOnMouseDragExited(event -> {
-      if (onNodeLeftDragReleaseListener != null && event.isPrimaryButtonDown()) {
+      if (onNodeLeftDragReleaseListener != null && event.getButton() == MouseButton.PRIMARY) {
         onNodeLeftDragReleaseListener.accept(drawnNode.node, event);
       } else if (onNodeRightDragReleaseListener != null) {
         onNodeRightDragReleaseListener.accept(drawnNode.node, event);
@@ -263,7 +266,7 @@ public class NodeMapView extends ViewModelBase {
       val y2 = n2.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
       drawnEdge.setOnMouseClicked(event -> {
-        if (event.isPrimaryButtonDown()) {
+        if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
           onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
         }
       });
@@ -291,7 +294,7 @@ public class NodeMapView extends ViewModelBase {
       val y = origin.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
       val drawnEdge = new NodeLine(origin, null, x, y, xTarget, yTarget);
       drawnEdge.setOnMouseClicked(event -> {
-        if (event.isPrimaryButtonDown()) {
+        if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
           onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
         }
       });
