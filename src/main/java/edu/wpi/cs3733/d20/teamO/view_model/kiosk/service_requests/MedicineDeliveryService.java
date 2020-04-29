@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.MedicineDeliveryServiceData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
@@ -12,6 +11,7 @@ import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,8 @@ public class MedicineDeliveryService extends ServiceRequestBase {
   @FXML
   private JFXComboBox deliveryMethod, floorNumber, roomName;
   @FXML
-  JFXTimePicker timePicker;
+  private JFXTimePicker timePicker;
+
   private final SnackBar snackBar;
   private final Dialog dialog;
 
@@ -38,17 +39,17 @@ public class MedicineDeliveryService extends ServiceRequestBase {
   }
 
   @FXML
-  public void submitRequest() {
+  public void submitRequest(ActionEvent event) {
     val valid = validator
         .validate(patientName, medicationName, deliveryMethod, floorNumber, roomName, timePicker);
     if (valid) {
       val data = new MedicineDeliveryServiceData(medicationName.getText(),
-          deliveryMethod.getSelectionModel().getSelectedItem().toString());
-      Node requestNode = null;
+          deliveryMethod.getItems().toString());
       val time = timePicker.getValue().format(DateTimeFormatter.ofPattern("HH:mm"));
       val confirmationCode = database
           .addServiceRequest(time,
-              requestNode.getLongName(), "Medicine delivery", patientName.getText(), data);
+              roomName.getSelectionModel().getSelectedItem().toString(), "Medicine delivery",
+              patientName.getText(), data);
       if (confirmationCode == null) {
         snackBar.show("Failed to create medicine delivery service request");
       } else {
