@@ -13,7 +13,7 @@
 <VBox spacing="32" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InfoTechService"
   style="-fx-padding: 32; -fx-font-size: 16">
-  <Label text="%ITServiceTitle" style="-fx-font-size: 32"/>
+  <Label text="%serviceInfoTechDescription" style="-fx-font-size: 32"/>
   <HBox alignment="CENTER" spacing="8">
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
       preserveRatio="true">
@@ -21,9 +21,9 @@
         <Image url="/person-icon.png"/>
       </image>
     </ImageView>
-    <JFXTextField fx:id="requesterName" promptText="%ITServiceName">
+    <JFXTextField fx:id="requesterName" promptText="%namePrompt">
       <validators>
-        <RequiredFieldValidator message="%ITServiceNameValidator"/>
+        <RequiredFieldValidator message="%namePromptValidator"/>
       </validators>
     </JFXTextField>
   </HBox>
@@ -35,9 +35,9 @@
           <Image url="/floor-icon.png"/>
         </image>
       </ImageView>
-      <JFXComboBox fx:id="floors" promptText="%ITServiceFloor">
+      <JFXComboBox fx:id="floors" promptText="%floorPrompt">
         <validators>
-          <RequiredFieldValidator message="%ITServiceFloorValidator"/>
+          <RequiredFieldValidator message="%floorPromptValidator"/>
         </validators>
       </JFXComboBox>
     </HBox>
@@ -48,9 +48,9 @@
           <Image url="/location-icon.png"/>
         </image>
       </ImageView>
-      <JFXComboBox fx:id="locations" promptText="%ITServiceLocation">
+      <JFXComboBox fx:id="locations" promptText="%locationPrompt">
         <validators>
-          <RequiredFieldValidator message="%ITServiceLocationValidator"/>
+          <RequiredFieldValidator message="%locationPromptValidator"/>
         </validators>
       </JFXComboBox>
     </HBox>
@@ -78,8 +78,8 @@
     <JFXTextArea fx:id="additionalNotes" promptText="%ITServiceDescription" maxHeight="100"/>
   </HBox>
   <HBox alignment="CENTER_RIGHT" spacing="16">
-    <JFXButton text="%ITServiceSubmit" onAction="#submitRequest"
+    <JFXButton text="%submitButton" onAction="#submitRequest"
       style="-fx-background-color: #00BB00"/>
-    <JFXButton text="%ITServiceCancel" onAction="#close" style="-fx-background-color: LIGHTGREY"/>
+    <JFXButton text="%cancelButton" onAction="#close" style="-fx-background-color: LIGHTGREY"/>
   </HBox>
 </VBox>
