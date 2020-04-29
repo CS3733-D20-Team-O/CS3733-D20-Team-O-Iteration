@@ -155,16 +155,17 @@ public class MedicineDeliveryServiceTest extends FxRobot {
     clickOn("Delivery method");
     clickOn("Oral");
     clickOn("Time");
-    write("20:00");
+    write("02:00 AM");
     clickOn("Submit");
     verify(validator, times(1)).validate(any());
     /*
     verify(database, times(1)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("Medicine delivery"), eq("John Smith"),
         eq(new MedicineDeliveryServiceData("Ibuprofen", "Oral")));
-    verify(snackBar, times(1)).show(anyString());
-    verify(dialog, times(1)).showFullscreenFXML(anyString());
-    verify(jfxDialog, times(1)).close();
+    //verify(snackBar, times(1)).show(anyString());
+    //verify(dialog, times(1)).showFullscreenFXML(anyString());
+    //verify(jfxDialog, times(1)).close();
+
      */
   }
 }
