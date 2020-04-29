@@ -38,7 +38,7 @@ public class NodeSelectorViewModel extends ViewModelBase {
     // Set the selector's options
     resetSelector();
 
-    // todo fix all of the following
+    // todo fix all of the following, perhaps through using drop down/menu items
 
     // Set the prompt text
     selector.getEditor().setPromptText("Select or search for a location");
