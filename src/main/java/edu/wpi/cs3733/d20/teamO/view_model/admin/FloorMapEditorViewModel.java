@@ -21,11 +21,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -57,6 +60,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML
   private JFXListView neighboringNodesList;
   @FXML
+  private AnchorPane clipper;
+  @FXML
   private JFXComboBox newNodeCategory;
   private Map<String, Node> nodeMap;
   private List<Edge> edges;
@@ -81,6 +86,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   protected void start(URL location, ResourceBundle resources) {
     // styling the UI components
+    val clipRect = new Rectangle();
+    clipRect.widthProperty().bind(clipper.widthProperty());
+    clipRect.heightProperty().bind(clipper.heightProperty());
+    clipper.setClip(clipRect);
     zoomSlider.setValue(100);
     JFXDepthManager.setDepth(sideBar, 2);
     newNodeCategory.getItems()
@@ -91,7 +100,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     exportDatabase();
     nodeMapViewController.setNodeMap(nodeMap);
     // drawing the map
-    redraw();
+    Platform.runLater(this::redraw);
     // configure listeners
     nodeMapViewController.setOnNodeLeftTapListener(node -> { // node left-clicked
       selectNode(node);
@@ -134,6 +143,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     switch (state) {
       case ADD_NEIGHBOR:
         setState(State.SELECT_NODE);
+        if (selectedNode2 != null) {
+          nodeMapViewController.unhighlightNode(selectedNode2);
+          selectedNode2 = null;
+        }
         break;
       default:
         setState(State.MAIN);
@@ -256,6 +269,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
       return;
     }
+    clearFields();
     previewNode = new Node("", x, y, nodeMapViewController.getFloor(), "Faulkner", "", "", "");
     nodeMapViewController.addNode(previewNode);
     xSelection = x;
@@ -272,6 +286,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
       return;
     }
+    clearFields();
     selectedNode1 = node;
     nodeMapViewController.highlightNode(node);
     newEdgeStartNode.setText(node.getLongName());
@@ -375,6 +390,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     Stream.of(shortNameField, longNameField, newNodeShortNameField, newNodeLongNameField,
         newNodeCategory)
         .forEach(node -> node.resetValidation());
+    Stream.of(nodeCategoryLabel, selectedNeighborLabel, newEdgeStartNode, newEdgeDestNode,
+        edgeNode1ID, edgeNode2ID).forEach(node -> node.setText(""));
     newNodeCategory.getSelectionModel().clearSelection();
     neighboringNodesList.getItems().clear();
     if (selectedNode1 != null) {
