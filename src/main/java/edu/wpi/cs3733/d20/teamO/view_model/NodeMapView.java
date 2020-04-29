@@ -98,7 +98,7 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private StackPane floorPane;
   @FXML
-  private AnchorPane nodeGroup, edgeGroup;
+  private AnchorPane nodeGroup, edgeGroup, dummyLayer;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -121,22 +121,25 @@ public class NodeMapView extends ViewModelBase {
     // Set up event for when the the background is clicked
     nodeGroup.setOnMouseClicked(event -> {
       if (event.getButton() == MouseButton.SECONDARY) {
+        System.out.println("NodeGroup Right Click");
         val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage().getWidth();
         val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
         onMissRightTapListener.accept((int) imageX, (int) imageY);
       }
     });
 
-    nodeGroup.setOnMousePressed(event -> {
+    dummyLayer.setOnMousePressed(event -> {
       if (event.getButton() == MouseButton.PRIMARY) {
+        System.out.println("NodeGroup Left Press");
         dragX = floorPane.getLayoutX() - event.getSceneX();
         dragY = floorPane.getLayoutY() - event.getSceneY();
       }
     });
 
     // Set up event for when the background is dragged
-    nodeGroup.setOnMouseDragged(event -> {
+    dummyLayer.setOnMouseDragged(event -> {
       if (event.getButton() == MouseButton.PRIMARY) {
+        System.out.println("NodeGroup Left Drag");
         floorPane.setLayoutX(event.getSceneX() + dragX);
         floorPane.setLayoutY(event.getSceneY() + dragY);
       }
@@ -232,24 +235,31 @@ public class NodeMapView extends ViewModelBase {
     System.out.println(
         "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
             + "]");
-    drawnNode.setOnMouseClicked(event -> { // todo Fix click (rightclick is left, left is right)
+    drawnNode.setOnMouseClicked(event -> {
       if (onNodeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
+        System.out.println("Node Left Clicked");
         onNodeLeftTapListener.accept(drawnNode.node);
-      } else if (onNodeRightTapListener != null && event.isSecondaryButtonDown()) {
+      } else if (onNodeRightTapListener != null && event.getButton() == MouseButton.SECONDARY) {
+        System.out.println("Node Right Clicked");
         onNodeRightTapListener.accept(drawnNode.node);
       }
     });
     drawnNode.setOnMouseDragged(event -> {
       if (onNodeLeftDragListener != null && event.getButton() == MouseButton.PRIMARY) {
+        System.out.println("Node Left Dragged");
         onNodeLeftDragListener.accept(drawnNode.node, event);
-      } else if (onNodeRightDragListener != null) {
+      } else if (onNodeRightDragListener != null && event.getButton() == MouseButton.SECONDARY) {
+        System.out.println("Node Right Dragged");
         onNodeRightDragListener.accept(drawnNode.node, event);
       }
     });
     drawnNode.setOnMouseDragExited(event -> {
       if (onNodeLeftDragReleaseListener != null && event.getButton() == MouseButton.PRIMARY) {
+        System.out.println("Node Left Dragged End");
         onNodeLeftDragReleaseListener.accept(drawnNode.node, event);
-      } else if (onNodeRightDragReleaseListener != null) {
+      } else if (onNodeRightDragReleaseListener != null
+          && event.getButton() == MouseButton.SECONDARY) {
+        System.out.println("Node Right Dragged End");
         onNodeRightDragReleaseListener.accept(drawnNode.node, event);
       }
     });
@@ -427,8 +437,18 @@ public class NodeMapView extends ViewModelBase {
    * @param y    the new y location
    */
   public void relocateNode(Node node, double x, double y) {
+    val floor = nodeMap.get(node.getFloor());
+    if (floor != null) {
+      floor.remove(node.getNodeID());
+      floor.put(node.getNodeID(), node);
+    }
+
     val nodeCircle = findNode(node);
     if (nodeCircle != null) {
+      System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
+      System.out.println(
+          "Circle properties: At X: [" + x + "] At Y: [" + y
+              + "]");
       nodeCircle.setCenterX(x);
       nodeCircle.setCenterY(y);
     }
