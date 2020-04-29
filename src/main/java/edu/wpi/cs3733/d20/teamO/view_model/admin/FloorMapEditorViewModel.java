@@ -104,18 +104,19 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeMapViewController.setOnNodeLeftDragListener((node, mouseEvent) -> { // node dragged
       if (state == State.SELECT_NODE) { // only can drag a node if the node is selected
         nodeMapViewController.relocateNode(node, mouseEvent.getX(), mouseEvent.getY());
-        drawEdges(); // redraw edges in case any are moved
+        database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
+            NodeProperty.X_COORD, Double.toString(mouseEvent.getX()));
+        database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
+            NodeProperty.Y_COORD, Double.toString(mouseEvent.getY()));
+        exportDatabase();
+        redraw();
+        //drawEdges(); // redraw edges in case any are moved
       }
     });
     nodeMapViewController
         .setOnNodeLeftDragReleaseListener((node, mouseEvent) -> { // node drag released
           if (state == State.SELECT_NODE) {
-            database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-                NodeProperty.X_COORD, Double.toString(mouseEvent.getX()));
-            database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-                NodeProperty.Y_COORD, Double.toString(mouseEvent.getY()));
-            exportDatabase();
-            redraw();
+
           }
         });
     nodeMapViewController.setOnEdgeLeftTapListener((node1, node2) -> {
@@ -311,10 +312,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       case ADD_NODE: // cannot select node in this state
         break;
       default:
+        clearFields();
         setState(State.SELECT_NODE);
         selectedNode1 = node;
         nodeMapViewController.highlightNode(node);
-        clearFields();
         shortNameField.setText(node.getShortName());
         longNameField.setText(node.getLongName());
         nodeCategoryLabel.setText(node.getNodeType());
