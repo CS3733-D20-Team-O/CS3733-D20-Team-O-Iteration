@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<JFXComboBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:id="selector"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeSelectorViewModel" editable="true"/>
