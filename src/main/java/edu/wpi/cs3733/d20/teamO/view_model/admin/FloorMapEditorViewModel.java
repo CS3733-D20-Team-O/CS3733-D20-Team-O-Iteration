@@ -104,11 +104,13 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     });
     nodeMapViewController.setOnNodeLeftDragListener((node, mouseEvent) -> { // node dragged
       if (state == State.SELECT_NODE) { // only can drag a node if the node is selected
-        nodeMapViewController.relocateNode(node, mouseEvent.getX(), mouseEvent.getY());
+        int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
+        int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
+        nodeMapViewController.relocateNode(node, (int) mouseEvent.getX(), (int) mouseEvent.getY());
         database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-            NodeProperty.X_COORD, Integer.toString((int) mouseEvent.getX()));
+            NodeProperty.X_COORD, Integer.toString(adjX));
         database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-            NodeProperty.Y_COORD, Integer.toString((int) mouseEvent.getY()));
+            NodeProperty.Y_COORD, Integer.toString(adjY));
       }
     });
     nodeMapViewController
