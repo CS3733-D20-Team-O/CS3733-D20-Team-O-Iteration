@@ -5,6 +5,8 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -36,6 +38,14 @@
                       <validators>
                         <RequiredFieldValidator message="Input is required"/>
                       </validators>
+                      <items>
+                        <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="Stuffed Animal: $9.99"/>
+                          <String fx:value="Card: $4.99"/>
+                          <String fx:value="Box of Chocolates: $12.99"/>
+                          <String fx:value="Toy: $3.99"/>
+                        </FXCollections>
+                      </items>
                     </JFXComboBox>
                     <JFXTextField fx:id="toField" labelFloat="true" prefHeight="25.0"
                       prefWidth="353.0" promptText="Recipient Name"
@@ -121,9 +131,18 @@
                     <JFXComboBox fx:id="ccTypeComboBox" labelFloat="true" prefHeight="25.0"
                       prefWidth="140.0" promptText="Type"
                       style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <items>
+                        <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="Visa"/>
+                          <String fx:value="Mastercard"/>
+                          <String fx:value="AMEX"/>
+                          <String fx:value="Discover"/>
+                        </FXCollections>
+                      </items>
                       <validators>
                         <RequiredFieldValidator message="Input is required"/>
                       </validators>
+
                     </JFXComboBox>
                     <JFXTextField fx:id="ccNumberField" labelFloat="true" prefHeight="25.0"
                       prefWidth="249.0" promptText="Card Number"
@@ -139,6 +158,22 @@
                     <JFXComboBox fx:id="ccMonthComboBox" labelFloat="true" prefHeight="57.0"
                       prefWidth="106.0" promptText="MM"
                       style="-fx-background-color: WHITE; -fx-padding: 16;">
+                      <items>
+                        <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="01"/>
+                          <String fx:value="02"/>
+                          <String fx:value="03"/>
+                          <String fx:value="04"/>
+                          <String fx:value="05"/>
+                          <String fx:value="06"/>
+                          <String fx:value="07"/>
+                          <String fx:value="08"/>
+                          <String fx:value="09"/>
+                          <String fx:value="10"/>
+                          <String fx:value="11"/>
+                          <String fx:value="12"/>
+                        </FXCollections>
+                      </items>
                       <validators>
                         <RequiredFieldValidator message="Input is required"/>
                       </validators>
@@ -162,7 +197,7 @@
                     <HBox alignment="CENTER" style="-fx-padding: 16;">
                       <children>
                         <JFXTextField fx:id="emailAddressField" alignment="CENTER" labelFloat="true"
-                          prefHeight="25.0" prefWidth="321.0" promptText="Email Address for recipet"
+                          prefHeight="25.0" prefWidth="321.0" promptText="Email Address for receipt"
                           style="-fx-background-color: WHITE; -fx-padding: 16;">
                           <validators>
                             <RequiredFieldValidator message="Input is required"/>
