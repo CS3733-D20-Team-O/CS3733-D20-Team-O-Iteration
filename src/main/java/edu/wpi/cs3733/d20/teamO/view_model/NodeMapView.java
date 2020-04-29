@@ -221,8 +221,10 @@ public class NodeMapView extends ViewModelBase {
         .getWidth(); // todo fix size
     val y = node.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
     val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
-    //System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
-    //System.out.println("Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY() + "]");
+    System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
+    System.out.println(
+        "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
+            + "]");
     drawnNode.setOnMouseClicked(event -> { // todo Fix click (rightclick is left, left is right)
       if (onNodeLeftTapListener != null && event.isPrimaryButtonDown()) {
         onNodeLeftTapListener.accept(drawnNode.node);
