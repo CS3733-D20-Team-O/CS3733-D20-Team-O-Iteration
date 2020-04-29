@@ -3,19 +3,16 @@ package edu.wpi.cs3733.d20.teamO.view_model;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -35,6 +32,9 @@ public class NodeMapView extends ViewModelBase {
   private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
   private final static Paint highlightColor = Color.RED; // Red
   private final static double zoomInc = 0.1;
+  private final static double dragInc = 2;
+
+  private int counter = 0;
 
   /**
    * The current floor being displayed
@@ -93,22 +93,13 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private ImageView backgroundImage;
   @FXML
-  private StackPane floorPane;
-  @FXML
-  private Group nodeGroup, edgeGroup;
+  private AnchorPane floorPane;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
-    nodeGroup = new Group();
-    edgeGroup = new Group();
-
-    nodeGroup.prefWidth(990.4);
-    nodeGroup.prefHeight(594.4);
-    edgeGroup.prefWidth(990.4);
-    edgeGroup.prefHeight(594.4);
-
-    floorPane.getChildren().addAll(edgeGroup, nodeGroup);
+    backgroundImage.setFitWidth(990.4);
+    backgroundImage.setFitHeight(594.4);
 
     // Display the current floor (and consequently call the above listeners)
     setFloor(minFloor);
@@ -123,17 +114,22 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the the background is clicked
-    backgroundImage.setOnMouseClicked(event -> {
-      val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage()
-          .getWidth(); // todo fix size
-      val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
-      onMissRightTapListener.accept((int) imageX, (int) imageY);
+    backgroundImage.setOnMouseClicked(event -> { // todo check
+      if (onMissRightTapListener != null && event.isSecondaryButtonDown()) {
+        val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage()
+            .getWidth(); // todo fix size
+        val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
+        onMissRightTapListener.accept((int) imageX, (int) imageY);
+      }
     });
 
     // Set up event for when the background is dragged
     backgroundImage.setOnMouseDragged(event -> {
-      floorPane.setTranslateX(floorPane.getTranslateX() - event.getX());
-      floorPane.setTranslateY(floorPane.getTranslateY() - event.getY());
+      if (event.isPrimaryButtonDown()) {
+        // todo fix
+        floorPane.setTranslateX(floorPane.getTranslateX() - event.getX());
+        floorPane.setTranslateY(floorPane.getTranslateY() - event.getY());
+      }
     });
   }
 
@@ -174,7 +170,7 @@ public class NodeMapView extends ViewModelBase {
         val target = findNode(node);
         if (target
             != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
-          nodeGroup.getChildren().remove(target);
+          floorPane.getChildren().remove(target);
         }
       }
     }
@@ -200,8 +196,9 @@ public class NodeMapView extends ViewModelBase {
    */
   public void draw() {
     // Clear the items displayed
-    nodeGroup.getChildren().clear();
-    edgeGroup.getChildren().clear();
+    floorPane.getChildren().clear();
+
+    floorPane.getChildren().add(backgroundImage);
 
     // Draw all the nodes on a certain floor
     val floorMap = nodeMap.get(getFloor());
@@ -221,10 +218,10 @@ public class NodeMapView extends ViewModelBase {
     val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
     //System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
     //System.out.println("Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY() + "]");
-    drawnNode.setOnMouseClicked(event -> {
+    drawnNode.setOnMouseClicked(event -> { // todo Fix click (rightclick is left, left is right)
       if (onNodeLeftTapListener != null && event.isPrimaryButtonDown()) {
         onNodeLeftTapListener.accept(drawnNode.node);
-      } else if (onNodeRightTapListener != null) {
+      } else if (onNodeRightTapListener != null && event.isSecondaryButtonDown()) {
         onNodeRightTapListener.accept(drawnNode.node);
       }
     });
@@ -242,7 +239,7 @@ public class NodeMapView extends ViewModelBase {
         onNodeRightDragReleaseListener.accept(drawnNode.node, event);
       }
     });
-    nodeGroup.getChildren().add(drawnNode);
+    floorPane.getChildren().add(drawnNode);
   }
 
   /**
@@ -265,9 +262,10 @@ public class NodeMapView extends ViewModelBase {
           onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
         }
       });
+
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
-      edgeGroup.getChildren().add(drawnEdge);
+      floorPane.getChildren().add(1, drawnEdge);
     }
   }
 
@@ -293,7 +291,7 @@ public class NodeMapView extends ViewModelBase {
       });
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
-      edgeGroup.getChildren().add(drawnEdge);
+      floorPane.getChildren().add(1, drawnEdge);
     }
   }
 
@@ -455,26 +453,26 @@ public class NodeMapView extends ViewModelBase {
    */
   public void relocateNode(Node node, double x, double y) {
     val nodeCircle = findNode(node);
-    nodeCircle.setCenterX(x);
-    nodeCircle.setCenterY(y);
+    if (nodeCircle != null) {
+      nodeCircle.setCenterX(x);
+      nodeCircle.setCenterY(y);
+    }
   }
 
   /**
    * Make all nodes on the floor visible
    */
   public void makeNodeVisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> {
-      nodeCircle.setVisible(true);
-    });
+    floorPane.getChildren().stream().filter(n -> n instanceof NodeCircle).
+        forEach(nodeCircle -> nodeCircle.setVisible(true));
   }
 
   /**
    * Make all nodes on the floor invisible
    */
   public void makeNodeInvisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> {
-      nodeCircle.setVisible(false);
-    });
+    floorPane.getChildren().stream().filter(n -> n instanceof NodeCircle).
+        forEach(nodeCircle -> nodeCircle.setVisible(false));
   }
 
   /**
@@ -484,13 +482,10 @@ public class NodeMapView extends ViewModelBase {
    * @return the nodeCircle that node refers to (or null if no nodeCircle is found)
    */
   private NodeCircle findNode(Node node) {
-    for (val child : nodeGroup.getChildren()) {
-      val nodeCircle = (NodeCircle) child;
-      if (nodeCircle.node.equals(node)) {
-        return nodeCircle;
-      }
-    }
-    return null;
+    return floorPane.getChildren().stream()
+        .filter(n -> n instanceof NodeCircle)
+        .map(n -> (NodeCircle) n)
+        .reduce(null, (result, current) -> current.node.equals(node) ? current : result);
   }
 
   /**
@@ -500,14 +495,12 @@ public class NodeMapView extends ViewModelBase {
    * @return the NodeLine that node refers to (or null if no NodeLine is found)
    */
   private NodeLine findLine(Edge edge) {
-    for (val child : edgeGroup.getChildren()) {
-      val nodeLine = (NodeLine) child;
-      if (nodeLine.node1.getNodeID().equals(edge.getStartID()) && nodeLine.node2.getNodeID()
-          .equals(edge.getStopID())) {
-        return nodeLine;
-      }
-    }
-    return null;
+    return floorPane.getChildren().stream()
+        .filter(n -> n instanceof NodeLine)
+        .map(n -> (NodeLine) n)
+        .reduce(null, (result, current) ->
+            current.node1.getNodeID().equals(edge.getStartID()) &&
+                current.node2.getNodeID().equals(edge.getStopID()) ? current : result);
   }
 
   /**
@@ -519,6 +512,8 @@ public class NodeMapView extends ViewModelBase {
 
     public NodeCircle(Node node, double x, double y, double nodeSize, Paint nodeColor) {
       super(x, y, nodeSize, nodeColor);
+      //setTranslateX(x);
+      //setTranslateY(y);
       this.node = node;
     }
   }
@@ -533,29 +528,10 @@ public class NodeMapView extends ViewModelBase {
 
     public NodeLine(Node node1, Node node2, double x1, double y1, double x2, double y2) {
       super(x1, y1, x2, y2);
+      //setTranslateX((x1 + x2) / 2);
+      //setTranslateY((y1 + y2) / 2);
       this.node1 = node1;
       this.node2 = node2;
     }
-  }
-
-  // This is really sketchy for testing if you ask me.
-  // I think what this does is give a copy of the list, so the list isn't directly interacted with
-
-  /**
-   * Used for testing
-   *
-   * @return a list
-   */
-  public List<javafx.scene.Node> getNodeGroupList() {
-    return new ArrayList<>(nodeGroup.getChildren());
-  }
-
-  /**
-   * Used for testing
-   *
-   * @return a list
-   */
-  public List<javafx.scene.Node> getEdgeGroupList() {
-    return new ArrayList<>(edgeGroup.getChildren());
   }
 }
