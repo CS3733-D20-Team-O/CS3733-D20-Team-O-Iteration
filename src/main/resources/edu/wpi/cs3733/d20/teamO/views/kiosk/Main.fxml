@@ -58,7 +58,7 @@
   </StackPane>
 
   <!-- Login Button -->
-  <JFXButton text="Login" buttonType="RAISED" onAction="#openLoginDialog"
+  <JFXButton text="%adminLogin" buttonType="RAISED" onAction="#openLoginDialog"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
     AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
 
