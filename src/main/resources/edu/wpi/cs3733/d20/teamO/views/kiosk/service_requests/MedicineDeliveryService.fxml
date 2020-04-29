@@ -89,7 +89,7 @@
                 <RequiredFieldValidator message="%serviceMedicineDeliveryDeliveryMethodValidator"/>
               </validators>
             </JFXComboBox>
-            <JFXTimePicker promptText="%serviceRequestTime">
+            <JFXTimePicker fx:id="timePicker" promptText="%serviceRequestTime">
               <validators>
                 <RequiredFieldValidator message="%serviceMedicineDeliveryTimeValidator"/>
               </validators>

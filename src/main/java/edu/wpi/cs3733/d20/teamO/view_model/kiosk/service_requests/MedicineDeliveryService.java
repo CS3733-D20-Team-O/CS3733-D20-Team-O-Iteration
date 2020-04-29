@@ -43,7 +43,7 @@ public class MedicineDeliveryService extends ServiceRequestBase {
         .validate(patientName, medicationName, deliveryMethod, floorNumber, roomName, timePicker);
     if (valid) {
       val data = new MedicineDeliveryServiceData(medicationName.getText(),
-          deliveryMethod.getItems().toString());
+          deliveryMethod.getSelectionModel().getSelectedItem().toString());
       val time = timePicker.getValue().toString();
       val confirmationCode = database
           .addServiceRequest(time,
