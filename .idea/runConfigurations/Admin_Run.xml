@@ -4,7 +4,7 @@
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="run --args=&quot;--username=admin --password=password&quot;" />
+      <option name="scriptParameters" value="run --args=&quot;--username=staff --password=staff&quot;" />
       <option name="taskDescriptions">
         <list />
       </option>

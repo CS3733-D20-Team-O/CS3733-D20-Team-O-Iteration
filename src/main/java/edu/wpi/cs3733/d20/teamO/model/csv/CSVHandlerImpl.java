@@ -5,7 +5,6 @@ import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -76,25 +75,15 @@ class CSVHandlerImpl implements CSVHandler {
       scanner.nextLine();
       // Read each employee in the file and put its data into the database
       while (scanner.hasNext()) {
-        database.addEmployee(scanner.next(), scanner.next(), scanner.next(), scanner.nextBoolean());
-      }
-    } catch (FileNotFoundException e) {
-      log.error("Could not read the file " + csvFileLocation, e);
-      return false;
-    }
-    return true;
-  }
-
-  @Override
-  public boolean importServiceRequests(String csvFileLocation) {
-    File serviceRequestCsvFile = new File(csvFileLocation);
-    try (val scanner = new Scanner(serviceRequestCsvFile).useDelimiter(",|[\\r\\n]+")) {
-      // Read in first line so that attribute names are not imported as a serviceRequest
-      scanner.nextLine();
-      // Read each serviceRequest in the file and put its data into the database
-      while (scanner.hasNext()) {
-        database.addServiceRequest(scanner.next(), scanner.next(), scanner.next(), scanner.next(),
-            scanner.next(), scanner.next(), scanner.next(), scanner.next(), scanner.next());
+        String id = scanner.next();
+        //only import employee if it is not the dummy employee to avoid duplicate
+        if (!id.equals("0")) {
+          database.addEmployee(id, scanner.next(), scanner.next(), scanner.nextBoolean());
+        } else {
+          scanner.next();
+          scanner.next();
+          scanner.nextBoolean();
+        }
       }
     } catch (FileNotFoundException e) {
       log.error("Could not read the file " + csvFileLocation, e);
@@ -117,12 +106,10 @@ class CSVHandlerImpl implements CSVHandler {
 
   @Override
   public boolean exportEmployees(String csvFileLocation) {
-    return exportGeneric(csvFileLocation, database.exportEmployees(), Employee.class);
-  }
-
-  @Override
-  public boolean exportServiceRequests(String csvFileLocation) {
-    return exportGeneric(csvFileLocation, database.exportServiceRequests(), ServiceRequest.class);
+    List<Employee> employeesToExport = database.exportEmployees();
+    //remove dummy employee from list before exporting
+    employeesToExport.removeIf(employee -> employee.getEmployeeID().equals("0"));
+    return exportGeneric(csvFileLocation, employeesToExport, Employee.class);
   }
 
   private <T> boolean exportGeneric(String csvFileLocation, List<T> entries,
