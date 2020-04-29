@@ -226,13 +226,13 @@
                               <Label text="Node category"/>
                               <Label text="Short name" GridPane.rowIndex="1"/>
                               <Label text="Long name" GridPane.rowIndex="2"/>
-                              <JFXTextField fx:id="newNodeShortName" GridPane.columnIndex="1"
+                              <JFXTextField fx:id="newNodeShortNameField" GridPane.columnIndex="1"
                                 GridPane.rowIndex="1">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
                                  </validators>
                               </JFXTextField>
-                              <JFXTextField fx:id="newNodeLongName" GridPane.columnIndex="1"
+                              <JFXTextField fx:id="newNodeLongNameField" GridPane.columnIndex="1"
                                 GridPane.rowIndex="2">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
