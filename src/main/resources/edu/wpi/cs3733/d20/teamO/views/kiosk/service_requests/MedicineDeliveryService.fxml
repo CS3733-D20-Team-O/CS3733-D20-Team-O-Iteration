@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<VBox fx:id="root" alignment="TOP_CENTER" spacing="32.0" style="-fx-background-color: FFFFFF;"
+<VBox alignment="TOP_CENTER" spacing="32.0" style="-fx-background-color: FFFFFF; -fx-font-size: 16"
   xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.MedicineDeliveryService">
   <padding>
@@ -96,7 +96,9 @@
             </JFXTimePicker>
           </children>
         </HBox>
-    <JFXButton onAction="#submitRequest" text="%submitButton"/>
-    <JFXButton onAction="#cancel" text="%cancelButton"/>
+    <HBox alignment="CENTER_RIGHT" spacing="16">
+      <JFXButton onAction="#submitRequest" text="%submitButton"/>
+      <JFXButton onAction="#cancel" text="%cancelButton"/>
+    </HBox>
   </children>
     </VBox>
