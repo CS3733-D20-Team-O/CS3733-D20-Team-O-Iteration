@@ -82,11 +82,25 @@ public class Dialog {
    * @throws ClassCastException in case the view model of the fxml is not a DialogViewModel
    */
   public DialogViewModel showFullscreenFXML(String fxml) throws IOException, ClassCastException {
+    return showFXML(navigator.getRoot(), fxml);
+  }
+
+  /**
+   * Displays a dialog feeding from the given fxml file over the given root
+   *
+   * @param root the root to display the dialog over
+   * @param fxml the fxml file to load
+   * @return the view model that is controlling the contents of the shown dialog
+   * @throws IOException        in case the fxml file cannot be loaded
+   * @throws ClassCastException in case the view model of the fxml is not a DialogViewModel
+   */
+  public DialogViewModel showFXML(StackPane root, String fxml)
+      throws IOException, ClassCastException {
     // Clear any previously usage of the fxmlLoader
     fxmlLoader.setRoot(null);
     fxmlLoader.setController(null);
     // Show the dialog in full screen mode and connect the view model to the dialog
-    val dialog = showFullscreen(fxmlLoader.load(Main.class.getResourceAsStream(fxml)));
+    val dialog = show(root, fxmlLoader.load(Main.class.getResourceAsStream(fxml)));
     val dialogViewModel = (DialogViewModel) fxmlLoader.getController();
     dialogViewModel.parent = dialog;
     dialog.addEventHandler(JFXDialogEvent.CLOSED, event -> dialogViewModel.onClose());

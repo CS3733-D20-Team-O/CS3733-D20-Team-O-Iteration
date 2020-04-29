@@ -107,6 +107,34 @@ public class SecurityServiceTest extends FxRobot {
     map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
+  @Test
+  public void testFloorLocationPopulated() {
+    // Verify that all floors are populated
+    clickOn("Floor");
+    verifyThat("1", javafx.scene.Node::isVisible);
+    verifyThat("3", javafx.scene.Node::isVisible);
+    verifyThat("5", javafx.scene.Node::isVisible);
+
+    // Now that we know all floors are correct, lets check to see if the locations are present
+    // First floor
+    clickOn("1");
+    clickOn("Room/Location on Floor");
+    verifyThat("Floor 1", javafx.scene.Node::isVisible);
+
+    // Third floor
+    clickOn("1");
+    clickOn("3");
+    clickOn("Room/Location on Floor");
+    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
+    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
+
+    // Fifth floor
+    clickOn("3");
+    clickOn("5");
+    clickOn("Room/Location on Floor");
+    verifyThat("Floor 5", javafx.scene.Node::isVisible);
+  }
+
 
   @Test
   public void testSubmit() throws IOException {
@@ -133,7 +161,7 @@ public class SecurityServiceTest extends FxRobot {
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("Security"), eq("John Smith"),
-        eq(new SecurityRequestData("Code Grey: Combative/Violent Individual", "Individual has a knife")));
+        eq(new SecurityRequestData("Code pink: Amber alert/Code Adam: infant abduction", "")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
@@ -142,11 +170,11 @@ public class SecurityServiceTest extends FxRobot {
     verify(validator, times(3)).validate(any());
     verify(database, times(2)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("Security"), eq("John Smith"),
-        eq(new SecurityRequestData("Code Grey: Combative/Violent Individual", "Individual slammed doctor to the ground")));
+        eq(new SecurityRequestData("Code pink: Amber alert/Code Adam: infant abduction", "")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1)).showFullscreenFXML(anyString());
     verify(jfxDialog, times(1)).close();
-  }
 
-  //todo add more tests for different types of emergencies
+    //todo add more tests for different types of emergencies
+  }
 }

@@ -49,7 +49,7 @@
     </VBox>
     <JFXTextArea fx:id="commentTextArea" promptText="%serviceAVCommentTextArea"/>
     <HBox alignment="CENTER_RIGHT" spacing="16.0">
-      <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#submitRequest"
+      <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#onSubmitPress"
         style="-fx-background-color: #00BB00; -fx-text-fill: WHITE;" text="%serviceAVSubmitButton"/>
       <JFXButton fx:id="cancelButton" buttonType="RAISED" onAction="#close"
         style="-fx-background-color: LIGHTGRAY;" text="%serviceAVCancelButton"/>

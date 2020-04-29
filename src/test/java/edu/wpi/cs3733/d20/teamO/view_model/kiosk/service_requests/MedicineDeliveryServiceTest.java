@@ -54,17 +54,21 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   MedicineDeliveryService viewModel;
 
   private void initializeBundle() {
-    bundle.put("serviceMedicineDeliveryMedicationRequest", "Medication Delivery Request");
-    bundle.put("serviceMedicineDeliveryPatientNameField", "Patient Name");
+    bundle.put("serviceMedicineDeliveryMedicationRequest", "Medicine Delivery Request");
+    bundle.put("serviceMedicineDeliveryPatientNameField", "Patient name");
     bundle.put("serviceMedicineDeliveryPatientNameFieldValidator", "Patient Name is Required!");
-    bundle.put("serviceMedicineDeliveryMedicationNameField", "Medication Name");
-    bundle.put("serviceMedicineDeliveryMedicationNameFieldValidator", "Medication Name is Required!");
+    bundle.put("serviceMedicineDeliveryMedicationNameField", "Medicine name");
+    bundle.put("serviceMedicineDeliveryMedicationNameFieldValidator", "Medicine Name is Required!");
     bundle.put("serviceMedicineFloorRequest", "Floor");
     bundle.put("serviceMedicineFloorRequestValidator", "Floor information is Required!");
     bundle.put("serviceMedicineLocationRequest", "Room/Location on Floor");
     bundle.put("serviceMedicineLocationRequestValidator", "Location info is Required!");
-    bundle.put("serviceMedicineDeliveryDeliveryMethod", "Delivery Method");
+    bundle.put("serviceMedicineDeliveryDeliveryMethod", "Delivery method");
     bundle.put("serviceMedicineDeliveryDeliveryMethodValidator", "Delivery Method is Required!");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+    bundle.put("serviceRequestTime", "Time");
+    bundle.put("serviceMedicineDeliveryTimeValidator", "Time is required");
   }
 
   @Start
@@ -126,7 +130,7 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   @Test
   public void testSubmit2() {
     // Test when there are fields filled out (but adding fails)
-    clickOn("Your name");
+    clickOn("Patient name");
     write("John Smith");
     clickOn("Floor");
     clickOn("1");
@@ -140,7 +144,7 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   public void testSubmit3() throws IOException {
     // todo finish this test case
     // Test successful submission
-    clickOn("Your name");
+    clickOn("Patient name");
     write("John Smith");
     clickOn("Medicine name");
     write("Ibuprofen");
@@ -150,6 +154,8 @@ public class MedicineDeliveryServiceTest extends FxRobot {
     clickOn("Floor 1");
     clickOn("Delivery method");
     clickOn("Oral");
+    clickOn("Time");
+    write("20:00");
     clickOn("Submit");
     verify(validator, times(1)).validate(any());
     /*
