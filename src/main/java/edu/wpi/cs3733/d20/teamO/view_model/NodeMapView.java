@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -93,7 +94,9 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private ImageView backgroundImage;
   @FXML
-  private AnchorPane floorPane;
+  private StackPane floorPane;
+  @FXML
+  private AnchorPane nodeGroup, edgeGroup;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -170,7 +173,7 @@ public class NodeMapView extends ViewModelBase {
         val target = findNode(node);
         if (target
             != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
-          floorPane.getChildren().remove(target);
+          nodeGroup.getChildren().remove(target);
         }
       }
     }
@@ -196,9 +199,11 @@ public class NodeMapView extends ViewModelBase {
    */
   public void draw() {
     // Clear the items displayed
-    floorPane.getChildren().clear();
+    //floorPane.getChildren().clear();
+    nodeGroup.getChildren().clear();
+    edgeGroup.getChildren().clear();
 
-    floorPane.getChildren().add(backgroundImage);
+    //floorPane.getChildren().add(backgroundImage);
 
     // Draw all the nodes on a certain floor
     val floorMap = nodeMap.get(getFloor());
@@ -239,7 +244,7 @@ public class NodeMapView extends ViewModelBase {
         onNodeRightDragReleaseListener.accept(drawnNode.node, event);
       }
     });
-    floorPane.getChildren().add(drawnNode);
+    nodeGroup.getChildren().add(drawnNode);
   }
 
   /**
@@ -265,7 +270,8 @@ public class NodeMapView extends ViewModelBase {
 
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
-      floorPane.getChildren().add(1, drawnEdge);
+      edgeGroup.getChildren().add(drawnEdge);
+      //edgeGroup.getChildren().add(1, drawnEdge);
     }
   }
 
@@ -291,52 +297,10 @@ public class NodeMapView extends ViewModelBase {
       });
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
-      floorPane.getChildren().add(1, drawnEdge);
+      edgeGroup.getChildren().add(drawnEdge);
+      //edgeGroup.getChildren().add(1, drawnEdge);
     }
   }
-
-  /*
-  /**
-   * Used to calculate if a click was next to a node or not
-   *
-   * @param event the MouseEvent
-   *
-  private void checkClick(MouseEvent event) {
-    if (event.isPrimaryButtonDown()) { // Left-click
-    } else if (event.isSecondaryButtonDown()) { // Right-click
-
-    }
-    val imageX = event.getX() / nodeCanvas.getWidth() * backgroundImage.getImage().getWidth();
-    val imageY = event.getY() / nodeCanvas.getHeight() * backgroundImage.getImage().getHeight();
-
-    // Setup the closest node algorithm
-    Node closest = null;
-    double closestDistance = Double.MAX_VALUE;
-
-    // Search for the closest node
-    val floorMap = nodeMap.get(getFloor());
-    if (floorMap != null) {
-      for (val id : floorMap.keySet()) {
-        val node = floorMap.get(id);
-        val distance = Math.hypot(imageX - node.getXCoord(), imageY - node.getYCoord());
-        if (distance < closestDistance) {
-          closest = node;
-          closestDistance = distance;
-        }
-      }
-    }
-
-    // Call the appropriate listener
-    if (closestDistance >= nodeSize) {
-      if (onMissTapListener != null) {
-        onMissTapListener.accept((int) imageX, (int) imageY);
-      }
-    } else {
-      if (onNodeTappedListener != null) {
-        onNodeTappedListener.accept(closest);
-      }
-    }
-  }*/
 
   /**
    * Zooms the canvas in using this multiplier
@@ -463,16 +427,26 @@ public class NodeMapView extends ViewModelBase {
    * Make all nodes on the floor visible
    */
   public void makeNodeVisible() {
+    nodeGroup.getChildren().forEach(nodeCircle -> {
+      nodeCircle.setVisible(true);
+    });
+
+    /*
     floorPane.getChildren().stream().filter(n -> n instanceof NodeCircle).
-        forEach(nodeCircle -> nodeCircle.setVisible(true));
+        forEach(nodeCircle -> nodeCircle.setVisible(true));*/
   }
 
   /**
    * Make all nodes on the floor invisible
    */
   public void makeNodeInvisible() {
+    nodeGroup.getChildren().forEach(nodeCircle -> {
+      nodeCircle.setVisible(false);
+    });
+
+    /*
     floorPane.getChildren().stream().filter(n -> n instanceof NodeCircle).
-        forEach(nodeCircle -> nodeCircle.setVisible(false));
+        forEach(nodeCircle -> nodeCircle.setVisible(false));*/
   }
 
   /**
@@ -482,10 +456,19 @@ public class NodeMapView extends ViewModelBase {
    * @return the nodeCircle that node refers to (or null if no nodeCircle is found)
    */
   private NodeCircle findNode(Node node) {
+    for (val child : nodeGroup.getChildren()) {
+      val nodeCircle = (NodeCircle) child;
+      if (nodeCircle.node.equals(node)) {
+        return nodeCircle;
+      }
+    }
+    return null;
+
+    /*
     return floorPane.getChildren().stream()
         .filter(n -> n instanceof NodeCircle)
         .map(n -> (NodeCircle) n)
-        .reduce(null, (result, current) -> current.node.equals(node) ? current : result);
+        .reduce(null, (result, current) -> current.node.equals(node) ? current : result);*/
   }
 
   /**
@@ -495,12 +478,21 @@ public class NodeMapView extends ViewModelBase {
    * @return the NodeLine that node refers to (or null if no NodeLine is found)
    */
   private NodeLine findLine(Edge edge) {
-    return floorPane.getChildren().stream()
+    for (val child : edgeGroup.getChildren()) {
+      val nodeLine = (NodeLine) child;
+      if (nodeLine.node1.getNodeID().equals(edge.getStartID()) && nodeLine.node2.getNodeID()
+          .equals(edge.getStopID())) {
+        return nodeLine;
+      }
+    }
+    return null;
+
+    /*return floorPane.getChildren().stream()
         .filter(n -> n instanceof NodeLine)
         .map(n -> (NodeLine) n)
         .reduce(null, (result, current) ->
             current.node1.getNodeID().equals(edge.getStartID()) &&
-                current.node2.getNodeID().equals(edge.getStopID()) ? current : result);
+                current.node2.getNodeID().equals(edge.getStopID()) ? current : result);*/
   }
 
   /**
