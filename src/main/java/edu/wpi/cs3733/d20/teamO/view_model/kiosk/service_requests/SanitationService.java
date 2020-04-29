@@ -10,10 +10,9 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestD
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
@@ -52,7 +51,7 @@ public class SanitationService extends ServiceRequestBase {
       val requestData = new SanitationRequestData(
           ((JFXRadioButton) levelSelection.getSelectedToggle()).getText(),
           additionalNotes.getText());
-      val time = LocalDateTime.now().toString(); // todo format this
+      val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd hh:mm a"));
       // todo use enum for sanitation string below
       // todo extract strings
       val confirmationCode = database.addServiceRequest(
@@ -62,15 +61,7 @@ public class SanitationService extends ServiceRequestBase {
         snackBar.show("Failed to create the sanitation service request");
       } else {
         close();
-        try {
-          ((RequestConfirmationViewModel)
-              dialog.showFullscreenFXML("views/kiosk/RequestConfirmation.fxml"))
-              .setServiceRequest(confirmationCode);
-        } catch (IOException e) {
-          log.error("Failed to show the detailed confirmation dialog", e);
-          dialog.showBasic("Sanitation Request Submitted Successfully",
-              "Your confirmation code is:\n" + confirmationCode, "Close");
-        }
+        showRequestConfirmation(confirmationCode);
       }
     }
   }
