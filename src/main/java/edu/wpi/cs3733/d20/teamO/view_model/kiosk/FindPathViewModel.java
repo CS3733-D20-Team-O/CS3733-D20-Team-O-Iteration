@@ -18,7 +18,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FindPathViewModel extends ViewModelBase {
@@ -35,6 +38,8 @@ public class FindPathViewModel extends ViewModelBase {
 
   @FXML
   private BorderPane root;
+  @FXML
+  private Pane clipper;
   @FXML
   private NodeMapView nodeMapViewController;
   @FXML
@@ -65,13 +70,18 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @Override
   protected void start(URL location, ResourceBundle resources) {
+    val clipRect = new Rectangle();
+    clipRect.widthProperty().bind(clipper.widthProperty());
+    clipRect.heightProperty().bind(clipper.heightProperty());
+    clipper.setClip(clipRect);
+
     JFXDepthManager.setDepth(sideBar, 2);
     nodeMap = database.exportNodes();
     nodeMapViewController.setNodeMap(nodeMap);
     defaultStart = nodeMap.get("AEXIT00101");
     defaultStop = nodeMap.get("AEXIT00101");
     //TODO fix start and stop to not die when node is deleted
-    nodeMapViewController.setOnNodeTappedListener(node -> {
+    nodeMapViewController.setOnNodeLeftTapListener(node -> {
       switch (currentState) {
         case START:
           beginning = node;
@@ -90,7 +100,7 @@ public class FindPathViewModel extends ViewModelBase {
           break;
       }
     });
-    nodeMapViewController.setOnMissTapListener((x, y) -> {
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> {
     });//TODO remove
 
     //TODO abstract into helper method

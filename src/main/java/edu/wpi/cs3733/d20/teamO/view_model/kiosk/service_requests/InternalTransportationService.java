@@ -10,8 +10,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -63,7 +61,7 @@ public class InternalTransportationService extends ServiceRequestBase {
         if (validator.validate(currentRoom, reqName, reqTime, destinationRoom)) {
           val data = new InternalTransportationRequestData("Assisted",
               ((RadioButton) assistedToggle.getSelectedToggle()).getText(),
-              destinationFloor.getSelectionModel().getSelectedItem().toString());
+              destinationRoom.getSelectionModel().getSelectedItem());
           addToDatabase(data);
         }
         break;
@@ -85,21 +83,14 @@ public class InternalTransportationService extends ServiceRequestBase {
    */
   private void addToDatabase(ServiceRequestData data) {
     val confirmationCode = database
-        .addServiceRequest(reqTime.toString(), currentRoom.getSelectionModel().getSelectedItem(),
+        .addServiceRequest(reqTime.getValue().toString(),
+            currentRoom.getSelectionModel().getSelectedItem(),
             "Internal Transportation", reqName.getText(), data);
     if (confirmationCode == null) {
       snackBar.show("Failed to create the internal transportation request");
     } else {
       close();
-      try {
-        ((RequestConfirmationViewModel)
-            dialog.showFullscreenFXML("views/kiosk/RequestConfirmation.fxml"))
-            .setServiceRequest(confirmationCode);
-      } catch (IOException e) {
-        log.error("Failed to show the detailed confirmation dialog", e);
-        dialog.showBasic("Internal Transportation Request Submitted Successfully",
-            "Your confirmation code is:\n" + confirmationCode, "Close");
-      }
+      showRequestConfirmation(confirmationCode);
     }
   }
 
