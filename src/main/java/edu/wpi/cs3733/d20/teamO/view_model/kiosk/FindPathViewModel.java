@@ -71,7 +71,7 @@ public class FindPathViewModel extends ViewModelBase {
     defaultStart = nodeMap.get("AEXIT00101");
     defaultStop = nodeMap.get("AEXIT00101");
     //TODO fix start and stop to not die when node is deleted
-    nodeMapViewController.setOnNodeTappedListener(node -> {
+    nodeMapViewController.setOnNodeLeftTapListener(node -> {
       switch (currentState) {
         case START:
           beginning = node;
@@ -90,7 +90,7 @@ public class FindPathViewModel extends ViewModelBase {
           break;
       }
     });
-    nodeMapViewController.setOnMissTapListener((x, y) -> {
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> {
     });//TODO remove
 
     //TODO abstract into helper method
