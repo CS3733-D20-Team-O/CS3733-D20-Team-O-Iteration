@@ -11,6 +11,7 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -24,7 +25,9 @@
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel">
    <center>
-      <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
+      <AnchorPane fx:id="clipper">
+         <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
+      </AnchorPane>
    </center>
    <right>
       <VBox fx:id="sideBar" alignment="TOP_CENTER" prefWidth="300.0" spacing="8.0"
@@ -282,8 +285,8 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                            </rowConstraints>
                            <children>
-                              <Label text="Start node"/>
-                              <Label text="Destination node" GridPane.rowIndex="1"/>
+                              <Label text="Start node: "/>
+                              <Label text="Destination node: " GridPane.rowIndex="1"/>
                               <Label fx:id="newEdgeStartNode" text="" GridPane.columnIndex="1"/>
                               <Label fx:id="newEdgeDestNode" text="" GridPane.columnIndex="1"
                                 GridPane.rowIndex="1"/>
