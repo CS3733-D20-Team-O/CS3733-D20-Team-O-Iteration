@@ -241,7 +241,9 @@ public class NodeMapView extends ViewModelBase {
     val x = translateToPaneX(node.getXCoord());
     val y = translateToPaneY(node.getYCoord());
     val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
-    System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
+    System.out.println(
+        "Node: [" + node.getNodeID() + "] At X: [" + node.getXCoord() + "] At Y: [" + node
+            .getYCoord() + "]");
     System.out.println(
         "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
             + "]");
@@ -543,18 +545,34 @@ public class NodeMapView extends ViewModelBase {
   }
 
   public int translateToImageX(int x) {
+    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");
     return (int) (x / floorPane.getWidth() * backgroundImage.getImage().getWidth());
   }
 
   public int translateToImageY(int y) {
+    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");
     return (int) (y / floorPane.getHeight() * backgroundImage.getImage().getHeight());
   }
 
   public int translateToPaneX(int x) {
+    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");
     return (int) (x / backgroundImage.getImage().getWidth() * floorPane.getWidth());
   }
 
   public int translateToPaneY(int y) {
+    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");
     return (int) (y / backgroundImage.getImage().getHeight() * floorPane.getHeight());
   }
 
