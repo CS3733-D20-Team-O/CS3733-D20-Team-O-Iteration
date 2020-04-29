@@ -4,7 +4,10 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -33,21 +36,43 @@
           <RequiredFieldValidator message="%serviceInterpreterLocationValidator"/>
         </validators>
       </JFXComboBox>
+      <JFXTimePicker fx:id="timePicker" defaultColor="#003f8f"
+        promptText="%serviceInterpreterTimePicker"
+        style="-fx-background-color: WHITE;">
+        <validators>
+          <RequiredFieldValidator message="%serviceInterpreterTimeValidator"/>
+        </validators>
+      </JFXTimePicker>
     </HBox>
     <HBox alignment="CENTER" layoutX="42.0" layoutY="191.0" spacing="32" style="-fx-spacing: 16;">
       <children>
         <JFXComboBox fx:id="language" prefHeight="38.0" prefWidth="137.0"
-          promptText="%serviceInterpreterLanguageCB"
-          style="-fx-background-color: WHITE;">
+          promptText="%serviceInterpreterLanguageCB" style="-fx-background-color: WHITE;">
           <validators>
             <RequiredFieldValidator message="%serviceInterpreterLanguageValidator"/>
           </validators>
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Spanish"/>
+              <String fx:value="French"/>
+              <String fx:value="Chinese"/>
+              <String fx:value="Japanese"/>
+              <String fx:value="Russian"/>
+            </FXCollections>
+          </items>
         </JFXComboBox>
         <JFXComboBox fx:id="gender" promptText="%serviceInterpreterGenderCB"
           style="-fx-background-color: WHITE;">
           <validators>
             <RequiredFieldValidator message="%serviceInterpreterGenderValidator"/>
           </validators>
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Male"/>
+              <String fx:value="Female"/>
+              <String fx:value="No Preference"/>
+            </FXCollections>
+          </items>
         </JFXComboBox>
       </children>
     </HBox>

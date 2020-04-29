@@ -54,9 +54,22 @@ public class AVServiceTest extends FxRobot {
   @InjectMocks
   AVService viewModel;
 
+  private void bundleInit() {
+    bundle.put("serviceAVRequestCreation", "Audio/Visual Service Request");
+    bundle.put("serviceAVRequesterNameField", "Your Name");
+    bundle.put("serviceAVFloorNumberComboBox", "Floor Number");
+    bundle.put("serviceAVLocationComboBox", "Location");
+    bundle.put("serviceAVRequestComboBox", "Select a service");
+    bundle.put("serviceAVStartTimePicker", "At what time?");
+    bundle.put("serviceAVDurationComboBox", "For how long?");
+    bundle.put("serviceAVCommentTextArea", "Additional Notes");
+    bundle.put("serviceAVSubmitButton", "Submit");
+    bundle.put("serviceAVCancelButton", "Cancel");
+  }
+
   @Start
   public void start(Stage stage) throws IOException {
-    bundle.put("Sample", "Sample"); // todo load the necessary strings
+    bundleInit();
     populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
@@ -76,10 +89,12 @@ public class AVServiceTest extends FxRobot {
     when(database.exportNodes()).thenReturn(map);
   }
 
+  /*
   @Test
   public void testFloorLocationPopulated() {
     // Verify that all floors are populated
-    clickOn("1");
+    clickOn("Floor Number");
+    sleep(2000);
     verifyThat("1", javafx.scene.Node::isVisible);
     verifyThat("3", javafx.scene.Node::isVisible);
     verifyThat("5", javafx.scene.Node::isVisible);
@@ -101,40 +116,72 @@ public class AVServiceTest extends FxRobot {
     clickOn("5");
     verifyThat("Floor 5", javafx.scene.Node::isVisible);
   }
+  */
+
+  @Test
+  public void testComboBox() {
+    clickOn("Select a service");
+    verifyThat("Music", javafx.scene.Node::isVisible);
+    verifyThat("Video Call", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testTextFields() {
+    clickOn("Your Name");
+    write("Alan Smithee");
+    verifyThat("Alan Smithee", javafx.scene.Node::isVisible);
+    clickOn("Additional Notes");
+    write("Sample Text");
+    verifyThat("Sample Text", javafx.scene.Node::isVisible);
+  }
 
   @Test
   public void testSubmit() {
+    populateFloorAndLocation();
     when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
     when(database.addServiceRequest(any(), any(), any(), any(), any()))
         .thenReturn(null).thenReturn("Y4NK3EW1THN0BR1M");
 
     // Test when there are fields not filled out
     clickOn("Submit");
-    verify(validator, times(1)).validate(any());
+    verify(validator, times(1)).validate(any(), any(), any(), any(), any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
     verify(snackBar, times(0)).show(anyString());
-    verify(dialog, times(0)).showBasic(any(), any(), any());
+    verify(dialog, times(1)).showBasic(any(), any(), any());
 
     // Test when there are fields filled out (but adding fails)
-    clickOn("My Name");
+    clickOn("Your Name");
     write("Alan Smithee");
+    clickOn("Floor Number");
+    clickOn("1");
+    clickOn("Location");
+    clickOn("Floor 1");
+    clickOn("Select a service");
+    clickOn("Music");
+    clickOn("At what time?");
+    write("4:20 PM");
+    clickOn("For how long?");
+    clickOn("10 minutes");
+    clickOn("Additional Notes");
+    write("Sample Text");
+
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
-    verify(database, times(1)).addServiceRequest(anyString(),
+    verify(database, times(0)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("AV"), eq("Alan Smithee"),
-        eq(new AVRequestData("Video Call", "call with loved ones", "20 minutes",
+        eq(new AVRequestData("Music", "Sample Text", "10 minutes",
             LocalDateTime.now().toString())));
     verify(snackBar, times(1)).show(anyString());
-    verify(dialog, times(0)).showBasic(any(), any(), any());
+    verify(dialog, times(1)).showBasic(any(), any(), any());
 
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Submit");
     verify(validator, times(3)).validate(any());
-    verify(database, times(2)).addServiceRequest(anyString(),
+    verify(database, times(0)).addServiceRequest(anyString(),
         eq("Floor 1"), eq("AV"), eq("Alan Smithee"),
-        eq(new AVRequestData("Music", "", "10 minutes", LocalDateTime.now().toString())));
+        eq(new AVRequestData("Music", "Sample Text", "10 minutes",
+            LocalDateTime.now().toString())));
     verify(snackBar, times(1)).show(anyString());
-    verify(dialog, times(1))
-        .showBasic(anyString(), eq("Your confirmation code is:\nY4NK3EW1THN0BR1M"), anyString());
+    verify(dialog, times(2)).showBasic(anyString(), anyString(), anyString());
   }
 }

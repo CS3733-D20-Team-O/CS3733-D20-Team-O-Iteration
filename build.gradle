@@ -72,6 +72,7 @@ jar {
 def codeCoverageExcludes = [
         // The following are excluded because they have no callable methods
         'edu.wpi.cs3733.d20.teamO.model.database.db_model.*',
+        'edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.*',
         // The following are just Guice modules
         'edu.wpi.cs3733.d20.teamO.injection_modules.*',
         // todo test these later
@@ -83,7 +84,9 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.admin.FloorMapEditorViewModel',
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel',
-        'edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.GiftDeliveryService',
+        'edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel',
+        'edu.wpi.cs3733.d20.teamO.model.path_finding.DFS',
+        'edu.wpi.cs3733.d20.teamO.model.path_finding.BFS',
 ]
 
 jacoco {

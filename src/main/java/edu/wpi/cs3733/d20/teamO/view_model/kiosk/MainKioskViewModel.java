@@ -75,11 +75,29 @@ public class MainKioskViewModel extends ViewModelBase {
     languageSwitcher.getSelectionModel().selectedIndexProperty().addListener(((o, old, index) ->
         languageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[index.intValue()])));
 
-    // Create a map of available descriptions to their corresponding fxml files todo use registry
+    // Create a map of available descriptions to their corresponding fxml files
     val requests = new HashMap<String, String>();
-    requests.put(getString("serviceGiftDeliveryDescription"), "GiftDeliveryService.fxml");
-    requests.put(getString("serviceSanitationDescription"), "SanitationService.fxml");
-    requests.keySet().forEach(serviceSelector.getItems()::add);
+    requests.put(getString("serviceGiftDeliveryDescription") + " - Mark Hogan",
+        "GiftDeliveryService.fxml");
+    requests.put(getString("serviceSanitationDescription") + " - Gregory Conrad",
+        "SanitationService.fxml");
+    requests.put(getString("serviceInfoTechDescription") + " - Michael Lai",
+        "InfoTechService.fxml");
+    requests.put(getString("serviceExtTransportationDescription") + " - Ryan Stebe",
+        "ExternalTransportationService.fxml");
+    requests.put(getString("serviceMedicineDeliveryDescription") + " - Collin Broderick",
+        "MedicineDeliveryService.fxml");
+    requests.put(getString("serviceAVDescription") + " - Benjamin Klaiman",
+        "AVService.fxml");
+    requests.put(getString("serviceInterpreterDescription") + " - Victoria Grasso",
+        "InterpreterService.fxml");
+    requests.put(getString("serviceIntTransportationDescription") + " - James Casella",
+        "InternalTransportationService.fxml");
+    requests.put(getString("serviceFloristDeliveryDescription") + " - Emily Austin",
+        "FloristDeliveryService.fxml");
+    requests.put(getString("serviceSecurityDescription") + " - Jesus Barron",
+        "SecurityService.fxml");
+    requests.keySet().stream().sorted().forEach(serviceSelector.getItems()::add);
     serviceSelector.getSelectionModel().selectedItemProperty().addListener(((o, old, desc) -> {
       if (desc != null) {
         try {

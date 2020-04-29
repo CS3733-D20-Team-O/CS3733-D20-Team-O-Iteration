@@ -55,7 +55,7 @@ public class SecurityService extends ServiceRequestBase {
           time, locations.getSelectionModel().getSelectedItem(),
           "Security", requesterName.getText(), requestData);
       if (confirmationCode == null) {
-        snackBar.show("Failed to create the sanitation service request");
+        snackBar.show("Failed to create the Security service request");
       } else {
         close();
         try {
