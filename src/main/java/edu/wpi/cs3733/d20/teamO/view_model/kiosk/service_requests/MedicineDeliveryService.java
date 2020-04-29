@@ -9,7 +9,6 @@ import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,7 +44,7 @@ public class MedicineDeliveryService extends ServiceRequestBase {
     if (valid) {
       val data = new MedicineDeliveryServiceData(medicationName.getText(),
           deliveryMethod.getItems().toString());
-      val time = timePicker.getValue().format(DateTimeFormatter.ofPattern("HH:mm"));
+      val time = timePicker.getValue().toString();
       val confirmationCode = database
           .addServiceRequest(time,
               roomName.getSelectionModel().getSelectedItem().toString(), "Medicine delivery",
