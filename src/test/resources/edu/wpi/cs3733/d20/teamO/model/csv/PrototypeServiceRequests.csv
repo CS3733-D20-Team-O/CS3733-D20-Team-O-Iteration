@@ -1,3 +1,3 @@
 requestID,requestTime,requestNode,type,requesterName,whoMarked,employeeAssigned
-TestID1,7:30AM,BHALL03802,GIFT,Bob,JimJ,JimJ
-TestID2,12:00PM,BDEPT00502,INTERP,Anita,DeniceD,DeniceD
+TestID1,7:30AM,BHALL03802,Gift,Assigned,Bob,JimJ,JimJ,GiftDeliveryRequestData(giftName=Stuffed Animal, recipientName=asdf)
+TestID2,12:00PM,BDEPT00502,Interpreter,In Progress,Anita,DeniceD,DeniceD,InterpreterData(language=Chinese, preferredGender=female, notes=)
