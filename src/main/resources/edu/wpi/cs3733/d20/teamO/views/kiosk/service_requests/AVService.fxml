@@ -5,7 +5,9 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
+<?import java.lang.Integer?>
 <?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -19,31 +21,45 @@
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="32.0">
       <JFXComboBox fx:id="floorNumberComboBox" promptText="%serviceAVFloorNumberComboBox">
         <items>
-          <String fx:value="Music"/>
-          <String fx:value="Video Call"/>
+          <FXCollections fx:factory="observableArrayList">
+            <Integer fx:value="1"/>
+            <Integer fx:value="2"/>
+            <Integer fx:value="3"/>
+            <Integer fx:value="4"/>
+            <Integer fx:value="5"/>
+          </FXCollections>
         </items>
       </JFXComboBox>
       <JFXComboBox fx:id="locationComboBox" promptText="%serviceAVLocationComboBox"/>
     </HBox>
     <VBox alignment="CENTER" spacing="32.0">
       <JFXComboBox fx:id="serviceRequestComboBox" prefHeight="37.0" prefWidth="222.0"
-        promptText="%serviceAVRequestComboBox"/>
+        promptText="%serviceAVRequestComboBox">
+        <items>
+          <FXCollections fx:factory="observableArrayList">
+            <String fx:value="Music"/>
+            <String fx:value="Video Call"/>
+          </FXCollections>
+        </items>
+      </JFXComboBox>
       <JFXTimePicker fx:id="startTimePicker" promptText="%serviceAVStartTimePicker"/>
       <JFXComboBox fx:id="durationComboBox" prefHeight="37.0" prefWidth="224.0"
         promptText="%serviceAVDurationComboBox">
         <items>
-          <String fx:value="5 minutes"/>
-          <String fx:value="10 minutes"/>
-          <String fx:value="15 minutes"/>
-          <String fx:value="20 minutes"/>
-          <String fx:value="25 minutes"/>
-          <String fx:value="30 minutes"/>
-          <String fx:value="35 minutes"/>
-          <String fx:value="40 minutes"/>
-          <String fx:value="45 minutes"/>
-          <String fx:value="50 minutes"/>
-          <String fx:value="55 minutes"/>
-          <String fx:value="60 minutes"/>
+          <FXCollections fx:factory="observableArrayList">
+            <String fx:value="5 minutes"/>
+            <String fx:value="10 minutes"/>
+            <String fx:value="15 minutes"/>
+            <String fx:value="20 minutes"/>
+            <String fx:value="25 minutes"/>
+            <String fx:value="30 minutes"/>
+            <String fx:value="35 minutes"/>
+            <String fx:value="40 minutes"/>
+            <String fx:value="45 minutes"/>
+            <String fx:value="50 minutes"/>
+            <String fx:value="55 minutes"/>
+            <String fx:value="60 minutes"/>
+          </FXCollections>
         </items>
       </JFXComboBox>
     </VBox>

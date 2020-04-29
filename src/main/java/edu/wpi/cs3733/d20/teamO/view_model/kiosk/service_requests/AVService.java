@@ -10,10 +10,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
-import java.io.IOException;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import lombok.RequiredArgsConstructor;
@@ -56,42 +53,11 @@ public class AVService extends ServiceRequestBase {
       return;
     }
 
-    if (!checkName()) {
-      requesterNameField.clear();
-      validator.validate(requesterNameField);
-      return;
-    }
-
-    if (!checkDuration()) {
-      durationComboBox.getSelectionModel().clearSelection();
-      validator.validate(durationComboBox);
-      return;
-    }
-
-    if (!checkRequest()) {
-      serviceRequestComboBox.getSelectionModel().clearSelection();
-      validator.validate(serviceRequestComboBox);
-      return;
-    }
-
-    if (!checkFloor()) {
-      floorNumberComboBox.getSelectionModel().clearSelection();
-      validator.validate(floorNumberComboBox);
-      return;
-    }
-
-    if (!checkLocation()) {
-      locationComboBox.getSelectionModel().clearSelection();
-      validator.validate(locationComboBox);
-      return;
-    }
-
     generateRequest();
-    close();
   }
 
   private void generateRequest() {
-    val time = startTimePicker.getValue().format(DateTimeFormatter.ofPattern("HH:mm:"));
+    val time = startTimePicker.getValue().toString();
     val requestData = new AVRequestData(
         serviceRequestComboBox.getSelectionModel().getSelectedItem(),
         time,
@@ -105,36 +71,8 @@ public class AVService extends ServiceRequestBase {
     if (confirmationCode == null) {
       snackBar.show("Failed to create the A/V service request");
     } else {
-      close();
-      try {
-        ((RequestConfirmationViewModel)
-            dialog.showFullscreenFXML("views/kiosk/RequestConfirmation.fxml"))
-            .setServiceRequest(confirmationCode);
-      } catch (IOException e) {
-        log.error("Failed to show the detailed confirmation dialog", e);
-        dialog.showBasic("A/V Request Submitted Successfully",
-            "Your confirmation code is:\n" + confirmationCode, "CLOSE");
-      }
+      dialog.showBasic("A/V Request Submitted Successfully",
+          "Your confirmation code is:\n" + confirmationCode, "CLOSE");
     }
-  }
-
-  private boolean checkName() {
-    return requesterNameField.getText().isEmpty();
-  }
-
-  private boolean checkDuration() {
-    return durationComboBox.getSelectionModel().getSelectedItem().isEmpty();
-  }
-
-  private boolean checkRequest() {
-    return serviceRequestComboBox.getSelectionModel().getSelectedItem().isEmpty();
-  }
-
-  private boolean checkFloor() {
-    return (floorNumberComboBox.getSelectionModel().getSelectedItem() > 0);
-  }
-
-  private boolean checkLocation() {
-    return locationComboBox.getSelectionModel().getSelectedItem().isEmpty();
   }
 }

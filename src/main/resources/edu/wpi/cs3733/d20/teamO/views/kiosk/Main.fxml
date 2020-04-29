@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- todo background image -->
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -11,11 +9,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" style="-fx-background-color: #acd7fd"
-  xmlns:fx="http://javafx.com/fxml/1" prefHeight="720" prefWidth="1280"
+<AnchorPane prefHeight="720" prefWidth="1280" xmlns:fx="http://javafx.com/fxml/1"
+  style="-fx-background-image: url('/background.jpg'); -fx-background-size: cover;
+  -fx-background-position: center; -fx-background-repeat: no-repeat; -fx-font-size: 16"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.MainKioskViewModel">
 
-  <!-- Main Welcome Bar todo size and spacing, login logo button -->
+  <!-- Main Welcome Bar -->
   <StackPane style="-fx-background-color: #004c8c" fx:id="welcomeBar" prefHeight="64"
     AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
     <Label text="%mainWelcomeMessage" style="-fx-font-size: 32; -fx-text-fill: floralwhite"/>
@@ -24,41 +23,50 @@
   <!-- Wrapper to center the main content -->
   <StackPane fx:id="container" AnchorPane.topAnchor="64" AnchorPane.bottomAnchor="0"
     AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-    <!-- The actual main content box todo and various styling -->
-    <VBox fx:id="contentContainer" maxWidth="-Infinity" maxHeight="-Infinity" alignment="CENTER"
-      style="-fx-padding: 32; -fx-background-color: whitesmoke; -fx-background-radius: 16; -fx-opacity: 0.8">
-      <Label text="%mainQuestionPrompt" style="-fx-font-size: 36; -fx-padding: 0 0 64 0"/>
-      <VBox spacing="32" alignment="CENTER">
-        <!-- Path finding todo separate label and button -->
-        <JFXButton buttonType="RAISED" onAction="#openPathFinder" text="%mainLeftButton"
-          style="-fx-font-size: 32; -fx-background-color: floralwhite"/>
-        <!-- Service Request Creation -->
-        <Label text="%serviceRequestCreationLabel" style="-fx-font-size: 32"/>
-        <JFXComboBox promptText="%serviceRequestCreationPrompt" fx:id="serviceSelector"
-          style="-fx-font-size: 24"/>
-        <!-- Service Request Lookup/Modification -->
-        <Label text="%serviceRequestLookupLabel" style="-fx-font-size: 32"/>
-        <AnchorPane>
-          <JFXTextField fx:id="confirmationCode" promptText="%serviceRequestConfirmationID"
-            AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
-            AnchorPane.rightAnchor="0"/>
-          <JFXButton fx:id="lookupButton" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
-            AnchorPane.rightAnchor="0" onAction="#lookupServiceRequest">
-            <graphic>
-              <ImageView fitHeight="32" pickOnBounds="true" preserveRatio="true">
-                <Image url="@/forward-arrow.png"/>
-              </ImageView>
-            </graphic>
-          </JFXButton>
-        </AnchorPane>
-      </VBox>
+    <!-- The actual main content box -->
+    <VBox fx:id="contentContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+      spacing="16"
+      style="-fx-padding: 32; -fx-background-color: whitesmoke; -fx-background-radius: 16; -fx-opacity: 0.9">
+      <Label style="-fx-font-size: 36; -fx-padding: 0 0 36 0" text="%mainQuestionPrompt"/>
+
+      <!-- Path Finding -->
+      <JFXButton buttonType="RAISED" onAction="#openPathFinder" text="%mainLeftButton"
+        style="-fx-font-size: 32; -fx-background-color: #004c8c; -fx-text-fill: white;
+        -fx-padding: 16; -fx-background-radius: 16"/>
+
+      <!-- Service Request Creation -->
+      <Label style="-fx-font-size: 32; -fx-padding: 24 0 0 0" text="%serviceRequestCreationLabel"/>
+      <JFXComboBox fx:id="serviceSelector" promptText="%serviceRequestCreationPrompt"
+        maxWidth="Infinity" style="-fx-font-size: 20"/>
+
+      <!-- Service Request Lookup -->
+      <Label style="-fx-font-size: 32; -fx-padding: 24 0 0 0" text="%serviceRequestLookupLabel"/>
+      <AnchorPane maxWidth="Infinity" style="-fx-font-size: 20">
+        <JFXTextField fx:id="confirmationCode" promptText="%serviceRequestConfirmationID"
+          AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+          AnchorPane.topAnchor="0"/>
+        <JFXButton fx:id="lookupButton" onAction="#lookupServiceRequest"
+          AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+          <graphic>
+            <ImageView fitHeight="32" pickOnBounds="true" preserveRatio="true">
+              <Image url="@/forward-arrow.png"/>
+            </ImageView>
+          </graphic>
+        </JFXButton>
+      </AnchorPane>
     </VBox>
   </StackPane>
 
+  <!-- Login Button -->
+  <JFXButton text="%adminLogin" buttonType="RAISED" onAction="#openLoginDialog"
+    style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+    AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+
   <!-- Language Switcher -->
-  <HBox fx:id="langContainer" AnchorPane.leftAnchor="16" AnchorPane.bottomAnchor="16" spacing="8"
-    style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 8 16 8 8">
-    <ImageView fitWidth="32" fitHeight="32">
+  <HBox fx:id="langContainer" spacing="8"
+    style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 8 16 8 8"
+    AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
+    <ImageView fitHeight="32" fitWidth="32">
       <Image url="@/language-icon.png"/>
     </ImageView>
     <JFXComboBox fx:id="languageSwitcher"/>
