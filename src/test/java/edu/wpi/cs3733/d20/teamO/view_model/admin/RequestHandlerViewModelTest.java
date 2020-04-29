@@ -7,9 +7,11 @@ import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
+import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +41,11 @@ public class RequestHandlerViewModelTest extends FxRobot {
   DatabaseWrapper database;
   @Mock
   CSVHandler csvHandler;
+  @Mock
+  LoginDetails loginDetails;
+  @Mock
+  SnackBar snackBar;
+
   @InjectMocks
   RequestHandlerViewModel viewModel;
 
@@ -54,15 +61,14 @@ public class RequestHandlerViewModelTest extends FxRobot {
     List<Employee> list = Arrays.asList(e1, e2, e3);
 
     ServiceRequest req = new ServiceRequest("1555", "time", "RHVMNode", "Wash", "Unassigned",
-        "Request Name", "",
-        "", new SanitationRequestData("test", "test1"));
+        "Request Name", "0",
+        "0", new SanitationRequestData("test", "test1"));
     ServiceRequest req2 = new ServiceRequest("576", "time", "RHVMNode", "Wash", "Unassigned",
-        "Request Name", "",
-        "", new SanitationRequestData("test,", "test2"));
+        "Request Name", "0",
+        "0", new SanitationRequestData("test,", "test2"));
     List<ServiceRequest> reqs = Arrays.asList(req, req2);
     when(database.exportServiceRequests()).thenReturn(reqs);
     when(database.exportEmployees()).thenReturn(list);
-
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     //loader.setResources(bundle);
@@ -74,6 +80,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
 
   @Test
   public void assignAnEmployeeValid() {
+    when(loginDetails.getUsername()).thenReturn("staff");
     clickOn("1555");
     clickOn("855");
     clickOn("Assign Employee");
@@ -84,6 +91,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
 
   @Test
   public void assignEmployeeInvalidAlreadyAssigned() {
+    when(loginDetails.getUsername()).thenReturn("staff");
     clickOn("1555");
     clickOn("855");
     clickOn("Assign Employee");
@@ -108,13 +116,97 @@ public class RequestHandlerViewModelTest extends FxRobot {
     clickOn("Assign Employee");
     clickOn("576");
     assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(),
-        "");
+        "0");
   }
 
-  //todo add test for assigning an employee to a cancelled request - dont add emp, also dont remove employee from request
-  //todo add test for changing an employee status after a request is cancelled or resolved - gotta be able to reassign
-  //todo add test for assigning an employee to a resolved request - dont add emp
-  //todo add test for adding employee after request resolved/cancelled - leave employee in the request and change status
+  @Test
+  public void assignEmployeeToACancelledRequest() {
+    clickOn("1555");
+    clickOn("Cancel Request");
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
 
+    clickOn("1555");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "0");
+  }
+
+  @Test
+  public void assignEmployeeToAResolvedRequest() {
+    clickOn("1555");
+    clickOn("Resolve Request");
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "0");
+  }
+
+  @Test
+  public void reassignEmployeeAfterResolve() {
+    when(loginDetails.getUsername()).thenReturn("staff");
+
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    clickOn("Resolve Request");
+    clickOn("1414");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1414");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "855");
+  }
+
+  @Test
+  public void reassignEmployeeAfterCancel() {
+    when(loginDetails.getUsername()).thenReturn("staff");
+
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    clickOn("Cancel Request");
+    clickOn("1414");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1414");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "855");
+  }
+
+  @Test
+  public void employeePersistenceInCancel() {
+    when(loginDetails.getUsername()).thenReturn("staff");
+
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    clickOn("Cancel Request");
+
+    clickOn("1555");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "855");
+  }
+
+  @Test
+  public void employeePersistenceInResolve() {
+    when(loginDetails.getUsername()).thenReturn("staff");
+
+    clickOn("1555");
+    clickOn("855");
+    clickOn("Assign Employee");
+
+    clickOn("1555");
+    clickOn("Resolve Request");
+
+    clickOn("1555");
+    assertEquals(viewModel.getSelectedRequest().getEmployeeAssigned(), "855");
+  }
 }
 
