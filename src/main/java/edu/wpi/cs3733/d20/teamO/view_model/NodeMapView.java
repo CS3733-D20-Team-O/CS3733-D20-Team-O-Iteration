@@ -118,7 +118,7 @@ public class NodeMapView extends ViewModelBase {
 
     // Set up event for when the the background is clicked
     backgroundImage.setOnMouseClicked(event -> { // todo check
-      if (onMissRightTapListener != null && event.isSecondaryButtonDown()) {
+      if (event.isSecondaryButtonDown()) {
         val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage()
             .getWidth(); // todo fix size
         val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
