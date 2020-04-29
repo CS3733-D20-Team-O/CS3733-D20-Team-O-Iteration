@@ -122,9 +122,9 @@ public class NodeMapView extends ViewModelBase {
     nodeGroup.setOnMouseClicked(event -> {
       if (event.getButton() == MouseButton.SECONDARY) {
         System.out.println("NodeGroup Right Click");
-        val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage().getWidth();
-        val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
-        onMissRightTapListener.accept((int) imageX, (int) imageY);
+        val imageX = translateToImageX((int) event.getX());
+        val imageY = translateToImageY((int) event.getY());
+        onMissRightTapListener.accept(imageX, imageY);
       }
     });
 
@@ -227,9 +227,8 @@ public class NodeMapView extends ViewModelBase {
    * @param node the node to draw to the canvas
    */
   private void drawNode(Node node) {
-    val x = node.getXCoord() / backgroundImage.getImage().getWidth() * floorPane
-        .getWidth(); // todo fix size
-    val y = node.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
+    val x = translateToPaneX(node.getXCoord());
+    val y = translateToPaneY(node.getYCoord());
     val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
     System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
     System.out.println(
@@ -275,8 +274,7 @@ public class NodeMapView extends ViewModelBase {
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
     if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
-      val x1 = n1.getXCoord() / backgroundImage.getImage().getWidth() * floorPane
-          .getWidth(); // todo fix size
+      val x1 = n1.getXCoord() / backgroundImage.getImage().getWidth() * floorPane.getWidth();
       val y1 = n1.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
       val x2 = n2.getXCoord() / backgroundImage.getImage().getWidth() * floorPane.getWidth();
       val y2 = n2.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
@@ -440,7 +438,11 @@ public class NodeMapView extends ViewModelBase {
     val floor = nodeMap.get(node.getFloor());
     if (floor != null) {
       floor.remove(node.getNodeID());
-      floor.put(node.getNodeID(), node);
+      Node newNode = new Node(node.getNodeID(), node.getXCoord(),
+          node.getYCoord(), node.getFloor(), node.getBuilding(),
+          node.getNodeType(), node.getLongName(), node.getShortName());
+      floor.put(node.getNodeID(), newNode);
+      System.out.println("Updated node");
     }
 
     val nodeCircle = findNode(node);
@@ -489,7 +491,7 @@ public class NodeMapView extends ViewModelBase {
   private NodeCircle findNode(Node node) {
     for (val child : nodeGroup.getChildren()) {
       val nodeCircle = (NodeCircle) child;
-      if (nodeCircle.node.equals(node)) {
+      if (nodeCircle.node.getNodeID().equals(node.getNodeID())) {
         return nodeCircle;
       }
     }
@@ -524,6 +526,22 @@ public class NodeMapView extends ViewModelBase {
         .reduce(null, (result, current) ->
             current.node1.getNodeID().equals(edge.getStartID()) &&
                 current.node2.getNodeID().equals(edge.getStopID()) ? current : result);*/
+  }
+
+  public int translateToImageX(int x) {
+    return (int) (x / floorPane.getWidth() * backgroundImage.getImage().getWidth());
+  }
+
+  public int translateToImageY(int y) {
+    return (int) (y / floorPane.getHeight() * backgroundImage.getImage().getHeight());
+  }
+
+  public int translateToPaneX(int x) {
+    return (int) (x / backgroundImage.getImage().getWidth() * floorPane.getWidth());
+  }
+
+  public int translateToPaneY(int y) {
+    return (int) (y / backgroundImage.getImage().getHeight() * floorPane.getHeight());
   }
 
   /**
