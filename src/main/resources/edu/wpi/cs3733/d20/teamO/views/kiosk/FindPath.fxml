@@ -1,17 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel">
- <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"
-   AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-   AnchorPane.topAnchor="0"/>
-   <Button fx:id="reset" layoutX="1127.0" layoutY="542.0" mnemonicParsing="false" onAction="#resetPath" text="reset" />
-   <Label fx:id="prompt" layoutX="522.0" layoutY="28.0" text="Press Starting Point" />
-   <Label layoutX="1134.0" layoutY="57.0" text="Staring Point" />
-   <Label fx:id="start" layoutX="1134.0" layoutY="173.0" text=""/>
-   <Label layoutX="1134.0" layoutY="259.0" text="Ending Point" />
-  <Label fx:id="end" layoutX="1134.0" layoutY="324.0" text=""/>
-
-</AnchorPane>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<BorderPane fx:id="root" maxHeight="720.0" maxWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
+  style="-fx-background-color: #acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel">
+  <center>
+    <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
+  </center>
+  <left>
+    <AnchorPane fx:id="sideBar" prefHeight="200.0" prefWidth="200.0"
+      style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
+      <children>
+        <VBox alignment="TOP_CENTER" spacing="8.0">
+          <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+          </padding>
+          <children>
+            <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
+              <children>
+                <JFXButton fx:id="floorDownPressed" buttonType="FLAT" onAction="#floorDownPressed"
+                  text="&lt;">
+                  <font>
+                    <Font size="18.0"/>
+                  </font>
+                </JFXButton>
+                <Label fx:id="floorLabel" prefHeight="22.0" text="Floor 1">
+                  <font>
+                    <Font size="18.0"/>
+                  </font>
+                </Label>
+                <JFXButton fx:id="floorUpPressed" buttonType="FLAT" onAction="#floorUpPressed"
+                  text="&gt;">
+                  <font>
+                    <Font size="18.0"/>
+                  </font>
+                </JFXButton>
+              </children>
+            </HBox>
+            <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
+              <children>
+                <JFXButton buttonType="FLAT" onAction="#zoomOutPressed">
+                  <graphic>
+                    <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
+                      <Image url="@/zoom_out-24px.png"/>
+                    </ImageView>
+                  </graphic>
+                </JFXButton>
+                <JFXSlider fx:id="zoomSlider" onMouseDragOver="#setZoom" prefWidth="168.0"/>
+                <JFXButton buttonType="FLAT" onAction="#zoomInPressed">
+                  <graphic>
+                    <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
+                      <Image url="@/zoom_in-24px.png"/>
+                    </ImageView>
+                  </graphic>
+                </JFXButton>
+              </children>
+            </HBox>
+          </children>
+        </VBox>
+        <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="373.0" onAction="#resetPath"
+          style="-fx-background-color: lightgray;" text="Clear"/>
+        <JFXComboBox fx:id="startFloor" layoutX="14.0" layoutY="154.0" prefHeight="25.0"
+          prefWidth="59.0" promptText="Floor"/>
+        <JFXComboBox fx:id="startRoom" layoutX="86.0" layoutY="154.0" onAction="#onStartCombo"
+          prefHeight="25.0" prefWidth="110.0" promptText="Room"/>
+        <JFXComboBox fx:id="stopFloor" layoutX="18.0" layoutY="250.0" promptText="Floor"/>
+        <JFXComboBox fx:id="stopRoom" layoutX="90.0" layoutY="250.0" onAction="#onStopCombo"
+          prefHeight="25.0" prefWidth="110.0" promptText="Room"/>
+        <Label layoutX="18.0" layoutY="129.0" text="Start Location"/>
+        <Label layoutX="18.0" layoutY="233.0" text="Stop Location"/>
+        <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="193.0" onAction="#setStart"
+          style="-fx-background-color: lightgray;" text="Click Start"/>
+        <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="301.0" onAction="#setEnd"
+          style="-fx-background-color: lightgray;" text="Click End"/>
+      </children>
+    </AnchorPane>
+  </left>
+</BorderPane>
