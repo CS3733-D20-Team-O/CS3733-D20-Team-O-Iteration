@@ -59,7 +59,8 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXSlider fx:id="zoomSlider" prefWidth="168.0"/>
+                  <JFXSlider fx:id="zoomSlider" max="150" min="50" onMouseDragged="#setZoom"
+                    prefWidth="168.0"/>
                   <JFXButton buttonType="FLAT" onAction="#zoomInPressed">
                      <graphic>
                         <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
@@ -75,7 +76,7 @@
             <Group>
                <children>
                   <VBox fx:id="nodeSelectView" alignment="TOP_CENTER" prefWidth="250.0"
-                    spacing="8.0">
+                    spacing="8.0" visible="false">
                      <children>
                         <GridPane hgap="12.0" prefWidth="0.0" vgap="12.0">
                            <columnConstraints>
@@ -115,7 +116,7 @@
                               <Insets bottom="24.0"/>
                            </padding>
                         </GridPane>
-                        <HBox alignment="TOP_CENTER" spacing="8.0" prefWidth="Infinity">
+                        <HBox alignment="TOP_CENTER" prefWidth="Infinity" spacing="8.0">
                            <children>
                               <JFXButton buttonType="RAISED" onAction="#deletePressed"
                                 style="-fx-background-color: LIGHTGREY;" text="Delete node">
@@ -225,13 +226,13 @@
                               <Label text="Node category"/>
                               <Label text="Short name" GridPane.rowIndex="1"/>
                               <Label text="Long name" GridPane.rowIndex="2"/>
-                              <JFXTextField fx:id="newNodeShortName" GridPane.columnIndex="1"
+                              <JFXTextField fx:id="newNodeShortNameField" GridPane.columnIndex="1"
                                 GridPane.rowIndex="1">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
                                  </validators>
                               </JFXTextField>
-                              <JFXTextField fx:id="newNodeLongName" GridPane.columnIndex="1"
+                              <JFXTextField fx:id="newNodeLongNameField" GridPane.columnIndex="1"
                                 GridPane.rowIndex="2">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
@@ -241,6 +242,7 @@
                                 GridPane.columnIndex="1">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
+                                    <!--<RegexValidator message="Elevator long names must be formatted as Elevator (letter)"/>-->
                                  </validators>
                               </JFXComboBox>
                            </children>
@@ -265,8 +267,9 @@
                      </children>
                   </VBox>
                   <VBox fx:id="addEdgeView" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0"
-                    spacing="8.0" visible="false">
+                    spacing="8.0">
                      <children>
+                        <Label text="Left-click to select a destination node"/>
                         <GridPane hgap="8.0" vgap="8.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
@@ -279,11 +282,10 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                            </rowConstraints>
                            <children>
-                              <Label text="Node 1"/>
-                              <Label text="Node 2" GridPane.rowIndex="1"/>
-                              <Label fx:id="newEdgeNodeName1" text="Label"
-                                GridPane.columnIndex="1"/>
-                              <Label fx:id="newEdgeNodeName2" text="Label" GridPane.columnIndex="1"
+                              <Label text="Start node"/>
+                              <Label text="Destination node" GridPane.rowIndex="1"/>
+                              <Label fx:id="newEdgeStartNode" text="" GridPane.columnIndex="1"/>
+                              <Label fx:id="newEdgeDestNode" text="" GridPane.columnIndex="1"
                                 GridPane.rowIndex="1"/>
                            </children>
                            <padding>
