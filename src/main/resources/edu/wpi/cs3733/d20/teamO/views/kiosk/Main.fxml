@@ -16,15 +16,14 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.MainKioskViewModel">
 
   <!-- Main Welcome Bar todo size and spacing, login logo button -->
-  <HBox alignment="CENTER" style="-fx-background-color: #004c8c" fx:id="welcomeBar"
+  <StackPane style="-fx-background-color: #004c8c" fx:id="welcomeBar" prefHeight="64"
     AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
-    <Label text="%mainWelcomeMessage"
-      style="-fx-font-size: 36; -fx-text-fill: floralwhite; -fx-padding: 16"/>
-  </HBox>
+    <Label text="%mainWelcomeMessage" style="-fx-font-size: 32; -fx-text-fill: floralwhite"/>
+  </StackPane>
 
   <!-- Wrapper to center the main content -->
-  <StackPane AnchorPane.topAnchor="48" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
-    AnchorPane.rightAnchor="0">
+  <StackPane fx:id="container" AnchorPane.topAnchor="64" AnchorPane.bottomAnchor="0"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
     <!-- The actual main content box todo and various styling -->
     <VBox fx:id="contentContainer" maxWidth="-Infinity" maxHeight="-Infinity" alignment="CENTER"
       style="-fx-padding: 32; -fx-background-color: whitesmoke; -fx-background-radius: 16; -fx-opacity: 0.8">

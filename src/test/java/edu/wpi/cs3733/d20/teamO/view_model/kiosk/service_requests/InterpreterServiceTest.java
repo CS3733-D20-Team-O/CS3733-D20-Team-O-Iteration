@@ -154,6 +154,8 @@ public class InterpreterServiceTest extends FxRobot {
     clickOn("1");
     clickOn("Room/Location on Floor");
     clickOn("Floor 1");
+    clickOn("Time for Request");
+    write("12:24 PM");
     clickOn("Language");
     clickOn("Chinese");
     clickOn("Preferred Gender");
