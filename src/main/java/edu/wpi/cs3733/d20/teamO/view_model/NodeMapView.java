@@ -36,7 +36,7 @@ public class NodeMapView extends ViewModelBase {
   private final static double zoomInc = 0.1;
   private final static double dragInc = 2;
 
-  private int counter = 0;
+  private final int counter = 0;
 
   /**
    * The current floor being displayed
@@ -322,7 +322,7 @@ public class NodeMapView extends ViewModelBase {
   public void setFloor(int floor) {
     if (floor >= minFloor && floor <= maxFloor) {
       this.floor = floor;
-      backgroundImage.setImage(new Image("floorNumber/" + floor + ".png"));
+      backgroundImage.setImage(new Image("floors/" + floor + ".png"));
     }
     draw();
   }

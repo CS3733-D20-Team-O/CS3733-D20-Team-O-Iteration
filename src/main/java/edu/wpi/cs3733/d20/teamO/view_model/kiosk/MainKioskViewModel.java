@@ -164,7 +164,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   private void openPathFinder() {
     try {
-      navigator.push(getString("mainLeftButton"), "views/kiosk/FindPathViewModel.fxml");
+      navigator.push(getString("mainLeftButton"), "views/kiosk/FindPath.fxml");
     } catch (IOException e) {
       log.error("Failed to open the path finder", e);
     }
