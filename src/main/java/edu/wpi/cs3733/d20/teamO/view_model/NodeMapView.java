@@ -288,7 +288,9 @@ public class NodeMapView extends ViewModelBase {
       val x1 = translateToPaneX(n1.getXCoord());
       val y1 = translateToPaneY(n1.getYCoord());
       val x2 = translateToPaneX(n2.getXCoord());
-      val y2 = translateToPaneX(n2.getXCoord());
+      val y2 = translateToPaneY(n2.getYCoord());
+      //System.out.println("Drawing an edge (node reference) from (" + translateToPaneX(n1.getXCoord()) + ", " + translateToPaneY(n1.getYCoord()) + ") to (" + translateToPaneX(n2.getYCoord()) + ", " + translateToPaneY(n2.getYCoord()) + ")");
+      //System.out.println("Drawing an edge from (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
       drawnEdge.setOnMouseClicked(event -> {
         if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
@@ -304,13 +306,14 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  /*
   /**
    * Draws an edge (represented as a NodeLine) between the origin and the given nodes
    *
    * @param origin  the origin
    * @param xTarget the given xTarget
    * @param yTarget the given yTarget
-   */
+
   public void drawEdge(Node origin, int xTarget, int yTarget) {
     // todo check the logic with this
     // Only draw this edge if the node is on this floor
@@ -328,7 +331,7 @@ public class NodeMapView extends ViewModelBase {
       edgeGroup.getChildren().add(drawnEdge);
       //edgeGroup.getChildren().add(1, drawnEdge);
     }
-  }
+  }/*
 
   /**
    * Zooms the canvas in using this multiplier
