@@ -4,8 +4,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView" fx:id="floorPane">
-  <ImageView fx:id="backgroundImage" preserveRatio="true"/>
-  <AnchorPane fx:id="edgeGroup"/>
-  <AnchorPane fx:id="nodeGroup"/>
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView" fx:id="floorPane"
+  prefWidth="990.4" prefHeight="594.4">
+  <ImageView fx:id="backgroundImage" preserveRatio="true" fitWidth="990.4" fitHeight="594.4"/>
+  <AnchorPane fx:id="edgeGroup" prefWidth="990.4" prefHeight="594.4"/>
+  <AnchorPane fx:id="nodeGroup" prefWidth="990.4" prefHeight="594.4"/>
 </StackPane>

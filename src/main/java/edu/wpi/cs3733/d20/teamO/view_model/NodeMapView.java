@@ -102,8 +102,8 @@ public class NodeMapView extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
-    backgroundImage.setFitWidth(990.4);
-    backgroundImage.setFitHeight(594.4);
+    //backgroundImage.setFitWidth(990.4);
+    //backgroundImage.setFitHeight(594.4);
 
     // Display the current floor (and consequently call the above listeners)
     setFloor(minFloor);
@@ -118,10 +118,9 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the the background is clicked
-    backgroundImage.setOnMouseClicked(event -> { // todo check
+    nodeGroup.setOnMouseClicked(event -> {
       if (event.getButton() == MouseButton.SECONDARY) {
-        val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage()
-            .getWidth(); // todo fix size
+        val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage().getWidth();
         val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
         onMissRightTapListener.accept((int) imageX, (int) imageY);
       }
@@ -130,7 +129,6 @@ public class NodeMapView extends ViewModelBase {
     // Set up event for when the background is dragged
     backgroundImage.setOnMouseDragged(event -> {
       if (event.getButton() == MouseButton.PRIMARY) {
-        // todo fix
         floorPane.setTranslateX(floorPane.getTranslateX() - event.getX());
         floorPane.setTranslateY(floorPane.getTranslateY() - event.getY());
       }
