@@ -55,16 +55,19 @@ public class AVServiceTest extends FxRobot {
   AVService viewModel;
 
   private void bundleInit() {
-    bundle.put("serviceAVRequestCreation", "Audio/Visual Service Request");
-    bundle.put("serviceAVRequesterNameField", "Your Name");
-    bundle.put("serviceAVFloorNumberComboBox", "Floor Number");
-    bundle.put("serviceAVLocationComboBox", "Location");
+    //General use Bundles
+    bundle.put("serviceAVDescription", "Audio/Visual Service Request");
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+    bundle.put("timePrompt", "Time for Request");
+    bundle.put("notesPrompt", "Additional Notes:");
+
+    //Unique Bundles
     bundle.put("serviceAVRequestComboBox", "Select a service");
-    bundle.put("serviceAVStartTimePicker", "At what time?");
-    bundle.put("serviceAVDurationComboBox", "For how long?");
-    bundle.put("serviceAVCommentTextArea", "Additional Notes");
-    bundle.put("serviceAVSubmitButton", "Submit");
-    bundle.put("serviceAVCancelButton", "Cancel");
+    bundle.put("serviceAVDurationComboBox", "Duration of Request");
   }
 
   @Start
@@ -130,7 +133,7 @@ public class AVServiceTest extends FxRobot {
     clickOn("Your Name");
     write("Alan Smithee");
     verifyThat("Alan Smithee", javafx.scene.Node::isVisible);
-    clickOn("Additional Notes");
+    clickOn("Additional Notes:");
     write("Sample Text");
     verifyThat("Sample Text", javafx.scene.Node::isVisible);
   }
@@ -152,17 +155,17 @@ public class AVServiceTest extends FxRobot {
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("Alan Smithee");
-    clickOn("Floor Number");
+    clickOn("Floor");
     clickOn("1");
-    clickOn("Location");
+    clickOn("Room/Location on Floor");
     clickOn("Floor 1");
     clickOn("Select a service");
     clickOn("Music");
-    clickOn("At what time?");
+    clickOn("Time for Request");
     write("4:20 PM");
-    clickOn("For how long?");
+    clickOn("Duration of Request");
     clickOn("10 minutes");
-    clickOn("Additional Notes");
+    clickOn("Additional Notes:");
     write("Sample Text");
 
     clickOn("Submit");
