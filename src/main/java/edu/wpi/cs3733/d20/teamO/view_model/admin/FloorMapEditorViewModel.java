@@ -106,7 +106,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       if (state == State.SELECT_NODE) { // only can drag a node if the node is selected
         int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
         int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
-        nodeMapViewController.relocateNode(node, (int) mouseEvent.getX(), (int) mouseEvent.getY());
+        nodeMapViewController.relocateNode(node, adjX, adjY);
         database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
             NodeProperty.X_COORD, Integer.toString(adjX));
         database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
@@ -308,7 +308,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         selectedNode2 = node;
         nodeMapViewController.highlightNode(node);
         newEdgeDestNode.setText(node.getLongName());
-        nodeMapViewController.drawEdge(selectedNode1, selectedNode2);
         break;
       case ADD_NODE: // cannot select node in this state
         break;
