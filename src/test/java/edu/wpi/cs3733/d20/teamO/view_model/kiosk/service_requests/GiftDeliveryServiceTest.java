@@ -3,6 +3,8 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,6 +15,7 @@ import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.GiftDeliveryRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
@@ -218,52 +221,57 @@ public class GiftDeliveryServiceTest extends FxRobot {
     clickOn("Submit");
     verify(validator, times(5)).validate(any());
 
-    write("\\tab");
-    write("12:09");
-    clickOn("Submit");
-    verify(validator, times(6)).validate(any());
+    clickOn("Delivery Time");
+    write("00:30 AM");
+    verify(validator, times(5)).validate(any());
 
     clickOn("First Name On Card");
     write("FirstTest");
     clickOn("Submit");
-    verify(validator, times(7)).validate(any());
+    verify(validator, times(6)).validate(any());
 
     clickOn("Last Name On Card");
     write("LastTest");
     clickOn("Submit");
-    verify(validator, times(8)).validate(any());
+    verify(validator, times(7)).validate(any());
 
     clickOn("Type");
     clickOn("Visa");
     clickOn("Submit");
-    verify(validator, times(9)).validate(any());
+    verify(validator, times(8)).validate(any());
 
     clickOn("Card Number");
     write("1234567891234564");
     clickOn("Submit");
-    verify(validator, times(10)).validate(any());
+    verify(validator, times(9)).validate(any());
 
     clickOn("MM");
     clickOn("06");
     clickOn("Submit");
-    verify(validator, times(11)).validate(any());
+    verify(validator, times(10)).validate(any());
 
     clickOn("YYYY");
     clickOn("2023");
     clickOn("Submit");
-    verify(validator, times(12)).validate(any());
+    verify(validator, times(11)).validate(any());
 
     clickOn("CCV");
     write("456");
     clickOn("Submit");
-    verify(validator, times(13)).validate(any());
+    verify(validator, times(12)).validate(any());
 
     clickOn("Email Address for recipet");
     write("asdf@asdfff.com");
     clickOn("Submit");
-    verify(validator, times(14)).validate(any());
+    verify(validator, times(13)).validate(any());
 
-    verifyThat("Total: 9.99", javafx.scene.Node::isVisible);
+    verifyThat("Total: $9.99", javafx.scene.Node::isVisible);
+
+    verify(database, times(1)).addServiceRequest(anyString(),
+        eq("Floor 3-1"), eq("Gift"), eq("SenderTest"),
+        eq(new GiftDeliveryRequestData("Stuffed Animal", "Getter Name")));
+    verify(snackBar, times(1)).show(anyString());
+    verify(dialog, times(0)).showBasic(any(), any(), any());
 
 
   }
@@ -281,10 +289,6 @@ public class GiftDeliveryServiceTest extends FxRobot {
    * Missing Boxes 7. Missing Fields 8. Only time, email, cc, ccv
    */
 
-  @Test
-  public void submitTest8() {
-    when(validator.validate((any()))).thenReturn(false);
-  }
 
 //  @Test
 //  public void testSubmit() {
