@@ -57,7 +57,7 @@
                     </ImageView>
                   </graphic>
                 </JFXButton>
-                <JFXSlider fx:id="zoomSlider" prefWidth="168.0"/>
+                <JFXSlider fx:id="zoomSlider" onMouseDragOver="#setZoom" prefWidth="168.0"/>
                 <JFXButton buttonType="FLAT" onAction="#zoomInPressed">
                   <graphic>
                     <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">

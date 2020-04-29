@@ -106,13 +106,20 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   @FXML
-  public void zoomOutPressed() {
+  public void setZoom() {
+    nodeMapViewController.zoom(zoomSlider.getValue() / 100);
+  }
 
+  @FXML
+  public void zoomOutPressed() {
+    zoomSlider.decrement();
+    setZoom();
   }
 
   @FXML
   public void zoomInPressed() {
-
+    zoomSlider.increment();
+    setZoom();
   }
 
 }
