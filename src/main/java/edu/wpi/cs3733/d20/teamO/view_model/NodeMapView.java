@@ -111,7 +111,7 @@ public class NodeMapView extends ViewModelBase {
 
     // Set up event for a scroll event
     floorPane.setOnScroll(event -> {
-      if (event.getDeltaY() > 0) { // Zoom out
+      if (event.getDeltaY() < 0) { // Zoom out
         zoom(this.currentZoom - zoomInc);
       } else { // Zoom in
         zoom(this.currentZoom + zoomInc);
@@ -317,9 +317,11 @@ public class NodeMapView extends ViewModelBase {
    * @param zoom the amount of zoom (1.0 is default)
    */
   public void zoom(double zoom) {
-    floorPane.setScaleX(zoom);
-    floorPane.setScaleY(zoom);
-    this.currentZoom = zoom;
+    if (zoom > 0.5 && zoom < 1.5) {
+      floorPane.setScaleX(zoom);
+      floorPane.setScaleY(zoom);
+      this.currentZoom = zoom;
+    }
   }
 
   /**
