@@ -36,10 +36,11 @@
           <RequiredFieldValidator message="%serviceInterpreterLocationValidator"/>
         </validators>
       </JFXComboBox>
-      <JFXTimePicker fx:id="timePicker" defaultColor="#003f8f" promptText="Time for Request"
+      <JFXTimePicker fx:id="timePicker" defaultColor="#003f8f"
+        promptText="%serviceInterpreterTimePicker"
         style="-fx-background-color: WHITE;">
         <validators>
-          <RequiredFieldValidator message="You need to select a time for the interpreter!"/>
+          <RequiredFieldValidator message="%serviceInterpreterTimeValidator"/>
         </validators>
       </JFXTimePicker>
     </HBox>
