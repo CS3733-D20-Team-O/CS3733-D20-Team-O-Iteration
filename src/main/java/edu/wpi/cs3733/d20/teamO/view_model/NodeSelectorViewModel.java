@@ -31,31 +31,42 @@ public class NodeSelectorViewModel extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    // Set the internal list of nodes
+    // Set the internal map of nodes
     database.exportNodes().values().forEach(node ->
         descToNodes.put(String.format("(%s) %s", node.getFloor(), node.getLongName()), node));
+
     // Set the selector's options
     resetSelector();
+
+    // todo fix all of the following
+
     // Set the prompt text
     selector.getEditor().setPromptText("Select or search for a location");
+
     // Add a listener for when an item is selected
     selector.getSelectionModel().selectedItemProperty().addListener((o, old, newDesc) -> {
-      if (newDesc != null && onNodeSelectedListener != null) {
-        onNodeSelectedListener.accept(descToNodes.get(newDesc));
+      if (newDesc != null) {
+        selector.getEditor().setText(newDesc);
+        if (onNodeSelectedListener != null) {
+          onNodeSelectedListener.accept(descToNodes.get(newDesc));
+        }
       }
     });
+
     // Add a listener for when the search text changes
     selector.getEditor().textProperty().addListener((o, old, newText) -> Platform.runLater(() -> {
       selector.getItems().clear();
       if (newText.isEmpty()) {
         resetSelector();
-      } else {
+        selector.show();
+        selector.getEditor().requestFocus();
+      } else if (!descToNodes.containsKey(newText)) {
         FuzzySearch.extractTop(newText, descToNodes.keySet(), 10).stream()
             .map(ExtractedResult::getString)
             .forEachOrdered(selector.getItems()::add);
+        selector.show();
+        selector.getEditor().requestFocus();
       }
-      selector.show();
-      selector.getEditor().requestFocus();
     }));
   }
 
