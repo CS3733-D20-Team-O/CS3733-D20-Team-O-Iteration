@@ -5,13 +5,13 @@ import lombok.Value;
 @Value
 public class FloristDeliveryData implements ServiceRequestData {
 
-  String bouquetType, price;
+  String bouquetType, notes;
 
   /**
    * @return a multiline string fit for displaying directly to an end user
    */
   public String getDisplayable() {
-    return "Bouquet:" + bouquetType + "For $" + price;
+    return "Bouquet: " + bouquetType + "\nNote: " + notes;
   }
 
 }
