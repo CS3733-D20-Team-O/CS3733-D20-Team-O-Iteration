@@ -144,7 +144,7 @@ public class AVServiceTest extends FxRobot {
 
     // Test when there are fields not filled out
     clickOn("Submit");
-    verify(validator, times(1)).validate(any(), any(), any(), any(), any());
+    verify(validator, times(1)).validate(any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(1)).showBasic(any(), any(), any());

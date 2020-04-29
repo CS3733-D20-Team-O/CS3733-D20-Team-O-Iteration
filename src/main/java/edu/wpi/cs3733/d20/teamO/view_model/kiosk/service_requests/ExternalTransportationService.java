@@ -75,7 +75,7 @@ public class ExternalTransportationService extends ServiceRequestBase {
   }
 
   @FXML
-  private void cancelRequest() {
-    // todo (dialog -> close manual, window, navigator.pop())
+  public void cancelRequest() {
+    //close();
   }
 }
