@@ -274,10 +274,10 @@ public class NodeMapView extends ViewModelBase {
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
     if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
-      val x1 = n1.getXCoord() / backgroundImage.getImage().getWidth() * floorPane.getWidth();
-      val y1 = n1.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
-      val x2 = n2.getXCoord() / backgroundImage.getImage().getWidth() * floorPane.getWidth();
-      val y2 = n2.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
+      val x1 = translateToPaneX(n1.getXCoord());
+      val y1 = translateToPaneY(n1.getYCoord());
+      val x2 = translateToPaneX(n2.getXCoord());
+      val y2 = translateToPaneX(n2.getXCoord());
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
       drawnEdge.setOnMouseClicked(event -> {
         if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
@@ -303,9 +303,8 @@ public class NodeMapView extends ViewModelBase {
     // todo check the logic with this
     // Only draw this edge if the node is on this floor
     if (origin.getFloor() == getFloor()) {
-      val x = origin.getXCoord() / backgroundImage.getImage().getWidth() * floorPane
-          .getWidth(); // todo fix size
-      val y = origin.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
+      val x = translateToPaneX(origin.getXCoord());
+      val y = translateToPaneY(origin.getYCoord());
       val drawnEdge = new NodeLine(origin, null, x, y, xTarget, yTarget);
       drawnEdge.setOnMouseClicked(event -> {
         if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
@@ -451,8 +450,8 @@ public class NodeMapView extends ViewModelBase {
       System.out.println(
           "Circle properties: At X: [" + x + "] At Y: [" + y
               + "]");
-      nodeCircle.setCenterX(x);
-      nodeCircle.setCenterY(y);
+      nodeCircle.setCenterX(translateToPaneX((int) x));
+      nodeCircle.setCenterY(translateToPaneY((int) y));
     }
   }
 
