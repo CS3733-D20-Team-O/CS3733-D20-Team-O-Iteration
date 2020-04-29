@@ -120,7 +120,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   private void openLoginDialog() {
     val header = new Label("Login");
-    header.setStyle("-fx-font-size: 32");
+    header.setStyle("-fx-font-size: 24");
     val username = new JFXTextField();
     username.setPromptText("Username");
     username.setValidators(new RequiredFieldValidator("Username is required"));
@@ -133,8 +133,9 @@ public class MainKioskViewModel extends ViewModelBase {
     buttonContainer.setAlignment(Pos.CENTER_RIGHT);
     val root = new VBox(header, username, password, buttonContainer);
     root.setAlignment(Pos.CENTER);
-    root.setSpacing(16);
-    root.setStyle("-fx-font-size: 16");
+    root.setSpacing(32);
+    root.setPrefWidth(300);
+    root.setStyle("-fx-font-size: 16; -fx-padding: 32");
     val jfxDialog = dialog.showFullscreen(root);
     closeButton.setOnAction(e -> jfxDialog.close());
     loginButton.setOnAction(e -> {
