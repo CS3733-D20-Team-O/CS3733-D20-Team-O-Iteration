@@ -303,7 +303,7 @@ public class NodeMapView extends ViewModelBase {
 
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
-      edgeGroup.getChildren().add(drawnEdge);
+      Platform.runLater(() -> edgeGroup.getChildren().add(drawnEdge));
       //edgeGroup.getChildren().add(1, drawnEdge);
     }
   }
@@ -547,33 +547,46 @@ public class NodeMapView extends ViewModelBase {
   public int translateToImageX(int x) {
     System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
     System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
-    System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
-    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");
-    return (int) (x / floorPane.getWidth() * backgroundImage.getImage().getWidth());
+    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
+
+    return (int) (x / getRealWidth() * backgroundImage.getImage().getWidth());
   }
 
   public int translateToImageY(int y) {
     System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
     System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
-    System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
-    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");
-    return (int) (y / floorPane.getHeight() * backgroundImage.getImage().getHeight());
+    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
+    return (int) (y / getRealHeight() * backgroundImage.getImage().getHeight());
   }
 
   public int translateToPaneX(int x) {
     System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
     System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
-    System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
-    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");
-    return (int) (x / backgroundImage.getImage().getWidth() * floorPane.getWidth());
+    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
+    return (int) (x / backgroundImage.getImage().getWidth() * getRealWidth());
   }
 
   public int translateToPaneY(int y) {
     System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
     System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
-    System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
-    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");
-    return (int) (y / backgroundImage.getImage().getHeight() * floorPane.getHeight());
+    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
+    return (int) (y / backgroundImage.getImage().getHeight() * getRealHeight());
+  }
+
+  private double getRealWidth() {
+    double aspectRatio =
+        backgroundImage.getImage().getWidth() / backgroundImage.getImage().getHeight();
+    return Math.min(backgroundImage.getFitWidth(), backgroundImage.getFitHeight() * aspectRatio);
+  }
+
+  private double getRealHeight() {
+    double aspectRatio =
+        backgroundImage.getImage().getWidth() / backgroundImage.getImage().getHeight();
+    return Math.min(backgroundImage.getFitHeight(), backgroundImage.getFitWidth() / aspectRatio);
   }
 
   /**
