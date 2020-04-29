@@ -256,6 +256,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
       return;
     }
+    clearFields();
     previewNode = new Node("", x, y, nodeMapViewController.getFloor(), "Faulkner", "", "", "");
     nodeMapViewController.addNode(previewNode);
     xSelection = x;
@@ -272,6 +273,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
       return;
     }
+    clearFields();
     selectedNode1 = node;
     nodeMapViewController.highlightNode(node);
     newEdgeStartNode.setText(node.getLongName());
@@ -375,6 +377,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     Stream.of(shortNameField, longNameField, newNodeShortNameField, newNodeLongNameField,
         newNodeCategory)
         .forEach(node -> node.resetValidation());
+    Stream.of(nodeCategoryLabel, selectedNeighborLabel, newEdgeStartNode, newEdgeDestNode,
+        edgeNode1ID, edgeNode2ID).forEach(node -> node.setText(""));
     newNodeCategory.getSelectionModel().clearSelection();
     neighboringNodesList.getItems().clear();
     if (selectedNode1 != null) {
