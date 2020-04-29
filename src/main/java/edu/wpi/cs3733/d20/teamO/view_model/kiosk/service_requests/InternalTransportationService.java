@@ -63,7 +63,7 @@ public class InternalTransportationService extends ServiceRequestBase {
         if (validator.validate(currentRoom, reqName, reqTime, destinationRoom)) {
           val data = new InternalTransportationRequestData("Assisted",
               ((RadioButton) assistedToggle.getSelectedToggle()).getText(),
-              destinationFloor.getSelectionModel().getSelectedItem().toString());
+              destinationRoom.getSelectionModel().getSelectedItem());
           addToDatabase(data);
         }
         break;
@@ -85,7 +85,8 @@ public class InternalTransportationService extends ServiceRequestBase {
    */
   private void addToDatabase(ServiceRequestData data) {
     val confirmationCode = database
-        .addServiceRequest(reqTime.toString(), currentRoom.getSelectionModel().getSelectedItem(),
+        .addServiceRequest(reqTime.getValue().toString(),
+            currentRoom.getSelectionModel().getSelectedItem(),
             "Internal Transportation", reqName.getText(), data);
     if (confirmationCode == null) {
       snackBar.show("Failed to create the internal transportation request");
