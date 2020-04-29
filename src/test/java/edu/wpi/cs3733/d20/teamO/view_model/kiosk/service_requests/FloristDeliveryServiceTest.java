@@ -78,9 +78,7 @@ class FloristDeliveryServiceTest extends FxRobot {
     // Verify that all floors are populated
     clickOn("Floor");
     verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("2", javafx.scene.Node::isVisible);
     verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("4", javafx.scene.Node::isVisible);
     verifyThat("5", javafx.scene.Node::isVisible);
 
     // Now that we know all floors are correct, lets check to see if the locations are present
@@ -150,12 +148,12 @@ class FloristDeliveryServiceTest extends FxRobot {
     clickOn("Floor");
     clickOn("3");
     clickOn("Submit");
-    verify(validator, times(4)).validate(any());
+    verify(validator, times(3)).validate(any());
 
-    clickOn("Room/Location on Floor");
+    clickOn("Floor 3-1");
     clickOn("Floor 3-1");
     clickOn("Submit");
-    verify(validator, times(5)).validate(any());
+    verify(validator, times(4)).validate(any());
 
   }
 

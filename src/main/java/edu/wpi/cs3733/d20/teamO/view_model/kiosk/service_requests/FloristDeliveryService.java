@@ -54,11 +54,6 @@ public class FloristDeliveryService extends ServiceRequestBase {
       locations.getSelectionModel().select(0);
     });
 
-    // Preselect the first floor and the first location on that floor
-    if (!floors.getItems().isEmpty()) {
-      floors.getSelectionModel().select(0);
-      locations.getSelectionModel().select(0);
-    }
   }
 
 
@@ -76,17 +71,18 @@ public class FloristDeliveryService extends ServiceRequestBase {
   private void generateRequest() {
     val requestedData = new FloristDeliveryData(bouquet.getSelectionModel().getSelectedItem(),
         additionalNotes.getText());
-    Node requestNode = null;
-    for (Node node : database.exportNodes().values()) {
-      if (node.getLongName().equals(locations.getSelectionModel().getSelectedItem())) {
-        requestNode = node;
-        break;
-      }
-    }
+//    Node requestNode = null;
+////    for (Node node : database.exportNodes().values()) {
+////      if (node.getLongName().equals(locations.getSelectionModel().getSelectedItem())) {
+////        requestNode = node;
+////        break;
+////      }
+////    }
 
     val confirmationCode = database.addServiceRequest(
         LocalDateTime.now().toString(),
-        requestNode.getNodeID(), "Florist", requesterName.getText(), requestedData);
+        locations.getSelectionModel().getSelectedItem(), "Florist", requesterName.getText(),
+        requestedData);
 
     if (confirmationCode == null) {
       snackBar.show("Failed to create the sanitation service request");
