@@ -58,15 +58,13 @@ public class NodeSelectorViewModel extends ViewModelBase {
       selector.getItems().clear();
       if (newText.isEmpty()) {
         resetSelector();
-        selector.show();
-        selector.getEditor().requestFocus();
       } else if (!descToNodes.containsKey(newText)) {
         FuzzySearch.extractTop(newText, descToNodes.keySet(), 10).stream()
             .map(ExtractedResult::getString)
             .forEachOrdered(selector.getItems()::add);
-        selector.show();
-        selector.getEditor().requestFocus();
       }
+      selector.show();
+      selector.getEditor().requestFocus();
     }));
   }
 
