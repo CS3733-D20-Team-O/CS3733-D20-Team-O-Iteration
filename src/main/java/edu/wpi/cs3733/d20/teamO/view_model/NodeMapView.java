@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
 
+
 @Getter
 public class NodeMapView extends ViewModelBase {
 
@@ -36,7 +38,8 @@ public class NodeMapView extends ViewModelBase {
   private final static double zoomInc = 0.1;
   private final static double dragInc = 2;
 
-  private final int counter = 0;
+  private double dragX = 0;
+  private double dragY = 0;
 
   /**
    * The current floor being displayed
@@ -97,20 +100,18 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private StackPane floorPane;
   @FXML
-  private AnchorPane nodeGroup, edgeGroup;
+  private AnchorPane nodeGroup, edgeGroup, dummyLayer;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
     //backgroundImage.setFitWidth(990.4);
     //backgroundImage.setFitHeight(594.4);
-
-    // Display the current floor (and consequently call the above listeners)
-    setFloor(minFloor);
+    backgroundImage.setImage(new Image("floors/1.png"));
 
     // Set up event for a scroll event
     floorPane.setOnScroll(event -> {
-      if (event.getDeltaY() > 0) { // Zoom out
+      if (event.getDeltaY() < 0) { // Zoom out
         zoom(this.currentZoom - zoomInc);
       } else { // Zoom in
         zoom(this.currentZoom + zoomInc);
@@ -120,19 +121,32 @@ public class NodeMapView extends ViewModelBase {
     // Set up event for when the the background is clicked
     nodeGroup.setOnMouseClicked(event -> {
       if (event.getButton() == MouseButton.SECONDARY) {
-        val imageX = event.getX() / floorPane.getWidth() * backgroundImage.getImage().getWidth();
-        val imageY = event.getY() / floorPane.getHeight() * backgroundImage.getImage().getHeight();
-        onMissRightTapListener.accept((int) imageX, (int) imageY);
+        System.out.println("NodeGroup Right Click");
+        val imageX = translateToImageX((int) event.getX());
+        val imageY = translateToImageY((int) event.getY());
+        onMissRightTapListener.accept(imageX, imageY);
+      }
+    });
+
+    dummyLayer.setOnMousePressed(event -> {
+      if (event.getButton() == MouseButton.PRIMARY) {
+        System.out.println("NodeGroup Left Press");
+        dragX = floorPane.getLayoutX() - event.getSceneX();
+        dragY = floorPane.getLayoutY() - event.getSceneY();
       }
     });
 
     // Set up event for when the background is dragged
-    backgroundImage.setOnMouseDragged(event -> {
+    dummyLayer.setOnMouseDragged(event -> {
       if (event.getButton() == MouseButton.PRIMARY) {
-        floorPane.setTranslateX(floorPane.getTranslateX() - event.getX());
-        floorPane.setTranslateY(floorPane.getTranslateY() - event.getY());
+        System.out.println("NodeGroup Left Drag");
+        floorPane.setLayoutX(event.getSceneX() + dragX);
+        floorPane.setLayoutY(event.getSceneY() + dragY);
       }
     });
+
+    // Display the current floor (and consequently call the above listeners)
+    Platform.runLater(() -> setFloor(minFloor));
   }
 
   /**
@@ -143,7 +157,15 @@ public class NodeMapView extends ViewModelBase {
   public void setNodeMap(Map<String, Node> nodeMap) {
     this.nodeMap.clear(); // Clear the current node map and the current nodeGroup and edgeGroup
 
+    nodeMap.keySet().forEach((id) -> System.out.println(
+        "[" + id + ", " + nodeMap.get(id).getFloor() + "] (" + nodeMap.get(id).getXCoord() + ", "
+            + nodeMap.get(id).getYCoord() + ")"));
+
     nodeMap.keySet().forEach((id) -> placeFloorNode(id, nodeMap.get(id)));
+    System.out.println("============");
+    this.nodeMap.get(1).forEach((id, node) -> System.out.println(
+        "[" + id + ", " + node.getFloor() + "] (" + node.getXCoord() + ", " + node.getYCoord()
+            + ")"));
     draw();
   }
 
@@ -216,32 +238,40 @@ public class NodeMapView extends ViewModelBase {
    * @param node the node to draw to the canvas
    */
   private void drawNode(Node node) {
-    val x = node.getXCoord() / backgroundImage.getImage().getWidth() * floorPane
-        .getWidth(); // todo fix size
-    val y = node.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
+    val x = translateToPaneX(node.getXCoord());
+    val y = translateToPaneY(node.getYCoord());
     val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
-    System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
+    System.out.println(
+        "Node: [" + node.getNodeID() + "] At X: [" + node.getXCoord() + "] At Y: [" + node
+            .getYCoord() + "]");
     System.out.println(
         "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
             + "]");
-    drawnNode.setOnMouseClicked(event -> { // todo Fix click (rightclick is left, left is right)
+    drawnNode.setOnMouseClicked(event -> {
       if (onNodeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
+        System.out.println("Node Left Clicked");
         onNodeLeftTapListener.accept(drawnNode.node);
-      } else if (onNodeRightTapListener != null && event.isSecondaryButtonDown()) {
+      } else if (onNodeRightTapListener != null && event.getButton() == MouseButton.SECONDARY) {
+        System.out.println("Node Right Clicked");
         onNodeRightTapListener.accept(drawnNode.node);
       }
     });
     drawnNode.setOnMouseDragged(event -> {
       if (onNodeLeftDragListener != null && event.getButton() == MouseButton.PRIMARY) {
+        System.out.println("Node Left Dragged");
         onNodeLeftDragListener.accept(drawnNode.node, event);
-      } else if (onNodeRightDragListener != null) {
+      } else if (onNodeRightDragListener != null && event.getButton() == MouseButton.SECONDARY) {
+        System.out.println("Node Right Dragged");
         onNodeRightDragListener.accept(drawnNode.node, event);
       }
     });
     drawnNode.setOnMouseDragExited(event -> {
       if (onNodeLeftDragReleaseListener != null && event.getButton() == MouseButton.PRIMARY) {
+        System.out.println("Node Left Dragged End");
         onNodeLeftDragReleaseListener.accept(drawnNode.node, event);
-      } else if (onNodeRightDragReleaseListener != null) {
+      } else if (onNodeRightDragReleaseListener != null
+          && event.getButton() == MouseButton.SECONDARY) {
+        System.out.println("Node Right Dragged End");
         onNodeRightDragReleaseListener.accept(drawnNode.node, event);
       }
     });
@@ -257,39 +287,41 @@ public class NodeMapView extends ViewModelBase {
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
     if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
-      val x1 = n1.getXCoord() / backgroundImage.getImage().getWidth() * floorPane
-          .getWidth(); // todo fix size
-      val y1 = n1.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
-      val x2 = n2.getXCoord() / backgroundImage.getImage().getWidth() * floorPane.getWidth();
-      val y2 = n2.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
+      val x1 = translateToPaneX(n1.getXCoord());
+      val y1 = translateToPaneY(n1.getYCoord());
+      val x2 = translateToPaneX(n2.getXCoord());
+      val y2 = translateToPaneY(n2.getYCoord());
+      //System.out.println("Drawing an edge (node reference) from (" + translateToPaneX(n1.getXCoord()) + ", " + translateToPaneY(n1.getYCoord()) + ") to (" + translateToPaneX(n2.getYCoord()) + ", " + translateToPaneY(n2.getYCoord()) + ")");
+      //System.out.println("Drawing an edge from (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
       drawnEdge.setOnMouseClicked(event -> {
         if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
+          System.out.println("Edge Left Click");
           onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
         }
       });
 
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
-      edgeGroup.getChildren().add(drawnEdge);
+      Platform.runLater(() -> edgeGroup.getChildren().add(drawnEdge));
       //edgeGroup.getChildren().add(1, drawnEdge);
     }
   }
 
+  /*
   /**
    * Draws an edge (represented as a NodeLine) between the origin and the given nodes
    *
    * @param origin  the origin
    * @param xTarget the given xTarget
    * @param yTarget the given yTarget
-   */
+
   public void drawEdge(Node origin, int xTarget, int yTarget) {
     // todo check the logic with this
     // Only draw this edge if the node is on this floor
     if (origin.getFloor() == getFloor()) {
-      val x = origin.getXCoord() / backgroundImage.getImage().getWidth() * floorPane
-          .getWidth(); // todo fix size
-      val y = origin.getYCoord() / backgroundImage.getImage().getHeight() * floorPane.getHeight();
+      val x = translateToPaneX(origin.getXCoord());
+      val y = translateToPaneY(origin.getYCoord());
       val drawnEdge = new NodeLine(origin, null, x, y, xTarget, yTarget);
       drawnEdge.setOnMouseClicked(event -> {
         if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
@@ -301,7 +333,7 @@ public class NodeMapView extends ViewModelBase {
       edgeGroup.getChildren().add(drawnEdge);
       //edgeGroup.getChildren().add(1, drawnEdge);
     }
-  }
+  }/*
 
   /**
    * Zooms the canvas in using this multiplier
@@ -309,9 +341,11 @@ public class NodeMapView extends ViewModelBase {
    * @param zoom the amount of zoom (1.0 is default)
    */
   public void zoom(double zoom) {
-    floorPane.setScaleX(zoom);
-    floorPane.setScaleY(zoom);
-    this.currentZoom = zoom;
+    if (zoom > 0.5 && zoom < 1.5) {
+      floorPane.setScaleX(zoom);
+      floorPane.setScaleY(zoom);
+      this.currentZoom = zoom;
+    }
   }
 
   /**
@@ -417,10 +451,24 @@ public class NodeMapView extends ViewModelBase {
    * @param y    the new y location
    */
   public void relocateNode(Node node, double x, double y) {
+    val floor = nodeMap.get(node.getFloor());
+    if (floor != null) {
+      floor.remove(node.getNodeID());
+      Node newNode = new Node(node.getNodeID(), node.getXCoord(),
+          node.getYCoord(), node.getFloor(), node.getBuilding(),
+          node.getNodeType(), node.getLongName(), node.getShortName());
+      floor.put(node.getNodeID(), newNode);
+      System.out.println("Updated node");
+    }
+
     val nodeCircle = findNode(node);
     if (nodeCircle != null) {
-      nodeCircle.setCenterX(x);
-      nodeCircle.setCenterY(y);
+      System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
+      System.out.println(
+          "Circle properties: At X: [" + x + "] At Y: [" + y
+              + "]");
+      nodeCircle.setCenterX(translateToPaneX((int) x));
+      nodeCircle.setCenterY(translateToPaneY((int) y));
     }
   }
 
@@ -459,7 +507,7 @@ public class NodeMapView extends ViewModelBase {
   private NodeCircle findNode(Node node) {
     for (val child : nodeGroup.getChildren()) {
       val nodeCircle = (NodeCircle) child;
-      if (nodeCircle.node.equals(node)) {
+      if (nodeCircle.node.getNodeID().equals(node.getNodeID())) {
         return nodeCircle;
       }
     }
@@ -494,6 +542,51 @@ public class NodeMapView extends ViewModelBase {
         .reduce(null, (result, current) ->
             current.node1.getNodeID().equals(edge.getStartID()) &&
                 current.node2.getNodeID().equals(edge.getStopID()) ? current : result);*/
+  }
+
+  public int translateToImageX(int x) {
+    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
+
+    return (int) (x / getRealWidth() * backgroundImage.getImage().getWidth());
+  }
+
+  public int translateToImageY(int y) {
+    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
+    return (int) (y / getRealHeight() * backgroundImage.getImage().getHeight());
+  }
+
+  public int translateToPaneX(int x) {
+    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
+    return (int) (x / backgroundImage.getImage().getWidth() * getRealWidth());
+  }
+
+  public int translateToPaneY(int y) {
+    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
+    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
+    return (int) (y / backgroundImage.getImage().getHeight() * getRealHeight());
+  }
+
+  private double getRealWidth() {
+    double aspectRatio =
+        backgroundImage.getImage().getWidth() / backgroundImage.getImage().getHeight();
+    return Math.min(backgroundImage.getFitWidth(), backgroundImage.getFitHeight() * aspectRatio);
+  }
+
+  private double getRealHeight() {
+    double aspectRatio =
+        backgroundImage.getImage().getWidth() / backgroundImage.getImage().getHeight();
+    return Math.min(backgroundImage.getFitHeight(), backgroundImage.getFitWidth() / aspectRatio);
   }
 
   /**

@@ -14,8 +14,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+@Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class MedicineDeliveryService extends ServiceRequestBase {
 
@@ -52,7 +54,8 @@ public class MedicineDeliveryService extends ServiceRequestBase {
       if (confirmationCode == null) {
         snackBar.show("Failed to create medicine delivery service request");
       } else {
-        dialog.showBasic("Success", "Your confirmation code is:\n" + confirmationCode, "Close");
+        close();
+        showRequestConfirmation(confirmationCode);
       }
     }
   }
