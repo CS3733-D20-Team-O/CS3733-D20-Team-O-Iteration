@@ -281,6 +281,7 @@ public class NodeMapView extends ViewModelBase {
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
       drawnEdge.setOnMouseClicked(event -> {
         if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
+          System.out.println("Edge Left Click");
           onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
         }
       });
