@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +23,7 @@ import javafx.scene.shape.Line;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
+
 
 @Getter
 public class NodeMapView extends ViewModelBase {
@@ -105,9 +107,7 @@ public class NodeMapView extends ViewModelBase {
 
     //backgroundImage.setFitWidth(990.4);
     //backgroundImage.setFitHeight(594.4);
-
-    // Display the current floor (and consequently call the above listeners)
-    setFloor(minFloor);
+    backgroundImage.setImage(new Image("floors/1.png"));
 
     // Set up event for a scroll event
     floorPane.setOnScroll(event -> {
@@ -144,6 +144,9 @@ public class NodeMapView extends ViewModelBase {
         floorPane.setLayoutY(event.getSceneY() + dragY);
       }
     });
+
+    // Display the current floor (and consequently call the above listeners)
+    Platform.runLater(() -> setFloor(minFloor));
   }
 
   /**
@@ -154,7 +157,15 @@ public class NodeMapView extends ViewModelBase {
   public void setNodeMap(Map<String, Node> nodeMap) {
     this.nodeMap.clear(); // Clear the current node map and the current nodeGroup and edgeGroup
 
+    nodeMap.keySet().forEach((id) -> System.out.println(
+        "[" + id + ", " + nodeMap.get(id).getFloor() + "] (" + nodeMap.get(id).getXCoord() + ", "
+            + nodeMap.get(id).getYCoord() + ")"));
+
     nodeMap.keySet().forEach((id) -> placeFloorNode(id, nodeMap.get(id)));
+    System.out.println("============");
+    this.nodeMap.get(1).forEach((id, node) -> System.out.println(
+        "[" + id + ", " + node.getFloor() + "] (" + node.getXCoord() + ", " + node.getYCoord()
+            + ")"));
     draw();
   }
 
