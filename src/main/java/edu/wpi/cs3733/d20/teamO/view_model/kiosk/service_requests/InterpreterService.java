@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InterpreterData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -12,7 +13,6 @@ import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import lombok.RequiredArgsConstructor;
@@ -33,36 +33,23 @@ public class InterpreterService extends ServiceRequestBase {
   @FXML
   private JFXComboBox<Integer> floors;
   @FXML
-  private JFXComboBox<String> locations;
-  @FXML
-  private JFXComboBox<String> language;
-  @FXML
-  private JFXComboBox<String> gender;
+  private JFXComboBox<String> locations, language, gender;
   @FXML
   private JFXTextArea additionalNotes;
+  @FXML
+  private JFXTimePicker timePicker;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    setLocations(this.floors, locations);
-
-    language.getItems().add("Spanish");
-    language.getItems().add("French");
-    language.getItems().add("Chinese");
-    language.getItems().add("Japanese");
-    language.getItems().add("Russian");
-
-    gender.getItems().add("Male");
-    gender.getItems().add("Female");
-    gender.getItems().add("No Preference");
-
+    setLocations(floors, locations);
   }
 
   @FXML
   private void submitRequest() {
-    if (validator.validate(requesterName, floors, locations)) {
+    if (validator.validate(requesterName, floors, locations, language, gender, timePicker)) {
       val requestData = new InterpreterData(language.getValue(), gender.getValue(),
           additionalNotes.getText());
-      val time = LocalDateTime.now().toString(); // todo format this
+      val time = timePicker.toString();
       // todo use enum for sanitation string below
       // todo extract strings
       val confirmationCode = database.addServiceRequest(

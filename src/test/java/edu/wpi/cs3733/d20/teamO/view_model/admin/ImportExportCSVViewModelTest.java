@@ -63,7 +63,7 @@ public class ImportExportCSVViewModelTest extends FxRobot {
   @Test
   public void testComboBox() {
     clickOn("Nodes");
-    Arrays.asList("Nodes", "Edges", "Employees", "Service Requests")
+    Arrays.asList("Nodes", "Edges", "Employees")
         .forEach(str -> verifyThat(str, javafx.scene.Node::isVisible));
   }
 

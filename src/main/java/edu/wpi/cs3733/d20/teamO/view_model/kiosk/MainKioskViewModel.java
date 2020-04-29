@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,9 @@ public class MainKioskViewModel extends ViewModelBase {
   private final Dialog dialog;
 
   @FXML
-  private HBox welcomeBar, langContainer;
+  private StackPane welcomeBar, container;
+  @FXML
+  private HBox langContainer;
   @FXML
   private VBox contentContainer;
   @FXML
@@ -72,11 +75,29 @@ public class MainKioskViewModel extends ViewModelBase {
     languageSwitcher.getSelectionModel().selectedIndexProperty().addListener(((o, old, index) ->
         languageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[index.intValue()])));
 
-    // Create a map of available descriptions to their corresponding fxml files todo use registry
+    // Create a map of available descriptions to their corresponding fxml files
     val requests = new HashMap<String, String>();
-    requests.put(getString("serviceGiftDeliveryDescription"), "GiftDeliveryService.fxml");
-    requests.put(getString("serviceSanitationDescription"), "SanitationService.fxml");
-    requests.keySet().forEach(serviceSelector.getItems()::add);
+    requests.put(getString("serviceGiftDeliveryDescription") + " - Mark Hogan",
+        "GiftDeliveryService.fxml");
+    requests.put(getString("serviceSanitationDescription") + " - Gregory Conrad",
+        "SanitationService.fxml");
+    requests.put(getString("serviceInfoTechDescription") + " - Michael Lai",
+        "InfoTechService.fxml");
+    requests.put(getString("serviceExtTransportationDescription") + " - Ryan Stebe",
+        "ExternalTransportationService.fxml");
+    requests.put(getString("serviceMedicineDeliveryDescription") + " - Collin Broderick",
+        "MedicineDeliveryService.fxml");
+    requests.put(getString("serviceAVDescription") + " - Benjamin Klaiman",
+        "AVService.fxml");
+    requests.put(getString("serviceInterpreterDescription") + " - Victoria Grasso",
+        "InterpreterService.fxml");
+    requests.put(getString("serviceIntTransportationDescription") + " - James Casella",
+        "InternalTransportationService.fxml");
+    requests.put(getString("serviceFloristDeliveryDescription") + " - Emily Austin",
+        "FloristDeliveryService.fxml");
+    requests.put(getString("serviceSecurityDescription") + " - Jesus Barron",
+        "SecurityService.fxml");
+    requests.keySet().stream().sorted().forEach(serviceSelector.getItems()::add);
     serviceSelector.getSelectionModel().selectedItemProperty().addListener(((o, old, desc) -> {
       if (desc != null) {
         try {
@@ -99,7 +120,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   private void openLoginDialog() {
     val header = new Label("Login");
-    header.setStyle("-fx-font-size: 32");
+    header.setStyle("-fx-font-size: 24");
     val username = new JFXTextField();
     username.setPromptText("Username");
     username.setValidators(new RequiredFieldValidator("Username is required"));
@@ -112,8 +133,9 @@ public class MainKioskViewModel extends ViewModelBase {
     buttonContainer.setAlignment(Pos.CENTER_RIGHT);
     val root = new VBox(header, username, password, buttonContainer);
     root.setAlignment(Pos.CENTER);
-    root.setSpacing(16);
-    root.setStyle("-fx-font-size: 16");
+    root.setSpacing(32);
+    root.setPrefWidth(300);
+    root.setStyle("-fx-font-size: 16; -fx-padding: 32");
     val jfxDialog = dialog.showFullscreen(root);
     closeButton.setOnAction(e -> jfxDialog.close());
     loginButton.setOnAction(e -> {
@@ -133,7 +155,7 @@ public class MainKioskViewModel extends ViewModelBase {
 
   private void openAdminDialog() {
     try {
-      dialog.showFullscreenFXML("views/admin/Main.fxml");
+      dialog.showFXML(container, "views/admin/Main.fxml");
     } catch (IOException e) {
       log.error("Could not load the admin dialog", e);
     }

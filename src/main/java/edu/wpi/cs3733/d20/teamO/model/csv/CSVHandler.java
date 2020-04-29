@@ -31,13 +31,6 @@ public interface CSVHandler {
   boolean importEmployees(String csvFileLocation);
 
   /**
-   * Imports serviceRequests from the given csv file into the database
-   *
-   * @param csvFileLocation the path of the csv file to read
-   */
-  boolean importServiceRequests(String csvFileLocation);
-
-  /**
    * Exports nodes from the database to the given csv file
    *
    * @param csvFileLocation the path of the csv file to write
@@ -57,11 +50,4 @@ public interface CSVHandler {
    * @param csvFileLocation the path of the csv file to write
    */
   boolean exportEmployees(String csvFileLocation);
-
-  /**
-   * Exports serviceRequests from the database to the given csv file
-   *
-   * @param csvFileLocation the path of the csv file to write
-   */
-  boolean exportServiceRequests(String csvFileLocation);
 }

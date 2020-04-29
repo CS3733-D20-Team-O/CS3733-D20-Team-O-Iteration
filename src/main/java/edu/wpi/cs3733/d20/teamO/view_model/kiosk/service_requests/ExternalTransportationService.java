@@ -4,13 +4,13 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ExternalTransportationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class ExternalTransportationService extends ServiceRequestBase {
 
-  //needs: requester name, destination, floor, location, transportation type, additional notes
+  //needs: requester name, time, floor, location, transportation type, destination, additional notes
 
   private final DatabaseWrapper database;
   private final Validator validator;
@@ -34,6 +34,8 @@ public class ExternalTransportationService extends ServiceRequestBase {
   private JFXComboBox<String> locations;
   @FXML
   private JFXComboBox<String> transportationType;
+  @FXML
+  private JFXTimePicker timePicker;
   @FXML
   private JFXTextArea additionalNotes;
 
@@ -50,12 +52,13 @@ public class ExternalTransportationService extends ServiceRequestBase {
 
   @FXML
   private void submitRequest() {
-    if (validator.validate(requesterName, floors, locations)) {
+    if (validator
+        .validate(requesterName, floors, locations, transportationType, timePicker, destination)) {
       val requestData = new ExternalTransportationRequestData(
           transportationType.getSelectionModel().getSelectedItem(),
           destination.getText(),
           additionalNotes.getText());
-      val time = LocalDateTime.now().toString(); // todo format this
+      val time = timePicker.getValue().toString();
       // todo extract strings
       val confirmationCode = database.addServiceRequest(
           time, locations.getSelectionModel().getSelectedItem(),

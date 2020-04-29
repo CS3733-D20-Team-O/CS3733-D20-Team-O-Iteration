@@ -10,8 +10,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -45,32 +43,36 @@ public class AVService extends ServiceRequestBase {
   }
 
   @FXML
-  private void submitRequest() {
-    if (validator.validate(requesterNameField, floorNumberComboBox, locationComboBox, durationComboBox, serviceRequestComboBox)) {
-      startTimePicker = new JFXTimePicker();
-      val time = startTimePicker.getValue().toString();
-      val requestData = new AVRequestData(
-          serviceRequestComboBox.getSelectionModel().getSelectedItem(),
-          time,
-          durationComboBox.getSelectionModel().getSelectedItem(),
-          commentTextArea.getText());
-      val confirmationCode = database.addServiceRequest(time,
-          locationComboBox.getSelectionModel().getSelectedItem(),
-          "A/V", requesterNameField.getText(), requestData);
-      if (confirmationCode == null) {
-        snackBar.show("Failed to create the A/V service request");
-      } else {
-        close();
-        try {
-          ((RequestConfirmationViewModel)
-              dialog.showFullscreenFXML("views/kiosk/RequestConfirmation.fxml"))
-              .setServiceRequest(confirmationCode);
-        } catch (IOException e) {
-          log.error("Failed to show the detailed confirmation dialog", e);
-          dialog.showBasic("A/V Request Submitted Successfully",
-              "Your confirmation code is:\n" + confirmationCode, "CLOSE");
-        }
-      }
+  private void onSubmitPress() {
+    if (!validator
+        .validate(requesterNameField, floorNumberComboBox, locationComboBox, durationComboBox,
+            serviceRequestComboBox)) {
+      dialog.showBasic("Missing Information",
+          "Please fill out the form completely to make request.",
+          "OK");
+      return;
+    }
+
+    generateRequest();
+  }
+
+  private void generateRequest() {
+    val time = startTimePicker.getValue().toString();
+    val requestData = new AVRequestData(
+        serviceRequestComboBox.getSelectionModel().getSelectedItem(),
+        time,
+        durationComboBox.getSelectionModel().getSelectedItem(),
+        commentTextArea.getText());
+
+    val confirmationCode = database.addServiceRequest(time,
+        locationComboBox.getSelectionModel().getSelectedItem(),
+        "A/V", requesterNameField.getText(), requestData);
+
+    if (confirmationCode == null) {
+      snackBar.show("Failed to create the A/V service request");
+    } else {
+      dialog.showBasic("A/V Request Submitted Successfully",
+          "Your confirmation code is:\n" + confirmationCode, "CLOSE");
     }
   }
 }

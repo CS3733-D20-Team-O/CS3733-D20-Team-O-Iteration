@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testfx.api.FxAssert.verifyThat;
 
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.d20.teamO.Main;
@@ -58,9 +59,34 @@ public class InterpreterServiceTest extends FxRobot {
   @InjectMocks
   InterpreterService viewModel;
 
+  private void initializeBundle() {
+    bundle.put("serviceInterpreterDescription", "Interpreter Service Request Creation");
+    bundle.put("serviceInterpreterNameField", "Your Name");
+    bundle.put("serviceInterpreterNameValidator", "Your name is required!");
+    bundle.put("serviceInterpreterFloorCB", "Floor");
+    bundle.put("serviceInterpreterFloorValidator",
+        "You need to select the floor for the interpreter!");
+    bundle.put("serviceInterpreterLocationCB", "Room/Location on Floor");
+    bundle.put("serviceInterpreterLocationValidator",
+        "You need to select the location for the interpreter!");
+    bundle.put("serviceInterpreterTimePicker", "Time for Request");
+    bundle.put("serviceInterpreterLocationValidator",
+        "You need to select the location for the interpreter!");
+    bundle.put("serviceInterpreterLanguageCB", "Language");
+    bundle.put("serviceInterpreterLanguageValidator",
+        "You need to select the language for the interpreter!");
+    bundle.put("serviceInterpreterGenderCB", "Preferred Gender");
+    bundle.put("serviceInterpreterGenderValidator",
+        "You need to select a preferred gender for the interpreter!");
+    bundle.put("serviceInterpreterNotesField", "Additional Notes");
+    bundle.put("serviceInterpreterSubmitButton", "Submit");
+    bundle.put("serviceInterpreterCancelButton", "Cancel");
+  }
+
   @Start
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
+    initializeBundle();
     populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
@@ -78,6 +104,36 @@ public class InterpreterServiceTest extends FxRobot {
     map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
     map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
+  }
+
+  @Test
+  public void testLanguages() throws IOException {
+    clickOn("Language");
+    verifyThat("Spanish", javafx.scene.Node::isVisible);
+    verifyThat("French", javafx.scene.Node::isVisible);
+    verifyThat("Chinese", javafx.scene.Node::isVisible);
+    verifyThat("Japanese", javafx.scene.Node::isVisible);
+    verifyThat("Russian", javafx.scene.Node::isVisible);
+
+    clickOn("Spanish");
+    verifyThat("Spanish", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testGender() throws IOException {
+    clickOn("Preferred Gender");
+    verifyThat("Male", javafx.scene.Node::isVisible);
+    verifyThat("Female", javafx.scene.Node::isVisible);
+    verifyThat("No Preference", javafx.scene.Node::isVisible);
+
+    clickOn("No Preference");
+    verifyThat("No Preference", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void everythingEmpty() {
+    clickOn("Submit");
+    verify(validator, times(1)).validate(any());
   }
 
   @Test
@@ -101,6 +157,8 @@ public class InterpreterServiceTest extends FxRobot {
     clickOn("1");
     clickOn("Room/Location on Floor");
     clickOn("Floor 1");
+    clickOn("Time for Request");
+    write("12:24 PM");
     clickOn("Language");
     clickOn("Chinese");
     clickOn("Preferred Gender");
