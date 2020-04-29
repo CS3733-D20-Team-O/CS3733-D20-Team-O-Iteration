@@ -64,13 +64,19 @@ public class SecurityServiceTest extends FxRobot {
   SecurityService viewModel;
 
   private void initializeBundle() {
-    bundle.put("serviceSecurityTitle", "Security Request");
-    bundle.put("securityRequesterName", "Your Name");
-    bundle.put("securityRequesterNameValidation", "Your name is Required!");
-    bundle.put("securityRequestFloor","Floor");
-    bundle.put("securityRequestFloorValidation","You need to select the floor of the incident!");
-    bundle.put("securityRequestLocation","Room/Location on Floor");
-    bundle.put("securityRequestLocationValidation","Please indicate a location for responder to be sent!");
+    //General use Bundles
+    bundle.put("serviceInfoTechDescription ", "IT Support Request");
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("namePromptValidator", "Your name is required!");
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("floorPromptValidator", "A Floor is Required for the Service Request!");
+    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+
+    //Unique Bundles
+    bundle.put("serviceSecurityDescription", "Emergency Security  Service Request");
     bundle.put("SecurityEmergencyType","Emergency Type");
     bundle.put("codePink","Code pink: Amber alert/Code Adam: infant abduction");
     bundle.put("codeGrey","Code Grey: Combative/Violent Individual");
@@ -79,9 +85,6 @@ public class SecurityServiceTest extends FxRobot {
     bundle.put("extTriage","External triage: external disaster");
     bundle.put("intTriage","Internal triage: internal emergency");
     bundle.put("suic","Suicidal or Distraught Individual");
-    bundle.put("securityAdditionalNotes","Additional Notes");
-    bundle.put("submitButton","Submit");
-    bundle.put("cancelButton","Cancel");
   }
 
 
