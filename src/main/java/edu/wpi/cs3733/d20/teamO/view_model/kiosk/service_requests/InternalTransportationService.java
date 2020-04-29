@@ -63,7 +63,7 @@ public class InternalTransportationService extends ServiceRequestBase {
         if (validator.validate(currentRoom, reqName, reqTime, destinationRoom)) {
           val data = new InternalTransportationRequestData("Assisted",
               ((RadioButton) assistedToggle.getSelectedToggle()).getText(),
-              destinationFloor.getSelectionModel().getSelectedItem().toString());
+              destinationRoom.getSelectionModel().getSelectedItem());
           addToDatabase(data);
         }
         break;
