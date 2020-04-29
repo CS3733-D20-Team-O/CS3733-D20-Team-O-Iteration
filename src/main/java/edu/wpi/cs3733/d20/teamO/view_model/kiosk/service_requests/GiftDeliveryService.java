@@ -11,10 +11,8 @@ import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -34,7 +32,6 @@ public class GiftDeliveryService extends ServiceRequestBase {
   private final Dialog dialog;
   private final DatabaseWrapper database;
   ArrayList<Node> listOfRooms = new ArrayList<>();
-  Map<String, String> giftList_Map = new HashMap<>();
 
   @FXML
   private JFXTextField toField, fromField, ccNumberField,
@@ -53,34 +50,9 @@ public class GiftDeliveryService extends ServiceRequestBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
     inRoomComboBox.setDisable(true);
-    makeNodes();
-    makeGiftList();
-    addComboBoxOptions(); //adds Floors, Rooms, CC info, and Gifts
+    addComboBoxOptions(); //adds Floors, Rooms
   }
 
-  private void makeNodes() {
-    if (database.exportNodes().size() > 0) {
-      return;
-    } else if (database.exportEmployees().size() < 1) {
-      database.addEmployee("0", "", "", true);
-    }
-    database.addNode("Node1", 1, 1, 1, "Main", "DEPT", "Test Depart1", "testDept");
-    database.addNode("Node2", 1, 1, 2, "Main", "LABS", "Test Lab2", "testLab");
-    database.addNode("Node3", 1, 1, 3, "Main", "CONF", "Test CONF3", "testLab");
-    database.addNode("Node4", 1, 1, 4, "Main", "HALL", "Test HALL4", "testLab");
-    database.addNode("Node5", 1, 1, 5, "Main", "LABS", "Test Lab5", "testLab");
-    database.addNode("Node6", 1, 1, 5, "Main", "STAI", "Test STAI5", "testLab");
-    database.addNode("Node7", 1, 1, 5, "Main", "STAI", "Test STAI6", "testLab");
-    database.addNode("Node8", 1, 1, 5, "Main", "CONF", "Test CONF8", "testLab");
-
-  }
-
-  private void makeGiftList() {
-    giftList_Map.put("Stuffed Animal", "9.99");
-    giftList_Map.put("Card", "4.99");
-    giftList_Map.put("Box of Chocolates", "12.99");
-    giftList_Map.put("Toy", "3.99");
-  }
 
   @FXML
   private void updateTotal() {
@@ -88,6 +60,7 @@ public class GiftDeliveryService extends ServiceRequestBase {
       return;
     }
 
+    System.out.println(splitItem().get(0));
     totalLabel.setText("Total: $" + splitItem().get(1));
   }
 
@@ -108,18 +81,6 @@ public class GiftDeliveryService extends ServiceRequestBase {
         inRoomComboBox.getItems().add(roomToAdd);
       }
     }
-
-    //sets up Gift combo box
-    for (val item : giftList_Map.entrySet()) {
-      giftComboBox.getItems().add(item.getKey() + ": $" + item.getValue());
-    }
-
-    //sets CC Type
-    ccTypeComboBox.getItems().addAll("Visa", "Mastercard", "AMEX", "Discover");
-
-    //sets CC MM
-    ccMonthComboBox.getItems()
-        .addAll("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
 
     //sets CC YYYY
     val curYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -180,23 +141,15 @@ public class GiftDeliveryService extends ServiceRequestBase {
     }
 
     generateRequest();
-    close();
   }
 
   private void generateRequest() {
     //splitItem().get(0) is the <name> from the combo box "<name>: $<price>"
     val requestedData = new GiftDeliveryRequestData(splitItem().get(0), toField.getText());
-    Node requestNode = null;
-    for (Node node : database.exportNodes().values()) {
-      if (node.getLongName().equals(inRoomComboBox.getSelectionModel().getSelectedItem())) {
-        requestNode = node;
-        break;
-      }
-    }
 
     val confirmationCode = database.addServiceRequest(
-        timePicker.getValue().format(DateTimeFormatter.ofPattern("HH:mm:")),
-        requestNode.getNodeID(),
+        timePicker.getValue().toString(),
+        inRoomComboBox.getSelectionModel().getSelectedItem(),
         "Gift",
         fromField.getText(),
         requestedData);
@@ -204,7 +157,7 @@ public class GiftDeliveryService extends ServiceRequestBase {
     if (confirmationCode == null) {
       snackbar.show("Failed to create the Gift Delivery Service Request");
     } else {
-      dialog.showBasic("Sanitation Request Submitted Successfully",
+      dialog.showBasic("Gift Delivery Request Submitted Successfully",
           "Your confirmation code is:\n" + confirmationCode, "Close");
     }
 

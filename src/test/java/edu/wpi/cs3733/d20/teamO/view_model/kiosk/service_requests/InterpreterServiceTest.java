@@ -69,6 +69,9 @@ public class InterpreterServiceTest extends FxRobot {
     bundle.put("serviceInterpreterLocationCB", "Room/Location on Floor");
     bundle.put("serviceInterpreterLocationValidator",
         "You need to select the location for the interpreter!");
+    bundle.put("serviceInterpreterTimePicker", "Time for Request");
+    bundle.put("serviceInterpreterLocationValidator",
+        "You need to select the location for the interpreter!");
     bundle.put("serviceInterpreterLanguageCB", "Language");
     bundle.put("serviceInterpreterLanguageValidator",
         "You need to select the language for the interpreter!");

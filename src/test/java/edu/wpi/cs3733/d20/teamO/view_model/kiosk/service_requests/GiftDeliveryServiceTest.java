@@ -19,6 +19,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.GiftDeliveryReques
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
@@ -53,6 +54,8 @@ public class GiftDeliveryServiceTest extends FxRobot {
   SnackBar snackBar;
   @Mock
   Dialog dialog;
+  @Mock
+  RequestConfirmationViewModel requestConfirmationViewModel;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
@@ -77,8 +80,6 @@ public class GiftDeliveryServiceTest extends FxRobot {
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
     populateFloorAndLocation();
-//    populateGifts();
-//    populateCreditCardBoxes();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
@@ -97,22 +98,12 @@ public class GiftDeliveryServiceTest extends FxRobot {
     when(database.exportNodes()).thenReturn(map);
   }
 
-//  public void populateGifts() {
-//    Map<String, String> giftList_Map = new HashMap<>();
-//    giftList_Map.put("Stuffed Animal", "9.99");
-//    giftList_Map.put("Card", "4.99");
-//    giftList_Map.put("Box of Chocolates", "12.99");
-//    giftList_Map.put("Toy", "3.99");
-//  }
-
   @Test
   public void testFloorLocationPopulated() {
     // Verify that all floors are populated
     clickOn("Select Floor");
     verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("2", javafx.scene.Node::isVisible);
     verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("4", javafx.scene.Node::isVisible);
     verifyThat("5", javafx.scene.Node::isVisible);
 
     // Now that we know all floors are correct, lets check to see if the locations are present
@@ -195,80 +186,82 @@ public class GiftDeliveryServiceTest extends FxRobot {
 
 
   @Test
-  public void toFieldEmpty() {
+  public void fullTest() {
+    when(validator.validate(any())).thenReturn(true);
     clickOn("Items");
     clickOn("Stuffed Animal: $9.99");
-    clickOn("Submit");
-    verify(validator, times(1)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(1)).validate(any());
 
     clickOn("Recipient Name");
     write("Getter Name");
-    clickOn("Submit");
-    verify(validator, times(2)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(2)).validate(any());
 
     clickOn("Sender Name");
-    write("SenderTest");
-    clickOn("Submit");
-    verify(validator, times(3)).validate(any());
+    write("Sender Name");
+//    clickOn("Submit");
+//    verify(validator, times(3)).validate(any());
 
     clickOn("Select Floor");
     clickOn("3");
-    clickOn("Submit");
-    verify(validator, times(4)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(4)).validate(any());
 
     clickOn("Select Room");
     clickOn("Floor 3-1");
-    clickOn("Submit");
-    verify(validator, times(5)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(5)).validate(any());
 
     clickOn("Delivery Time");
     write("00:30 AM");
-    verify(validator, times(5)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(6)).validate(any());
 
     clickOn("First Name On Card");
     write("FirstTest");
-    clickOn("Submit");
-    verify(validator, times(6)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(7)).validate(any());
 
     clickOn("Last Name On Card");
     write("LastTest");
-    clickOn("Submit");
-    verify(validator, times(7)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(8)).validate(any());
 
     clickOn("Type");
     clickOn("Visa");
-    clickOn("Submit");
-    verify(validator, times(8)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(9)).validate(any());
 
     clickOn("Card Number");
     write("1234567891234564");
-    clickOn("Submit");
-    verify(validator, times(9)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(10)).validate(any());
 
     clickOn("MM");
     clickOn("06");
-    clickOn("Submit");
-    verify(validator, times(10)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(11)).validate(any());
 
     clickOn("YYYY");
     clickOn("2023");
-    clickOn("Submit");
-    verify(validator, times(11)).validate(any());
+//    clickOn("Submit");
+//    verify(validator, times(12)).validate(any());
 
     clickOn("CCV");
     write("456");
-    clickOn("Submit");
-    verify(validator, times(12)).validate(any());
-
-    clickOn("Email Address for recipet");
+//    clickOn("Submit");
+//    verify(validator, times(13)).validate(any());
+//
+    clickOn("Email Address for receipt");
     write("asdf@asdfff.com");
     clickOn("Submit");
-    verify(validator, times(13)).validate(any());
-
+    verify(validator, times(1)).validate(any());
+//
     verifyThat("Total: $9.99", javafx.scene.Node::isVisible);
 
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 3-1"), eq("Gift"), eq("SenderTest"),
+        eq("Floor 3-1"), eq("Gift"), eq("Sender Name"),
         eq(new GiftDeliveryRequestData("Stuffed Animal", "Getter Name")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
@@ -277,10 +270,65 @@ public class GiftDeliveryServiceTest extends FxRobot {
   }
 
   @Test
-  public void everythingEmpty() {
+  public void testSubmit() throws IOException {
+    when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
+    when(database.addServiceRequest(any(), any(), any(), any(), any()))
+        .thenReturn(null).thenReturn("ABCDEFGH");
+
+    // Test when there are fields not filled out
     clickOn("Submit");
     verify(validator, times(1)).validate(any());
+    verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
+    verify(snackBar, times(0)).show(anyString());
+    verify(dialog, times(1)).showBasic(any(), any(), any());
+
+    // Test when there are fields filled out (but adding fails)
+    clickOn("Recipient Name");
+    write("John Smith");
+    clickOn("Sender Name");
+    write("Sender Name");
+    clickOn("Items");
+    clickOn("Toy: $3.99");
+    clickOn("Select Floor");
+    clickOn("1");
+    clickOn("Select Room");
+    clickOn("Floor 1");
+    clickOn("Delivery Time");
+    write("12:12 AM");
+    clickOn("First Name On Card");
+    write("First");
+    clickOn("Last Name On Card");
+    write("Last");
+    clickOn("Type");
+    clickOn("AMEX");
+    clickOn("Card Number");
+    write("1234567891234567");
+    clickOn("MM");
+    clickOn("10");
+    clickOn("YYYY");
+    clickOn("2020");
+    clickOn("CCV");
+    write("999");
+    clickOn("Email Address for receipt");
+    write("asdf@sdfggdfgsdfg.com");
+    clickOn("Submit");
+    verify(validator, times(2)).validate(any());
+    verify(database, times(1)).addServiceRequest(anyString(),
+        eq("Floor 1"), eq("Gift"), eq("Sender Name"),
+        eq(new GiftDeliveryRequestData("Toy", "John Smith")));
+    verify(snackBar, times(1)).show(anyString());
+    verify(dialog, times(1)).showBasic(any(), any(), any());
+
+    // Test when there are fields filled out (and adding succeeds)
+    clickOn("Submit");
+    verify(validator, times(3)).validate(any());
+    verify(database, times(2)).addServiceRequest(anyString(),
+        eq("Floor 1"), eq("Gift"), eq("Sender Name"),
+        eq(new GiftDeliveryRequestData("Toy", "John Smith")));
+    verify(snackBar, times(1)).show(anyString());
+    verify(dialog, times(2)).showBasic(any(), any(), any());
   }
+}
 
   /**
    * Test List Items - 2 Recipient Name - 3 Sender Name - 3 Select Floor - 2 Select Room - 3
@@ -325,4 +373,4 @@ public class GiftDeliveryServiceTest extends FxRobot {
 //        .showBasic(anyString(), eq("Your confirmation code is:\nABCDEFGH"), anyString());
 //  }
 
-}
+
