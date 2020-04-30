@@ -55,12 +55,19 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
   @Start
   public void start(Stage stage) throws IOException {
-    //add the necessary strings to the bundle
-    bundle.put("externalTransportationNamePrompt", "Your Name");
-    bundle.put("externalTransportationFloorPrompt", "Floor");
-    bundle.put("externalTransportationLocationPrompt", "Current Room/Location");
+    //General use Bundles
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("namePromptValidator", "Your name is required!");
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("floorPromptValidator", "A Floor is Required for the Service Request!");
+    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+    bundle.put("timePrompt", "Time for Request");
+    bundle.put("notesPrompt", "Additional Notes:");
+
     bundle.put("externalTransportationModePrompt", "Mode of Transportation");
-    bundle.put("externalTransportationTimePrompt", "Time");
     bundle.put("externalTransportationDestinationPrompt", "Destination");
     bundle.put("externalTransportationNotes", "Additional Notes");
     bundle.put("externalTransportationSubmit", "Submit");
@@ -95,20 +102,20 @@ public class ExternalTransportationServiceTest extends FxRobot {
     // Now that we know all floors are correct, lets check to see if the locations are present
     // First floor
     clickOn("1");
-    clickOn("Current Room/Location");
+    clickOn("Room/Location on Floor");
     verifyThat("Room 1", javafx.scene.Node::isVisible);
 
     // Third floor
     clickOn("1");
     clickOn("3");
-    clickOn("Current Room/Location");
+    clickOn("Room/Location on Floor");
     verifyThat("Room 3-1", javafx.scene.Node::isVisible);
     verifyThat("Room 3-2", javafx.scene.Node::isVisible);
 
     // Fifth floor
     clickOn("3");
     clickOn("5");
-    clickOn("Current Room/Location");
+    clickOn("Room/Location on Floor");
     verifyThat("Room 5", javafx.scene.Node::isVisible);
   }
 
@@ -129,7 +136,7 @@ public class ExternalTransportationServiceTest extends FxRobot {
     clickOn("Your Name");
     write("John Smith");
     verifyThat("John Smith", javafx.scene.Node::isVisible);
-    clickOn("Additional Notes");
+    clickOn("Additional Notes:");
     write("Test Note");
     verifyThat("Test Note", javafx.scene.Node::isVisible);
   }
@@ -160,11 +167,11 @@ public class ExternalTransportationServiceTest extends FxRobot {
     write("John Smith");
     clickOn("Floor");
     clickOn("1");
-    clickOn("Current Room/Location");
+    clickOn("Room/Location on Floor");
     clickOn("Room 1");
     clickOn("Mode of Transportation");
     clickOn("Shuttle Service");
-    clickOn("Time");
+    clickOn("Time for Request");
     write("12:34 PM");
     clickOn("Submit");
     verify(validator, times(2)).validate(any(), any(), any(), any(), any(), any());
