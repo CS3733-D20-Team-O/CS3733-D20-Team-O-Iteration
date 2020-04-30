@@ -20,9 +20,11 @@ public abstract class ServiceRequestBase extends Dialog.DialogViewModel {
   @Inject
   private Dialog dialog;
 
-  @Setter
+  @Deprecated
+  @Setter(onMethod_ = {@Deprecated})
   private Predicate<Node> locationFilter = n -> true;
 
+  @Deprecated
   protected final void setLocations(JFXComboBox<Integer> floors, JFXComboBox<String> locations) {
     // Populate the floors combobox with available nodes
     database.exportNodes().values().stream()
