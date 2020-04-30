@@ -69,8 +69,6 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
     bundle.put("externalTransportationModePrompt", "Mode of Transportation");
     bundle.put("externalTransportationDestinationPrompt", "Destination");
-    bundle.put("externalTransportationNotes", "Additional Notes");
-    bundle.put("externalTransportationSubmit", "Submit");
 
     populateFloorAndLocation();
     val loader = new FXMLLoader();
