@@ -14,36 +14,36 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.SanitationService"
   style="-fx-padding: 32; -fx-font-size: 16">
   <Label text="Sanitation Service Request Creation" style="-fx-font-size: 32"/>
-  <JFXTextField fx:id="requesterName" promptText="Your Name">
+  <JFXTextField fx:id="requesterName" promptText="%namePrompt">
     <validators>
-      <RequiredFieldValidator message="Your name is required!"/>
+      <RequiredFieldValidator message="%namePromptValidator"/>
     </validators>
   </JFXTextField>
   <HBox alignment="CENTER" spacing="32">
-    <JFXComboBox fx:id="floors" promptText="Floor">
+    <JFXComboBox fx:id="floors" promptText="%floorPrompt">
       <validators>
-        <RequiredFieldValidator message="Required"/>
+        <RequiredFieldValidator message="%floorPromptValidator"/>
       </validators>
     </JFXComboBox>
-    <JFXComboBox fx:id="locations" promptText="Room/Location on Floor">
+    <JFXComboBox fx:id="locations" promptText="%locationPrompt">
       <validators>
-        <RequiredFieldValidator message="Required"/>
+        <RequiredFieldValidator message="%locationPromptValidator"/>
       </validators>
     </JFXComboBox>
   </HBox>
   <VBox spacing="16" alignment="CENTER_LEFT">
-    <Label text="Hazard Level"/>
-    <JFXRadioButton text="Dry Spill" selected="true">
+    <Label text="%serviceSanitationHazardLevel"/>
+    <JFXRadioButton text="%serviceSanitationDrySpill" selected="true">
       <toggleGroup>
         <ToggleGroup fx:id="levelSelection"/>
       </toggleGroup>
     </JFXRadioButton>
-    <JFXRadioButton text="Wet Spill" toggleGroup="$levelSelection"/>
-    <JFXRadioButton text="Hazardous Spill" toggleGroup="$levelSelection"/>
+    <JFXRadioButton text="%serviceSanitationWetSpill" toggleGroup="$levelSelection"/>
+    <JFXRadioButton text="%serviceSanitationHazardSpill" toggleGroup="$levelSelection"/>
   </VBox>
-  <JFXTextArea fx:id="additionalNotes" promptText="Additional Notes" maxHeight="100"/>
+  <JFXTextArea fx:id="additionalNotes" promptText="%notesPrompt" maxHeight="100"/>
   <HBox alignment="CENTER_RIGHT" spacing="16">
-    <JFXButton text="Submit" onAction="#submitRequest"/>
-    <JFXButton text="Cancel" onAction="#close"/>
+    <JFXButton text="%submitButton" onAction="#submitRequest"/>
+    <JFXButton text="%cancelButton" onAction="#close"/>
   </HBox>
 </VBox>

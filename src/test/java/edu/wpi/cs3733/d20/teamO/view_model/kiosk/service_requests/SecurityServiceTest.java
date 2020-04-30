@@ -65,7 +65,7 @@ public class SecurityServiceTest extends FxRobot {
 
   private void initializeBundle() {
     //General use Bundles
-    bundle.put("serviceInfoTechDescription ", "IT Support Request");
+    bundle.put("serviceSecurityDescription ", "Emergency Security  Service Request");
     bundle.put("namePrompt", "Your Name");
     bundle.put("namePromptValidator", "Your name is required!");
     bundle.put("floorPrompt", "Floor");
