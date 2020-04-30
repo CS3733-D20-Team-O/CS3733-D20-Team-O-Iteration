@@ -24,10 +24,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 
 /**
  * Tests the CSV import & export wizard
@@ -49,10 +51,26 @@ public class ImportExportCSVViewModelTest extends FxRobot {
   @InjectMocks
   ImportExportCSVViewModel viewModel;
 
+  @Spy
+  private final ResourceBundleMock bundle = new ResourceBundleMock();
+
+
+  private void initializeBundle() {
+    bundle.put("csvDataType", "Select the type of data");
+    bundle.put("csvSelectFile", "Select the CSV Data File");
+    bundle.put("csvFile", "Select a File");
+    bundle.put("csvCurrentFile", "Currently Selected File:");
+    bundle.put("importButton", "Import");
+    bundle.put("exportButton", "Export");
+    bundle.put("closeButton", "Close");
+  }
+
   // Sets up the stage for testing
   @Start
   public void start(Stage stage) throws IOException {
     val loader = new FXMLLoader();
+    initializeBundle();
+    loader.setResources(bundle);
     loader.setControllerFactory(o -> viewModel);
     stage.setScene(new Scene(loader.load(Main.class
         .getResourceAsStream("views/admin/ImportExportCSV.fxml"))));
@@ -74,9 +92,9 @@ public class ImportExportCSVViewModelTest extends FxRobot {
     when(fileChooser.showOpenDialog(any()))
         .thenReturn(null)
         .thenReturn(testFile);
-    clickOn("Select a file");
+    clickOn("Select a File");
     assertEquals("", viewModel.getFileLocation());
-    clickOn("Select a file");
+    clickOn("Select a File");
     assertEquals("Test Passed", viewModel.getFileLocation());
     verifyThat("Test Passed", javafx.scene.Node::isVisible);
   }
@@ -87,7 +105,7 @@ public class ImportExportCSVViewModelTest extends FxRobot {
     when(testFile.getAbsolutePath()).thenReturn("Test Passed");
     when(fileChooser.showOpenDialog(any())).thenReturn(testFile);
     when(csvHandler.importNodes("Test Passed")).thenReturn(true).thenReturn(false);
-    clickOn("Select a file");
+    clickOn("Select a File");
     // Test import success
     clickOn("Import");
     verify(snackBar, times(1)).show("Successfully imported the nodes");
@@ -102,7 +120,7 @@ public class ImportExportCSVViewModelTest extends FxRobot {
     when(testFile.getAbsolutePath()).thenReturn("Test Passed");
     when(fileChooser.showOpenDialog(any())).thenReturn(testFile);
     when(csvHandler.exportNodes("Test Passed")).thenReturn(true).thenReturn(false);
-    clickOn("Select a file");
+    clickOn("Select a File");
     // Test import success
     clickOn("Export");
     verify(snackBar, times(1)).show("Successfully exported the nodes");
