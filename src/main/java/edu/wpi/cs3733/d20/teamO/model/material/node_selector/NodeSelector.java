@@ -1,8 +1,9 @@
-package edu.wpi.cs3733.d20.teamO.model.material;
+package edu.wpi.cs3733.d20.teamO.model.material.node_selector;
 
 import com.jfoenix.controls.JFXAutoCompletePopup;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -44,11 +45,18 @@ public class NodeSelector extends JFXTextField {
   /**
    * Sets the internal node listing based off of the supplied nodeMap
    */
-  public void setNodeMap(Map<String, Node> nodeMap) {
+  public void setNodes(Collection<Node> nodes) {
     descToNodes.clear();
-    for (val node : nodeMap.values()) {
+    for (val node : nodes) {
       descToNodes.put(String.format("(%s) %s", node.getFloor(), node.getLongName()), node);
     }
+  }
+
+  /**
+   * @return the currently selected Node, or null
+   */
+  public Node getSelectedNode() {
+    return descToNodes.getOrDefault(getText(), null);
   }
 
   /**
