@@ -21,6 +21,7 @@ dependencies {
             'org.greenrobot:eventbus:3.2.0',
             'com.google.inject:guice:4.2.3',
             'com.google.code.gson:gson:2.8.6',
+            'me.xdrop:fuzzywuzzy:1.1.6',
             'com.jfoenix:jfoenix:9.0.9',
             'org.apache.derby:derby:10.14.2.0',
             'org.slf4j:slf4j-api:1.7.30',
