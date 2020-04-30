@@ -58,14 +58,19 @@ public class InternalTransportationTest extends FxRobot {
   InternalTransportationService viewModel;
 
   private void initializeBundle() {
-    bundle.put("serviceIntTransportTitle", "Internal Transportation");
+    //General use Bundles
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("namePromptValidator", "Your name is required!");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("timePrompt", "Time for Request");
+    bundle.put("notesPrompt", "Additional Notes:");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+
+    //Unique Bundles
+    bundle.put("serviceIntTransportationDescription ", "Internal Transportation Service Request");
     bundle.put("serviceIntTransportCurrentFloor", "Current Floor");
     bundle.put("serviceIntTransportCurrentRoom", "Current Room");
-    bundle.put("serviceIntTransportRoomValidator", "A room is required");
-    bundle.put("serviceIntTransportRequesterName", "Requester Name");
-    bundle.put("serviceIntTransportNameValidator", "Your name is required");
-    bundle.put("serviceIntTransportRequestTime", "Request Time");
-    bundle.put("serviceIntTransportTimeValidator", "Time is required");
     bundle.put("serviceIntTransportAssistedTabTitle", "Assisted");
     bundle.put("serviceIntTransportWheelchair", "Wheelchair");
     bundle.put("serviceIntTransportBed", "Bed Move");
@@ -79,8 +84,6 @@ public class InternalTransportationTest extends FxRobot {
     bundle.put("serviceIntTransportCrutches", "Crutches");
     bundle.put("serviceIntTransportCast", "Cast Scooter");
     bundle.put("serviceIntTransportIV", "Mobile IV Stand");
-    bundle.put("serviceIntTransportSubmit", "Submit");
-    bundle.put("serviceIntTransportCancel", "Cancel");
   }
 
   @Start
@@ -120,9 +123,9 @@ public class InternalTransportationTest extends FxRobot {
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
     // Test when there are fields filled out (but adding fails)
-    clickOn("Requester Name");
+    clickOn("Your Name");
     write("John Smith");
-    clickOn("Request Time");
+    clickOn("Time for Request");
     write("12:43 PM");
     clickOn("Unassisted");
     clickOn("Current Floor");
