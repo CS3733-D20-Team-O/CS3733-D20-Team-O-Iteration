@@ -60,27 +60,26 @@ public class InterpreterServiceTest extends FxRobot {
   InterpreterService viewModel;
 
   private void initializeBundle() {
-    bundle.put("serviceInterpreterDescription", "Interpreter Service Request Creation");
-    bundle.put("serviceInterpreterNameField", "Your Name");
-    bundle.put("serviceInterpreterNameValidator", "Your name is required!");
-    bundle.put("serviceInterpreterFloorCB", "Floor");
-    bundle.put("serviceInterpreterFloorValidator",
-        "You need to select the floor for the interpreter!");
-    bundle.put("serviceInterpreterLocationCB", "Room/Location on Floor");
-    bundle.put("serviceInterpreterLocationValidator",
-        "You need to select the location for the interpreter!");
-    bundle.put("serviceInterpreterTimePicker", "Time for Request");
-    bundle.put("serviceInterpreterLocationValidator",
-        "You need to select the location for the interpreter!");
+    //General use Bundles
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("namePromptValidator", "Your name is required!");
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("floorPromptValidator", "A Floor is Required for the Service Request!");
+    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("timePrompt", "Time for Request");
+    bundle.put("notesPrompt", "Additional Notes:");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+
+    //Unique Bundles
+    bundle.put("serviceInterpreterDescription ", "Interpreter Service Request");
     bundle.put("serviceInterpreterLanguageCB", "Language");
     bundle.put("serviceInterpreterLanguageValidator",
         "You need to select the language for the interpreter!");
     bundle.put("serviceInterpreterGenderCB", "Preferred Gender");
     bundle.put("serviceInterpreterGenderValidator",
         "You need to select a preferred gender for the interpreter!");
-    bundle.put("serviceInterpreterNotesField", "Additional Notes");
-    bundle.put("serviceInterpreterSubmitButton", "Submit");
-    bundle.put("serviceInterpreterCancelButton", "Cancel");
   }
 
   @Start

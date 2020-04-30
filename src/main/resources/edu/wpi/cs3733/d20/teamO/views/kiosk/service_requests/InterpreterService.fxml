@@ -17,30 +17,30 @@
   <VBox alignment="CENTER" spacing="32"
     style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
     <Label style="-fx-font-size: 32" text="%serviceInterpreterDescription"/>
-    <JFXTextField fx:id="requesterName" promptText="%serviceInterpreterNameField"
+    <JFXTextField fx:id="requesterName" promptText="%namePrompt"
       style="-fx-background-color: WHITE;">
       <validators>
-        <RequiredFieldValidator message="%serviceInterpreterNameValidator"/>
+        <RequiredFieldValidator message="%namePromptValidator"/>
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
-      <JFXComboBox fx:id="floors" promptText="%serviceInterpreterFloorCB"
+      <JFXComboBox fx:id="floors" promptText="%floorPrompt"
         style="-fx-background-color: WHITE;">
         <validators>
-          <RequiredFieldValidator message="%serviceInterpreterFloorValidator"/>
+          <RequiredFieldValidator message="%floorPromptValidator"/>
         </validators>
       </JFXComboBox>
-      <JFXComboBox fx:id="locations" promptText="%serviceInterpreterLocationCB"
+      <JFXComboBox fx:id="locations" promptText="%locationPrompt"
         style="-fx-background-color: WHITE;">
         <validators>
-          <RequiredFieldValidator message="%serviceInterpreterLocationValidator"/>
+          <RequiredFieldValidator message="%locationPromptValidator"/>
         </validators>
       </JFXComboBox>
       <JFXTimePicker fx:id="timePicker" defaultColor="#003f8f"
-        promptText="%serviceInterpreterTimePicker"
+        promptText="%timePrompt"
         style="-fx-background-color: WHITE;">
         <validators>
-          <RequiredFieldValidator message="%serviceInterpreterTimeValidator"/>
+          <RequiredFieldValidator message="%timePromptValidator"/>
         </validators>
       </JFXTimePicker>
     </HBox>
@@ -77,10 +77,10 @@
       </children>
     </HBox>
     <JFXTextArea fx:id="additionalNotes" prefHeight="119.0" prefWidth="618.0"
-      promptText="%serviceInterpreterNotesField" style="-fx-background-color: WHITE;"/>
+      promptText="%notesPrompt" style="-fx-background-color: WHITE;"/>
     <HBox alignment="CENTER_RIGHT" spacing="16">
-      <JFXButton onAction="#submitRequest" text="%serviceInterpreterSubmitButton"/>
-      <JFXButton onAction="#close" text="%serviceInterpreterCancelButton"/>
+      <JFXButton onAction="#submitRequest" text="%submitButton"/>
+      <JFXButton onAction="#close" text="%cancelButton"/>
     </HBox>
   </VBox>
 </StackPane>
