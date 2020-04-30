@@ -54,7 +54,6 @@
           </graphic>
         </JFXButton>
       </AnchorPane>
-      <fx:include source="/edu/wpi/cs3733/d20/teamO/views/NodeSelector.fxml"/>
     </VBox>
   </StackPane>
 

@@ -1,7 +1,8 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
 import com.google.inject.Inject;
-import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXAutoCompletePopup;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.net.URL;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-import javafx.application.Platform;
+import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,13 +22,14 @@ public class NodeSelectorViewModel extends ViewModelBase {
 
   private final DatabaseWrapper database;
 
-  @FXML
-  private JFXComboBox<String> selector;
-
   private final Map<String, Node> descToNodes = new HashMap<>();
 
   @Setter
   private Consumer<Node> onNodeSelectedListener;
+
+  @FXML
+  private JFXTextField selector;
+  private final JFXAutoCompletePopup<String> popup = new JFXAutoCompletePopup<>();
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -35,43 +37,42 @@ public class NodeSelectorViewModel extends ViewModelBase {
     database.exportNodes().values().forEach(node ->
         descToNodes.put(String.format("(%s) %s", node.getFloor(), node.getLongName()), node));
 
-    // Set the selector's options
-    resetSelector();
+    // Set the pop up selection to set the text (and thus trigger calling the listener)
+    popup.setSelectionHandler(e -> selector.setText(e.getObject()));
 
-    // todo fix all of the following, perhaps through using drop down/menu items
-
-    // Set the prompt text
-    selector.getEditor().setPromptText("Select or search for a location");
-
-    // Add a listener for when an item is selected
-    selector.getSelectionModel().selectedItemProperty().addListener((o, old, newDesc) -> {
-      if (newDesc != null) {
-        selector.getEditor().setText(newDesc);
-        if (onNodeSelectedListener != null) {
-          onNodeSelectedListener.accept(descToNodes.get(newDesc));
-        }
+    // Open up the pop up when the text field is given focus
+    selector.focusedProperty().addListener((o, old, newBool) -> {
+      if (newBool) {
+        setPopup();
       }
     });
 
-    // Add a listener for when the search text changes
-    selector.getEditor().textProperty().addListener((o, old, newText) -> Platform.runLater(() -> {
-      selector.getItems().clear();
-      if (newText.isEmpty()) {
-        resetSelector();
-      } else if (!descToNodes.containsKey(newText)) {
-        FuzzySearch.extractTop(newText, descToNodes.keySet(), 10).stream()
-            .map(ExtractedResult::getString)
-            .forEachOrdered(selector.getItems()::add);
+    // Add a text listener that calls the node selected listener
+    selector.textProperty().addListener((o, old, newText) -> {
+      if (descToNodes.containsKey(newText) && onNodeSelectedListener != null) {
+        onNodeSelectedListener.accept(descToNodes.get(newText));
       }
-      selector.show();
-      selector.getEditor().requestFocus();
-    }));
+      setPopup();
+    });
   }
 
   /**
-   * Resets the selectors options to what is in the internal map
+   * Sets the pop up based on the current text and displays it
    */
-  private void resetSelector() {
-    descToNodes.keySet().stream().sorted().forEachOrdered(selector.getItems()::add);
+  private void setPopup() {
+    // Clear so we can repopulate with what we want
+    popup.getSuggestions().clear();
+    if (selector.getText().isBlank()) {
+      // Set with a sorted list of default options
+      popup.getSuggestions().addAll(descToNodes.keySet().stream()
+          .sorted().collect(Collectors.toList()));
+    } else {
+      // Set with a list of the sorted search options
+      FuzzySearch.extractSorted(selector.getText(), descToNodes.keySet()).stream()
+          .map(ExtractedResult::getString)
+          .forEachOrdered(popup.getSuggestions()::add);
+    }
+    // Show the pop up if it is not already
+    popup.show(selector);
   }
 }
