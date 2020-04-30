@@ -73,20 +73,20 @@
           </children>
         </VBox>
         <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="373.0" onAction="#resetPath"
-          style="-fx-background-color: lightgray;" text="Clear"/>
+          style="-fx-background-color: lightgray;" text="%clearButton"/>
         <JFXComboBox fx:id="startFloor" layoutX="14.0" layoutY="154.0" prefHeight="25.0"
-          prefWidth="59.0" promptText="Floor"/>
+          prefWidth="59.0" promptText="%floorPrompt"/>
         <JFXComboBox fx:id="startRoom" layoutX="86.0" layoutY="154.0" onAction="#onStartCombo"
-          prefHeight="25.0" prefWidth="110.0" promptText="Room"/>
-        <JFXComboBox fx:id="stopFloor" layoutX="18.0" layoutY="250.0" promptText="Floor"/>
+          prefHeight="25.0" prefWidth="110.0" promptText="%locationPrompt"/>
+        <JFXComboBox fx:id="stopFloor" layoutX="18.0" layoutY="250.0" promptText="%floorPrompt"/>
         <JFXComboBox fx:id="stopRoom" layoutX="90.0" layoutY="250.0" onAction="#onStopCombo"
-          prefHeight="25.0" prefWidth="110.0" promptText="Room"/>
-        <Label layoutX="18.0" layoutY="129.0" text="Start Location"/>
-        <Label layoutX="18.0" layoutY="233.0" text="Stop Location"/>
+          prefHeight="25.0" prefWidth="110.0" promptText="%locationPrompt"/>
+        <Label layoutX="18.0" layoutY="129.0" text="%startingLocation"/>
+        <Label layoutX="18.0" layoutY="233.0" text="%endingLocation"/>
         <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="193.0" onAction="#setStart"
-          style="-fx-background-color: lightgray;" text="Click Start"/>
+          style="-fx-background-color: lightgray;" text="%startButton"/>
         <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="301.0" onAction="#setEnd"
-          style="-fx-background-color: lightgray;" text="Click End"/>
+          style="-fx-background-color: lightgray;" text="%endButton"/>
       </children>
     </AnchorPane>
   </left>
