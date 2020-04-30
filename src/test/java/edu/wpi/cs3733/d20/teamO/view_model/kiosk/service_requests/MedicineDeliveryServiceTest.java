@@ -54,21 +54,25 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   MedicineDeliveryService viewModel;
 
   private void initializeBundle() {
-    bundle.put("serviceMedicineDeliveryMedicationRequest", "Medicine Delivery Request");
+    //General use Bundles
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("floorPromptValidator", "A Floor is Required for the Service Request!");
+    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("timePrompt", "Time for Request");
+    bundle.put("notesPrompt", "Additional Notes:");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+
+    //Unique Bundles
+    bundle.put("serviceMedicineDeliveryDescription", "Medicine Delivery Service Request");
     bundle.put("serviceMedicineDeliveryPatientNameField", "Patient name");
     bundle.put("serviceMedicineDeliveryPatientNameFieldValidator", "Patient Name is Required!");
     bundle.put("serviceMedicineDeliveryMedicationNameField", "Medicine name");
     bundle.put("serviceMedicineDeliveryMedicationNameFieldValidator", "Medicine Name is Required!");
-    bundle.put("serviceMedicineFloorRequest", "Floor");
-    bundle.put("serviceMedicineFloorRequestValidator", "Floor information is Required!");
-    bundle.put("serviceMedicineLocationRequest", "Room/Location on Floor");
-    bundle.put("serviceMedicineLocationRequestValidator", "Location info is Required!");
     bundle.put("serviceMedicineDeliveryDeliveryMethod", "Delivery method");
     bundle.put("serviceMedicineDeliveryDeliveryMethodValidator", "Delivery Method is Required!");
-    bundle.put("submitButton", "Submit");
-    bundle.put("cancelButton", "Cancel");
-    bundle.put("serviceRequestTime", "Time");
-    bundle.put("serviceMedicineDeliveryTimeValidator", "Time is required");
+
   }
 
   @Start
@@ -154,7 +158,7 @@ public class MedicineDeliveryServiceTest extends FxRobot {
     clickOn("Floor 1");
     clickOn("Delivery method");
     clickOn("Oral");
-    clickOn("Time");
+    clickOn("Time for Request");
     write("02:00 AM");
     clickOn("Submit");
     verify(validator, times(1)).validate(any());

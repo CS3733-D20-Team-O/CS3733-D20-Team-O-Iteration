@@ -19,7 +19,7 @@
     <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
   </padding>
   <children>
-    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%serviceMedicineDeliveryMedicationRequest">
+    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%serviceMedicineDeliveryDescription">
       <font>
         <Font size="18.0"/>
       </font>
@@ -59,9 +59,9 @@
                 <Image url="/numbered-list-icon.png"/>
               </image>
             </ImageView>
-            <JFXComboBox fx:id="floorNumber" promptText="%serviceMedicineFloorRequest">
+            <JFXComboBox fx:id="floorNumber" promptText="%floorPrompt">
               <validators>
-                <RequiredFieldValidator message="%serviceMedicineFloorRequestValidator"/>
+                <RequiredFieldValidator message="%floorPromptValidator"/>
               </validators>
             </JFXComboBox>
             <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
@@ -70,9 +70,9 @@
                 <Image url="/location-icon.png"/>
               </image>
             </ImageView>
-            <JFXComboBox fx:id="roomName" promptText="%serviceMedicineLocationRequest">
+            <JFXComboBox fx:id="roomName" promptText="%locationPrompt">
               <validators>
-                <RequiredFieldValidator message="%serviceMedicineLocationRequestValidator"/>
+                <RequiredFieldValidator message="%locationPromptValidator"/>
               </validators>
             </JFXComboBox>
           </children>
@@ -89,9 +89,9 @@
                 <RequiredFieldValidator message="%serviceMedicineDeliveryDeliveryMethodValidator"/>
               </validators>
             </JFXComboBox>
-            <JFXTimePicker fx:id="timePicker" promptText="%serviceRequestTime">
+            <JFXTimePicker fx:id="timePicker" promptText="%timePrompt">
               <validators>
-                <RequiredFieldValidator message="%serviceMedicineDeliveryTimeValidator"/>
+                <RequiredFieldValidator message="%timePromptValidator"/>
               </validators>
             </JFXTimePicker>
           </children>
