@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.model.network;
+package edu.wpi.cs3733.d20.teamO.model;
 
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.io.ByteArrayInputStream;
@@ -14,7 +14,7 @@ import net.glxn.qrgen.javase.QRCode;
 /**
  * Handles interoperability with the web app
  */
-public class PathFindingUrlCreator {
+public class WebApp {
 
   /**
    * The base url to the web application
@@ -39,6 +39,7 @@ public class PathFindingUrlCreator {
 
   /**
    * Creates a JavaFX Image of a QRCode that points to the web app with the supplied steps
+   *
    * @param steps the steps to fuel the web app
    * @return an Image of a QRCode that links to the web app with the supplied steps
    */
