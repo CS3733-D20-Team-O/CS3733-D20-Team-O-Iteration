@@ -9,6 +9,8 @@ import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
+import edu.wpi.cs3733.d20.teamO.model.WebApp;
+import edu.wpi.cs3733.d20.teamO.model.WebApp.Step;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -17,12 +19,15 @@ import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -115,6 +120,16 @@ public class MainKioskViewModel extends ViewModelBase {
       // Put this in a run later so it doesn't mess up navigation
       Platform.runLater(this::openAdminDialog);
     }
+
+    Platform.runLater(() -> {
+      val steps = new ArrayList<WebApp.Step>();
+      steps.add(new Step("Some instructions on the first step\nThis is on floor 1", new ArrayList<>(), 1));
+      steps.add(new Step("Some instructions on the second step\nThis is on floor 2", new ArrayList<>(), 2));
+      steps.add(new Step("Some instructions on the third step\nThis is on floor 3", new ArrayList<>(), 3));
+      steps.get(0).getNodes().addAll(database.exportNodes().values().stream().filter(node -> node.getFloor() == 1).collect(
+          Collectors.toList()));
+      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(steps))));
+    });
   }
 
   @FXML
