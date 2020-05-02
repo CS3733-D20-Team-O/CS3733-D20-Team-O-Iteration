@@ -177,6 +177,7 @@ public class FindPathViewModel extends ViewModelBase {
 
   @FXML
   public void switchAccessibility() {
+    resetPath();
     if (handicap.isSelected()) {
       startLocation.setNodes(handicapMap.values());
       stopLocation.setNodes(handicapMap.values());
