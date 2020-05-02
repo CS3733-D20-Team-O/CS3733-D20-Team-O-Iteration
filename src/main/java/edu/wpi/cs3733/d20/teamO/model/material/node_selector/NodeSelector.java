@@ -60,6 +60,15 @@ public class NodeSelector extends JFXTextField {
   }
 
   /**
+   * Clears this node selector
+   */
+  @Override
+  public void clear() {
+    super.clear();
+    popup.hide();
+  }
+
+  /**
    * Sets the pop up based on the current text and displays it
    */
   private void setPopup() {
