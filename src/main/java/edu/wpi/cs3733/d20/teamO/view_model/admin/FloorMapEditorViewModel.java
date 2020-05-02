@@ -162,7 +162,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   public void floorUpPressed(ActionEvent actionEvent) {
-    if (true) {
+    if (state != State.ADD_NODE) {
       nodeMapViewController.incrementFloor();
       floorLabel.setText("Floor " + nodeMapViewController.getFloor());
       drawEdges();
@@ -266,9 +266,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param y The y-coordinate of the selection
    */
   private void addNodeView(int x, int y) {
+    /*
     if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
       return;
     }
+
+     */
     clearFields();
     previewNode = new Node("", x, y, nodeMapViewController.getFloor(), "Faulkner", "", "", "");
     nodeMapViewController.addNode(previewNode);
@@ -283,9 +286,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param node The first selected node
    */
   private void addEdgeView(Node node) {
+    /*
     if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
       return;
     }
+
+     */
     clearFields();
     selectedNode1 = node;
     nodeMapViewController.highlightNode(node);
