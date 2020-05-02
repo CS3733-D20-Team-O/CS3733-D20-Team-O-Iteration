@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
@@ -10,6 +11,7 @@ import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -40,8 +42,10 @@ public class FindPathViewModel extends ViewModelBase {
   private JFXSlider zoomSlider;
   @FXML
   private NodeSelector startRoom, stopRoom;
+  @FXML
+  private JFXToggleButton handicap;
 
-  private Map<String, Node> nodeMap;
+  private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
 
@@ -84,6 +88,27 @@ public class FindPathViewModel extends ViewModelBase {
     startRoom.setNodes(nodeMap.values());
     stopRoom.setNodes(nodeMap.values());
     resetPath();
+  }
+
+  /**
+   * populate the handicap accessible map with nodes that a wheelchair can reach
+   */
+  public void createHandicap() {
+    for (Node node : nodeMap.values()) {
+      if (!node.getNodeType().equals("STAI")) {
+        LinkedList<Node> newEdges = new LinkedList<Node>();
+        for (Node neighbor : node.getNeighbors()) {
+          if (!neighbor.getNodeType().equals("STAI")) {
+            newEdges.add(neighbor);
+          }
+        }
+        Node newNode = new Node(node.getNodeID(), node.getXCoord(), node.getYCoord(),
+            node.getFloor(), node.getBuilding(), node.getNodeType(),
+            node.getLongName(), node.getShortName());
+        newNode.getNeighbors().addAll(newEdges);
+        handicapMap.put(newNode.getNodeID(), newNode);
+      }
+    }
   }
 
   /**

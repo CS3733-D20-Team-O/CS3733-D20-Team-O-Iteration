@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
 <?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import javafx.geometry.Insets?>
@@ -87,15 +88,10 @@
             <NodeRequiredValidator message="A location is required"/>
           </validators>
         </NodeSelector>
-        <!--        <JFXComboBox fx:id="startFloor" layoutX="14.0" layoutY="154.0" prefHeight="25.0"-->
-        <!--          prefWidth="59.0" promptText="Floor"/>-->
-        <!--        <JFXComboBox fx:id="startRoom" layoutX="86.0" layoutY="154.0" onAction="#onStartCombo"-->
-        <!--          prefHeight="25.0" prefWidth="110.0" promptText="Room"/>-->
-        <!--        <JFXComboBox fx:id="stopFloor" layoutX="18.0" layoutY="250.0" promptText="Floor"/>-->
-        <!--        <JFXComboBox fx:id="stopRoom" layoutX="90.0" layoutY="250.0" onAction="#onStopCombo"-->
-        <!--          prefHeight="25.0" prefWidth="110.0" promptText="Room"/>-->
         <Label layoutX="18.0" layoutY="129.0" text="Start Location"/>
         <Label layoutX="18.0" layoutY="233.0" text="Stop Location"/>
+        <JFXToggleButton fx:id="handicap" layoutX="14.0" layoutY="452.0" prefHeight="29.0"
+          prefWidth="190.0" text="Handicap Mode"/>
       </children>
     </AnchorPane>
   </left>
