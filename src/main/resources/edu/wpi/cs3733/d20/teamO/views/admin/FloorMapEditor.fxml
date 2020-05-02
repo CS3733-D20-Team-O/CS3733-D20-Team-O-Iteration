@@ -132,7 +132,8 @@
                               </JFXButton>
                               <JFXButton fx:id="saveNodeChangesBtn" buttonType="RAISED"
                                 onAction="#saveNodeChangesPressed" ripplerFill="#00BB00"
-                                style="-fx-background-color: LIGHTGREY;" text="Save changes">
+                                style="-fx-background-color: LIGHTGREY;" text="Save changes"
+                                disable="true">
                                  <graphic>
                                     <ImageView fitHeight="16" pickOnBounds="true"
                                       preserveRatio="true">

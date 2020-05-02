@@ -41,7 +41,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   // todo add translations
   // todo prevent commas from being added
   // todo add validator for elevator names
-  // todo add show save changes
 
   private enum State {
     MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR
@@ -144,7 +143,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   // FXML methods
 
   public void markNodeChangesMade(KeyEvent keyEvent) {
-    // todo implement
+    saveNodeChangesBtn.setDisable(false);
   }
 
   public void setZoom() {
@@ -398,6 +397,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         edgeNode1ID, edgeNode2ID).forEach(node -> node.setText(""));
     newNodeCategory.getSelectionModel().clearSelection();
     neighboringNodesList.getItems().clear();
+    saveNodeChangesBtn.setDisable(true);
     if (selectedNode1 != null) {
       nodeMapViewController.unhighlightNode(selectedNode1);
       selectedNode1 = null;
@@ -505,6 +505,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         edgeSelectView.setVisible(true);
         break;
       case SELECT_NODE:
+        if (selectedNode2 != null) {
+          nodeMapViewController.unhighlightNode(selectedNode2);
+          selectedNode2 = null;
+        }
         nodeSelectView.setVisible(true);
         break;
       case ADD_NODE:
