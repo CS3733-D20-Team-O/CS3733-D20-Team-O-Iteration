@@ -61,7 +61,7 @@ public class FindPathViewModel extends ViewModelBase {
 
   private final SelectedPathFinder pathFinder;
 
-//
+
   /**
    * Called when a ViewModel's views have been completely processed and can be used freely
    *
