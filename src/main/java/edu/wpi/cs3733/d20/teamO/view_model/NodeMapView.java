@@ -105,6 +105,9 @@ public class NodeMapView extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
+    nodeGroup.setPickOnBounds(false);
+    edgeGroup.setPickOnBounds(false);
+
     //backgroundImage.setFitWidth(990.4);
     //backgroundImage.setFitHeight(594.4);
     backgroundImage.setImage(new Image("floors/1.png"));
@@ -295,6 +298,7 @@ public class NodeMapView extends ViewModelBase {
       //System.out.println("Drawing an edge from (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
       drawnEdge.setOnMouseClicked(event -> {
+        System.out.println("==========================");
         if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
           System.out.println("Edge Left Click");
           onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
