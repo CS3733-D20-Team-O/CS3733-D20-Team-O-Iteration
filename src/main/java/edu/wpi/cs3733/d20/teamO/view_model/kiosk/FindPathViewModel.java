@@ -42,7 +42,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private JFXSlider zoomSlider;
   @FXML
-  private NodeSelector startRoom, stopRoom;
+  private NodeSelector startLocation, stopLocation;
   @FXML
   private JFXToggleButton handicap;
 
@@ -75,21 +75,21 @@ public class FindPathViewModel extends ViewModelBase {
     beginning = defaultStart;
     finish = defaultStop;
 
-    startRoom.setOnNodeSelectedListener(node -> {
+    startLocation.setOnNodeSelectedListener(node -> {
       nodeMapViewController.deleteNode(beginning);
       beginning = node;
       nodeMapViewController.draw();
       drawPath();
     });
-    stopRoom.setOnNodeSelectedListener(node -> {
+    stopLocation.setOnNodeSelectedListener(node -> {
       nodeMapViewController.deleteNode(finish);
       finish = node;
       nodeMapViewController.draw();
       drawPath();
     });
 
-    startRoom.setNodes(nodeMap.values());
-    stopRoom.setNodes(nodeMap.values());
+    startLocation.setNodes(nodeMap.values());
+    stopLocation.setNodes(nodeMap.values());
     resetPath();
   }
 
@@ -124,8 +124,8 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.deleteNode(finish);
     beginning = defaultStart;
     finish = defaultStop;
-    stopRoom.clear();
-    startRoom.clear();
+    stopLocation.clear();
+    startLocation.clear();
     //TODO fix getting rid of the pop up
     nodeMapViewController.draw();
   }
@@ -134,18 +134,18 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   public void floorDownPressed(ActionEvent actionEvent) {
     nodeMapViewController.decrementFloor();
-    translateFloor();
+    changeFloor();
   }
 
   @FXML
   public void floorUpPressed(ActionEvent actionEvent) {
     nodeMapViewController.incrementFloor();
-    translateFloor();
+    changeFloor();
   }
 
-  private void translateFloor() {
+  private void changeFloor() {
     nodeMapViewController.draw();
-    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+    floorLabel.setText(" " + nodeMapViewController.getFloor());
     drawPath();
   }
 
@@ -178,12 +178,12 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   public void switchAccessibility() {
     if (handicap.isSelected()) {
-      startRoom.setNodes(handicapMap.values());
-      stopRoom.setNodes(handicapMap.values());
+      startLocation.setNodes(handicapMap.values());
+      stopLocation.setNodes(handicapMap.values());
       System.out.println("HandicapMode");
     } else {
-      startRoom.setNodes(nodeMap.values());
-      stopRoom.setNodes(nodeMap.values());
+      startLocation.setNodes(nodeMap.values());
+      stopLocation.setNodes(nodeMap.values());
     }
   }
 }

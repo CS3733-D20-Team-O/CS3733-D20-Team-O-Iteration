@@ -40,7 +40,12 @@
                     <Font size="18.0"/>
                   </font>
                 </JFXButton>
-                <Label fx:id="floorLabel" prefHeight="22.0" text="Floor 1">
+                <Label prefHeight="22.0" text="%pathFindFloor">
+                  <font>
+                    <Font size="18.0"/>
+                  </font>
+                </Label>
+                <Label fx:id="floorLabel" prefHeight="22.0" text=" 1">
                   <font>
                     <Font size="18.0"/>
                   </font>
@@ -76,22 +81,23 @@
         </VBox>
         <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="373.0" onAction="#resetPath"
           style="-fx-background-color: lightgray;" text="Clear"/>
-        <NodeSelector fx:id="startRoom" promptText="%nodeSelectorPromptText" layoutX="14.0"
+        <NodeSelector fx:id="startLocation" promptText="%nodeSelectorPromptText" layoutX="14.0"
           layoutY="154.0">
           <validators>
-            <NodeRequiredValidator message="A location is required"/>
+            <NodeRequiredValidator message="%pathFindNodeError"/>
           </validators>
         </NodeSelector>
-        <NodeSelector fx:id="stopRoom" promptText="%nodeSelectorPromptText" layoutX="18.0"
+        <NodeSelector fx:id="stopLocation" promptText="%nodeSelectorPromptText" layoutX="18.0"
           layoutY="250.0">
           <validators>
-            <NodeRequiredValidator message="A location is required"/>
+            <NodeRequiredValidator message="%pathFindNodeError"/>
           </validators>
         </NodeSelector>
         <Label layoutX="18.0" layoutY="129.0" text="%pathFindStart"/>
         <Label layoutX="18.0" layoutY="233.0" text="%pathFindStop"/>
-        <JFXToggleButton fx:id="handicap" layoutX="14.0" layoutY="452.0" prefHeight="29.0"
-          prefWidth="190.0" text="%pathFindHandicap" onAction="#switchAccessibility"/>
+        <JFXToggleButton fx:id="handicap" layoutX="14.0" layoutY="452.0"
+          onAction="#switchAccessibility" prefHeight="29.0" prefWidth="190.0"
+          text="%pathFindHandicap"/>
       </children>
     </AnchorPane>
   </left>
