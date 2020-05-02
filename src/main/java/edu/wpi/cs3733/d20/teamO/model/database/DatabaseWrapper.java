@@ -20,7 +20,7 @@ import java.util.Map;
 public interface DatabaseWrapper {
 
   /**
-   * Adds the specified node to the database
+   * Adds the specified node to the database with auto-generated ID
    *
    * @param xCoord    the x coordinate of the node
    * @param yCoord    the y coordinate of the node
@@ -51,7 +51,7 @@ public interface DatabaseWrapper {
       String nodeType, String longName, String shortName);
 
   /**
-   * Adds the specified edge to the database
+   * Adds the specified edge to the database with auto-generated ID
    *
    * @param startNodeID the id of the start node
    * @param stopNodeID  the id of the stop node
@@ -70,16 +70,16 @@ public interface DatabaseWrapper {
   int addEdge(String edgeID, String startNodeID, String stopNodeID);
 
   /**
-   * Adds the specified service request to the database
+   * Adds the specified service request to the database with auto-generated ID
    *
    * @param requestTime   the time of the request as a string
-   * @param requestNode   the id of the node where the request is going
+   * @param location      the long name of the node where the request is going
    * @param type          the type of service request
    * @param requesterName the name of the person filling out the request
    * @param data          the data for the specific type of request
    * @return the ID of the request or "NULL" if request failed to add
    */
-  String addServiceRequest(String requestTime, String requestNode, String type,
+  String addServiceRequest(String requestTime, String location, String type,
       String requesterName, ServiceRequestData data);
 
   /**
@@ -87,7 +87,7 @@ public interface DatabaseWrapper {
    *
    * @param requestID        the id of the request
    * @param requestTime      the time of the request as a string
-   * @param requestNode      the id of the node where the request is going
+   * @param location         the long name of the node where the request is going
    * @param type             the type of service request
    * @param status           the status of the service request
    * @param requesterName    the name of the person filling out the request
@@ -96,11 +96,11 @@ public interface DatabaseWrapper {
    * @param data             the data for the specific type of request
    * @return the number of affected entries
    */
-  int addServiceRequest(String requestID, String requestTime, String requestNode, String type,
+  int addServiceRequest(String requestID, String requestTime, String location, String type,
       String status, String requesterName, String whoMarked, String employeeAssigned, String data);
 
   /**
-   * Adds the specified employee to the database
+   * Adds the specified employee to the database with auto-generated ID
    *
    * @param name        the name of the employee
    * @param type        the type of employee they are
@@ -168,8 +168,14 @@ public interface DatabaseWrapper {
    */
   List<Edge> exportEdges();
 
+  /**
+   * @return a list of the service requests this database contains
+   */
   List<ServiceRequest> exportServiceRequests();
 
+  /**
+   * @return a list of the employees this database contains
+   */
   List<Employee> exportEmployees();
 
   /**
