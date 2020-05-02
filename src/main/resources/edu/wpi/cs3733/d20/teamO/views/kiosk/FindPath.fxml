@@ -88,10 +88,10 @@
             <NodeRequiredValidator message="A location is required"/>
           </validators>
         </NodeSelector>
-        <Label layoutX="18.0" layoutY="129.0" text="Start Location"/>
-        <Label layoutX="18.0" layoutY="233.0" text="Stop Location"/>
+        <Label layoutX="18.0" layoutY="129.0" text="%pathFindStart"/>
+        <Label layoutX="18.0" layoutY="233.0" text="%pathFindStop"/>
         <JFXToggleButton fx:id="handicap" layoutX="14.0" layoutY="452.0" prefHeight="29.0"
-          prefWidth="190.0" text="Handicap Mode"/>
+          prefWidth="190.0" text="%pathFindHandicap" onAction="#switchAccessibility"/>
       </children>
     </AnchorPane>
   </left>

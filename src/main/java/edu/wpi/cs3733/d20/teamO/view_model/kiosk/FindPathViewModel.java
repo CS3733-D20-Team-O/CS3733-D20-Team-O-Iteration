@@ -5,13 +5,14 @@ import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -67,6 +68,8 @@ public class FindPathViewModel extends ViewModelBase {
 
     JFXDepthManager.setDepth(sideBar, 2);
     nodeMap = database.exportNodes();
+    handicapMap = new HashMap<String, Node>();
+    createHandicap();
     defaultStart = (Node) nodeMap.values().toArray()[0];
     defaultStop = (Node) nodeMap.values().toArray()[0];
     beginning = defaultStart;
@@ -94,19 +97,20 @@ public class FindPathViewModel extends ViewModelBase {
    * populate the handicap accessible map with nodes that a wheelchair can reach
    */
   public void createHandicap() {
+    //create the map of nodes without edges
     for (Node node : nodeMap.values()) {
       if (!node.getNodeType().equals("STAI")) {
-        LinkedList<Node> newEdges = new LinkedList<Node>();
-        for (Node neighbor : node.getNeighbors()) {
-          if (!neighbor.getNodeType().equals("STAI")) {
-            newEdges.add(neighbor);
-          }
-        }
         Node newNode = new Node(node.getNodeID(), node.getXCoord(), node.getYCoord(),
             node.getFloor(), node.getBuilding(), node.getNodeType(),
             node.getLongName(), node.getShortName());
-        newNode.getNeighbors().addAll(newEdges);
         handicapMap.put(newNode.getNodeID(), newNode);
+      }
+    }
+    //populate only edges that still exists
+    for (Edge edge : database.exportEdges()) {
+      if (handicapMap.containsKey(edge.getStartID()) && handicapMap.containsKey(edge.getStopID())) {
+        handicapMap.get(edge.getStartID()).getNeighbors().add(handicapMap.get(edge.getStopID()));
+        handicapMap.get(edge.getStopID()).getNeighbors().add(handicapMap.get(edge.getStartID()));
       }
     }
   }
@@ -171,4 +175,15 @@ public class FindPathViewModel extends ViewModelBase {
     }
   }
 
+  @FXML
+  public void switchAccessibility() {
+    if (handicap.isSelected()) {
+      startRoom.setNodes(handicapMap.values());
+      stopRoom.setNodes(handicapMap.values());
+      System.out.println("HandicapMode");
+    } else {
+      startRoom.setNodes(nodeMap.values());
+      stopRoom.setNodes(nodeMap.values());
+    }
+  }
 }
