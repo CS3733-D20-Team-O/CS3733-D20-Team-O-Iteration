@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSlider;
@@ -25,6 +26,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -39,6 +41,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   // todo add translations
   // todo prevent commas from being added
   // todo add validator for elevator names
+  // todo add show save changes
 
   private enum State {
     MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR
@@ -63,6 +66,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private AnchorPane clipper;
   @FXML
   private JFXComboBox newNodeCategory;
+  @FXML
+  private JFXButton saveNodeChangesBtn;
   private Map<String, Node> nodeMap;
   private List<Edge> edges;
 
@@ -120,6 +125,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
             NodeProperty.X_COORD, Integer.toString(adjX));
         database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
             NodeProperty.Y_COORD, Integer.toString(adjY));
+        nodeMapViewController.clearEdge();
+        exportDatabase();
+        drawEdges();
       }
     });
     nodeMapViewController
@@ -134,6 +142,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   // FXML methods
+
+  public void markNodeChangesMade(KeyEvent keyEvent) {
+    // todo implement
+  }
 
   public void setZoom() {
     nodeMapViewController.zoom(zoomSlider.getValue() / 100);
@@ -224,10 +236,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   public void saveNodeChangesPressed(ActionEvent actionEvent) {
     val valid = validator.validate(shortNameField, longNameField);
     if (valid) {
-      if (shortNameField.getText().equals(selectedNode1.getShortName()) && longNameField.getText()
-          .equals(selectedNode1.getLongName())) { // no changes made
-        return;
-      }
       database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
           NodeProperty.LONG_NAME, longNameField.getText()); // update long name
       database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
@@ -235,6 +243,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       exportDatabase();
       redraw();
       snackBar.show("Node updated");
+      setState(State.MAIN);
     }
   }
 
@@ -266,12 +275,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param y The y-coordinate of the selection
    */
   private void addNodeView(int x, int y) {
-    /*
-    if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
-      return;
-    }
-
-     */
     clearFields();
     previewNode = new Node("", x, y, nodeMapViewController.getFloor(), "Faulkner", "", "", "");
     nodeMapViewController.addNode(previewNode);
@@ -286,12 +289,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param node The first selected node
    */
   private void addEdgeView(Node node) {
-    /*
-    if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
-      return;
-    }
-
-     */
     clearFields();
     selectedNode1 = node;
     nodeMapViewController.highlightNode(node);
@@ -330,8 +327,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         nodeMapViewController.highlightNode(node);
         newEdgeDestNode.setText(node.getLongName());
         break;
-      case ADD_NODE: // cannot select node in this state
-        break;
+      case SELECT_NODE:
+        if (node.getNodeID().equals(selectedNode1.getNodeID())) {
+          setState(State.MAIN);
+          break;
+        }
       default:
         clearFields();
         setState(State.SELECT_NODE);
@@ -369,6 +369,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     exportDatabase();
     redraw();
     snackBar.show("Edge deleted");
+    setState(State.MAIN);
   }
 
   /**
@@ -377,9 +378,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param edge The edge to select
    */
   private void selectEdge(Edge edge) {
-    if (state == State.ADD_NEIGHBOR || state == State.ADD_NODE || state == State.ADD_EDGE) {
-      return;
-    }
     setState(State.SELECT_EDGE);
     nodeMapViewController.highlightEdge(edge);
     selectedEdge = edge;
