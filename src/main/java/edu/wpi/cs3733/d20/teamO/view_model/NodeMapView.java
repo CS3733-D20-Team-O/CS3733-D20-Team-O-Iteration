@@ -376,6 +376,13 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
+   * Clears all edges on the screen
+   */
+  public void clearEdge() {
+    edgeGroup.getChildren().clear();
+  }
+
+  /**
    * Highlights the current node on the NodeMap
    *
    * @param node the node to highlight
@@ -479,10 +486,6 @@ public class NodeMapView extends ViewModelBase {
     nodeGroup.getChildren().forEach(nodeCircle -> {
       nodeCircle.setVisible(true);
     });
-
-    /*
-    floorPane.getChildren().stream().filter(n -> n instanceof NodeCircle).
-        forEach(nodeCircle -> nodeCircle.setVisible(true));*/
   }
 
   /**
@@ -492,10 +495,6 @@ public class NodeMapView extends ViewModelBase {
     nodeGroup.getChildren().forEach(nodeCircle -> {
       nodeCircle.setVisible(false);
     });
-
-    /*
-    floorPane.getChildren().stream().filter(n -> n instanceof NodeCircle).
-        forEach(nodeCircle -> nodeCircle.setVisible(false));*/
   }
 
   /**
@@ -512,12 +511,6 @@ public class NodeMapView extends ViewModelBase {
       }
     }
     return null;
-
-    /*
-    return floorPane.getChildren().stream()
-        .filter(n -> n instanceof NodeCircle)
-        .map(n -> (NodeCircle) n)
-        .reduce(null, (result, current) -> current.node.equals(node) ? current : result);*/
   }
 
   /**
@@ -535,13 +528,6 @@ public class NodeMapView extends ViewModelBase {
       }
     }
     return null;
-
-    /*return floorPane.getChildren().stream()
-        .filter(n -> n instanceof NodeLine)
-        .map(n -> (NodeLine) n)
-        .reduce(null, (result, current) ->
-            current.node1.getNodeID().equals(edge.getStartID()) &&
-                current.node2.getNodeID().equals(edge.getStopID()) ? current : result);*/
   }
 
   public int translateToImageX(int x) {
