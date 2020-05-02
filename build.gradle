@@ -20,6 +20,8 @@ repositories {
 }
 
 dependencies {
+
+
     implementation(
             'org.greenrobot:eventbus:3.2.0',
             'com.google.inject:guice:4.2.3',
@@ -30,6 +32,10 @@ dependencies {
             'org.apache.derby:derby:10.14.2.0',
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
+            [group: 'edu.wpi.cs3733.c20.teamR', name: 'AppointmentRequest', version:'4.2.0'],
+
+
+
     )
 
     testImplementation(
