@@ -122,7 +122,7 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the the background is clicked
-    nodeGroup.setOnMouseClicked(event -> {
+    dummyLayer.setOnMouseClicked(event -> {
       if (event.getButton() == MouseButton.SECONDARY) {
         System.out.println("NodeGroup Right Click");
         val imageX = translateToImageX((int) event.getX());
