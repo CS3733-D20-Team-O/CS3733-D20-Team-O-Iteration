@@ -27,7 +27,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -43,6 +42,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   // todo add translations
   // todo prevent commas from being added
   // todo add validator for elevator names
+  // todo add delete confirmation
 
   private enum State {
     MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR, DRAGGING, SELECT_NODES, SELECT_EDGES
@@ -52,7 +52,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML
   private NodeMapView nodeMapViewController;
   @FXML
-  private VBox nodeSelectView, edgeSelectView, addNodeView, addEdgeView, addNeighborView, sideBar;
+  private VBox nodeSelectView, edgeSelectView, addNodeView, addEdgeView, addNeighborView, sideBar, selectNodesView;
   @FXML
   private BorderPane root;
   @FXML
@@ -62,7 +62,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML
   private JFXSlider zoomSlider;
   @FXML
-  private JFXListView neighboringNodesList;
+  private JFXListView neighboringNodesList, selectedNodesList;
   @FXML
   private AnchorPane clipper;
   @FXML
@@ -78,7 +78,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   private Node selectedNode1, selectedNode2, previewNode; // todo move over to selection
   private Edge selectedEdge;
   private int xSelection, ySelection; // the selected x and y coords
-  private boolean shiftDown = false; // indicates if shift is currently being pressed
 
   // misc tools
   private final DatabaseWrapper database;
@@ -150,18 +149,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   // FXML methods
-
-  public void keyDown(KeyEvent keyEvent) {
-    if (keyEvent.getCode().equals(KeyCode.SHIFT)) {
-      shiftDown = true;
-    }
-  }
-
-  public void keyUp(KeyEvent keyEvent) {
-    if (keyEvent.getCode().equals(KeyCode.SHIFT)) {
-      shiftDown = false;
-    }
-  }
 
   public void markNodeChangesMade(KeyEvent keyEvent) {
     saveNodeChangesBtn.setDisable(false);
@@ -347,12 +334,13 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         nodeMapViewController.highlightNode(node);
         newEdgeDestNode.setText(node.getLongName());
         break;
-
       case SELECT_NODE:
-        if (shiftDown) { // selecting multiple nodes
-          setState(State.SELECT_NODES);
-        }
+        setState(State.SELECT_NODES);
       case SELECT_NODES:
+        selection.add(node);
+        nodeMapViewController.highlightNode(node);
+        selection.add(selectedNode1);
+        selectedNodesList.getItems().add(node.getLongName());
         break;
       default:
         clearFields();
@@ -418,9 +406,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         .forEach(node -> node.resetValidation());
     Stream.of(nodeCategoryLabel, selectedNeighborLabel, newEdgeStartNode, newEdgeDestNode,
         edgeNode1ID, edgeNode2ID).forEach(node -> node.setText(""));
-    newNodeCategory.getSelectionModel().clearSelection();
-    neighboringNodesList.getItems().clear();
+    Stream.of(neighboringNodesList, selectedNodesList).forEach(node -> node.getItems().clear());
+    for (Node node : selection) {
+      nodeMapViewController.unhighlightNode(node);
+    }
     saveNodeChangesBtn.setDisable(true);
+    selection.clear();
     if (selectedNode1 != null) {
       nodeMapViewController.unhighlightNode(selectedNode1);
       selectedNode1 = null;
@@ -515,16 +506,14 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     if (this.state == state) {
       return; // if the state is not changing then do nothing
     }
-    nodeSelectView.setVisible(false);
-    edgeSelectView.setVisible(false);
-    addNodeView.setVisible(false);
-    addEdgeView.setVisible(false);
-    addNeighborView.setVisible(false);
+    Stream.of(nodeSelectView, edgeSelectView, addNodeView, addEdgeView, addNeighborView,
+        selectNodesView).forEach(view -> view.setVisible(false));
     switch (state) {
       case MAIN:
         clearFields();
         break;
       case SELECT_EDGE:
+        clearFields();
         edgeSelectView.setVisible(true);
         break;
       case SELECT_NODE:
@@ -542,6 +531,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         break;
       case ADD_NEIGHBOR:
         addNeighborView.setVisible(true);
+        break;
+      case SELECT_NODES:
+        selectNodesView.setVisible(true);
         break;
     }
     this.state = state;
