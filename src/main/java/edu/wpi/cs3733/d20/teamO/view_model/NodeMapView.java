@@ -125,8 +125,8 @@ public class NodeMapView extends ViewModelBase {
     dummyLayer.setOnMousePressed(event -> {
       if (event.getButton() == MouseButton.PRIMARY) { // Used for dragging
         System.out.println("NodeGroup Left Press");
-        dragX = floorPane.getLayoutX() - event.getSceneX();
-        dragY = floorPane.getLayoutY() - event.getSceneY();
+        dragX = floorPane.getTranslateX() - event.getSceneX();
+        dragY = floorPane.getTranslateY() - event.getSceneY();
       } else if (event.getButton()
           == MouseButton.SECONDARY) { // Used for right click on the background
         System.out.println("NodeGroup Right Press");
@@ -142,8 +142,6 @@ public class NodeMapView extends ViewModelBase {
         System.out.println("NodeGroup Left Drag");
         floorPane.setTranslateX(event.getSceneX() + dragX);
         floorPane.setTranslateY(event.getSceneY() + dragY);
-        //floorPane.setLayoutX(event.getSceneX() + dragX);
-        //floorPane.setLayoutY(event.getSceneY() + dragY);
       }
     });
 
