@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox prefHeight="400.0" prefWidth="600.0" stylesheets="@RoomSchedulerStyle.css"
+  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.RoomSchedulerViewModel">
+   <children>
+      <HBox alignment="CENTER" style="-fx-padding: 24; -fx-spacing: 32;">
+         <children>
+            <JFXDatePicker prefHeight="28.0" prefWidth="131.0" promptText="Date"/>
+            <JFXComboBox prefHeight="25.0" prefWidth="127.0"/>
+            <JFXButton fx:id="decTimeButton" buttonType="RAISED" onAction="#changeHour"
+              style="-fx-background-color: lightgray;" text="&lt;"/>
+            <JFXTextField fx:id="durationField" alignment="CENTER" prefHeight="25.0"
+              prefWidth="68.0" promptText="0"/>
+            <JFXButton fx:id="incTimeButton" buttonType="RAISED" onAction="#changeHour"
+              style="-fx-background-color: lightgray;" text="&gt;"/>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" style="-fx-spacing: 32; -fx-padding: 24;">
+         <opaqueInsets>
+            <Insets/>
+         </opaqueInsets>
+         <children>
+            <JFXRadioButton text="On Call Bed"/>
+            <JFXRadioButton text="Reflection Room 1"/>
+            <JFXRadioButton text="Reflection Room 2"/>
+            <JFXRadioButton text="Reflection Room 3"/>
+         </children>
+      </HBox>
+      <HBox alignment="BOTTOM_RIGHT" style="-fx-padding: 24;">
+         <children>
+            <Label prefHeight="185.0" prefWidth="417.0" text="Label"/>
+            <JFXButton buttonType="RAISED" prefHeight="53.0" prefWidth="120.0" text="Schedule"/>
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -270,6 +270,11 @@ public class GiftDeliveryServiceTest extends FxRobot {
   }
 
   @Test
+  public void verifySubmit() {
+    verifyThat("Submit", javafx.scene.Node::isVisible);
+  }
+
+  @Test
   public void testSubmit() throws IOException {
     when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
     when(database.addServiceRequest(any(), any(), any(), any(), any()))
