@@ -115,26 +115,26 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeMapViewController.setOnNodeRightTapListener(node -> { // node right-clicked
       addEdgeView(node);
     });
-    nodeMapViewController.setOnNodeLeftDragListener((node, mouseEvent) -> { // node dragged
+    nodeMapViewController.setOnNodeLeftDragListener((node, x, y) -> { // node dragged
       if (state == State.SELECT_NODE
           || state == State.DRAGGING) { // only can drag a node if the node is selected
         setState(State.DRAGGING);
-        int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
-        int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
-        nodeMapViewController.relocateNode(node, adjX, adjY);
+        //int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
+        //int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
+        nodeMapViewController.relocateNode(node, x, y);
         nodeMapViewController.clearEdge();
         drawEdges();
       }
     });
     nodeMapViewController
-        .setOnNodeLeftTapReleaseListener((node, mouseEvent) -> { // node drag released
+        .setOnNodeLeftTapReleaseListener((node, x, y) -> { // node drag released
           if (state == State.DRAGGING) {
-            int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
-            int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
+            //int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
+            //int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
             database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-                NodeProperty.X_COORD, Integer.toString(adjX));
+                NodeProperty.X_COORD, Integer.toString(x));
             database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
-                NodeProperty.Y_COORD, Integer.toString(adjY));
+                NodeProperty.Y_COORD, Integer.toString(y));
             exportDatabase();
             redraw();
             setState(State.SELECT_NODE);

@@ -5,6 +5,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -13,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -30,11 +30,11 @@ public class NodeMapView extends ViewModelBase {
 
   private double nodeSize = 5;
   private double edgeSize = 3;
+  private Paint nodeColor = Color.web("#00991f"); // Green
+  private Paint edgeColor = Color.web("#58A5F0"); // Light blue
+  private Paint highlightColor = Color.RED; // Red
   private final static int maxFloor = 5;
   private final static int minFloor = 1;
-  private final static Paint nodeColor = Color.web("#00991f"); // Green
-  private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
-  private final static Paint highlightColor = Color.RED; // Red
   private final static double zoomInc = 0.1;
   private final static double dragInc = 2;
 
@@ -63,22 +63,22 @@ public class NodeMapView extends ViewModelBase {
    * Gets called when a node is left-click dragged
    */
   @Setter
-  private BiConsumer<Node, MouseEvent> onNodeLeftDragListener;
+  private TriConsumer<Node, Integer, Integer> onNodeLeftDragListener;
   /**
    * Gets called when a node is right-clicked dragged
    */
   @Setter
-  private BiConsumer<Node, MouseEvent> onNodeRightDragListener;
+  private TriConsumer<Node, Integer, Integer> onNodeRightDragListener;
   /**
    * Gets called when a node has been released from a left-click
    */
   @Setter
-  private BiConsumer<Node, MouseEvent> onNodeLeftTapReleaseListener;
+  private TriConsumer<Node, Integer, Integer> onNodeLeftTapReleaseListener;
   /**
    * Gets called when a node has been released from a right-click
    */
   @Setter
-  private BiConsumer<Node, MouseEvent> onNodeRightTapReleaseListener;
+  private TriConsumer<Node, Integer, Integer> onNodeRightTapReleaseListener;
   /**
    * Gets called when a edge is left-clicked
    */
@@ -262,20 +262,24 @@ public class NodeMapView extends ViewModelBase {
     drawnNode.setOnMouseDragged(event -> {
       if (onNodeLeftDragListener != null && event.getButton() == MouseButton.PRIMARY) {
         System.out.println("Node Left Dragged");
-        onNodeLeftDragListener.accept(drawnNode.node, event);
+        onNodeLeftDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
       } else if (onNodeRightDragListener != null && event.getButton() == MouseButton.SECONDARY) {
         System.out.println("Node Right Dragged");
-        onNodeRightDragListener.accept(drawnNode.node, event);
+        onNodeRightDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
       }
     });
     drawnNode.setOnMouseReleased(event -> {
       if (onNodeLeftTapReleaseListener != null && event.getButton() == MouseButton.PRIMARY) {
         System.out.println("Node Left Dragged End (Mod)");
-        onNodeLeftTapReleaseListener.accept(drawnNode.node, event);
+        onNodeLeftTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
       } else if (onNodeRightTapReleaseListener != null
           && event.getButton() == MouseButton.SECONDARY) {
         System.out.println("Node Right Dragged End (Mod)");
-        onNodeRightTapReleaseListener.accept(drawnNode.node, event);
+        onNodeRightTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
       }
     });
     /*
@@ -491,6 +495,13 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  public void relocateEdge(Node n1, Node n2) {
+    val floor = nodeMap.get(n1.getFloor());
+    if (floor != null && n1.getFloor() == n2.getFloor()) {
+      //val nodeLine = findLine();
+    }
+  }
+
   /**
    * Make all nodes on the floor visible
    */
@@ -623,5 +634,14 @@ public class NodeMapView extends ViewModelBase {
   public interface TriConsumer<T, U, X> {
 
     void accept(T t, U u, X x);
+
+    default TriConsumer<T, U, X> andThen(TriConsumer<? super T, ? super U, ? super X> after) {
+      Objects.requireNonNull(after);
+
+      return (l, r, x) -> {
+        accept(l, r, x);
+        after.accept(l, r, x);
+      };
+    }
   }
 }
