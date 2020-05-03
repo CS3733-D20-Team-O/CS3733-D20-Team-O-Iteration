@@ -124,9 +124,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         setState(State.DRAGGING);
         //int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
         //int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
-        database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
+        database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode.getNodeID(),
             NodeProperty.X_COORD, Integer.toString(x));
-        database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
+        database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode.getNodeID(),
             NodeProperty.Y_COORD, Integer.toString(y));
         exportDatabase();
         val newNode = nodeMap.get(node.getNodeID());
@@ -180,11 +180,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         furthest = node;
       }
     }
-    /*
+
     System.out.println("The closest node is "+closest.getLongName());
     System.out.println("The furthest node is "+furthest.getLongName());
-
-     */
     // todo finish
   }
 
