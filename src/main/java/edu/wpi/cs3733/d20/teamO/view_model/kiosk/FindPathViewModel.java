@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
@@ -13,6 +12,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
+import edu.wpi.cs3733.d20.teamO.view_model.FloorSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -40,6 +40,8 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private BorderPane root;
   @FXML
+  private FloorSelector floorSelectorController;
+  @FXML
   private Pane clipper;
   @FXML
   private NodeMapView nodeMapViewController;
@@ -53,13 +55,12 @@ public class FindPathViewModel extends ViewModelBase {
   private NodeSelector startLocation, stopLocation;
   @FXML
   private JFXToggleButton handicap;
-  @FXML
-  private JFXButton floor1, floor2, floor3, floor4, floor5;
 
   private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
   private final Dialog dialog;
+
 
   private final SelectedPathFinder pathFinder;
 
@@ -72,6 +73,7 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @Override
   protected void start(URL location, ResourceBundle resources) {
+    floorSelectorController.setNodeMapViewController(nodeMapViewController);
     val clipRect = new Rectangle();
     clipRect.widthProperty().bind(clipper.widthProperty());
     clipRect.heightProperty().bind(clipper.heightProperty());
@@ -245,27 +247,4 @@ public class FindPathViewModel extends ViewModelBase {
     return steps;
   }
 
-
-  @FXML
-  private void buttonSwitchFloor(ActionEvent e) {
-    floor1.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
-    floor2.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
-    floor3.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
-    floor4.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
-    floor5.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
-    ((JFXButton) e.getSource())
-        .setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
-    int newFloor = Integer.parseInt(((JFXButton) e.getSource()).getText());
-    int currentFloor = Integer.parseInt(floorLabel.getText().stripLeading());
-    while (currentFloor != newFloor) {
-      if (currentFloor > newFloor) {
-        nodeMapViewController.decrementFloor();
-        currentFloor--;
-      } else {
-        nodeMapViewController.incrementFloor();
-        currentFloor++;
-      }
-    }
-    changeFloor();
-  }
 }
