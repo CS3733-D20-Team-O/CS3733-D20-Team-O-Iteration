@@ -5,6 +5,8 @@
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
@@ -15,8 +17,38 @@
    <children>
       <HBox alignment="CENTER" style="-fx-padding: 24; -fx-spacing: 32;">
          <children>
-            <JFXDatePicker prefHeight="28.0" prefWidth="131.0" promptText="Date"/>
-            <JFXComboBox prefHeight="25.0" prefWidth="127.0"/>
+            <JFXDatePicker fx:id="datePicker" prefHeight="28.0" prefWidth="131.0"
+              promptText="Date"/>
+            <JFXComboBox prefHeight="25.0" prefWidth="127.0" promptText="Time">
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="12 AM"/>
+                     <String fx:value="1 AM"/>
+                     <String fx:value="2 AM"/>
+                     <String fx:value="3 AM"/>
+                     <String fx:value="4 AM"/>
+                     <String fx:value="5 AM"/>
+                     <String fx:value="6 AM"/>
+                     <String fx:value="7 AM"/>
+                     <String fx:value="8 AM"/>
+                     <String fx:value="9 AM"/>
+                     <String fx:value="10 AM"/>
+                     <String fx:value="11 AM"/>
+                     <String fx:value="12 PM"/>
+                     <String fx:value="1 PM"/>
+                     <String fx:value="2 PM"/>
+                     <String fx:value="3 PM"/>
+                     <String fx:value="4 PM"/>
+                     <String fx:value="5 PM"/>
+                     <String fx:value="6 PM"/>
+                     <String fx:value="7 PM"/>
+                     <String fx:value="8 PM"/>
+                     <String fx:value="9 PM"/>
+                     <String fx:value="10 PM"/>
+                     <String fx:value="11 PM"/>
+                  </FXCollections>
+               </items>
+            </JFXComboBox>
             <JFXButton fx:id="decTimeButton" buttonType="RAISED" onAction="#changeHour"
               style="-fx-background-color: lightgray;" text="&lt;"/>
             <JFXTextField fx:id="durationField" alignment="CENTER" prefHeight="25.0"
@@ -39,7 +71,8 @@
       <HBox alignment="BOTTOM_RIGHT" style="-fx-padding: 24;">
          <children>
             <Label prefHeight="185.0" prefWidth="417.0" text="Label"/>
-            <JFXButton buttonType="RAISED" prefHeight="53.0" prefWidth="120.0" text="Schedule"/>
+            <JFXButton fx:id="scheduleButton" buttonType="RAISED" onAction="#schedule"
+              prefHeight="53.0" prefWidth="120.0" text="Schedule"/>
          </children>
       </HBox>
    </children>

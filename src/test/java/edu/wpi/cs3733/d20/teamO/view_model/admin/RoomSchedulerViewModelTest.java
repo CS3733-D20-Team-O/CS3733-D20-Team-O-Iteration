@@ -90,4 +90,43 @@ class RoomSchedulerViewModelTest extends FxRobot {
     clickOn("<");
     verifyThat("0", javafx.scene.Node::isVisible);
   }
+
+  @Test
+  public void testIncrementButton25() {
+    verifyThat("0", javafx.scene.Node::isVisible);
+    int i = 0;
+    while (i < 26) {
+      clickOn(">");
+      i++;
+    }
+    verifyThat("24", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testDecrementButton0() {
+    verifyThat("0", javafx.scene.Node::isVisible);
+    int i = 0;
+    while (i < 3) {
+      clickOn("<");
+      i++;
+    }
+    verifyThat("0", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testDatePicker() {
+    clickOn("Date");
+//    write("adfgsdfg");
+//    press(KeyCode.ENTER);
+//    clickOn("Label");
+    write("01/10/2001");
+    clickOn("Schedule");
+  }
+
+  @Test
+  public void testTimeSelect() {
+    clickOn("Time");
+    clickOn("12 AM");
+    clickOn("Schedule");
+  }
 }
