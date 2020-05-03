@@ -39,6 +39,9 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject}) // required for database
 public class FloorMapEditorViewModel extends ViewModelBase {
 
+  public void alignNodesHorizontal(ActionEvent event) {
+  }
+
   // todo add translations
   // todo prevent commas from being added
   // todo add validator for elevator names
@@ -151,6 +154,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
             exportDatabase();
             redraw();
             setState(State.SELECT_NODE);
+            nodeMapViewController.highlightNode(selectedNode);
           }
         });
     nodeMapViewController.setOnEdgeLeftTapListener((node1, node2) -> {
@@ -165,7 +169,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    *
    * @param event Event
    */
-  public void alignNodes(ActionEvent event) {
+  public void alignNodesVertical(ActionEvent event) {
     Node closest = null, furthest = null;
     double closetPos = Double.POSITIVE_INFINITY, furthestPos = Double.NEGATIVE_INFINITY;
     for (Node node : selection) { // find the pythagorized position of all the nodes and save the smallest and largest

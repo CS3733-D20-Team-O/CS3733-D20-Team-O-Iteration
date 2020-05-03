@@ -338,22 +338,25 @@
                     visible="false">
                      <children>
                         <Label text="Selected nodes"/>
+                        <JFXButton buttonType="RAISED"
+                          style="-fx-background-color: LIGHTGREY;" text="Delete all"
+                          onAction="#deletePressed">
+                           <graphic>
+                              <ImageView fitHeight="16" pickOnBounds="true"
+                                preserveRatio="true">
+                                 <Image url="@/baseline_delete_black_18dp.png"/>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                         <JFXListView prefHeight="200" fx:id="selectedNodesList"/>
                         <HBox alignment="TOP_CENTER" spacing="8.0">
                            <children>
                               <JFXButton buttonType="RAISED"
-                                style="-fx-background-color: LIGHTGREY;" text="Align nodes"
-                                onAction="#alignNodes"/>
+                                style="-fx-background-color: LIGHTGREY;" text="Align vertically"
+                                onAction="#alignNodesVertical"/>
                               <JFXButton buttonType="RAISED"
-                                style="-fx-background-color: LIGHTGREY;" text="Delete all"
-                                onAction="#deletePressed">
-                                 <graphic>
-                                    <ImageView fitHeight="16" pickOnBounds="true"
-                                      preserveRatio="true">
-                                       <Image url="@/baseline_delete_black_18dp.png"/>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
+                                style="-fx-background-color: LIGHTGREY;" text="Align horizontally"
+                                onAction="#alignNodesHorizontal"/>
                            </children>
                         </HBox>
                         <JFXButton buttonType="RAISED" onAction="#cancelPressed"
