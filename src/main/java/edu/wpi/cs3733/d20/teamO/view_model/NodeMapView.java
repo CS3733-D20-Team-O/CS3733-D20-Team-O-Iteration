@@ -266,7 +266,7 @@ public class NodeMapView extends ViewModelBase {
         "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
             + "]");
 
-    drawnNode.setOnMousePressed(event -> {
+    drawnNode.setOnMouseReleased(event -> {
       if (onNodeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("Node Left Clicked");
         onNodeLeftTapListener.accept(drawnNode.node);
@@ -288,7 +288,7 @@ public class NodeMapView extends ViewModelBase {
             translateToImageY((int) event.getY()));
       }
     });
-    drawnNode.setOnMouseReleased(event -> {
+    /*drawnNode.setOnMouseReleased(event -> {
       if (onNodeLeftTapReleaseListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("Node Left Dragged End (Mod)");
         onNodeLeftTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
@@ -299,7 +299,7 @@ public class NodeMapView extends ViewModelBase {
         onNodeRightTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
             translateToImageY((int) event.getY()));
       }
-    });
+    });*/
     /*
     drawnNode.setOnMouseDragExited(event -> {
       if (onNodeLeftDragReleaseListener != null && event.getButton() == MouseButton.PRIMARY) {
