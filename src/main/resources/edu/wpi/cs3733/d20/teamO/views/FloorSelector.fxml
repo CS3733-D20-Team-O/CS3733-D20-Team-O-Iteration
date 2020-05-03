@@ -1,42 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-  minWidth="-Infinity" spacing="8.0" xmlns="http://javafx.com/javafx/11.0.1"
-  xmlns:fx="http://javafx.com/fxml/1"
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+  spacing="8.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.FloorSelector">
-  <children>
-    <HBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="200.0" spacing="8.0">
-      <children>
-        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-          <Image url="@/hospital-icon.png"/>
-        </ImageView>
-        <Label text="%FSCurrentFloor"/>
-      </children>
-    </HBox>
-    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      spacing="8.0">
-      <children>
-        <JFXButton fx:id="floor1Btn" onAction="#setFloor" text="1" prefHeight="30.0"
-          prefWidth="30.0" style="-fx-background-color: lightseagreen; -fx-background-radius: 30;"/>
-        <JFXButton fx:id="floor2Btn" onAction="#setFloor" text="2" prefHeight="30.0"
-          prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"/>
-        <JFXButton fx:id="floor3Btn" onAction="#setFloor" text="3" prefHeight="30.0"
-          prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"/>
-        <JFXButton fx:id="floor4Btn" onAction="#setFloor" text="4" prefHeight="30.0"
-          prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"/>
-        <JFXButton fx:id="floor5Btn" onAction="#setFloor" text="5" prefHeight="30.0"
-          prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"/>
-      </children>
-    </HBox>
-  </children>
-  <padding>
-    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
-  </padding>
-</VBox>
+   <children>
+      <JFXButton fx:id="floor1Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+        style="-fx-background-color: lightseagreen; -fx-background-radius: 30;" text="1"/>
+      <JFXButton fx:id="floor2Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+        style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="2"/>
+      <JFXButton fx:id="floor3Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+        style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="3"/>
+      <JFXButton fx:id="floor4Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+        style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="4"/>
+      <JFXButton fx:id="floor5Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+        style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="5"/>
+   </children>
+</HBox>
