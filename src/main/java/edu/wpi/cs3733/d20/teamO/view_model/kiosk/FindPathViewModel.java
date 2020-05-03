@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
@@ -240,5 +241,22 @@ public class FindPathViewModel extends ViewModelBase {
     }
 
     return steps;
+  }
+
+
+  @FXML
+  private void buttonSwitchFloor(ActionEvent e) {
+    int newFloor = Integer.parseInt(((JFXButton) e.getSource()).getText());
+    int currentFloor = Integer.parseInt(floorLabel.getText().stripLeading());
+    while (currentFloor != newFloor) {
+      if (currentFloor > newFloor) {
+        nodeMapViewController.decrementFloor();
+        currentFloor--;
+      } else {
+        nodeMapViewController.incrementFloor();
+        currentFloor++;
+      }
+    }
+    changeFloor();
   }
 }

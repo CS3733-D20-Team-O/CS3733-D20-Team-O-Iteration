@@ -98,8 +98,28 @@
         <JFXToggleButton fx:id="handicap" layoutX="14.0" layoutY="452.0"
           onAction="#switchAccessibility" prefHeight="29.0" prefWidth="190.0"
           text="%pathFindHandicap"/>
-        <JFXButton buttonType="RAISED" text="Generate QR" layoutX="20.0" layoutY="300.0"
-          onAction="#generateQR" style="-fx-background-color: lightgray"/>
+        <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="300.0" onAction="#generateQR"
+          style="-fx-background-color: lightgray" text="Generate QR"/>
+        <HBox alignment="CENTER" layoutX="15.0" layoutY="534.0" prefHeight="40.0" prefWidth="186.0"
+          spacing="10.0">
+          <children>
+            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="1"/>
+            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="2"/>
+            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="3"/>
+            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="4"/>
+            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="5"/>
+          </children>
+        </HBox>
       </children>
     </AnchorPane>
   </left>
