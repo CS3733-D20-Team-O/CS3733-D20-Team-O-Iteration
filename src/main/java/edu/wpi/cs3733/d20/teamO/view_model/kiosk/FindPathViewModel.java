@@ -207,9 +207,9 @@ public class FindPathViewModel extends ViewModelBase {
   private ArrayList<Step> generateTextInstructions() {
     val steps = new ArrayList<Step>();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
-    for (Node n : nodes) {
-      
-    }
+//    for (Node n : nodes) {
+//
+//    }
     for (int i = 0; i < nodes.size() - 1; i++) {
       int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
       int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
