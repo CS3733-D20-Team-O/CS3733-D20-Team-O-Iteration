@@ -18,6 +18,7 @@ import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -26,6 +27,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -43,7 +45,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   // todo add validator for elevator names
 
   private enum State {
-    MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR, DRAGGING
+    MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR, DRAGGING, SELECT_NODES, SELECT_EDGES
   }
 
   // FXML fields
@@ -72,9 +74,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   // globally accessible fields
   private State state; // current state of view
-  private Node selectedNode1, selectedNode2, previewNode;
+  private LinkedList<Node> selection = new LinkedList<>();
+  private Node selectedNode1, selectedNode2, previewNode; // todo move over to selection
   private Edge selectedEdge;
   private int xSelection, ySelection; // the selected x and y coords
+  private boolean shiftDown = false; // indicates if shift is currently being pressed
 
   // misc tools
   private final DatabaseWrapper database;
@@ -146,6 +150,18 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   // FXML methods
+
+  public void keyDown(KeyEvent keyEvent) {
+    if (keyEvent.getCode().equals(KeyCode.SHIFT)) {
+      shiftDown = true;
+    }
+  }
+
+  public void keyUp(KeyEvent keyEvent) {
+    if (keyEvent.getCode().equals(KeyCode.SHIFT)) {
+      shiftDown = false;
+    }
+  }
 
   public void markNodeChangesMade(KeyEvent keyEvent) {
     saveNodeChangesBtn.setDisable(false);
@@ -331,14 +347,13 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         nodeMapViewController.highlightNode(node);
         newEdgeDestNode.setText(node.getLongName());
         break;
-        /*
-      case SELECT_NODE:
-        if (node.getNodeID().equals(selectedNode1.getNodeID())) {
-          setState(State.MAIN);
-          break;
-        }
 
-         */
+      case SELECT_NODE:
+        if (shiftDown) { // selecting multiple nodes
+          setState(State.SELECT_NODES);
+        }
+      case SELECT_NODES:
+        break;
       default:
         clearFields();
         setState(State.SELECT_NODE);
