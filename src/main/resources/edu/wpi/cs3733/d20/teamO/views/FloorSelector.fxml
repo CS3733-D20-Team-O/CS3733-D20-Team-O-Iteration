@@ -23,11 +23,16 @@
     <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       spacing="8.0">
       <children>
-        <JFXButton fx:id="floor1Btn" disable="true" onAction="#floor1Select" text="1"/>
-        <JFXButton fx:id="floor2Btn" onAction="#floor2Select" text="2"/>
-        <JFXButton fx:id="floor3Btn" onAction="#floor3Select" text="3"/>
-        <JFXButton fx:id="floor4Btn" onAction="#floor4Select" text="4"/>
-        <JFXButton fx:id="floor5Btn" onAction="#floor5Select" text="5"/>
+        <JFXButton fx:id="floor1Btn" onAction="#setFloor" text="1" prefHeight="30.0"
+          prefWidth="30.0" style="-fx-background-color: lightseagreen; -fx-background-radius: 30;"/>
+        <JFXButton fx:id="floor2Btn" onAction="#setFloor" text="2" prefHeight="30.0"
+          prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"/>
+        <JFXButton fx:id="floor3Btn" onAction="#setFloor" text="3" prefHeight="30.0"
+          prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"/>
+        <JFXButton fx:id="floor4Btn" onAction="#setFloor" text="4" prefHeight="30.0"
+          prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"/>
+        <JFXButton fx:id="floor5Btn" onAction="#setFloor" text="5" prefHeight="30.0"
+          prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"/>
       </children>
     </HBox>
   </children>
