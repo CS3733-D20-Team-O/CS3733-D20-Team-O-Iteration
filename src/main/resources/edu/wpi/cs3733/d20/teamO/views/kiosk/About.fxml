@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <VBox alignment="CENTER" spacing="0" style="-fx-padding: 32; -fx-font-size: 16;"
   xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.AboutViewModel">
-  <Label contentDisplay="CENTER" style="-fx-font-size: 32" text="About" textAlignment="CENTER"/>
+  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-padding: 0;">
+    <Pane prefHeight="165.0" prefWidth="76.0"/>
+    <ImageView fitHeight="96.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@/bwh-logo.png"/>
+    </ImageView>
+    <Pane prefHeight="165.0" prefWidth="78.0"/>
+    <Label contentDisplay="CENTER" style="-fx-font-size: 32" text="About" textAlignment="CENTER">
+      <padding>
+        <Insets left="20.0" right="20.0"/>
+      </padding>
+    </Label>
+    <Pane prefHeight="165.0" prefWidth="27.0"/>
+    <ImageView fitHeight="165.0" fitWidth="213.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@/wpi-logo.png"/>
+    </ImageView>
+    <VBox.margin>
+      <Insets/>
+    </VBox.margin>
+  </HBox>
   <Label text="WPI Computer Science Department"/>
   <Label text="CS3733-D20 Software Engineering"/>
   <VBox alignment="CENTER" spacing="0">
