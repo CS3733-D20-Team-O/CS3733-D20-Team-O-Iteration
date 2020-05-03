@@ -108,8 +108,6 @@ public class NodeMapView extends ViewModelBase {
     nodeGroup.setPickOnBounds(false);
     edgeGroup.setPickOnBounds(false);
 
-    //backgroundImage.setFitWidth(990.4);
-    //backgroundImage.setFitHeight(594.4);
     backgroundImage.setImage(new Image("floors/1.png"));
 
     // Set up event for a scroll event
@@ -123,12 +121,12 @@ public class NodeMapView extends ViewModelBase {
 
     // Set up event for when the the background is clicked
     dummyLayer.setOnMousePressed(event -> {
-      if (event.getButton() == MouseButton.PRIMARY) { // Used for dragging
+      if (event.getButton().equals(MouseButton.PRIMARY)) { // Used for dragging
         System.out.println("NodeGroup Left Press");
         dragX = floorPane.getTranslateX() - event.getSceneX();
         dragY = floorPane.getTranslateY() - event.getSceneY();
       } else if (event.getButton()
-          == MouseButton.SECONDARY) { // Used for right click on the background
+          .equals(MouseButton.SECONDARY)) { // Used for right click on the background
         System.out.println("NodeGroup Right Press");
         val imageX = translateToImageX((int) event.getX());
         val imageY = translateToImageY((int) event.getY());
@@ -138,15 +136,35 @@ public class NodeMapView extends ViewModelBase {
 
     // Set up event for when the background is dragged
     dummyLayer.setOnMouseDragged(event -> {
-      if (event.getButton() == MouseButton.PRIMARY) {
+      if (event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("NodeGroup Left Drag");
-        floorPane.setTranslateX(event.getSceneX() + dragX);
-        floorPane.setTranslateY(event.getSceneY() + dragY);
+        if (checkXWithinBounds(event.getSceneX())) {
+          floorPane.setTranslateX(event.getSceneX() + dragX);
+        }
+        if (checkYWithinBounds(event.getSceneY())) {
+          floorPane.setTranslateY(event.getSceneY() + dragY);
+        }
       }
     });
 
     // Display the current floor (and consequently call the above listeners)
     Platform.runLater(() -> setFloor(minFloor));
+  }
+
+  private boolean checkXWithinBounds(double X) {
+    if (X + dragX > backgroundImage.getFitWidth() / 2) {
+      return false;
+    } else {
+      return !(X + dragX < 0 - (backgroundImage.getFitWidth() / 2));
+    }
+  }
+
+  private boolean checkYWithinBounds(double Y) {
+    if (dragY + Y > backgroundImage.getFitHeight() / 2) {
+      return false;
+    } else {
+      return !(dragY + Y < 0 - (backgroundImage.getFitHeight() / 2));
+    }
   }
 
   /**
@@ -249,32 +267,34 @@ public class NodeMapView extends ViewModelBase {
             + "]");
 
     drawnNode.setOnMousePressed(event -> {
-      if (onNodeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
+      if (onNodeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("Node Left Clicked");
         onNodeLeftTapListener.accept(drawnNode.node);
-      } else if (onNodeRightTapListener != null && event.getButton() == MouseButton.SECONDARY) {
+      } else if (onNodeRightTapListener != null && event.getButton()
+          .equals(MouseButton.SECONDARY)) {
         System.out.println("Node Right Clicked");
         onNodeRightTapListener.accept(drawnNode.node);
       }
     });
     drawnNode.setOnMouseDragged(event -> {
-      if (onNodeLeftDragListener != null && event.getButton() == MouseButton.PRIMARY) {
+      if (onNodeLeftDragListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("Node Left Dragged");
         onNodeLeftDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
             translateToImageY((int) event.getY()));
-      } else if (onNodeRightDragListener != null && event.getButton() == MouseButton.SECONDARY) {
+      } else if (onNodeRightDragListener != null && event.getButton()
+          .equals(MouseButton.SECONDARY)) {
         System.out.println("Node Right Dragged");
         onNodeRightDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
             translateToImageY((int) event.getY()));
       }
     });
     drawnNode.setOnMouseReleased(event -> {
-      if (onNodeLeftTapReleaseListener != null && event.getButton() == MouseButton.PRIMARY) {
+      if (onNodeLeftTapReleaseListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("Node Left Dragged End (Mod)");
         onNodeLeftTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
             translateToImageY((int) event.getY()));
       } else if (onNodeRightTapReleaseListener != null
-          && event.getButton() == MouseButton.SECONDARY) {
+          && event.getButton().equals(MouseButton.SECONDARY)) {
         System.out.println("Node Right Dragged End (Mod)");
         onNodeRightTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
             translateToImageY((int) event.getY()));
@@ -311,7 +331,7 @@ public class NodeMapView extends ViewModelBase {
       //System.out.println("Drawing an edge from (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
       drawnEdge.setOnMouseClicked(event -> {
-        if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
+        if (onEdgeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
           System.out.println("Edge Left Click");
           onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
         }
@@ -380,6 +400,7 @@ public class NodeMapView extends ViewModelBase {
   /**
    * Increments the current floor to the floor above
    */
+  @Deprecated
   public void incrementFloor() {
     setFloor(this.floor + 1);
   }
@@ -387,6 +408,7 @@ public class NodeMapView extends ViewModelBase {
   /**
    * Increments the current floor to the floor below
    */
+  @Deprecated
   public void decrementFloor() {
     setFloor(this.floor - 1);
   }
