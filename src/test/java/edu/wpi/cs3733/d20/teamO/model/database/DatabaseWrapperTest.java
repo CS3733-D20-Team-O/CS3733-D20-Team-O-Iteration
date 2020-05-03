@@ -7,11 +7,13 @@ import edu.wpi.cs3733.d20.teamO.model.TestInjector;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.SchedulerProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Scheduler;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
@@ -474,6 +476,114 @@ public class DatabaseWrapperTest {
     database.deleteFromTable(Table.SERVICE_REQUESTS_TABLE, ServiceRequestProperty.WHO_MARKED, "0");
     List<ServiceRequest> list = new LinkedList<>(); // tests empty list with database.export()
     assertEquals(list, database.exportServiceRequests());
+  }
+
+
+  //ALL THE SCHEDULER TESTS
+  @Test
+  public void addMultipleSchedulers() {
+    val id1 = database.addScheduler("01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    val id2 = database.addScheduler("02", "05:16:2020 21:00", "05:16:2020 23:00", "On Call");
+    val id3 = database.addScheduler("03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    Scheduler S1 = new Scheduler(id1, "01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    Scheduler S2 = new Scheduler(id2, "02", "05:16:2020 21:00", "05:16:2020 23:00", "On Call");
+    Scheduler S3 = new Scheduler(id3, "03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    Scheduler[] testSchedulers = {S1, S2, S3};
+    LinkedList<String> idList = new LinkedList<String>();
+    for (Scheduler s : database.exportScheduler()) {
+      idList.add(s.getSchedulerID());
+    }
+    for (Scheduler s : testSchedulers) {
+      assertTrue(idList.contains(s.getSchedulerID()));
+    }
+    assertEquals(3, database.exportScheduler().size());
+  }
+
+  @Test
+  public void addAndDeleteScheduler() {
+    val id1 = database.addScheduler("01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    val id2 = database.addScheduler("02", "05:16:2020 21:00", "05:16:2020 23:00", "On Call");
+    val id3 = database.addScheduler("03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    Scheduler S1 = new Scheduler(id1, "01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    Scheduler S3 = new Scheduler(id3, "03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    database.deleteFromTable(Table.SCHEDULER_TABLE, SchedulerProperty.SCHEDULER_ID, id2);
+    Scheduler[] testSchedulers = {S1, S3};
+    LinkedList<String> idList = new LinkedList<String>();
+    for (Scheduler s : database.exportScheduler()) {
+      idList.add(s.getSchedulerID());
+    }
+    for (Scheduler s : testSchedulers) {
+      assertTrue(idList.contains(s.getSchedulerID()));
+    }
+    assertEquals(2, database.exportScheduler().size());
+  }
+
+  @Test
+  public void failToDeleteScheduler() {
+    val id1 = database.addScheduler("01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    val id2 = database.addScheduler("02", "05:16:2020 21:00", "05:16:2020 23:00", "On Call");
+    val id3 = database.addScheduler("03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    Scheduler S1 = new Scheduler(id1, "01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    Scheduler S2 = new Scheduler(id2, "02", "05:16:2020 21:00", "05:16:2020 23:00", "On Call");
+    Scheduler S3 = new Scheduler(id3, "03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    Scheduler[] testSchedulers = {S1, S2, S3};
+    database.deleteFromTable(Table.SCHEDULER_TABLE, SchedulerProperty.SCHEDULER_ID, "89374562345");
+    LinkedList<String> idList = new LinkedList<String>();
+    for (Scheduler s : database.exportScheduler()) {
+      idList.add(s.getSchedulerID());
+    }
+    for (Scheduler s : testSchedulers) {
+      assertTrue(idList.contains(s.getSchedulerID()));
+    }
+    assertEquals(3, database.exportScheduler().size());
+  }
+
+  @Test
+  public void addManyAndUpdateScheduler() {
+    val id1 = database.addScheduler("01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    val id2 = database.addScheduler("02", "05:16:2020 21:00", "05:16:2020 23:00", "On Call");
+    val id3 = database.addScheduler("03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    Scheduler S1 = new Scheduler(id1, "01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    Scheduler S2 = new Scheduler(id2, "03", "05:16:2020 21:00", "05:16:2020 23:00", "On Call");
+    Scheduler S3 = new Scheduler(id3, "03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    database.update(Table.SCHEDULER_TABLE, SchedulerProperty.SCHEDULER_ID, id2,
+        SchedulerProperty.EMPLOYEE_ID, "03");
+    Scheduler[] testSchedulers = {S1, S2, S3};
+    LinkedList<String> idList = new LinkedList<String>();
+    for (Scheduler s : database.exportScheduler()) {
+      idList.add(s.getSchedulerID());
+    }
+    for (Scheduler s : testSchedulers) {
+      assertTrue(idList.contains(s.getSchedulerID()));
+    }
+    assertEquals(3, database.exportScheduler().size());
+  }
+
+  @Test
+  public void failUpdateScheduler() {
+    val id1 = database.addScheduler("01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    val id2 = database.addScheduler("02", "05:16:2020 21:00", "05:16:2020 23:00", "On Call");
+    val id3 = database.addScheduler("03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    Scheduler S1 = new Scheduler(id1, "01", "05:04:2020 21:00", "05:04:2020 21:00", "On Call");
+    Scheduler S2 = new Scheduler(id2, "03", "05:16:2020 21:00", "05:16:2020 23:00", "On Call");
+    Scheduler S3 = new Scheduler(id3, "03", "05:04:2020 21:00", "05:04:2020 21:00", "Reflection 3");
+    database.update(Table.SCHEDULER_TABLE, SchedulerProperty.SCHEDULER_ID, "75436542",
+        SchedulerProperty.EMPLOYEE_ID, "03");
+    Scheduler[] testSchedulers = {S1, S2, S3};
+    LinkedList<String> idList = new LinkedList<String>();
+    for (Scheduler s : database.exportScheduler()) {
+      idList.add(s.getSchedulerID());
+    }
+    for (Scheduler s : testSchedulers) {
+      assertTrue(idList.contains(s.getSchedulerID()));
+    }
+    assertEquals(3, database.exportScheduler().size());
+  }
+
+  @Test
+  public void exportEmptySchedulerTest() {
+    List<Scheduler> list = new LinkedList<>(); // tests empty list with database.export()
+    assertEquals(list, database.exportScheduler());
   }
 
   //TESTS FOR EMPLOYEE NAME TO ID METHOD
