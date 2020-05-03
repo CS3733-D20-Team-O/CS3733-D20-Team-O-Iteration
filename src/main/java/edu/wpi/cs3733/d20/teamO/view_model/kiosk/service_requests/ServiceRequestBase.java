@@ -21,7 +21,7 @@ public abstract class ServiceRequestBase extends Dialog.DialogViewModel {
   private Dialog dialog;
 
   @Deprecated
-  @Setter(onMethod_ = {@Deprecated})
+  @Setter
   private Predicate<Node> locationFilter = n -> true;
 
   @Deprecated
