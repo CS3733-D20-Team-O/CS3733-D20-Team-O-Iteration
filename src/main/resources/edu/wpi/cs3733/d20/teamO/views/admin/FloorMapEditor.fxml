@@ -327,6 +327,13 @@
                           style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
                      </children>
                   </VBox>
+                  <VBox fx:id="selectedNodesView" alignment="TOP_CENTER" spacing="8.0"
+                    visible="false">
+                     <children>
+                        <Label text="Nodes selected"/>
+                        <JFXListView prefHeight="200" fx:id="selectedNodesList"/>
+                     </children>
+                  </VBox>
                </children>
             </Group>
          </children>
