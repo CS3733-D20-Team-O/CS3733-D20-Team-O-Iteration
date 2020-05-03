@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.validation.RequiredFieldValidator;
+import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
@@ -30,7 +31,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-//import edu.wpi.cs3733.c20.teamR.*;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
@@ -58,7 +58,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @Getter
   private JFXButton lookupButton; // Used for clicks in testing
 
-  //private AppointmentRequest apiRequest;
+  private AppointmentRequest apiRequest;
 
 
   @Override
@@ -102,9 +102,16 @@ public class MainKioskViewModel extends ViewModelBase {
         "FloristDeliveryService.fxml");
     requests.put(getString("serviceSecurityDescription") + " - Jesus Barron",
         "SecurityService.fxml");
+    requests.put(getString("AppointmentServiceTitle"), "appointment");
     requests.keySet().stream().sorted().forEach(serviceSelector.getItems()::add);
     serviceSelector.getSelectionModel().selectedItemProperty().addListener(((o, old, desc) -> {
-      if (desc != null) {
+      if (desc != null && desc.toLowerCase().contains("appointment")) {
+        try {
+          AppointmentRequest.run(300, 300, 900, 750, "resources\\CSS\\default.css", null, null);
+        } catch (Exception e) {
+          log.error("Failed to open API", e);
+        }
+      } else if (desc != null) {
         try {
           dialog.showFullscreenFXML("views/kiosk/service_requests/" + requests.get(desc));
         } catch (IOException e) {
@@ -124,12 +131,6 @@ public class MainKioskViewModel extends ViewModelBase {
 
   @FXML
   private void openLoginDialog() {
-//    try{
-//      apiRequest.run(0, 0, 1000, 1000, "src/main/resources/CSS/default.css", null, null);
-//    }catch(Exception e){
-//      System.out.println(" i got here");
-//      e.printStackTrace();
-//    }
 
     val header = new Label("Login");
     header.setStyle("-fx-font-size: 24");
