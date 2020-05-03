@@ -20,7 +20,7 @@
             <JFXButton fx:id="decTimeButton" buttonType="RAISED" onAction="#changeHour"
               style="-fx-background-color: lightgray;" text="&lt;"/>
             <JFXTextField fx:id="durationField" alignment="CENTER" prefHeight="25.0"
-              prefWidth="68.0" promptText="0"/>
+              prefWidth="68.0" text="0"/>
             <JFXButton fx:id="incTimeButton" buttonType="RAISED" onAction="#changeHour"
               style="-fx-background-color: lightgray;" text="&gt;"/>
          </children>

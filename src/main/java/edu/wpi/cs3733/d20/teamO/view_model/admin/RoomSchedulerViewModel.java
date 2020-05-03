@@ -42,14 +42,42 @@ public class RoomSchedulerViewModel extends ServiceRequestBase {
 
   @FXML
   private void changeHour(ActionEvent button) {
-    Integer duration = 0;
-    if (button.getSource().getClass().equals("decTimeButton")) {
-      duration = Integer.parseInt(durationField.getText()) - 1;
-    } else {
-      duration = Integer.parseInt(durationField.getText()) + 1;
+    Integer duration = fixTime();
+    JFXButton pressedButton = (JFXButton) button.getSource();
+
+    System.out.println(pressedButton.getText());
+    if (duration == 0 && pressedButton.getText().equals(">")) {
+      System.out.println("0 and inc pressed");
+      duration = duration + 1;
+    } else if (duration == 24 && pressedButton.getText().equals("<")) {
+      System.out.println("24 and dec pressed");
+      duration = duration - 1;
+    } else if (duration > 0 && duration < 24) {
+      if (pressedButton.getText().equals("<")) {
+        System.out.println("dec pressed");
+        duration = duration - 1;
+        System.out.println(duration);
+      }
+      if (pressedButton.getText().equals(">")) {
+        System.out.println("inc pressed");
+        duration = duration + 1;
+        System.out.println(duration);
+      }
     }
 
+    System.out.println("end of method");
     durationField.setText(Integer.toString(duration));
+  }
+
+  private int fixTime() {
+    //if int <0 or >24, make 0, 24
+    int correctDuration = Integer.parseInt(durationField.getText());
+    if (correctDuration < 0) {
+      correctDuration = 0;
+    } else if (correctDuration > 24) {
+      correctDuration = 24;
+    }
+    return correctDuration;
   }
 
 }

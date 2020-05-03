@@ -81,5 +81,13 @@ class RoomSchedulerViewModelTest extends FxRobot {
   public void testIncrementButton() {
     verifyThat("0", javafx.scene.Node::isVisible);
     clickOn(">");
+    verifyThat("1", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testDecrementButton() {
+    verifyThat("0", javafx.scene.Node::isVisible);
+    clickOn("<");
+    verifyThat("0", javafx.scene.Node::isVisible);
   }
 }

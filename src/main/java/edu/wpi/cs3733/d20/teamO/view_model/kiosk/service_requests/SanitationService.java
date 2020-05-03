@@ -48,7 +48,7 @@ public class SanitationService extends ServiceRequestBase {
           ((JFXRadioButton) levelSelection.getSelectedToggle()).getText(),
           additionalNotes.getText());
       // Use the current time as a spill should be cleaned up immediately
-      val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd hh:mm a"));
+      val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"));
       // todo use enum for sanitation string below and extract strings to Strings.properties
       val confirmationCode = database.addServiceRequest(
           time, nodeSelector.getSelectedNode().getLongName(),
