@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="CENTER" spacing="0" style="-fx-padding: 32; -fx-font-size: 16;"
+  xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.AboutViewModel">
+  <Label contentDisplay="CENTER" style="-fx-font-size: 32" text="About" textAlignment="CENTER"/>
+  <Label text="WPI Computer Science Department"/>
+  <Label text="CS3733-D20 Software Engineering"/>
+  <VBox alignment="CENTER" spacing="0">
+    <Label text="Professor: Wilson Wong"/>
+    <Label text="Team Coach: Andrew Bonaventura"/>
+  </VBox>
+  <Pane prefHeight="26.0" prefWidth="539.0"/>
+  <Label text="Meet the Team:"/>
+  <HBox spacing="32">
+    <VBox alignment="CENTER" spacing="0">
+      <HBox spacing="32">
+        <VBox alignment="CENTER">
+          <Label text="Emily Austin (Scrum Master)"/>
+          <Label text="Collin Broderick (UI Graphics Engineer)"/>
+          <Label text="Gregory Conrad (Lead Software Engineer)"/>
+          <Label text="Mark Hogan (UI/Project Manager)"/>
+          <Label text="Michael Lai (Assistant Lead Software Engineer)"/>
+        </VBox>
+        <VBox alignment="CENTER">
+          <Label text="Jesus Barron (Algorithm Specialist)"/>
+          <Label text="James Casella (Algorithm Specialist)"/>
+          <Label text="Victoria Grasso (Database Engineer)"/>
+          <Label text="Benny Klaiman (UI Graphics Engineer)"/>
+          <Label text="Ryan Stebe (Algorithm Specialist)"/>
+        </VBox>
+      </HBox>
+    </VBox>
+  </HBox>
+  <Pane prefHeight="26.0" prefWidth="539.0"/>
+  <Label prefHeight="133.0" prefWidth="425.0"
+    text="Special thanks to Brigham and Women's Hospital and their representative, Andrew Shinn, for their time and input."
+    textAlignment="CENTER" wrapText="true"/>
+  <JFXButton fx:id="cancelButton" buttonType="RAISED" onAction="#closeWindow"
+    style="-fx-background-color: LIGHTGRAY;" text="Back"/>
+</VBox>
