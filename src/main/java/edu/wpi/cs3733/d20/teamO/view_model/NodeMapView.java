@@ -344,6 +344,13 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  public void deleteEdge(Edge edge) {
+    val target = findLine(edge);
+    if (target != null) {
+      edgeGroup.getChildren().remove(target);
+    }
+  }
+
   /*
   /**
    * Draws an edge (represented as a NodeLine) between the origin and the given nodes
@@ -468,6 +475,18 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  public void setNodeColor(Paint color) {
+    this.nodeColor = color;
+  }
+
+  public void setEdgeColor(Paint color) {
+    this.edgeColor = color;
+  }
+
+  public void setHighlightColor(Paint color) {
+    this.highlightColor = color;
+  }
+
   /**
    * Allows to set the size of drawn nodes (note: cannot resize edges once they are placed on the
    * map)
@@ -489,35 +508,40 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
-   * Allows for the given node to be relocated
+   * Allows for the given node to be relocated (using an updated node)
    *
-   * @param node the node to be relocated
-   * @param x    the new x location
-   * @param y    the new y location
+   * @param oldNode the old node
+   * @param newNode the new node
    */
-  public void relocateNode(Node node, double x, double y) {
-    val floor = nodeMap.get(node.getFloor());
+  public void relocateNode(Node oldNode, Node newNode) {
+    val floor = nodeMap.get(oldNode.getFloor());
     if (floor != null) {
-      floor.remove(node.getNodeID());
-      Node newNode = new Node(node.getNodeID(), node.getXCoord(),
-          node.getYCoord(), node.getFloor(), node.getBuilding(),
-          node.getNodeType(), node.getLongName(), node.getShortName());
-      floor.put(node.getNodeID(), newNode);
+      floor.remove(oldNode.getNodeID());
+      floor.put(newNode.getNodeID(), newNode);
       //System.out.println("Updated node");
     }
 
-    val nodeCircle = findNode(node);
+    val nodeCircle = findNode(oldNode);
+    nodeCircle.node = newNode;
     if (nodeCircle != null) {
       //System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
       //System.out.println("Circle properties: At X: [" + x + "] At Y: [" + y + "]");
-      nodeCircle.setCenterX(translateToPaneX((int) x));
-      nodeCircle.setCenterY(translateToPaneY((int) y));
+      nodeCircle.setCenterX(translateToPaneX(newNode.getXCoord()));
+      nodeCircle.setCenterY(translateToPaneY(newNode.getYCoord()));
     }
   }
 
   public void relocateEdge(Node n1, Node n2) {
     val floor = nodeMap.get(n1.getFloor());
     if (floor != null && n1.getFloor() == n2.getFloor()) {
+      val nodeLine = findLine(n1, n2);
+      if (nodeLine != null) {
+        nodeLine.setStartX(translateToPaneX(n1.getXCoord()));
+        nodeLine.setStartY(translateToPaneY(n1.getYCoord()));
+
+        nodeLine.setEndX(translateToPaneX(n2.getXCoord()));
+        nodeLine.setEndY(translateToPaneY(n2.getYCoord()));
+      }
       //val nodeLine = findLine();
     }
   }
@@ -559,9 +583,23 @@ public class NodeMapView extends ViewModelBase {
   /**
    * Find a NodeLine that an edge is represented by
    *
-   * @param edge the given edge
+   * @param n1 the starting node
+   * @param n2 the ending node
    * @return the NodeLine that node refers to (or null if no NodeLine is found)
    */
+  private NodeLine findLine(Node n1, Node n2) {
+    for (val child : edgeGroup.getChildren()) {
+      val nodeLine = (NodeLine) child;
+      if ((nodeLine.node1.getNodeID().equals(n1.getNodeID()) &&
+          nodeLine.node2.getNodeID().equals(n2.getNodeID())) ||
+          nodeLine.node1.getNodeID().equals(n2.getNodeID()) &&
+              nodeLine.node2.getNodeID().equals(n1.getNodeID())) {
+        return nodeLine;
+      }
+    }
+    return null;
+  }
+
   private NodeLine findLine(Edge edge) {
     for (val child : edgeGroup.getChildren()) {
       val nodeLine = (NodeLine) child;
