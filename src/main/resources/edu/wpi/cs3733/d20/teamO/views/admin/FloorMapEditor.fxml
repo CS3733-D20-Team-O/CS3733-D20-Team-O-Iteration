@@ -206,7 +206,14 @@
                         </GridPane>
                         <HBox alignment="CENTER" spacing="8.0"/>
                         <JFXButton buttonType="RAISED" onAction="#deletePressed"
-                          style="-fx-background-color: LIGHTGREY;" text="Delete edge"/>
+                          style="-fx-background-color: LIGHTGREY;" text="Delete edge">
+                           <graphic>
+                              <ImageView fitHeight="16" pickOnBounds="true"
+                                preserveRatio="true">
+                                 <Image url="@/baseline_delete_black_18dp.png"/>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                         <JFXButton buttonType="RAISED" onAction="#cancelPressed"
                           style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
                      </children>
@@ -332,6 +339,23 @@
                      <children>
                         <Label text="Selected nodes"/>
                         <JFXListView prefHeight="200" fx:id="selectedNodesList"/>
+                        <HBox alignment="TOP_CENTER" spacing="8.0">
+                           <children>
+                              <JFXButton buttonType="RAISED"
+                                style="-fx-background-color: LIGHTGREY;" text="Align nodes"
+                                onAction="#alignNodes"/>
+                              <JFXButton buttonType="RAISED"
+                                style="-fx-background-color: LIGHTGREY;" text="Delete all"
+                                onAction="#deletePressed">
+                                 <graphic>
+                                    <ImageView fitHeight="16" pickOnBounds="true"
+                                      preserveRatio="true">
+                                       <Image url="@/baseline_delete_black_18dp.png"/>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </HBox>
                         <JFXButton buttonType="RAISED" onAction="#cancelPressed"
                           style="-fx-background-color: LIGHTGREY;" text="Cancel"/>
                      </children>
