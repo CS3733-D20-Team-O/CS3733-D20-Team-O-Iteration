@@ -124,9 +124,19 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         setState(State.DRAGGING);
         //int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
         //int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
-        nodeMapViewController.relocateNode(node, x, y);
-        nodeMapViewController.clearEdge();
-        drawEdges();
+        database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
+            NodeProperty.X_COORD, Integer.toString(x));
+        database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode1.getNodeID(),
+            NodeProperty.Y_COORD, Integer.toString(y));
+        exportDatabase();
+        val newNode = nodeMap.get(node.getNodeID());
+        nodeMapViewController.relocateNode(node, newNode);
+        //nodeMapViewController.clearEdge();
+        //drawEdges();
+
+        for (Node nodeItem : newNode.getNeighbors()) {
+          nodeMapViewController.relocateEdge(newNode, nodeItem);
+        }
       }
     });
     nodeMapViewController
