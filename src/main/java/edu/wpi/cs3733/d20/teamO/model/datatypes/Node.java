@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.d20.teamO.model.datatypes;
 
 import java.util.LinkedList;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.With;
@@ -9,6 +11,7 @@ import lombok.With;
  * Represents a Node and its associated data
  */
 @Value
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(exclude = "neighbors") // exclude neighbors to prevent StackOverflow
 public class Node {
 
