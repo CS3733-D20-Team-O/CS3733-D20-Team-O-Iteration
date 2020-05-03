@@ -79,7 +79,7 @@
             <Group>
                <children>
                   <VBox fx:id="nodeSelectView" alignment="TOP_CENTER" prefWidth="250.0"
-                    spacing="8.0" visible="false">
+                    spacing="8.0">
                      <children>
                         <GridPane hgap="12.0" prefWidth="0.0" vgap="12.0">
                            <columnConstraints>
@@ -97,14 +97,14 @@
                               <Label text="Node category"/>
                               <Label text="Short name" GridPane.rowIndex="1"/>
                               <Label text="Long name" GridPane.rowIndex="2"/>
-                              <JFXTextField fx:id="shortNameField" GridPane.columnIndex="1"
-                                GridPane.rowIndex="1">
+                              <JFXTextField fx:id="shortNameField" onKeyTyped="#markNodeChangesMade"
+                                GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
                                  </validators>
                               </JFXTextField>
-                              <JFXTextField fx:id="longNameField" GridPane.columnIndex="1"
-                                GridPane.rowIndex="2">
+                              <JFXTextField fx:id="longNameField" onKeyTyped="#markNodeChangesMade"
+                                GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
                                  </validators>
@@ -130,9 +130,10 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton buttonType="RAISED" onAction="#saveNodeChangesPressed"
-                                ripplerFill="#00BB00" style="-fx-background-color: LIGHTGREY;"
-                                text="Save changes">
+                              <JFXButton fx:id="saveNodeChangesBtn" buttonType="RAISED"
+                                onAction="#saveNodeChangesPressed" ripplerFill="#00BB00"
+                                style="-fx-background-color: LIGHTGREY;" text="Save changes"
+                                disable="true">
                                  <graphic>
                                     <ImageView fitHeight="16" pickOnBounds="true"
                                       preserveRatio="true">
@@ -270,7 +271,7 @@
                      </children>
                   </VBox>
                   <VBox fx:id="addEdgeView" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0"
-                    spacing="8.0">
+                    spacing="8.0" visible="false">
                      <children>
                         <Label text="Left-click to select a destination node"/>
                         <GridPane hgap="8.0" vgap="8.0">
