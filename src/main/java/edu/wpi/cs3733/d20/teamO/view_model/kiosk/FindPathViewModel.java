@@ -4,23 +4,30 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
+import edu.wpi.cs3733.d20.teamO.model.WebApp;
+import edu.wpi.cs3733.d20.teamO.model.WebApp.Step;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +56,7 @@ public class FindPathViewModel extends ViewModelBase {
   private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
+  private final Dialog dialog;
 
   private final SelectedPathFinder pathFinder;
 
@@ -126,7 +134,6 @@ public class FindPathViewModel extends ViewModelBase {
     finish = defaultStop;
     stopLocation.clear();
     startLocation.clear();
-    //TODO fix getting rid of the pop up
     nodeMapViewController.draw();
   }
 
@@ -185,5 +192,52 @@ public class FindPathViewModel extends ViewModelBase {
       startLocation.setNodes(nodeMap.values());
       stopLocation.setNodes(nodeMap.values());
     }
+  }
+
+  @FXML
+  public void generateQR(ActionEvent actionEvent) {
+    val steps = generateTextInstructions();
+    steps.get(0).getNodes().addAll(database.exportNodes().values().stream()
+        .filter(node -> node.getFloor() == 1 && node.getLongName().toLowerCase().contains("b"))
+        .collect(Collectors.toList()));
+    dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(steps))));
+  }
+
+  private ArrayList<Step> generateTextInstructions() {
+    val steps = new ArrayList<Step>();
+    List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    for (Node n : nodes) {
+      
+    }
+    for (int i = 0; i < nodes.size() - 1; i++) {
+      int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
+      int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
+      if (x < 0 && y == 0) {
+        steps.add(new Step("Go West", nodes, nodes.get(i).getFloor()));
+      } else if (x > 0 && y == 0) {
+        steps.add(new Step("Go East", nodes, nodes.get(i).getFloor()));
+      } else if (x == 0 && y < 0) {
+        steps.add(new Step("Go South", nodes, nodes.get(i).getFloor()));
+      } else if (x == 0 && y > 0) {
+        steps.add(new Step("Go North", nodes, nodes.get(i).getFloor()));
+      } else if (x > 0 && y < 0) {
+        steps.add(new Step("Go South East", nodes, nodes.get(i).getFloor()));
+      } else if (x < 0 && y > 0) {
+        steps.add(new Step("Go North East", nodes, nodes.get(i).getFloor()));
+      } else if (x > 0 && y > 0) {
+        steps.add(new Step("Go North West", nodes, nodes.get(i).getFloor()));
+      } else if (x < 0 && y < 0) {
+        steps.add(new Step("Go South West", nodes, nodes.get(i).getFloor()));
+      } else {
+        steps.add(
+            new Step("Go to Floor " + nodes.get(i + 1).getFloor(), nodes, nodes.get(i).getFloor()));
+      }
+
+      if (i + 1 == nodes.size() - 1) {
+        steps.add(new Step("You have arrived ", new ArrayList<>(), nodes.get(i).getFloor()));
+      }
+    }
+
+    return steps;
   }
 }

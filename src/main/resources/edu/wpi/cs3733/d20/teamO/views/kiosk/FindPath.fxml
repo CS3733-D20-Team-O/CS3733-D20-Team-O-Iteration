@@ -80,7 +80,7 @@
           </children>
         </VBox>
         <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="373.0" onAction="#resetPath"
-          style="-fx-background-color: lightgray;" text="Clear"/>
+          style="-fx-background-color: lightgray" text="Clear"/>
         <NodeSelector fx:id="startLocation" promptText="%nodeSelectorPromptText" layoutX="14.0"
           layoutY="154.0">
           <validators>
@@ -98,6 +98,8 @@
         <JFXToggleButton fx:id="handicap" layoutX="14.0" layoutY="452.0"
           onAction="#switchAccessibility" prefHeight="29.0" prefWidth="190.0"
           text="%pathFindHandicap"/>
+        <JFXButton buttonType="RAISED" text="Generate QR" layoutX="20.0" layoutY="300.0"
+          onAction="#generateQR" style="-fx-background-color: lightgray"/>
       </children>
     </AnchorPane>
   </left>
