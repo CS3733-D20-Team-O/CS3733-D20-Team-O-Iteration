@@ -103,19 +103,25 @@
         <HBox alignment="CENTER" layoutX="15.0" layoutY="534.0" prefHeight="40.0" prefWidth="186.0"
           spacing="10.0">
           <children>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
-              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+            <JFXButton fx:id="floor1" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
+              prefWidth="30.0"
+              style="-fx-background-color: lightseagreen; -fx-background-radius: 30;"
               text="1"/>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
+            <JFXButton fx:id="floor2" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
               prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
               text="2"/>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
+            <JFXButton fx:id="floor3" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
               prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
               text="3"/>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
+            <JFXButton fx:id="floor4" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
               prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
               text="4"/>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
+            <JFXButton fx:id="floor5" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
               prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
               text="5"/>
           </children>

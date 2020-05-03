@@ -53,6 +53,8 @@ public class FindPathViewModel extends ViewModelBase {
   private NodeSelector startLocation, stopLocation;
   @FXML
   private JFXToggleButton handicap;
+  @FXML
+  private JFXButton floor1, floor2, floor3, floor4, floor5;
 
   private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
@@ -246,6 +248,13 @@ public class FindPathViewModel extends ViewModelBase {
 
   @FXML
   private void buttonSwitchFloor(ActionEvent e) {
+    floor1.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+    floor2.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+    floor3.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+    floor4.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+    floor5.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+    ((JFXButton) e.getSource())
+        .setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
     int newFloor = Integer.parseInt(((JFXButton) e.getSource()).getText());
     int currentFloor = Integer.parseInt(floorLabel.getText().stripLeading());
     while (currentFloor != newFloor) {
