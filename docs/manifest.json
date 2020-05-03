@@ -1,6 +1,6 @@
 {
-    "name": "hospitalkioskweb",
-    "short_name": "hospitalkioskweb",
+    "name": "Brigham and Women's Path Finding",
+    "short_name": "Path Finder",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",
@@ -17,6 +17,11 @@
         {
             "src": "icons/Icon-512.png",
             "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "favicon.png",
+            "sizes": "1200x1400",
             "type": "image/png"
         }
     ]
