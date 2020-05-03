@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -38,7 +40,12 @@
                     <Font size="18.0"/>
                   </font>
                 </JFXButton>
-                <Label fx:id="floorLabel" prefHeight="22.0" text="Floor 1">
+                <Label prefHeight="22.0" text="%pathFindFloor">
+                  <font>
+                    <Font size="18.0"/>
+                  </font>
+                </Label>
+                <Label fx:id="floorLabel" prefHeight="22.0" text=" 1">
                   <font>
                     <Font size="18.0"/>
                   </font>
@@ -73,20 +80,52 @@
           </children>
         </VBox>
         <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="373.0" onAction="#resetPath"
-          style="-fx-background-color: lightgray;" text="Clear"/>
-        <JFXComboBox fx:id="startFloor" layoutX="14.0" layoutY="154.0" prefHeight="25.0"
-          prefWidth="59.0" promptText="Floor"/>
-        <JFXComboBox fx:id="startRoom" layoutX="86.0" layoutY="154.0" onAction="#onStartCombo"
-          prefHeight="25.0" prefWidth="110.0" promptText="Room"/>
-        <JFXComboBox fx:id="stopFloor" layoutX="18.0" layoutY="250.0" promptText="Floor"/>
-        <JFXComboBox fx:id="stopRoom" layoutX="90.0" layoutY="250.0" onAction="#onStopCombo"
-          prefHeight="25.0" prefWidth="110.0" promptText="Room"/>
-        <Label layoutX="18.0" layoutY="129.0" text="Start Location"/>
-        <Label layoutX="18.0" layoutY="233.0" text="Stop Location"/>
-        <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="193.0" onAction="#setStart"
-          style="-fx-background-color: lightgray;" text="Click Start"/>
-        <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="301.0" onAction="#setEnd"
-          style="-fx-background-color: lightgray;" text="Click End"/>
+          style="-fx-background-color: lightgray" text="Clear"/>
+        <NodeSelector fx:id="startLocation" promptText="%nodeSelectorPromptText" layoutX="14.0"
+          layoutY="154.0">
+          <validators>
+            <NodeRequiredValidator message="%pathFindNodeError"/>
+          </validators>
+        </NodeSelector>
+        <NodeSelector fx:id="stopLocation" promptText="%nodeSelectorPromptText" layoutX="18.0"
+          layoutY="250.0">
+          <validators>
+            <NodeRequiredValidator message="%pathFindNodeError"/>
+          </validators>
+        </NodeSelector>
+        <Label layoutX="18.0" layoutY="129.0" text="%pathFindStart"/>
+        <Label layoutX="18.0" layoutY="233.0" text="%pathFindStop"/>
+        <JFXToggleButton fx:id="handicap" layoutX="14.0" layoutY="452.0"
+          onAction="#switchAccessibility" prefHeight="29.0" prefWidth="190.0"
+          text="%pathFindHandicap"/>
+        <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="300.0" onAction="#generateQR"
+          style="-fx-background-color: lightgray" text="Generate QR"/>
+        <HBox alignment="CENTER" layoutX="15.0" layoutY="534.0" prefHeight="40.0" prefWidth="186.0"
+          spacing="10.0">
+          <children>
+            <JFXButton fx:id="floor1" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
+              prefWidth="30.0"
+              style="-fx-background-color: lightseagreen; -fx-background-radius: 30;"
+              text="1"/>
+            <JFXButton fx:id="floor2" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="2"/>
+            <JFXButton fx:id="floor3" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="3"/>
+            <JFXButton fx:id="floor4" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="4"/>
+            <JFXButton fx:id="floor5" onAction="#buttonSwitchFloor" buttonType="RAISED"
+              prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="5"/>
+          </children>
+        </HBox>
       </children>
     </AnchorPane>
   </left>
