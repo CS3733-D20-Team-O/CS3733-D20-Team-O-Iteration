@@ -6,6 +6,7 @@ import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Scheduler;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import java.util.List;
@@ -121,6 +122,17 @@ public interface DatabaseWrapper {
   int addEmployee(String employeeID, String name, String type, boolean isAvailable);
 
   /**
+   * Adds the specified scheduler request to the database with auto-generated ID
+   *
+   * @param employeeID the id of the employee
+   * @param startTime  the start time for the scheduled room
+   * @param endTime    the end time for the scheduled room
+   * @param roomType   the type of the room scheduled
+   * @return the confirmation ID
+   */
+  String addScheduler(String employeeID, String startTime, String endTime, String roomType);
+
+  /**
    * Deletes record(s) (example: a node or edge) from the specified table
    *
    * @param table    the table to delete the record(s) from
@@ -177,6 +189,11 @@ public interface DatabaseWrapper {
    * @return a list of the employees this database contains
    */
   List<Employee> exportEmployees();
+
+  /**
+   * @return a list of the scheduler information this database contains
+   */
+  List<Scheduler> exportScheduler();
 
   /**
    * @param id the id of an Employee

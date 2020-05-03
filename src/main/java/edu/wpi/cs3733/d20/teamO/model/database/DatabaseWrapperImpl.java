@@ -5,12 +5,14 @@ import com.google.inject.Inject;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.SchedulerProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Scheduler;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ExternalTransportationRequestData;
@@ -151,6 +153,23 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         log.info("Table " + Table.SERVICE_REQUESTS_TABLE + " created");
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
+      }
+    }
+
+    // Initialize the scheduler table if not initialized
+    if (isNotInitialized(Table.SCHEDULER_TABLE)) {
+      try (val stmt = connection.createStatement()) {
+        String query = "CREATE TABLE " + Table.SCHEDULER_TABLE
+            + "(" + SchedulerProperty.SCHEDULER_ID.getColumnName() + " VARCHAR(999), "
+            + SchedulerProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(999), "
+            + SchedulerProperty.START_TIME.getColumnName() + " VARCHAR(999), "
+            + SchedulerProperty.END_TIME.getColumnName() + " VARCHAR(999), "
+            + SchedulerProperty.ROOM_TYPE.getColumnName() + " VARCHAR(999), "
+            + "PRIMARY KEY (" + SchedulerProperty.SCHEDULER_ID.getColumnName() + "))";
+        stmt.execute(query);
+        log.info("Table " + Table.SCHEDULER_TABLE + " created");
+      } catch (SQLException e) {
+        log.error("Failed to initialize " + Table.SCHEDULER_TABLE, e);
       }
     }
   }
@@ -313,6 +332,31 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
+  @Override
+  public String addScheduler(String employeeID, String startTime, String endTime, String roomType) {
+    val schedules = exportScheduler().stream()
+        .map(Scheduler::getSchedulerID)
+        .map(Integer::parseInt)
+        .collect(Collectors.toSet());
+    for (int i = 1; true; ++i) {
+      if (!schedules.contains(i)) {
+        val query =
+            "INSERT into " + Table.SCHEDULER_TABLE.getTableName() + " VALUES (?, ?, ?, ?, ?)";
+        try (val stmt = connection.prepareStatement(query)) {
+          stmt.setString(1, Integer.toString(i));
+          stmt.setString(2, employeeID);
+          stmt.setString(3, startTime);
+          stmt.setString(4, endTime);
+          stmt.setString(5, roomType);
+          stmt.executeUpdate();
+          log.info("Added schedule with ID " + i);
+        } catch (SQLException e) {
+          log.error("Failed to add a new schedule with ID " + i, e);
+        }
+        return Integer.toString(i);
+      }
+    }
+  }
 
   @Override
   public int deleteFromTable(Table table, TableProperty property, String matching) {
@@ -523,6 +567,24 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       log.error("Failed to export employees", e);
     }
     return employees;
+  }
+
+  @Override
+  public List<Scheduler> exportScheduler() {
+    val schedules = new LinkedList<Scheduler>();
+    val query = "SELECT * from " + Table.SCHEDULER_TABLE;
+    try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
+      while (rset.next()) {
+        schedules.add(new Scheduler(rset.getString(1),
+            rset.getString(2),
+            rset.getString(3),
+            rset.getString(4),
+            rset.getString(5)));
+      }
+    } catch (SQLException e) {
+      log.error("Failed to export schedules", e);
+    }
+    return schedules;
   }
 
   @Override
