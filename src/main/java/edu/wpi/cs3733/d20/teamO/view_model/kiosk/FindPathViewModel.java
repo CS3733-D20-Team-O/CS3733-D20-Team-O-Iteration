@@ -18,6 +18,7 @@ import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -109,9 +110,7 @@ public class FindPathViewModel extends ViewModelBase {
     //create the map of nodes without edges
     for (Node node : nodeMap.values()) {
       if (!node.getNodeType().equals("STAI")) {
-        Node newNode = new Node(node.getNodeID(), node.getXCoord(), node.getYCoord(),
-            node.getFloor(), node.getBuilding(), node.getNodeType(),
-            node.getLongName(), node.getShortName());
+        val newNode = node.withNeighbors(new LinkedList<>());
         handicapMap.put(newNode.getNodeID(), newNode);
       }
     }
