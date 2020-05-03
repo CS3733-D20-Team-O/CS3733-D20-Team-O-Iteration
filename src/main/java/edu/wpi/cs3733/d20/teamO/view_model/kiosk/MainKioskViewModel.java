@@ -156,12 +156,13 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   private void openAbout() {
     try {
-      dialog.showFXML(container, "views/kiosk/About.fxml");
+      dialog.showFullscreenFXML("views/kiosk/About.fxml");
     } catch (IOException e) {
       log.error("Could not load the about page", e);
     }
   }
 
+  @FXML
   private void openAdminDialog() {
     try {
       dialog.showFXML(container, "views/admin/Main.fxml");

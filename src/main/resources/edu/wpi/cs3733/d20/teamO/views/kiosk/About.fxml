@@ -62,6 +62,6 @@
   <Label prefHeight="133.0" prefWidth="425.0"
     text="Special thanks to Brigham and Women's Hospital and their representative, Andrew Shinn, for their time and input."
     textAlignment="CENTER" wrapText="true"/>
-  <JFXButton fx:id="cancelButton" buttonType="RAISED" onAction="#closeWindow"
+  <JFXButton buttonType="RAISED" onAction="#close"
     style="-fx-background-color: LIGHTGRAY;" text="Back"/>
 </VBox>
