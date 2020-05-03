@@ -30,6 +30,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+//import edu.wpi.cs3733.c20.teamR.*;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
@@ -57,8 +58,12 @@ public class MainKioskViewModel extends ViewModelBase {
   @Getter
   private JFXButton lookupButton; // Used for clicks in testing
 
+  //private AppointmentRequest apiRequest;
+
+
   @Override
   protected void start(URL location, ResourceBundle resources) {
+
     // Set UI properties not set in FXML
     JFXDepthManager.setDepth(welcomeBar, 2);
     JFXDepthManager.setDepth(contentContainer, 3);
@@ -119,6 +124,13 @@ public class MainKioskViewModel extends ViewModelBase {
 
   @FXML
   private void openLoginDialog() {
+//    try{
+//      apiRequest.run(0, 0, 1000, 1000, "src/main/resources/CSS/default.css", null, null);
+//    }catch(Exception e){
+//      System.out.println(" i got here");
+//      e.printStackTrace();
+//    }
+
     val header = new Label("Login");
     header.setStyle("-fx-font-size: 24");
     val username = new JFXTextField();
