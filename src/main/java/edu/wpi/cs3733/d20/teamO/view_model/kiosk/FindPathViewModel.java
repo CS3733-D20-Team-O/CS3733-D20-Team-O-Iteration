@@ -4,13 +4,13 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
-import edu.wpi.cs3733.d20.teamO.model.WebApp;
-import edu.wpi.cs3733.d20.teamO.model.WebApp.Step;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
+import edu.wpi.cs3733.d20.teamO.model.network.WebApp;
+import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -201,41 +201,55 @@ public class FindPathViewModel extends ViewModelBase {
     steps.get(0).getNodes().addAll(database.exportNodes().values().stream()
         .filter(node -> node.getFloor() == 1 && node.getLongName().toLowerCase().contains("b"))
         .collect(Collectors.toList()));
-    dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(steps))));
+    try {
+      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(steps))));
+    } catch (Exception e) {
+      System.out.println("exception happened for qr making");
+    }
+
   }
 
   private ArrayList<Step> generateTextInstructions() {
     val steps = new ArrayList<Step>();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
-//    for (Node n : nodes) {
-//
-//    }
+    List<Node> floor = new ArrayList<>();
+    String stepMessage = "";
     for (int i = 0; i < nodes.size() - 1; i++) {
+      if (i == 0) {
+        floor.add(nodes.get(i));
+      } else if (nodes.get(i).getFloor() == nodes.get(i - 1).getFloor()) {
+        floor.add(nodes.get(i));
+      } else {
+        stepMessage = "";
+        floor.clear();
+        floor.add(nodes.get(i));
+      }
       int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
       int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
       if (x < 0 && y == 0) {
-        steps.add(new Step("Go West", nodes, nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("Go West\n");
       } else if (x > 0 && y == 0) {
-        steps.add(new Step("Go East", nodes, nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("Go East\n");
       } else if (x == 0 && y < 0) {
-        steps.add(new Step("Go South", nodes, nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("Go South\n");
       } else if (x == 0 && y > 0) {
-        steps.add(new Step("Go North", nodes, nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("Go North\n");
       } else if (x > 0 && y < 0) {
-        steps.add(new Step("Go South East", nodes, nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("Go South East\n");
       } else if (x < 0 && y > 0) {
-        steps.add(new Step("Go North East", nodes, nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("Go North East\n");
       } else if (x > 0 && y > 0) {
-        steps.add(new Step("Go North West", nodes, nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("Go North West\n");
       } else if (x < 0 && y < 0) {
-        steps.add(new Step("Go South West", nodes, nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("Go South West\n");
       } else {
-        steps.add(
-            new Step("Go to Floor " + nodes.get(i + 1).getFloor(), nodes, nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("Go to Floor " + nodes.get(i + 1).getFloor());
+        steps.add(new Step(stepMessage, floor, nodes.get(i).getFloor()));
       }
 
       if (i + 1 == nodes.size() - 1) {
-        steps.add(new Step("You have arrived ", new ArrayList<>(), nodes.get(i).getFloor()));
+        stepMessage = stepMessage.concat("You have arrived");
+        steps.add(new Step(stepMessage, floor, nodes.get(i).getFloor()));
       }
     }
 
