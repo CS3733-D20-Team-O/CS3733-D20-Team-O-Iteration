@@ -11,9 +11,6 @@ public class FloorSelector extends ViewModelBase {
   @FXML
   private JFXButton floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn;
 
-  public FloorSelector() {
-  }
-
   /**
    * Sets the floor of the application
    */
