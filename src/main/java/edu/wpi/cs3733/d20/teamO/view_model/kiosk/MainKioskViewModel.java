@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.validation.RequiredFieldValidator;
+import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
@@ -59,6 +60,7 @@ public class MainKioskViewModel extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+
     // Set UI properties not set in FXML
     JFXDepthManager.setDepth(welcomeBar, 2);
     JFXDepthManager.setDepth(contentContainer, 3);
@@ -97,9 +99,21 @@ public class MainKioskViewModel extends ViewModelBase {
         "FloristDeliveryService.fxml");
     requests.put(getString("serviceSecurityDescription") + " - Jesus Barron",
         "SecurityService.fxml");
+    requests.put(getString("AppointmentServiceTitle"), "appointment");
     requests.keySet().stream().sorted().forEach(serviceSelector.getItems()::add);
     serviceSelector.getSelectionModel().selectedItemProperty().addListener(((o, old, desc) -> {
-      if (desc != null) {
+      if (desc == null) {
+        return;
+      }
+
+      if (desc.equals(getString("AppointmentServiceTitle"))) {
+        try {
+          AppointmentRequest.run(300, 300, 900, 750,
+              this.getClass().getResource("/CSS/default.css").toExternalForm(), null, null);
+        } catch (Exception e) {
+          log.error("Failed to open API", e);
+        }
+      } else {
         try {
           dialog.showFullscreenFXML("views/kiosk/service_requests/" + requests.get(desc));
         } catch (IOException e) {
@@ -119,6 +133,7 @@ public class MainKioskViewModel extends ViewModelBase {
 
   @FXML
   private void openLoginDialog() {
+
     val header = new Label("Login");
     header.setStyle("-fx-font-size: 24");
     val username = new JFXTextField();
