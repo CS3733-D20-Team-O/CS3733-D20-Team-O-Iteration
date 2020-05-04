@@ -1,12 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
-import com.jfoenix.controls.JFXButton;
-import javafx.fxml.FXML;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog.DialogViewModel;
 
-
-public class AboutViewModel {
-
-  @FXML
-  private JFXButton cancelButton;
+public class AboutViewModel extends DialogViewModel {
 
 }
