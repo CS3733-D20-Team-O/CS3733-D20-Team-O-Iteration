@@ -1,36 +1,23 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSlider;
-import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
-import edu.wpi.cs3733.d20.teamO.events.Event;
-import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
-import edu.wpi.cs3733.d20.teamO.model.WebApp;
-import edu.wpi.cs3733.d20.teamO.model.WebApp.Step;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
-import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
-import edu.wpi.cs3733.d20.teamO.view_model.FloorSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
@@ -39,10 +26,18 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FindPathViewModel extends ViewModelBase {
 
+  private enum State {
+    START,
+    END,
+    DRAWN,
+    COMBO_START,
+    COMBO_STOP
+  }
+
+  private State currentState = State.START;
+
   @FXML
   private BorderPane root;
-  @FXML
-  private FloorSelector floorSelectorController;
   @FXML
   private Pane clipper;
   @FXML
@@ -53,16 +48,16 @@ public class FindPathViewModel extends ViewModelBase {
   private Label floorLabel;
   @FXML
   private JFXSlider zoomSlider;
-  @FXML
-  private NodeSelector startLocation, stopLocation;
-  @FXML
-  private JFXToggleButton handicap;
 
-  private Map<String, Node> nodeMap, handicapMap;
+  @FXML
+  private JFXComboBox<String> startRoom, stopRoom;
+
+  @FXML
+  private JFXComboBox<Integer> startFloor, stopFloor;
+
+  private Map<String, Node> nodeMap;
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
-  private final Dialog dialog;
-
 
   private final SelectedPathFinder pathFinder;
 
@@ -75,7 +70,6 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    floorSelectorController.setNodeMapViewController(nodeMapViewController);
     val clipRect = new Rectangle();
     clipRect.widthProperty().bind(clipper.widthProperty());
     clipRect.heightProperty().bind(clipper.heightProperty());
@@ -83,51 +77,60 @@ public class FindPathViewModel extends ViewModelBase {
 
     JFXDepthManager.setDepth(sideBar, 2);
     nodeMap = database.exportNodes();
-    handicapMap = new HashMap<String, Node>();
-    createHandicap();
-    defaultStart = (Node) nodeMap.values().toArray()[0];
-    defaultStop = (Node) nodeMap.values().toArray()[0];
-    beginning = defaultStart;
-    finish = defaultStop;
-
-    startLocation.setOnNodeSelectedListener(node -> {
-      nodeMapViewController.deleteNode(beginning);
-      beginning = node;
-      nodeMapViewController.draw();
-      drawPath();
+    nodeMapViewController.setNodeMap(nodeMap);
+    defaultStart = nodeMap.get("AEXIT00101");
+    defaultStop = nodeMap.get("AEXIT00101");
+    //TODO fix start and stop to not die when node is deleted
+    nodeMapViewController.setOnNodeLeftTapListener(node -> {
+      switch (currentState) {
+        case START:
+          beginning = node;
+          startFloor.getSelectionModel().select(Integer.valueOf(node.getFloor()));
+          startRoom.getSelectionModel().select(node.getLongName());
+          currentState = State.DRAWN;
+          break;
+        case END:
+          finish = node;
+          stopFloor.getSelectionModel().select(Integer.valueOf(node.getFloor()));
+          stopRoom.getSelectionModel().select(node.getLongName());
+          drawPath();
+          currentState = State.DRAWN;
+          break;
+        default:
+          break;
+      }
     });
-    stopLocation.setOnNodeSelectedListener(node -> {
-      nodeMapViewController.deleteNode(finish);
-      finish = node;
-      nodeMapViewController.draw();
-      drawPath();
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> {
+    });//TODO remove
+
+    //TODO abstract into helper method
+    // Populate the floors combobox with available nodes
+    nodeMap.values().stream()
+        .map(Node::getFloor).distinct().sorted()
+        .forEachOrdered(startFloor.getItems()::add);
+    // Set up the populating of locations on each floor
+    startFloor.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
+      startRoom.getItems().clear();
+      nodeMap.values().stream()
+          .filter(node -> newFloor.equals(node.getFloor()))
+          .map(Node::getLongName).sorted()
+          .forEachOrdered(startRoom.getItems()::add);
     });
 
-    startLocation.setNodes(nodeMap.values());
-    stopLocation.setNodes(nodeMap.values());
+    // Populate the floors combobox with available nodes
+    nodeMap.values().stream()
+        .map(Node::getFloor).distinct().sorted()
+        .forEachOrdered(stopFloor.getItems()::add);
+    // Set up the populating of locations on each floor
+    stopFloor.getSelectionModel().selectedItemProperty().addListener((o, oldFloor, newFloor) -> {
+      stopRoom.getItems().clear();
+      nodeMap.values().stream()
+          .filter(node -> newFloor.equals(node.getFloor()))
+          .map(Node::getLongName).sorted()
+          .forEachOrdered(stopRoom.getItems()::add);
+    });
+
     resetPath();
-  }
-
-  /**
-   * populate the handicap accessible map with nodes that a wheelchair can reach
-   */
-  public void createHandicap() {
-    //create the map of nodes without edges
-    for (Node node : nodeMap.values()) {
-      if (!node.getNodeType().equals("STAI")) {
-        Node newNode = new Node(node.getNodeID(), node.getXCoord(), node.getYCoord(),
-            node.getFloor(), node.getBuilding(), node.getNodeType(),
-            node.getLongName(), node.getShortName());
-        handicapMap.put(newNode.getNodeID(), newNode);
-      }
-    }
-    //populate only edges that still exists
-    for (Edge edge : database.exportEdges()) {
-      if (handicapMap.containsKey(edge.getStartID()) && handicapMap.containsKey(edge.getStopID())) {
-        handicapMap.get(edge.getStartID()).getNeighbors().add(handicapMap.get(edge.getStopID()));
-        handicapMap.get(edge.getStopID()).getNeighbors().add(handicapMap.get(edge.getStartID()));
-      }
-    }
   }
 
   /**
@@ -135,37 +138,36 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
-    nodeMapViewController.deleteNode(beginning);
-    nodeMapViewController.deleteNode(finish);
     beginning = defaultStart;
     finish = defaultStop;
-    stopLocation.clear();
-    startLocation.clear();
+    startFloor.getSelectionModel().select(Integer.valueOf(defaultStart.getFloor()));
+    startRoom.getSelectionModel().select(defaultStart.getLongName());
+    stopFloor.getSelectionModel().select(Integer.valueOf(defaultStop.getFloor()));
+    stopRoom.getSelectionModel().select(defaultStop.getLongName());
     nodeMapViewController.draw();
   }
 
 
+  //TODO translate floor
   @FXML
   public void floorDownPressed(ActionEvent actionEvent) {
     nodeMapViewController.decrementFloor();
-    changeFloor();
+    nodeMapViewController.draw();
+    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
+    drawPath();
   }
 
   @FXML
   public void floorUpPressed(ActionEvent actionEvent) {
     nodeMapViewController.incrementFloor();
-    changeFloor();
-  }
-
-  private void changeFloor() {
     nodeMapViewController.draw();
-    floorLabel.setText(" " + nodeMapViewController.getFloor());
+    floorLabel.setText("Floor " + nodeMapViewController.getFloor());
     drawPath();
   }
 
   @FXML
   public void setZoom() {
-    nodeMapViewController.zoom(zoomSlider.getValue() / 100);
+    //nodeMapViewController.zoom(zoomSlider.getValue() / 100);
   }
 
   @FXML
@@ -182,79 +184,68 @@ public class FindPathViewModel extends ViewModelBase {
 
   private void drawPath() {
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
-    nodeMapViewController.addNode(beginning);
-    nodeMapViewController.addNode(finish);
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
     }
   }
 
+  /**
+   * sets beginning on combo box change
+   */
   @FXML
-  public void switchAccessibility() {
-    resetPath();
-    if (handicap.isSelected()) {
-      startLocation.setNodes(handicapMap.values());
-      stopLocation.setNodes(handicapMap.values());
-      System.out.println("HandicapMode");
-    } else {
-      startLocation.setNodes(nodeMap.values());
-      stopLocation.setNodes(nodeMap.values());
-    }
+  private void onStartCombo() {
+    currentState = State.COMBO_START;
+    comboState();
+  }
+
+  /**
+   * sets finish on combo box change
+   */
+  @FXML
+  private void onStopCombo() {
+    currentState = State.COMBO_STOP;
+    comboState();
+  }
+
+
+  //TODO get rid of click buttons
+  @FXML
+  private void setStart() {
+    currentState = State.START;
   }
 
   @FXML
-  public void generateQR(ActionEvent actionEvent) {
-    val steps = generateTextInstructions();
-    steps.get(0).getNodes().addAll(database.exportNodes().values().stream()
-        .filter(node -> node.getFloor() == 1 && node.getLongName().toLowerCase().contains("b"))
-        .collect(Collectors.toList()));
-    dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(steps))));
+  private void setEnd() {
+    currentState = State.END;
   }
 
-  private ArrayList<Step> generateTextInstructions() {
-    val steps = new ArrayList<Step>();
-    List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
-//    for (Node n : nodes) {
-//
-//    }
-    for (int i = 0; i < nodes.size() - 1; i++) {
-      int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
-      int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
-      if (x < 0 && y == 0) {
-        steps.add(new Step("Go West", nodes, nodes.get(i).getFloor()));
-      } else if (x > 0 && y == 0) {
-        steps.add(new Step("Go East", nodes, nodes.get(i).getFloor()));
-      } else if (x == 0 && y < 0) {
-        steps.add(new Step("Go South", nodes, nodes.get(i).getFloor()));
-      } else if (x == 0 && y > 0) {
-        steps.add(new Step("Go North", nodes, nodes.get(i).getFloor()));
-      } else if (x > 0 && y < 0) {
-        steps.add(new Step("Go South East", nodes, nodes.get(i).getFloor()));
-      } else if (x < 0 && y > 0) {
-        steps.add(new Step("Go North East", nodes, nodes.get(i).getFloor()));
-      } else if (x > 0 && y > 0) {
-        steps.add(new Step("Go North West", nodes, nodes.get(i).getFloor()));
-      } else if (x < 0 && y < 0) {
-        steps.add(new Step("Go South West", nodes, nodes.get(i).getFloor()));
-      } else {
-        steps.add(
-            new Step("Go to Floor " + nodes.get(i + 1).getFloor(), nodes, nodes.get(i).getFloor()));
-      }
-
-      if (i + 1 == nodes.size() - 1) {
-        steps.add(new Step("You have arrived ", new ArrayList<>(), nodes.get(i).getFloor()));
-      }
-    }
-
-    return steps;
-  }
-
-  @Override
-  public void onEvent(Event event) {
-    if (event.getClass().equals(FloorSwitchEvent.class)) {
-      drawPath();
+  /**
+   * sets beginning or finish based on combo box input
+   */
+  private void comboState() {
+    switch (currentState) {
+      case COMBO_START:
+        for (Node n : nodeMap.values()) {
+          if (n.getLongName().equals(startRoom.getSelectionModel().getSelectedItem())) {
+            beginning = n;
+            break;
+          }
+        }
+        nodeMapViewController.draw();
+        drawPath();
+        break;
+      case COMBO_STOP:
+        for (Node n : nodeMap.values()) {
+          if (n.getLongName().equals(stopRoom.getSelectionModel().getSelectedItem())) {
+            finish = n;
+            break;
+          }
+        }
+        nodeMapViewController.draw();
+        drawPath();
+        break;
+      default:
+        break;
     }
   }
-
-
 }
