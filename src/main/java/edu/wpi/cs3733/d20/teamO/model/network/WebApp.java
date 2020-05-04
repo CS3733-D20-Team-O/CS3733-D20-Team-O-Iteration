@@ -2,7 +2,6 @@ package edu.wpi.cs3733.d20.teamO.model.network;
 
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -41,15 +40,10 @@ public class WebApp {
    *
    * @param steps the steps to use to create the qr code
    * @return the qr code image or null if one was could not be created
-   * @throws MalformedURLException if the url created internally is invalid
-   * @throws IOException           in case the network connection fails
+   * @throws IOException in case of network issues
    */
-  public static Image createQRCode(List<Step> steps) throws MalformedURLException, IOException {
-    val response = new CuttlyRequest(createURL(steps)).makeRequest();
-    if (response.isValid()) {
-      return NetworkUtilities.createQRCode(response.getShortLink());
-    }
-    return null;
+  public static Image createQRCode(List<Step> steps) throws IOException {
+    return NetworkUtilities.createQRCode(NetworkUtilities.shortenURL(createURL(steps)));
   }
 
   /**
