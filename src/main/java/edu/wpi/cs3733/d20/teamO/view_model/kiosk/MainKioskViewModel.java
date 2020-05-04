@@ -58,9 +58,6 @@ public class MainKioskViewModel extends ViewModelBase {
   @Getter
   private JFXButton lookupButton; // Used for clicks in testing
 
-  private AppointmentRequest apiRequest;
-
-
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
