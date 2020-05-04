@@ -22,7 +22,7 @@
   </JFXTextField>
   <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
     <validators>
-      <NodeRequiredValidator message="A location is required"/>
+      <NodeRequiredValidator message="%locationPromptValidator"/>
     </validators>
   </NodeSelector>
   <VBox spacing="16" alignment="CENTER_LEFT">
