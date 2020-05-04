@@ -12,7 +12,6 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import lombok.Getter;
@@ -33,6 +32,8 @@ public class Navigator {
 
   @Setter
   private String mainFXML;
+
+  public IdleDetector idleDetector = new IdleDetector(root, this);
 
         /*
     todo incorporate this animation code too
@@ -113,7 +114,7 @@ public class Navigator {
 
     // Set up the navigation bar for the new page
     val navBarLoader = getLoader();
-    val navBarRoot = (Region) navBarLoader.load(getClass()
+    val navBarRoot = navBarLoader.load(getClass()
         .getResourceAsStream("views/NavigationBar.fxml"));
     ((NavigationBar) navBarLoader.getController()).setTitle(title);
     AnchorPane.setTopAnchor(navBarRoot, 0.0);
@@ -122,7 +123,7 @@ public class Navigator {
     newRoot.getChildren().add(navBarRoot);
 
     // Set up the actual body (content) of the new page
-    val contentRoot = (Region) getLoader().load(getClass().getResourceAsStream(fxmlLocation));
+    val contentRoot = getLoader().load(getClass().getResourceAsStream(fxmlLocation));
     // The height is not available right away, so set top bounds when it is available
     navBarRoot.heightProperty().addListener(((observable, oldValue, newValue) ->
         AnchorPane.setTopAnchor(contentRoot, newValue.doubleValue())));
