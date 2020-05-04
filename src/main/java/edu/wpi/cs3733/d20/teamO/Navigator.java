@@ -34,7 +34,7 @@ public class Navigator {
   @Setter
   private String mainFXML;
 
-  public IdleDetector idleDetector = new IdleDetector(root, this);
+  public IdleDetector idleDetector;
 
         /*
     todo incorporate this animation code too
@@ -47,6 +47,10 @@ public class Navigator {
             root1.getChildren().setAll(rectangle1);
         });
      */
+
+  protected void start() {
+    idleDetector = new IdleDetector(root, this);
+  }
 
   public void push(String title, String fxmlLocation) throws IOException {
     // Get a copy of the current page
