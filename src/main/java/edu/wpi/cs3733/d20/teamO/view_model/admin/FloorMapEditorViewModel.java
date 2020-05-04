@@ -39,9 +39,6 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject}) // required for database
 public class FloorMapEditorViewModel extends ViewModelBase {
 
-  public void alignNodesHorizontal(ActionEvent event) {
-  }
-
   // todo add translations
   // todo prevent commas from being added
   // todo add validator for elevator names
@@ -113,6 +110,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     Platform.runLater(this::redraw);
     // configure listeners
     nodeMapViewController.setOnNodeLeftTapListener(node -> { // node left-clicked
+
       selectNode(node);
     });
     nodeMapViewController.setOnMissRightTapListener((x, y) -> { // map right-clicked
@@ -125,8 +123,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       if (state == State.SELECT_NODE
           || state == State.DRAGGING) { // only can drag a node if the node is selected
         setState(State.DRAGGING);
-        //int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
-        //int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
         database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode.getNodeID(),
             NodeProperty.X_COORD, Integer.toString(x));
         database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode.getNodeID(),
@@ -134,29 +130,11 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         exportDatabase();
         val newNode = nodeMap.get(node.getNodeID());
         nodeMapViewController.relocateNode(node, newNode);
-        //nodeMapViewController.clearEdge();
-        //drawEdges();
-
         for (Node nodeItem : newNode.getNeighbors()) {
           nodeMapViewController.relocateEdge(newNode, nodeItem);
         }
       }
     });
-    nodeMapViewController
-        .setOnNodeLeftTapReleaseListener((node, x, y) -> { // node drag released
-          if (state == State.DRAGGING) {
-            //int adjX = nodeMapViewController.translateToImageX((int) mouseEvent.getX());
-            //int adjY = nodeMapViewController.translateToImageY((int) mouseEvent.getY());
-            database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode.getNodeID(),
-                NodeProperty.X_COORD, Integer.toString(x));
-            database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, selectedNode.getNodeID(),
-                NodeProperty.Y_COORD, Integer.toString(y));
-            exportDatabase();
-            redraw();
-            setState(State.SELECT_NODE);
-            nodeMapViewController.highlightNode(selectedNode);
-          }
-        });
     nodeMapViewController.setOnEdgeLeftTapListener((node1, node2) -> {
       selectEdge(findEdge(node1, node2));
     });
@@ -164,32 +142,13 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   // FXML methods
 
-  /**
-   * Aligns the selected nodes in a straight line
-   *
-   * @param event Event
-   */
   public void alignNodesVertical(ActionEvent event) {
-    Node closest = null, furthest = null;
-    double closetPos = Double.POSITIVE_INFINITY, furthestPos = Double.NEGATIVE_INFINITY;
-    for (Node node : selection) { // find the pythagorized position of all the nodes and save the smallest and largest
-      double pos = Math
-          .sqrt(Math.pow(node.getXCoord(), 2) + Math.pow(node.getYCoord(), 2)); // pythagorization
-      if (pos < closetPos) {
-        closetPos = pos;
-        closest = node;
-      }
-      if (pos > furthestPos) {
-        furthestPos = pos;
-        furthest = node;
-      }
-    }
-
-    System.out.println("The closest node is "+closest.getLongName());
-    System.out.println("The furthest node is "+furthest.getLongName());
-    // todo finish
+    alignNodes('v');
   }
 
+  public void alignNodesHorizontal(ActionEvent event) {
+    alignNodes('h');
+  }
 
   public void markNodeChangesMade(KeyEvent keyEvent) {
     saveNodeChangesBtn.setDisable(false);
@@ -276,6 +235,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         break;
       case SELECT_EDGE:
         deleteEdge(selectedEdge);
+        setState(State.MAIN);
         break;
       case SELECT_NODES:
         deleteNodes(selection);
@@ -381,14 +341,21 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       case SELECT_NODE:
         if (!selectedNode.getNodeID().equals(node.getNodeID())) {
           setState(State.SELECT_NODES);
+        } else {
+          nodeMapViewController.unhighlightNode(node);
+          setState(State.MAIN);
+          break;
         }
       case SELECT_NODES:
         if (selection.contains(node)) {
-          return; // no reason to add node that's already selected
+          selection.remove(node);
+          selectedNodesList.getItems().remove(node.getLongName());
+          nodeMapViewController.unhighlightNode(node);
+        } else {
+          selection.add(node);
+          nodeMapViewController.highlightNode(node);
+          selectedNodesList.getItems().add(node.getLongName());
         }
-        selection.add(node);
-        nodeMapViewController.highlightNode(node);
-        selectedNodesList.getItems().add(node.getLongName());
         break;
       default:
         clearFields();
@@ -429,7 +396,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     exportDatabase();
     redraw();
     snackBar.show("Edge deleted");
-    setState(State.MAIN);
   }
 
   /**
@@ -606,6 +572,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       case SELECT_NODES:
         selectNodesView.setVisible(true);
         break;
+      case DRAGGING:
+        nodeSelectView.setVisible(true);
+        break;
     }
     this.state = state;
   }
@@ -625,4 +594,26 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     nodeMapViewController.setNodeMap(nodeMap);
     drawEdges();
   }
+
+  /**
+   * Aligns nodes in a straight line
+   *
+   * @param orientation The orientation of the nodes: 'v' for vertical and 'h' for horizontal
+   */
+  private void alignNodes(char orientation) {
+    NodeProperty property = orientation == 'v' ? NodeProperty.X_COORD
+        : NodeProperty.Y_COORD; // gets the proper node property to update in the database
+    int coord = orientation == 'v' ? selection.get(0).getXCoord()
+        : selection.get(0).getYCoord(); // gets the value of the coord to update
+    for (Node node : selection) {
+      database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, node.getNodeID(),
+          property, coord);
+    }
+    exportDatabase();
+    redraw();
+    for (Node node : selection) { // re-highlights the nodes
+      nodeMapViewController.highlightNode(node);
+    }
+  }
 }
+

@@ -264,6 +264,9 @@ public class NodeMapView extends ViewModelBase {
             .getYCoord() + "]");
     System.out.println(
         "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
+            +
+            "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode
+            .getCenterY()
             + "]");
 
     drawnNode.setOnMouseReleased(event -> {
