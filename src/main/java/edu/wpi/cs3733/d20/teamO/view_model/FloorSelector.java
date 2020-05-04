@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import java.util.Arrays;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +12,9 @@ public class FloorSelector extends ViewModelBase {
   private NodeMapView nodeMapViewController;
   @FXML
   private JFXButton floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn;
+
+  public FloorSelector() {
+  }
 
   /**
    * Sets the nodeMapViewController
@@ -26,6 +30,7 @@ public class FloorSelector extends ViewModelBase {
    */
   @FXML
   private void setFloor(ActionEvent event) {
+    super.dispatch(new FloorSwitchEvent());
     JFXButton target = (JFXButton) event.getSource();
     int floor = Integer.parseInt(target.getText());
     for (JFXButton btn : Arrays.asList(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn)) {
@@ -34,5 +39,4 @@ public class FloorSelector extends ViewModelBase {
     target.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
     nodeMapViewController.setFloor(floor);
   }
-
 }
