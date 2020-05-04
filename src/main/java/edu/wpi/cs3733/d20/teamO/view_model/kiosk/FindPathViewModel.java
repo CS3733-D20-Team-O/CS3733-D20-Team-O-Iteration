@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
+import edu.wpi.cs3733.d20.teamO.events.Event;
+import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.model.WebApp;
 import edu.wpi.cs3733.d20.teamO.model.WebApp.Step;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
@@ -246,5 +248,13 @@ public class FindPathViewModel extends ViewModelBase {
 
     return steps;
   }
+
+  @Override
+  public void onEvent(Event event) {
+    if (event.getClass().equals(FloorSwitchEvent.class)) {
+      drawPath();
+    }
+  }
+
 
 }
