@@ -29,7 +29,7 @@ dependencies {
             'com.jfoenix:jfoenix:9.0.9',
             'org.apache.derby:derby:10.14.2.0',
             'org.slf4j:slf4j-api:1.7.30',
-            'org.slf4j:slf4j-simple:1.7.30',
+            'org.slf4j:slf4j-simple:1.7.30'
     )
 
     testImplementation(
@@ -92,6 +92,9 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel',
         'edu.wpi.cs3733.d20.teamO.model.path_finding.DFS',
         'edu.wpi.cs3733.d20.teamO.model.path_finding.BFS',
+        'edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator',
+        'class edu.wpi.cs3733.d20.teamO.model.WebApp',
+        'class edu.wpi.cs3733.d20.teamO.model.WebApp.Step',
 ]
 
 jacoco {
