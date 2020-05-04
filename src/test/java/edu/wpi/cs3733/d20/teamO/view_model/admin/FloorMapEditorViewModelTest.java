@@ -58,6 +58,7 @@ public class FloorMapEditorViewModelTest extends FxRobot {
     bundle.put("deleteAll", "Delete All");
     bundle.put("verticalAlign", "Align Vertically");
     bundle.put("horizontalAlign", "Align Horizontally");
+    bundle.put("clickInstruct", "Left-click to select a node or edge, right-click to add a node or edge");
   }
 
   @Start

@@ -74,7 +74,7 @@
                </children>
             </HBox>
             <Label prefWidth="200.0"
-              text="Left-click to select a node or edge, right-click to add a node or edge"
+              text="%clickInstruct"
               textAlignment="CENTER" wrapText="true"/>
             <Group>
                <children>
