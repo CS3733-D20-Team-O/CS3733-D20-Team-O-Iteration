@@ -20,9 +20,9 @@
     <JFXComboBox fx:id="searchAlgorithms">
       <items>
         <FXCollections fx:factory="observableArrayList">
-          <Label text="Fastest Route (A*)"/>
-          <Label text="Quick Route (BFS)"/>
-          <Label text="Scenic Route (DFS)"/>
+          <Label text="%aStar"/>
+          <Label text="%bfs"/>
+          <Label text="%dfs"/>
         </FXCollections>
       </items>
     </JFXComboBox>
