@@ -5,7 +5,6 @@ import static org.mockito.Mockito.verify;
 
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.view_model.FloorSelector;
-import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,14 +25,11 @@ public class FloorSelectorTest extends FxRobot {
 
   @Mock
   EventBus eventBus;
-  @Mock
-  NodeMapView nodeMapViewController;
   @InjectMocks
   FloorSelector floorSelector;
 
   @Start
   public void start(Stage stage) throws IOException {
-    floorSelector.setNodeMapViewController(nodeMapViewController);
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> floorSelector);
     stage.setScene(
@@ -45,10 +41,15 @@ public class FloorSelectorTest extends FxRobot {
   @Test
   public void testSelectFloors() {
     clickOn("1");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent(1));
     clickOn("2");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent(2));
     clickOn("3");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent(3));
     clickOn("4");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent(4));
     clickOn("5");
-    verify(eventBus, times(5)).post(new FloorSwitchEvent());
+    verify(eventBus, times(1)).post(new FloorSwitchEvent(5));
+
   }
 }

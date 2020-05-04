@@ -8,21 +8,10 @@ import javafx.fxml.FXML;
 
 public class FloorSelector extends ViewModelBase {
 
-  // todo translate
-  private NodeMapView nodeMapViewController;
   @FXML
   private JFXButton floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn;
 
   public FloorSelector() {
-  }
-
-  /**
-   * Sets the nodeMapViewController
-   *
-   * @param controller The controller
-   */
-  public void setNodeMapViewController(NodeMapView controller) {
-    nodeMapViewController = controller;
   }
 
   /**
@@ -36,7 +25,6 @@ public class FloorSelector extends ViewModelBase {
       btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
     }
     target.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
-    nodeMapViewController.setFloor(floor);
-    super.dispatch(new FloorSwitchEvent());
+    dispatch(new FloorSwitchEvent(floor));
   }
 }

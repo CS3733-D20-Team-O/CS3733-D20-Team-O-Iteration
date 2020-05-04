@@ -7,5 +7,5 @@ import lombok.Value;
  */
 @Value
 public class FloorSwitchEvent implements Event {
-
+  int floor;
 }
