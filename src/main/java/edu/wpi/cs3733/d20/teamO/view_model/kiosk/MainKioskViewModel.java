@@ -105,13 +105,18 @@ public class MainKioskViewModel extends ViewModelBase {
     requests.put(getString("AppointmentServiceTitle"), "appointment");
     requests.keySet().stream().sorted().forEach(serviceSelector.getItems()::add);
     serviceSelector.getSelectionModel().selectedItemProperty().addListener(((o, old, desc) -> {
-      if (desc != null && desc.toLowerCase().contains("appointment")) {
+      if (desc == null) {
+        return;
+      }
+
+      if (desc.equals(getString("AppointmentServiceTitle"))) {
         try {
-          AppointmentRequest.run(300, 300, 900, 750, "resources\\CSS\\default.css", null, null);
+          AppointmentRequest.run(300, 300, 900, 750,
+              this.getClass().getResource("/CSS/default.css").toExternalForm(), null, null);
         } catch (Exception e) {
           log.error("Failed to open API", e);
         }
-      } else if (desc != null) {
+      } else {
         try {
           dialog.showFullscreenFXML("views/kiosk/service_requests/" + requests.get(desc));
         } catch (IOException e) {
