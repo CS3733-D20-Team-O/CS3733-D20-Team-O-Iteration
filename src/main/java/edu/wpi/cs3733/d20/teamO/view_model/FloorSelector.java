@@ -30,7 +30,6 @@ public class FloorSelector extends ViewModelBase {
    */
   @FXML
   private void setFloor(ActionEvent event) {
-    super.dispatch(new FloorSwitchEvent());
     JFXButton target = (JFXButton) event.getSource();
     int floor = Integer.parseInt(target.getText());
     for (JFXButton btn : Arrays.asList(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn)) {
@@ -38,5 +37,6 @@ public class FloorSelector extends ViewModelBase {
     }
     target.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
     nodeMapViewController.setFloor(floor);
+    super.dispatch(new FloorSwitchEvent());
   }
 }
