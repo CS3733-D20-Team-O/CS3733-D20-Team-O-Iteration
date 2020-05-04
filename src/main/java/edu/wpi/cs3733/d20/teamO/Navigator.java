@@ -16,12 +16,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.val;
 
 @Singleton
-@RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class Navigator {
 
   private final Injector injector;
@@ -34,9 +32,15 @@ public class Navigator {
   @Setter
   private String mainFXML;
 
-  public IdleDetector idleDetector;
+  private final IdleDetector idleDetector;
 
-        /*
+  @Inject
+  public Navigator(Injector injector) {
+    this.injector = injector;
+    this.idleDetector = new IdleDetector(injector, root, dialog, this);
+  }
+
+  /*
     todo incorporate this animation code too
         Timeline timeline = new Timeline();
         KeyValue kv = new KeyValue(imgView2.translateXProperty(), 0, Interpolator.EASE_BOTH);
@@ -47,10 +51,6 @@ public class Navigator {
             root1.getChildren().setAll(rectangle1);
         });
      */
-
-  protected void start() {
-    idleDetector = new IdleDetector(root, this);
-  }
 
   public void push(String title, String fxmlLocation) throws IOException {
     // Get a copy of the current page
