@@ -92,6 +92,9 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel',
         'edu.wpi.cs3733.d20.teamO.model.path_finding.DFS',
         'edu.wpi.cs3733.d20.teamO.model.path_finding.BFS',
+        'edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator',
+        'class edu.wpi.cs3733.d20.teamO.model.WebApp',
+        'class edu.wpi.cs3733.d20.teamO.model.WebApp.Step',
 ]
 
 jacoco {
