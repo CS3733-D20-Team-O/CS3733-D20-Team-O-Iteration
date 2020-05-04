@@ -39,7 +39,7 @@
   </VBox>
   <Pane prefHeight="26.0" prefWidth="539.0"/>
   <Label text="%aboutMeetTheTeam"/>
-  <HBox spacing="32">
+  <HBox alignment="CENTER" spacing="32">
     <VBox alignment="CENTER" spacing="0">
       <HBox spacing="32">
         <VBox alignment="CENTER">
@@ -60,9 +60,8 @@
     </VBox>
   </HBox>
   <Pane prefHeight="26.0" prefWidth="539.0"/>
-  <Label prefHeight="133.0" prefWidth="425.0"
-    text="%aboutThanks"
-    textAlignment="CENTER" wrapText="true"/>
-  <JFXButton buttonType="RAISED" onAction="#close"
-    style="-fx-background-color: LIGHTGRAY;" text="%aboutBack"/>
+  <Label prefHeight="133.0" prefWidth="425.0" text="%aboutThanks" textAlignment="CENTER"
+    wrapText="true"/>
+  <JFXButton buttonType="RAISED" onAction="#close" style="-fx-background-color: LIGHTGRAY;"
+    text="%aboutBack"/>
 </VBox>
