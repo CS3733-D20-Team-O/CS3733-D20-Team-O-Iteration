@@ -169,18 +169,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     return null;
   }
 
-  /**
-   * Adds the specified node to the database
-   *
-   * @param xCoord    the x coordinate of the node
-   * @param yCoord    the y coordinate of the node
-   * @param floor     the floor of the building that the node lies on
-   * @param building  the building the node is in
-   * @param nodeType  the type of the node
-   * @param longName  the long name of the node
-   * @param shortName the short name of the node
-   * @return the number of affected entries
-   */
+
   @Override
   public String addNode(int xCoord, int yCoord, int floor, String building,
       String nodeType, String longName, String shortName) {
@@ -195,19 +184,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     return (numAffected == 1) ? id : null;
   }
 
-  /**
-   * Adds the specified node to the database
-   *
-   * @param nodeID    the id of the node
-   * @param xCoord    the x coordinate of the node
-   * @param yCoord    the y coordinate of the node
-   * @param floor     the floor of the building that the node lies on
-   * @param building  the building the node is in
-   * @param nodeType  the type of the node
-   * @param longName  the long name of the node
-   * @param shortName the short name of the node
-   * @return the number of affected entries
-   */
+
   @Override
   public int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
       String nodeType, String longName, String shortName) {
@@ -232,13 +209,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  /**
-   * Adds the specified edge to the database
-   *
-   * @param startNodeID the id of the start node
-   * @param stopNodeID  the id of the stop node
-   * @return the number of affected entries
-   */
+
   @Override
   public String addEdge(String startNodeID, String stopNodeID) {
     val id = startNodeID + "_" + stopNodeID;
@@ -246,14 +217,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     return (numAffected == 1) ? id : null;
   }
 
-  /**
-   * Adds the specified edge to the database
-   *
-   * @param edgeID      the id of the edge
-   * @param startNodeID the id of the start node
-   * @param stopNodeID  the id of the stop node
-   * @return the number of affected entries
-   */
+
   @Override
   public int addEdge(String edgeID, String startNodeID, String stopNodeID) {
     val query = "INSERT into " + Table.EDGES_TABLE.getTableName() + " VALUES (?, ?, ?)";
@@ -271,18 +235,9 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  /**
-   * Adds the specified service request to the database
-   *
-   * @param requestTime   the time of the request as a string
-   * @param requestNode   the id of the node where the request is going
-   * @param type          the type of service request
-   * @param requesterName the name of the person filling out the request
-   * @param data          the data for the specific type of request
-   * @return the ID of the request or "Error" if request failed to add
-   */
+
   @Override
-  public String addServiceRequest(String requestTime, String requestNode, String type,
+  public String addServiceRequest(String requestTime, String location, String type,
       String requesterName, ServiceRequestData data) {
     val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     val length = 8;
@@ -293,27 +248,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       randomID.append(chars.charAt(index));
     }
     val id = randomID.toString();
-    val numAffected = addServiceRequest(id, requestTime, requestNode, type, "Unassigned",
+    val numAffected = addServiceRequest(id, requestTime, location, type, "Unassigned",
         requesterName, "0", "0", new Gson().toJson(data));
     return (numAffected == 1) ? id : null;
   }
 
-  /**
-   * Adds the specified service request to the database
-   *
-   * @param requestID        the id of the request
-   * @param requestTime      the time of the request as a string
-   * @param requestNode      the id of the node where the request is going
-   * @param type             the type of service request
-   * @param status           the status of the service request
-   * @param requesterName    the name of the person filling out the request
-   * @param whoMarked        the id of the admin (employee) who assigns the request
-   * @param employeeAssigned the id of the employee assigned to fulfill the request
-   * @param data             the data for the specific type of request
-   * @return the number of affected entries
-   */
+
   @Override
-  public int addServiceRequest(String requestID, String requestTime, String requestNode,
+  public int addServiceRequest(String requestID, String requestTime, String location,
       String type, String status, String requesterName, String whoMarked, String employeeAssigned,
       String data) {
     val query = "INSERT into " + Table.SERVICE_REQUESTS_TABLE
@@ -321,7 +263,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, requestID);
       stmt.setString(2, requestTime);
-      stmt.setString(3, requestNode);
+      stmt.setString(3, location);
       stmt.setString(4, type);
       stmt.setString(5, status);
       stmt.setString(6, requesterName);
@@ -352,15 +294,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  /**
-   * Adds the specified employee to the database
-   *
-   * @param employeeID  the id of the employee
-   * @param name        the name of the employee
-   * @param type        the type of employee they are
-   * @param isAvailable true if available, false if not available
-   * @return the number of affected entries
-   */
+
   @Override
   public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
     val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
@@ -379,14 +313,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  /**
-   * Deletes record(s) (example: a node or edge) from the specified table
-   *
-   * @param table    the table to delete the record(s) from
-   * @param property the property of the table to use for deletion (typically should be ID)
-   * @param matching the string of what to delete from the database (typically should be ID)
-   * @return the number of affected entries
-   */
+
   @Override
   public int deleteFromTable(Table table, TableProperty property, String matching) {
     // First, check to see if we are deleting from the employee table
@@ -430,16 +357,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  /**
-   * Updates a String in a record of the specified column of the specified table
-   *
-   * @param table           the table to perform the update on
-   * @param property        the property (column) for the update
-   * @param id              the id of the record to update
-   * @param newInfoProperty the property (column) for the new info
-   * @param data            the new data for the specified property
-   * @return the number of affected entries
-   */
+
   @Override
   public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
       String data) {
@@ -461,16 +379,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  /**
-   * Updates an int in a record of the specified column of the specified table
-   *
-   * @param table           the table to perform the update on
-   * @param property        the property (column) for the update
-   * @param id              the id of the record to update
-   * @param newInfoProperty the property (column) for the new info
-   * @param data            the new data for the specified property
-   * @return the number of affected entries
-   */
+
   @Override
   public int update(Table table, TableProperty property, String id, TableProperty newInfoProperty,
       int data) {
@@ -493,9 +402,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  /**
-   * @return a map of all nodeIDs stored in this database to their corresponding Nodes
-   */
+
   @Override
   public Map<String, Node> exportNodes() {
     val map = new HashMap<String, Node>();
@@ -524,11 +431,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     return map;
   }
 
-  /**
-   * Gets the edges of this database. Should only be used for exporting the database, not for A*!
-   *
-   * @return a list of the edges this database contains
-   */
+
   @Override
   public List<Edge> exportEdges() {
     val edges = new LinkedList<Edge>();
