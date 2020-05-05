@@ -440,8 +440,8 @@ public class NodeMapView extends ViewModelBase {
       this.floor = floor;
       backgroundImage.setImage(new Image("floors/" + floor + ".png"));
     }
-    colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 5);
-    colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 5);
+    colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 8);
+    colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
     draw();
   }
 
