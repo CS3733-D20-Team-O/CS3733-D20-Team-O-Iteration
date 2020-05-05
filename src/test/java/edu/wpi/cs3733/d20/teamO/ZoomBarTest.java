@@ -1,5 +1,9 @@
 package edu.wpi.cs3733.d20.teamO;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import edu.wpi.cs3733.d20.teamO.events.ZoomEvent;
 import edu.wpi.cs3733.d20.teamO.view_model.ZoomBar;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +40,9 @@ public class ZoomBarTest extends FxRobot {
 
   @Test
   public void testZoom() {
-
+    clickOn("#zoomOutBtn");
+    verify(eventBus, times(1)).post(new ZoomEvent(.9));
+    clickOn("#zoomInBtn");
+    verify(eventBus, times(1)).post(new ZoomEvent(1.0));
   }
-
 }

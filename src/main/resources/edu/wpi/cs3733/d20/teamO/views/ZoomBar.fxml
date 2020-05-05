@@ -9,9 +9,9 @@
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.ZoomBar">
   <children>
-    <JFXButton buttonType="FLAT" onAction="#zoomOut">
+    <JFXButton buttonType="FLAT" onAction="#zoomOut" fx:id="zoomOutBtn">
       <graphic>
-        <ImageView fx:id="zoomOutPressed" fitHeight="24" pickOnBounds="true"
+        <ImageView fitHeight="24" pickOnBounds="true"
           preserveRatio="true">
           <Image url="@/zoom_out-24px.png"/>
         </ImageView>
@@ -19,7 +19,7 @@
     </JFXButton>
     <JFXSlider fx:id="zoomSlider" max="150" min="50" onMouseDragged="#setZoom"
       prefWidth="168.0"/>
-    <JFXButton buttonType="FLAT" onAction="#zoomIn">
+    <JFXButton buttonType="FLAT" onAction="#zoomIn" fx:id="zoomInBtn">
       <graphic>
         <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
           <Image url="@/zoom_in-24px.png"/>

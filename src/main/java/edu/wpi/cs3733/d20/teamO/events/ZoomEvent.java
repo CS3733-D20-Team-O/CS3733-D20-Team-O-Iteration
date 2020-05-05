@@ -8,5 +8,5 @@ import lombok.Value;
 @Value
 public class ZoomEvent implements Event {
 
-  int scale;
+  double scale;
 }

@@ -36,7 +36,7 @@ public class ZoomBar extends ViewModelBase {
    * Sets the zoom
    */
   public void setZoom() {
-    int adjZoom = (int) zoomSlider.getValue() / 100;
+    double adjZoom = zoomSlider.getValue() / 100;
     dispatch(new ZoomEvent(adjZoom));
   }
 }
