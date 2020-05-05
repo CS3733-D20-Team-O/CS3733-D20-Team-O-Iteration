@@ -8,7 +8,7 @@
       <file value="file://$PROJECT_DIR$/src/main/resources/Strings.properties" />
       <file value="file://$PROJECT_DIR$/src/main/resources/Strings_en.properties" />
       <file value="file://$PROJECT_DIR$/src/main/resources/Strings_es.properties" />
-      <file value="file://$PROJECT_DIR$/src/main/resources/Strings_zh_cn.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/Strings_zh.properties" />
       <base-name>Strings</base-name>
     </custom-resource-bundle>
   </component>
