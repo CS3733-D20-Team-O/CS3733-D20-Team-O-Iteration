@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testfx.api.FxAssert.verifyThat;
 
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.d20.teamO.Main;
@@ -61,7 +60,7 @@ public class SanitationServiceTest extends FxRobot {
 
   @Start
   public void start(Stage stage) throws IOException {
-    bundle.put("Sample", "Sample"); // todo load the necessary strings
+    bundle.put("nodeSelectorPromptText", "node selector");
     populateFloorAndLocation();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
@@ -82,34 +81,6 @@ public class SanitationServiceTest extends FxRobot {
   }
 
   @Test
-  public void testFloorLocationPopulated() {
-    // Verify that all floors are populated
-    clickOn("Floor");
-    verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("5", javafx.scene.Node::isVisible);
-
-    // Now that we know all floors are correct, lets check to see if the locations are present
-    // First floor
-    clickOn("1");
-    clickOn("Room/Location on Floor");
-    verifyThat("Floor 1", javafx.scene.Node::isVisible);
-
-    // Third floor
-    clickOn("1");
-    clickOn("3");
-    clickOn("Room/Location on Floor");
-    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
-
-    // Fifth floor
-    clickOn("3");
-    clickOn("5");
-    clickOn("Room/Location on Floor");
-    verifyThat("Floor 5", javafx.scene.Node::isVisible);
-  }
-
-  @Test
   public void testSubmit() throws IOException {
     when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
     when(database.addServiceRequest(any(), any(), any(), any(), any()))
@@ -126,10 +97,9 @@ public class SanitationServiceTest extends FxRobot {
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
-    clickOn("Floor");
-    clickOn("1");
-    clickOn("Room/Location on Floor");
-    clickOn("Floor 1");
+    clickOn("node selector");
+    write("1");
+    clickOn("(1) Floor 1");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),

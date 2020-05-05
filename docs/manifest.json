@@ -1,0 +1,28 @@
+{
+    "name": "Brigham and Women's Path Finding",
+    "short_name": "Path Finder",
+    "start_url": ".",
+    "display": "minimal-ui",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "Hospital Kiosk Supplementary Web Application",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "favicon.png",
+            "sizes": "1200x1400",
+            "type": "image/png"
+        }
+    ]
+}
