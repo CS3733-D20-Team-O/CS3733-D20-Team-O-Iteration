@@ -193,17 +193,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public String addNode(int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName) {
-    if (floor.length() == 1) {
-      floor = "0" + floor;
-    }
+    floor = String.format("%2s", floor).replace(' ', '0');
     String id = getNodeID(nodeType, floor);
-//    String id = "";
-//    if (!nodeType.equals("ELEV")) {
-//      id = getNodeID(nodeType, floor);
-//    } else {
-//      val elevLetter = longName.substring(9);
-//      id = "O" + nodeType + "00" + elevLetter + floor;
-//    }
     val numAffected = addNode(id, xCoord, yCoord, floor, building, nodeType, longName, shortName);
     return (numAffected == 1) ? id : null;
   }
