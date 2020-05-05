@@ -1,5 +1,11 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.Navigator;
@@ -7,6 +13,7 @@ import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.AVService;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -37,7 +44,7 @@ public class serviceSelectorTest extends FxRobot {
   @Mock
   Dialog dialog;
   @Mock
-  RequestConfirmationViewModel requestConfirmationViewModel;
+  AVService AVservice;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
@@ -59,6 +66,17 @@ public class serviceSelectorTest extends FxRobot {
 
   @Test
   public void testClick() throws IOException {
-    clickOn("AVService");
+    //Tests AVService
+    clickOn("#AVService");
+    clickOn("#ExtTransport");
+    clickOn("#intTransport");
+    clickOn("#Florist");
+    clickOn("#giftDelivery");
+    clickOn("#medDelivery");
+    clickOn("#sanitationService");
+    clickOn("#interpreterService");
+    clickOn("#infoTech");
+    clickOn("#securityService");
+    verify(dialog, times(10)).showFullscreenFXML(any());
   }
 }

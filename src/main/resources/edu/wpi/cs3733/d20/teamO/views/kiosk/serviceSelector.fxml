@@ -22,7 +22,7 @@
 
   <!-- Main Content Container -->
   <StackPane fx:id="container" alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
-    AnchorPane.rightAnchor="0" AnchorPane.TopAnchor="64">
+    AnchorPane.rightAnchor="0" AnchorPane.TopAnchor="100">
 
     <VBox fx:id="contentContainer" spacing="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
       AnchorPane.rightAnchor="0" AnchorPane.TopAnchor="64">
@@ -30,10 +30,10 @@
         <ImageView fx:id="AVService" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openAVService" pickOnBounds="true" preserveRatio="true">
           <Image url="@/audioVisual.png" />
         </ImageView>
-        <ImageView fx:id="ExtTransport" fitHeight="50.0" fitWidth="50.0" onTouchPressed="#openAExtTransport" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="ExtTransport" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openAExtTransport" pickOnBounds="true" preserveRatio="true">
           <Image url="@/Transport.png" />
         </ImageView>
-        <ImageView fx:id="intTransport" fitHeight="50.0" fitWidth="50.0" onTouchPressed="#openIntTransport" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="intTransport" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openIntTransport" pickOnBounds="true" preserveRatio="true">
           <Image url="@/intTransport.png" />
         </ImageView>
       </HBox>
@@ -42,25 +42,25 @@
         <ImageView fx:id="Florist" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openFlorist" pickOnBounds="true" preserveRatio="true">
           <Image url="@/flower.png" />
         </ImageView>
-        <ImageView fx:id="giftDelivery" fitHeight="50.0" fitWidth="50.0" onTouchPressed="#openGiftDelivery" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="giftDelivery" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openGiftDelivery" pickOnBounds="true" preserveRatio="true">
           <Image url="@/gift.png" />
         </ImageView>
-        <ImageView fx:id="medDelivery" fitHeight="50.0" fitWidth="50.0" onTouchPressed="#openMedicineDelivery" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="medDelivery" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openMedicineDelivery" pickOnBounds="true" preserveRatio="true">
           <Image url="@/medicine.png" />
         </ImageView>
       </HBox>
 
       <HBox fx:id="thirdServices" alignment="CENTER" spacing="90">
         <ImageView fx:id="sanitationService" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openSanitation" pickOnBounds="true" preserveRatio="true">
-          <Image url="@/sanitation.jpg" />
+          <Image url="@/janitor-icon-17.png" />
         </ImageView>
-        <ImageView fx:id="interpreterService" fitHeight="50.0" fitWidth="50.0" onTouchPressed="#openInterpreter" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="interpreterService" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openInterpreter" pickOnBounds="true" preserveRatio="true">
           <Image url="@/interpreter.png" />
         </ImageView>
-        <ImageView fx:id="infoTech" fitHeight="50.0" fitWidth="50.0" onTouchPressed="#openInfoTech" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="infoTech" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openInfoTech" pickOnBounds="true" preserveRatio="true">
           <Image url="@/infoTech.png" />
         </ImageView>
-        <ImageView fx:id="securityService" fitHeight="50.0" fitWidth="50.0" onTouchPressed="#openSecurity" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="securityService" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openSecurity" pickOnBounds="true" preserveRatio="true">
           <Image url="@/security.png" />
         </ImageView>
       </HBox>
