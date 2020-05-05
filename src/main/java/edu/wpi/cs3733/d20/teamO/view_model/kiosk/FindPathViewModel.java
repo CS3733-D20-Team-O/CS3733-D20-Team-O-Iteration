@@ -5,8 +5,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
-import edu.wpi.cs3733.d20.teamO.model.WebApp;
-import edu.wpi.cs3733.d20.teamO.model.WebApp.Step;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
@@ -24,7 +22,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -211,53 +208,35 @@ public class FindPathViewModel extends ViewModelBase {
   private ArrayList<Step> generateTextInstructions() {
     val steps = new ArrayList<Step>();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
-    List<Node> floor = new ArrayList<>();
-    StringBuilder stepMessage = new StringBuilder();
-    int currentFloor = -1;
     for (int i = 0; i < nodes.size() - 1; i++) {
-      val current = nodes.get(i);
-      val next = nodes.get(i + 1);
-      if (i == 0 || current.getFloor() == currentFloor) {
-        // add this node along with any directions to the buffers
-        floor.add(current);
-        int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
-        int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
-        if (x < 0 && y == 0) {
-          stepMessage.append("Go Left\n");
-        } else if (x > 0 && y == 0) {
-          stepMessage.append("Go Right\n");
-        } else if (x == 0 && y < 0) {
-          stepMessage.append("Go Down\n");
-        } else if (x == 0 && y > 0) {
-          stepMessage.append("Go Up\n");
-        } else if (x > 0 && y < 0) {
-          stepMessage.append(" ");
-          //stepMessage = stepMessage.concat("Go South East\n");
-        } else if (x < 0 && y > 0) {
-          stepMessage.append(" ");
-          //stepMessage = stepMessage.concat("Go North East\n");
-        } else if (x > 0 && y > 0) {
-          stepMessage.append(" ");
-          //stepMessage = stepMessage.concat("Go North West\n");
-        } else if (x < 0 && y < 0) {
-          stepMessage.append(" ");
-          //stepMessage = stepMessage.concat("Go South West\n");
-        } else {
-          stepMessage.append("Go to Floor ");
-          stepMessage.append(nodes.get(i + 1).getFloor());
-        }
+      int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
+      int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
+      if (x < 0 && y == 0) {
+        steps.add(new Step("Go West", nodes, nodes.get(i).getFloor()));
+      } else if (x > 0 && y == 0) {
+        steps.add(new Step("Go East", nodes, nodes.get(i).getFloor()));
+      } else if (x == 0 && y < 0) {
+        steps.add(new Step("Go South", nodes, nodes.get(i).getFloor()));
+      } else if (x == 0 && y > 0) {
+        steps.add(new Step("Go North", nodes, nodes.get(i).getFloor()));
+      } else if (x > 0 && y < 0) {
+        steps.add(new Step("Go South East", nodes, nodes.get(i).getFloor()));
+      } else if (x < 0 && y > 0) {
+        steps.add(new Step("Go North East", nodes, nodes.get(i).getFloor()));
+      } else if (x > 0 && y > 0) {
+        steps.add(new Step("Go North West", nodes, nodes.get(i).getFloor()));
+      } else if (x < 0 && y < 0) {
+        steps.add(new Step("Go South West", nodes, nodes.get(i).getFloor()));
       } else {
-        // take all the buffers and put them into a step
-        // set floor and reset buffers (nodeBuffer and instructionBuilder) to work with new current node
-        steps.add(new Step(stepMessage.toString(), floor, currentFloor));
-        currentFloor = current.getFloor();
-        stepMessage = new StringBuilder();
+        steps.add(
+            new Step("Go to Floor " + nodes.get(i + 1).getFloor(), nodes, nodes.get(i).getFloor()));
       }
+
       if (i + 1 == nodes.size() - 1) {
-        stepMessage.append("You have arrived");
-        steps.add(new Step(stepMessage.toString(), floor, currentFloor));
+        steps.add(new Step("You have arrived ", new ArrayList<>(), nodes.get(i).getFloor()));
       }
     }
+
     return steps;
   }
 
