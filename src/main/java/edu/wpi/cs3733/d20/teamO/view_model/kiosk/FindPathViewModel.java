@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -72,6 +71,8 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @Override
   protected void start(URL location, ResourceBundle resources) {
+    handicapMap = new HashMap<String, Node>();
+
     val clipRect = new Rectangle();
     clipRect.widthProperty().bind(clipper.widthProperty());
     clipRect.heightProperty().bind(clipper.heightProperty());
@@ -79,8 +80,7 @@ public class FindPathViewModel extends ViewModelBase {
 
     JFXDepthManager.setDepth(sideBar, 2);
     nodeMap = database.exportNodes();
-    handicapMap = new HashMap<String, Node>();
-    createHandicap();
+    fillHandicapMap();
     defaultStart = (Node) nodeMap.values().toArray()[0];
     defaultStop = (Node) nodeMap.values().toArray()[0];
     beginning = defaultStart;
@@ -107,7 +107,7 @@ public class FindPathViewModel extends ViewModelBase {
   /**
    * populate the handicap accessible map with nodes that a wheelchair can reach
    */
-  public void createHandicap() {
+  private void fillHandicapMap() {
     //create the map of nodes without edges
     for (Node node : nodeMap.values()) {
       if (!node.getNodeType().equals("STAI")) {
@@ -118,8 +118,10 @@ public class FindPathViewModel extends ViewModelBase {
     //populate only edges that still exists
     for (Edge edge : database.exportEdges()) {
       if (handicapMap.containsKey(edge.getStartID()) && handicapMap.containsKey(edge.getStopID())) {
-        handicapMap.get(edge.getStartID()).getNeighbors().add(handicapMap.get(edge.getStopID()));
-        handicapMap.get(edge.getStopID()).getNeighbors().add(handicapMap.get(edge.getStartID()));
+        val startNode = handicapMap.get(edge.getStartID());
+        val stopNode = handicapMap.get(edge.getStopID());
+        startNode.getNeighbors().add(stopNode);
+        stopNode.getNeighbors().add(startNode);
       }
     }
   }
@@ -136,19 +138,6 @@ public class FindPathViewModel extends ViewModelBase {
     stopLocation.clear();
     startLocation.clear();
     nodeMapViewController.draw();
-  }
-
-
-  @FXML
-  public void floorDownPressed(ActionEvent actionEvent) {
-    nodeMapViewController.decrementFloor();
-    changeFloor();
-  }
-
-  @FXML
-  public void floorUpPressed(ActionEvent actionEvent) {
-    nodeMapViewController.incrementFloor();
-    changeFloor();
   }
 
   private void changeFloor() {
@@ -188,7 +177,6 @@ public class FindPathViewModel extends ViewModelBase {
     if (handicap.isSelected()) {
       startLocation.setNodes(handicapMap.values());
       stopLocation.setNodes(handicapMap.values());
-      System.out.println("HandicapMode");
     } else {
       startLocation.setNodes(nodeMap.values());
       stopLocation.setNodes(nodeMap.values());
@@ -196,7 +184,7 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   @FXML
-  public void generateQR(ActionEvent actionEvent) {
+  private void generateQR() {
     val steps = generateTextInstructions();
     steps.get(0).getNodes().addAll(database.exportNodes().values().stream()
         .filter(node -> node.getFloor() == 1 && node.getLongName().toLowerCase().contains("b"))
