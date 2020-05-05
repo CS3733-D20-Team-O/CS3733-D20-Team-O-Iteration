@@ -110,7 +110,9 @@ public class FindPathViewModel extends ViewModelBase {
   private void fillHandicapMap() {
     //create the map of nodes without edges
     for (Node node : nodeMap.values()) {
-      if (!node.getNodeType().equals("STAI")) {
+      //if (node is not stair nor regular bath) or (node is bath and handicap)
+      if ((!node.getNodeType().equals("STAI") && !node.getNodeType().equals("REST"))
+          || (node.getNodeType().equals("REST") && node.getLongName().contains("Handicap"))) {
         val newNode = node.withNeighbors(new LinkedList<>());
         handicapMap.put(newNode.getNodeID(), newNode);
       }
