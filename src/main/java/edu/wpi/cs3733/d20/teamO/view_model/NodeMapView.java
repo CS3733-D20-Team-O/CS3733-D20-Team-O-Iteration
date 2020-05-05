@@ -9,6 +9,10 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -20,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
@@ -36,10 +41,11 @@ public class NodeMapView extends ViewModelBase {
   private final static int maxFloor = 5;
   private final static int minFloor = 1;
   private final static double zoomInc = 0.1;
-  private final static double dragInc = 2;
 
   private double dragX = 0;
   private double dragY = 0;
+
+  private boolean edgeMovement = false;
 
   /**
    * The current floor being displayed
@@ -100,7 +106,7 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private StackPane floorPane;
   @FXML
-  private AnchorPane nodeGroup, edgeGroup, dummyLayer;
+  private AnchorPane nodeGroup, edgeGroup, dragLayer, colorLayer;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -108,7 +114,8 @@ public class NodeMapView extends ViewModelBase {
     nodeGroup.setPickOnBounds(false);
     edgeGroup.setPickOnBounds(false);
 
-    backgroundImage.setImage(new Image("floors/1.png"));
+    backgroundImage.setImage(new Image("floors/Transparency_Test.png"));
+    setBackgroundColor("#fd8842");
 
     // Set up event for a scroll event
     floorPane.setOnScroll(event -> {
@@ -120,7 +127,7 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the the background is clicked
-    dummyLayer.setOnMousePressed(event -> {
+    dragLayer.setOnMousePressed(event -> {
       if (event.getButton().equals(MouseButton.PRIMARY)) { // Used for dragging
         System.out.println("NodeGroup Left Press");
         dragX = floorPane.getTranslateX() - event.getSceneX();
@@ -135,7 +142,7 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the background is dragged
-    dummyLayer.setOnMouseDragged(event -> {
+    dragLayer.setOnMouseDragged(event -> {
       if (event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("NodeGroup Left Drag");
         if (checkXWithinBounds(event.getSceneX())) {
@@ -342,8 +349,33 @@ public class NodeMapView extends ViewModelBase {
 
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
+
+      if (edgeMovement == true) {
+        drawnEdge.getStrokeDashArray().setAll(10d, 10d);
+
+        final double maxOffset = drawnEdge.getStrokeDashArray().stream()
+            .reduce(0d, (a, b) -> a + b);
+
+        Timeline timeline = new Timeline(
+            new KeyFrame(
+                Duration.ZERO,
+                new KeyValue(
+                    drawnEdge.strokeDashOffsetProperty(),
+                    0,
+                    Interpolator.LINEAR)),
+
+            new KeyFrame(
+                Duration.seconds(2),
+                new KeyValue(
+                    drawnEdge.strokeDashOffsetProperty(),
+                    maxOffset,
+                    Interpolator.LINEAR)));
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+      }
+
       Platform.runLater(() -> edgeGroup.getChildren().add(drawnEdge));
-      //edgeGroup.getChildren().add(1, drawnEdge);
     }
   }
 
@@ -352,6 +384,10 @@ public class NodeMapView extends ViewModelBase {
     if (target != null) {
       edgeGroup.getChildren().remove(target);
     }
+  }
+
+  public void setEdgeMovement(boolean status) {
+    this.edgeMovement = status;
   }
 
   /*
@@ -404,6 +440,8 @@ public class NodeMapView extends ViewModelBase {
       this.floor = floor;
       backgroundImage.setImage(new Image("floors/" + floor + ".png"));
     }
+    colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 5);
+    colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 5);
     draw();
   }
 
@@ -490,6 +528,10 @@ public class NodeMapView extends ViewModelBase {
     this.highlightColor = color;
   }
 
+  public void setBackgroundColor(String color) {
+    colorLayer.setStyle("-fx-background-color: " + color);
+  }
+
   /**
    * Allows to set the size of drawn nodes (note: cannot resize edges once they are placed on the
    * map)
@@ -553,18 +595,14 @@ public class NodeMapView extends ViewModelBase {
    * Make all nodes on the floor visible
    */
   public void makeNodeVisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> {
-      nodeCircle.setVisible(true);
-    });
+    nodeGroup.getChildren().forEach(nodeCircle -> nodeCircle.setVisible(true));
   }
 
   /**
    * Make all nodes on the floor invisible
    */
   public void makeNodeInvisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> {
-      nodeCircle.setVisible(false);
-    });
+    nodeGroup.getChildren().forEach(nodeCircle -> nodeCircle.setVisible(false));
   }
 
   /**
