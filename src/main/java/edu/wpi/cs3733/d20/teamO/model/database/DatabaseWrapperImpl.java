@@ -177,21 +177,12 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   public String getNodeID(String type, String floor) {
     val takenIDs = exportNodes().keySet().stream()
         .filter(id -> id.substring(1, 5).equals(type))
-        .filter(id -> {
-          System.out.println("in filter " + id.substring(5, 8));
-          return id.substring(8).equals(floor);
-        })
-        .map(id -> {
-          System.out.println("in map " + id.substring(5, 8));
-          return (id.substring(5, 8));
-        })
+        .filter(id -> id.substring(8).equals(floor))
+        .map(id -> (id.substring(5, 8)))
         .map(id -> Integer.parseInt(id))
         .collect(Collectors.toSet());
     for (int i = 1; i < 1000; ++i) {
-      System.out.println(takenIDs);
-      System.out.println(takenIDs.contains(i));
       if (!takenIDs.contains(i)) {
-        System.out.println(String.format("O%s%3s%2s", type, i, floor).replace(' ', '0'));
         return String.format("O%s%3s%2s", type, i, floor).replace(' ', '0');
       }
     }
@@ -202,7 +193,11 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public String addNode(int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName) {
+    if (floor.length() == 1) {
+      floor = "0" + floor;
+    }
     String id = getNodeID(nodeType, floor);
+//    String id = "";
 //    if (!nodeType.equals("ELEV")) {
 //      id = getNodeID(nodeType, floor);
 //    } else {
