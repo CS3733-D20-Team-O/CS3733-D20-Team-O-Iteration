@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXSlider?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RegexValidator?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -85,12 +86,14 @@
                                 GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
+                                    <RegexValidator regexPattern="^[^,]+$" message=", not allowed"/>
                                  </validators>
                               </JFXTextField>
                               <JFXTextField fx:id="longNameField" onKeyTyped="#markNodeChangesMade"
                                 GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
+                                    <RegexValidator regexPattern="^[^,]+$" message=", not allowed"/>
                                  </validators>
                               </JFXTextField>
                               <Label fx:id="nodeCategoryLabel" text="Label"
@@ -225,19 +228,21 @@
                                 GridPane.rowIndex="1">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
+                                    <RegexValidator regexPattern="^[^,]+$" message=", not allowed"/>
                                  </validators>
                               </JFXTextField>
                               <JFXTextField fx:id="newNodeLongNameField" GridPane.columnIndex="1"
                                 GridPane.rowIndex="2">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
+                                    <RegexValidator regexPattern="^[^,]+$" message=", not allowed"/>
                                  </validators>
                               </JFXTextField>
                               <JFXComboBox fx:id="newNodeCategory" promptText="Select"
                                 GridPane.columnIndex="1">
                                  <validators>
                                     <RequiredFieldValidator message="Required"/>
-                                    <!--<RegexValidator message="Elevator long names must be formatted as Elevator (letter)"/>-->
+                                    <RegexValidator regexPattern="^[^,]+$" message=", not allowed"/>
                                  </validators>
                               </JFXComboBox>
                            </children>

@@ -41,11 +41,6 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject}) // required for database
 public class FloorMapEditorViewModel extends ViewModelBase {
 
-  // todo add translations
-  // todo prevent commas from being added
-  // todo add validator for elevator names
-  // todo add delete confirmation
-
   private enum State {
     MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR, DRAGGING, SELECT_NODES, SELECT_EDGES
   }
@@ -307,6 +302,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param node The node to select
    */
   private void selectNode(Node node) {
+    if (node.equals(previewNode)) {
+      return;
+    }
     switch (state) {
       case ADD_NEIGHBOR:
         if (selectedTargetNode != null) {
@@ -605,6 +603,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   public void onEvent(Event event) {
     if (event.getClass().equals(FloorSwitchEvent.class)) {
       nodeMapViewController.setFloor(((FloorSwitchEvent) event).getFloor());
+      drawEdges();
     }
   }
 }
