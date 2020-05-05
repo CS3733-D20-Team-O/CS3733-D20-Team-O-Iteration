@@ -195,6 +195,15 @@ public class MainKioskViewModel extends ViewModelBase {
     }
   }
 
+//  @FXML
+//  public void openServiceRequestSelect() {
+//    try {
+//      navigator.push(getString("serviceRequestCreationPrompt"), "views/kiosk/serviceSelector.fxml");
+//    } catch (IOException e) {
+//      log.error("Failed to open Service Request Screen", e);
+//    }
+//  }
+
   @FXML
   private void lookupServiceRequest() {
     for (val request : database.exportServiceRequests()) {
