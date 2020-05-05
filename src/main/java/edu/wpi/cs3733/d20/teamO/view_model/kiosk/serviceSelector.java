@@ -36,11 +36,18 @@ public class serviceSelector extends ViewModelBase {
 
   @FXML
   private ImageView imageView;
+  @FXML
+  private StackPane welcomeBar, container;
 
   @FXML
   private void openAVService() {
+//    try {
+//      navigator.push(getString("Audio/Visual Services"), "edu/wpi/cs3733/d20/teamO/views/kiosk/service_requests/AVService.fxml");
+//    } catch (IOException e) {
+//      log.error("Failed to open Service Request", e);
+//    }
     try {
-      navigator.push(getString("openAVService"), "view_models/kiosk/service_requests/AVService.fxml");
+      dialog.showFXML(container, "views/kiosk/service_requests/AVService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }
@@ -49,7 +56,7 @@ public class serviceSelector extends ViewModelBase {
   @FXML
   private void openAExtTransport() {
     try {
-      navigator.push(getString("openAExtTransport"), "view_models/kiosk/service_requests/ExternalTransportationService.fxml");
+      navigator.push(getString("openAExtTransport"), "views/kiosk/service_requests/ExternalTransportationService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }
@@ -58,7 +65,7 @@ public class serviceSelector extends ViewModelBase {
   @FXML
   private void openIntTransport() {
     try {
-      navigator.push(getString("openIntTransport"), "view_models/kiosk/service_requests/InternalTransportationService.fxml");
+      navigator.push(getString("openIntTransport"), "views/kiosk/service_requests/InternalTransportationService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }
@@ -67,7 +74,7 @@ public class serviceSelector extends ViewModelBase {
   @FXML
   private void openFlorist() {
     try {
-      navigator.push(getString("openFlorist"), "view_models/kiosk/service_requests/FloristDeliveryService.fxml");
+      navigator.push(getString("openFlorist"), "views/kiosk/service_requests/FloristDeliveryService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }
@@ -76,7 +83,7 @@ public class serviceSelector extends ViewModelBase {
   @FXML
   private void openGiftDelivery() {
     try {
-      navigator.push(getString("openGiftDelivery"), "view_models/kiosk/service_requests/GiftDeliveryService.fxml");
+      navigator.push(getString("openGiftDelivery"), "views/kiosk/service_requests/GiftDeliveryService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }
@@ -85,7 +92,7 @@ public class serviceSelector extends ViewModelBase {
   @FXML
   private void openMedicineDelivery() {
     try {
-      navigator.push(getString("openMedicineDelivery"), "view_models/kiosk/service_requests/MedicineDeliveryService.fxml");
+      navigator.push(getString("openMedicineDelivery"), "views/kiosk/service_requests/MedicineDeliveryService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }
@@ -94,7 +101,7 @@ public class serviceSelector extends ViewModelBase {
   @FXML
   private void openSanitation() {
     try {
-      navigator.push(getString("openSanitation"), "view_models/kiosk/service_requests/SanitationService.fxml");
+      navigator.push(getString("openSanitation"), "views/kiosk/service_requests/SanitationService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }
@@ -103,7 +110,7 @@ public class serviceSelector extends ViewModelBase {
   @FXML
   private void openInterpreter() {
     try {
-      navigator.push(getString("openInterpreter"), "view_models/kiosk/service_requests/InterpreterService.fxml");
+      navigator.push(getString("openInterpreter"), "views/kiosk/service_requests/InterpreterService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }
@@ -112,7 +119,7 @@ public class serviceSelector extends ViewModelBase {
   @FXML
   private void openInfoTech() {
     try {
-      navigator.push(getString("openInfoTech"), "view_models/kiosk/service_requests/InfoTechService.fxml");
+      navigator.push(getString("openInfoTech"), "views/kiosk/service_requests/InfoTechService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }
@@ -121,7 +128,7 @@ public class serviceSelector extends ViewModelBase {
   @FXML
   private void openSecurity() {
     try {
-      navigator.push(getString("openSecurity"), "view_models/kiosk/service_requests/SecurityService.fxml");
+      navigator.push(getString("openSecurity"), "views/kiosk/service_requests/SecurityService.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request", e);
     }

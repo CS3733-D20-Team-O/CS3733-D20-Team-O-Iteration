@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
@@ -13,6 +12,9 @@
   alignment="CENTER" spacing="30">
 
   <HBox alignment="CENTER">
+<!--    <ImageView fitHeight="96.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">-->
+<!--      <Image url="@/audioVisual.png"/>-->
+<!--    </ImageView>-->
     <JFXButton buttonType="RAISED" onAction="#openAVService" alignment="CENTER_LEFT"
       style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Audio/Visual Services" />
 
