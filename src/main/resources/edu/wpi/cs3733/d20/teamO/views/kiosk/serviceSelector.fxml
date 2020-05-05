@@ -1,31 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0"
-  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.serviceSelector"
-  style="-fx-background-color: #ffff">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffff" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.serviceSelector">
 
   <!-- Main Welcome Bar -->
-  <StackPane fx:id="ServiceSelectorTitle" prefHeight="64" style="-fx-background-color: #004c8c"
-    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="Service Requests"/>
+  <StackPane fx:id="ServiceSelectorTitle" prefHeight="64" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%serviceRequestCreationLabel" />
   </StackPane>
 
   <!-- Main Content Container -->
-  <StackPane fx:id="container" alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
-    AnchorPane.rightAnchor="0" AnchorPane.TopAnchor="100">
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="100" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-    <VBox fx:id="contentContainer" spacing="40" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
-      AnchorPane.rightAnchor="0" AnchorPane.TopAnchor="64">
+    <VBox fx:id="contentContainer" spacing="20" AnchorPane.TopAnchor="64" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
       <HBox fx:id="firstServices" alignment="CENTER" spacing="130">
         <ImageView fx:id="AVService" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openAVService" pickOnBounds="true" preserveRatio="true">
           <Image url="@/audioVisual.png" />
@@ -38,6 +27,12 @@
         </ImageView>
       </HBox>
 
+      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label text="%serviceAVDescription" />
+        <Label text="%serviceExtTransportationDescription" />
+        <Label text="%serviceIntTransportationDescription" />
+      </HBox>
+
       <HBox fx:id="secondServices" alignment="CENTER" spacing="130">
         <ImageView fx:id="Florist" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openFlorist" pickOnBounds="true" preserveRatio="true">
           <Image url="@/flower.png" />
@@ -48,6 +43,12 @@
         <ImageView fx:id="medDelivery" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openMedicineDelivery" pickOnBounds="true" preserveRatio="true">
           <Image url="@/medicine.png" />
         </ImageView>
+      </HBox>
+
+      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label text="%serviceFloristDeliveryDescription" />
+        <Label text="%serviceGiftDeliveryDescription" />
+        <Label text="%serviceMedicineDeliveryDescription" />
       </HBox>
 
       <HBox fx:id="thirdServices" alignment="CENTER" spacing="90">
@@ -64,6 +65,14 @@
           <Image url="@/security.png" />
         </ImageView>
       </HBox>
+
+      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label text="%serviceSanitationDescription" />
+        <Label text="%serviceInterpreterDescription" />
+        <Label text="%serviceInfoTechDescription" />
+        <Label text="%serviceSecurityDescription" />
+      </HBox>
+
     </VBox>
   </StackPane>
 </AnchorPane>
