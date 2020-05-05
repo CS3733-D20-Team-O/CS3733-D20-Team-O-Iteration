@@ -1,15 +1,13 @@
-package edu.wpi.cs3733.d20.teamO.model;
+package edu.wpi.cs3733.d20.teamO.model.network;
 
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javafx.scene.image.Image;
 import lombok.Value;
 import lombok.val;
-import net.glxn.qrgen.core.image.ImageType;
-import net.glxn.qrgen.javase.QRCode;
 
 /**
  * Handles interoperability with the web app
@@ -38,15 +36,14 @@ public class WebApp {
   }
 
   /**
-   * Creates a JavaFX Image of a QRCode that points to the web app with the supplied steps
+   * Creates a qr code from the given steps
    *
-   * @param steps the steps to fuel the web app
-   * @return an Image of a QRCode that links to the web app with the supplied steps
+   * @param steps the steps to use to create the qr code
+   * @return the qr code image or null if one was could not be created
+   * @throws IOException in case of network issues
    */
-  public static Image createQRCode(List<Step> steps) {
-    val stream = QRCode.from(createURL(steps))
-        .to(ImageType.PNG).withSize(400, 400).stream();
-    return new Image(new ByteArrayInputStream(stream.toByteArray()));
+  public static Image createQRCode(List<Step> steps) throws IOException {
+    return NetworkUtilities.createQRCode(NetworkUtilities.shortenURL(createURL(steps)));
   }
 
   /**
