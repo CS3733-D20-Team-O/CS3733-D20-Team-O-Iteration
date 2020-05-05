@@ -22,7 +22,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -198,9 +197,6 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   public void generateQR(ActionEvent actionEvent) {
     val steps = generateTextInstructions();
-    steps.get(0).getNodes().addAll(database.exportNodes().values().stream()
-        .filter(node -> node.getFloor() == 1 && node.getLongName().toLowerCase().contains("b"))
-        .collect(Collectors.toList()));
     try {
       dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(steps))));
     } catch (Exception e) {
@@ -213,46 +209,52 @@ public class FindPathViewModel extends ViewModelBase {
     val steps = new ArrayList<Step>();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     List<Node> floor = new ArrayList<>();
-    String stepMessage = "";
+    StringBuilder stepMessage = new StringBuilder();
+    int currentFloor = -1;
     for (int i = 0; i < nodes.size() - 1; i++) {
-      if (i == 0) {
-        floor.add(nodes.get(i));
-      } else if (nodes.get(i).getFloor() == nodes.get(i - 1).getFloor()) {
-        floor.add(nodes.get(i));
+      val current = nodes.get(i);
+      val next = nodes.get(i + 1);
+      if (i == 0 || current.getFloor() == currentFloor) {
+        // add this node along with any directions to the buffers
+        floor.add(current);
+        int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
+        int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
+        if (x < 0 && y == 0) {
+          stepMessage.append("Go Left\n");
+        } else if (x > 0 && y == 0) {
+          stepMessage.append("Go Right\n");
+        } else if (x == 0 && y < 0) {
+          stepMessage.append("Go Down\n");
+        } else if (x == 0 && y > 0) {
+          stepMessage.append("Go Up\n");
+        } else if (x > 0 && y < 0) {
+          stepMessage.append(" ");
+          //stepMessage = stepMessage.concat("Go South East\n");
+        } else if (x < 0 && y > 0) {
+          stepMessage.append(" ");
+          //stepMessage = stepMessage.concat("Go North East\n");
+        } else if (x > 0 && y > 0) {
+          stepMessage.append(" ");
+          //stepMessage = stepMessage.concat("Go North West\n");
+        } else if (x < 0 && y < 0) {
+          stepMessage.append(" ");
+          //stepMessage = stepMessage.concat("Go South West\n");
+        } else {
+          stepMessage.append("Go to Floor ");
+          stepMessage.append(nodes.get(i + 1).getFloor());
+        }
       } else {
-        stepMessage = "";
-        floor.clear();
-        floor.add(nodes.get(i));
+        // take all the buffers and put them into a step
+        // set floor and reset buffers (nodeBuffer and instructionBuilder) to work with new current node
+        steps.add(new Step(stepMessage.toString(), floor, currentFloor));
+        currentFloor = current.getFloor();
+        stepMessage = new StringBuilder();
       }
-      int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
-      int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
-      if (x < 0 && y == 0) {
-        stepMessage = stepMessage.concat("Go West\n");
-      } else if (x > 0 && y == 0) {
-        stepMessage = stepMessage.concat("Go East\n");
-      } else if (x == 0 && y < 0) {
-        stepMessage = stepMessage.concat("Go South\n");
-      } else if (x == 0 && y > 0) {
-        stepMessage = stepMessage.concat("Go North\n");
-      } else if (x > 0 && y < 0) {
-        stepMessage = stepMessage.concat("Go South East\n");
-      } else if (x < 0 && y > 0) {
-        stepMessage = stepMessage.concat("Go North East\n");
-      } else if (x > 0 && y > 0) {
-        stepMessage = stepMessage.concat("Go North West\n");
-      } else if (x < 0 && y < 0) {
-        stepMessage = stepMessage.concat("Go South West\n");
-      } else {
-        stepMessage = stepMessage.concat("Go to Floor " + nodes.get(i + 1).getFloor());
-        steps.add(new Step(stepMessage, floor, nodes.get(i).getFloor()));
-      }
-
       if (i + 1 == nodes.size() - 1) {
-        stepMessage = stepMessage.concat("You have arrived");
-        steps.add(new Step(stepMessage, floor, nodes.get(i).getFloor()));
+        stepMessage.append("You have arrived");
+        steps.add(new Step(stepMessage.toString(), floor, currentFloor));
       }
     }
-
     return steps;
   }
 
