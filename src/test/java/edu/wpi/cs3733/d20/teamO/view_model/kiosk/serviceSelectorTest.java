@@ -1,15 +1,11 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.d20.teamO.Main;
+import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
+import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +29,15 @@ public class serviceSelectorTest extends FxRobot {
   @Mock
   EventBus eventBus;
   @Mock
+  LanguageHandler languageHandler;
+  @Mock
+  Navigator navigator;
+  @Mock
   SnackBar snackBar;
+  @Mock
+  Dialog dialog;
+  @Mock
+  RequestConfirmationViewModel requestConfirmationViewModel;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
@@ -55,6 +59,6 @@ public class serviceSelectorTest extends FxRobot {
 
   @Test
   public void testClick() throws IOException {
-    clickOn("Audio/Visual Services");
+    clickOn("AVService");
   }
 }
