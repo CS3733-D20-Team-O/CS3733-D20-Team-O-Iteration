@@ -1,19 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.TilePane?>
-<TilePane hgap="8.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.layout.VBox?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+  spacing="8.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.FloorSelector">
    <children>
-      <JFXButton fx:id="floor1Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
-        style="-fx-background-color: lightseagreen; -fx-background-radius: 30;" text="1"/>
-      <JFXButton fx:id="floor2Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
-        style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="2"/>
-      <JFXButton fx:id="floor3Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
-        style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="3"/>
-      <JFXButton fx:id="floor4Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
-        style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="4"/>
-      <JFXButton fx:id="floor5Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
-        style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="5"/>
+      <HBox alignment="TOP_CENTER" spacing="8.0">
+         <children>
+            <JFXButton fx:id="faulknerBtn" onAction="#setBuilding"
+              style="-fx-background-color: lightseagreen;" text="Faulkner"/>
+            <JFXButton fx:id="streetBtn" onAction="#setBuilding"
+              style="-fx-background-color: lightgrey;" text="Street"/>
+            <JFXButton fx:id="mainCampusBtn" onAction="#setBuilding"
+              style="-fx-background-color: lightgrey;" text="Main Campus"/>
+         </children>
+      </HBox>
+      <TilePane alignment="CENTER" hgap="4.0" vgap="4.0">
+         <children>
+            <JFXButton fx:id="L2Btn" disable="true" onAction="#setFloor" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="L2"/>
+            <JFXButton fx:id="L1Btn" disable="true" onAction="#setFloor" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="L1"/>
+            <JFXButton fx:id="GBtn" disable="true" onAction="#setFloor" prefHeight="30.0"
+              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
+              text="G"/>
+         </children>
+      </TilePane>
+      <TilePane alignment="CENTER" hgap="8.0" vgap="8.0">
+         <children>
+            <JFXButton fx:id="floor1Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+              style="-fx-background-color: lightseagreen; -fx-background-radius: 30;" text="1"/>
+            <JFXButton fx:id="floor2Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+              style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="2"/>
+            <JFXButton fx:id="floor3Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+              style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="3"/>
+            <JFXButton fx:id="floor4Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+              style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="4"/>
+            <JFXButton fx:id="floor5Btn" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
+              style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="5"/>
+         </children>
+      </TilePane>
    </children>
-</TilePane>
+</VBox>
