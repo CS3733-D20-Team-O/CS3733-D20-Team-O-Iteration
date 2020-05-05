@@ -1,52 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
-  xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.serviceSelector"
-  alignment="CENTER" spacing="30">
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="30" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.serviceSelector">
 
-  <HBox alignment="CENTER">
-<!--    <ImageView fitHeight="96.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">-->
-<!--      <Image url="@/audioVisual.png"/>-->
-<!--    </ImageView>-->
-    <JFXButton buttonType="RAISED" onAction="#openAVService" alignment="CENTER_LEFT"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Audio/Visual Services" />
 
-    <JFXButton buttonType="RAISED" onAction="#openAExtTransport" alignment="CENTER"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="External Transportation" />
-
-    <JFXButton buttonType="RAISED" onAction="#openIntTransport" alignment="CENTER_RIGHT"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="InternalTransportation" />
+  <HBox alignment="CENTER" spacing="40">
+    <ImageView fx:id="AVService" fitHeight="70.0" fitWidth="60.0" onTouchPressed="#openAVService" pickOnBounds="true" preserveRatio="true">
+      <Image url="@/audioVisual.png" />
+    </ImageView>
+    <ImageView fx:id="ExtTransport" fitHeight="70.0" fitWidth="60.0" onTouchPressed="#openAExtTransport" pickOnBounds="true" preserveRatio="true">
+      <Image url="@/Transport.png" />
+    </ImageView>
   </HBox>
 
   <HBox alignment="CENTER">
-    <JFXButton buttonType="RAISED" onAction="#openFlorist" alignment="CENTER_LEFT"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Florist Delivery Services" />
+    <JFXButton alignment="CENTER_LEFT" buttonType="RAISED" onAction="#openAVService" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Audio/Visual Services" />
 
-    <JFXButton buttonType="RAISED" onAction="#openGiftDelivery" alignment="CENTER"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Gift Delivery Services" />
+    <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#openAExtTransport" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="External Transportation" />
 
-    <JFXButton buttonType="RAISED" onAction="#openMedicineDelivery" alignment="CENTER_RIGHT"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Medicine Delivery Service" />
+    <JFXButton alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#openIntTransport" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="InternalTransportation" />
   </HBox>
 
   <HBox alignment="CENTER">
-    <JFXButton buttonType="RAISED" onAction="#openSanitation" alignment="CENTER_LEFT"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Sanitation Services" />
+    <JFXButton alignment="CENTER_LEFT" buttonType="RAISED" onAction="#openFlorist" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Florist Delivery Services" />
 
-    <JFXButton buttonType="RAISED" onAction="#openInterpreter" alignment="CENTER"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Interpreter Services" />
+    <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#openGiftDelivery" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Gift Delivery Services" />
 
-    <JFXButton buttonType="RAISED" onAction="#openInfoTech" alignment="CENTER_RIGHT"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="IT Services" />
+    <JFXButton alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#openMedicineDelivery" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Medicine Delivery Service" />
+  </HBox>
 
-    <JFXButton buttonType="RAISED" onAction="#openSecurity" alignment="CENTER_RIGHT"
-      style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Security Services" />
+  <HBox alignment="CENTER">
+    <JFXButton alignment="CENTER_LEFT" buttonType="RAISED" onAction="#openSanitation" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Sanitation Services" />
+
+    <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#openInterpreter" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Interpreter Services" />
+
+    <JFXButton alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#openInfoTech" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="IT Services" />
+
+    <JFXButton alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#openSecurity" style="-fx-background-radius: 24; -fx-padding: 12 16; -fx-background-color: whitesmoke; opacity: .9; -fx-background-image: url('audioVisual.png')" text="Security Services" />
   </HBox>
 </VBox>
