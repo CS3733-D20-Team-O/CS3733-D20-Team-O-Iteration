@@ -1,56 +1,48 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
-import com.jfoenix.controls.JFXButton;
+import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
-import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javax.swing.text.html.ImageView;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class serviceSelector extends ViewModelBase {
 
-  private final LanguageHandler languageHandler;
   private final Navigator navigator;
-  private final SnackBar snackBar;
   private final Dialog dialog;
-  @FXML
-  private HBox firstServices;
-  @Getter
-  private JFXButton lookupButton; // Used for clicks in testing
 
   @FXML
   private ImageView imageView;
   @FXML
-  private void openDialog() {
+  private StackPane ServiceSelectorTitle, container;
+  @FXML
+  private VBox contentContainer;
 
-    val header = new Label("Login");
-    header.setStyle("-fx-font-size: 24");
-    val buttonContainer = new HBox();
-    buttonContainer.setAlignment(Pos.CENTER_RIGHT);
-    val root = new VBox(header, buttonContainer);
-    root.setAlignment(Pos.CENTER);
-    root.setSpacing(32);
-    root.setPrefWidth(300);
-    root.setStyle("-fx-font-size: 16; -fx-padding: 32");
-    val jfxDialog = dialog.showFullscreen(root);
+  @Override
+  protected void start(URL location, ResourceBundle resources) {
+
+    // Set UI properties not set in FXML
+    JFXDepthManager.setDepth(ServiceSelectorTitle, 2);
+    JFXDepthManager.setDepth(container, 2);
+    JFXDepthManager.setDepth(contentContainer, 3);
+
   }
 
   @FXML
@@ -60,11 +52,14 @@ public class serviceSelector extends ViewModelBase {
 //    } catch (IOException e) {
 //      log.error("Failed to open Service Request", e);
 //    }
-    try {
-      dialog.showFXML(firstServices, "views/kiosk/service_requests/AVService.fxml");
-    } catch (IOException e) {
-      log.error("Failed to open Service Request", e);
-    }
+//    try {
+//      imageView.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> {
+//        dialog.showFXML(AVService, "views/kiosk/service_requests/AVService.fxml");
+//        event.consume();
+//      });
+//    } catch (IOException e) {
+//      log.error("Failed to open Service Request", e);
+//    }
   }
 
   @FXML
