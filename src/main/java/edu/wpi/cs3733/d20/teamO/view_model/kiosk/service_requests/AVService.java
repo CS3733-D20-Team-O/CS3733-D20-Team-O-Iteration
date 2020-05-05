@@ -10,6 +10,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -36,10 +37,12 @@ public class AVService extends ServiceRequestBase {
   private JFXTextArea commentTextArea;
   @FXML
   private JFXTimePicker startTimePicker;
+  @FXML
+  private NodeSelector nodeSelector;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    setLocations(floorNumberComboBox, locationComboBox);
+    nodeSelector.setNodes(database.exportNodes().values());
   }
 
   @FXML
@@ -65,14 +68,14 @@ public class AVService extends ServiceRequestBase {
         commentTextArea.getText());
 
     val confirmationCode = database.addServiceRequest(time,
-        locationComboBox.getSelectionModel().getSelectedItem(),
+        nodeSelector.getSelectedNode().getLongName(),
         "A/V", requesterNameField.getText(), requestData);
 
     if (confirmationCode == null) {
       snackBar.show("Failed to create the A/V service request");
     } else {
-      dialog.showBasic("A/V Request Submitted Successfully",
-          "Your confirmation code is:\n" + confirmationCode, "CLOSE");
+      close();
+      showRequestConfirmation(confirmationCode);
     }
   }
 }
