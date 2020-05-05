@@ -6,6 +6,8 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
+import edu.wpi.cs3733.d20.teamO.events.Event;
+import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
@@ -169,22 +171,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         break;
       default:
         setState(State.MAIN);
-    }
-  }
-
-  public void floorDownPressed(ActionEvent actionEvent) {
-    if (state != State.ADD_NODE) {
-      nodeMapViewController.decrementFloor();
-      floorLabel.setText("Floor " + nodeMapViewController.getFloor());
-      drawEdges();
-    }
-  }
-
-  public void floorUpPressed(ActionEvent actionEvent) {
-    if (state != State.ADD_NODE) {
-      nodeMapViewController.incrementFloor();
-      floorLabel.setText("Floor " + nodeMapViewController.getFloor());
-      drawEdges();
     }
   }
 
@@ -613,6 +599,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     redraw();
     for (Node node : selection) { // re-highlights the nodes
       nodeMapViewController.highlightNode(node);
+    }
+  }
+
+  public void onEvent(Event event) {
+    if (event.getClass().equals(FloorSwitchEvent.class)) {
+      nodeMapViewController.setFloor(((FloorSwitchEvent) event).getFloor());
     }
   }
 }
