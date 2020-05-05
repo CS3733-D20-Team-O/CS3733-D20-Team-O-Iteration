@@ -1,24 +1,24 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
-import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
-import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTextField;
+import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
+import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
+import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.google.inject.Inject;
-import java.util.ResourceBundle;
-import java.time.LocalDateTime;
-import java.io.IOException;
-import javafx.fxml.FXML;
-import java.net.URL;
 import lombok.val;
 
 @Slf4j
@@ -32,7 +32,7 @@ public class SecurityService extends ServiceRequestBase {
   @FXML
   private JFXTextField requesterName;
   @FXML
-  private JFXComboBox<Integer> floors;
+  private JFXComboBox<String> floors;
   @FXML
   private JFXComboBox<String> locations;
   @FXML

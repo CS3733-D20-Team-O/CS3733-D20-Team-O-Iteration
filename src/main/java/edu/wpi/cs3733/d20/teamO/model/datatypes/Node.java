@@ -16,15 +16,15 @@ import lombok.With;
 public class Node {
 
   String nodeID;
-  int xCoord, yCoord, floor;
-  String building, nodeType, longName, shortName;
+  int xCoord, yCoord;
+  String floor, building, nodeType, longName, shortName;
   @With
   LinkedList<Node> neighbors;
 
   /**
    * Constructor to allow for neighbors to have a with call
    */
-  public Node(String nodeID, int xCoord, int yCoord, int floor, String building,
+  public Node(String nodeID, int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName) {
     this.nodeID = nodeID;
     this.xCoord = xCoord;

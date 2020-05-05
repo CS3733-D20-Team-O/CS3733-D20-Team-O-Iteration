@@ -77,10 +77,10 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Room 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Room 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Room 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Room 5", ""));
+    map.put("a", new Node("a", 0, 0, "1", "", "", "Room 1", ""));
+    map.put("b", new Node("b", 0, 0, "3", "", "", "Room 3-1", ""));
+    map.put("c", new Node("c", 0, 0, "3", "", "", "Room 3-2", ""));
+    map.put("d", new Node("d", 0, 0, "5", "", "", "Room 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
 

@@ -197,50 +197,51 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   @FXML
-  public void generateQR(ActionEvent actionEvent) {
-    val steps = generateTextInstructions();
+  private void generateQR() {
+    val steps = new ArrayList<Step>();
     try {
-      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(steps))));
+      dialog
+          .showFullscreen(new HBox(new ImageView(WebApp.createQRCode(null, steps)))); // todo color
     } catch (Exception e) {
       System.out.println("exception happened for qr making");
     }
 
   }
 
-  private ArrayList<Step> generateTextInstructions() {
-    val steps = new ArrayList<Step>();
-    List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
-    for (int i = 0; i < nodes.size() - 1; i++) {
-      int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
-      int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
-      if (x < 0 && y == 0) {
-        steps.add(new Step("Go West", nodes, nodes.get(i).getFloor()));
-      } else if (x > 0 && y == 0) {
-        steps.add(new Step("Go East", nodes, nodes.get(i).getFloor()));
-      } else if (x == 0 && y < 0) {
-        steps.add(new Step("Go South", nodes, nodes.get(i).getFloor()));
-      } else if (x == 0 && y > 0) {
-        steps.add(new Step("Go North", nodes, nodes.get(i).getFloor()));
-      } else if (x > 0 && y < 0) {
-        steps.add(new Step("Go South East", nodes, nodes.get(i).getFloor()));
-      } else if (x < 0 && y > 0) {
-        steps.add(new Step("Go North East", nodes, nodes.get(i).getFloor()));
-      } else if (x > 0 && y > 0) {
-        steps.add(new Step("Go North West", nodes, nodes.get(i).getFloor()));
-      } else if (x < 0 && y < 0) {
-        steps.add(new Step("Go South West", nodes, nodes.get(i).getFloor()));
-      } else {
-        steps.add(
-            new Step("Go to Floor " + nodes.get(i + 1).getFloor(), nodes, nodes.get(i).getFloor()));
-      }
-
-      if (i + 1 == nodes.size() - 1) {
-        steps.add(new Step("You have arrived ", new ArrayList<>(), nodes.get(i).getFloor()));
-      }
-    }
-
-    return steps;
-  }
+//  private ArrayList<Step> generateTextInstructions() {
+//    val steps = new ArrayList<Step>();
+//    List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+//    for (int i = 0; i < nodes.size() - 1; i++) {
+//      int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
+//      int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
+//      if (x < 0 && y == 0) {
+//        steps.add(new Step("Go West", nodes, nodes.get(i).getFloor()));
+//      } else if (x > 0 && y == 0) {
+//        steps.add(new Step("Go East", nodes, nodes.get(i).getFloor()));
+//      } else if (x == 0 && y < 0) {
+//        steps.add(new Step("Go South", nodes, nodes.get(i).getFloor()));
+//      } else if (x == 0 && y > 0) {
+//        steps.add(new Step("Go North", nodes, nodes.get(i).getFloor()));
+//      } else if (x > 0 && y < 0) {
+//        steps.add(new Step("Go South East", nodes, nodes.get(i).getFloor()));
+//      } else if (x < 0 && y > 0) {
+//        steps.add(new Step("Go North East", nodes, nodes.get(i).getFloor()));
+//      } else if (x > 0 && y > 0) {
+//        steps.add(new Step("Go North West", nodes, nodes.get(i).getFloor()));
+//      } else if (x < 0 && y < 0) {
+//        steps.add(new Step("Go South West", nodes, nodes.get(i).getFloor()));
+//      } else {
+//        steps.add(
+//            new Step("Go to Floor " + nodes.get(i + 1).getFloor(), nodes, nodes.get(i).getFloor()));
+//      }
+//
+//      if (i + 1 == nodes.size() - 1) {
+//        steps.add(new Step("You have arrived ", new ArrayList<>(), nodes.get(i).getFloor()));
+//      }
+//    }
+//
+//    return steps;
+//  }
 
 
   @FXML
