@@ -1,12 +1,8 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
@@ -34,17 +30,7 @@ import org.testfx.framework.junit5.Start;
 public class serviceSelectorTest extends FxRobot {
 
   @Mock
-  EventBus eventBus;
-  @Mock
-  LanguageHandler languageHandler;
-  @Mock
-  Navigator navigator;
-  @Mock
-  SnackBar snackBar;
-  @Mock
   Dialog dialog;
-  @Mock
-  AVService AVservice;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
