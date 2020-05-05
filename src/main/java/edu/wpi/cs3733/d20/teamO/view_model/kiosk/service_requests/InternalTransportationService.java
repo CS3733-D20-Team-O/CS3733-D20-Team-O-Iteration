@@ -42,7 +42,7 @@ public class InternalTransportationService extends ServiceRequestBase {
   @FXML
   private ToggleGroup assistedToggle, unassistedToggle;
   @FXML
-  private JFXComboBox<Integer> destinationFloor, currentFloor;
+  private JFXComboBox<String> destinationFloor, currentFloor;
   @FXML
   private JFXComboBox<String> currentRoom, destinationRoom;
 

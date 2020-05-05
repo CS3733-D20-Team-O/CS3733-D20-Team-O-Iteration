@@ -29,7 +29,7 @@ public class AVService extends ServiceRequestBase {
   @FXML
   private JFXComboBox<String> durationComboBox, serviceRequestComboBox, locationComboBox;
   @FXML
-  private JFXComboBox<Integer> floorNumberComboBox;
+  private JFXComboBox<String> floorNumberComboBox;
   @FXML
   private JFXTextField requesterNameField;
   @FXML

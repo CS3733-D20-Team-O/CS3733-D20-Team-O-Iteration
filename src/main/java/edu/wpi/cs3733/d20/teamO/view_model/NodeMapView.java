@@ -30,8 +30,8 @@ public class NodeMapView extends ViewModelBase {
 
   private double nodeSize = 5;
   private double edgeSize = 3;
-  private final static int maxFloor = 5;
-  private final static int minFloor = 1;
+  private final static String maxFloor = "5";
+  private final static String minFloor = "1";
   private final static Paint nodeColor = Color.web("#00991f"); // Green
   private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
   private final static Paint highlightColor = Color.RED; // Red
@@ -44,7 +44,7 @@ public class NodeMapView extends ViewModelBase {
   /**
    * The current floor being displayed
    */
-  private int floor = minFloor;
+  private String floor = minFloor;
   /**
    * The current zoom level
    */
@@ -93,7 +93,7 @@ public class NodeMapView extends ViewModelBase {
    * The node map to use to fuel the display todo make an arraylist todo using a map of integers to
    * something else isn't really the appropriate data structure
    */
-  private final Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
+  private final Map<String, Map<String, Node>> nodeMap = new HashMap<>();
 
   @FXML
   private ImageView backgroundImage;
@@ -176,7 +176,7 @@ public class NodeMapView extends ViewModelBase {
    */
   public void addNode(Node node) {
     placeFloorNode(node.getNodeID(), node);
-    if (node.getFloor() == this.floor) {
+    if (node.getFloor().equals(this.floor)) {
       drawNode(node);
     }
   }
@@ -190,7 +190,7 @@ public class NodeMapView extends ViewModelBase {
     if (this.nodeMap.containsKey(node.getFloor())) {
       nodeMap.get(node.getFloor()).remove(node.getNodeID());
 
-      if (node.getFloor() == this.floor) {
+      if (node.getFloor().equals(this.floor)) {
         val target = findNode(node);
         if (target
             != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
@@ -286,7 +286,7 @@ public class NodeMapView extends ViewModelBase {
    */
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
-    if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
+    if (n1.getFloor().equals(getFloor()) && n2.getFloor().equals(getFloor())) {
       val x1 = translateToPaneX(n1.getXCoord());
       val y1 = translateToPaneY(n1.getYCoord());
       val x2 = translateToPaneX(n2.getXCoord());
@@ -353,11 +353,10 @@ public class NodeMapView extends ViewModelBase {
    *
    * @param floor the floor to swap to
    */
-  public void setFloor(int floor) {
-    if (floor >= minFloor && floor <= maxFloor) {
-      this.floor = floor;
-      backgroundImage.setImage(new Image("floors/" + floor + ".png"));
-    }
+  //todo come back to later
+  public void setFloor(String floor) {
+    this.floor = floor;
+    backgroundImage.setImage(new Image("floors/" + floor + ".png"));
     draw();
   }
 
@@ -365,14 +364,14 @@ public class NodeMapView extends ViewModelBase {
    * Increments the current floor to the floor above
    */
   public void incrementFloor() {
-    setFloor(this.floor + 1);
+    //setFloor(this.floor + 1);
   }
 
   /**
    * Increments the current floor to the floor below
    */
   public void decrementFloor() {
-    setFloor(this.floor - 1);
+    //  setFloor(this.floor - 1);
   }
 
   /**

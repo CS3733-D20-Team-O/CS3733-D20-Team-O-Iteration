@@ -80,7 +80,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + "(" + NodeProperty.NODE_ID.getColumnName() + " VARCHAR(999), "
             + NodeProperty.X_COORD.getColumnName() + " INT, "
             + NodeProperty.Y_COORD.getColumnName() + " INT, "
-            + NodeProperty.FLOOR.getColumnName() + " INT, "
+            + NodeProperty.FLOOR.getColumnName() + " VARCHAR(999), "
             + NodeProperty.BUILDING.getColumnName() + " VARCHAR(999), "
             + NodeProperty.NODE_TYPE.getColumnName() + " VARCHAR(999), "
             + NodeProperty.LONG_NAME.getColumnName() + " VARCHAR(999), "
@@ -174,14 +174,24 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
-  public String getNodeID(String type, int floor) {
+  public String getNodeID(String type, String floor) {
     val takenIDs = exportNodes().keySet().stream()
         .filter(id -> id.substring(1, 5).equals(type))
-        .filter(id -> Integer.parseInt(id.substring(8)) == floor)
-        .map(id -> Integer.parseInt(id.substring(5, 8)))
+        .filter(id -> {
+          System.out.println("in filter " + id.substring(5, 8));
+          return id.substring(8).equals(floor);
+        })
+        .map(id -> {
+          System.out.println("in map " + id.substring(5, 8));
+          return (id.substring(5, 8));
+        })
+        .map(id -> Integer.parseInt(id))
         .collect(Collectors.toSet());
     for (int i = 1; i < 1000; ++i) {
+      System.out.println(takenIDs);
+      System.out.println(takenIDs.contains(i));
       if (!takenIDs.contains(i)) {
+        System.out.println(String.format("O%s%3s%2s", type, i, floor).replace(' ', '0'));
         return String.format("O%s%3s%2s", type, i, floor).replace(' ', '0');
       }
     }
@@ -190,22 +200,22 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
 
 
   @Override
-  public String addNode(int xCoord, int yCoord, int floor, String building,
+  public String addNode(int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName) {
-    String id = "";
-    if (!nodeType.equals("ELEV")) {
-      id = getNodeID(nodeType, floor);
-    } else {
-      val elevLetter = longName.substring(9);
-      id = "O" + nodeType + "00" + elevLetter + "0" + floor;
-    }
+    String id = getNodeID(nodeType, floor);
+//    if (!nodeType.equals("ELEV")) {
+//      id = getNodeID(nodeType, floor);
+//    } else {
+//      val elevLetter = longName.substring(9);
+//      id = "O" + nodeType + "00" + elevLetter + floor;
+//    }
     val numAffected = addNode(id, xCoord, yCoord, floor, building, nodeType, longName, shortName);
     return (numAffected == 1) ? id : null;
   }
 
 
   @Override
-  public int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
+  public int addNode(String nodeID, int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName) {
     val query = "INSERT into " + Table.NODES_TABLE.getTableName() +
         " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -213,7 +223,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(1, nodeID);
       stmt.setInt(2, xCoord);
       stmt.setInt(3, yCoord);
-      stmt.setInt(4, floor);
+      stmt.setString(4, floor);
       stmt.setString(5, building);
       stmt.setString(6, nodeType);
       stmt.setString(7, longName);
@@ -457,7 +467,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             rset.getString(1),
             rset.getInt(2),
             rset.getInt(3),
-            rset.getInt(4),
+            rset.getString(4),
             rset.getString(5),
             rset.getString(6),
             rset.getString(7),

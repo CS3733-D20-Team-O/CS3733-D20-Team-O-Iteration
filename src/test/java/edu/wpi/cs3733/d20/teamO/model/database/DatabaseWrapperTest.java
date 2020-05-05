@@ -37,9 +37,9 @@ public class DatabaseWrapperTest {
   @BeforeEach
   public void initializeDB() {
     database = TestInjector.create(DatabaseWrapper.class);
-    database.addNode("OELEV00101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
-    database.addNode("OELEV00201", 9, 0, 1, "Faulkner", "ELEV", "Elevator 2", "Elev2");
-    database.addNode("OELEV00301", 0, 5, 1, "Faulkner", "ELEV", "Elevator 3", "Elev3");
+    database.addNode("OELEV00101", 0, 0, "1", "Faulkner", "ELEV", "Elevator 1", "Elev1");
+    database.addNode("OELEV00201", 9, 0, "1", "Faulkner", "ELEV", "Elevator 2", "Elev2");
+    database.addNode("OELEV00301", 0, 5, "1", "Faulkner", "ELEV", "Elevator 3", "Elev3");
     database.addEdge("01", "OELEV00101", "OELEV00201");
     database.addEdge("02", "OELEV00101", "OELEV00301");
     database.addEdge("03", "OELEV00201", "OELEV00301");
@@ -49,11 +49,11 @@ public class DatabaseWrapperTest {
   }
 
   private final Node[] testNodes = {
-      new Node("OELEV00101", 0, 0, 1,
+      new Node("OELEV00101", 0, 0, "1",
           "Faulkner", "ELEV", "Elevator 1", "Elev1"),
-      new Node("OELEV00201", 9, 0, 1,
+      new Node("OELEV00201", 9, 0, "1",
           "Faulkner", "ELEV", "Elevator 2", "Elev2"),
-      new Node("OELEV00301", 0, 5, 1,
+      new Node("OELEV00301", 0, 5, "1",
           "Faulkner", "ELEV", "Elevator 3", "Elev3"),
   };
 
@@ -87,8 +87,8 @@ public class DatabaseWrapperTest {
   //ALL THE NODE TESTS
   @Test
   public void addSameNodeTest() {
-    database.addNode("OELEV00101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
-    database.addNode("OELEV00101", 0, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
+    database.addNode("OELEV00101", 0, 0, "01", "Faulkner", "ELEV", "Elevator 1", "Elev1");
+    database.addNode("OELEV00101", 0, 0, "01", "Faulkner", "ELEV", "Elevator 1", "Elev1");
     val map = new HashMap<String, Node>();
     map.put("OELEV00101", testNodes[0]);
     map.put("OELEV00201", testNodes[1]);
@@ -98,16 +98,16 @@ public class DatabaseWrapperTest {
 
   @Test
   public void addMultipleNodesAutoIDTest() {
-    val id1 = database.addNode(0, 0, 1, "Faulkner", "DEPT", "Intensive Care Unit", "ICU");
-    val id2 = database.addNode(9, 0, 2, "Faulkner", "LABS", "Surgery", "Surgery");
-    val id3 = database.addNode(0, 5, 1, "Faulkner", "ELEV", "Elevator X", "ElevX");
-    val id4 = database.addNode(5, 7, 2, "Faulkner", "LABS", "Something", "Something");
-    val id5 = database.addNode(19, 77, 2, "Faulkner", "LABS", "LabW", "LabW");
-    Node N1 = new Node(id1, 0, 0, 1, "Faulkner", "DEPT", "Intensive Care Unit", "ICU");
-    Node N2 = new Node(id2, 9, 0, 2, "Faulkner", "LAB", "Surgery", "Surgery");
-    Node N3 = new Node(id3, 0, 5, 1, "Faulkner", "ELEV", "Elevator X", "ElevX");
-    Node N4 = new Node(id4, 5, 7, 2, "Faulkner", "LAB", "Something", "Something");
-    Node N5 = new Node(id5, 19, 77, 2, "Faulkner", "LABS", "LabW", "LabW");
+    val id1 = database.addNode(0, 0, "01", "Faulkner", "DEPT", "Intensive Care Unit", "ICU");
+    val id2 = database.addNode(9, 0, "02", "Faulkner", "LABS", "Surgery", "Surgery");
+    val id3 = database.addNode(0, 5, "01", "Faulkner", "ELEV", "Elevator X", "ElevX");
+    val id4 = database.addNode(5, 7, "02", "Faulkner", "LABS", "Something", "Something");
+    val id5 = database.addNode(19, 77, "02", "Faulkner", "LABS", "LabW", "LabW");
+    Node N1 = new Node(id1, 0, 0, "01", "Faulkner", "DEPT", "Intensive Care Unit", "ICU");
+    Node N2 = new Node(id2, 9, 0, "02", "Faulkner", "LAB", "Surgery", "Surgery");
+    Node N3 = new Node(id3, 0, 5, "01", "Faulkner", "ELEV", "Elevator X", "ElevX");
+    Node N4 = new Node(id4, 5, 7, "02", "Faulkner", "LAB", "Something", "Something");
+    Node N5 = new Node(id5, 19, 77, "02", "Faulkner", "LABS", "LabW", "LabW");
     Node[] testNodesAutoID = {N1, N2, N3, N4, N5, testNodes[0], testNodes[1], testNodes[2]};
     LinkedList<String> idList = new LinkedList<String>();
     for (Map.Entry<String, Node> n : database.exportNodes().entrySet()) {
@@ -149,7 +149,7 @@ public class DatabaseWrapperTest {
 
   @Test
   public void addManyAndUpdateNodeTest() {
-    val updatedNode = new Node("OELEV00101", 3, 0, 1, "Faulkner", "ELEV", "Elevator 1", "Elev1");
+    val updatedNode = new Node("OELEV00101", 3, 0, "1", "Faulkner", "ELEV", "Elevator 1", "Elev1");
     database.update(Table.NODES_TABLE, NodeProperty.NODE_ID, "OELEV00101", NodeProperty.X_COORD, 3);
     val map = new HashMap<String, Node>();
     map.put("OELEV00101", updatedNode);
