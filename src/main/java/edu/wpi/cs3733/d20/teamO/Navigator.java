@@ -37,7 +37,7 @@ public class Navigator {
   @Inject
   public Navigator(Injector injector) {
     this.injector = injector;
-    this.idleDetector = new IdleDetector(injector, root, dialog, this);
+    this.idleDetector = new IdleDetector(injector, root, this);
   }
 
   /*
