@@ -60,14 +60,14 @@ public class AVService extends ServiceRequestBase {
   }
 
   private void generateRequest() {
-    val time = startTimePicker.getValue().toString();
+    val startTime = startTimePicker.getValue().toString();
     val requestData = new AVRequestData(
         serviceRequestComboBox.getSelectionModel().getSelectedItem(),
-        time,
+        startTime,
         durationComboBox.getSelectionModel().getSelectedItem(),
         commentTextArea.getText());
 
-    val confirmationCode = database.addServiceRequest(time,
+    val confirmationCode = database.addServiceRequest(startTime,
         nodeSelector.getSelectedNode().getLongName(),
         "A/V", requesterNameField.getText(), requestData);
 
