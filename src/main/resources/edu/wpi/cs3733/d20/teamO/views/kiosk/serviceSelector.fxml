@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -11,8 +12,17 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0"
   xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.serviceSelector"
-  style="-fx-background-color: #004c8c">
+  style="-fx-background-color: #ffff">
+
+  <!-- Main Welcome Bar -->
+  <StackPane fx:id="ServiceSelectorTitle" prefHeight="64" style="-fx-background-color: #004c8c"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="Service Requests"/>
+  </StackPane>
+
   <StackPane  alignment="CENTER" >
+
+
 
   <VBox spacing="40">
     <HBox fx:id="firstServices" alignment="CENTER" spacing="40">
