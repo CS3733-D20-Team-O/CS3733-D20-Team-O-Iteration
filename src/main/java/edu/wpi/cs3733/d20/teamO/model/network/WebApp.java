@@ -135,7 +135,7 @@ Parameter key:
 
     @RequiredArgsConstructor
     public enum Building {
-      MAIN_CAMPUS("m"), FAULKNER("f");
+      MAIN_CAMPUS("m"), FAULKNER("f"), STREET("s");
 
       private final String buildingIdentifier;
 
@@ -148,6 +148,8 @@ Parameter key:
           case "maincampus":
           case "main campus":
             return Building.MAIN_CAMPUS;
+          case "street":
+            return Building.STREET;
           case "faulkner":
           default:
             return Building.FAULKNER;
