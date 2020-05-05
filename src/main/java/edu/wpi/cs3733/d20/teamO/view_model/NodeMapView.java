@@ -46,6 +46,10 @@ public class NodeMapView extends ViewModelBase {
    */
   private String floor = minFloor;
   /**
+   * The current building being displayed
+   */
+  private String building = "Faulkner";
+  /**
    * The current zoom level
    */
   private double currentZoom = 1.0;
@@ -94,6 +98,7 @@ public class NodeMapView extends ViewModelBase {
    * something else isn't really the appropriate data structure
    */
   private final Map<String, Map<String, Node>> nodeMap = new HashMap<>();
+  // Note: The stored string is a combined string, consisting of the <building name>_<floor name>
 
   @FXML
   private ImageView backgroundImage;
@@ -107,7 +112,7 @@ public class NodeMapView extends ViewModelBase {
 
     //backgroundImage.setFitWidth(990.4);
     //backgroundImage.setFitHeight(594.4);
-    backgroundImage.setImage(new Image("floors/1.png"));
+    backgroundImage.setImage(new Image("floors/Faulkner_1.png"));
 
     // Set up event for a scroll event
     floorPane.setOnScroll(event -> {
@@ -146,7 +151,7 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Display the current floor (and consequently call the above listeners)
-    Platform.runLater(() -> setFloor(minFloor));
+    Platform.runLater(() -> setFloor(this.building, minFloor));
   }
 
   /**
@@ -187,8 +192,8 @@ public class NodeMapView extends ViewModelBase {
    * @param node a node
    */
   public void deleteNode(Node node) {
-    if (this.nodeMap.containsKey(node.getFloor())) {
-      nodeMap.get(node.getFloor()).remove(node.getNodeID());
+    if (this.nodeMap.containsKey(buildingFloorID(node))) {
+      nodeMap.get(buildingFloorID(node)).remove(node.getNodeID());
 
       if (node.getFloor().equals(this.floor)) {
         val target = findNode(node);
@@ -208,11 +213,11 @@ public class NodeMapView extends ViewModelBase {
    */
   private void placeFloorNode(String string, Node node) {
     // Make the new floor if it doesn't exist
-    if (!this.nodeMap.containsKey(node.getFloor())) {
-      nodeMap.put(node.getFloor(), new HashMap<>());
+    if (!this.nodeMap.containsKey(buildingFloorID(node))) {
+      nodeMap.put(buildingFloorID(node), new HashMap<>());
     }
     // Place the node in the correct floor
-    nodeMap.get(node.getFloor()).put(string, node);
+    nodeMap.get(buildingFloorID(node)).put(string, node);
   }
 
   /**
@@ -351,13 +356,20 @@ public class NodeMapView extends ViewModelBase {
   /**
    * Sets the currently drawn floor to the given floor and updates the NodeMapView
    *
-   * @param floor the floor to swap to
+   * @param building the building the floor is on
+   * @param floor    the floor to swap to
    */
-  //todo come back to later
-  public void setFloor(String floor) {
-    this.floor = floor;
-    backgroundImage.setImage(new Image("floors/" + floor + ".png"));
-    draw();
+  public void setFloor(String building, String floor) {
+    try {
+      // If the background image doesn't load, don't even bother with the rest.
+      backgroundImage.setImage(new Image("floors/" +
+          building.replaceAll("\\s+", "") +
+          floor.replaceAll("\\s+", "") + ".png"));
+      this.floor = floor;
+      draw();
+    } catch (Exception e) {
+      System.err.println("The floor map associated with that floor doesn't exist!");
+    }
   }
 
   /**
@@ -450,7 +462,7 @@ public class NodeMapView extends ViewModelBase {
    * @param y    the new y location
    */
   public void relocateNode(Node node, double x, double y) {
-    val floor = nodeMap.get(node.getFloor());
+    val floor = nodeMap.get(buildingFloorID(node));
     if (floor != null) {
       floor.remove(node.getNodeID());
       Node newNode = new Node(node.getNodeID(), node.getXCoord(),
@@ -586,6 +598,17 @@ public class NodeMapView extends ViewModelBase {
     double aspectRatio =
         backgroundImage.getImage().getWidth() / backgroundImage.getImage().getHeight();
     return Math.min(backgroundImage.getFitHeight(), backgroundImage.getFitWidth() / aspectRatio);
+  }
+
+  /**
+   * Creates a string from the building and floor of a node (used for consistency, I don't trust
+   * myself, lmao)
+   *
+   * @param node The given node
+   * @return a string
+   */
+  private String buildingFloorID(Node node) {
+    return node.getBuilding() + "_" + node.getFloor();
   }
 
   /**
