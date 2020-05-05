@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import lombok.val;
 
 public class FloorSelector extends ViewModelBase {
 
@@ -18,8 +19,8 @@ public class FloorSelector extends ViewModelBase {
    */
   @FXML
   private void setFloor(ActionEvent event) {
-    JFXButton target = (JFXButton) event.getSource();
-    String floor = target.getText();
+    val target = (JFXButton) event.getSource();
+    val floor = target.getText();
     for (JFXButton btn : Arrays
         .asList(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn)) {
       btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
@@ -32,21 +33,17 @@ public class FloorSelector extends ViewModelBase {
    * Sets the building
    */
   public void setBuilding(ActionEvent event) {
-    JFXButton target = (JFXButton) event.getSource();
-    String building = target.getText();
+    val target = (JFXButton) event.getSource();
+    val building = target.getText();
     switch (building) {
       case ("Faulkner"):
-        Stream.of(floor5Btn).forEach(btn -> {
-          btn.setDisable(false);
-        });
+        floor5Btn.setDisable(false);
         Stream.of(L1Btn, L2Btn, GBtn).forEach(btn -> {
           btn.setDisable(true);
         });
         break;
       case ("Main Campus"):
-        Stream.of(floor5Btn).forEach(btn -> {
-          btn.setDisable(true);
-        });
+        floor5Btn.setDisable(true);
         Stream.of(L1Btn, L2Btn, GBtn).forEach(btn -> {
           btn.setDisable(false);
         });
