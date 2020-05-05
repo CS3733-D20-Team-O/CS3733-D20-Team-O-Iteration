@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d20.teamO;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import edu.wpi.cs3733.d20.teamO.events.BuildingSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.view_model.FloorSelector;
 import java.io.IOException;
@@ -41,15 +42,31 @@ public class FloorSelectorTest extends FxRobot {
   @Test
   public void testSelectFloors() {
     clickOn("1");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(1));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("1"));
     clickOn("2");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(2));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("2"));
     clickOn("3");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(3));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("3"));
     clickOn("4");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(4));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("4"));
     clickOn("5");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(5));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("5"));
+    clickOn("Main Campus");
+    clickOn("G");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("G"));
+    clickOn("L1");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("L1"));
+    clickOn("L2");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("L2"));
+  }
 
+  @Test
+  public void testSwitchBuildings() {
+    clickOn("Main Campus");
+    verify(eventBus, times(1)).post(new BuildingSwitchEvent("Main Campus"));
+    clickOn("Faulkner");
+    verify(eventBus, times(1)).post(new BuildingSwitchEvent("Faulkner"));
+    clickOn("Street");
+    verify(eventBus, times(1)).post(new BuildingSwitchEvent("Street"));
   }
 }
