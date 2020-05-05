@@ -66,5 +66,7 @@ public class FloorSelectorTest extends FxRobot {
     verify(eventBus, times(1)).post(new BuildingSwitchEvent("Main Campus"));
     clickOn("Faulkner");
     verify(eventBus, times(1)).post(new BuildingSwitchEvent("Faulkner"));
+    clickOn("Street");
+    verify(eventBus, times(1)).post(new BuildingSwitchEvent("Street"));
   }
 }

@@ -12,7 +12,7 @@ import lombok.val;
 public class FloorSelector extends ViewModelBase {
 
   @FXML
-  private JFXButton floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn, faulknerBtn, mainCampusBtn;
+  private JFXButton floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn, faulknerBtn, mainCampusBtn, streetBtn;
 
   /**
    * Sets the floor of the application
@@ -37,21 +37,28 @@ public class FloorSelector extends ViewModelBase {
     val building = target.getText();
     switch (building) {
       case ("Faulkner"):
-        floor5Btn.setDisable(false);
+        Stream.of(floor2Btn, floor3Btn, floor4Btn, floor5Btn).forEach(btn -> {
+          btn.setDisable(false);
+        });
         Stream.of(L1Btn, L2Btn, GBtn).forEach(btn -> {
+          btn.setDisable(true);
+        });
+        break;
+      case ("Street"):
+        Stream.of(floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn).forEach(btn -> {
           btn.setDisable(true);
         });
         break;
       case ("Main Campus"):
         floor5Btn.setDisable(true);
-        Stream.of(L1Btn, L2Btn, GBtn).forEach(btn -> {
+        Stream.of(L1Btn, L2Btn, GBtn, floor2Btn, floor3Btn, floor4Btn).forEach(btn -> {
           btn.setDisable(false);
         });
         break;
     }
     for (JFXButton btn : Arrays
         .asList(floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn, faulknerBtn,
-            mainCampusBtn)) {
+            mainCampusBtn, streetBtn)) {
       btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
     }
     target.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");

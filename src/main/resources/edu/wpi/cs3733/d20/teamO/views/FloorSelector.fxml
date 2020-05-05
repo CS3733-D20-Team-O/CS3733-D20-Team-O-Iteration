@@ -12,6 +12,8 @@
          <children>
             <JFXButton fx:id="faulknerBtn" onAction="#setBuilding"
               style="-fx-background-color: lightseagreen;" text="Faulkner"/>
+            <JFXButton fx:id="streetBtn" onAction="#setBuilding"
+              style="-fx-background-color: lightgrey;" text="Street"/>
             <JFXButton fx:id="mainCampusBtn" onAction="#setBuilding"
               style="-fx-background-color: lightgrey;" text="Main Campus"/>
          </children>
