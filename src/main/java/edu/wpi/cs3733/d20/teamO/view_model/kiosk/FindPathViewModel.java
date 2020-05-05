@@ -1,10 +1,11 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
+import edu.wpi.cs3733.d20.teamO.events.Event;
+import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
@@ -13,6 +14,7 @@ import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
+import edu.wpi.cs3733.d20.teamO.view_model.FloorSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -25,7 +27,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -47,13 +48,13 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private AnchorPane sideBar;
   @FXML
-  private Label floorLabel;
-  @FXML
   private JFXSlider zoomSlider;
   @FXML
   private NodeSelector startLocation, stopLocation;
   @FXML
   private JFXToggleButton handicap;
+  @FXML
+  private FloorSelector floorSelectorController;
 
   private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
@@ -152,7 +153,6 @@ public class FindPathViewModel extends ViewModelBase {
 
   private void changeFloor() {
     nodeMapViewController.draw();
-    floorLabel.setText(" " + nodeMapViewController.getFloor());
     drawPath();
   }
 
@@ -258,9 +258,8 @@ public class FindPathViewModel extends ViewModelBase {
 
 
   @FXML
-  private void buttonSwitchFloor(ActionEvent e) {
-    int newFloor = Integer.parseInt(((JFXButton) e.getSource()).getText());
-    int currentFloor = Integer.parseInt(floorLabel.getText().stripLeading());
+  private void buttonSwitchFloor(int newFloor) {
+    int currentFloor = nodeMapViewController.getFloor();
     while (currentFloor != newFloor) {
       if (currentFloor > newFloor) {
         nodeMapViewController.decrementFloor();
@@ -272,4 +271,12 @@ public class FindPathViewModel extends ViewModelBase {
     }
     changeFloor();
   }
+
+  @Override
+  public void onEvent(Event event) {
+    if (event.getClass().equals(FloorSwitchEvent.class)) {
+      buttonSwitchFloor(((FloorSwitchEvent) event).getFloor());
+    }
+  }
+
 }

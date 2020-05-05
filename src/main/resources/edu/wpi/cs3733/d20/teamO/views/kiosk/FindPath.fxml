@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <BorderPane fx:id="root" maxHeight="720.0" maxWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
   style="-fx-background-color: #acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
@@ -33,30 +32,8 @@
           </padding>
           <children>
             <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
-              <children>
-                <JFXButton fx:id="floorDownPressed" buttonType="FLAT" onAction="#floorDownPressed"
-                  text="&lt;">
-                  <font>
-                    <Font size="18.0"/>
-                  </font>
-                </JFXButton>
-                <Label prefHeight="22.0" text="%pathFindFloor">
-                  <font>
-                    <Font size="18.0"/>
-                  </font>
-                </Label>
-                <Label fx:id="floorLabel" prefHeight="22.0" text=" 1">
-                  <font>
-                    <Font size="18.0"/>
-                  </font>
-                </Label>
-                <JFXButton fx:id="floorUpPressed" buttonType="FLAT" onAction="#floorUpPressed"
-                  text="&gt;">
-                  <font>
-                    <Font size="18.0"/>
-                  </font>
-                </JFXButton>
-              </children>
+              <fx:include source="/edu/wpi/cs3733/d20/teamO/views/FloorSelector.fxml"
+                fx:id="floorSelector"/>
             </HBox>
             <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
               <children>
@@ -100,26 +77,6 @@
           text="%pathFindHandicap"/>
         <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="300.0" onAction="#generateQR"
           style="-fx-background-color: lightgray" text="Generate QR"/>
-        <HBox alignment="CENTER" layoutX="15.0" layoutY="534.0" prefHeight="40.0" prefWidth="186.0"
-          spacing="10.0">
-          <children>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
-              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
-              text="1"/>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
-              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
-              text="2"/>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
-              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
-              text="3"/>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
-              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
-              text="4"/>
-            <JFXButton onAction="#buttonSwitchFloor" buttonType="RAISED" prefHeight="30.0"
-              prefWidth="30.0" style="-fx-background-color: lightgray; -fx-background-radius: 30;"
-              text="5"/>
-          </children>
-        </HBox>
       </children>
     </AnchorPane>
   </left>
