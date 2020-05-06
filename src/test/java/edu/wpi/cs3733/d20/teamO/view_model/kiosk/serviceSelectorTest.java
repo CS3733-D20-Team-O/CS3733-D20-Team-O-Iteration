@@ -3,13 +3,13 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
-import edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.AVService;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,6 +29,14 @@ import org.testfx.framework.junit5.Start;
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 public class serviceSelectorTest extends FxRobot {
 
+  @Mock
+  EventBus eventBus;
+  @Mock
+  LanguageHandler languageHandler;
+  @Mock
+  Navigator navigator;
+  @Mock
+  SnackBar snackBar;
   @Mock
   Dialog dialog;
 
