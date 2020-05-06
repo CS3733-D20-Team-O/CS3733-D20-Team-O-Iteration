@@ -63,15 +63,10 @@ public class InterpreterServiceTest extends FxRobot {
     bundle.put("serviceInterpreterDescription", "Interpreter Service Request Creation");
     bundle.put("serviceInterpreterNameField", "Your Name");
     bundle.put("serviceInterpreterNameValidator", "Your name is required!");
-    bundle.put("serviceInterpreterFloorCB", "Floor");
-    bundle.put("serviceInterpreterFloorValidator",
-        "You need to select the floor for the interpreter!");
-    bundle.put("serviceInterpreterLocationCB", "Room/Location on Floor");
-    bundle.put("serviceInterpreterLocationValidator",
-        "You need to select the location for the interpreter!");
+    bundle.put("nodeSelectorPromptText", "Select or search for a location");
+    bundle.put("serviceInterpreterLocationValidator", "A location is required!");
     bundle.put("serviceInterpreterTimePicker", "Time for Request");
-    bundle.put("serviceInterpreterLocationValidator",
-        "You need to select the location for the interpreter!");
+    bundle.put("serviceInterpreterTimeValidator", "You need to select a time for the interpreter!");
     bundle.put("serviceInterpreterLanguageCB", "Language");
     bundle.put("serviceInterpreterLanguageValidator",
         "You need to select the language for the interpreter!");
@@ -153,10 +148,9 @@ public class InterpreterServiceTest extends FxRobot {
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
-    clickOn("Floor");
-    clickOn("1");
-    clickOn("Room/Location on Floor");
-    clickOn("Floor 1");
+    clickOn("Select or search for a location");
+    write("1");
+    clickOn("(1) Floor 1");
     clickOn("Time for Request");
     write("12:24 PM");
     clickOn("Language");
