@@ -200,7 +200,7 @@ public class NodeMapView extends ViewModelBase {
    */
   public void addNode(Node node) {
     placeFloorNode(node.getNodeID(), node);
-    if (node.getFloor().equals(this.floor)) {
+    if (node.getFloor().equals(this.floor) && node.getBuilding().equals(this.building)) {
       drawNode(node);
     }
   }
@@ -214,7 +214,7 @@ public class NodeMapView extends ViewModelBase {
     if (this.nodeMap.containsKey(buildingFloorID(node))) {
       nodeMap.get(buildingFloorID(node)).remove(node.getNodeID());
 
-      if (node.getFloor().equals(this.floor)) {
+      if (node.getFloor().equals(this.floor) && node.getBuilding().equals(this.building)) {
         val target = findNode(node);
         if (target
             != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
@@ -251,9 +251,11 @@ public class NodeMapView extends ViewModelBase {
     //floorPane.getChildren().add(backgroundImage);
 
     // Draw all the nodes on a certain floor
-    val floorMap = nodeMap.get(getFloor());
+    val floorMap = nodeMap.get(this.building + "_" + this.floor);
     // Check if nodes for the floor exist
+    System.out.println("Conducting check");
     if (floorMap != null) {
+      System.out.println("============");
       floorMap.keySet().forEach((id) -> drawNode(floorMap.get(id)));
     }
   }
@@ -270,9 +272,6 @@ public class NodeMapView extends ViewModelBase {
             .getYCoord() + "]");
     System.out.println(
         "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
-            +
-            "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode
-            .getCenterY()
             + "]");
 
     drawnNode.setOnMouseReleased(event -> {
@@ -331,7 +330,10 @@ public class NodeMapView extends ViewModelBase {
    */
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
-    if (n1.getFloor().equals(getFloor()) && n2.getFloor().equals(getFloor())) {
+    if (n1.getFloor().equals(this.floor) &&
+        n1.getBuilding().equals(this.building) &&
+        n2.getFloor().equals(this.floor) &&
+        n2.getBuilding().equals(this.building)) {
       val x1 = translateToPaneX(n2.getXCoord());
       val y1 = translateToPaneY(n2.getYCoord());
       val x2 = translateToPaneX(n1.getXCoord());
