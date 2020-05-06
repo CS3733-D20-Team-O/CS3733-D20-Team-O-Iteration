@@ -30,7 +30,7 @@
       <HBox alignment="CENTER" prefHeight="0.0" spacing="50" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <Label text="Audio/Visual" />
         <Label text="Ext. Transportation" />
-        <Label text="Internal Transportation" />
+        <Label text="Int. Transportation" />
       </HBox>
 
       <HBox fx:id="secondServices" alignment="CENTER" prefHeight="50.0" spacing="130">

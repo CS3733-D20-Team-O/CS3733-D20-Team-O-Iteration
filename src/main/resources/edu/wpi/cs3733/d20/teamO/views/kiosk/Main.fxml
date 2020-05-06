@@ -36,7 +36,7 @@
         text="%mainLeftButton"/>
 
       <!-- Service Request Creation -->
-      <Label style="-fx-font-size: 32; -fx-padding: 24 0 0 0" text="%serviceRequestCreationLabel"/>
+<!--      <Label style="-fx-font-size: 32; -fx-padding: 24 0 0 0" text="%serviceRequestCreationLabel"/>-->
 <!--      <JFXComboBox fx:id="serviceSelector" maxWidth="Infinity"-->
 <!--        promptText="%serviceRequestCreationPrompt" style="-fx-font-size: 20"/>-->
             <JFXButton buttonType="RAISED" onAction="#openServiceRequestSelect"
