@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
 import com.jfoenix.effects.JFXDepthManager;
+import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog.DialogViewModel;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -122,6 +123,16 @@ public class serviceSelector extends DialogViewModel {
       dialog.showFullscreenFXML("views/kiosk/service_requests/SecurityService.fxml");
     } catch (IOException e) {
       log.error("Failed to open", e);
+    }
+  }
+
+  @FXML
+  private void openAppointmentRequest() {
+    try {
+      AppointmentRequest.run(300, 300, 900, 750,
+          this.getClass().getResource("/CSS/default.css").toExternalForm(), null, null);
+    } catch (Exception e) {
+      log.error("Failed to open API", e);
     }
   }
 }

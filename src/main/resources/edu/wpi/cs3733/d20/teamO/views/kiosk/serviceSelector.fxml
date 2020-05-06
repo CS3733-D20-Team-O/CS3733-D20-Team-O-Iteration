@@ -33,7 +33,7 @@
         <Label text="Internal Transportation" />
       </HBox>
 
-      <HBox fx:id="secondServices" alignment="CENTER" prefHeight="50.0" prefWidth="584.0" spacing="130">
+      <HBox fx:id="secondServices" alignment="CENTER" prefHeight="50.0" spacing="110">
         <ImageView fx:id="Florist" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openFlorist" pickOnBounds="true" preserveRatio="true">
           <Image url="@/flower.png" />
         </ImageView>
@@ -43,12 +43,16 @@
         <ImageView fx:id="medDelivery" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openMedicineDelivery" pickOnBounds="true" preserveRatio="true">
           <Image url="@/medicine.png" />
         </ImageView>
+        <ImageView fx:id="appointmentRequest" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openAppointmentRequest" pickOnBounds="true" preserveRatio="true">
+          <Image url="@/clock.png" />
+        </ImageView>
       </HBox>
 
       <HBox alignment="CENTER" prefHeight="17.0" spacing="75" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <Label text="Flower Delivery" />
         <Label text="Gift Delivery" />
         <Label text="Medicine Delivery" />
+        <Label text="Appointment Request" />
       </HBox>
 
       <HBox fx:id="thirdServices" alignment="CENTER" spacing="110">
