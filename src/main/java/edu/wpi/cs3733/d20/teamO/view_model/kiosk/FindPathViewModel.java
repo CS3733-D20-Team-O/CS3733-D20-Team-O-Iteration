@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
@@ -35,6 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,12 +64,15 @@ public class FindPathViewModel extends ViewModelBase {
   private JFXToggleButton handicap;
   @FXML
   private FloorSelector floorSelectorController;
+  @FXML
+  private JFXColorPicker colorPicker;
 
 
   private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
   private final Dialog dialog;
+  private Color color;
 
   private final SelectedPathFinder pathFinder;
 
@@ -101,6 +106,8 @@ public class FindPathViewModel extends ViewModelBase {
     defaultStop = (Node) nodeMap.values().toArray()[0];
     beginning = defaultStart;
     finish = defaultStop;
+    colorPicker.setValue(Color.valueOf("fd8842"));
+    nodeMapViewController.setEdgeMovement(true);
 
     startLocation.setOnNodeSelectedListener(node -> {
       nodeMapViewController.deleteNode(beginning);
@@ -218,8 +225,9 @@ public class FindPathViewModel extends ViewModelBase {
   private void generateQR() {
     val steps = generateSteps();
     try {
-      // todo background color
-      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(null, steps))));
+      int RGB = getIntFromColor((float) color.getRed(), (float) color.getGreen(),
+          (float) color.getBlue());
+      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(RGB, steps))));
     } catch (Exception e) {
       log.error("Failed to create a QR code from the current path", e);
     }
@@ -355,4 +363,23 @@ public class FindPathViewModel extends ViewModelBase {
     return steps;
   }
 
+  public void setBGColor(ActionEvent event) {
+    color = colorPicker.getValue();
+    nodeMapViewController.setBackgroundColor(String.format("#%02X%02X%02X",
+        (int) (color.getRed() * 255),
+        (int) (color.getGreen() * 255),
+        (int) (color.getBlue() * 255)));
+  }
+
+  public int getIntFromColor(float Red, float Green, float Blue) {
+    int R = Math.round(255 * Red);
+    int G = Math.round(255 * Green);
+    int B = Math.round(255 * Blue);
+
+    R = (R << 16) & 0x00FF0000;
+    G = (G << 8) & 0x0000FF00;
+    B = B & 0x000000FF;
+
+    return 0xFF000000 | R | G | B;
+  }
 }

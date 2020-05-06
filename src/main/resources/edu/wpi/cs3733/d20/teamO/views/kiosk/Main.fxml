@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane prefHeight="720" prefWidth="1280"
-  style="-fx-background-image: url('/background.jpg'); -fx-background-size: cover;   -fx-background-position: center; -fx-background-repeat: no-repeat; -fx-font-size: 16"
+  style="-fx-background-image: url('/BWFHBackground.jpg'); -fx-background-size: cover;   -fx-background-position: center; -fx-background-repeat: no-repeat; -fx-font-size: 16"
   xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.MainKioskViewModel">
 

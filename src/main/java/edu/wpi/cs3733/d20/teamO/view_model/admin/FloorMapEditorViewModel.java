@@ -268,7 +268,8 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    */
   private void addNodeView(int x, int y) {
     clearFields();
-    previewNode = new Node("", x, y, nodeMapViewController.getFloor(), "Faulkner", "", "", "");
+    previewNode = new Node("", x, y, nodeMapViewController.getFloor(),
+        nodeMapViewController.getBuilding(), "", "", "");
     nodeMapViewController.addNode(previewNode);
     nodeMapViewController.highlightNode(previewNode);
     xSelection = x;
@@ -464,7 +465,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @return True if the node was successfully created, false otherwise
    */
   private boolean createNode(int x, int y, String nodeType, String longName, String shortName) {
-    database.addNode(x, y, nodeMapViewController.getFloor(), "Faulkner",
+    database.addNode(x, y, nodeMapViewController.getFloor(), nodeMapViewController.getBuilding(),
         nodeType, longName, shortName);
     exportDatabase();
     redraw();
