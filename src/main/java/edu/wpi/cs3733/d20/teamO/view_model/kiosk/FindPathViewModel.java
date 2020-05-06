@@ -283,14 +283,15 @@ public class FindPathViewModel extends ViewModelBase {
         instructions.add(new Instruction(
             "Head to floor " + nextNode.getFloor(), Icon.NAVIGATION));
       } else {
-        final double vertexX = currNode.getXCoord(), vertexY = currNode.getYCoord(),
-            pi = Math.PI, seventh = 2 * pi / 7;
-        val rawTheta = Math.atan2(nextNode.getYCoord() - vertexY, nextNode.getXCoord() - vertexX) -
-            Math.atan2(prevNode.getYCoord() - vertexY, prevNode.getXCoord() - vertexX);
+        final double pi = Math.PI, seventh = 2 * pi / 7;
+        final double vertexX = currNode.getXCoord(), vertexY = currNode.getYCoord();
+        val prevTheta = Math.atan2(nextNode.getYCoord() - vertexY, nextNode.getXCoord() - vertexX);
+        val nextTheta = Math.atan2(prevNode.getYCoord() - vertexY, prevNode.getXCoord() - vertexX);
+        val rawTheta = nextTheta - prevTheta;
         val theta = rawTheta < 0 ? rawTheta + 2 * pi : rawTheta;
-        for (double counter = 0; counter < 2 * pi; counter += seventh) {
+        for (double counter = seventh; true; counter += seventh) {
           if (theta < counter) {
-            instructions.add(segmentToInstruction((int) Math.round(counter / seventh),
+            instructions.add(segmentToInstruction((int) Math.round(counter / seventh) - 1,
                 nextNode.getLongName()));
             break;
           }
