@@ -27,13 +27,13 @@
         </ImageView>
       </HBox>
 
-      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="70" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+      <HBox alignment="CENTER" prefHeight="0.0" spacing="50" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <Label text="Audio/Visual" />
         <Label text="Ext. Transportation" />
         <Label text="Internal Transportation" />
       </HBox>
 
-      <HBox fx:id="secondServices" alignment="CENTER" prefHeight="50.0" spacing="110">
+      <HBox fx:id="secondServices" alignment="CENTER" prefHeight="50.0" spacing="130">
         <ImageView fx:id="Florist" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openFlorist" pickOnBounds="true" preserveRatio="true">
           <Image url="@/flower.png" />
         </ImageView>
@@ -43,16 +43,12 @@
         <ImageView fx:id="medDelivery" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openMedicineDelivery" pickOnBounds="true" preserveRatio="true">
           <Image url="@/medicine.png" />
         </ImageView>
-        <ImageView fx:id="appointmentRequest" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openAppointmentRequest" pickOnBounds="true" preserveRatio="true">
-          <Image url="@/clock.png" />
-        </ImageView>
       </HBox>
 
       <HBox alignment="CENTER" prefHeight="17.0" spacing="75" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <Label text="Flower Delivery" />
         <Label text="Gift Delivery" />
         <Label text="Medicine Delivery" />
-        <Label text="Appointment Request" />
       </HBox>
 
       <HBox fx:id="thirdServices" alignment="CENTER" spacing="110">
@@ -75,6 +71,16 @@
         <Label text="Interpreter" />
         <Label text="InfoTech Services" />
         <Label text="Security" />
+      </HBox>
+
+      <HBox  fx:id="API" alignment="CENTER" spacing="110" prefHeight="50">
+        <ImageView fx:id="appointmentRequest" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openAppointmentRequest" pickOnBounds="true" preserveRatio="true">
+          <Image url="@/clock.png" />
+        </ImageView>
+      </HBox>
+
+      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="70" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label text="Appointment Request" />
       </HBox>
 
     </VBox>
