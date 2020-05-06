@@ -23,6 +23,7 @@
           <Label text="Fastest Route (A*)"/>
           <Label text="Quick Route (BFS)"/>
           <Label text="Scenic Route (DFS)"/>
+          <Label text="Fastest Route (Dijkstra)"/>
         </FXCollections>
       </items>
     </JFXComboBox>
