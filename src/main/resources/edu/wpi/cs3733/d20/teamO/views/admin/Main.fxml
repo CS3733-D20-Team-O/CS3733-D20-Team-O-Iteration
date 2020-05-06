@@ -24,13 +24,13 @@
           <Label text="%aStar"/>
           <Label text="%bfs"/>
           <Label text="%dfs"/>
-          <Label text="Fastest Route (Dijkstra)"/>
+          <Label text="%dijkstra"/>
         </FXCollections>
       </items>
     </JFXComboBox>
   </HBox>
   <HBox alignment="CENTER" spacing="16">
-    <Label text="Time Until Time-Out (seconds):"/>
+    <Label text="%timeout"/>
     <Spinner fx:id="timeOutTime">
     </Spinner>
   </HBox>
