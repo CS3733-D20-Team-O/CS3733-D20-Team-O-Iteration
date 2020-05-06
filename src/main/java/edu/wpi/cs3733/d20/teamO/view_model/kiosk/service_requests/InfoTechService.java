@@ -9,6 +9,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InfoTechRequestDat
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.net.URL;
@@ -32,9 +33,7 @@ public class InfoTechService extends ServiceRequestBase {
   @FXML
   private JFXTextField requesterName;
   @FXML
-  private JFXComboBox<Integer> floors;
-  @FXML
-  private JFXComboBox<String> locations;
+  private NodeSelector nodeSelector;
   @FXML
   private JFXComboBox<String> ITProblems;
   @FXML
@@ -43,7 +42,7 @@ public class InfoTechService extends ServiceRequestBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
-    setLocations(floors, locations);
+    nodeSelector.setNodes(database.exportNodes().values());
 
     // Populate the combo box with IT service request problems
     ITProblems.setItems(FXCollections.observableArrayList(
@@ -55,7 +54,7 @@ public class InfoTechService extends ServiceRequestBase {
 
   @FXML
   private void submitRequest() {
-    if (validator.validate(requesterName, floors, locations, ITProblems, additionalNotes)) {
+    if (validator.validate(requesterName, nodeSelector, ITProblems, additionalNotes)) {
       val requestData = new InfoTechRequestData(
           ITProblems.getValue(),
           additionalNotes.getText());
@@ -63,7 +62,7 @@ public class InfoTechService extends ServiceRequestBase {
       // todo use enum for sanitation string below
       // todo extract strings
       val confirmationCode = database.addServiceRequest(
-          time, locations.getSelectionModel().getSelectedItem(),
+          time, nodeSelector.getSelectedNode().getLongName(),
           "InfoTech", requesterName.getText(), requestData);
       if (confirmationCode == null) {
         snackBar.show("Failed to create the IT service request");
