@@ -219,8 +219,8 @@ public class NodeMapView extends ViewModelBase {
   public void deleteNode(Node node) {
     if (this.nodeMap.containsKey(buildingFloorID(node))) {
       nodeMap.get(buildingFloorID(node)).remove(node.getNodeID());
-
-      if (node.getFloor().equals(this.floor) && node.getBuilding().equals(this.building)) {
+      // todo fix
+      if (node.getFloor().replaceAll("0", "").equals(this.floor) && node.getBuilding().equals(this.building)) {
         val target = findNode(node);
         if (target
             != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
