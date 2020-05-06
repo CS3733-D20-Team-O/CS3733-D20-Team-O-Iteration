@@ -8,6 +8,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.MedicineDeliverySe
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -26,9 +27,11 @@ public class MedicineDeliveryService extends ServiceRequestBase {
   @FXML
   private JFXTextField patientName, medicationName;
   @FXML
-  private JFXComboBox deliveryMethod, floorNumber, roomName;
+  private JFXComboBox deliveryMethod;
   @FXML
   private JFXTimePicker timePicker;
+  @FXML
+  private NodeSelector nodeSelector;
 
   private final SnackBar snackBar;
   private final Dialog dialog;
@@ -36,20 +39,20 @@ public class MedicineDeliveryService extends ServiceRequestBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
     deliveryMethod.getItems().addAll("Oral", "Topical", "Injectable");
-    setLocations(floorNumber, roomName);
+    nodeSelector.setNodes(database.exportNodes().values());
   }
 
   @FXML
   public void submitRequest(ActionEvent event) {
     val valid = validator
-        .validate(patientName, medicationName, deliveryMethod, floorNumber, roomName, timePicker);
+        .validate(patientName, medicationName, deliveryMethod, nodeSelector, timePicker);
     if (valid) {
       val data = new MedicineDeliveryServiceData(medicationName.getText(),
           deliveryMethod.getSelectionModel().getSelectedItem().toString());
       val time = timePicker.getValue().toString();
       val confirmationCode = database
           .addServiceRequest(time,
-              roomName.getSelectionModel().getSelectedItem().toString(), "Medicine delivery",
+              nodeSelector.getSelectedNode().getLongName(), "Medicine delivery",
               patientName.getText(), data);
       if (confirmationCode == null) {
         snackBar.show("Failed to create medicine delivery service request");
