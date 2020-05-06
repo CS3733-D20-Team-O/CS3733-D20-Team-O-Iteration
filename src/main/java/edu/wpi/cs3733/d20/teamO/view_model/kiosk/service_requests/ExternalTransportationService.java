@@ -10,6 +10,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ExternalTransporta
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -29,9 +30,7 @@ public class ExternalTransportationService extends ServiceRequestBase {
   @FXML
   private JFXTextField requesterName, destination;
   @FXML
-  private JFXComboBox<Integer> floors;
-  @FXML
-  private JFXComboBox<String> locations;
+  private NodeSelector nodeSelector;
   @FXML
   private JFXComboBox<String> transportationType;
   @FXML
@@ -41,7 +40,7 @@ public class ExternalTransportationService extends ServiceRequestBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    setLocations(floors, locations);
+    nodeSelector.setNodes(database.exportNodes().values());
 
     transportationType.getItems().add("Emergency Air Ambulance");
     transportationType.getItems().add("Non-Emergency Ground Ambulance");
@@ -53,7 +52,7 @@ public class ExternalTransportationService extends ServiceRequestBase {
   @FXML
   private void submitRequest() {
     if (validator
-        .validate(requesterName, floors, locations, transportationType, timePicker, destination)) {
+        .validate(requesterName, nodeSelector, transportationType, timePicker, destination)) {
       val requestData = new ExternalTransportationRequestData(
           transportationType.getSelectionModel().getSelectedItem(),
           destination.getText(),
@@ -61,7 +60,7 @@ public class ExternalTransportationService extends ServiceRequestBase {
       val time = timePicker.getValue().toString();
       // todo extract strings
       val confirmationCode = database.addServiceRequest(
-          time, locations.getSelectionModel().getSelectedItem(),
+          time, nodeSelector.getSelectedNode().getLongName(),
           "External Transportation", requesterName.getText(), requestData);
       if (confirmationCode == null) {
         snackBar.show("Failed to create the external transportation service request");

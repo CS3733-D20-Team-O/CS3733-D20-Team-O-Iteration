@@ -12,7 +12,7 @@ import lombok.Value;
 public class Node {
 
   String nodeID;
-  int xCoord, yCoord, floor;
-  String building, nodeType, longName, shortName;
+  int xCoord, yCoord;
+  String floor, building, nodeType, longName, shortName;
   LinkedList<Node> neighbors = new LinkedList<>();
 }
