@@ -1,0 +1,93 @@
+/*.radio-button .dot {*/
+/*    -fx-background-color: BLACK;*/
+/*    -fx-opacity: 0;*/
+
+/*}*/
+
+/*.container {*/
+/*    display: block*/
+/*}*/
+
+.radio-button .radio {
+    -fx-opacity: 0;
+    -fx-background-color: lawngreen;
+}
+
+.radio-button:hover {
+    -fx-background-color: lawngreen;
+}
+
+.radio-button {
+
+    -fx-border-color: BLACK;
+    -fx-pref-height: 55.0;
+    -fx-pref-width: 176.0;
+    -fx-text-alignment: CENTER;
+    -fx-font-weight: BOLD;
+    -fx-text-fill: WHITE;
+    -fx-border-color: BLACK;
+}
+
+#adminButton {
+    -fx-background-color: cornflowerblue;
+}
+
+#codePink {
+    -fx-background-color: pink;
+    -fx-text-fill: BLACK;
+}
+
+#codeWhite {
+    -fx-background-color: white;
+    -fx-text-fill: BLACK;
+
+}
+
+#codeGray {
+    -fx-background-color: gray;
+    -fx-text-fill: BLACK;
+
+}
+
+#codeRed {
+    -fx-background-color: darkred;
+}
+
+#codeOrange {
+    -fx-background-color: orange;
+    -fx-border-color: BLACK;
+}
+
+#codeYellow {
+    -fx-background-color: yellow;
+    -fx-text-fill: BLACK;
+
+}
+
+#codeBlue {
+    -fx-background-color: blue;
+
+}
+
+#codeBlack {
+    -fx-background-color: Black;
+    -fx-border-color: white;
+
+}
+
+#codePurple {
+    -fx-background-color: purple;
+
+}
+
+#codeGreen {
+    -fx-background-color: green;
+    -fx-text-fill: BLACK;
+
+}
+
+#invisibleButton {
+    -fx-opacity: 0;
+    -fx-border-color: transparent;
+
+}
