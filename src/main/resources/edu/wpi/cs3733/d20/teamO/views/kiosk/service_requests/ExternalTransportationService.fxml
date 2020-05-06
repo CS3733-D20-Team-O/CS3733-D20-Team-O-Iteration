@@ -15,16 +15,16 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.ExternalTransportationService">
   <VBox spacing="32" maxWidth="-Infinity" maxHeight="-Infinity" alignment="CENTER"
     style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
-    <Label text="%externalTransportationTitle" style="-fx-font-size: 32"/>
-    <JFXTextField fx:id="requesterName" promptText="%externalTransportationNamePrompt">
+    <Label text="%serviceExtTransportationDescription" style="-fx-font-size: 32"/>
+    <JFXTextField fx:id="requesterName" promptText="%namePrompt">
       <validators>
-        <RequiredFieldValidator message="%externalTransportationNameMissing"/>
+        <RequiredFieldValidator message="%namePromptValidator"/>
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
       <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
         <validators>
-          <NodeRequiredValidator message="A location is required"/>
+          <NodeRequiredValidator message="%locationPromptValidator"/>
         </validators>
       </NodeSelector>
     </HBox>
@@ -34,9 +34,9 @@
           <RequiredFieldValidator message="%externalTransportationModeMissing"/>
         </validators>
       </JFXComboBox>
-      <JFXTimePicker fx:id="timePicker" promptText="%externalTransportationTimePrompt">
+      <JFXTimePicker fx:id="timePicker" promptText="%timePrompt">
         <validators>
-          <RequiredFieldValidator message="%externalTransportationTimeMissing"/>
+          <RequiredFieldValidator message="%timePromptValidator"/>
         </validators>
       </JFXTimePicker>
     </HBox>
@@ -45,10 +45,10 @@
         <RequiredFieldValidator message="%externalTransportationDestinationMissing"/>
       </validators>
     </JFXTextField>
-    <JFXTextArea fx:id="additionalNotes" promptText="%externalTransportationNotes"/>
+    <JFXTextArea fx:id="additionalNotes" promptText="%notesPrompt"/>
     <HBox alignment="CENTER_RIGHT" spacing="16">
-      <JFXButton text="%externalTransportationSubmit" onAction="#submitRequest"/>
-      <JFXButton text="%externalTransportationCancel" onAction="#close"/>
+      <JFXButton text="%submitButton" onAction="#submitRequest"/>
+      <JFXButton text="%cancelButton" onAction="#close"/>
     </HBox>
   </VBox>
 </StackPane>

@@ -19,7 +19,7 @@
   xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InternalTransportationService">
    <children>
-      <Label style="-fx-font-size: 32;" text="%serviceIntTransportTitle"/>
+      <Label style="-fx-font-size: 32;" text="%serviceIntTransportationDescription"/>
       <VBox prefHeight="119.0" prefWidth="413.0">
          <children>
             <HBox>
@@ -28,26 +28,26 @@
                      <children>
                         <NodeSelector fx:id="currentNode" promptText="%nodeSelectorPromptText">
                            <validators>
-                              <NodeRequiredValidator message="%serviceIntTransportRoomValidator"/>
+                              <NodeRequiredValidator message="%locationPromptValidator"/>
                            </validators>
                         </NodeSelector>
                      </children>
                   </VBox>
                   <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="187.0" spacing="16.0">
                      <children>
-                        <JFXTextField fx:id="reqName" promptText="%serviceIntTransportRequesterName"
+                        <JFXTextField fx:id="reqName" promptText="%namePrompt"
                           style="-fx-background-color: lightgray;">
                            <validators>
-                              <RequiredFieldValidator message="%serviceIntTransportNameValidator"/>
+                              <RequiredFieldValidator message="%namePromptValidator"/>
                            </validators>
                            <VBox.margin>
                               <Insets top="8.0"/>
                            </VBox.margin>
                         </JFXTextField>
-                        <JFXTimePicker fx:id="reqTime" promptText="%serviceIntTransportRequestTime"
+                        <JFXTimePicker fx:id="reqTime" promptText="%timePrompt"
                           style="-fx-background-color: lightgray;">
                            <validators>
-                              <RequiredFieldValidator message="%serviceIntTransportTimeValidator"/>
+                              <RequiredFieldValidator message="%timePromptValidator"/>
                            </validators>
                         </JFXTimePicker>
                      </children>
@@ -145,10 +145,10 @@
          <children>
             <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onSubmit" prefHeight="35.0"
               prefWidth="102.0" ripplerFill="#302de1" style="-fx-background-color: lightgray;"
-              text="%serviceIntTransportSubmit"/>
+              text="%submitButton"/>
             <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="10.0" layoutY="10.0"
               onAction="#close" prefHeight="35.0" prefWidth="102.0" ripplerFill="#e42121"
-              style="-fx-background-color: lightgray;" text="%serviceIntTransportCancel"/>
+              style="-fx-background-color: lightgray;" text="%cancelButton"/>
          </children>
       </HBox>
    </children>

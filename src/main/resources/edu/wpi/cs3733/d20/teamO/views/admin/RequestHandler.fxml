@@ -23,46 +23,46 @@
         <TableView fx:id="serviceTable" onKeyReleased="#updateDisplays"
           onMouseClicked="#updateDisplays" prefHeight="236.0" prefWidth="1371.0">
           <columns>
-            <TableColumn editable="false" prefWidth="123.0" text="Service">
+            <TableColumn editable="false" prefWidth="123.0" text="%requestHandlerService">
               <cellValueFactory>
                 <PropertyValueFactory property="type"/>
               </cellValueFactory>
             </TableColumn>
             <TableColumn editable="false" prefWidth="126.0"
-              text="Request Time">
+              text="%requestHandlerReqTime">
               <cellValueFactory>
                 <PropertyValueFactory property="requestTime"/>
               </cellValueFactory>
             </TableColumn>
             <TableColumn editable="false" prefWidth="136.0"
-              text="Request Node">
+              text="%requestHandlerReqNode">
               <cellValueFactory>
                 <PropertyValueFactory property="requestNode"/>
               </cellValueFactory>
             </TableColumn>
             <TableColumn editable="false" prefWidth="170.0"
-              text="Requester Name">
+              text="%requestHandlerReqName">
               <cellValueFactory>
                 <PropertyValueFactory property="requesterName"/>
               </cellValueFactory>
             </TableColumn>
             <TableColumn editable="false" prefWidth="153.0"
-              text="Employee">
+              text="%requestHandlerEmployee">
               <cellValueFactory>
                 <PropertyValueFactory property="employeeAssigned"/>
               </cellValueFactory>
             </TableColumn>
-            <TableColumn editable="false" prefWidth="189.0" text="Assigner">
+            <TableColumn editable="false" prefWidth="189.0" text="%requestHandlerAssigner">
               <cellValueFactory>
                 <PropertyValueFactory property="whoMarked"/>
               </cellValueFactory>
             </TableColumn>
-            <TableColumn editable="false" prefWidth="200.0" text="Request ID">
+            <TableColumn editable="false" prefWidth="200.0" text="%requestHandlerReqID">
               <cellValueFactory>
                 <PropertyValueFactory property="requestID"/>
               </cellValueFactory>
             </TableColumn>
-            <TableColumn editable="false" prefWidth="150.0" text="Status">
+            <TableColumn editable="false" prefWidth="150.0" text="%requestHandlerStatus">
               <cellValueFactory>
                 <PropertyValueFactory property="status"/>
               </cellValueFactory>
@@ -86,12 +86,12 @@
                       </cellValueFactory>
                     </TableColumn>
                     <TableColumn editable="false" prefWidth="116.0"
-                      text="Available">
+                      text="%requestHandlerAvailable">
                       <cellValueFactory>
                         <PropertyValueFactory property="isAvailable"/>
                       </cellValueFactory>
                     </TableColumn>
-                    <TableColumn editable="false" prefWidth="111.0" text="Name">
+                    <TableColumn editable="false" prefWidth="111.0" text="%requestHandlerName">
                       <cellValueFactory>
                         <PropertyValueFactory property="name"/>
                       </cellValueFactory>
@@ -101,14 +101,14 @@
                 <JFXCheckBox fx:id="cbShowUnavail" onAction="#updateDisplays" prefHeight="20.0"
                   prefWidth="138.0"
                   style="-fx-background-color: LIGHTGREY; -fx-border-color: BLACK;"
-                  text="Show Unavailable"/>
+                  text="%requestHandlerShowAvail"/>
               </children>
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="413.0" prefWidth="313.0" spacing="16.0">
               <children>
                 <JFXTextArea fx:id="dataSpace" editable="false" labelFloat="true" prefHeight="140.0"
                   prefWidth="313.0"
-                  promptText="Select a request to view detailed information"
+                  promptText="%requestHandlerInfo"
                   style="-fx-background-color: white; -fx-border-color: gray;"
                   unFocusColor="#bf9090">
                   <focusColor>
@@ -123,7 +123,7 @@
                 <!--                <JFXTextField fx:id="serviceMarker" prefHeight="25.0" prefWidth="277.0" promptText="Assigner Name" style="-fx-background-color: WHITE;" />-->
                 <JFXButton buttonType="RAISED" onAction="#assignEmployee" prefHeight="41.0"
                   prefWidth="138.0" ripplerFill="#2200ff" style="-fx-background-color: LIGHTGREY;"
-                  text="Assign Employee">
+                  text="%requestHandlerAssignEmp">
                   <VBox.margin>
                     <Insets/>
                   </VBox.margin>
@@ -131,7 +131,7 @@
                 <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="185.0"
                   onAction="#resolveRequest" prefHeight="41.0" prefWidth="138.0"
                   ripplerFill="#008221" style="-fx-background-color: LIGHTGREY;"
-                  text="Resolve Request">
+                  text="%requestHandlerResolve">
                   <VBox.margin>
                     <Insets/>
                   </VBox.margin>
@@ -139,7 +139,7 @@
                 <JFXButton buttonType="RAISED" layoutX="10.0" layoutY="226.0"
                   onAction="#cancelRequest" prefHeight="41.0" prefWidth="138.0"
                   ripplerFill="#b90c0c" style="-fx-background-color: LIGHTGREY;"
-                  text="Cancel Request">
+                  text="%requestHandlerCancel">
                   <VBox.margin>
                     <Insets/>
                   </VBox.margin>
@@ -153,13 +153,13 @@
               <children>
                 <JFXTextArea centerShape="false" editable="false" prefHeight="50.0"
                   prefWidth="355.0"
-                  text="Step 1. Select a Service Request from the  Service Request table."
+                  text="%requestHandlerStep1"
                   wrapText="true"/>
                 <JFXTextArea editable="false" prefHeight="64.0" prefWidth="355.0"
-                  text="Step 2. Select an available employee to be asigned to the request from the Employee table"
+                  text="%requestHandlerStep2"
                   wrapText="true"/>
                 <JFXTextArea editable="false" prefHeight="72.0" prefWidth="355.0"
-                  text="Step 3. Click the Assign button to assign that  employee to the request. They won't be available  for other requests until it is completed."
+                  text="%requestHandlerStep3"
                   wrapText="true"/>
               </children>
             </VBox>

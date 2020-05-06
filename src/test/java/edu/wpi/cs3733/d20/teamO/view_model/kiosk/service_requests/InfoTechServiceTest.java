@@ -82,6 +82,18 @@ public class InfoTechServiceTest extends FxRobot {
   }
 
   private void initializeResources() {
+    // General use Bundles
+    bundle.put("serviceInfoTechDescription ", "IT Support Request");
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("namePromptValidator", "Your name is required!");
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("floorPromptValidator", "A Floor is Required for the Service Request!");
+    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+
+    //Unique Bundles
     bundle.put("ITServiceTitle", "IT Support Request");
     bundle.put("ITServiceName", "Your Name");
     bundle.put("ITServiceNameValidator", "Your name is required!");
@@ -89,8 +101,6 @@ public class InfoTechServiceTest extends FxRobot {
     bundle.put("ITServiceIssueBox", "Select your current IT issue");
     bundle.put("ITServiceIssueBoxValidator", "You need to select your current IT issue!");
     bundle.put("ITServiceDescription", "Description");
-    bundle.put("ITServiceSubmit", "Submit");
-    bundle.put("ITServiceCancel", "Cancel");
   }
 
   @Test

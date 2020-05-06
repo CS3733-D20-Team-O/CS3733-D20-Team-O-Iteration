@@ -24,10 +24,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 public class RequestHandlerViewModelTest extends FxRobot {
@@ -49,10 +51,35 @@ public class RequestHandlerViewModelTest extends FxRobot {
   @InjectMocks
   RequestHandlerViewModel viewModel;
 
+  @Spy
+  private final ResourceBundleMock bundle = new ResourceBundleMock();
+
+  private void initializeBundle() {
+    bundle.put("requestHandlerService", "Service");
+    bundle.put("requestHandlerReqTime", "Request Time");
+    bundle.put("requestHandlerReqNode", "Request Node");
+    bundle.put("requestHandlerReqName", "Requester Name");
+    bundle.put("requestHandlerEmployee", "Employee");
+    bundle.put("requestHandlerAssigner", "Assigner");
+    bundle.put("requestHandlerReqID", "Request ID");
+    bundle.put("requestHandlerStatus", "Status");
+    bundle.put("requestHandlerAvailable", "Available");
+    bundle.put("requestHandlerName", "Name");
+    bundle.put("requestHandlerShowAvail", "Show Unavailable");
+    bundle.put("requestHandlerInfo", "Select a request to view detailed information");
+    bundle.put("requestHandlerAssignEmp", "Assign Employee");
+    bundle.put("requestHandlerResolve", "Resolve Request");
+    bundle.put("requestHandlerCancel", "Cancel Request");
+    bundle.put("requestHandlerStep1", "Step 1. Select a Service Request from the  Service Request table.");
+    bundle.put("requestHandlerStep2", "Step 2. Select an available employee to be assigned to the request from the Employee table.");
+    bundle.put("requestHandlerStep3", "Step 3. Click the Assign button to assign that  employee to the request. They won't be available  for other requests until it is completed.");
+  }
 
   // Sets up the stage for testing
   @Start
   public void start(Stage stage) throws IOException {
+    bundle.put("Sample", "Sample"); // todo load the necessary strings
+    initializeBundle();
     Employee e1 = new Employee("1414", "name", "Wash", true);
     Employee e2 = new Employee("855", "employee Name", "Wash", true);
     Employee e3 = new Employee("", "", "", true);
@@ -70,8 +97,8 @@ public class RequestHandlerViewModelTest extends FxRobot {
     when(database.exportServiceRequests()).thenReturn(reqs);
     when(database.exportEmployees()).thenReturn(list);
     val loader = new FXMLLoader();
+    loader.setResources(bundle);
     loader.setControllerFactory(o -> viewModel);
-    //loader.setResources(bundle);
     stage.setScene(new Scene(loader.load(Main.class
         .getResourceAsStream("views/admin/RequestHandler.fxml"))));
     stage.setAlwaysOnTop(true);

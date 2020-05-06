@@ -16,10 +16,10 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.AVService">
   <VBox alignment="TOP_CENTER" spacing="32.0"
     style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16;">
-    <Label style="-fx-font-size: 32;" text="%serviceAVRequestCreation"/>
-    <JFXTextField fx:id="requesterNameField" promptText="%serviceAVRequesterNameField"/>
+    <Label style="-fx-font-size: 32;" text="%serviceAVDescription"/>
+    <JFXTextField fx:id="requesterNameField" promptText="%namePrompt"/>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="32.0">
-      <JFXComboBox fx:id="floorNumberComboBox" promptText="%serviceAVFloorNumberComboBox">
+      <JFXComboBox fx:id="floorNumberComboBox" promptText="%floorPrompt">
         <items>
           <FXCollections fx:factory="observableArrayList">
             <Integer fx:value="1"/>
@@ -30,7 +30,7 @@
           </FXCollections>
         </items>
       </JFXComboBox>
-      <JFXComboBox fx:id="locationComboBox" promptText="%serviceAVLocationComboBox"/>
+      <JFXComboBox fx:id="locationComboBox" promptText="%locationPrompt"/>
     </HBox>
     <VBox alignment="CENTER" spacing="32.0">
       <JFXComboBox fx:id="serviceRequestComboBox" prefHeight="37.0" prefWidth="222.0"
@@ -42,7 +42,7 @@
           </FXCollections>
         </items>
       </JFXComboBox>
-      <JFXTimePicker fx:id="startTimePicker" promptText="%serviceAVStartTimePicker"/>
+      <JFXTimePicker fx:id="startTimePicker" promptText="%timePrompt"/>
       <JFXComboBox fx:id="durationComboBox" prefHeight="37.0" prefWidth="224.0"
         promptText="%serviceAVDurationComboBox">
         <items>
@@ -63,12 +63,12 @@
         </items>
       </JFXComboBox>
     </VBox>
-    <JFXTextArea fx:id="commentTextArea" promptText="%serviceAVCommentTextArea"/>
+    <JFXTextArea fx:id="commentTextArea" promptText="%notesPrompt"/>
     <HBox alignment="CENTER_RIGHT" spacing="16.0">
       <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#onSubmitPress"
-        style="-fx-background-color: #00BB00; -fx-text-fill: WHITE;" text="%serviceAVSubmitButton"/>
+        style="-fx-background-color: #00BB00; -fx-text-fill: WHITE;" text="%submitButton"/>
       <JFXButton fx:id="cancelButton" buttonType="RAISED" onAction="#close"
-        style="-fx-background-color: LIGHTGRAY;" text="%serviceAVCancelButton"/>
+        style="-fx-background-color: LIGHTGRAY;" text="%cancelButton"/>
     </HBox>
   </VBox>
 </StackPane>
