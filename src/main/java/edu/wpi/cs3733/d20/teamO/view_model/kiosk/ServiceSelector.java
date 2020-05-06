@@ -5,13 +5,13 @@ import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog.DialogViewModel;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
+import edu.wpi.teamname.SecurityServiceRequestViewModel;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import java.io.IOException;
-import javafx.fxml.FXML;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -120,9 +120,10 @@ public class ServiceSelector extends DialogViewModel {
   @FXML
   private void openSecurity() {
     try {
-      dialog.showFullscreenFXML("views/kiosk/service_requests/SecurityService.fxml");
-    } catch (IOException e) {
-      log.error("Failed to open", e);
+      SecurityServiceRequestViewModel.run(300, 300, 900, 750,
+          "/CSS/SecurityServiceRequestCSS.css", null, null);
+    } catch (Exception e) {
+      log.error("Failed to open API", e);
     }
   }
 
