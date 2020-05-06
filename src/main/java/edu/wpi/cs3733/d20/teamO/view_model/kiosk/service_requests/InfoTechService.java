@@ -32,7 +32,7 @@ public class InfoTechService extends ServiceRequestBase {
   @FXML
   private JFXTextField requesterName;
   @FXML
-  private JFXComboBox<Integer> floors;
+  private JFXComboBox<String> floors;
   @FXML
   private JFXComboBox<String> locations;
   @FXML

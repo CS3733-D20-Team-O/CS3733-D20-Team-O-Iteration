@@ -99,7 +99,7 @@ public class GiftDeliveryService extends ServiceRequestBase {
     val currentFloor = onFloorComboBox.getSelectionModel().getSelectedItem();
     inRoomComboBox.getItems().clear();
     for (val node : listOfRooms) {
-      if (Integer.toString(node.getFloor()).equals(currentFloor)) {
+      if ((node.getFloor()).equals(currentFloor)) {
         inRoomComboBox.getItems().add(node.getLongName());
       }
     }

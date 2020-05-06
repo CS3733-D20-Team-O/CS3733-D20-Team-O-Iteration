@@ -32,7 +32,7 @@ public interface DatabaseWrapper {
    * @param shortName the short name of the node
    * @return the id of the added node
    */
-  String addNode(int xCoord, int yCoord, int floor, String building,
+  String addNode(int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName);
 
   /**
@@ -48,7 +48,7 @@ public interface DatabaseWrapper {
    * @param shortName the short name of the node
    * @return the number of affected entries
    */
-  int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
+  int addNode(String nodeID, int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName);
 
   /**

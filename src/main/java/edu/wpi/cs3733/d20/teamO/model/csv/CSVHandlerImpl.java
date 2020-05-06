@@ -40,7 +40,7 @@ class CSVHandlerImpl implements CSVHandler {
       scanner.nextLine();
       // Read each node in the file and put its data into the database
       while (scanner.hasNext()) {
-        database.addNode(scanner.next(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt(),
+        database.addNode(scanner.next(), scanner.nextInt(), scanner.nextInt(), scanner.next(),
             scanner.next(), scanner.next(), scanner.next(), scanner.next());
       }
     } catch (FileNotFoundException e) {

@@ -29,7 +29,7 @@ public class ExternalTransportationService extends ServiceRequestBase {
   @FXML
   private JFXTextField requesterName, destination;
   @FXML
-  private JFXComboBox<Integer> floors;
+  private JFXComboBox<String> floors;
   @FXML
   private JFXComboBox<String> locations;
   @FXML
