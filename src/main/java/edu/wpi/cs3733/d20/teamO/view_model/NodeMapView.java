@@ -479,8 +479,6 @@ public class NodeMapView extends ViewModelBase {
       this.building = building;
       colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 12);
       colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
-      System.out.println(backgroundImage.getFitWidth() + "==========================================");
-      System.out.println(backgroundImage.getImage().getWidth() + "========================================");
       setNodeSize((2476/backgroundImage.getImage().getWidth()) * 5); // todo figure out a better way of doing this
       setEdgeSize((2476/backgroundImage.getImage().getWidth()) * 3); // todo figure out a better way of doing this
       draw();
