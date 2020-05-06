@@ -25,7 +25,7 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
   private final Navigator navigator;
   private final Dialog dialog;
   private final SelectedPathFinder selectedPathFinder;
-  private final IdleDetector idleDetector;
+  private IdleDetector idleDetector;
   private final LoginDetails loginDetails;
 
   @FXML
@@ -53,13 +53,16 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
     searchAlgorithms.getSelectionModel().selectedIndexProperty().addListener((o, oldInt, newInt) ->
         selectedPathFinder.setCurrentPathFinder(pathFinders[newInt.intValue()]));
 
+    //get the idleDetector used by Navigator
+    idleDetector = navigator.getIdleDetector();
+
     // Set a listener to set the time-out time
     timeOutTime.valueProperty().addListener((o, oldInt, newInt) ->
         idleDetector.setTimeOutTime((int) newInt));
 
     // Set min, max, and initial value
     timeOutTime
-        .setValueFactory(new IntegerSpinnerValueFactory(1, 3600, idleDetector.getTimeOutTime()));
+        .setValueFactory(new IntegerSpinnerValueFactory(30, 3600, idleDetector.getTimeOutTime()));
   }
 
   @FXML

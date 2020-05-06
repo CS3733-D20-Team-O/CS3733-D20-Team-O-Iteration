@@ -18,28 +18,21 @@ public class IdleDetector {
 
   private Timeline timeline;
   private int timeOutTime;
-  private final Injector injector;
   private final StackPane root;
   private final Navigator navigator;
   private final LoginDetails loginDetails;
 
-
   @Inject
-  IdleDetector(Injector injector, StackPane root, Navigator navigator) {
-    this.injector = injector;
-    this.root = root;
+  IdleDetector(Injector injector, Navigator navigator) {
     this.navigator = navigator;
+    this.root = navigator.getRoot();
     this.loginDetails = injector.getInstance(LoginDetails.class);
 
-    timeOutTime = 5;
-    //set new time-out timer
-    timeline = new Timeline(new KeyFrame(
-        Duration.seconds(timeOutTime),
-        ae -> timeOut()));
-
+    setTimeOutTime(30);
     root.addEventHandler(InputEvent.ANY, e -> resetTimer());
   }
 
+  //Assume timeline is already defined
   public void resetTimer() {
     //stop previous timer
     timeline.stop();
@@ -65,7 +58,9 @@ public class IdleDetector {
 
   public void setTimeOutTime(int timeOutTime) {
     this.timeOutTime = timeOutTime;
-    timeline.stop();
+    if (timeline != null) {
+      timeline.stop();
+    }
     timeline = new Timeline(new KeyFrame(
         Duration.seconds(timeOutTime),
         ae -> timeOut()));

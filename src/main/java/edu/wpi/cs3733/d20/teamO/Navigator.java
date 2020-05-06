@@ -32,12 +32,13 @@ public class Navigator {
   @Setter
   private String mainFXML;
 
+  @Getter
   private final IdleDetector idleDetector;
 
   @Inject
   public Navigator(Injector injector) {
     this.injector = injector;
-    this.idleDetector = new IdleDetector(injector, root, this);
+    this.idleDetector = new IdleDetector(injector, this);
   }
 
   /*
