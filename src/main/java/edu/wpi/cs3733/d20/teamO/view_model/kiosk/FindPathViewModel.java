@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
@@ -35,6 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +64,8 @@ public class FindPathViewModel extends ViewModelBase {
   private JFXToggleButton handicap;
   @FXML
   private FloorSelector floorSelectorController;
+  @FXML
+  private JFXColorPicker colorPicker;
 
 
   private Map<String, Node> nodeMap, handicapMap;
@@ -101,6 +105,7 @@ public class FindPathViewModel extends ViewModelBase {
     defaultStop = (Node) nodeMap.values().toArray()[0];
     beginning = defaultStart;
     finish = defaultStop;
+    colorPicker.setValue(Color.valueOf("fd8842"));
 
     startLocation.setOnNodeSelectedListener(node -> {
       nodeMapViewController.deleteNode(beginning);
@@ -355,4 +360,7 @@ public class FindPathViewModel extends ViewModelBase {
     return steps;
   }
 
+  public void setBGColor(ActionEvent event) {
+    Color color = colorPicker.getValue();
+  }
 }

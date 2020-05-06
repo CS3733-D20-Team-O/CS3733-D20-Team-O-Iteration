@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXColorPicker?>
 <?import com.jfoenix.controls.JFXSlider?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
@@ -75,6 +76,12 @@
         <JFXToggleButton fx:id="handicap" layoutX="14.0" layoutY="452.0"
           onAction="#switchAccessibility" prefHeight="29.0" prefWidth="190.0"
           text="%pathFindHandicap"/>
+        <HBox spacing="8.0" layoutX="18.0" layoutY="386" alignment="CENTER">
+          <children>
+            <Label text="Background color"/>
+            <JFXColorPicker fx:id="colorPicker" onAction="#setBGColor"/>
+          </children>
+        </HBox>
         <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="350.0" onAction="#generateQR"
           style="-fx-background-color: lightgray" text="Generate QR"/>
       </children>
