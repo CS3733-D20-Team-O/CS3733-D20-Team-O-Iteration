@@ -82,10 +82,10 @@ public class AVServiceTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Floor 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
+    map.put("a", new Node("a", 0, 0, "1", "", "", "Floor 1", ""));
+    map.put("b", new Node("b", 0, 0, "3", "", "", "Floor 3-1", ""));
+    map.put("c", new Node("c", 0, 0, "3", "", "", "Floor 3-2", ""));
+    map.put("d", new Node("d", 0, 0, "5", "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
 
@@ -144,7 +144,7 @@ public class AVServiceTest extends FxRobot {
 
     // Test when there are fields not filled out
     clickOn("Submit");
-    verify(validator, times(1)).validate(any(), any(), any(), any(), any());
+    verify(validator, times(1)).validate(any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(1)).showBasic(any(), any(), any());

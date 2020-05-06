@@ -57,9 +57,8 @@ public class ExternalTransportationServiceTest extends FxRobot {
   public void start(Stage stage) throws IOException {
     //add the necessary strings to the bundle
     bundle.put("externalTransportationNamePrompt", "Your Name");
-    bundle.put("externalTransportationFloorPrompt", "Floor");
-    bundle.put("externalTransportationLocationPrompt", "Current Room/Location");
     bundle.put("externalTransportationModePrompt", "Mode of Transportation");
+    bundle.put("nodeSelectorPromptText", "Select or search for a location");
     bundle.put("externalTransportationTimePrompt", "Time");
     bundle.put("externalTransportationDestinationPrompt", "Destination");
     bundle.put("externalTransportationNotes", "Additional Notes");
@@ -77,39 +76,11 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Room 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Room 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Room 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Room 5", ""));
+    map.put("a", new Node("a", 0, 0, "1", "", "", "Room 1", ""));
+    map.put("b", new Node("b", 0, 0, "3", "", "", "Room 3-1", ""));
+    map.put("c", new Node("c", 0, 0, "3", "", "", "Room 3-2", ""));
+    map.put("d", new Node("d", 0, 0, "5", "", "", "Room 5", ""));
     when(database.exportNodes()).thenReturn(map);
-  }
-
-  @Test
-  public void testFloorLocationPopulated() {
-    // Verify that all floors are populated
-    clickOn("Floor");
-    verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("5", javafx.scene.Node::isVisible);
-
-    // Now that we know all floors are correct, lets check to see if the locations are present
-    // First floor
-    clickOn("1");
-    clickOn("Current Room/Location");
-    verifyThat("Room 1", javafx.scene.Node::isVisible);
-
-    // Third floor
-    clickOn("1");
-    clickOn("3");
-    clickOn("Current Room/Location");
-    verifyThat("Room 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Room 3-2", javafx.scene.Node::isVisible);
-
-    // Fifth floor
-    clickOn("3");
-    clickOn("5");
-    clickOn("Current Room/Location");
-    verifyThat("Room 5", javafx.scene.Node::isVisible);
   }
 
   @Test
@@ -150,7 +121,7 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
     // Test when there are fields not filled out
     clickOn("Submit");
-    verify(validator, times(1)).validate(any(), any(), any(), any(), any(), any());
+    verify(validator, times(1)).validate(any(), any(), any(), any(), any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
@@ -158,16 +129,15 @@ public class ExternalTransportationServiceTest extends FxRobot {
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
-    clickOn("Floor");
-    clickOn("1");
-    clickOn("Current Room/Location");
-    clickOn("Room 1");
+    clickOn("Select or search for a location");
+    write("1");
+    clickOn("(1) Room 1");
     clickOn("Mode of Transportation");
     clickOn("Shuttle Service");
     clickOn("Time");
     write("12:34 PM");
     clickOn("Submit");
-    verify(validator, times(2)).validate(any(), any(), any(), any(), any(), any());
+    verify(validator, times(2)).validate(any(), any(), any(), any(), any());
     verify(database, times(1)).addServiceRequest(eq("12:34"),
         eq("Room 1"), eq("External Transportation"), eq("John Smith"),
         eq(new ExternalTransportationRequestData("Shuttle Service", "", "")));
@@ -176,7 +146,7 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Submit");
-    verify(validator, times(3)).validate(any(), any(), any(), any(), any(), any());
+    verify(validator, times(3)).validate(any(), any(), any(), any(), any());
     verify(database, times(2)).addServiceRequest(eq("12:34"),
         eq("Room 1"), eq("External Transportation"), eq("John Smith"),
         eq(new ExternalTransportationRequestData("Shuttle Service", "", "")));
