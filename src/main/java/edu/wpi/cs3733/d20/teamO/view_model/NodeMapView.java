@@ -186,15 +186,7 @@ public class NodeMapView extends ViewModelBase {
   public void setNodeMap(Map<String, Node> nodeMap) {
     this.nodeMap.clear(); // Clear the current node map and the current nodeGroup and edgeGroup
 
-    nodeMap.keySet().forEach((id) -> System.out.println(
-        "[" + id + ", " + nodeMap.get(id).getFloor() + "] (" + nodeMap.get(id).getXCoord() + ", "
-            + nodeMap.get(id).getYCoord() + ")"));
-
     nodeMap.keySet().forEach((id) -> placeFloorNode(id, nodeMap.get(id)));
-    System.out.println("============");
-    this.nodeMap.get(1).forEach((id, node) -> System.out.println(
-        "[" + id + ", " + node.getFloor() + "] (" + node.getXCoord() + ", " + node.getYCoord()
-            + ")"));
     draw();
   }
 

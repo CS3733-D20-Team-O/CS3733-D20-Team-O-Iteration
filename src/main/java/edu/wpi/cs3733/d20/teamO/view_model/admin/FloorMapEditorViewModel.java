@@ -602,7 +602,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   public void onEvent(Event event) {
     if (event.getClass().equals(FloorSwitchEvent.class)) {
-      nodeMapViewController.setFloor(((FloorSwitchEvent) event).getFloor());
       drawEdges();
     }
   }
