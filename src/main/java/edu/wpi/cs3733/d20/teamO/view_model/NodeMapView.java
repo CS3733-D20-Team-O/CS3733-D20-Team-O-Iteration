@@ -36,9 +36,9 @@ public class NodeMapView extends ViewModelBase {
 
   private double nodeSize = 5;
   private double edgeSize = 3;
-  private final static Paint nodeColor = Color.web("#00991f"); // Green
-  private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
-  private final static Paint highlightColor = Color.RED; // Red
+  private Paint nodeColor = Color.web("#00991f"); // Green
+  private Paint edgeColor = Color.web("#58A5F0"); // Light blue
+  private Paint highlightColor = Color.RED; // Red
   private final static double zoomInc = 0.1;
 
   private double dragX = 0;
