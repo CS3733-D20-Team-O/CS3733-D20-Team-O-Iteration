@@ -38,8 +38,6 @@ public class IdleDetector {
     timeline.stop();
     //start the time-out timer
     timeline.playFromStart();
-
-    System.out.println("Timer reset");
   }
 
   private void timeOut() {
