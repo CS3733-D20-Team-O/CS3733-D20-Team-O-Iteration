@@ -11,6 +11,7 @@
   <AnchorPane fx:id="dragLayer"/>
   <AnchorPane fx:id="edgeGroup"/>
   <AnchorPane fx:id="nodeGroup"/>
+  <AnchorPane fx:id="textLayer"/>
 </StackPane>
 
 

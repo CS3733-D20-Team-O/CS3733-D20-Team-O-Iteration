@@ -113,13 +113,14 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private StackPane floorPane;
   @FXML
-  private AnchorPane nodeGroup, edgeGroup, dragLayer, colorLayer;
+  private AnchorPane nodeGroup, edgeGroup, dragLayer, colorLayer, textLayer;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
     nodeGroup.setPickOnBounds(false);
     edgeGroup.setPickOnBounds(false);
+    textLayer.setPickOnBounds(false);
 
     backgroundImage.setImage(new Image("floors/Transparency_Test.png"));
     setBackgroundColor("#fd8842");
@@ -449,6 +450,18 @@ public class NodeMapView extends ViewModelBase {
       draw();
     } catch (Exception e) {
       log.error("The floor map associated with that floor doesn't exist!");
+    }
+  }
+
+  /**
+   * Adds the node name above the node
+   *
+   * @param node The given node
+   */
+  public void addText(Node node) {
+    val target = findNode(node);
+    if (target != null) {
+      // todo add text
     }
   }
 
