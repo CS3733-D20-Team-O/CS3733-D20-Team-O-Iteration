@@ -335,9 +335,9 @@ public class NodeMapView extends ViewModelBase {
    */
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
-    if (n1.getFloor().equals(this.floor) &&
+    if (n1.getFloor().replaceAll("0", "").equals(this.floor) && // todo fix later
         n1.getBuilding().equals(this.building) &&
-        n2.getFloor().equals(this.floor) &&
+        n2.getFloor().replaceAll("0", "").equals(this.floor) &&
         n2.getBuilding().equals(this.building)) {
       if (findLine(n1, n2) == null) { // todo fix this later
         val x1 = translateToPaneX(n2.getXCoord());
