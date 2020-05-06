@@ -58,10 +58,30 @@ public class SanitationServiceTest extends FxRobot {
   @InjectMocks
   SanitationService viewModel;
 
+  private void initializeBundle() {
+    //General use Bundles
+    bundle.put("serviceInfoTechDescription ", "IT Support Request");
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("namePromptValidator", "Your name is required!");
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("floorPromptValidator", "A Floor is Required for the Service Request!");
+    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+
+    //Unique Bundles
+    bundle.put("serviceSanitationDescription", "Sanitation Service Request");
+    bundle.put("serviceSanitationDrySpill", "Dry Spill");
+    bundle.put("serviceSanitationWetSpill","Wet Spill");
+    bundle.put("serviceSanitationHazardSpill","Hazardous Spill");
+  }
+
   @Start
   public void start(Stage stage) throws IOException {
     bundle.put("nodeSelectorPromptText", "node selector");
     populateFloorAndLocation();
+    initializeBundle();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);

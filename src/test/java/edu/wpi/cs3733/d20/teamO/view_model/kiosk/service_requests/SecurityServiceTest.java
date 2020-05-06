@@ -61,6 +61,19 @@ public class SecurityServiceTest extends FxRobot {
   SecurityService viewModel;
 
   private void initializeBundle() {
+    //General use Bundles
+    bundle.put("serviceSecurityDescription ", "Emergency Security  Service Request");
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("namePromptValidator", "Your name is required!");
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("floorPromptValidator", "A Floor is Required for the Service Request!");
+    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+
+    //Unique Bundles
+    bundle.put("serviceSecurityDescription", "Emergency Security  Service Request");
     bundle.put("serviceSecurityTitle", "Security Request");
     bundle.put("securityRequesterName", "Your Name");
     bundle.put("securityRequesterNameValidation", "Your name is Required!");
@@ -75,9 +88,6 @@ public class SecurityServiceTest extends FxRobot {
     bundle.put("extTriage","External triage: external disaster");
     bundle.put("intTriage","Internal triage: internal emergency");
     bundle.put("suic","Suicidal or Distraught Individual");
-    bundle.put("securityAdditionalNotes","Additional Notes");
-    bundle.put("submitButton","Submit");
-    bundle.put("cancelButton","Cancel");
   }
 
 

@@ -9,21 +9,21 @@
 <VBox alignment="CENTER" spacing="32" xmlns:fx="http://javafx.com/fxml"
   style="-fx-padding: 32; -fx-font-size: 16"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel">
-  <Label text="Admin Options" style="-fx-font-size: 36"/>
-  <JFXButton onAction="#openFloorMapEditor" text="Floor Map Editor" buttonType="RAISED"
+  <Label text="%adminOptionsTitle" style="-fx-font-size: 36"/>
+  <JFXButton onAction="#openFloorMapEditor" text="%accessFloorMapEditor" buttonType="RAISED"
     style="-fx-background-color: lightgray"/>
-  <JFXButton onAction="#openServiceRequestHandler" text="Service Request Handler"
+  <JFXButton onAction="#openServiceRequestHandler" text="%accessServiceRequestHandler"
     buttonType="RAISED" style="-fx-background-color: lightgray"/>
-  <JFXButton onAction="#openImportExportHandler" text="Import/Export CSV" buttonType="RAISED"
+  <JFXButton onAction="#openImportExportHandler" text="%accessCSVIE" buttonType="RAISED"
     style="-fx-background-color: lightgray"/>
   <HBox spacing="16" alignment="CENTER">
-    <Label text="Path Finding Algorithm:"/>
+    <Label text="%accessAlgorithms"/>
     <JFXComboBox fx:id="searchAlgorithms">
       <items>
         <FXCollections fx:factory="observableArrayList">
-          <Label text="Fastest Route (A*)"/>
-          <Label text="Quick Route (BFS)"/>
-          <Label text="Scenic Route (DFS)"/>
+          <Label text="%aStar"/>
+          <Label text="%bfs"/>
+          <Label text="%dfs"/>
           <Label text="Fastest Route (Dijkstra)"/>
         </FXCollections>
       </items>
@@ -35,6 +35,6 @@
     </Spinner>
   </HBox>
   <HBox alignment="CENTER_RIGHT">
-    <JFXButton text="Logout" onAction="#close"/>
+    <JFXButton text="%adminLogout" onAction="#close"/>
   </HBox>
 </VBox>

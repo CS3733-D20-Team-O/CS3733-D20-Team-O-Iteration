@@ -21,7 +21,7 @@
     <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
   </padding>
   <children>
-    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%serviceMedicineDeliveryMedicationRequest">
+    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%serviceMedicineDeliveryDescription">
       <font>
         <Font size="18.0"/>
       </font>
@@ -56,7 +56,7 @@
     </HBox>
     <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
       <validators>
-        <NodeRequiredValidator message="A location is required"/>
+        <NodeRequiredValidator message="%locationPromptValidator"/>
       </validators>
     </NodeSelector>
     <HBox alignment="TOP_CENTER" layoutX="18.0" layoutY="83.0" spacing="8.0">
@@ -71,9 +71,9 @@
             <RequiredFieldValidator message="%serviceMedicineDeliveryDeliveryMethodValidator"/>
               </validators>
             </JFXComboBox>
-            <JFXTimePicker fx:id="timePicker" promptText="%serviceRequestTime">
+            <JFXTimePicker fx:id="timePicker" promptText="%timePrompt">
               <validators>
-                <RequiredFieldValidator message="%serviceMedicineDeliveryTimeValidator"/>
+                <RequiredFieldValidator message="%timePromptValidator"/>
               </validators>
             </JFXTimePicker>
           </children>
