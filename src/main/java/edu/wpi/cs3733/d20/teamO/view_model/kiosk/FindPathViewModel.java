@@ -225,17 +225,9 @@ public class FindPathViewModel extends ViewModelBase {
   private void generateQR() {
     val steps = generateSteps();
     try {
-      Integer intColor = null;
-      if (color != null) {
-        intColor = 0xff;
-        intColor *= 4;
-        intColor += (int) (color.getRed() * 255);
-        intColor *= 4;
-        intColor += (int) (color.getGreen() * 255);
-        intColor *= 4;
-        intColor += (int) (color.getBlue() * 255);
-      }
-      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(intColor, steps))));
+      int RGB = getIntFromColor((float) color.getRed(), (float) color.getGreen(),
+          (float) color.getBlue());
+      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(RGB, steps))));
     } catch (Exception e) {
       log.error("Failed to create a QR code from the current path", e);
     }
@@ -377,5 +369,17 @@ public class FindPathViewModel extends ViewModelBase {
         (int) (color.getRed() * 255),
         (int) (color.getGreen() * 255),
         (int) (color.getBlue() * 255)));
+  }
+
+  public int getIntFromColor(float Red, float Green, float Blue) {
+    int R = Math.round(255 * Red);
+    int G = Math.round(255 * Green);
+    int B = Math.round(255 * Blue);
+
+    R = (R << 16) & 0x00FF0000;
+    G = (G << 8) & 0x0000FF00;
+    B = B & 0x000000FF;
+
+    return 0xFF000000 | R | G | B;
   }
 }
