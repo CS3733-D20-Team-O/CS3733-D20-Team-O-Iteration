@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
-import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
@@ -601,9 +600,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   }
 
   public void onEvent(Event event) {
-    if (event.getClass().equals(FloorSwitchEvent.class)) {
-      drawEdges();
-    }
+
   }
 }
 
