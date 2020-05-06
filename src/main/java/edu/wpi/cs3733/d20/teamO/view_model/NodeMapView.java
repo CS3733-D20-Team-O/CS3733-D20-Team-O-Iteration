@@ -126,7 +126,7 @@ public class NodeMapView extends ViewModelBase {
     edgeGroup.setPickOnBounds(false);
     textLayer.setPickOnBounds(false);
 
-    backgroundImage.setImage(new Image("floors/Transparency_Test.png"));
+    backgroundImage.setImage(new Image("floors/Faulkner_1.png"));
     setBackgroundColor("#fd8842");
 
     // Set up event for a scroll event
