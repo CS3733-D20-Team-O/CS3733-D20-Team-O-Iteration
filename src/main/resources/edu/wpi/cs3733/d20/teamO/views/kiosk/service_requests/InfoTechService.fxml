@@ -55,11 +55,6 @@
           <NodeRequiredValidator message="%locationPromptValidator"/>
         </validators>
       </NodeSelector>
-      <!--      <JFXComboBox fx:id="locations" promptText="%ITServiceLocation">-->
-      <!--        <validators>-->
-      <!--          <RequiredFieldValidator message="%ITServiceLocationValidator"/>-->
-      <!--        </validators>-->
-      <!--      </JFXComboBox>-->
     </HBox>
   </HBox>
   <HBox alignment="CENTER" spacing="8">
