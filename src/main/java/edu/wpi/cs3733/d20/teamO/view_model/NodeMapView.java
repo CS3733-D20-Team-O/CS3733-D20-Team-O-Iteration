@@ -1,25 +1,35 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
+import edu.wpi.cs3733.d20.teamO.events.Event;
+import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
+import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -31,14 +41,17 @@ public class NodeMapView extends ViewModelBase {
 
   private double nodeSize = 5;
   private double edgeSize = 3;
-  private final static Paint nodeColor = Color.web("#00991f"); // Green
-  private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
-  private final static Paint highlightColor = Color.RED; // Red
+  private Paint nodeColor = Color.web("#00991f"); // Green
+  private Paint edgeColor = Color.web("#58A5F0"); // Light blue
+  private Paint highlightColor = Color.RED; // Red
   private final static double zoomInc = 0.1;
-  private final static double dragInc = 2;
 
   private double dragX = 0;
   private double dragY = 0;
+
+  private double textSize = 12;
+
+  private boolean edgeMovement = false;
 
   /**
    * The current floor being displayed
@@ -66,22 +79,22 @@ public class NodeMapView extends ViewModelBase {
    * Gets called when a node is left-click dragged
    */
   @Setter
-  private BiConsumer<Node, MouseEvent> onNodeLeftDragListener;
+  private TriConsumer<Node, Integer, Integer> onNodeLeftDragListener;
   /**
    * Gets called when a node is right-clicked dragged
    */
   @Setter
-  private BiConsumer<Node, MouseEvent> onNodeRightDragListener;
+  private TriConsumer<Node, Integer, Integer> onNodeRightDragListener;
   /**
-   * Gets called when a node has been released from a left-click drag
+   * Gets called when a node has been released from a left-click
    */
   @Setter
-  private BiConsumer<Node, MouseEvent> onNodeLeftDragReleaseListener;
+  private TriConsumer<Node, Integer, Integer> onNodeLeftTapReleaseListener;
   /**
-   * Gets called when a node has been released from a right-click drag
+   * Gets called when a node has been released from a right-click
    */
   @Setter
-  private BiConsumer<Node, MouseEvent> onNodeRightDragReleaseListener;
+  private TriConsumer<Node, Integer, Integer> onNodeRightTapReleaseListener;
   /**
    * Gets called when a edge is left-clicked
    */
@@ -104,14 +117,17 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private StackPane floorPane;
   @FXML
-  private AnchorPane nodeGroup, edgeGroup, dummyLayer;
+  private AnchorPane nodeGroup, edgeGroup, dragLayer, colorLayer, textLayer;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
-    //backgroundImage.setFitWidth(990.4);
-    //backgroundImage.setFitHeight(594.4);
+    nodeGroup.setPickOnBounds(false);
+    edgeGroup.setPickOnBounds(false);
+    textLayer.setPickOnBounds(false);
+
     backgroundImage.setImage(new Image("floors/Faulkner_1.png"));
+    setBackgroundColor("#fd8842");
 
     // Set up event for a scroll event
     floorPane.setOnScroll(event -> {
@@ -123,34 +139,51 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the the background is clicked
-    nodeGroup.setOnMouseClicked(event -> {
-      if (event.getButton() == MouseButton.SECONDARY) {
-        System.out.println("NodeGroup Right Click");
+    dragLayer.setOnMousePressed(event -> {
+      if (event.getButton().equals(MouseButton.PRIMARY)) { // Used for dragging
+        System.out.println("NodeGroup Left Press");
+        dragX = floorPane.getTranslateX() - event.getSceneX();
+        dragY = floorPane.getTranslateY() - event.getSceneY();
+      } else if (event.getButton()
+          .equals(MouseButton.SECONDARY)) { // Used for right click on the background
+        System.out.println("NodeGroup Right Press");
         val imageX = translateToImageX((int) event.getX());
         val imageY = translateToImageY((int) event.getY());
         onMissRightTapListener.accept(imageX, imageY);
       }
     });
 
-    dummyLayer.setOnMousePressed(event -> {
-      if (event.getButton() == MouseButton.PRIMARY) {
-        System.out.println("NodeGroup Left Press");
-        dragX = floorPane.getLayoutX() - event.getSceneX();
-        dragY = floorPane.getLayoutY() - event.getSceneY();
-      }
-    });
-
     // Set up event for when the background is dragged
-    dummyLayer.setOnMouseDragged(event -> {
-      if (event.getButton() == MouseButton.PRIMARY) {
+    dragLayer.setOnMouseDragged(event -> {
+      if (event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("NodeGroup Left Drag");
-        floorPane.setLayoutX(event.getSceneX() + dragX);
-        floorPane.setLayoutY(event.getSceneY() + dragY);
+        if (checkXWithinBounds(event.getSceneX())) {
+          floorPane.setTranslateX(event.getSceneX() + dragX);
+        }
+        if (checkYWithinBounds(event.getSceneY())) {
+          floorPane.setTranslateY(event.getSceneY() + dragY);
+        }
       }
     });
 
     // Display the current floor (and consequently call the above listeners)
     Platform.runLater(() -> setFloor(this.building, this.floor));
+  }
+
+  private boolean checkXWithinBounds(double X) {
+    if (X + dragX > backgroundImage.getFitWidth() / 2) {
+      return false;
+    } else {
+      return !(X + dragX < 0 - (backgroundImage.getFitWidth() / 2));
+    }
+  }
+
+  private boolean checkYWithinBounds(double Y) {
+    if (dragY + Y > backgroundImage.getFitHeight() / 2) {
+      return false;
+    } else {
+      return !(dragY + Y < 0 - (backgroundImage.getFitHeight() / 2));
+    }
   }
 
   /**
@@ -172,7 +205,7 @@ public class NodeMapView extends ViewModelBase {
    */
   public void addNode(Node node) {
     placeFloorNode(node.getNodeID(), node);
-    if (node.getFloor().equals(this.floor)) {
+    if (node.getFloor().equals(this.floor) && node.getBuilding().equals(this.building)) {
       drawNode(node);
     }
   }
@@ -186,7 +219,7 @@ public class NodeMapView extends ViewModelBase {
     if (this.nodeMap.containsKey(buildingFloorID(node))) {
       nodeMap.get(buildingFloorID(node)).remove(node.getNodeID());
 
-      if (node.getFloor().equals(this.floor)) {
+      if (node.getFloor().equals(this.floor) && node.getBuilding().equals(this.building)) {
         val target = findNode(node);
         if (target
             != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
@@ -223,7 +256,7 @@ public class NodeMapView extends ViewModelBase {
     //floorPane.getChildren().add(backgroundImage);
 
     // Draw all the nodes on a certain floor
-    val floorMap = nodeMap.get(getFloor());
+    val floorMap = nodeMap.get(this.building + "_" + this.floor);
     // Check if nodes for the floor exist
     if (floorMap != null) {
       floorMap.keySet().forEach((id) -> drawNode(floorMap.get(id)));
@@ -243,24 +276,42 @@ public class NodeMapView extends ViewModelBase {
     System.out.println(
         "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
             + "]");
-    drawnNode.setOnMouseClicked(event -> {
-      if (onNodeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
+
+    drawnNode.setOnMouseReleased(event -> {
+      if (onNodeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("Node Left Clicked");
         onNodeLeftTapListener.accept(drawnNode.node);
-      } else if (onNodeRightTapListener != null && event.getButton() == MouseButton.SECONDARY) {
+      } else if (onNodeRightTapListener != null && event.getButton()
+          .equals(MouseButton.SECONDARY)) {
         System.out.println("Node Right Clicked");
         onNodeRightTapListener.accept(drawnNode.node);
       }
     });
     drawnNode.setOnMouseDragged(event -> {
-      if (onNodeLeftDragListener != null && event.getButton() == MouseButton.PRIMARY) {
+      if (onNodeLeftDragListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
         System.out.println("Node Left Dragged");
-        onNodeLeftDragListener.accept(drawnNode.node, event);
-      } else if (onNodeRightDragListener != null && event.getButton() == MouseButton.SECONDARY) {
+        onNodeLeftDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
+      } else if (onNodeRightDragListener != null && event.getButton()
+          .equals(MouseButton.SECONDARY)) {
         System.out.println("Node Right Dragged");
-        onNodeRightDragListener.accept(drawnNode.node, event);
+        onNodeRightDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
       }
     });
+    /*drawnNode.setOnMouseReleased(event -> {
+      if (onNodeLeftTapReleaseListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
+        System.out.println("Node Left Dragged End (Mod)");
+        onNodeLeftTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
+      } else if (onNodeRightTapReleaseListener != null
+          && event.getButton().equals(MouseButton.SECONDARY)) {
+        System.out.println("Node Right Dragged End (Mod)");
+        onNodeRightTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
+      }
+    });*/
+    /*
     drawnNode.setOnMouseDragExited(event -> {
       if (onNodeLeftDragReleaseListener != null && event.getButton() == MouseButton.PRIMARY) {
         System.out.println("Node Left Dragged End");
@@ -270,7 +321,7 @@ public class NodeMapView extends ViewModelBase {
         System.out.println("Node Right Dragged End");
         onNodeRightDragReleaseListener.accept(drawnNode.node, event);
       }
-    });
+    });*/
     nodeGroup.getChildren().add(drawnNode);
   }
 
@@ -282,16 +333,19 @@ public class NodeMapView extends ViewModelBase {
    */
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
-    if (n1.getFloor().equals(getFloor()) && n2.getFloor().equals(getFloor())) {
-      val x1 = translateToPaneX(n1.getXCoord());
-      val y1 = translateToPaneY(n1.getYCoord());
-      val x2 = translateToPaneX(n2.getXCoord());
-      val y2 = translateToPaneY(n2.getYCoord());
+    if (n1.getFloor().equals(this.floor) &&
+        n1.getBuilding().equals(this.building) &&
+        n2.getFloor().equals(this.floor) &&
+        n2.getBuilding().equals(this.building)) {
+      val x1 = translateToPaneX(n2.getXCoord());
+      val y1 = translateToPaneY(n2.getYCoord());
+      val x2 = translateToPaneX(n1.getXCoord());
+      val y2 = translateToPaneY(n1.getYCoord());
       //System.out.println("Drawing an edge (node reference) from (" + translateToPaneX(n1.getXCoord()) + ", " + translateToPaneY(n1.getYCoord()) + ") to (" + translateToPaneX(n2.getYCoord()) + ", " + translateToPaneY(n2.getYCoord()) + ")");
       //System.out.println("Drawing an edge from (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
       drawnEdge.setOnMouseClicked(event -> {
-        if (onEdgeLeftTapListener != null && event.getButton() == MouseButton.PRIMARY) {
+        if (onEdgeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
           System.out.println("Edge Left Click");
           onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
         }
@@ -299,9 +353,45 @@ public class NodeMapView extends ViewModelBase {
 
       drawnEdge.setStrokeWidth(edgeSize);
       drawnEdge.setStroke(edgeColor);
+
+      if (edgeMovement == true) {
+        drawnEdge.getStrokeDashArray().setAll(10d, 10d);
+
+        final double maxOffset = drawnEdge.getStrokeDashArray().stream()
+            .reduce(0d, (a, b) -> a + b);
+
+        Timeline timeline = new Timeline(
+            new KeyFrame(
+                Duration.ZERO,
+                new KeyValue(
+                    drawnEdge.strokeDashOffsetProperty(),
+                    0,
+                    Interpolator.LINEAR)),
+
+            new KeyFrame(
+                Duration.seconds(2),
+                new KeyValue(
+                    drawnEdge.strokeDashOffsetProperty(),
+                    maxOffset,
+                    Interpolator.LINEAR)));
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+      }
+
       Platform.runLater(() -> edgeGroup.getChildren().add(drawnEdge));
-      //edgeGroup.getChildren().add(1, drawnEdge);
     }
+  }
+
+  public void deleteEdge(Edge edge) {
+    val target = findLine(edge);
+    if (target != null) {
+      edgeGroup.getChildren().remove(target);
+    }
+  }
+
+  public void setEdgeMovement(boolean status) {
+    this.edgeMovement = status;
   }
 
   /*
@@ -345,6 +435,32 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
+   * Adds the node name above the node
+   *
+   * @param node   the given node
+   * @param string the written text
+   */
+  public void addText(Node node, String string) {
+    val target = findNode(node);
+    if (target != null) {
+      Text text = new Text(translateToPaneX(node.getXCoord()),
+          translateToPaneY(node.getYCoord()) + ((3 * nodeSize) / 2),
+          string);
+      text.setFont(new Font("Roboto", this.textSize));
+      text.setStroke(Color.WHITE);
+      text.setStrokeWidth(0.5);
+      textLayer.getChildren().add(text);
+    }
+  }
+
+  /**
+   * Clears the text layer
+   */
+  public void clearText() {
+    textLayer.getChildren().clear();
+  }
+
+  /**
    * Sets the currently drawn floor to the given floor and updates the NodeMapView
    *
    * @param building the building the floor is on
@@ -357,6 +473,9 @@ public class NodeMapView extends ViewModelBase {
           building.replaceAll("\\s+", "") + "_" +
           floor.replaceAll("\\s+", "") + ".png"));
       this.floor = floor;
+      this.building = building;
+      colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 8);
+      colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
       draw();
     } catch (Exception e) {
       log.error("The floor map associated with that floor doesn't exist!");
@@ -378,6 +497,13 @@ public class NodeMapView extends ViewModelBase {
   @Deprecated
   public void decrementFloor() {
     //  setFloor(this.floor - 1);
+  }
+
+  /**
+   * Clears all edges on the screen
+   */
+  public void clearEdge() {
+    edgeGroup.getChildren().clear();
   }
 
   /**
@@ -428,6 +554,22 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  public void setNodeColor(Paint color) {
+    this.nodeColor = color;
+  }
+
+  public void setEdgeColor(Paint color) {
+    this.edgeColor = color;
+  }
+
+  public void setHighlightColor(Paint color) {
+    this.highlightColor = color;
+  }
+
+  public void setBackgroundColor(String color) {
+    colorLayer.setStyle("-fx-background-color: " + color);
+  }
+
   /**
    * Allows to set the size of drawn nodes (note: cannot resize edges once they are placed on the
    * map)
@@ -449,31 +591,41 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
-   * Allows for the given node to be relocated
+   * Allows for the given node to be relocated (using an updated node)
    *
-   * @param node the node to be relocated
-   * @param x    the new x location
-   * @param y    the new y location
+   * @param oldNode the old node
+   * @param newNode the new node
    */
-  public void relocateNode(Node node, double x, double y) {
-    val floor = nodeMap.get(buildingFloorID(node));
+  public void relocateNode(Node oldNode, Node newNode) {
+    val floor = nodeMap.get(oldNode.getFloor());
     if (floor != null) {
-      floor.remove(node.getNodeID());
-      Node newNode = new Node(node.getNodeID(), node.getXCoord(),
-          node.getYCoord(), node.getFloor(), node.getBuilding(),
-          node.getNodeType(), node.getLongName(), node.getShortName());
-      floor.put(node.getNodeID(), newNode);
-      System.out.println("Updated node");
+      floor.remove(oldNode.getNodeID());
+      floor.put(newNode.getNodeID(), newNode);
+      //System.out.println("Updated node");
     }
 
-    val nodeCircle = findNode(node);
+    val nodeCircle = findNode(oldNode);
+    nodeCircle.node = newNode;
     if (nodeCircle != null) {
-      System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
-      System.out.println(
-          "Circle properties: At X: [" + x + "] At Y: [" + y
-              + "]");
-      nodeCircle.setCenterX(translateToPaneX((int) x));
-      nodeCircle.setCenterY(translateToPaneY((int) y));
+      //System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
+      //System.out.println("Circle properties: At X: [" + x + "] At Y: [" + y + "]");
+      nodeCircle.setCenterX(translateToPaneX(newNode.getXCoord()));
+      nodeCircle.setCenterY(translateToPaneY(newNode.getYCoord()));
+    }
+  }
+
+  public void relocateEdge(Node n1, Node n2) {
+    val floor = nodeMap.get(n1.getFloor());
+    if (floor != null && n1.getFloor() == n2.getFloor()) {
+      val nodeLine = findLine(n1, n2);
+      if (nodeLine != null) {
+        nodeLine.setStartX(translateToPaneX(n1.getXCoord()));
+        nodeLine.setStartY(translateToPaneY(n1.getYCoord()));
+
+        nodeLine.setEndX(translateToPaneX(n2.getXCoord()));
+        nodeLine.setEndY(translateToPaneY(n2.getYCoord()));
+      }
+      //val nodeLine = findLine();
     }
   }
 
@@ -481,26 +633,14 @@ public class NodeMapView extends ViewModelBase {
    * Make all nodes on the floor visible
    */
   public void makeNodeVisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> {
-      nodeCircle.setVisible(true);
-    });
-
-    /*
-    floorPane.getChildren().stream().filter(n -> n instanceof NodeCircle).
-        forEach(nodeCircle -> nodeCircle.setVisible(true));*/
+    nodeGroup.getChildren().forEach(nodeCircle -> nodeCircle.setVisible(true));
   }
 
   /**
    * Make all nodes on the floor invisible
    */
   public void makeNodeInvisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> {
-      nodeCircle.setVisible(false);
-    });
-
-    /*
-    floorPane.getChildren().stream().filter(n -> n instanceof NodeCircle).
-        forEach(nodeCircle -> nodeCircle.setVisible(false));*/
+    nodeGroup.getChildren().forEach(nodeCircle -> nodeCircle.setVisible(false));
   }
 
   /**
@@ -517,20 +657,28 @@ public class NodeMapView extends ViewModelBase {
       }
     }
     return null;
-
-    /*
-    return floorPane.getChildren().stream()
-        .filter(n -> n instanceof NodeCircle)
-        .map(n -> (NodeCircle) n)
-        .reduce(null, (result, current) -> current.node.equals(node) ? current : result);*/
   }
 
   /**
    * Find a NodeLine that an edge is represented by
    *
-   * @param edge the given edge
+   * @param n1 the starting node
+   * @param n2 the ending node
    * @return the NodeLine that node refers to (or null if no NodeLine is found)
    */
+  private NodeLine findLine(Node n1, Node n2) {
+    for (val child : edgeGroup.getChildren()) {
+      val nodeLine = (NodeLine) child;
+      if ((nodeLine.node1.getNodeID().equals(n1.getNodeID()) &&
+          nodeLine.node2.getNodeID().equals(n2.getNodeID())) ||
+          (nodeLine.node1.getNodeID().equals(n2.getNodeID()) &&
+              nodeLine.node2.getNodeID().equals(n1.getNodeID()))) {
+        return nodeLine;
+      }
+    }
+    return null;
+  }
+
   private NodeLine findLine(Edge edge) {
     for (val child : edgeGroup.getChildren()) {
       val nodeLine = (NodeLine) child;
@@ -540,18 +688,11 @@ public class NodeMapView extends ViewModelBase {
       }
     }
     return null;
-
-    /*return floorPane.getChildren().stream()
-        .filter(n -> n instanceof NodeLine)
-        .map(n -> (NodeLine) n)
-        .reduce(null, (result, current) ->
-            current.node1.getNodeID().equals(edge.getStartID()) &&
-                current.node2.getNodeID().equals(edge.getStopID()) ? current : result);*/
   }
 
   public int translateToImageX(int x) {
-    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
-    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    //System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    //System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
     /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
     System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
 
@@ -559,24 +700,24 @@ public class NodeMapView extends ViewModelBase {
   }
 
   public int translateToImageY(int y) {
-    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
-    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    //System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    //System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
     /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
     System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
     return (int) (y / getRealHeight() * backgroundImage.getImage().getHeight());
   }
 
   public int translateToPaneX(int x) {
-    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
-    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    //System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    //System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
     /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
     System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
     return (int) (x / backgroundImage.getImage().getWidth() * getRealWidth());
   }
 
   public int translateToPaneY(int y) {
-    System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
-    System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
+    //System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
+    //System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
     /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
     System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
     return (int) (y / backgroundImage.getImage().getHeight() * getRealHeight());
@@ -634,6 +775,28 @@ public class NodeMapView extends ViewModelBase {
       //setTranslateY((y1 + y2) / 2);
       this.node1 = node1;
       this.node2 = node2;
+    }
+  }
+
+  @FunctionalInterface
+  public interface TriConsumer<T, U, X> {
+
+    void accept(T t, U u, X x);
+
+    default TriConsumer<T, U, X> andThen(TriConsumer<? super T, ? super U, ? super X> after) {
+      Objects.requireNonNull(after);
+
+      return (l, r, x) -> {
+        accept(l, r, x);
+        after.accept(l, r, x);
+      };
+    }
+  }
+
+  public void onEvent(Event event) {
+    if (event.getClass().equals(FloorSwitchEvent.class)) {
+      setFloor(((FloorSwitchEvent) event).getBuilding(), ((FloorSwitchEvent) event).getFloor());
+      dispatch(new RedrawEvent());
     }
   }
 }
