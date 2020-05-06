@@ -331,10 +331,10 @@ public class NodeMapView extends ViewModelBase {
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
     if (n1.getFloor().equals(getFloor()) && n2.getFloor().equals(getFloor())) {
-      val x1 = translateToPaneX(n1.getXCoord());
-      val y1 = translateToPaneY(n1.getYCoord());
-      val x2 = translateToPaneX(n2.getXCoord());
-      val y2 = translateToPaneY(n2.getYCoord());
+      val x1 = translateToPaneX(n2.getXCoord());
+      val y1 = translateToPaneY(n2.getYCoord());
+      val x2 = translateToPaneX(n1.getXCoord());
+      val y2 = translateToPaneY(n1.getYCoord());
       //System.out.println("Drawing an edge (node reference) from (" + translateToPaneX(n1.getXCoord()) + ", " + translateToPaneY(n1.getYCoord()) + ") to (" + translateToPaneX(n2.getYCoord()) + ", " + translateToPaneY(n2.getYCoord()) + ")");
       //System.out.println("Drawing an edge from (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
       val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
@@ -638,8 +638,8 @@ public class NodeMapView extends ViewModelBase {
       val nodeLine = (NodeLine) child;
       if ((nodeLine.node1.getNodeID().equals(n1.getNodeID()) &&
           nodeLine.node2.getNodeID().equals(n2.getNodeID())) ||
-          nodeLine.node1.getNodeID().equals(n2.getNodeID()) &&
-              nodeLine.node2.getNodeID().equals(n1.getNodeID())) {
+          (nodeLine.node1.getNodeID().equals(n2.getNodeID()) &&
+              nodeLine.node2.getNodeID().equals(n1.getNodeID()))) {
         return nodeLine;
       }
     }
