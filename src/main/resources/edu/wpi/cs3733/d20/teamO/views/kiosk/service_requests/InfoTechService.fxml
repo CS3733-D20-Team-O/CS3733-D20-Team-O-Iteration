@@ -15,7 +15,7 @@
 <VBox spacing="32" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InfoTechService"
   style="-fx-padding: 32; -fx-font-size: 16">
-  <Label text="%ITServiceTitle" style="-fx-font-size: 32"/>
+  <Label text="%serviceInfoTechDescription" style="-fx-font-size: 32"/>
   <HBox alignment="CENTER" spacing="8">
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
       preserveRatio="true">
@@ -23,26 +23,26 @@
         <Image url="/person-icon.png"/>
       </image>
     </ImageView>
-    <JFXTextField fx:id="requesterName" promptText="%ITServiceName">
+    <JFXTextField fx:id="requesterName" promptText="%namePrompt">
       <validators>
-        <RequiredFieldValidator message="%ITServiceNameValidator"/>
+        <RequiredFieldValidator message="%namePromptValidator"/>
       </validators>
     </JFXTextField>
   </HBox>
   <HBox alignment="CENTER" spacing="32">
-    <!--    <HBox alignment="CENTER" spacing="8">-->
-    <!--      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"-->
-    <!--        preserveRatio="true">-->
-    <!--        <image>-->
-    <!--          <Image url="/floor-icon.png"/>-->
-    <!--        </image>-->
-    <!--      </ImageView>-->
-    <!--      <JFXComboBox fx:id="floors" promptText="%ITServiceFloor">-->
-    <!--        <validators>-->
-    <!--          <RequiredFieldValidator message="%ITServiceFloorValidator"/>-->
-    <!--        </validators>-->
-    <!--      </JFXComboBox>-->
-    <!--    </HBox>-->
+    <HBox alignment="CENTER" spacing="8">
+      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+        preserveRatio="true">
+        <image>
+          <Image url="/floor-icon.png"/>
+        </image>
+      </ImageView>
+      <JFXComboBox fx:id="floors" promptText="%floorPrompt">
+        <validators>
+          <RequiredFieldValidator message="%floorPromptValidator"/>
+        </validators>
+      </JFXComboBox>
+    </HBox>
     <HBox alignment="CENTER" spacing="8">
       <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
         preserveRatio="true">
@@ -50,16 +50,11 @@
           <Image url="/location-icon.png"/>
         </image>
       </ImageView>
-      <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
+      <NodeSelector fx:id="nodeSelector" promptText="%locationPrompt">
         <validators>
-          <NodeRequiredValidator message="A location is required"/>
+          <NodeRequiredValidator message="%locationPromptValidator"/>
         </validators>
       </NodeSelector>
-      <!--      <JFXComboBox fx:id="locations" promptText="%ITServiceLocation">-->
-      <!--        <validators>-->
-      <!--          <RequiredFieldValidator message="%ITServiceLocationValidator"/>-->
-      <!--        </validators>-->
-      <!--      </JFXComboBox>-->
     </HBox>
   </HBox>
   <HBox alignment="CENTER" spacing="8">
@@ -85,8 +80,8 @@
     <JFXTextArea fx:id="additionalNotes" promptText="%ITServiceDescription" maxHeight="100"/>
   </HBox>
   <HBox alignment="CENTER_RIGHT" spacing="16">
-    <JFXButton text="%ITServiceSubmit" onAction="#submitRequest"
+    <JFXButton text="%submitButton" onAction="#submitRequest"
       style="-fx-background-color: #00BB00"/>
-    <JFXButton text="%ITServiceCancel" onAction="#close" style="-fx-background-color: LIGHTGREY"/>
+    <JFXButton text="%cancelButton" onAction="#close" style="-fx-background-color: LIGHTGREY"/>
   </HBox>
 </VBox>

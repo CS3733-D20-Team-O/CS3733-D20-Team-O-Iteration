@@ -19,24 +19,24 @@
   <VBox alignment="CENTER" spacing="32"
     style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
     <Label style="-fx-font-size: 32" text="%serviceInterpreterDescription"/>
-    <JFXTextField fx:id="requesterName" promptText="%serviceInterpreterNameField"
+    <JFXTextField fx:id="requesterName" promptText="%namePrompt"
       style="-fx-background-color: WHITE;">
       <validators>
-        <RequiredFieldValidator message="%serviceInterpreterNameValidator"/>
+        <RequiredFieldValidator message="%namePromptValidator"/>
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
       <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText"
         style="-fx-background-color: WHITE;">
         <validators>
-          <NodeRequiredValidator message="%serviceInterpreterLocationValidator"/>
+          <NodeRequiredValidator message="%floorPromptValidator"/>
         </validators>
       </NodeSelector>
       <JFXTimePicker fx:id="timePicker" defaultColor="#003f8f"
-        promptText="%serviceInterpreterTimePicker"
+        promptText="%timePrompt"
         style="-fx-background-color: WHITE;">
         <validators>
-          <RequiredFieldValidator message="%serviceInterpreterTimeValidator"/>
+          <RequiredFieldValidator message="%timePromptValidator"/>
         </validators>
       </JFXTimePicker>
     </HBox>
@@ -73,10 +73,10 @@
       </children>
     </HBox>
     <JFXTextArea fx:id="additionalNotes" prefHeight="119.0" prefWidth="618.0"
-      promptText="%serviceInterpreterNotesField" style="-fx-background-color: WHITE;"/>
+      promptText="%notesPrompt" style="-fx-background-color: WHITE;"/>
     <HBox alignment="CENTER_RIGHT" spacing="16">
-      <JFXButton onAction="#submitRequest" text="%serviceInterpreterSubmitButton"/>
-      <JFXButton onAction="#close" text="%serviceInterpreterCancelButton"/>
+      <JFXButton onAction="#submitRequest" text="%submitButton"/>
+      <JFXButton onAction="#close" text="%cancelButton"/>
     </HBox>
   </VBox>
 </StackPane>
