@@ -203,7 +203,7 @@ public class FindPathViewModel extends ViewModelBase {
 
   @FXML
   private void generateQR() {
-    val steps = generateInstructions();
+    val steps = generateSteps();
     try {
       // todo background color
       dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(null, steps))));
@@ -251,15 +251,7 @@ public class FindPathViewModel extends ViewModelBase {
     }
   }
 
-  private List<Step> generateInstructions() {
-    val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
-
-    // If there is no path, produce no steps
-    if (nodes == null || nodes.isEmpty()) {
-      return new ArrayList<>();
-    }
-
-    // Create instructions based on nodes
+  private List<Instruction> createInstructionsFromNodes(List<Node> nodes) {
     val instructions = new ArrayList<Instruction>(nodes.size());
     for (int i = 0; i < nodes.size() - 1; ++i) {
       val prevNode = i > 0 ? nodes.get(i - 1) : null;
@@ -293,8 +285,19 @@ public class FindPathViewModel extends ViewModelBase {
       }
     }
     instructions.add(new Instruction("You have arrived", Icon.DESTINATION));
+    return instructions;
+  }
 
-    // todo combine process and instruction creation steps into same for loop
+  private List<Step> generateSteps() {
+    val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+
+    // If there is no path, produce no steps
+    if (nodes == null || nodes.isEmpty()) {
+      return new ArrayList<>();
+    }
+
+    // Create instructions based on the nodes
+    val instructions = createInstructionsFromNodes(nodes);
 
     // Transfer the instructions and nodes into steps
     val steps = new ArrayList<Step>();
