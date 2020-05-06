@@ -67,7 +67,11 @@ public class ExternalTransportationServiceTest extends FxRobot {
     bundle.put("timePrompt", "Time for Request");
     bundle.put("notesPrompt", "Additional Notes:");
 
+    //add the necessary strings to the bundle
+    bundle.put("externalTransportationNamePrompt", "Your Name");
     bundle.put("externalTransportationModePrompt", "Mode of Transportation");
+    bundle.put("nodeSelectorPromptText", "Select or search for a location");
+    bundle.put("externalTransportationTimePrompt", "Time");
     bundle.put("externalTransportationDestinationPrompt", "Destination");
 
     populateFloorAndLocation();
@@ -82,10 +86,10 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Room 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Room 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Room 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Room 5", ""));
+    map.put("a", new Node("a", 0, 0, "1", "", "", "Room 1", ""));
+    map.put("b", new Node("b", 0, 0, "3", "", "", "Room 3-1", ""));
+    map.put("c", new Node("c", 0, 0, "3", "", "", "Room 3-2", ""));
+    map.put("d", new Node("d", 0, 0, "5", "", "", "Room 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
 
@@ -155,7 +159,7 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
     // Test when there are fields not filled out
     clickOn("Submit");
-    verify(validator, times(1)).validate(any(), any(), any(), any(), any(), any());
+    verify(validator, times(1)).validate(any(), any(), any(), any(), any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());
@@ -172,7 +176,7 @@ public class ExternalTransportationServiceTest extends FxRobot {
     clickOn("Time for Request");
     write("12:34 PM");
     clickOn("Submit");
-    verify(validator, times(2)).validate(any(), any(), any(), any(), any(), any());
+    verify(validator, times(2)).validate(any(), any(), any(), any(), any());
     verify(database, times(1)).addServiceRequest(eq("12:34"),
         eq("Room 1"), eq("External Transportation"), eq("John Smith"),
         eq(new ExternalTransportationRequestData("Shuttle Service", "", "")));
@@ -181,7 +185,7 @@ public class ExternalTransportationServiceTest extends FxRobot {
 
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Submit");
-    verify(validator, times(3)).validate(any(), any(), any(), any(), any(), any());
+    verify(validator, times(3)).validate(any(), any(), any(), any(), any());
     verify(database, times(2)).addServiceRequest(eq("12:34"),
         eq("Room 1"), eq("External Transportation"), eq("John Smith"),
         eq(new ExternalTransportationRequestData("Shuttle Service", "", "")));

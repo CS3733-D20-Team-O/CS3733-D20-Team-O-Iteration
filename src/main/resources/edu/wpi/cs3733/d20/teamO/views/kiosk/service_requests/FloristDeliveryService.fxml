@@ -5,6 +5,8 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
@@ -27,11 +29,11 @@
           <RequiredFieldValidator message="%floorPromptValidator"/>
         </validators>
       </JFXComboBox>
-      <JFXComboBox fx:id="locations" promptText="%locationPrompt">
+      <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
         <validators>
-          <RequiredFieldValidator message="%locationPromptValidator"/>
+          <NodeRequiredValidator message="%locationPromptValidator"/>
         </validators>
-      </JFXComboBox>
+      </NodeSelector>
       <JFXComboBox fx:id="bouquet" prefHeight="37.0" prefWidth="173.0" promptText="%BouquetType">
         <items>
           <FXCollections fx:factory="observableArrayList">

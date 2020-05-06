@@ -11,9 +11,9 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class AStarTest {
+public class DijkstraTest {
 
-  private final AStar aStar = new AStar();
+  private final Dijkstra dijkstra = new Dijkstra();
 
   private final static Map<String, Node> map = new HashMap<>();
 
@@ -57,7 +57,7 @@ public class AStarTest {
   @Test
   public void testGoingFromAToB() {
     final List<Node> desired = Arrays.asList(map.get("a"), map.get("b"));
-    final List<Node> answer = aStar.findPathBetween(map.get("a"), map.get("b"));
+    final List<Node> answer = dijkstra.findPathBetween(map.get("a"), map.get("b"));
     assertEquals(desired, answer);
   }
 
@@ -65,7 +65,7 @@ public class AStarTest {
   public void testGoingFromAToG() {
     final List<Node> desired = Arrays
         .asList(map.get("a"), map.get("c"), map.get("d"), map.get("g"));
-    final List<Node> answer = aStar.findPathBetween(map.get("a"), map.get("g"));
+    final List<Node> answer = dijkstra.findPathBetween(map.get("a"), map.get("g"));
     assertEquals(desired, answer);
   }
 
@@ -73,26 +73,26 @@ public class AStarTest {
   public void testGoingFromCToF() {
     final List<Node> desired = Arrays
         .asList(map.get("c"), map.get("d"), map.get("e"), map.get("f"));
-    final List<Node> answer = aStar.findPathBetween(map.get("c"), map.get("f"));
+    final List<Node> answer = dijkstra.findPathBetween(map.get("c"), map.get("f"));
     assertEquals(desired, answer);
   }
 
   @Test
   public void testGoingFromHToD() {
     final List<Node> desired = Arrays.asList(map.get("h"), map.get("b"), map.get("d"));
-    final List<Node> answer = aStar.findPathBetween(map.get("h"), map.get("d"));
+    final List<Node> answer = dijkstra.findPathBetween(map.get("h"), map.get("d"));
     assertEquals(desired, answer);
   }
 
   @Test
   public void testUnreachableAsStop() {
-    final List<Node> answer = aStar.findPathBetween(map.get("h"), map.get("n"));
+    final List<Node> answer = dijkstra.findPathBetween(map.get("h"), map.get("n"));
     assertNull(answer);
   }
 
   @Test
   public void testUnreachableAsStart() {
-    final List<Node> answer = aStar.findPathBetween(map.get("n"), map.get("c"));
+    final List<Node> answer = dijkstra.findPathBetween(map.get("n"), map.get("c"));
     assertNull(answer);
   }
 }

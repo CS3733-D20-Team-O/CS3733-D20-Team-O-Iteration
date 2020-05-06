@@ -106,6 +106,7 @@ public class GiftDeliveryServiceTest extends FxRobot {
   @Start
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
+    bundle.put("nodeSelectorPromptText", "Select or search for a location");
     populateFloorAndLocation();
     initializeBundle();
     val loader = new FXMLLoader();
@@ -119,10 +120,10 @@ public class GiftDeliveryServiceTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Floor 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
+    map.put("a", new Node("a", 0, 0, "1", "", "", "Floor 1", ""));
+    map.put("b", new Node("b", 0, 0, "3", "", "", "Floor 3-1", ""));
+    map.put("c", new Node("c", 0, 0, "3", "", "", "Floor 3-2", ""));
+    map.put("d", new Node("d", 0, 0, "5", "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
 
@@ -231,15 +232,9 @@ public class GiftDeliveryServiceTest extends FxRobot {
 //    clickOn("Submit");
 //    verify(validator, times(3)).validate(any());
 
-    clickOn("Floor");
-    clickOn("3");
-//    clickOn("Submit");
-//    verify(validator, times(4)).validate(any());
-
-    clickOn("Room/Location on Floor");
-    clickOn("Floor 3-1");
-//    clickOn("Submit");
-//    verify(validator, times(5)).validate(any());
+    clickOn("Select or search for a location");
+    write("1");
+    clickOn("(1) Floor 1");
 
     clickOn("Delivery Time");
     write("00:30 AM");
@@ -289,7 +284,7 @@ public class GiftDeliveryServiceTest extends FxRobot {
     verifyThat("Total: $9.99", javafx.scene.Node::isVisible);
 
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 3-1"), eq("Gift"), eq("Sender Name"),
+        eq("Floor 1"), eq("Gift"), eq("Sender Name"),
         eq(new GiftDeliveryRequestData("Stuffed Animal", "Getter Name")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(0)).showBasic(any(), any(), any());

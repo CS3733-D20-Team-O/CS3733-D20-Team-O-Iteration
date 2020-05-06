@@ -74,6 +74,13 @@ public class InterpreterServiceTest extends FxRobot {
 
     //Unique Bundles
     bundle.put("serviceInterpreterDescription ", "Interpreter Service Request");
+    bundle.put("serviceInterpreterDescription", "Interpreter Service Request Creation");
+    bundle.put("serviceInterpreterNameField", "Your Name");
+    bundle.put("serviceInterpreterNameValidator", "Your name is required!");
+    bundle.put("nodeSelectorPromptText", "Select or search for a location");
+    bundle.put("serviceInterpreterLocationValidator", "A location is required!");
+    bundle.put("serviceInterpreterTimePicker", "Time for Request");
+    bundle.put("serviceInterpreterTimeValidator", "You need to select a time for the interpreter!");
     bundle.put("serviceInterpreterLanguageCB", "Language");
     bundle.put("serviceInterpreterLanguageValidator",
         "You need to select the language for the interpreter!");
@@ -98,10 +105,10 @@ public class InterpreterServiceTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Floor 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
+    map.put("a", new Node("a", 0, 0, "1", "", "", "Floor 1", ""));
+    map.put("b", new Node("b", 0, 0, "3", "", "", "Floor 3-1", ""));
+    map.put("c", new Node("c", 0, 0, "3", "", "", "Floor 3-2", ""));
+    map.put("d", new Node("d", 0, 0, "5", "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
 
@@ -152,10 +159,9 @@ public class InterpreterServiceTest extends FxRobot {
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
-    clickOn("Floor");
-    clickOn("1");
-    clickOn("Room/Location on Floor");
-    clickOn("Floor 1");
+    clickOn("Select or search for a location");
+    write("1");
+    clickOn("(1) Floor 1");
     clickOn("Time for Request");
     write("12:24 PM");
     clickOn("Language");

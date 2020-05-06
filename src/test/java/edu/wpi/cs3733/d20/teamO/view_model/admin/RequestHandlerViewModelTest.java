@@ -83,7 +83,7 @@ public class RequestHandlerViewModelTest extends FxRobot {
     Employee e1 = new Employee("1414", "name", "Wash", true);
     Employee e2 = new Employee("855", "employee Name", "Wash", true);
     Employee e3 = new Employee("", "", "", true);
-    Node n1 = new Node("RHVMNode", 1, 1, 1, "Main", "Test", "TestNode", "testnode");
+    Node n1 = new Node("RHVMNode", 1, 1, "1", "Main", "Test", "TestNode", "testnode");
     //can't add this service request for some reason
     List<Employee> list = Arrays.asList(e1, e2, e3);
 

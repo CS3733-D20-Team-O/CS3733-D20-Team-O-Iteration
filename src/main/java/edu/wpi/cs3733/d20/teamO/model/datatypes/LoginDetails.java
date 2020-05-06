@@ -29,6 +29,8 @@ public class LoginDetails {
   }
 
   public boolean isValid() {
-    return username.equals("staff") && password.equals("staff");
+    boolean staff = username.equals("staff") && password.equals("staff");
+    boolean admin = username.equals("admin") && password.equals("admin");
+    return staff || admin;
   }
 }

@@ -101,10 +101,10 @@ public class InternalTransportationTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Floor 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
+    map.put("a", new Node("a", 0, 0, "1", "", "", "Floor 1", ""));
+    map.put("b", new Node("b", 0, 0, "3", "", "", "Floor 3-1", ""));
+    map.put("c", new Node("c", 0, 0, "3", "", "", "Floor 3-2", ""));
+    map.put("d", new Node("d", 0, 0, "5", "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
 
@@ -116,6 +116,7 @@ public class InternalTransportationTest extends FxRobot {
     when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
 
     // Test when there are fields not filled out
+    clickOn("(1) Floor 1");
     clickOn("Submit");
     verify(validator, times(1)).validate(any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
@@ -128,10 +129,6 @@ public class InternalTransportationTest extends FxRobot {
     clickOn("Time for Request");
     write("12:43 PM");
     clickOn("Unassisted");
-    clickOn("Current Floor");
-    clickOn("1");
-    clickOn("Current Room");
-    clickOn("Floor 1");
     clickOn("Crutches");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());

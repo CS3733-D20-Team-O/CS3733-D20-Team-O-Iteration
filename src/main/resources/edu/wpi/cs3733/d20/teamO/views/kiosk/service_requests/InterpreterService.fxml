@@ -6,6 +6,8 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
@@ -24,18 +26,12 @@
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
-      <JFXComboBox fx:id="floors" promptText="%floorPrompt"
+      <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText"
         style="-fx-background-color: WHITE;">
         <validators>
-          <RequiredFieldValidator message="%floorPromptValidator"/>
+          <NodeRequiredValidator message="%floorPromptValidator"/>
         </validators>
-      </JFXComboBox>
-      <JFXComboBox fx:id="locations" promptText="%locationPrompt"
-        style="-fx-background-color: WHITE;">
-        <validators>
-          <RequiredFieldValidator message="%locationPromptValidator"/>
-        </validators>
-      </JFXComboBox>
+      </NodeSelector>
       <JFXTimePicker fx:id="timePicker" defaultColor="#003f8f"
         promptText="%timePrompt"
         style="-fx-background-color: WHITE;">

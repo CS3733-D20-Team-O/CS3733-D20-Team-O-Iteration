@@ -5,6 +5,8 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
@@ -65,21 +67,12 @@
                       <children>
                         <VBox prefHeight="114.0" prefWidth="208.0" style="-fx-spacing: 32;">
                           <children>
-                            <JFXComboBox fx:id="onFloorComboBox" labelFloat="true"
-                              onAction="#setRoomsByFloors" prefHeight="41.0" prefWidth="210.0"
-                              promptText="%floorPrompt"
-                              style="-fx-background-color: WHITE; -fx-padding: 8;">
+                            <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText"
+                              style="-fx-background-color: WHITE">
                               <validators>
-                                <RequiredFieldValidator message="%floorPromptValidator"/>
+                                <NodeRequiredValidator message="%locationPromptValidator"/>
                               </validators>
-                            </JFXComboBox>
-                            <JFXComboBox fx:id="inRoomComboBox" labelFloat="true" prefHeight="41.0"
-                              prefWidth="231.0" promptText="%locationPrompt"
-                              style="-fx-background-color: WHITE; -fx-padding: 8;">
-                              <validators>
-                                <RequiredFieldValidator message="%locationPromptValidator"/>
-                              </validators>
-                            </JFXComboBox>
+                            </NodeSelector>
                           </children>
                         </VBox>
                         <VBox style="-fx-spacing: 16;">
