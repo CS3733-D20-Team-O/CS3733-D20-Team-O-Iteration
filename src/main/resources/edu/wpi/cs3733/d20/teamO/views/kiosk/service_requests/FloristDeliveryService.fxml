@@ -24,11 +24,6 @@
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
-      <JFXComboBox fx:id="floors" promptText="%floorPrompt">
-        <validators>
-          <RequiredFieldValidator message="%floorPromptValidator"/>
-        </validators>
-      </JFXComboBox>
       <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
         <validators>
           <NodeRequiredValidator message="%locationPromptValidator"/>
