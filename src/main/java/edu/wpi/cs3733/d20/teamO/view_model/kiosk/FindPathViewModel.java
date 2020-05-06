@@ -72,6 +72,7 @@ public class FindPathViewModel extends ViewModelBase {
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
   private final Dialog dialog;
+  private Color color;
 
   private final SelectedPathFinder pathFinder;
 
@@ -106,6 +107,7 @@ public class FindPathViewModel extends ViewModelBase {
     beginning = defaultStart;
     finish = defaultStop;
     colorPicker.setValue(Color.valueOf("fd8842"));
+    nodeMapViewController.setEdgeMovement(true);
 
     startLocation.setOnNodeSelectedListener(node -> {
       nodeMapViewController.deleteNode(beginning);
@@ -223,8 +225,17 @@ public class FindPathViewModel extends ViewModelBase {
   private void generateQR() {
     val steps = generateSteps();
     try {
-      // todo background color
-      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(null, steps))));
+      Integer intColor = null;
+      if (color != null) {
+        intColor = 0xff;
+        intColor *= 4;
+        intColor += (int) (color.getRed() * 255);
+        intColor *= 4;
+        intColor += (int) (color.getGreen() * 255);
+        intColor *= 4;
+        intColor += (int) (color.getBlue() * 255);
+      }
+      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(intColor, steps))));
     } catch (Exception e) {
       log.error("Failed to create a QR code from the current path", e);
     }
@@ -361,6 +372,10 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   public void setBGColor(ActionEvent event) {
-    Color color = colorPicker.getValue();
+    color = colorPicker.getValue();
+    nodeMapViewController.setBackgroundColor(String.format("#%02X%02X%02X",
+        (int) (color.getRed() * 255),
+        (int) (color.getGreen() * 255),
+        (int) (color.getBlue() * 255)));
   }
 }

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <BorderPane fx:id="root" maxHeight="720.0" maxWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
-  style="-fx-background-color: #acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
+  style="-fx-background-color: #8e8e8e;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel">
   <center>
@@ -76,7 +76,7 @@
         <JFXToggleButton fx:id="handicap" layoutX="14.0" layoutY="452.0"
           onAction="#switchAccessibility" prefHeight="29.0" prefWidth="190.0"
           text="%pathFindHandicap"/>
-        <HBox spacing="8.0" layoutX="18.0" layoutY="386" alignment="CENTER">
+        <HBox spacing="8.0" layoutX="18.0" layoutY="510" alignment="CENTER">
           <children>
             <Label text="Background color"/>
             <JFXColorPicker fx:id="colorPicker" onAction="#setBGColor"/>
