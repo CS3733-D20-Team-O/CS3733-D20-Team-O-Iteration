@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import javafx.scene.control.Label?>
@@ -44,11 +50,11 @@
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@/location-icon.png"/>
     </ImageView>
-    <JFXComboBox fx:id="locations" promptText="%securityRequestLocation">
+    <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
       <validators>
-        <RequiredFieldValidator message="%securityRequestLocationValidation" />
+        <NodeRequiredValidator message="%securityRequestLocationValidation"/>
       </validators>
-    </JFXComboBox>
+    </NodeSelector>
   </HBox>
 
   <VBox alignment="CENTER_LEFT" spacing="16">

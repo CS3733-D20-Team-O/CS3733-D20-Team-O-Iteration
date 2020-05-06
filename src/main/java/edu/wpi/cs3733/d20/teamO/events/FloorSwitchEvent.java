@@ -8,4 +8,5 @@ import lombok.Value;
 @Value
 public class FloorSwitchEvent implements Event {
   String floor;
+  String building;
 }

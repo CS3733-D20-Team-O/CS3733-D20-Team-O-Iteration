@@ -85,10 +85,7 @@ public class InfoTechServiceTest extends FxRobot {
     bundle.put("ITServiceTitle", "IT Support Request");
     bundle.put("ITServiceName", "Your Name");
     bundle.put("ITServiceNameValidator", "Your name is required!");
-    bundle.put("ITServiceFloor", "Floor");
-    bundle.put("ITServiceFloorValidator", "You need to select the floor for the IT request!");
-    bundle.put("ITServiceLocation", "Room/Location on Floor");
-    bundle.put("ITServiceLocationValidator", "You need to select the location of the IT request!");
+    bundle.put("nodeSelectorPromptText", "Select or search for a location");
     bundle.put("ITServiceIssueBox", "Select your current IT issue");
     bundle.put("ITServiceIssueBoxValidator", "You need to select your current IT issue!");
     bundle.put("ITServiceDescription", "Description");
@@ -113,10 +110,9 @@ public class InfoTechServiceTest extends FxRobot {
     //Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("John Smith");
-    clickOn("Floor");
-    clickOn("1");
-    clickOn("Room/Location on Floor");
-    clickOn("Floor 1");
+    clickOn("Select or search for a location");
+    write("1");
+    clickOn("(1) Floor 1");
     clickOn("Select your current IT issue");
     clickOn("Wireless Connection");
     clickOn("Description");
