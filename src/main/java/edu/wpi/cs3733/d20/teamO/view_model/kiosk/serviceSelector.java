@@ -3,6 +3,7 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 import com.google.inject.Inject;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog.DialogViewModel;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class serviceSelector extends ViewModelBase {
+public class serviceSelector extends DialogViewModel {
 
   private final Dialog dialog;
 

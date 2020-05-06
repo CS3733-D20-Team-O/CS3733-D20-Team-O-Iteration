@@ -14,7 +14,7 @@
   <!-- Main Content Container -->
   <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="100" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-    <VBox fx:id="contentContainer" spacing="20" AnchorPane.TopAnchor="64" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+    <VBox fx:id="contentContainer" spacing="35" AnchorPane.TopAnchor="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
       <HBox fx:id="firstServices" alignment="CENTER" spacing="130">
         <ImageView fx:id="AVService" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openAVService" pickOnBounds="true" preserveRatio="true">
           <Image url="@/audioVisual.png" />
@@ -27,13 +27,13 @@
         </ImageView>
       </HBox>
 
-      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <Label text="%serviceAVDescription" />
-        <Label text="%serviceExtTransportationDescription" />
-        <Label text="%serviceIntTransportationDescription" />
+      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="70" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label text="Audio/Visual" />
+        <Label text="Ext. Transportation" />
+        <Label text="Internal Transportation" />
       </HBox>
 
-      <HBox fx:id="secondServices" alignment="CENTER" spacing="130">
+      <HBox fx:id="secondServices" alignment="CENTER" prefHeight="50.0" prefWidth="584.0" spacing="130">
         <ImageView fx:id="Florist" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openFlorist" pickOnBounds="true" preserveRatio="true">
           <Image url="@/flower.png" />
         </ImageView>
@@ -45,13 +45,13 @@
         </ImageView>
       </HBox>
 
-      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <Label text="%serviceFloristDeliveryDescription" />
-        <Label text="%serviceGiftDeliveryDescription" />
-        <Label text="%serviceMedicineDeliveryDescription" />
+      <HBox alignment="CENTER" prefHeight="17.0" spacing="75" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label text="Flower Delivery" />
+        <Label text="Gift Delivery" />
+        <Label text="Medicine Delivery" />
       </HBox>
 
-      <HBox fx:id="thirdServices" alignment="CENTER" spacing="90">
+      <HBox fx:id="thirdServices" alignment="CENTER" spacing="110">
         <ImageView fx:id="sanitationService" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openSanitation" pickOnBounds="true" preserveRatio="true">
           <Image url="@/janitor-icon-17.png" />
         </ImageView>
@@ -66,11 +66,11 @@
         </ImageView>
       </HBox>
 
-      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <Label text="%serviceSanitationDescription" />
-        <Label text="%serviceInterpreterDescription" />
-        <Label text="%serviceInfoTechDescription" />
-        <Label text="%serviceSecurityDescription" />
+      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="70" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label text="Sanitation" />
+        <Label text="Interpreter" />
+        <Label text="InfoTech Services" />
+        <Label text="Security" />
       </HBox>
 
     </VBox>
