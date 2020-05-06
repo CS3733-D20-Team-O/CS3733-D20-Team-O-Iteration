@@ -29,6 +29,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,7 +50,7 @@ public class NodeMapView extends ViewModelBase {
   private double dragX = 0;
   private double dragY = 0;
 
-  private double textSize = 12;
+  private double textSize = 16;
 
   private boolean edgeMovement = false;
 
@@ -444,11 +445,13 @@ public class NodeMapView extends ViewModelBase {
     val target = findNode(node);
     if (target != null) {
       Text text = new Text(translateToPaneX(node.getXCoord()),
-          translateToPaneY(node.getYCoord()) + ((3 * nodeSize) / 2),
+          translateToPaneY(node.getYCoord()) + (4 * nodeSize),
           string);
       text.setFont(new Font("Roboto", this.textSize));
       text.setStroke(Color.WHITE);
+      text.setFill(Color.BLACK);
       text.setStrokeWidth(0.5);
+      text.setTextAlignment(TextAlignment.CENTER);
       textLayer.getChildren().add(text);
     }
   }
