@@ -338,49 +338,51 @@ public class NodeMapView extends ViewModelBase {
         n1.getBuilding().equals(this.building) &&
         n2.getFloor().equals(this.floor) &&
         n2.getBuilding().equals(this.building)) {
-      val x1 = translateToPaneX(n2.getXCoord());
-      val y1 = translateToPaneY(n2.getYCoord());
-      val x2 = translateToPaneX(n1.getXCoord());
-      val y2 = translateToPaneY(n1.getYCoord());
-      //System.out.println("Drawing an edge (node reference) from (" + translateToPaneX(n1.getXCoord()) + ", " + translateToPaneY(n1.getYCoord()) + ") to (" + translateToPaneX(n2.getYCoord()) + ", " + translateToPaneY(n2.getYCoord()) + ")");
-      //System.out.println("Drawing an edge from (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
-      val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
-      drawnEdge.setOnMouseClicked(event -> {
-        if (onEdgeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
-          System.out.println("Edge Left Click");
-          onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
+      if (findLine(n1, n2) == null) { // todo fix this later
+        val x1 = translateToPaneX(n2.getXCoord());
+        val y1 = translateToPaneY(n2.getYCoord());
+        val x2 = translateToPaneX(n1.getXCoord());
+        val y2 = translateToPaneY(n1.getYCoord());
+        //System.out.println("Drawing an edge (node reference) from (" + translateToPaneX(n1.getXCoord()) + ", " + translateToPaneY(n1.getYCoord()) + ") to (" + translateToPaneX(n2.getYCoord()) + ", " + translateToPaneY(n2.getYCoord()) + ")");
+        //System.out.println("Drawing an edge from (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
+        val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
+        drawnEdge.setOnMouseClicked(event -> {
+          if (onEdgeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
+            System.out.println("Edge Left Click");
+            onEdgeLeftTapListener.accept(drawnEdge.node1, drawnEdge.node2);
+          }
+        });
+
+        drawnEdge.setStrokeWidth(edgeSize);
+        drawnEdge.setStroke(edgeColor);
+
+        if (edgeMovement == true) {
+          drawnEdge.getStrokeDashArray().setAll(10d, 10d);
+
+          final double maxOffset = drawnEdge.getStrokeDashArray().stream()
+              .reduce(0d, (a, b) -> a + b);
+
+          Timeline timeline = new Timeline(
+              new KeyFrame(
+                  Duration.ZERO,
+                  new KeyValue(
+                      drawnEdge.strokeDashOffsetProperty(),
+                      0,
+                      Interpolator.LINEAR)),
+
+              new KeyFrame(
+                  Duration.seconds(2),
+                  new KeyValue(
+                      drawnEdge.strokeDashOffsetProperty(),
+                      maxOffset,
+                      Interpolator.LINEAR)));
+
+          timeline.setCycleCount(Timeline.INDEFINITE);
+          timeline.play();
         }
-      });
 
-      drawnEdge.setStrokeWidth(edgeSize);
-      drawnEdge.setStroke(edgeColor);
-
-      if (edgeMovement == true) {
-        drawnEdge.getStrokeDashArray().setAll(10d, 10d);
-
-        final double maxOffset = drawnEdge.getStrokeDashArray().stream()
-            .reduce(0d, (a, b) -> a + b);
-
-        Timeline timeline = new Timeline(
-            new KeyFrame(
-                Duration.ZERO,
-                new KeyValue(
-                    drawnEdge.strokeDashOffsetProperty(),
-                    0,
-                    Interpolator.LINEAR)),
-
-            new KeyFrame(
-                Duration.seconds(2),
-                new KeyValue(
-                    drawnEdge.strokeDashOffsetProperty(),
-                    maxOffset,
-                    Interpolator.LINEAR)));
-
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        Platform.runLater(() -> edgeGroup.getChildren().add(drawnEdge));
       }
-
-      Platform.runLater(() -> edgeGroup.getChildren().add(drawnEdge));
     }
   }
 
