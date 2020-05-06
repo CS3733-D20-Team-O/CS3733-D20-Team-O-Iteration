@@ -254,9 +254,7 @@ public class NodeMapView extends ViewModelBase {
     // Draw all the nodes on a certain floor
     val floorMap = nodeMap.get(this.building + "_" + this.floor);
     // Check if nodes for the floor exist
-    System.out.println("Conducting check");
     if (floorMap != null) {
-      System.out.println("============");
       floorMap.keySet().forEach((id) -> drawNode(floorMap.get(id)));
     }
   }
@@ -433,6 +431,18 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
+   * Adds the node name above the node
+   *
+   * @param node The given node
+   */
+  public void addText(Node node) {
+    val target = findNode(node);
+    if (target != null) {
+      // todo add text
+    }
+  }
+
+  /**
    * Sets the currently drawn floor to the given floor and updates the NodeMapView
    *
    * @param building the building the floor is on
@@ -445,23 +455,12 @@ public class NodeMapView extends ViewModelBase {
           building.replaceAll("\\s+", "") + "_" +
           floor.replaceAll("\\s+", "") + ".png"));
       this.floor = floor;
+      this.building = building;
       colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 8);
       colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
       draw();
     } catch (Exception e) {
       log.error("The floor map associated with that floor doesn't exist!");
-    }
-  }
-
-  /**
-   * Adds the node name above the node
-   *
-   * @param node The given node
-   */
-  public void addText(Node node) {
-    val target = findNode(node);
-    if (target != null) {
-      // todo add text
     }
   }
 
