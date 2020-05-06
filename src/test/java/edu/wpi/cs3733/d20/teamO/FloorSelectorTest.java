@@ -41,15 +41,31 @@ public class FloorSelectorTest extends FxRobot {
   @Test
   public void testSelectFloors() {
     clickOn("1");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(1));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("1", "Faulkner"));
     clickOn("2");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(2));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("2", "Faulkner"));
     clickOn("3");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(3));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("3", "Faulkner"));
     clickOn("4");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(4));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("4", "Faulkner"));
     clickOn("5");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent(5));
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("5", "Faulkner"));
+    clickOn("Main Campus");
+    clickOn("G");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("G", "Main Campus"));
+    clickOn("L1");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("L1", "Main Campus"));
+    clickOn("L2");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("L2", "Main Campus"));
+  }
 
+  @Test
+  public void testSwitchBuildings() {
+    clickOn("Main Campus");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("1", "Main Campus"));
+    clickOn("Faulkner");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("1", "Faulkner"));
+    clickOn("Street");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("1", "Street"));
   }
 }

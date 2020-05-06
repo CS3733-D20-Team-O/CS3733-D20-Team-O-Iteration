@@ -212,6 +212,29 @@ public class DatabaseWrapperTest {
   }
 
   @Test
+  public void addLetterFloorNodesAutoIDTest5() {
+    val id1 = database.addNode(0, 0, "01", "Faulkner", "DEPT", "Intensive Care Unit", "ICU");
+    val id2 = database.addNode(9, 0, "L1", "Faulkner", "LABS", "Surgery", "Surgery");
+    val id3 = database.addNode(0, 5, "01", "Faulkner", "ELEV", "Elevator X", "ElevX");
+    val id4 = database.addNode(5, 7, "L1", "Faulkner", "LABS", "Something", "Something");
+    val id5 = database.addNode(19, 77, "L1", "Faulkner", "LABS", "LabW", "LabW");
+    Node N1 = new Node(id1, 0, 0, "01", "Faulkner", "DEPT", "Intensive Care Unit", "ICU");
+    Node N2 = new Node(id2, 9, 0, "L1", "Faulkner", "LABS", "Surgery", "Surgery");
+    Node N3 = new Node(id3, 0, 5, "01", "Faulkner", "ELEV", "Elevator X", "ElevX");
+    Node N4 = new Node(id4, 5, 7, "L1", "Faulkner", "LABS", "Something", "Something");
+    Node N5 = new Node(id5, 19, 77, "L1", "Faulkner", "LABS", "LabW", "LabW");
+    Node[] testNodesAutoID = {N1, N2, N3, N4, N5, testNodes[0], testNodes[1], testNodes[2]};
+    LinkedList<String> idList = new LinkedList<String>();
+    for (Map.Entry<String, Node> n : database.exportNodes().entrySet()) {
+      idList.add(n.getValue().getNodeID());
+    }
+    for (Node n : testNodesAutoID) {
+      assertTrue(idList.contains(n.getNodeID()));
+    }
+    assertEquals(8, database.exportNodes().size());
+  }
+
+  @Test
   public void addMultipleNodesTest() {
     val map = new HashMap<String, Node>();
     map.put("OELEV00101", testNodes[0]);
