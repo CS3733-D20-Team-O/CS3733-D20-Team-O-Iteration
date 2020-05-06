@@ -77,53 +77,6 @@ public class MainKioskViewModel extends ViewModelBase {
     languageSwitcher.getSelectionModel().selectedIndexProperty().addListener(((o, old, index) ->
         languageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[index.intValue()])));
 
-    // Create a map of available descriptions to their corresponding fxml files
-//    val requests = new HashMap<String, String>();
-//    requests.put(getString("serviceGiftDeliveryDescription") + " - Mark Hogan",
-//        "GiftDeliveryService.fxml");
-//    requests.put(getString("serviceSanitationDescription") + " - Gregory Conrad",
-//        "SanitationService.fxml");
-//    requests.put(getString("serviceInfoTechDescription") + " - Michael Lai",
-//        "InfoTechService.fxml");
-//    requests.put(getString("serviceExtTransportationDescription") + " - Ryan Stebe",
-//        "ExternalTransportationService.fxml");
-//    requests.put(getString("serviceMedicineDeliveryDescription") + " - Collin Broderick",
-//        "MedicineDeliveryService.fxml");
-//    requests.put(getString("serviceAVDescription") + " - Benjamin Klaiman",
-//        "AVService.fxml");
-//    requests.put(getString("serviceInterpreterDescription") + " - Victoria Grasso",
-//        "InterpreterService.fxml");
-//    requests.put(getString("serviceIntTransportationDescription") + " - James Casella",
-//        "InternalTransportationService.fxml");
-//    requests.put(getString("serviceFloristDeliveryDescription") + " - Emily Austin",
-//        "FloristDeliveryService.fxml");
-//    requests.put(getString("serviceSecurityDescription") + " - Jesus Barron",
-//        "SecurityService.fxml");
-//    requests.put(getString("AppointmentServiceTitle"), "appointment");
-//    requests.keySet().stream().sorted().forEach(serviceSelector.getItems()::add);
-//    serviceSelector.getSelectionModel().selectedItemProperty().addListener(((o, old, desc) -> {
-//      if (desc == null) {
-//        return;
-//      }
-//
-//      if (desc.equals(getString("AppointmentServiceTitle"))) {
-//        try {
-//          AppointmentRequest.run(300, 300, 900, 750,
-//              this.getClass().getResource("/CSS/default.css").toExternalForm(), null, null);
-//        } catch (Exception e) {
-//          log.error("Failed to open API", e);
-//        }
-//      } else {
-//        try {
-//          dialog.showFullscreenFXML("views/kiosk/service_requests/" + requests.get(desc));
-//        } catch (IOException e) {
-//          log.error("Failed to open " + desc, e);
-//        }
-        // Silences the "IndexOutOfBounds" exception by wrapping in run later
-//        Platform.runLater(serviceSelector.getSelectionModel()::clearSelection);
-//      }
-//    }));
-
     // Load the admin dialog if appropriate
     if (loginDetails.isValid()) {
       // Put this in a run later so it doesn't mess up navigation

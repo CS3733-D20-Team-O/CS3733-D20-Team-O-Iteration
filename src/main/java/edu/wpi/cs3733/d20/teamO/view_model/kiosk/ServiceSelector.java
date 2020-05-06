@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class serviceSelector extends DialogViewModel {
+public class ServiceSelector extends DialogViewModel {
 
   private final Dialog dialog;
 

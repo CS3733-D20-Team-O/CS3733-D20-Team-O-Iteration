@@ -44,7 +44,7 @@ public class serviceSelectorTest extends FxRobot {
   private final ResourceBundleMock bundle = new ResourceBundleMock();
 
   @InjectMocks
-  serviceSelector viewModel;
+  ServiceSelector viewModel;
 
   @Start
   public void start(Stage stage) throws IOException {
