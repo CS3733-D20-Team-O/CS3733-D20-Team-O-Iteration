@@ -205,8 +205,8 @@ public class NodeMapView extends ViewModelBase {
    * @param node a node
    */
   public void addNode(Node node) {
-    placeFloorNode(node.getNodeID(), node);
-    if (node.getFloor().equals(this.floor) && node.getBuilding().equals(this.building)) {
+    placeFloorNode(node.getNodeID(), node); // todo fix
+    if (node.getFloor().replaceAll("0", "").equals(this.floor) && node.getBuilding().equals(this.building)) {
       drawNode(node);
     }
   }
