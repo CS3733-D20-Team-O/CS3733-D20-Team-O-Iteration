@@ -57,7 +57,7 @@
           </children>
         </VBox>
         <JFXButton buttonType="RAISED" layoutX="87.0" layoutY="423.0" onAction="#resetPath"
-          style="-fx-background-color: lightgray" text="Clear"/>
+          style="-fx-background-color: lightgray" text="%clearButton"/>
         <NodeSelector fx:id="startLocation" promptText="%nodeSelectorPromptText" layoutX="14.0"
           layoutY="204.0">
           <validators>
@@ -76,7 +76,9 @@
           onAction="#switchAccessibility" prefHeight="29.0" prefWidth="190.0"
           text="%pathFindHandicap"/>
         <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="350.0" onAction="#generateQR"
-          style="-fx-background-color: lightgray" text="Generate QR"/>
+          style="-fx-background-color: lightgray" text="%generateQR"/>
+        <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="385.0" onAction="#generateTD"
+          style="-fx-background-color: lightgray" text="%generateText"/>
       </children>
     </AnchorPane>
   </left>

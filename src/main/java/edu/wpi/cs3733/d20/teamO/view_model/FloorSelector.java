@@ -48,7 +48,8 @@ public class FloorSelector extends ViewModelBase {
         break;
       case ("Main Campus"):
         floor5Btn.setDisable(true);
-        Stream.of(L1Btn, L2Btn, GBtn, floor2Btn, floor3Btn, floor4Btn)
+        floor4Btn.setDisable(true);
+        Stream.of(L1Btn, L2Btn, GBtn, floor1Btn, floor2Btn, floor3Btn)
             .forEach(btn -> btn.setDisable(false));
         break;
     }

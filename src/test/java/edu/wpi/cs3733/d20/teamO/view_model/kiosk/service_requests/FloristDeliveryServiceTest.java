@@ -53,12 +53,30 @@ class FloristDeliveryServiceTest extends FxRobot {
   @InjectMocks
   FloristDeliveryService viewModel;
 
+  private void initializeBundle() {
+    //General use Bundles
+    bundle.put("serviceFloristDeliveryDescription ", "Florist Delivery Service Request");
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("namePromptValidator", "Your name is required!");
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("floorPromptValidator", "A Floor is Required for the Service Request!");
+    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+
+    //Unique Bundles
+    bundle.put("BouquetType", "Bouquet Type");
+    bundle.put("BouquetValidator", "You need to Select a Bouquet!");
+  }
+
+
   @Start
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
     bundle.put("nodeSelectorPromptText", "Select or search for a location");
     populateFloorAndLocation();
-
+    initializeBundle();
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);

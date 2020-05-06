@@ -13,12 +13,12 @@
   <Label text="Import/Export CSV Data" style="-fx-font-size: 32"/>
   <HBox spacing="32" alignment="CENTER" style="-fx-padding: 16 0">
     <VBox spacing="8" alignment="CENTER" prefWidth="250">
-      <Label text="Select the type of data"/>
+      <Label text="%csvDataType"/>
       <JFXComboBox fx:id="typeSelector"/>
     </VBox>
     <VBox spacing="8" alignment="CENTER" prefWidth="250">
-      <Label text="Select the CSV data file"/>
-      <JFXButton onAction="#selectFile" text="Select a file" buttonType="RAISED"
+      <Label text="%csvSelectFile"/>
+      <JFXButton onAction="#selectFile" text="%csvFile" buttonType="RAISED"
         style="-fx-background-color: lightgrey">
         <graphic>
           <ImageView fitHeight="22" pickOnBounds="true" preserveRatio="true">
@@ -28,11 +28,11 @@
       </JFXButton>
     </VBox>
   </HBox>
-  <Label text="Currently selected file:"/>
+  <Label text="%csvCurrentFile"/>
   <Label text="${controller.fileLocation}"/>
   <HBox alignment="CENTER_RIGHT" spacing="16">
-    <JFXButton fx:id="importButton" disable="true" onAction="#importData" text="Import"/>
-    <JFXButton fx:id="exportButton" disable="true" onAction="#exportData" text="Export"/>
-    <JFXButton text="Close" onAction="#close"/>
+    <JFXButton fx:id="importButton" disable="true" onAction="#importData" text="%importButton"/>
+    <JFXButton fx:id="exportButton" disable="true" onAction="#exportData" text="%exportButton"/>
+    <JFXButton text="%closeButton" onAction="#close"/>
   </HBox>
 </VBox>
