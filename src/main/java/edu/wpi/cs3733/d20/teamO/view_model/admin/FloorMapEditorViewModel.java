@@ -6,6 +6,8 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
+import edu.wpi.cs3733.d20.teamO.events.Event;
+import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
@@ -39,11 +41,6 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject}) // required for database
 public class FloorMapEditorViewModel extends ViewModelBase {
 
-  // todo add translations
-  // todo prevent commas from being added
-  // todo add validator for elevator names
-  // todo add delete confirmation
-
   private enum State {
     MAIN, SELECT_NODE, SELECT_EDGE, ADD_NODE, ADD_EDGE, ADD_NEIGHBOR, DRAGGING, SELECT_NODES, SELECT_EDGES
   }
@@ -56,7 +53,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML
   private BorderPane root;
   @FXML
-  private Label floorLabel, nodeCategoryLabel, selectedNeighborLabel, newEdgeStartNode, newEdgeDestNode, edgeNode1ID, edgeNode2ID;
+  private Label floorLabel, nodeCategoryLabel, selectedNeighborLabel, newEdgeStartNode, edgeNode1ID, edgeNode2ID;
   @FXML
   private JFXTextField shortNameField, longNameField, newNodeShortNameField, newNodeLongNameField;
   @FXML
@@ -172,22 +169,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     }
   }
 
-  public void floorDownPressed(ActionEvent actionEvent) {
-    if (state != State.ADD_NODE) {
-      nodeMapViewController.decrementFloor();
-      floorLabel.setText("Floor " + nodeMapViewController.getFloor());
-      drawEdges();
-    }
-  }
-
-  public void floorUpPressed(ActionEvent actionEvent) {
-    if (state != State.ADD_NODE) {
-      nodeMapViewController.incrementFloor();
-      floorLabel.setText("Floor " + nodeMapViewController.getFloor());
-      drawEdges();
-    }
-  }
-
   public void zoomOutPressed(ActionEvent actionEvent) {
     zoomSlider.decrement();
     setZoom();
@@ -289,6 +270,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     clearFields();
     previewNode = new Node("", x, y, nodeMapViewController.getFloor(), "Faulkner", "", "", "");
     nodeMapViewController.addNode(previewNode);
+    nodeMapViewController.highlightNode(previewNode);
     xSelection = x;
     ySelection = y;
     setState(State.ADD_NODE);
@@ -300,6 +282,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param node The first selected node
    */
   private void addEdgeView(Node node) {
+    if (node.equals(previewNode)) {
+      return;
+    }
     clearFields();
     selectedNode = node;
     nodeMapViewController.highlightNode(node);
@@ -321,6 +306,9 @@ public class FloorMapEditorViewModel extends ViewModelBase {
    * @param node The node to select
    */
   private void selectNode(Node node) {
+    if (node.equals(previewNode)) {
+      return;
+    }
     switch (state) {
       case ADD_NEIGHBOR:
         if (selectedTargetNode != null) {
@@ -331,12 +319,10 @@ public class FloorMapEditorViewModel extends ViewModelBase {
         selectedNeighborLabel.setText(node.getLongName());
         break;
       case ADD_EDGE:
-        if (selectedTargetNode != null) {
-          nodeMapViewController.unhighlightNode(selectedTargetNode);
+        boolean success = createEdge(selectedNode, node);
+        if (success) {
+          setState(State.MAIN);
         }
-        selectedTargetNode = node;
-        nodeMapViewController.highlightNode(node);
-        newEdgeDestNode.setText(node.getLongName());
         break;
       case SELECT_NODE:
         if (!selectedNode.getNodeID().equals(node.getNodeID())) {
@@ -441,7 +427,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     Stream.of(shortNameField, longNameField, newNodeShortNameField, newNodeLongNameField,
         newNodeCategory)
         .forEach(node -> node.resetValidation());
-    Stream.of(nodeCategoryLabel, selectedNeighborLabel, newEdgeStartNode, newEdgeDestNode,
+    Stream.of(nodeCategoryLabel, selectedNeighborLabel, newEdgeStartNode,
         edgeNode1ID, edgeNode2ID).forEach(node -> node.setText(""));
     Stream.of(neighboringNodesList, selectedNodesList).forEach(node -> node.getItems().clear());
     for (Node node : selection) {
@@ -613,6 +599,12 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     redraw();
     for (Node node : selection) { // re-highlights the nodes
       nodeMapViewController.highlightNode(node);
+    }
+  }
+
+  public void onEvent(Event event) {
+    if (event.getClass().equals(RedrawEvent.class)) {
+      drawEdges();
     }
   }
 }
