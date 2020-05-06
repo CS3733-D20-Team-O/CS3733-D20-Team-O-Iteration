@@ -30,19 +30,6 @@
     </JFXTextField>
   </HBox>
   <HBox alignment="CENTER" spacing="32">
-    <!--    <HBox alignment="CENTER" spacing="8">-->
-    <!--      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"-->
-    <!--        preserveRatio="true">-->
-    <!--        <image>-->
-    <!--          <Image url="/floor-icon.png"/>-->
-    <!--        </image>-->
-    <!--      </ImageView>-->
-    <!--      <JFXComboBox fx:id="floors" promptText="%ITServiceFloor">-->
-    <!--        <validators>-->
-    <!--          <RequiredFieldValidator message="%ITServiceFloorValidator"/>-->
-    <!--        </validators>-->
-    <!--      </JFXComboBox>-->
-    <!--    </HBox>-->
     <HBox alignment="CENTER" spacing="8">
       <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
         preserveRatio="true">
