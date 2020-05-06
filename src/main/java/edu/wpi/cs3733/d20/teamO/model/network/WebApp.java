@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javafx.scene.image.Image;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.val;
 
@@ -23,28 +24,46 @@ public class WebApp {
   /**
    * Creates a url for the path finding web application based on the supplied list of steps
    *
+   * @param color the color as an integer (can be null) to use behind the maps
    * @param steps the steps to create the web app url from
    * @return a url to the customized version of the web app
    */
-  public static String createURL(List<Step> steps) {
+  public static String createURL(Integer color, List<Step> steps) {
     val url = new StringBuilder(baseUrl);
     for (int i = 0; i < steps.size(); ++i) {
       url.append(steps.get(i).getUrlParameters(i + 1));
     }
     url.append("s=").append(steps.size());
+    if (color != null) {
+      url.append("&c=").append(color);
+    }
     return url.toString();
   }
 
   /**
    * Creates a qr code from the given steps
    *
+   * @param color the color as an integer (can be null) to use behind the maps
    * @param steps the steps to use to create the qr code
    * @return the qr code image or null if one was could not be created
    * @throws IOException in case of network issues
    */
-  public static Image createQRCode(List<Step> steps) throws IOException {
-    return NetworkUtilities.createQRCode(NetworkUtilities.shortenURL(createURL(steps)));
+  public static Image createQRCode(Integer color, List<Step> steps) throws IOException {
+    return NetworkUtilities.createQRCode(NetworkUtilities.shortenURL(createURL(color, steps)));
   }
+
+/*
+Parameter key:
+ c - color of background as int (can be null)
+ s - number of steps
+ [step]i - number of instructions in [step]
+ [step]d[i] - description of the instruction at index i
+ [step]i[i] - icon for the instruction at index i [hl, l, sl, s, sr, r, hr, d, n]
+ [step]f - floor string of [step] with building identifier before floor
+ [step]n - number of nodes in [step]
+ [step]x[i] - [step]'s i-th node's x coordinate
+ [step]y[i] - [step]'s i-th node's y coordinate
+ */
 
   /**
    * Represents a step in the path finding process, including the floor, textual instructions, and a
@@ -53,36 +72,89 @@ public class WebApp {
   @Value
   public static class Step {
 
-    String instructions;
+    List<Instruction> instructions;
     List<Node> nodes;
-    int floor;
+    Building building;
+    String floor;
 
     /**
-     * Gets url parameters for this step given a step number via the following key:
-     * <ul>
-     * <li>s - number of steps</li>
-     * <li>[step]i - instructions for [step]</li>
-     * <li>[step]f - floor number of [step]</li>
-     * <li>[step]n - number of nodes in [step]</li>
-     * <li>[step]x[i] - [step]'s i-th node's x coordinate</li>
-     * <li>[step]y[i] - [step]'s i-th node's y coordinate</li>
-     * </ul>
+     * Gets url parameters for this step given a step number via the established web app api
      *
      * @param step the number of this step (1, 2, 3, ...) (counting starts at 1!)
      * @return the url parameters of this step as a string
      */
     private String getUrlParameters(int step) {
       val url = new StringBuilder();
-      url.append(step).append("f=").append(floor).append('&');
+
+      // Add floor information
+      url.append(step).append("f=").append(building.buildingIdentifier).append(floor).append('&');
+
+      // Add node information
       url.append(step).append("n=").append(nodes.size()).append('&');
-      val encodedInstructions = URLEncoder.encode(instructions, StandardCharsets.UTF_8);
-      url.append(step).append("i=").append(encodedInstructions).append('&');
       for (int i = 0; i < nodes.size(); ++i) {
         val node = nodes.get(i);
         url.append(step).append('x').append(i).append('=').append(node.getXCoord()).append('&');
         url.append(step).append('y').append(i).append('=').append(node.getYCoord()).append('&');
       }
+
+      // Add instruction information
+      url.append(step).append("i=").append(instructions.size()).append('&');
+      for (int i = 0; i < instructions.size(); ++i) {
+        val instruction = instructions.get(i);
+        url.append(step).append('i').append(i).append('=')
+            .append(instruction.icon.iconIdentifier).append('&');
+        val encodedDescription = URLEncoder.encode(instruction.directions, StandardCharsets.UTF_8);
+        url.append(step).append('d').append(i).append('=').append(encodedDescription).append('&');
+      }
+
+      // Return the resulting string
       return url.toString();
+    }
+
+    @Value
+    public static class Instruction {
+
+      String directions;
+      Icon icon;
+
+      @RequiredArgsConstructor
+      public enum Icon {
+        HARD_LEFT("hl"),
+        LEFT("l"),
+        SLIGHT_LEFT("sl"),
+        STRAIGHT("s"),
+        SLIGHT_RIGHT("sr"),
+        RIGHT("r"),
+        HARD_RIGHT("hr"),
+        DESTINATION("d"),
+        NAVIGATION("n");
+
+        private final String iconIdentifier;
+      }
+    }
+
+    @RequiredArgsConstructor
+    public enum Building {
+      MAIN_CAMPUS("m"), FAULKNER("f"), STREET("s");
+
+      private final String buildingIdentifier;
+
+      /**
+       * @param buildingName the name of the building
+       * @return the building from the given building name
+       */
+      public static Building from(String buildingName) {
+        switch (buildingName.toLowerCase()) {
+          case "maincampus":
+          case "main campus":
+            return Building.MAIN_CAMPUS;
+          case "street":
+            return Building.STREET;
+          case "faulkner":
+          default:
+            return Building.FAULKNER;
+        }
+      }
     }
   }
 }

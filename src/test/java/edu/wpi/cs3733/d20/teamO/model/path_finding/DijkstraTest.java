@@ -18,7 +18,7 @@ public class DijkstraTest {
   private final static Map<String, Node> map = new HashMap<>();
 
   private static Node newNode(String id, int x, int y) {
-    return new Node(id, x, y, 0, null, null, null, null);
+    return new Node(id, x, y, "0", null, null, null, null);
   }
 
   @BeforeAll
