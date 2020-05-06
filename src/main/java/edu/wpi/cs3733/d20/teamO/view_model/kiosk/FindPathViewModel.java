@@ -12,6 +12,9 @@ import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step;
+import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Building;
+import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction;
+import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction.Icon;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -32,8 +35,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+@Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FindPathViewModel extends ViewModelBase {
 
@@ -198,51 +203,129 @@ public class FindPathViewModel extends ViewModelBase {
 
   @FXML
   private void generateQR() {
-    val steps = new ArrayList<Step>();
+    val steps = generateInstructions();
     try {
-      dialog
-          .showFullscreen(new HBox(new ImageView(WebApp.createQRCode(null, steps)))); // todo color
+      // todo background color
+      dialog.showFullscreen(new HBox(new ImageView(WebApp.createQRCode(null, steps))));
     } catch (Exception e) {
-      System.out.println("exception happened for qr making");
+      log.error("Failed to create a QR code from the current path", e);
     }
-
   }
 
-//  private ArrayList<Step> generateTextInstructions() {
-//    val steps = new ArrayList<Step>();
-//    List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
-//    for (int i = 0; i < nodes.size() - 1; i++) {
-//      int x = nodes.get(i).getXCoord() - nodes.get(i + 1).getXCoord();
-//      int y = nodes.get(i).getYCoord() - nodes.get(i + 1).getYCoord();
-//      if (x < 0 && y == 0) {
-//        steps.add(new Step("Go West", nodes, nodes.get(i).getFloor()));
-//      } else if (x > 0 && y == 0) {
-//        steps.add(new Step("Go East", nodes, nodes.get(i).getFloor()));
-//      } else if (x == 0 && y < 0) {
-//        steps.add(new Step("Go South", nodes, nodes.get(i).getFloor()));
-//      } else if (x == 0 && y > 0) {
-//        steps.add(new Step("Go North", nodes, nodes.get(i).getFloor()));
-//      } else if (x > 0 && y < 0) {
-//        steps.add(new Step("Go South East", nodes, nodes.get(i).getFloor()));
-//      } else if (x < 0 && y > 0) {
-//        steps.add(new Step("Go North East", nodes, nodes.get(i).getFloor()));
-//      } else if (x > 0 && y > 0) {
-//        steps.add(new Step("Go North West", nodes, nodes.get(i).getFloor()));
-//      } else if (x < 0 && y < 0) {
-//        steps.add(new Step("Go South West", nodes, nodes.get(i).getFloor()));
-//      } else {
-//        steps.add(
-//            new Step("Go to Floor " + nodes.get(i + 1).getFloor(), nodes, nodes.get(i).getFloor()));
-//      }
-//
-//      if (i + 1 == nodes.size() - 1) {
-//        steps.add(new Step("You have arrived ", new ArrayList<>(), nodes.get(i).getFloor()));
-//      }
-//    }
-//
-//    return steps;
-//  }
+  /* Sample directions
+  commonalities:
+   - first direction on new map is head toward
+    - after that we can use directions
+   - same size as nodes array
+   - end with you have arrived
+   - divide nodes and instructions into steps at the SAME index (will always magically line up)
 
+  starbucks
+               - head toward hallway
+  hallway
+               - take __ right to elevator 1
+  elevator 1
+               - FLOOR SWITCH Go to the second floor
+  elevator 2
+               - Head toward __
+  destination
+               -- You have arrived.
+   */
+
+  private Instruction segmentToInstruction(int segment, String longName) {
+    switch (segment) {
+      case 0:
+        return new Instruction("Take a hard right to " + longName, Icon.HARD_RIGHT);
+      case 1:
+        return new Instruction("Take a right to " + longName, Icon.RIGHT);
+      case 2:
+        return new Instruction("Take a slight right to " + longName, Icon.SLIGHT_RIGHT);
+      case 3:
+        return new Instruction("Go straight to " + longName, Icon.STRAIGHT);
+      case 4:
+        return new Instruction("Take a slight left to " + longName, Icon.SLIGHT_LEFT);
+      case 5:
+        return new Instruction("Take a left to " + longName, Icon.LEFT);
+      default:
+        return new Instruction("Take a hard left to " + longName, Icon.HARD_LEFT);
+    }
+  }
+
+  private List<Step> generateInstructions() {
+    val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+
+    // If there is no path, produce no steps
+    if (nodes == null || nodes.isEmpty()) {
+      return new ArrayList<>();
+    }
+
+    // Create instructions based on nodes
+    val instructions = new ArrayList<Instruction>(nodes.size());
+    for (int i = 0; i < nodes.size() - 1; ++i) {
+      val prevNode = i > 0 ? nodes.get(i - 1) : null;
+      val currNode = nodes.get(i);
+      val nextNode = nodes.get(i + 1);
+      if (i == 0 || !currNode.getFloor().equals(prevNode.getFloor()) ||
+          !currNode.getBuilding().equals(prevNode.getBuilding())) {
+        instructions.add(new Instruction(
+            "Head toward " + nextNode.getLongName(), Icon.NAVIGATION));
+      } else if (!currNode.getBuilding().equals(nextNode.getBuilding())) {
+        // todo change this to just building once the building shit-show is sorted out
+        //  ex: "Go to " + nextNode.getBuilding()
+        instructions.add(new Instruction("Go to floor " + nextNode.getFloor()
+            + " in " + nextNode.getBuilding(), Icon.NAVIGATION));
+      } else if (!currNode.getFloor().equals(nextNode.getFloor())) {
+        instructions.add(new Instruction(
+            "Head to floor " + nextNode.getFloor(), Icon.NAVIGATION));
+      } else {
+        final double vertexX = currNode.getXCoord(), vertexY = currNode.getYCoord(),
+            pi = Math.PI, seventh = 2 * pi / 7;
+        val rawTheta = Math.atan2(nextNode.getYCoord() - vertexY, nextNode.getXCoord() - vertexX) -
+            Math.atan2(prevNode.getYCoord() - vertexY, prevNode.getXCoord() - vertexX);
+        val theta = rawTheta < 0 ? rawTheta + 2 * pi : rawTheta;
+        for (double counter = 0; counter < 2 * pi; counter += seventh) {
+          if (theta < counter) {
+            instructions.add(segmentToInstruction((int) Math.round(counter / seventh),
+                nextNode.getLongName()));
+            break;
+          }
+        }
+      }
+    }
+    instructions.add(new Instruction("You have arrived", Icon.DESTINATION));
+
+    // todo combine process and instruction creation steps into same for loop
+
+    // Transfer the instructions and nodes into steps
+    val steps = new ArrayList<Step>();
+    Building currBuilding = Building.from(nodes.get(0).getBuilding());
+    String currFloor = nodes.get(0).getFloor();
+    LinkedList<Node> nodeBuffer = new LinkedList<>();
+    LinkedList<Instruction> instructionBuffer = new LinkedList<>();
+    for (int i = 0; i < nodes.size(); ++i) {
+      val currNode = nodes.get(i);
+      if (currBuilding.equals(Building.from(currNode.getBuilding())) &&
+          currFloor.equals(currNode.getFloor())) {
+        // Add to the buffer
+        nodeBuffer.add(currNode);
+        instructionBuffer.add(instructions.get(i));
+      } else {
+        // Create a new step from the buffers
+        steps.add(new Step(instructionBuffer, nodeBuffer, currBuilding, currFloor));
+
+        // Reset the buffers and set them to use the new values
+        currBuilding = Building.from(currNode.getBuilding());
+        currFloor = currNode.getFloor();
+        nodeBuffer = new LinkedList<>();
+        nodeBuffer.add(currNode);
+        instructionBuffer = new LinkedList<>();
+        instructionBuffer.add(instructions.get(i));
+      }
+    }
+    // Clear out remaining data in buffers into a step
+    steps.add(new Step(instructionBuffer, nodeBuffer, currBuilding, currFloor));
+    return steps;
+  }
 
   @FXML
   private void buttonSwitchFloor(ActionEvent e) {
