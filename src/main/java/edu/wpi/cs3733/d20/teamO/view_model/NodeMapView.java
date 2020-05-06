@@ -22,16 +22,15 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-
+@Slf4j
 @Getter
 public class NodeMapView extends ViewModelBase {
 
   private double nodeSize = 5;
   private double edgeSize = 3;
-  private final static String maxFloor = "5";
-  private final static String minFloor = "1";
   private final static Paint nodeColor = Color.web("#00991f"); // Green
   private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
   private final static Paint highlightColor = Color.RED; // Red
@@ -44,7 +43,7 @@ public class NodeMapView extends ViewModelBase {
   /**
    * The current floor being displayed
    */
-  private String floor = minFloor;
+  private String floor = "1";
   /**
    * The current building being displayed
    */
@@ -151,7 +150,7 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Display the current floor (and consequently call the above listeners)
-    Platform.runLater(() -> setFloor(this.building, minFloor));
+    Platform.runLater(() -> setFloor(this.building, this.floor));
   }
 
   /**
@@ -363,18 +362,20 @@ public class NodeMapView extends ViewModelBase {
     try {
       // If the background image doesn't load, don't even bother with the rest.
       backgroundImage.setImage(new Image("floors/" +
-          building.replaceAll("\\s+", "") +
+          building.replaceAll("\\s+", "") + "_" +
           floor.replaceAll("\\s+", "") + ".png"));
       this.floor = floor;
       draw();
     } catch (Exception e) {
-      System.err.println("The floor map associated with that floor doesn't exist!");
+      log.error("The floor map associated with that floor doesn't exist!");
     }
   }
 
   /**
    * Increments the current floor to the floor above
    */
+  // todo remove these two once the editor and pathfinder no longer use it.
+  @Deprecated
   public void incrementFloor() {
     //setFloor(this.floor + 1);
   }
@@ -382,6 +383,7 @@ public class NodeMapView extends ViewModelBase {
   /**
    * Increments the current floor to the floor below
    */
+  @Deprecated
   public void decrementFloor() {
     //  setFloor(this.floor - 1);
   }
