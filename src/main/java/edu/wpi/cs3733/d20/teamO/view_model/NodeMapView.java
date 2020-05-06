@@ -629,7 +629,8 @@ public class NodeMapView extends ViewModelBase {
 
   public void relocateEdge(Node n1, Node n2) {
     val floor = nodeMap.get(buildingFloorID(n1));
-    if (floor != null && n1.getFloor().equals(n2.getFloor()) && n1.getBuilding()
+    // todo fix
+    if (floor != null && n1.getFloor().replaceAll("0", "").equals(n2.getFloor().replaceAll("0", "")) && n1.getBuilding()
         .equals(n2.getBuilding())) {
       System.out.println("Update");
       val nodeLine = findLine(n1, n2);
