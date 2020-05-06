@@ -428,7 +428,7 @@ public class NodeMapView extends ViewModelBase {
    * @param zoom the amount of zoom (1.0 is default)
    */
   public void zoom(double zoom) {
-    if (zoom > 0.5 && zoom < 1.5) {
+    if (zoom > 0.5 && zoom < 4.0) { // todo fix the zoom later
       floorPane.setScaleX(zoom);
       floorPane.setScaleY(zoom);
       this.currentZoom = zoom;
@@ -477,8 +477,12 @@ public class NodeMapView extends ViewModelBase {
           floor.replaceAll("\\s+", "") + ".png"));
       this.floor = floor;
       this.building = building;
-      colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 8);
+      colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 12);
       colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
+      System.out.println(backgroundImage.getFitWidth() + "==========================================");
+      System.out.println(backgroundImage.getImage().getWidth() + "========================================");
+      setNodeSize((2476/backgroundImage.getImage().getWidth()) * 5); // todo figure out a better way of doing this
+      setEdgeSize((2476/backgroundImage.getImage().getWidth()) * 3); // todo figure out a better way of doing this
       draw();
     } catch (Exception e) {
       log.error("The floor map associated with that floor doesn't exist!");
