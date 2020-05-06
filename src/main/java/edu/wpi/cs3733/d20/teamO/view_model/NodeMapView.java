@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.view_model;
 
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
+import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import java.net.URL;
@@ -763,6 +764,7 @@ public class NodeMapView extends ViewModelBase {
   public void onEvent(Event event) {
     if (event.getClass().equals(FloorSwitchEvent.class)) {
       setFloor(((FloorSwitchEvent) event).getBuilding(), ((FloorSwitchEvent) event).getFloor());
+      dispatch(new RedrawEvent());
     }
   }
 }
