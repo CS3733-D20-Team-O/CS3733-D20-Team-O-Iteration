@@ -212,6 +212,17 @@ public class FindPathViewModel extends ViewModelBase {
     }
   }
 
+  @FXML
+  private void generateTD() {
+    val instructions = createInstructionsFromNodes(
+        pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish));
+    StringBuilder directions = new StringBuilder();
+    for (Instruction i : instructions) {
+      directions.append(i.getDirections() + "\n");
+    }
+    dialog.showFullscreen(new HBox(new Label(directions.toString())));
+  }
+
   /* Sample directions
   commonalities:
    - first direction on new map is head toward
