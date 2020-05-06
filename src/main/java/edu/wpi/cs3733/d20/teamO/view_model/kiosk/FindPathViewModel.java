@@ -72,7 +72,7 @@ public class FindPathViewModel extends ViewModelBase {
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
   private final Dialog dialog;
-  private Color color;
+  private Color color = Color.web("fd8842");
 
   private final SelectedPathFinder pathFinder;
 
