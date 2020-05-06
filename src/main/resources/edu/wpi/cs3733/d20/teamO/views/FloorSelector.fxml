@@ -11,11 +11,13 @@
       <HBox alignment="TOP_CENTER" spacing="8.0">
          <children>
             <JFXButton fx:id="faulknerBtn" onAction="#setBuilding"
-              style="-fx-background-color: lightseagreen;" text="Faulkner"/>
+              style="-fx-background-color: lightseagreen; -fx-background-radius: 30;"
+              text="Faulkner"/>
             <JFXButton fx:id="streetBtn" onAction="#setBuilding"
-              style="-fx-background-color: lightgrey;" text="Street"/>
+              style="-fx-background-color: lightgrey; -fx-background-radius: 30;" text="Street"/>
             <JFXButton fx:id="mainCampusBtn" onAction="#setBuilding"
-              style="-fx-background-color: lightgrey;" text="Main Campus"/>
+              style="-fx-background-color: lightgrey; -fx-background-radius: 30;"
+              text="Main Campus"/>
          </children>
       </HBox>
       <TilePane alignment="CENTER" hgap="4.0" vgap="4.0">

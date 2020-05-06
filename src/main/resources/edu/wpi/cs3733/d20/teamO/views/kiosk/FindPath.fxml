@@ -84,6 +84,8 @@
         </HBox>
         <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="350.0" onAction="#generateQR"
           style="-fx-background-color: lightgray" text="Generate QR"/>
+        <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="385.0" onAction="#generateTD"
+          style="-fx-background-color: lightgray" text="Generate Text Directions"/>
       </children>
     </AnchorPane>
   </left>
