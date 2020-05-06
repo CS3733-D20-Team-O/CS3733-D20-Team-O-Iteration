@@ -1,10 +1,11 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
+import edu.wpi.cs3733.d20.teamO.events.Event;
+import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
@@ -13,6 +14,7 @@ import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
+import edu.wpi.cs3733.d20.teamO.view_model.FloorSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
@@ -53,6 +55,9 @@ public class FindPathViewModel extends ViewModelBase {
   private NodeSelector startLocation, stopLocation;
   @FXML
   private JFXToggleButton handicap;
+  @FXML
+  private FloorSelector floorSelectorController;
+
 
   private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
@@ -61,6 +66,12 @@ public class FindPathViewModel extends ViewModelBase {
 
   private final SelectedPathFinder pathFinder;
 
+  @Override
+  public void onEvent(Event event) {
+    if (event.getClass().equals(RedrawEvent.class)) {
+      drawPath();
+    }
+  }
 
   /**
    * Called when a ViewModel's views have been completely processed and can be used freely
@@ -244,19 +255,4 @@ public class FindPathViewModel extends ViewModelBase {
 //  }
 
 
-  @FXML
-  private void buttonSwitchFloor(ActionEvent e) {
-    int newFloor = Integer.parseInt(((JFXButton) e.getSource()).getText());
-    int currentFloor = Integer.parseInt(floorLabel.getText().stripLeading());
-    while (currentFloor != newFloor) {
-      if (currentFloor > newFloor) {
-        nodeMapViewController.decrementFloor();
-        currentFloor--;
-      } else {
-        nodeMapViewController.incrementFloor();
-        currentFloor++;
-      }
-    }
-    changeFloor();
-  }
 }
