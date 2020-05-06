@@ -38,24 +38,18 @@ public class FloorSelector extends ViewModelBase {
     building = target.getText();
     switch (building) {
       case ("Faulkner"):
-        Stream.of(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn).forEach(btn -> {
-          btn.setDisable(false);
-        });
-        Stream.of(L1Btn, L2Btn, GBtn).forEach(btn -> {
-          btn.setDisable(true);
-        });
+        Stream.of(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn)
+            .forEach(btn -> btn.setDisable(false));
+        Stream.of(L1Btn, L2Btn, GBtn).forEach(btn -> btn.setDisable(true));
         break;
       case ("Street"):
         Stream.of(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn)
-            .forEach(btn -> {
-              btn.setDisable(true);
-            });
+            .forEach(btn -> btn.setDisable(true));
         break;
       case ("Main Campus"):
         floor5Btn.setDisable(true);
-        Stream.of(L1Btn, L2Btn, GBtn, floor2Btn, floor3Btn, floor4Btn).forEach(btn -> {
-          btn.setDisable(false);
-        });
+        Stream.of(L1Btn, L2Btn, GBtn, floor2Btn, floor3Btn, floor4Btn)
+            .forEach(btn -> btn.setDisable(false));
         break;
     }
     for (JFXButton btn : Arrays
