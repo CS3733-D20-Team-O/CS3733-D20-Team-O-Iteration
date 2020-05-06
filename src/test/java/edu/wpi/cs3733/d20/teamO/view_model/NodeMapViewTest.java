@@ -48,13 +48,13 @@ public class NodeMapViewTest extends FxRobot {
     stage.setAlwaysOnTop(true);
     stage.show();
 
-    Node node1 = new Node("Node1", 100, 100, 1, "Test", "Test", "Test", "Test");
-    Node node2 = new Node("Node2", 100, 200, 1, "Test", "Test", "Test", "Test");
-    Node node3 = new Node("Node3", 200, 100, 1, "Test", "Test", "Test", "Test");
-    Node node4 = new Node("Node4", 200, 200, 1, "Test", "Test", "Test", "Test");
-    Node node5 = new Node("Node5", 100, 100, 2, "Test", "Test", "Test", "Test");
-    Node node6 = new Node("Node6", 200, 200, 2, "Test", "Test", "Test", "Test");
-    Node node7 = new Node("Node7", 200, 200, 2, "Test", "Test", "Test", "Test");
+    Node node1 = new Node("Node1", 100, 100, "1", "Test", "Test", "Test", "Test");
+    Node node2 = new Node("Node2", 100, 200, "1", "Test", "Test", "Test", "Test");
+    Node node3 = new Node("Node3", 200, 100, "1", "Test", "Test", "Test", "Test");
+    Node node4 = new Node("Node4", 200, 200, "1", "Test", "Test", "Test", "Test");
+    Node node5 = new Node("Node5", 100, 100, "2", "Test", "Test", "Test", "Test");
+    Node node6 = new Node("Node6", 200, 200, "2", "Test", "Test", "Test", "Test");
+    Node node7 = new Node("Node7", 200, 200, "2", "Test", "Test", "Test", "Test");
     Map<String, Node> nodeMap = new HashMap<>();
     nodeMap.put(node1.getNodeID(), node1);
     nodeMap.put(node2.getNodeID(), node2);

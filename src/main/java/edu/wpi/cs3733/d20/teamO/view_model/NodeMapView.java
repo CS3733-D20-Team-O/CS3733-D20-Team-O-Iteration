@@ -27,19 +27,18 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-
+@Slf4j
 @Getter
 public class NodeMapView extends ViewModelBase {
 
   private double nodeSize = 5;
   private double edgeSize = 3;
-  private Paint nodeColor = Color.web("#00991f"); // Green
-  private Paint edgeColor = Color.web("#58A5F0"); // Light blue
-  private Paint highlightColor = Color.RED; // Red
-  private final static int maxFloor = 5;
-  private final static int minFloor = 1;
+  private final static Paint nodeColor = Color.web("#00991f"); // Green
+  private final static Paint edgeColor = Color.web("#58A5F0"); // Light blue
+  private final static Paint highlightColor = Color.RED; // Red
   private final static double zoomInc = 0.1;
 
   private double dragX = 0;
@@ -50,7 +49,11 @@ public class NodeMapView extends ViewModelBase {
   /**
    * The current floor being displayed
    */
-  private int floor = minFloor;
+  private String floor = "1";
+  /**
+   * The current building being displayed
+   */
+  private String building = "Faulkner";
   /**
    * The current zoom level
    */
@@ -99,7 +102,8 @@ public class NodeMapView extends ViewModelBase {
    * The node map to use to fuel the display todo make an arraylist todo using a map of integers to
    * something else isn't really the appropriate data structure
    */
-  private final Map<Integer, Map<String, Node>> nodeMap = new HashMap<>();
+  private final Map<String, Map<String, Node>> nodeMap = new HashMap<>();
+  // Note: The stored string is a combined string, consisting of the <building name>_<floor name>
 
   @FXML
   private ImageView backgroundImage;
@@ -155,7 +159,7 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Display the current floor (and consequently call the above listeners)
-    Platform.runLater(() -> setFloor(minFloor));
+    Platform.runLater(() -> setFloor(this.building, this.floor));
   }
 
   private boolean checkXWithinBounds(double X) {
@@ -201,7 +205,7 @@ public class NodeMapView extends ViewModelBase {
    */
   public void addNode(Node node) {
     placeFloorNode(node.getNodeID(), node);
-    if (node.getFloor() == this.floor) {
+    if (node.getFloor().equals(this.floor)) {
       drawNode(node);
     }
   }
@@ -212,10 +216,10 @@ public class NodeMapView extends ViewModelBase {
    * @param node a node
    */
   public void deleteNode(Node node) {
-    if (this.nodeMap.containsKey(node.getFloor())) {
-      nodeMap.get(node.getFloor()).remove(node.getNodeID());
+    if (this.nodeMap.containsKey(buildingFloorID(node))) {
+      nodeMap.get(buildingFloorID(node)).remove(node.getNodeID());
 
-      if (node.getFloor() == this.floor) {
+      if (node.getFloor().equals(this.floor)) {
         val target = findNode(node);
         if (target
             != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
@@ -233,11 +237,11 @@ public class NodeMapView extends ViewModelBase {
    */
   private void placeFloorNode(String string, Node node) {
     // Make the new floor if it doesn't exist
-    if (!this.nodeMap.containsKey(node.getFloor())) {
-      nodeMap.put(node.getFloor(), new HashMap<>());
+    if (!this.nodeMap.containsKey(buildingFloorID(node))) {
+      nodeMap.put(buildingFloorID(node), new HashMap<>());
     }
     // Place the node in the correct floor
-    nodeMap.get(node.getFloor()).put(string, node);
+    nodeMap.get(buildingFloorID(node)).put(string, node);
   }
 
   /**
@@ -332,7 +336,7 @@ public class NodeMapView extends ViewModelBase {
    */
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
-    if (n1.getFloor() == getFloor() && n2.getFloor() == getFloor()) {
+    if (n1.getFloor().equals(getFloor()) && n2.getFloor().equals(getFloor())) {
       val x1 = translateToPaneX(n1.getXCoord());
       val y1 = translateToPaneY(n1.getYCoord());
       val x2 = translateToPaneX(n2.getXCoord());
@@ -433,24 +437,31 @@ public class NodeMapView extends ViewModelBase {
   /**
    * Sets the currently drawn floor to the given floor and updates the NodeMapView
    *
-   * @param floor the floor to swap to
+   * @param building the building the floor is on
+   * @param floor    the floor to swap to
    */
-  public void setFloor(int floor) {
-    if (floor >= minFloor && floor <= maxFloor) {
+  public void setFloor(String building, String floor) {
+    try {
+      // If the background image doesn't load, don't even bother with the rest.
+      backgroundImage.setImage(new Image("floors/" +
+          building.replaceAll("\\s+", "") + "_" +
+          floor.replaceAll("\\s+", "") + ".png"));
       this.floor = floor;
-      backgroundImage.setImage(new Image("floors/" + floor + ".png"));
+      colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 8);
+      colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
+      draw();
+    } catch (Exception e) {
+      log.error("The floor map associated with that floor doesn't exist!");
     }
-    colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 8);
-    colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
-    draw();
   }
 
   /**
    * Increments the current floor to the floor above
    */
+  // todo remove these two once the editor and pathfinder no longer use it.
   @Deprecated
   public void incrementFloor() {
-    setFloor(this.floor + 1);
+    //setFloor(this.floor + 1);
   }
 
   /**
@@ -458,7 +469,7 @@ public class NodeMapView extends ViewModelBase {
    */
   @Deprecated
   public void decrementFloor() {
-    setFloor(this.floor - 1);
+    //  setFloor(this.floor - 1);
   }
 
   /**
@@ -695,6 +706,17 @@ public class NodeMapView extends ViewModelBase {
     double aspectRatio =
         backgroundImage.getImage().getWidth() / backgroundImage.getImage().getHeight();
     return Math.min(backgroundImage.getFitHeight(), backgroundImage.getFitWidth() / aspectRatio);
+  }
+
+  /**
+   * Creates a string from the building and floor of a node (used for consistency, I don't trust
+   * myself, lmao)
+   *
+   * @param node The given node
+   * @return a string
+   */
+  private String buildingFloorID(Node node) {
+    return node.getBuilding() + "_" + node.getFloor();
   }
 
   /**

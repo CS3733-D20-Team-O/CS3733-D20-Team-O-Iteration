@@ -53,7 +53,7 @@ public class FindPathViewModel extends ViewModelBase {
   private JFXComboBox<String> startRoom, stopRoom;
 
   @FXML
-  private JFXComboBox<Integer> startFloor, stopFloor;
+  private JFXComboBox<String> startFloor, stopFloor;
 
   private Map<String, Node> nodeMap;
   private final DatabaseWrapper database;
