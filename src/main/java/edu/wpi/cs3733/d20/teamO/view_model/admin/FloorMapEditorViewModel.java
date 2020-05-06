@@ -71,7 +71,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   // globally accessible fields
   private State state; // current state of view
-  private LinkedList<Node> selection = new LinkedList<>();
+  private final LinkedList<Node> selection = new LinkedList<>();
   private Node selectedNode, selectedTargetNode, previewNode; // todo move over to selection
   private Edge selectedEdge;
   private int xSelection, ySelection; // the selected x and y coords
@@ -609,4 +609,3 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     }
   }
 }
-
