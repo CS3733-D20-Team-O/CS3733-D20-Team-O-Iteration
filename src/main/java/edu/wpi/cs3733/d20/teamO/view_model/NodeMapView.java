@@ -238,6 +238,7 @@ public class NodeMapView extends ViewModelBase {
    */
   private void placeFloorNode(String string, Node node) {
     // Make the new floor if it doesn't exist
+    System.out.println(buildingFloorID(node) + "=================================================");
     if (!this.nodeMap.containsKey(buildingFloorID(node))) {
       nodeMap.put(buildingFloorID(node), new HashMap<>());
     }
@@ -393,6 +394,10 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  public String getFloor() {
+    return this.floor;
+  }
+
   public void setEdgeMovement(boolean status) {
     this.edgeMovement = status;
   }
@@ -478,6 +483,7 @@ public class NodeMapView extends ViewModelBase {
           building.replaceAll("\\s+", "") + "_" +
           floor.replaceAll("\\s+", "") + ".png"));
       this.floor = floor;
+      System.out.println("The floor is: " + floor);
       this.building = building;
       colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 12);
       colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
@@ -752,7 +758,7 @@ public class NodeMapView extends ViewModelBase {
    * @return a string
    */
   private String buildingFloorID(Node node) {
-    return node.getBuilding() + "_" + node.getFloor();
+    return node.getBuilding() + "_" + node.getFloor().replaceAll("0", ""); // todo a really janky fix (also you no longer can have floor 0, lmao)
   }
 
   /**
