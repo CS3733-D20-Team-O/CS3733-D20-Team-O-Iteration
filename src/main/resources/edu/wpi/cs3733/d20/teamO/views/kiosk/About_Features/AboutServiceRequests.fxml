@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.About_Features.AboutServiceRequests" prefHeight="400.0" prefWidth="600.0">
+  <StackPane>
+    <VBox>
+      <Label text="This is how you make service requests and check their status (Include screenshots here as well as instructions)" />
+    </VBox>
+  </StackPane>
+</AnchorPane>
