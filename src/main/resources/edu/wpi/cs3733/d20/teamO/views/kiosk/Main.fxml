@@ -65,6 +65,9 @@
   <JFXButton buttonType="RAISED" onAction="#openAbout"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;"
     text="%about" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0"/>
+  <JFXButton buttonType="RAISED" onAction="#openHowToUseKiosk"
+    style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+    text="Help!" AnchorPane.leftAnchor="16" AnchorPane.topAnchor="80"/>
 
   <!-- Language Switcher -->
   <HBox fx:id="langContainer" alignment="CENTER" spacing="8"
