@@ -43,64 +43,37 @@ import lombok.val;
 @Getter
 public class NodeMapView extends ViewModelBase {
 
-  /**
-   * The current floor being displayed
-   */
+  // Floor Storage
   private String floor = "1";
-  /**
-   * The current building being displayed
-   */
   private String building = "Faulkner";
 
-  /**
-   * The current zoom level
-   */
+  // Zoom Controls
   private double currentZoom = 1.0;
-  /**
-   * The zoom increment (or decrement)
-   */
   private final static double zoomInc = 0.1;
 
-  /**
-   * Used for dragging
-   */
+  // Drag controls
   private double dragX = 0;
-  /**
-   * Used for dragging
-   */
   private double dragY = 0;
 
-  /**
-   * Used for dashed line movement
-   */
+  // Edge Movement
   private boolean edgeMovement = false;
 
-  /**
-   * The node radius
-   */
+  // Node and edge visuals
   private double nodeSize = 5;
-  /**
-   * The edge width
-   */
   private double edgeSize = 3;
-  /**
-   * The node color
-   */
   private Paint nodeColor = Color.web("#00991f"); // Green
-  /**
-   * The edge color
-   */
   private Paint edgeColor = Color.web("#58A5F0"); // Light blue
-  /**
-   * The highlight color
-   */
   private Paint highlightColor = Color.RED; // Red
 
-  /**
-   * The text size
-   */
+  // Text visuals
   private double textSize = 16;
+  private Font textFont = Font.font("Roboto", FontWeight.BOLD, this.textSize);
+  private Color textColor = Color.BLACK;
+  private Color textOutline = Color.WHITE;
+  private Color textBackgroundColor = Color.WHITE;
+  private Color textBackgroundOutline = Color.BLACK;
 
+  // Listeners
   /**
    * Gets called when a node is left-clicked
    */
@@ -142,6 +115,7 @@ public class NodeMapView extends ViewModelBase {
   @Setter
   private BiConsumer<Integer, Integer> onMissRightTapListener;
 
+  // Node storage
   /**
    * The node map to use to fuel the display (each Map of nodes is stored to a floor)
    */
@@ -398,6 +372,7 @@ public class NodeMapView extends ViewModelBase {
    *
    * @param node the node to highlight
    */
+  @Deprecated
   public void highlightNode(Node node) {
     val nodeCircle = findNode(node);
     if (nodeCircle != null) {
@@ -410,10 +385,24 @@ public class NodeMapView extends ViewModelBase {
    *
    * @param node the node to stop highlighting
    */
+  @Deprecated
   public void unhighlightNode(Node node) {
     val nodeCircle = findNode(node);
     if (nodeCircle != null) {
       nodeCircle.setFill(nodeColor);
+    }
+  }
+
+  /**
+   * Colors the given edge with the given color
+   *
+   * @param node  the edge to color
+   * @param color the color
+   */
+  public void colorNode(Node node, Color color) {
+    val nodeCircle = findNode(node);
+    if (nodeCircle != null) {
+      nodeCircle.setFill(color);
     }
   }
 
@@ -544,6 +533,7 @@ public class NodeMapView extends ViewModelBase {
    *
    * @param edge the edge to highlight
    */
+  @Deprecated
   public void highlightEdge(Edge edge) {
     val nodeLine = findLine(edge.getStartID(), edge.getStopID());
     if (nodeLine != null) {
@@ -556,10 +546,24 @@ public class NodeMapView extends ViewModelBase {
    *
    * @param edge the edge to stop highlighting
    */
+  @Deprecated
   public void unhighlightEdge(Edge edge) {
     val nodeLine = findLine(edge.getStartID(), edge.getStopID());
     if (nodeLine != null) {
       nodeLine.setStroke(edgeColor);
+    }
+  }
+
+  /**
+   * Colors the given edge with the given color
+   *
+   * @param edge  the edge to color
+   * @param color the color
+   */
+  public void colorEdge(Edge edge, Color color) {
+    val nodeLine = findLine(edge.getStartID(), edge.getStopID());
+    if (nodeLine != null) {
+      nodeLine.setStroke(color);
     }
   }
 
@@ -577,7 +581,7 @@ public class NodeMapView extends ViewModelBase {
    *
    * @param color the given color
    */
-  public void setEdgeColor(Paint color) {
+  public void setEdgeDrawColor(Paint color) {
     this.edgeColor = color;
   }
 
@@ -612,6 +616,7 @@ public class NodeMapView extends ViewModelBase {
    *
    * @param color the color given
    */
+  @Deprecated
   public void setHighlightColor(Paint color) {
     this.highlightColor = color;
   }
@@ -635,22 +640,22 @@ public class NodeMapView extends ViewModelBase {
   public void addText(int x, int y, String string) {
 
     val text = new Text(string);
-    text.setFont(Font.font("Roboto", FontWeight.BOLD, this.textSize));
-    text.setStroke(Color.WHITE);
-    text.setFill(Color.BLACK);
+    text.setFont(this.textFont);
+    text.setFill(this.textColor);
+    text.setStroke(this.textOutline);
     text.setStrokeWidth(0.5);
     text.setTextAlignment(TextAlignment.CENTER);
 
     val rect = new Rectangle(text.getBoundsInLocal().getWidth() + 4,
-                                text.getBoundsInLocal().getHeight());
-    rect.setFill(Color.RED);
-    rect.setStroke(Color.BLACK);
+        text.getBoundsInLocal().getHeight());
+    rect.setFill(this.textBackgroundColor);
+    rect.setStroke(this.textBackgroundOutline);
     rect.setArcHeight(10);
     rect.setArcWidth(10);
 
     val pane = new StackPane();
-    pane.setLayoutX(translateToPaneX(x));
-    pane.setLayoutY(translateToPaneY(y));
+    pane.setLayoutX(translateToPaneX(x) - (text.getBoundsInLocal().getWidth() / 2));
+    pane.setLayoutY(translateToPaneY(y) - (text.getBoundsInLocal().getHeight() / 2));
     pane.getChildren().addAll(rect, text);
 
     // Set up drag events (even if the text is dragged on, it should move the screen)
@@ -679,6 +684,58 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
+   * Sets up the text size
+   */
+  public void setTextSize(double size) {
+    this.textSize = size;
+  }
+
+  /**
+   * Sets up the font that text uses
+   *
+   * @param font the font
+   */
+  public void setTextFont(Font font) {
+    this.textFont = font;
+  }
+
+  /**
+   * Sets up the color that text uses
+   *
+   * @param color the color
+   */
+  public void setTextColor(Color color) {
+    this.textColor = color;
+  }
+
+  /**
+   * Sets up the font outline that text uses
+   *
+   * @param outline the outline color
+   */
+  public void setTextOutline(Color outline) {
+    this.textOutline = outline;
+  }
+
+  /**
+   * Sets up the background color for text
+   *
+   * @param backgroundColor the background color
+   */
+  public void setTextBackgroundColor(Color backgroundColor) {
+    this.textBackgroundColor = backgroundColor;
+  }
+
+  /**
+   * Sets up the font background outline that text uses
+   *
+   * @param backgroundOutline the background outline color
+   */
+  public void setTextBackgroundOutline(Color backgroundOutline) {
+    this.textBackgroundOutline = backgroundOutline;
+  }
+
+  /**
    * Clears the text layer
    */
   public void clearText() {
@@ -698,8 +755,8 @@ public class NodeMapView extends ViewModelBase {
           building.replaceAll("\\s+", "") + "_" +
           floor.replaceAll("\\s+", "") + ".png"));
       this.floor = floor;
-      System.out.println("The floor is: " + floor);
       this.building = building;
+
       colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 12);
       colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
       setNodeSize((2476/backgroundImage.getImage().getWidth()) * 5); // todo figure out a better way of doing this
@@ -710,6 +767,7 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  // I'm not sure where this is being used?
   public String getFloor() {
     return this.floor;
   }
@@ -840,7 +898,8 @@ public class NodeMapView extends ViewModelBase {
    * @return a string
    */
   private String buildingFloorID(Node node) {
-    return node.getBuilding() + "_" + node.getFloor().replaceAll("0", ""); // todo a really janky fix (also you no longer can have floor 0, lmao)
+    // todo a really janky fix (also you no longer can have floor's with 0 in them, lmao)
+    return node.getBuilding() + "_" + node.getFloor().replaceAll("0", "");
   }
 
   /**
