@@ -48,7 +48,7 @@ public class HowToUseKiosk extends DialogViewModel {
   }
 
   @FXML
-  private void openLanguageandMiscInfo() {
+  private void openLanguageAndMiscInfo() {
     try {
       dialog.showFullscreenFXML("");
     } catch (IOException e) {

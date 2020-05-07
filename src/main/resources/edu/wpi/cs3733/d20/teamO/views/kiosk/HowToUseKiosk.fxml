@@ -33,7 +33,7 @@
 
       <!--Button for how Language switching and other buttons work works, will include screnshots-->
       <!--Add icon here-->
-      <JFXButton buttonType="RAISED" onAction="#openLanguageandMiscInfo"
+      <JFXButton buttonType="RAISED" onAction="#openLanguageAndMiscInfo"
         style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
         text="How can I change language and find out more about this project?" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
 
