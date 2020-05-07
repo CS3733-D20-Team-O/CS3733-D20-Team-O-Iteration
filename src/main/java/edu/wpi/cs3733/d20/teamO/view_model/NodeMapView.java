@@ -20,6 +20,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -28,6 +29,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
@@ -40,20 +42,6 @@ import lombok.val;
 @Getter
 public class NodeMapView extends ViewModelBase {
 
-  private double nodeSize = 5;
-  private double edgeSize = 3;
-  private Paint nodeColor = Color.web("#00991f"); // Green
-  private Paint edgeColor = Color.web("#58A5F0"); // Light blue
-  private Paint highlightColor = Color.RED; // Red
-  private final static double zoomInc = 0.1;
-
-  private double dragX = 0;
-  private double dragY = 0;
-
-  private double textSize = 16;
-
-  private boolean edgeMovement = false;
-
   /**
    * The current floor being displayed
    */
@@ -62,10 +50,56 @@ public class NodeMapView extends ViewModelBase {
    * The current building being displayed
    */
   private String building = "Faulkner";
+
   /**
    * The current zoom level
    */
   private double currentZoom = 1.0;
+  /**
+   * The zoom increment (or decrement)
+   */
+  private final static double zoomInc = 0.1;
+
+  /**
+   * Used for dragging
+   */
+  private double dragX = 0;
+  /**
+   * Used for dragging
+   */
+  private double dragY = 0;
+
+  /**
+   * Used for dashed line movement
+   */
+  private boolean edgeMovement = false;
+
+  /**
+   * The node radius
+   */
+  private double nodeSize = 5;
+  /**
+   * The edge width
+   */
+  private double edgeSize = 3;
+  /**
+   * The node color
+   */
+  private Paint nodeColor = Color.web("#00991f"); // Green
+  /**
+   * The edge color
+   */
+  private Paint edgeColor = Color.web("#58A5F0"); // Light blue
+  /**
+   * The highlight color
+   */
+  private Paint highlightColor = Color.RED; // Red
+
+  /**
+   * The text size
+   */
+  private double textSize = 16;
+
   /**
    * Gets called when a node is left-clicked
    */
@@ -106,9 +140,9 @@ public class NodeMapView extends ViewModelBase {
    */
   @Setter
   private BiConsumer<Integer, Integer> onMissRightTapListener;
+
   /**
-   * The node map to use to fuel the display todo make an arraylist todo using a map of integers to
-   * something else isn't really the appropriate data structure
+   * The node map to use to fuel the display (each Map of nodes is stored to a floor)
    */
   private final Map<String, Map<String, Node>> nodeMap = new HashMap<>();
   // Note: The stored string is a combined string, consisting of the <building name>_<floor name>
@@ -123,10 +157,12 @@ public class NodeMapView extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
 
+    // So that panes can be clicked through
     nodeGroup.setPickOnBounds(false);
     edgeGroup.setPickOnBounds(false);
     textLayer.setPickOnBounds(false);
 
+    // Set default values
     backgroundImage.setImage(new Image("floors/Faulkner_1.png"));
     setBackgroundColor("#fd8842");
 
@@ -167,10 +203,29 @@ public class NodeMapView extends ViewModelBase {
       }
     });
 
+    floorPane.setOnKeyPressed(keyEvent -> {
+      System.out.println(keyEvent.getCharacter());
+      if(keyEvent.getCode() == KeyCode.LEFT) {
+        backgroundImage.setTranslateX(backgroundImage.getTranslateX() - 5);
+      } else if(keyEvent.getCode() == KeyCode.RIGHT) {
+        backgroundImage.setTranslateX(backgroundImage.getTranslateX() + 5);
+      } else if(keyEvent.getCode() == KeyCode.UP) {
+        backgroundImage.setTranslateY(backgroundImage.getTranslateY() - 5);
+      } else if(keyEvent.getCode() == KeyCode.DOWN) {
+        backgroundImage.setTranslateY(backgroundImage.getTranslateY() + 5);
+      }
+    });
+
     // Display the current floor (and consequently call the above listeners)
     Platform.runLater(() -> setFloor(this.building, this.floor));
   }
 
+  /**
+   * Used to check for dragging bounds
+   *
+   * @param X x coordinate
+   * @return if within bounds, return true, else return false
+   */
   private boolean checkXWithinBounds(double X) {
     if (X + dragX > backgroundImage.getFitWidth() / 2) {
       return false;
@@ -179,11 +234,30 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  /**
+   * Used to check for dragging bounds
+   *
+   * @param Y y coordinate
+   * @return if within bounds, return true, else return false
+   */
   private boolean checkYWithinBounds(double Y) {
     if (dragY + Y > backgroundImage.getFitHeight() / 2) {
       return false;
     } else {
       return !(dragY + Y < 0 - (backgroundImage.getFitHeight() / 2));
+    }
+  }
+
+  /**
+   * Zooms the canvas in using this multiplier
+   *
+   * @param zoom the amount of zoom (1.0 is default)
+   */
+  public void zoom(double zoom) {
+    if (zoom > 0.5 && zoom < 4.0) { // todo figure out a better method for this
+      floorPane.setScaleX(zoom);
+      floorPane.setScaleY(zoom);
+      this.currentZoom = zoom;
     }
   }
 
@@ -197,6 +271,72 @@ public class NodeMapView extends ViewModelBase {
 
     nodeMap.keySet().forEach((id) -> placeFloorNode(id, nodeMap.get(id)));
     draw();
+  }
+
+  /**
+   * Places a node into it's proper floor in the nodeMap
+   *
+   * @param string a given string for a node
+   * @param node   the node to be placed into the nodeMap
+   */
+  private void placeFloorNode(String string, Node node) {
+    // Make the new floor if it doesn't exist
+    if (!this.nodeMap.containsKey(buildingFloorID(node))) {
+      nodeMap.put(buildingFloorID(node), new HashMap<>());
+    }
+    // Place the node in the correct floor
+    nodeMap.get(buildingFloorID(node)).put(string, node);
+  }
+
+  /**
+   * Clears the map of nodes/edges and draws all the nodes on a certain floor
+   */
+  public void draw() {
+    // Clear the items displayed
+    nodeGroup.getChildren().clear();
+    edgeGroup.getChildren().clear();
+
+    // Draw all the nodes on a certain floor
+    val floorMap = nodeMap.get(this.building + "_" + this.floor);
+    // Check if nodes for the floor exist
+    if (floorMap != null) {
+      floorMap.keySet().forEach((id) -> drawNode(floorMap.get(id)));
+    }
+  }
+
+  /**
+   * @param node the node to draw to the canvas
+   */
+  private void drawNode(Node node) {
+    val x = translateToPaneX(node.getXCoord());
+    val y = translateToPaneY(node.getYCoord());
+    val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
+    //System.out.println("Node: [" + node.getNodeID() + "] At X: [" + node.getXCoord() + "] At Y: [" + node.getYCoord() + "]");
+    //System.out.println("Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY() + "]");
+
+    drawnNode.setOnMouseReleased(event -> {
+      if (onNodeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
+        System.out.println("Node Left Clicked");
+        onNodeLeftTapListener.accept(drawnNode.node);
+      } else if (onNodeRightTapListener != null && event.getButton()
+          .equals(MouseButton.SECONDARY)) {
+        System.out.println("Node Right Clicked");
+        onNodeRightTapListener.accept(drawnNode.node);
+      }
+    });
+    drawnNode.setOnMouseDragged(event -> {
+      if (onNodeLeftDragListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
+        System.out.println("Node Left Dragged");
+        onNodeLeftDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
+      } else if (onNodeRightDragListener != null && event.getButton()
+          .equals(MouseButton.SECONDARY)) {
+        System.out.println("Node Right Dragged");
+        onNodeRightDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
+            translateToImageY((int) event.getY()));
+      }
+    });
+    nodeGroup.getChildren().add(drawnNode);
   }
 
   /**
@@ -231,100 +371,36 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
-   * Places a node into it's proper floor in the nodeMap
+   * Highlights the current node on the NodeMap
    *
-   * @param string a given string for a node
-   * @param node   the node to be placed into the nodeMap
+   * @param node the node to highlight
    */
-  private void placeFloorNode(String string, Node node) {
-    // Make the new floor if it doesn't exist
-    System.out.println(buildingFloorID(node) + "=================================================");
-    if (!this.nodeMap.containsKey(buildingFloorID(node))) {
-      nodeMap.put(buildingFloorID(node), new HashMap<>());
-    }
-    // Place the node in the correct floor
-    nodeMap.get(buildingFloorID(node)).put(string, node);
-  }
-
-  /**
-   * Clears the map of nodes/edges and draws all the nodes on a certain floor
-   */
-  public void draw() {
-    // Clear the items displayed
-    //floorPane.getChildren().clear();
-    nodeGroup.getChildren().clear();
-    edgeGroup.getChildren().clear();
-
-    //floorPane.getChildren().add(backgroundImage);
-
-    // Draw all the nodes on a certain floor
-    val floorMap = nodeMap.get(this.building + "_" + this.floor);
-    // Check if nodes for the floor exist
-    if (floorMap != null) {
-      floorMap.keySet().forEach((id) -> drawNode(floorMap.get(id)));
+  public void highlightNode(Node node) {
+    val nodeCircle = findNode(node);
+    if (nodeCircle != null) {
+      nodeCircle.setFill(highlightColor);
     }
   }
 
   /**
-   * @param node the node to draw to the canvas
+   * Un-highlights the current node on the NodeMap
+   *
+   * @param node the node to stop highlighting
    */
-  private void drawNode(Node node) {
-    val x = translateToPaneX(node.getXCoord());
-    val y = translateToPaneY(node.getYCoord());
-    val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
-    System.out.println(
-        "Node: [" + node.getNodeID() + "] At X: [" + node.getXCoord() + "] At Y: [" + node
-            .getYCoord() + "]");
-    System.out.println(
-        "Circle properties: At X: [" + drawnNode.getCenterX() + "] At Y: [" + drawnNode.getCenterY()
-            + "]");
+  public void unhighlightNode(Node node) {
+    val nodeCircle = findNode(node);
+    if (nodeCircle != null) {
+      nodeCircle.setFill(nodeColor);
+    }
+  }
 
-    drawnNode.setOnMouseReleased(event -> {
-      if (onNodeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
-        System.out.println("Node Left Clicked");
-        onNodeLeftTapListener.accept(drawnNode.node);
-      } else if (onNodeRightTapListener != null && event.getButton()
-          .equals(MouseButton.SECONDARY)) {
-        System.out.println("Node Right Clicked");
-        onNodeRightTapListener.accept(drawnNode.node);
-      }
-    });
-    drawnNode.setOnMouseDragged(event -> {
-      if (onNodeLeftDragListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
-        System.out.println("Node Left Dragged");
-        onNodeLeftDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
-            translateToImageY((int) event.getY()));
-      } else if (onNodeRightDragListener != null && event.getButton()
-          .equals(MouseButton.SECONDARY)) {
-        System.out.println("Node Right Dragged");
-        onNodeRightDragListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
-            translateToImageY((int) event.getY()));
-      }
-    });
-    /*drawnNode.setOnMouseReleased(event -> {
-      if (onNodeLeftTapReleaseListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
-        System.out.println("Node Left Dragged End (Mod)");
-        onNodeLeftTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
-            translateToImageY((int) event.getY()));
-      } else if (onNodeRightTapReleaseListener != null
-          && event.getButton().equals(MouseButton.SECONDARY)) {
-        System.out.println("Node Right Dragged End (Mod)");
-        onNodeRightTapReleaseListener.accept(drawnNode.node, translateToImageX((int) event.getX()),
-            translateToImageY((int) event.getY()));
-      }
-    });*/
-    /*
-    drawnNode.setOnMouseDragExited(event -> {
-      if (onNodeLeftDragReleaseListener != null && event.getButton() == MouseButton.PRIMARY) {
-        System.out.println("Node Left Dragged End");
-        onNodeLeftDragReleaseListener.accept(drawnNode.node, event);
-      } else if (onNodeRightDragReleaseListener != null
-          && event.getButton() == MouseButton.SECONDARY) {
-        System.out.println("Node Right Dragged End");
-        onNodeRightDragReleaseListener.accept(drawnNode.node, event);
-      }
-    });*/
-    nodeGroup.getChildren().add(drawnNode);
+  /**
+   * Sets the color of the nodes being drawn
+   *
+   * @param color the given color
+   */
+  public void setNodeColor(Paint color) {
+    this.nodeColor = color;
   }
 
   /**
@@ -339,13 +415,11 @@ public class NodeMapView extends ViewModelBase {
         n1.getBuilding().equals(this.building) &&
         n2.getFloor().replaceAll("0", "").equals(this.floor) &&
         n2.getBuilding().equals(this.building)) {
-      if (findLine(n1, n2) == null) { // todo fix this later
+      if (findLine(n1.getNodeID(), n2.getNodeID()) == null) { // todo fix this later
         val x1 = translateToPaneX(n2.getXCoord());
         val y1 = translateToPaneY(n2.getYCoord());
         val x2 = translateToPaneX(n1.getXCoord());
         val y2 = translateToPaneY(n1.getYCoord());
-        //System.out.println("Drawing an edge (node reference) from (" + translateToPaneX(n1.getXCoord()) + ", " + translateToPaneY(n1.getYCoord()) + ") to (" + translateToPaneX(n2.getYCoord()) + ", " + translateToPaneY(n2.getYCoord()) + ")");
-        //System.out.println("Drawing an edge from (" + x1 + ", " + y1 + ") to (" + x2 + ", " + y2 + ")");
         val drawnEdge = new NodeLine(n1, n2, x1, y1, x2, y2);
         drawnEdge.setOnMouseClicked(event -> {
           if (onEdgeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
@@ -357,11 +431,12 @@ public class NodeMapView extends ViewModelBase {
         drawnEdge.setStrokeWidth(edgeSize);
         drawnEdge.setStroke(edgeColor);
 
-        if (edgeMovement == true) {
+        // For animation purposes
+        if (edgeMovement) {
           drawnEdge.getStrokeDashArray().setAll(10d, 10d);
 
           final double maxOffset = drawnEdge.getStrokeDashArray().stream()
-              .reduce(0d, (a, b) -> a + b);
+              .reduce(0d, Double::sum);
 
           Timeline timeline = new Timeline(
               new KeyFrame(
@@ -387,23 +462,63 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
-  public void deleteEdge(Edge edge) {
-    val target = findLine(edge);
+  public void deleteEdge(Edge edge) { // todo figure out this function
+    val target = findLine(edge.getStartID(), edge.getStopID());
     if (target != null) {
       edgeGroup.getChildren().remove(target);
     }
   }
 
-  public String getFloor() {
-    return this.floor;
+  /**
+   * Clears all edges on the screen
+   */
+  public void clearEdge() {
+    edgeGroup.getChildren().clear();
   }
 
+  /**
+   * Either enables or disables moving edges
+   *
+   * @param status true to enable, false to disable
+   */
   public void setEdgeMovement(boolean status) {
     this.edgeMovement = status;
   }
 
-  /*
   /**
+   * Highlights the current edge on the NodeMap
+   *
+   * @param edge the edge to highlight
+   */
+  public void highlightEdge(Edge edge) {
+    val nodeLine = findLine(edge.getStartID(), edge.getStopID());
+    if (nodeLine != null) {
+      nodeLine.setStroke(highlightColor);
+    }
+  }
+
+  /**
+   * Un-highlights the current edge on the NodeMap
+   *
+   * @param edge the edge to stop highlighting
+   */
+  public void unhighlightEdge(Edge edge) {
+    val nodeLine = findLine(edge.getStartID(), edge.getStopID());
+    if (nodeLine != null) {
+      nodeLine.setStroke(edgeColor);
+    }
+  }
+
+  /**
+   * Sets the color of the edges being drawn
+   *
+   * @param color the given color
+   */
+  public void setEdgeColor(Paint color) {
+    this.edgeColor = color;
+  }
+
+  /*
    * Draws an edge (represented as a NodeLine) between the origin and the given nodes
    *
    * @param origin  the origin
@@ -427,19 +542,24 @@ public class NodeMapView extends ViewModelBase {
       edgeGroup.getChildren().add(drawnEdge);
       //edgeGroup.getChildren().add(1, drawnEdge);
     }
-  }/*
+  }*/
 
   /**
-   * Zooms the canvas in using this multiplier
+   * Sets the highlight color of the node
    *
-   * @param zoom the amount of zoom (1.0 is default)
+   * @param color the color given
    */
-  public void zoom(double zoom) {
-    if (zoom > 0.5 && zoom < 4.0) { // todo figure out a better method for this
-      floorPane.setScaleX(zoom);
-      floorPane.setScaleY(zoom);
-      this.currentZoom = zoom;
-    }
+  public void setHighlightColor(Paint color) {
+    this.highlightColor = color;
+  }
+
+  /**
+   * Sets the background color of the map
+   *
+   * @param color the color given in hex
+   */
+  public void setBackgroundColor(String color) {
+    colorLayer.setStyle("-fx-background-color: " + color);
   }
 
   /**
@@ -454,7 +574,7 @@ public class NodeMapView extends ViewModelBase {
       Text text = new Text(translateToPaneX(node.getXCoord()),
           translateToPaneY(node.getYCoord()) + (4 * nodeSize),
           string);
-      text.setFont(new Font("Roboto", this.textSize));
+      text.setFont(Font.font("Roboto", FontWeight.BOLD, this.textSize));
       text.setStroke(Color.WHITE);
       text.setFill(Color.BLACK);
       text.setStrokeWidth(0.5);
@@ -495,6 +615,10 @@ public class NodeMapView extends ViewModelBase {
     }
   }
 
+  public String getFloor() {
+    return this.floor;
+  }
+
   /**
    * Increments the current floor to the floor above
    */
@@ -510,77 +634,6 @@ public class NodeMapView extends ViewModelBase {
   @Deprecated
   public void decrementFloor() {
     //  setFloor(this.floor - 1);
-  }
-
-  /**
-   * Clears all edges on the screen
-   */
-  public void clearEdge() {
-    edgeGroup.getChildren().clear();
-  }
-
-  /**
-   * Highlights the current node on the NodeMap
-   *
-   * @param node the node to highlight
-   */
-  public void highlightNode(Node node) {
-    val nodeCircle = findNode(node);
-    if (nodeCircle != null) {
-      nodeCircle.setFill(highlightColor);
-    }
-  }
-
-  /**
-   * Un-highlights the current node on the NodeMap
-   *
-   * @param node the node to stop highlighting
-   */
-  public void unhighlightNode(Node node) {
-    val nodeCircle = findNode(node);
-    if (nodeCircle != null) {
-      nodeCircle.setFill(nodeColor);
-    }
-  }
-
-  /**
-   * Highlights the current edge on the NodeMap
-   *
-   * @param edge the edge to highlight
-   */
-  public void highlightEdge(Edge edge) {
-    val nodeLine = findLine(edge);
-    if (nodeLine != null) {
-      nodeLine.setStroke(highlightColor);
-    }
-  }
-
-  /**
-   * Un-highlights the current edge on the NodeMap
-   *
-   * @param edge the edge to stop highlighting
-   */
-  public void unhighlightEdge(Edge edge) {
-    val nodeLine = findLine(edge);
-    if (nodeLine != null) {
-      nodeLine.setStroke(edgeColor);
-    }
-  }
-
-  public void setNodeColor(Paint color) {
-    this.nodeColor = color;
-  }
-
-  public void setEdgeColor(Paint color) {
-    this.edgeColor = color;
-  }
-
-  public void setHighlightColor(Paint color) {
-    this.highlightColor = color;
-  }
-
-  public void setBackgroundColor(String color) {
-    colorLayer.setStyle("-fx-background-color: " + color);
   }
 
   /**
@@ -633,7 +686,7 @@ public class NodeMapView extends ViewModelBase {
     if (floor != null && n1.getFloor().replaceAll("0", "").equals(n2.getFloor().replaceAll("0", "")) && n1.getBuilding()
         .equals(n2.getBuilding())) {
       System.out.println("Update");
-      val nodeLine = findLine(n1, n2);
+      val nodeLine = findLine(n1.getNodeID(), n2.getNodeID());
       if (nodeLine != null) {
         nodeLine.setStartX(translateToPaneX(n1.getXCoord()));
         nodeLine.setStartY(translateToPaneY(n1.getYCoord()));
@@ -641,7 +694,6 @@ public class NodeMapView extends ViewModelBase {
         nodeLine.setEndX(translateToPaneX(n2.getXCoord()));
         nodeLine.setEndY(translateToPaneY(n2.getYCoord()));
       }
-      //val nodeLine = findLine();
     }
   }
 
@@ -675,13 +727,13 @@ public class NodeMapView extends ViewModelBase {
     return null;
   }
 
-  /**
+  /*
    * Find a NodeLine that an edge is represented by
    *
    * @param n1 the starting node
    * @param n2 the ending node
    * @return the NodeLine that node refers to (or null if no NodeLine is found)
-   */
+   *
   private NodeLine findLine(Node n1, Node n2) {
     for (val child : edgeGroup.getChildren()) {
       val nodeLine = (NodeLine) child;
@@ -693,8 +745,14 @@ public class NodeMapView extends ViewModelBase {
       }
     }
     return null;
-  }
+  }*/
 
+  /*
+   * Find a NodeLine that an edge is represented by
+   *
+   * @param edge
+   * @return
+   *
   private NodeLine findLine(Edge edge) {
     for (val child : edgeGroup.getChildren()) {
       val nodeLine = (NodeLine) child;
@@ -704,38 +762,41 @@ public class NodeMapView extends ViewModelBase {
       }
     }
     return null;
+  }*/
+
+  /**
+   * Find a NodeLine that an edge is represented by
+   *
+   * @param n1 node 1's ID
+   * @param n2 node 2's ID
+   * @return the NodeLine that node refers to (or null if no NodeLine is found)
+   */
+  private NodeLine findLine(String n1, String n2) {
+    for (val child : edgeGroup.getChildren()) {
+      val nodeLine = (NodeLine) child;
+      if ((nodeLine.node1.getNodeID().equals(n1) &&
+          nodeLine.node2.getNodeID().equals(n2)) ||
+          (nodeLine.node1.getNodeID().equals(n2) &&
+            nodeLine.node2.getNodeID().equals(n1))) {
+        return nodeLine;
+      }
+    }
+    return null;
   }
 
   public int translateToImageX(int x) {
-    //System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
-    //System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
-    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
-    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
-
     return (int) (x / getRealWidth() * backgroundImage.getImage().getWidth());
   }
 
   public int translateToImageY(int y) {
-    //System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
-    //System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
-    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
-    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
     return (int) (y / getRealHeight() * backgroundImage.getImage().getHeight());
   }
 
   public int translateToPaneX(int x) {
-    //System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
-    //System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
-    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
-    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
     return (int) (x / backgroundImage.getImage().getWidth() * getRealWidth());
   }
 
   public int translateToPaneY(int y) {
-    //System.out.println("FloorPaneWidth: [" + floorPane.getWidth() + "]");
-    //System.out.println("FloorPaneHeight: [" + floorPane.getHeight() + "]");
-    /*System.out.println("BackgroundImageWidth: [" + backgroundImage.getImage().getWidth() + "]");
-    System.out.println("BackgroundImageHeight: [" + backgroundImage.getImage().getHeight() + "]");*/
     return (int) (y / backgroundImage.getImage().getHeight() * getRealHeight());
   }
 
@@ -771,8 +832,7 @@ public class NodeMapView extends ViewModelBase {
 
     public NodeCircle(Node node, double x, double y, double nodeSize, Paint nodeColor) {
       super(x, y, nodeSize, nodeColor);
-      //setTranslateX(x);
-      //setTranslateY(y);
+
       this.node = node;
     }
   }
@@ -787,13 +847,19 @@ public class NodeMapView extends ViewModelBase {
 
     public NodeLine(Node node1, Node node2, double x1, double y1, double x2, double y2) {
       super(x1, y1, x2, y2);
-      //setTranslateX((x1 + x2) / 2);
-      //setTranslateY((y1 + y2) / 2);
+
       this.node1 = node1;
       this.node2 = node2;
     }
   }
 
+  /**
+   * A TriConsumer
+   *
+   * @param <T>
+   * @param <U>
+   * @param <X>
+   */
   @FunctionalInterface
   public interface TriConsumer<T, U, X> {
 
