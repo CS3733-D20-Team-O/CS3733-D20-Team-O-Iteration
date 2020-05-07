@@ -60,8 +60,18 @@
     </VBox>
   </HBox>
   <Pane prefHeight="26.0" prefWidth="539.0"/>
-  <Label prefHeight="133.0" prefWidth="425.0" text="%aboutThanks" textAlignment="CENTER"
-    wrapText="true"/>
+  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="74.0" prefWidth="425.0"
+    text="%aboutThanks" textAlignment="CENTER" wrapText="true">
+    <VBox.margin>
+      <Insets bottom="10.0"/>
+    </VBox.margin>
+  </Label>
+  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="99.0" layoutY="509.0" prefHeight="77.0"
+    prefWidth="552.0" text="%aboutEduDisclaimer" textAlignment="CENTER" wrapText="true">
+    <VBox.margin>
+      <Insets bottom="10.0"/>
+    </VBox.margin>
+  </Label>
   <JFXButton buttonType="RAISED" onAction="#close" style="-fx-background-color: LIGHTGRAY;"
     text="%aboutBack"/>
 </VBox>
