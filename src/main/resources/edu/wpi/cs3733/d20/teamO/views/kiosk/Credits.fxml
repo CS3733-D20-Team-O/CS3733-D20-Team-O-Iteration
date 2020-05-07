@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="CENTER" spacing="0" style="-fx-padding: 32; -fx-font-size: 16;"
+  xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.CreditsViewModel">
+  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-padding: 0;">
+    <Label contentDisplay="CENTER" style="-fx-font-size: 32" text="WHOA!" textAlignment="CENTER">
+      <padding>
+        <Insets left="20.0" right="20.0"/>
+      </padding>
+    </Label>
+  </HBox>
+  <Label text="YANKEE WITH NO BRIM"/>
+  <JFXButton buttonType="RAISED" onAction="#close" style="-fx-background-color: LIGHTGRAY;"
+    text="click here to die instantly lmao"/>
+</VBox>
