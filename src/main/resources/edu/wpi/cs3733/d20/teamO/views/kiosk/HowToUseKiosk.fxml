@@ -5,6 +5,8 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <?import com.jfoenix.controls.JFXButton?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.HowToUseKiosk">
@@ -15,27 +17,42 @@
   </StackPane>
 
   <!--  Main Container-->
-  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="70" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="60" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
     <VBox alignment="CENTER" spacing="35" AnchorPane.TopAnchor="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
       <Label text="Which Feature do you have questions about? Click on one to find out more about how it works" />
 
       <!--Button for how Find path works, will include screnshots-->
-      <!--Add Icon here-->
-      <JFXButton buttonType="RAISED" onAction="#openFindPathInfo"
-        style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
-        text="How do I use Path Finding?" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+      <HBox fx:id="pathContainer" alignment="CENTER_LEFT" spacing="8"
+        AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
+      <ImageView fitHeight="32" fitWidth="32">
+        <Image url="@/location-icon.png"/>
+      </ImageView>
+        <JFXButton buttonType="RAISED" onAction="#openFindPathInfo"
+          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+          text="How do I use Path Finding?" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+      </HBox>
 
       <!--Button for how Service Requests works, will include screnshots-->
-      <!--Add icon here-->
+      <HBox fx:id="serviceContainer" alignment="CENTER_LEFT" spacing="8"
+        AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
+      <ImageView fitHeight="32" fitWidth="32">
+        <Image url="@/person-icon.png"/>
+      </ImageView>
       <JFXButton buttonType="RAISED" onAction="#openServiceRequestInfo"
         style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
         text="How do I make a Service Request, and how do I check their status?" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+      </HBox>
 
       <!--Button for how Language switching and other buttons work works, will include screnshots-->
-      <!--Add icon here-->
+      <HBox fx:id="langContainer" alignment="CENTER_LEFT" spacing="8"
+        AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
+      <ImageView fitHeight="32" fitWidth="32">
+        <Image url="@/language-icon.png"/>
+      </ImageView>
       <JFXButton buttonType="RAISED" onAction="#openLanguageAndMiscInfo"
         style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
         text="How can I change language and find out more about this project?" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+      </HBox>
 
       <Label text="For administrators and hospital workers, you may log in with the right credentials to acces more information" />
     </VBox>
