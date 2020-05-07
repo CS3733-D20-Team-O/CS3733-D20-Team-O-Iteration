@@ -9,7 +9,7 @@
   <WebView fx:id="webView" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
     AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"/>
   <VBox alignment="CENTER" spacing="8" AnchorPane.topAnchor="8" AnchorPane.rightAnchor="8"
-    maxWidth="-Infinity" maxHeight="-Infinity"
+    maxWidth="-Infinity" maxHeight="-Infinity" fx:id="buttonContainer"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;">
     <JFXButton onAction="#goToFaulkner" text="%streetViewSwitchToFaulkner"/>
     <JFXButton onAction="#goToMainCampus" text="%streetViewSwitchToMainCampus"/>
