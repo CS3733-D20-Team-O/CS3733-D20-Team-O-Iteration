@@ -69,6 +69,16 @@ public class NodeSelector extends JFXTextField {
   }
 
   /**
+   * Sets the text without showing the popup
+   *
+   * @param text the text to set
+   */
+  public void setTextWithoutPopup(String text) {
+    setText(text);
+    popup.hide();
+  }
+
+  /**
    * Sets the pop up based on the current text and displays it
    */
   private void setPopup() {
