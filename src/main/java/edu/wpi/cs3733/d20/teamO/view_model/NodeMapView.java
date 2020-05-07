@@ -28,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -337,6 +338,7 @@ public class NodeMapView extends ViewModelBase {
       }
     });
     nodeGroup.getChildren().add(drawnNode);
+    addText(node.getXCoord(), node.getYCoord(), "Test");
   }
 
   /**
@@ -371,6 +373,27 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
+   * Allows for the given node to be relocated (using an updated node)
+   *
+   * @param oldNode the old node
+   * @param newNode the new node
+   */
+  public void relocateNode(Node oldNode, Node newNode) {
+    val floor = nodeMap.get(buildingFloorID(oldNode));
+    if (floor != null) {
+      floor.remove(oldNode.getNodeID());
+      floor.put(newNode.getNodeID(), newNode);
+    }
+
+    val nodeCircle = findNode(oldNode);
+    nodeCircle.node = newNode;
+    if (nodeCircle != null) {
+      nodeCircle.setCenterX(translateToPaneX(newNode.getXCoord()));
+      nodeCircle.setCenterY(translateToPaneY(newNode.getYCoord()));
+    }
+  }
+
+  /**
    * Highlights the current node on the NodeMap
    *
    * @param node the node to highlight
@@ -392,6 +415,15 @@ public class NodeMapView extends ViewModelBase {
     if (nodeCircle != null) {
       nodeCircle.setFill(nodeColor);
     }
+  }
+
+  /**
+   * Allows to set the size of nodes being drawn
+   *
+   * @param size the modified size
+   */
+  public void setNodeSize(double size) {
+    this.nodeSize = size;
   }
 
   /**
@@ -470,6 +502,28 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
+   * Given the two nodes, find the edge associated with them and relocate it.
+   *
+   * @param n1 the first node
+   * @param n2 the second node
+   */
+  public void relocateEdge(Node n1, Node n2) {
+    val floor = nodeMap.get(buildingFloorID(n1));
+    // todo fix
+    if (floor != null && n1.getFloor().replaceAll("0", "").equals(n2.getFloor().replaceAll("0", "")) && n1.getBuilding()
+        .equals(n2.getBuilding())) {
+      val nodeLine = findLine(n1.getNodeID(), n2.getNodeID());
+      if (nodeLine != null) {
+        nodeLine.setStartX(translateToPaneX(n1.getXCoord()));
+        nodeLine.setStartY(translateToPaneY(n1.getYCoord()));
+
+        nodeLine.setEndX(translateToPaneX(n2.getXCoord()));
+        nodeLine.setEndY(translateToPaneY(n2.getYCoord()));
+      }
+    }
+  }
+
+  /**
    * Clears all edges on the screen
    */
   public void clearEdge() {
@@ -507,6 +561,15 @@ public class NodeMapView extends ViewModelBase {
     if (nodeLine != null) {
       nodeLine.setStroke(edgeColor);
     }
+  }
+
+  /**
+   * Allows to set the size of edges being drawn
+   *
+   * @param size the modified size
+   */
+  public void setEdgeSize(double size) {
+    this.edgeSize = size;
   }
 
   /**
@@ -556,31 +619,63 @@ public class NodeMapView extends ViewModelBase {
   /**
    * Sets the background color of the map
    *
-   * @param color the color given in hex
+   * @param color the color given
    */
   public void setBackgroundColor(String color) {
     colorLayer.setStyle("-fx-background-color: " + color);
   }
 
   /**
-   * Adds the node name above the node
+   * Adds the text at the given location (note: (x,y) coords based in top left)
    *
-   * @param node   the given node
+   * @param x the x coordinate (in image coords)
+   * @param y the y coordinate (in image coords)
    * @param string the written text
    */
-  public void addText(Node node, String string) {
-    val target = findNode(node);
-    if (target != null) {
-      Text text = new Text(translateToPaneX(node.getXCoord()),
-          translateToPaneY(node.getYCoord()) + (4 * nodeSize),
-          string);
-      text.setFont(Font.font("Roboto", FontWeight.BOLD, this.textSize));
-      text.setStroke(Color.WHITE);
-      text.setFill(Color.BLACK);
-      text.setStrokeWidth(0.5);
-      text.setTextAlignment(TextAlignment.CENTER);
-      textLayer.getChildren().add(text);
-    }
+  public void addText(int x, int y, String string) {
+
+    val text = new Text(string);
+    text.setFont(Font.font("Roboto", FontWeight.BOLD, this.textSize));
+    text.setStroke(Color.WHITE);
+    text.setFill(Color.BLACK);
+    text.setStrokeWidth(0.5);
+    text.setTextAlignment(TextAlignment.CENTER);
+
+    val rect = new Rectangle(text.getBoundsInLocal().getWidth() + 4,
+                                text.getBoundsInLocal().getHeight());
+    rect.setFill(Color.RED);
+    rect.setStroke(Color.BLACK);
+    rect.setArcHeight(10);
+    rect.setArcWidth(10);
+
+    val pane = new StackPane();
+    pane.setLayoutX(translateToPaneX(x));
+    pane.setLayoutY(translateToPaneY(y));
+    pane.getChildren().addAll(rect, text);
+
+    // Set up drag events (even if the text is dragged on, it should move the screen)
+    pane.setOnMousePressed(event -> { // todo refactor events
+      if (event.getButton().equals(MouseButton.PRIMARY)) { // Used for dragging
+        System.out.println("NodeGroup Left Press");
+        dragX = floorPane.getTranslateX() - event.getSceneX();
+        dragY = floorPane.getTranslateY() - event.getSceneY();
+      }
+    });
+
+    // Set up event for when the background is dragged
+    pane.setOnMouseDragged(event -> {
+      if (event.getButton().equals(MouseButton.PRIMARY)) {
+        System.out.println("NodeGroup Left Drag");
+        if (checkXWithinBounds(event.getSceneX())) {
+          floorPane.setTranslateX(event.getSceneX() + dragX);
+        }
+        if (checkYWithinBounds(event.getSceneY())) {
+          floorPane.setTranslateY(event.getSceneY() + dragY);
+        }
+      }
+    });
+
+    textLayer.getChildren().addAll(pane);
   }
 
   /**
@@ -634,81 +729,6 @@ public class NodeMapView extends ViewModelBase {
   @Deprecated
   public void decrementFloor() {
     //  setFloor(this.floor - 1);
-  }
-
-  /**
-   * Allows to set the size of drawn nodes (note: cannot resize edges once they are placed on the
-   * map)
-   *
-   * @param size the multiplier for the size
-   */
-  public void setNodeSize(double size) {
-    this.nodeSize = size;
-  }
-
-  /**
-   * Allows to set the size of drawn edges (note: cannot resize nodes once they are placed on the
-   * map)
-   *
-   * @param size the multiplier for the size
-   */
-  public void setEdgeSize(double size) {
-    this.edgeSize = size;
-  }
-
-  /**
-   * Allows for the given node to be relocated (using an updated node)
-   *
-   * @param oldNode the old node
-   * @param newNode the new node
-   */
-  public void relocateNode(Node oldNode, Node newNode) {
-    val floor = nodeMap.get(buildingFloorID(oldNode));
-    if (floor != null) {
-      floor.remove(oldNode.getNodeID());
-      floor.put(newNode.getNodeID(), newNode);
-      //System.out.println("Updated node");
-    }
-
-    val nodeCircle = findNode(oldNode);
-    nodeCircle.node = newNode;
-    if (nodeCircle != null) {
-      //System.out.println("Node: [" + node.getNodeID() + "] At X: [" + x + "] At Y: [" + y + "]");
-      //System.out.println("Circle properties: At X: [" + x + "] At Y: [" + y + "]");
-      nodeCircle.setCenterX(translateToPaneX(newNode.getXCoord()));
-      nodeCircle.setCenterY(translateToPaneY(newNode.getYCoord()));
-    }
-  }
-
-  public void relocateEdge(Node n1, Node n2) {
-    val floor = nodeMap.get(buildingFloorID(n1));
-    // todo fix
-    if (floor != null && n1.getFloor().replaceAll("0", "").equals(n2.getFloor().replaceAll("0", "")) && n1.getBuilding()
-        .equals(n2.getBuilding())) {
-      System.out.println("Update");
-      val nodeLine = findLine(n1.getNodeID(), n2.getNodeID());
-      if (nodeLine != null) {
-        nodeLine.setStartX(translateToPaneX(n1.getXCoord()));
-        nodeLine.setStartY(translateToPaneY(n1.getYCoord()));
-
-        nodeLine.setEndX(translateToPaneX(n2.getXCoord()));
-        nodeLine.setEndY(translateToPaneY(n2.getYCoord()));
-      }
-    }
-  }
-
-  /**
-   * Make all nodes on the floor visible
-   */
-  public void makeNodeVisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> nodeCircle.setVisible(true));
-  }
-
-  /**
-   * Make all nodes on the floor invisible
-   */
-  public void makeNodeInvisible() {
-    nodeGroup.getChildren().forEach(nodeCircle -> nodeCircle.setVisible(false));
   }
 
   /**
@@ -784,19 +804,19 @@ public class NodeMapView extends ViewModelBase {
     return null;
   }
 
-  public int translateToImageX(int x) {
+  private int translateToImageX(int x) {
     return (int) (x / getRealWidth() * backgroundImage.getImage().getWidth());
   }
 
-  public int translateToImageY(int y) {
+  private int translateToImageY(int y) {
     return (int) (y / getRealHeight() * backgroundImage.getImage().getHeight());
   }
 
-  public int translateToPaneX(int x) {
+  private int translateToPaneX(int x) {
     return (int) (x / backgroundImage.getImage().getWidth() * getRealWidth());
   }
 
-  public int translateToPaneY(int y) {
+  private int translateToPaneY(int y) {
     return (int) (y / backgroundImage.getImage().getHeight() * getRealHeight());
   }
 
