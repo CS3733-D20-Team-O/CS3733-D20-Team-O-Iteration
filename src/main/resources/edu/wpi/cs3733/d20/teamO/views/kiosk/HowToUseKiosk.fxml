@@ -6,9 +6,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-  xmlns:fx="http://javafx.com/fxml"
-  fx:controller="edu.wpi.cs3733.d20.teamO.views.kiosk.HowToUseKiosk"
-  prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.HowToUseKiosk">
 
+  <!-- Main Welcome Bar -->
+  <StackPane fx:id="UseThisApp" prefHeight="64" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="About This App's Components" />
+  </StackPane>
+
+  <!--  Main Container-->
+  <StackPane>
+    <VBox>
+
+    </VBox>
+  </StackPane>
 </AnchorPane>
