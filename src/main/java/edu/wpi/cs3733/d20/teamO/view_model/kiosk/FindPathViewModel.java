@@ -360,4 +360,40 @@ public class FindPathViewModel extends ViewModelBase {
 
     return 0xFF000000 | R | G | B;
   }
+
+  /**
+   * gets the closest node of provided type to beginning
+   *
+   * @param type the nodeType desired
+   * @return closest node of matching type
+   */
+  private Node getNearest(String type) {
+    val nodes = new LinkedList<Node>();
+    val beenTo = new LinkedList<Node>();
+    nodes.add(beginning);
+    beenTo.add(beginning);
+
+    while (!nodes.isEmpty()) {
+      val current = nodes.poll();
+      if (current.getNodeType().equals(type)) {
+        return current;
+      }
+      for (val n : current.getNeighbors()) {
+        if (!beenTo.contains(n) && n.getFloor().equals(beginning.getFloor())) {
+          nodes.add(n);
+          beenTo.add(n);
+        }
+      }
+    }
+    return new Node("ERROR-NO-NODE-FOUND", -1, -1, "NONE", "NONE", "NONE", "NONE", "NONE");
+  }
+
+  @FXML
+  private void setNearestBathroom() {
+    nodeMapViewController.deleteNode(finish);
+    finish = getNearest("REST");
+    stopLocation.setTextWithoutPopup(finish.getLongName());
+    nodeMapViewController.draw();
+    drawPath();
+  }
 }
