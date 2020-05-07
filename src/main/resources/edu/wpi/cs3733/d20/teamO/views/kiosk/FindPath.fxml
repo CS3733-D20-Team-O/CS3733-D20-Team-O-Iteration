@@ -79,6 +79,8 @@
         style="-fx-background-color: lightgray" text="%generateQR"/>
       <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="385.0" onAction="#generateTD"
         style="-fx-background-color: lightgray" text="%generateText"/>
+      <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="250" onAction="#reversePath"
+        style="-fx-background-color: lightgray"/>
     </AnchorPane>
   </left>
 </BorderPane>

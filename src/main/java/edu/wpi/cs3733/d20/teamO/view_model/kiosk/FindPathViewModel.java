@@ -360,4 +360,15 @@ public class FindPathViewModel extends ViewModelBase {
 
     return 0xFF000000 | R | G | B;
   }
+
+  @FXML
+  public void reversePath() {
+    Node change = beginning;
+    beginning = finish;
+    finish = change;
+    nodeMapViewController.draw();
+    startLocation.setTextWithoutPopup(beginning.getLongName());
+    stopLocation.setTextWithoutPopup(finish.getLongName());
+    drawPath();
+  }
 }
