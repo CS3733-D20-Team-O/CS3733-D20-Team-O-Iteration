@@ -12,10 +12,3 @@
   <AnchorPane fx:id="nodeGroup"/>
   <AnchorPane fx:id="textLayer"/>
 </StackPane>
-
-
-  <!--
-  <AnchorPane fx:id="dummyLayer" maxWidth="990.4" maxHeight="594.4"/>
-  <AnchorPane fx:id="edgeGroup" maxWidth="990.4" maxHeight="594.4"/>
-  <AnchorPane fx:id="nodeGroup" maxWidth="990.4" maxHeight="594.4"/>
-   fitWidth="990.4" fitHeight="594.4"<AnchorPane fx:id="dragLayer"/>-->

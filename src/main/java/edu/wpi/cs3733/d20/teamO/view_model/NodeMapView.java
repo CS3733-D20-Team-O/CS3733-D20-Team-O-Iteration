@@ -114,6 +114,16 @@ public class NodeMapView extends ViewModelBase {
    */
   @Setter
   private BiConsumer<Integer, Integer> onMissRightTapListener;
+  /**
+   * Gets called when a node is hovered over
+   */
+  @Setter
+  private Consumer<Node> onNodeHover;
+  /**
+   * Gets called when a node isn't hovered over anymore
+   */
+  @Setter
+  private Consumer<Node> onNodeHoverExit;
 
   // Node storage
   /**
@@ -326,8 +336,10 @@ public class NodeMapView extends ViewModelBase {
             translateToImageY((int) event.getY()));
       }
     });
+    drawnNode.setOnMouseEntered(event -> onNodeHover.accept(drawnNode.node));
+    drawnNode.setOnMouseExited(event -> onNodeHoverExit.accept(drawnNode.node));
     nodeGroup.getChildren().add(drawnNode);
-    //addText(node.getXCoord(), node.getYCoord(), "Test");
+    addText(node.getXCoord(), node.getYCoord(), "Test");
   }
 
   /**
@@ -644,10 +656,10 @@ public class NodeMapView extends ViewModelBase {
   }
 
   /**
-   * Adds the text at the given location (note: (x,y) coords based in top left)
+   * Adds the text centered at the given location
    *
-   * @param x the x coordinate (in image coords)
-   * @param y the y coordinate (in image coords)
+   * @param x      the x coordinate (in image coords)
+   * @param y      the y coordinate (in image coords)
    * @param string the written text
    */
   public void addText(int x, int y, String string) {
@@ -670,28 +682,6 @@ public class NodeMapView extends ViewModelBase {
     pane.setLayoutX(translateToPaneX(x) - (text.getBoundsInLocal().getWidth() / 2));
     pane.setLayoutY(translateToPaneY(y) - (text.getBoundsInLocal().getHeight() / 2));
     pane.getChildren().addAll(rect, text);
-
-    // Set up drag events (even if the text is dragged on, it should move the screen)
-    pane.setOnMousePressed(event -> { // todo refactor events
-      if (event.getButton().equals(MouseButton.PRIMARY)) { // Used for dragging
-        System.out.println("NodeGroup Left Press");
-        dragX = floorPane.getTranslateX() - event.getSceneX();
-        dragY = floorPane.getTranslateY() - event.getSceneY();
-      }
-    });
-
-    // Set up event for when the background is dragged
-    pane.setOnMouseDragged(event -> {
-      if (event.getButton().equals(MouseButton.PRIMARY)) {
-        System.out.println("NodeGroup Left Drag");
-        if (checkXWithinBounds(event.getSceneX())) {
-          floorPane.setTranslateX(event.getSceneX() + dragX);
-        }
-        if (checkYWithinBounds(event.getSceneY())) {
-          floorPane.setTranslateY(event.getSceneY() + dragY);
-        }
-      }
-    });
 
     textLayer.getChildren().addAll(pane);
   }
