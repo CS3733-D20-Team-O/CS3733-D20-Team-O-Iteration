@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.JFXButton?>
-
-
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.About_Features.AboutMiscFeatures" prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.About_Features.AboutMiscFeatures">
   <!-- Main Welcome Bar -->
-  <StackPane fx:id="useMisc" prefHeight="64" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="FAQ's: Other Features" />
+  <StackPane fx:id="useMisc" prefHeight="64" style="-fx-background-color: #004c8c"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="FAQ's: Other Features"/>
   </StackPane>
 
-  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="65" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5">
-    <VBox spacing="30" prefHeight="400.0" prefWidth="600.0" alignment="CENTER">
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="65"
+    AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
+    <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0">
 
-      <Label text="This Kiosk Application has multiple small features which can be used throughout the App" style="-fx-font-size: 15; -fx-wrap-text: true" alignment="CENTER"/>
-      <Label text="At the Bottom-Left corner of the main screen you can elect to switch languages between English, Spanish, and Chinese throughout the app." wrapText="true"/>
-      <Label text="Throughout the app, many services and features will prompt for a location. The app uses a Fuzzy-Search style algorithm to predict your input to ease your search" wrapText="true"/>
-      <Label text="In the home screen you can access information about this kiosk as well as the project related to it in collaboration with WPI" wrapText="true"/>
+      <Label alignment="CENTER" style="-fx-font-size: 15; -fx-wrap-text: true"
+        text="This Kiosk Application has multiple small features which can be used throughout the App."/>
+      <Label
+        text="At the Bottom-Left corner of the main screen you can elect to switch languages between English, Spanish, and Chinese throughout the app."
+        wrapText="true"/>
+      <Label
+        text="Throughout the app, many services and features will prompt for a location. The app uses a Fuzzy-Search style algorithm to predict your input to ease your search."
+        wrapText="true"/>
+      <Label
+        text="In the home screen you can access information about this kiosk as well as the project related to it in collaboration with WPI."
+        wrapText="true"/>
 
       <HBox alignment="CENTER_RIGHT">
-        <JFXButton buttonType="RAISED" onAction="#close" style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+        <JFXButton buttonType="RAISED" onAction="#close"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
           text="%aboutBack"/>
       </HBox>
     </VBox>

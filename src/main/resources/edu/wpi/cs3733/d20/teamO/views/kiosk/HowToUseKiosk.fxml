@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-
-<?import com.jfoenix.controls.JFXButton?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.HowToUseKiosk">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.HowToUseKiosk">
 
   <!-- Main Welcome Bar -->
-  <StackPane fx:id="UseThisApp" prefHeight="64" style="-fx-background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Brigham_and_Womens_Hospital_logo.svg/1200px-Brigham_and_Womens_Hospital_logo.svg.png'); -fx-background-position: center; -fx-background-repeat: no-repeat" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="FAQ's" />
+  <StackPane fx:id="UseThisApp" prefHeight="64"
+    style="-fx-background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Brigham_and_Womens_Hospital_logo.svg/1200px-Brigham_and_Womens_Hospital_logo.svg.png'); -fx-background-position: center; -fx-background-repeat: no-repeat"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="FAQ's"/>
   </StackPane>
 
   <!--  Main Container-->
-  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="60" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-    <VBox alignment="CENTER" spacing="35" AnchorPane.TopAnchor="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-      <Label text="Here are some features users commonly have questions about!" style="-fx-font-size: 20" wrapText="true" />
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="60"
+    AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+    <VBox alignment="CENTER" spacing="35" AnchorPane.TopAnchor="30" AnchorPane.bottomAnchor="0"
+      AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+      <Label style="-fx-font-size: 20"
+        text="Here are some features users commonly have questions about!" wrapText="true"/>
 
       <!--Button for how Find path works, will include screnshots-->
-      <HBox fx:id="pathContainer" alignment="CENTER_LEFT" spacing="8"
-        AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
-      <ImageView fitHeight="32" fitWidth="32">
-        <Image url="@/location-icon.png"/>
-      </ImageView>
+      <HBox fx:id="pathContainer" alignment="CENTER_LEFT" spacing="8" AnchorPane.bottomAnchor="16"
+        AnchorPane.leftAnchor="16">
+        <ImageView fitHeight="32" fitWidth="32">
+          <Image url="@/location-icon.png"/>
+        </ImageView>
         <JFXButton buttonType="RAISED" onAction="#openFindPathInfo"
           style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
           text="About Path Finding" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
@@ -32,31 +42,36 @@
       <!--Button for how Service Requests works, will include screnshots-->
       <HBox fx:id="serviceContainer" alignment="CENTER_LEFT" spacing="8"
         AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
-      <ImageView fitHeight="32" fitWidth="32">
-        <Image url="@/person-icon.png"/>
-      </ImageView>
-      <JFXButton buttonType="RAISED" onAction="#openServiceRequestInfo"
-        style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
-        text="About Service Requests" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+        <ImageView fitHeight="32" fitWidth="32">
+          <Image url="@/person-icon.png"/>
+        </ImageView>
+        <JFXButton buttonType="RAISED" onAction="#openServiceRequestInfo"
+          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+          text="About Service Requests" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
       </HBox>
 
       <!--Button for how Language switching and other buttons work works, will include screnshots-->
-      <HBox fx:id="langContainer" alignment="CENTER_LEFT" spacing="8"
-        AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
-      <ImageView fitHeight="32" fitWidth="32">
-        <Image url="@/language-icon.png"/>
-      </ImageView>
-      <JFXButton buttonType="RAISED" onAction="#openLanguageAndMiscInfo"
-        style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
-        text="About Miscellaneous Features" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+      <HBox fx:id="langContainer" alignment="CENTER_LEFT" spacing="8" AnchorPane.bottomAnchor="16"
+        AnchorPane.leftAnchor="16">
+        <ImageView fitHeight="32" fitWidth="32">
+          <Image url="@/language-icon.png"/>
+        </ImageView>
+        <JFXButton buttonType="RAISED" onAction="#openLanguageAndMiscInfo"
+          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+          text="About Miscellaneous Features" AnchorPane.rightAnchor="16"
+          AnchorPane.topAnchor="80"/>
       </HBox>
 
 
       <HBox alignment="CENTER_RIGHT" spacing="70">
-        <Label text="Administrators: You may login to access more information" />
-        <JFXButton buttonType="RAISED" onAction="#close" style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+        <Label text="Administrators: You may login to access more information."/>
+        <JFXButton buttonType="RAISED" onAction="#close"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
           text="%aboutBack"/>
       </HBox>
     </VBox>
+    <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
   </StackPane>
 </AnchorPane>
