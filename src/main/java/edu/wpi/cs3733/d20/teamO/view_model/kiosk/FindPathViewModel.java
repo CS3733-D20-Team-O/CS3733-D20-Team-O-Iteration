@@ -363,12 +363,14 @@ public class FindPathViewModel extends ViewModelBase {
 
   @FXML
   public void reversePath() {
-    Node change = beginning;
+    val change = beginning;
     beginning = finish;
     finish = change;
     nodeMapViewController.draw();
-    startLocation.setTextWithoutPopup(beginning.getLongName());
-    stopLocation.setTextWithoutPopup(finish.getLongName());
+    if (beginning != null && finish != null) {
+      startLocation.setTextWithoutPopup(beginning.getLongName());
+      stopLocation.setTextWithoutPopup(finish.getLongName());
+    }
     drawPath();
   }
 }
