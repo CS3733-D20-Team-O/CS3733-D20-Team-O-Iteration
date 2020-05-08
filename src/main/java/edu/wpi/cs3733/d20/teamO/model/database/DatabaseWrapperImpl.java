@@ -120,13 +120,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + EmployeeProperty.NAME.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
+            + EmployeeProperty.PASSWORD.getColumnName() + " VARCHAR(999), "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
-      if (addEmployee("0", "", "", false) != 1) {
+      if (addEmployee("0", "", "", "", false) != 1) {
         log.error("Failed to add the null employee!");
       }
     }
@@ -296,7 +297,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   }
 
   @Override
-  public String addEmployee(String name, String type, boolean isAvailable) {
+  public String addEmployee(String name, String type, String password, boolean isAvailable) {
     val employees = exportEmployees().stream()
         .map(Employee::getEmployeeID)
         .map(Integer::parseInt)
@@ -311,12 +312,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
 
 
   @Override
-  public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
-    val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
+  public int addEmployee(String employeeID, String name, String type, String password,
+      boolean isAvailable) {
+    val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?, ?)";
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, employeeID);
       stmt.setString(2, name);
       stmt.setString(3, type);
+      stmt.setString(4, password);
       stmt.setBoolean(4, isAvailable);
       val employeesAffected = stmt.executeUpdate();
       log.info("Added employee with ID " + employeeID);
@@ -557,7 +560,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         employees.add(new Employee(rset.getString(1),
             rset.getString(2),
             rset.getString(3),
-            rset.getBoolean(4)));
+            rset.getString(4),
+            rset.getBoolean(5)));
       }
     } catch (SQLException e) {
       log.error("Failed to export employees", e);

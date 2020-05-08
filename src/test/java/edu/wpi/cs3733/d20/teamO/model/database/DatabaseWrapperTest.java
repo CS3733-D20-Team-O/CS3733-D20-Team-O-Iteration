@@ -64,10 +64,10 @@ public class DatabaseWrapperTest {
   };
 
   private final Employee[] testEmployees = {
-      new Employee("01", "Jeff", "Gift", false),
-      new Employee("02", "Jeff", "Gift", false),
-      new Employee("03", "Liz", "Interpreter", true),
-      new Employee("0", "", "", false),
+      new Employee("01", "Jeff", "Gift", "password", false),
+      new Employee("02", "Jeff", "Gift", "password", false),
+      new Employee("03", "Liz", "Interpreter", "password", true),
+      new Employee("0", "", "", "password", false),
   };
 
   private void checkResultEdges(Edge... expected) {
@@ -207,6 +207,8 @@ public class DatabaseWrapperTest {
     }
     for (Node n : testNodesAutoID) {
       assertTrue(idList.contains(n.getNodeID()));
+      System.out.println("=========================");
+      System.out.println(database.exportNodes().get(n.getNodeID()).getFloor());
     }
     assertEquals(8, database.exportNodes().size());
   }
@@ -365,14 +367,14 @@ public class DatabaseWrapperTest {
 
   @Test
   public void addMultipleEmployeesAutoIDTest() {
-    String id1 = database.addEmployee("Steve", "Admin", false);
-    String id2 = database.addEmployee("Larry", "Admin", true);
-    String id3 = database.addEmployee("Jane", "Gift", false);
-    String id4 = database.addEmployee("Marie", "Interpreter", true);
-    Employee E1 = new Employee(id1, "Steve", "Admin", false);
-    Employee E2 = new Employee(id2, "Larry", "Admin", true);
-    Employee E3 = new Employee(id3, "Jane", "Gift", false);
-    Employee E4 = new Employee(id4, "Marie", "Interpreter", true);
+    String id1 = database.addEmployee("Steve", "Admin", "password", false);
+    String id2 = database.addEmployee("Larry", "Admin", "password", true);
+    String id3 = database.addEmployee("Jane", "Gift", "password", false);
+    String id4 = database.addEmployee("Marie", "Interpreter", "password", true);
+    Employee E1 = new Employee(id1, "Steve", "Admin", "password", false);
+    Employee E2 = new Employee(id2, "Larry", "Admin", "password", true);
+    Employee E3 = new Employee(id3, "Jane", "Gift", "password", false);
+    Employee E4 = new Employee(id4, "Marie", "Interpreter", "password", true);
     Employee[] testEmployeesAutoID = {E1, E2, E3, E4, testEmployees[0], testEmployees[1],
         testEmployees[2], testEmployees[3]};
     LinkedList<String> idList = new LinkedList<String>();
@@ -404,7 +406,7 @@ public class DatabaseWrapperTest {
 
   @Test
   public void addManyAndUpdateEmployeeTest() {
-    Employee updatedEmployee = new Employee("01", "Jeff Sullivan", "Gift", false);
+    Employee updatedEmployee = new Employee("01", "Jeff Sullivan", "Gift", "password", false);
     database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, "01", EmployeeProperty.NAME,
         "Jeff Sullivan");
     checkResultEmployees(updatedEmployee, testEmployees[1], testEmployees[2], testEmployees[3]);

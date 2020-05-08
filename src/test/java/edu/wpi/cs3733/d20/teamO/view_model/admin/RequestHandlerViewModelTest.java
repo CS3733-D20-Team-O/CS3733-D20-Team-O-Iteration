@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import edu.wpi.cs3733.d20.teamO.Main;
+import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
@@ -29,7 +30,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 public class RequestHandlerViewModelTest extends FxRobot {
@@ -80,9 +80,9 @@ public class RequestHandlerViewModelTest extends FxRobot {
   public void start(Stage stage) throws IOException {
     bundle.put("Sample", "Sample"); // todo load the necessary strings
     initializeBundle();
-    Employee e1 = new Employee("1414", "name", "Wash", true);
-    Employee e2 = new Employee("855", "employee Name", "Wash", true);
-    Employee e3 = new Employee("", "", "", true);
+    Employee e1 = new Employee("1414", "name", "Wash", "password", true);
+    Employee e2 = new Employee("855", "employee Name", "Wash", "password", true);
+    Employee e3 = new Employee("", "", "", "password", true);
     Node n1 = new Node("RHVMNode", 1, 1, "1", "Main", "Test", "TestNode", "testnode");
     //can't add this service request for some reason
     List<Employee> list = Arrays.asList(e1, e2, e3);
