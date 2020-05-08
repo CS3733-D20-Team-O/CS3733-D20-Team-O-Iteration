@@ -8,6 +8,7 @@ import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
@@ -26,6 +27,7 @@ public class EmergencyReport extends ServiceRequestBase {
 
   private final DatabaseWrapper database;
   private final SnackBar snackBar;
+  private final LoginDetails loginDetails;
 
   @FXML
   private JFXTextField requesterName, floors, locations;
@@ -91,6 +93,8 @@ public class EmergencyReport extends ServiceRequestBase {
   public String checkName() {
     if (requesterName.getText().isEmpty()) {
       return "no name";
+    } else if (!loginDetails.getUsername().equals("")) {
+      return loginDetails.getUsername();
     }
     return requesterName.getText();
   }
