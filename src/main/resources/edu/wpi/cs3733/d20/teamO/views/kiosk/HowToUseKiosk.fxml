@@ -51,7 +51,12 @@
         text="About Miscellaneous Features" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
       </HBox>
 
-      <Label text="Administrators: You may login to access more information" />
+
+      <HBox alignment="CENTER_RIGHT" spacing="70">
+        <Label text="Administrators: You may login to access more information" />
+        <JFXButton buttonType="RAISED" onAction="#close" style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%aboutBack"/>
+      </HBox>
     </VBox>
   </StackPane>
 </AnchorPane>
