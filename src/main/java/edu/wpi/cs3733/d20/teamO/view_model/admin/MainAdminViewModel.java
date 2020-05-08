@@ -97,7 +97,7 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
     try {
       dialog.showFullscreenFXML("views/admin/HowToUseAdminKiosk.fxml");
     } catch (IOException e) {
-      log.error("Failed to open the import/export csv dialog", e);
+      log.error("Failed to open dialog", e);
     }
   }
 
