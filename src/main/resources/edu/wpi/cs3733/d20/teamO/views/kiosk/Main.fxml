@@ -68,7 +68,7 @@
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;"
     text="%about" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="16.0"/>
 
-  <!-- Credits Button -->
+  <!-- Software Used Button -->
   <JFXButton buttonType="RAISED" onAction="#openCredits"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;"
     text="%credits" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0"/>

@@ -131,7 +131,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   private void openCredits() {
     try {
-      dialog.showFullscreenFXML("views/kiosk/Credits.fxml");
+      dialog.showFullscreenFXML("views/kiosk/SoftwareUsed.fxml");
     } catch (IOException e) {
       log.error("Could not load the credits page", e);
     }

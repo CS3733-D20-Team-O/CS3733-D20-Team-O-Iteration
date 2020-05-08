@@ -72,6 +72,22 @@
       <Insets bottom="10.0"/>
     </VBox.margin>
   </Label>
-  <JFXButton buttonType="RAISED" onAction="#close" style="-fx-background-color: LIGHTGRAY;"
-    text="%aboutBack"/>
+  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+    <children>
+      <JFXButton buttonType="RAISED" onAction="#close" style="-fx-background-color: LIGHTGRAY;"
+        text="%aboutBack">
+        <HBox.margin>
+          <Insets right="50.0"/>
+        </HBox.margin>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" onAction="#openCredits"
+        style="-fx-background-color: LIGHTGRAY;" text="%aboutSoftwareUsed"/>
+    </children>
+    <opaqueInsets>
+      <Insets/>
+    </opaqueInsets>
+    <VBox.margin>
+      <Insets/>
+    </VBox.margin>
+  </HBox>
 </VBox>
