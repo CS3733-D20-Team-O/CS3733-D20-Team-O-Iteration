@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
+package edu.wpi.cs3733.d20.teamO.view_model;
 
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXTextArea;
@@ -11,6 +11,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.ServiceRequestBase;
 import java.time.LocalDateTime;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
@@ -21,7 +22,7 @@ import lombok.val;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class SecurityController extends ServiceRequestBase {
+public class EmergencyReport extends ServiceRequestBase {
 
   private final DatabaseWrapper database;
   private final SnackBar snackBar;

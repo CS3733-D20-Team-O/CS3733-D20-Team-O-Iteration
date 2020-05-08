@@ -5,10 +5,9 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.EmergencyButton"
-  prefHeight="400.0" prefWidth="600.0">
+  prefHeight="50" prefWidth="80.0">
   <!--  <StackPane AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="16"/>-->
   <JFXButton text="Emergency" buttonType="RAISED"
     style="-fx-background-color: darkred; -fx-font-size: 24px; -fx-text-fill: floralwhite"
-    onAction="#onEmergencyPressed" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="300"
-    AnchorPane.topAnchor="10">
+    onAction="#onEmergencyPressed"/>
 </AnchorPane>

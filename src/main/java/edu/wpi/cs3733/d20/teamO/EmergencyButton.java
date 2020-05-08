@@ -16,7 +16,7 @@ public class EmergencyButton {
   @FXML
   private void onEmergencyPressed() {
     try {
-      dialog.showFullscreenFXML("views/kiosk/service_requests/InterpreterService.fxml");
+      dialog.showFullscreenFXML("views/kiosk/service_requests/EmergencyReport.fxml");
     } catch (IOException e) {
       log.error("Failed to open", e);
     }

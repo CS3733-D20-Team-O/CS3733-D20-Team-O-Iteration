@@ -16,6 +16,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestDat
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.view_model.EmergencyReport;
 import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.util.HashMap;
@@ -35,9 +36,8 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 
-
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
-public class SecurityServiceTest extends FxRobot {
+public class EmergencyReportTest extends FxRobot {
 
   @Mock
   EventBus eventBus;
@@ -58,7 +58,7 @@ public class SecurityServiceTest extends FxRobot {
   private final ResourceBundleMock bundle = new ResourceBundleMock();
 
   @InjectMocks
-  SecurityService viewModel;
+  EmergencyReport viewModel;
 
   private void initializeBundle() {
     //General use Bundles
@@ -100,7 +100,7 @@ public class SecurityServiceTest extends FxRobot {
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
     stage.setScene(new Scene(loader.load(Main.class
-        .getResourceAsStream("views/kiosk/service_requests/SecurityService.fxml"))));
+        .getResourceAsStream("views/kiosk/service_requests/EmergencyReport.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }
