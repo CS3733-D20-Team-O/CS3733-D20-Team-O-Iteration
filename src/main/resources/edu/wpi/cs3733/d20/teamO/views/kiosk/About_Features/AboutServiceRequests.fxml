@@ -13,49 +13,34 @@
   <!-- Main Welcome Bar -->
   <StackPane fx:id="useServReq" prefHeight="64" style="-fx-background-color: #004c8c"
     AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite"
-      text="FAQ's: Requesting a Service"/>
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpSRTitle"/>
   </StackPane>
 
   <StackPane fx:id="container" alignment="CENTER_LEFT" AnchorPane.TopAnchor="65"
     AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
     <VBox alignment="CENTER_LEFT" prefHeight="400.0" prefWidth="600.0" spacing="10">
       <Label alignment="CENTER" style="-fx-font-size: 15; -fx-wrap-text: true"
-        text="To Request a Service at the Hospital follow these instructions:"/>
+        text="%helpSRDescription"/>
 
-      <Label
-        text="1. Click on the 'Request a Service' button located at the center of the Screen. This will open a dialog with icons."
-        wrapText="true"/>
-      <Label
-        text="2. The new page will show a multitude of icons each with their name labeled, select the service you'd like to request."
-        wrapText="true"/>
-      <Label
-        text="3. Each service requests requires you to input a name and a location for the service, with some asking for more specific time and dates as well."
-        wrapText="true"/>
-      <Label
-        text="4. Service Requests such as the Gift Delivery have an integrated sales system and require you to input your credit card information. Please note that this information is secure and will not be stored after input."
-        wrapText="true"/>
-      <Label
-        text="5. Upon filling out the required fields you can submit your request at the bottom of the the dialog box."
-        wrapText="true"/>
-      <Label
-        text="6. After a request is submitted the kiosk will display information related to it as well as a confirmation number."
-        wrapText="true"/>
-      <Label
-        text="7. In the home screen, you can input your Service Request confirmation number to check the status of your request."
-        wrapText="true"/>
+      <Label text="%helpSRStep1" wrapText="true"/>
+      <Label text="%helpSRStep2" wrapText="true"/>
+      <Label text="%helpSRStep3" wrapText="true"/>
+      <Label text="%helpSRStep4" wrapText="true"/>
+      <Label text="%helpSRStep5" wrapText="true"/>
+      <Label text="%helpSRStep6" wrapText="true"/>
+      <Label text="%helpSRStep7" wrapText="true"/>
 
       <HBox alignment="CENTER_RIGHT">
         <JFXButton buttonType="RAISED" onAction="#openServiceRequestSelect"
           style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
-          text="%mainReqService">
+          text="%helpSRServiceRequest">
           <HBox.margin>
             <Insets right="20.0"/>
           </HBox.margin>
         </JFXButton>
         <JFXButton buttonType="RAISED" onAction="#close"
           style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
-          text="%aboutBack"/>
+          text="%helpSRBack"/>
       </HBox>
     </VBox>
   </StackPane>

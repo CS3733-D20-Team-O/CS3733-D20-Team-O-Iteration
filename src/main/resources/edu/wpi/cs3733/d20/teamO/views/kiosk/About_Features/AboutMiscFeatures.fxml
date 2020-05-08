@@ -11,7 +11,7 @@
   <!-- Main Welcome Bar -->
   <StackPane fx:id="useMisc" prefHeight="64" style="-fx-background-color: #004c8c"
     AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="FAQ's: Other Features"/>
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpOtherTitle"/>
   </StackPane>
 
   <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="65"
@@ -19,21 +19,15 @@
     <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0">
 
       <Label alignment="CENTER" style="-fx-font-size: 15; -fx-wrap-text: true"
-        text="This Kiosk Application has multiple small features which can be used throughout the App."/>
-      <Label
-        text="At the Bottom-Left corner of the main screen you can elect to switch languages between English, Spanish, and Chinese throughout the app."
-        wrapText="true"/>
-      <Label
-        text="Throughout the app, many services and features will prompt for a location. The app uses a Fuzzy-Search style algorithm to predict your input to ease your search."
-        wrapText="true"/>
-      <Label
-        text="In the home screen you can access information about this kiosk as well as the project related to it in collaboration with WPI."
-        wrapText="true"/>
+        text="%helpOtherDescription"/>
+      <Label text="%helpOther1" wrapText="true"/>
+      <Label text="%helpOther2" wrapText="true"/>
+      <Label text="%helpOther3" wrapText="true"/>
 
       <HBox alignment="CENTER_RIGHT">
         <JFXButton buttonType="RAISED" onAction="#close"
           style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
-          text="%aboutBack"/>
+          text="%helpOtherBack"/>
       </HBox>
     </VBox>
   </StackPane>
