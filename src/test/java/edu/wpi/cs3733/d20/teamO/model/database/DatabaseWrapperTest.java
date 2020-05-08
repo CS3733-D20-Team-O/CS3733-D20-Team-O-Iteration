@@ -68,6 +68,8 @@ public class DatabaseWrapperTest {
       new Employee("02", "Jeff", "Gift", "password", false),
       new Employee("03", "Liz", "Interpreter", "password", true),
       new Employee("0", "", "", "", false),
+      new Employee("admin", "admin", "admin", "admin", false),
+      new Employee("staff", "staff", "staff", "staff", false),
   };
 
   private void checkResultEdges(Edge... expected) {
@@ -376,7 +378,7 @@ public class DatabaseWrapperTest {
     Employee E3 = new Employee(id3, "Jane", "Gift", "password", false);
     Employee E4 = new Employee(id4, "Marie", "Interpreter", "password", true);
     Employee[] testEmployeesAutoID = {E1, E2, E3, E4, testEmployees[0], testEmployees[1],
-        testEmployees[2], testEmployees[3]};
+        testEmployees[2], testEmployees[3], testEmployees[4], testEmployees[5]};
     LinkedList<String> idList = new LinkedList<String>();
     for (Employee e : database.exportEmployees()) {
       idList.add(e.getEmployeeID());
@@ -384,7 +386,7 @@ public class DatabaseWrapperTest {
     for (Employee e : testEmployeesAutoID) {
       assertTrue(idList.contains(e.getEmployeeID()));
     }
-    assertEquals(8, database.exportEmployees().size());
+    assertEquals(10, database.exportEmployees().size());
   }
 
   @Test
@@ -395,7 +397,8 @@ public class DatabaseWrapperTest {
   @Test
   public void addAndDeleteEmployeesTest() {
     database.deleteFromTable(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, "02");
-    checkResultEmployees(testEmployees[0], testEmployees[2], testEmployees[3]);
+    checkResultEmployees(testEmployees[0], testEmployees[2], testEmployees[3], testEmployees[4],
+        testEmployees[5]);
   }
 
   @Test
@@ -409,7 +412,8 @@ public class DatabaseWrapperTest {
     Employee updatedEmployee = new Employee("01", "Jeff Sullivan", "Gift", "password", false);
     database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, "01", EmployeeProperty.NAME,
         "Jeff Sullivan");
-    checkResultEmployees(testEmployees[3], updatedEmployee, testEmployees[1], testEmployees[2]);
+    checkResultEmployees(testEmployees[3], updatedEmployee, testEmployees[1], testEmployees[2],
+        testEmployees[4], testEmployees[5]);
   }
 
   @Test
@@ -423,7 +427,7 @@ public class DatabaseWrapperTest {
   public void exportEmptyEmployeeTest() {
     database.deleteFromTable(Table.EMPLOYEE_TABLE, EmployeeProperty.TYPE, "Gift");
     database.deleteFromTable(Table.EMPLOYEE_TABLE, EmployeeProperty.TYPE, "Interpreter");
-    assertEquals(1, database.exportEmployees().size());
+    assertEquals(3, database.exportEmployees().size());
   }
 
   //ALL THE SERVICE REQUEST TESTS

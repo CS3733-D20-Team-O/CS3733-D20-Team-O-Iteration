@@ -130,6 +130,12 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       if (addEmployee("0", "", "", "", false) != 1) {
         log.error("Failed to add the null employee!");
       }
+      if (addEmployee("admin", "admin", "admin", "admin", false) != 1) {
+        log.error("Failed to add the admin employee!");
+      }
+      if (addEmployee("staff", "staff", "staff", "staff", false) != 1) {
+        log.error("Failed to add the staff employee!");
+      }
     }
 
     // Initialize the service requests table if not initialized
@@ -298,16 +304,17 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
 
   @Override
   public String addEmployee(String name, String type, String password, boolean isAvailable) {
-    val employees = exportEmployees().stream()
-        .map(Employee::getEmployeeID)
-        .map(Integer::parseInt)
-        .collect(Collectors.toSet());
-    for (int i = 1; true; ++i) {
-      if (!employees.contains(i)) {
-        addEmployee(Integer.toString(i), name, type, password, isAvailable);
-        return Integer.toString(i);
-      }
+    val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    val length = 8;
+    val randomID = new StringBuilder(length);
+    val rand = new Random();
+    for (int i = 0; i < length; ++i) {
+      val index = rand.nextInt(chars.length());
+      randomID.append(chars.charAt(index));
     }
+    val id = randomID.toString();
+    addEmployee(id, name, type, password, isAvailable);
+    return id;
   }
 
 
@@ -392,6 +399,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       log.debug("Result of deletion was " + affected);
       //for()
       addEmployee("0", "", "", "", false); // add null back if removed
+      addEmployee("admin", "admin", "admin", "admin", false); //add admin back if removed
+      addEmployee("staff", "staff", "staff", "staff", false);
       return affected;
     } catch (SQLException e) {
       val error = "Failed to delete record(s) from " + table.getTableName() +
