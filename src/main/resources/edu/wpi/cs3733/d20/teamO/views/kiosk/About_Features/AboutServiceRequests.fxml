@@ -2,8 +2,8 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import com.jfoenix.controls.JFXButton?>
+
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.About_Features.AboutServiceRequests" prefHeight="400.0" prefWidth="600.0">
 
   <!-- Main Welcome Bar -->
@@ -15,7 +15,7 @@
     <VBox spacing="10" prefHeight="400.0" prefWidth="600.0" alignment="CENTER">
       <Label text="To Request a Service at the Hospital follow these instructions:" style="-fx-font-size: 15; -fx-wrap-text: true" alignment="CENTER"/>
 
-      <Label text="1. Click on the 'Request a Service' button located at the center of the Screen. This will open a small dialog with icons." />
+      <Label text="1. Click on the 'Request a Service' button located at the center of the Screen. This will open a dialog with icons." wrapText="true"/>
       <Label text="2. The new page will show a multitude of icons each with their name labeled, select the service you'd like to request" wrapText="true"/>
       <Label text="3. Each service requests requires you to input a name and a location for the service, with some asking for more specific time and dates as well." wrapText="true"/>
       <Label text="4. Service Requests such as the Gift Delivery have an integrated sales system and require you to input your credit card information. Please note that this information is secure and will not be stored after input." wrapText="true"/>
