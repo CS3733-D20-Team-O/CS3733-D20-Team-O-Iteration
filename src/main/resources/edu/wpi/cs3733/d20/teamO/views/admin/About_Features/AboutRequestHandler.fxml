@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
 
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.About_Features.AboutRequestHandler" prefHeight="400.0" prefWidth="600.0">
+  <!-- Main Welcome Bar -->
+  <StackPane fx:id="useRequestHandler" prefHeight="64" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="Using the Request Handler" />
+  </StackPane>
 
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="65" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5">
+    <VBox spacing="20" prefHeight="400.0" prefWidth="600.0" alignment="CENTER">
+
+      <Label text="Sample Text" wrapText="true"/>
+      <Label text="Sample Text" wrapText="true"/>
+
+      <HBox alignment="CENTER_RIGHT" AnchorPane.rightAnchor="5">
+        <JFXButton buttonType="RAISED" onAction="#openRequestHandler"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%accessServiceRequestHandler"/>
+        <JFXButton buttonType="RAISED" onAction="#close" style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%aboutBack"/>
+      </HBox>
+    </VBox>
+  </StackPane>
 </AnchorPane>
