@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.About_Features.AboutServiceRequests" prefHeight="400.0" prefWidth="600.0">
-  <StackPane>
-    <VBox>
-      <Label text=""/>
+
+  <!-- Main Welcome Bar -->
+  <StackPane fx:id="useServReq" prefHeight="64" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="FAQ's: Requesting a Service" />
+  </StackPane>
+
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="65" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5">
+    <VBox spacing="10" prefHeight="400.0" prefWidth="600.0" alignment="CENTER">
+      <Label text="To Request a Service at the Hospital follow these instructions:" style="-fx-font-size: 15; -fx-wrap-text: true" alignment="CENTER"/>
+
+      <Label text="1. Click on the 'Request a Service' button located at the center of the Screen. This will open a small dialog with icons." />
+      <Label text="2. The new page will show a multitude of icons each with their name labeled, select the service you'd like to request" wrapText="true"/>
+      <Label text="3. Each service requests requires you to input a name and a location for the service, with some asking for more specific time and dates as well." wrapText="true"/>
+      <Label text="4. Service Requests such as the Gift Delivery have an integrated sales system and require you to input your credit card information. Please note that this information is secure and will not be stored after input." wrapText="true"/>
+      <Label text="5. Upon filling out thr requiered fields you can submit your request at the bottom of the the dialog box." wrapText="true"/>
+      <Label text="6. After a request is submitted the kiosk will display information related to it as well as a confirmation number" wrapText="true"/>
+      <Label text="7. In the home screen, you can input your Service Request confirmation number to check the status of your request" wrapText="true"/>
+
+    <HBox alignment="CENTER_RIGHT">
+      <JFXButton buttonType="RAISED" onAction="#openServiceRequestSelect"
+        style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+        text="%mainReqService"/>
+      <JFXButton buttonType="RAISED" onAction="#close" style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+        text="%aboutBack"/>
+    </HBox>
     </VBox>
   </StackPane>
 </AnchorPane>
