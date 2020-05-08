@@ -22,7 +22,7 @@ public class ServiceSelector extends DialogViewModel {
   private final Dialog dialog;
 
   @FXML
-  private StackPane ServiceSelectorTitle, container;
+  private StackPane container;
   @FXML
   private VBox contentContainer;
 
@@ -30,7 +30,6 @@ public class ServiceSelector extends DialogViewModel {
   protected void start(URL location, ResourceBundle resources) {
 
     // Set UI properties not set in FXML
-    JFXDepthManager.setDepth(ServiceSelectorTitle, 2);
     JFXDepthManager.setDepth(container, 2);
     JFXDepthManager.setDepth(contentContainer, 3);
 
@@ -136,4 +135,10 @@ public class ServiceSelector extends DialogViewModel {
       log.error("Failed to open API", e);
     }
   }
+
+  @FXML
+  private void ServiceSelectorTitle() {}
+
+  @FXML
+  private void External() {}
 }
