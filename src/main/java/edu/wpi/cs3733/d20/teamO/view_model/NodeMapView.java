@@ -127,7 +127,7 @@ public class NodeMapView extends ViewModelBase {
   @FXML
   private StackPane floorPane;
   @FXML
-  private AnchorPane nodeGroup, edgeGroup, dragLayer, colorLayer, textLayer;
+  private AnchorPane nodeGroup, edgeGroup, colorLayer, textLayer;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -136,6 +136,7 @@ public class NodeMapView extends ViewModelBase {
     nodeGroup.setPickOnBounds(false);
     edgeGroup.setPickOnBounds(false);
     textLayer.setPickOnBounds(false);
+    backgroundImage.setPickOnBounds(false);
 
     // Set default values
     backgroundImage.setImage(new Image("floors/Faulkner_1.png"));
@@ -151,7 +152,7 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the the background is clicked
-    dragLayer.setOnMousePressed(event -> {
+    floorPane.setOnMousePressed(event -> {
       if (event.getButton().equals(MouseButton.PRIMARY)) { // Used for dragging
         System.out.println("NodeGroup Left Press");
         dragX = floorPane.getTranslateX() - event.getSceneX();
@@ -166,9 +167,13 @@ public class NodeMapView extends ViewModelBase {
     });
 
     // Set up event for when the background is dragged
-    dragLayer.setOnMouseDragged(event -> {
+    floorPane.setOnMouseDragged(event -> {
       if (event.getButton().equals(MouseButton.PRIMARY)) {
+        System.out.println(floorPane.getTranslateX());
+        System.out.println(floorPane.getTranslateY());
         System.out.println("NodeGroup Left Drag");
+        System.out.println(
+            "X: [" + floorPane.getTranslateX() + "] Y: [" + floorPane.getTranslateY() + "]");
         if (checkXWithinBounds(event.getSceneX())) {
           floorPane.setTranslateX(event.getSceneX() + dragX);
         }
@@ -202,10 +207,18 @@ public class NodeMapView extends ViewModelBase {
    * @return if within bounds, return true, else return false
    */
   private boolean checkXWithinBounds(double X) {
-    if (X + dragX > backgroundImage.getFitWidth() / 2) {
+    val x = dragX + X;
+    System.out.println("X: [" + x + "]");
+    System.out.println("Half Width: [" + backgroundImage.getFitWidth() / 2 + "]");
+    System.out.println((this.currentZoom - 1.0) * (backgroundImage.getFitWidth() / 2));
+
+    // Uses the current location and zoom to check if the area is within bounds
+    if (X + dragX - ((this.currentZoom - 1.0) * (backgroundImage.getFitWidth() / 2)) >
+        (backgroundImage.getFitWidth() / 2)) {
       return false;
     } else {
-      return !(X + dragX < 0 - (backgroundImage.getFitWidth() / 2));
+      return !(X + dragX + ((this.currentZoom - 1.0) * (backgroundImage.getFitWidth() / 2)) <
+          0 - (backgroundImage.getFitWidth() / 2));
     }
   }
 
@@ -216,10 +229,12 @@ public class NodeMapView extends ViewModelBase {
    * @return if within bounds, return true, else return false
    */
   private boolean checkYWithinBounds(double Y) {
-    if (dragY + Y > backgroundImage.getFitHeight() / 2) {
+    if (dragY + Y - ((this.currentZoom - 1.0) * (backgroundImage.getFitHeight() / 2)) >
+        backgroundImage.getFitHeight() / 2) {
       return false;
     } else {
-      return !(dragY + Y < 0 - (backgroundImage.getFitHeight() / 2));
+      return !(dragY + Y + ((this.currentZoom - 1.0) * (backgroundImage.getFitHeight() / 2)) <
+          0 - (backgroundImage.getFitHeight() / 2));
     }
   }
 
@@ -312,7 +327,7 @@ public class NodeMapView extends ViewModelBase {
       }
     });
     nodeGroup.getChildren().add(drawnNode);
-    addText(node.getXCoord(), node.getYCoord(), "Test");
+    //addText(node.getXCoord(), node.getYCoord(), "Test");
   }
 
   /**
@@ -321,8 +336,8 @@ public class NodeMapView extends ViewModelBase {
    * @param node a node
    */
   public void addNode(Node node) {
-    placeFloorNode(node.getNodeID(), node); // todo fix
-    if (node.getFloor().replaceAll("0", "").equals(this.floor) && node.getBuilding().equals(this.building)) {
+    placeFloorNode(node.getNodeID(), node);
+    if (node.getFloor().equals(this.floor) && node.getBuilding().equals(this.building)) {
       drawNode(node);
     }
   }
@@ -335,8 +350,8 @@ public class NodeMapView extends ViewModelBase {
   public void deleteNode(Node node) {
     if (this.nodeMap.containsKey(buildingFloorID(node))) {
       nodeMap.get(buildingFloorID(node)).remove(node.getNodeID());
-      // todo fix
-      if (node.getFloor().replaceAll("0", "").equals(this.floor) && node.getBuilding().equals(this.building)) {
+
+      if (node.getFloor().equals(this.floor) && node.getBuilding().equals(this.building)) {
         val target = findNode(node);
         if (target
             != null) { // This is essentially making sure if the node just disappeared for no good reason (should we keep this?)
@@ -432,9 +447,9 @@ public class NodeMapView extends ViewModelBase {
    */
   public void drawEdge(Node n1, Node n2) {
     // Only draw this edge if both nodes are on this floor
-    if (n1.getFloor().replaceAll("0", "").equals(this.floor) && // todo fix later
+    if (n1.getFloor().equals(this.floor) &&
         n1.getBuilding().equals(this.building) &&
-        n2.getFloor().replaceAll("0", "").equals(this.floor) &&
+        n2.getFloor().equals(this.floor) &&
         n2.getBuilding().equals(this.building)) {
       if (findLine(n1.getNodeID(), n2.getNodeID()) == null) { // todo fix this later
         val x1 = translateToPaneX(n2.getXCoord());
@@ -498,9 +513,8 @@ public class NodeMapView extends ViewModelBase {
    */
   public void relocateEdge(Node n1, Node n2) {
     val floor = nodeMap.get(buildingFloorID(n1));
-    // todo fix
-    if (floor != null && n1.getFloor().replaceAll("0", "").equals(n2.getFloor().replaceAll("0", "")) && n1.getBuilding()
-        .equals(n2.getBuilding())) {
+    if (floor != null && n1.getFloor().equals(n2.getFloor()) &&
+        n1.getBuilding().equals(n2.getBuilding())) {
       val nodeLine = findLine(n1.getNodeID(), n2.getNodeID());
       if (nodeLine != null) {
         nodeLine.setStartX(translateToPaneX(n1.getXCoord()));
@@ -593,7 +607,6 @@ public class NodeMapView extends ViewModelBase {
    * @param yTarget the given yTarget
 
   public void drawEdge(Node origin, int xTarget, int yTarget) {
-    // todo check the logic with this
     // Only draw this edge if the node is on this floor
     if (origin.getFloor() == getFloor()) {
       val x = translateToPaneX(origin.getXCoord());
@@ -754,13 +767,18 @@ public class NodeMapView extends ViewModelBase {
       backgroundImage.setImage(new Image("floors/" +
           building.replaceAll("\\s+", "") + "_" +
           floor.replaceAll("\\s+", "") + ".png"));
+
       this.floor = floor;
       this.building = building;
 
-      colorLayer.setMaxWidth(backgroundImage.getFitWidth() - 12);
-      colorLayer.setMaxHeight(backgroundImage.getFitHeight() - 8);
-      setNodeSize((2476/backgroundImage.getImage().getWidth()) * 5); // todo figure out a better way of doing this
-      setEdgeSize((2476/backgroundImage.getImage().getWidth()) * 3); // todo figure out a better way of doing this
+      clearText();
+      alignMap((int) backgroundImage.getImage().getWidth() / 2,
+          (int) backgroundImage.getImage().getHeight() / 2);
+
+      colorLayer.setMaxWidth(backgroundImage.getBoundsInLocal().getWidth() - 12);
+      colorLayer.setMaxHeight(backgroundImage.getBoundsInLocal().getHeight() - 8);
+      //setNodeSize((2476/backgroundImage.getImage().getWidth()) * 5); // todo figure out a better way of doing this
+      //setEdgeSize((2476/backgroundImage.getImage().getWidth()) * 3); // todo figure out a better way of doing this
       draw();
     } catch (Exception e) {
       log.error("The floor map associated with that floor doesn't exist!");
@@ -770,6 +788,15 @@ public class NodeMapView extends ViewModelBase {
   // I'm not sure where this is being used?
   public String getFloor() {
     return this.floor;
+  }
+
+  public void alignMap(int x, int y) {
+    floorPane
+        .setTranslateX(translateToPaneX(x) - (backgroundImage.getBoundsInLocal().getWidth() / 2));
+    floorPane
+        .setTranslateY(translateToPaneY(y) - (backgroundImage.getBoundsInLocal().getHeight() / 2));
+    System.out.println(floorPane.getTranslateX());
+    System.out.println(floorPane.getTranslateY());
   }
 
   /**
@@ -898,8 +925,7 @@ public class NodeMapView extends ViewModelBase {
    * @return a string
    */
   private String buildingFloorID(Node node) {
-    // todo a really janky fix (also you no longer can have floor's with 0 in them, lmao)
-    return node.getBuilding() + "_" + node.getFloor().replaceAll("0", "");
+    return node.getBuilding() + "_" + node.getFloor();
   }
 
   /**
