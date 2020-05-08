@@ -16,7 +16,7 @@
   <!--  Main Container-->
   <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="60" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
     <VBox alignment="CENTER" spacing="35" AnchorPane.TopAnchor="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-      <Label text="Here are some features users commonly have questions about!" style="-fx-font-size: 20" />
+      <Label text="Here are some features users commonly have questions about!" style="-fx-font-size: 20" wrapText="true" />
 
       <!--Button for how Find path works, will include screnshots-->
       <HBox fx:id="pathContainer" alignment="CENTER_LEFT" spacing="8"
@@ -51,7 +51,7 @@
         text="About Miscellaneous Features" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
       </HBox>
 
-      <Label text="For administrators and hospital workers, you may log in with the right credentials to acces more information" />
+      <Label text="Administrators: You may login to access more information" />
     </VBox>
   </StackPane>
 </AnchorPane>
