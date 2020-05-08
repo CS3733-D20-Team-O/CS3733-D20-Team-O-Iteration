@@ -36,7 +36,7 @@
     <Spinner fx:id="timeOutTime">
     </Spinner>
   </HBox>
-  <HBox alignment="CENTER_RIGHT">
+  <HBox alignment="CENTER_RIGHT" spacing="140">
     <ImageView fx:id="FAQ" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openHowToUseAdminKiosk" pickOnBounds="true" preserveRatio="true">
       <Image url="@/questionmark.png" />
     </ImageView>
