@@ -12,8 +12,11 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
+import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.ServiceRequestBase;
+import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -30,16 +33,27 @@ public class EmergencyReport extends ServiceRequestBase {
   private final LoginDetails loginDetails;
 
   @FXML
-  private JFXTextField requesterName, floors, locations;
+  private NodeSelector nodeSelector;
+  @FXML
+  private JFXTextField requesterName;
   @FXML
   private ToggleGroup levelSelection;
   @FXML
   private JFXTextArea additionalNotes;
 
+  @Override
+  protected void start(URL location, ResourceBundle resources) {
+    nodeSelector.setNodes(database.exportNodes().values());
+  }
+
   @FXML
   public void submitRequest() {
     //Generates a request, and immediately assigns an employee to it.
-    val assignedEmployee = getEmployee();
+    database.addEmployee("1001", "Serviceemployee", "Security", true);
+    database.addEmployee("1002", "Serviceemployee2", "Security", true);
+    database.addEmployee("1003", "Serviceemployee3", "Security", true);
+    database.addEmployee("1004", "Serviceemployee4", "Security", true);
+
     val securityRequest = new SecurityRequestData(checkBox(), checkNotes());
     val confirmationCode = database
         .addServiceRequest(LocalDateTime.now().toString(), checkLocation(), "Security", checkName(),
@@ -55,22 +69,26 @@ public class EmergencyReport extends ServiceRequestBase {
 
   private void assignEmployee(String confirmationCode) {
     val currentRequest = database.exportServiceRequests();
-    Employee employee = new Employee("", "", "Security", true);
+    Employee employee = null;
 
     for (Employee employeeToAssign : database.exportEmployees()) {
       if (employeeToAssign.getIsAvailable() && employeeToAssign.getType().equals("Security")) {
         employee = employeeToAssign;
+        System.out.println("sets employee to employeeToAssign");
       }
     }
 
     for (ServiceRequest currentReq : database.exportServiceRequests()) {
       if (database.exportServiceRequests().contains(confirmationCode)) {
+        System.out.print("updates the current request with the employee.");
         database.update(
             Table.SERVICE_REQUESTS_TABLE,
             ServiceRequestProperty.REQUEST_ID,
             currentReq.getRequestID(),
             ServiceRequestProperty.EMPLOYEE_ASSIGNED,
             employee.getEmployeeID());
+        database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID,
+            employee.getEmployeeID(), EmployeeProperty.IS_AVAILABLE, "false");
       }
     }
 
@@ -82,8 +100,7 @@ public class EmergencyReport extends ServiceRequestBase {
     // find the first employee that is "Security" && isAvailable
     for (val assignEmployee : database.exportEmployees()) {
       if (assignEmployee.getType().equals("Security") && assignEmployee.getIsAvailable()) {
-        database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID,
-            assignEmployee.getEmployeeID(), EmployeeProperty.IS_AVAILABLE, "false");
+
         return assignEmployee.getName();
       }
     }
@@ -99,11 +116,12 @@ public class EmergencyReport extends ServiceRequestBase {
     return requesterName.getText();
   }
 
+  @FXML
   public String checkLocation() {
-    if (locations.getText().equals("")) {
-      //return SecurityServiceRequestViewModel.placementNode;
+    if (nodeSelector.getSelectedNode() == null) {
+      return "Unknown Location";
     }
-    return locations.getText();
+    return nodeSelector.getSelectedNode().getLongName();
   }
 
   public String checkBox() {

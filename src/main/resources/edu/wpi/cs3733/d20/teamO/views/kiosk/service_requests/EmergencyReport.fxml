@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
@@ -72,7 +73,7 @@
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@/location-icon.png"/>
     </ImageView>
-    <JFXTextField fx:id="locations" promptText="Location" style="-fx-background-color: WHITE;"/>
+    <NodeSelector fx:id="nodeSelector" promptText="Location" style="-fx-background-color: WHITE;"/>
   </HBox>
 
   <HBox alignment="CENTER" spacing="20">
