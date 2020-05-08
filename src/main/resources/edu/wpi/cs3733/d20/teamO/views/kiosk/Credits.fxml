@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox alignment="CENTER" spacing="0" style="-fx-padding: 32; -fx-font-size: 16;"
+<VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 32; -fx-font-size: 16;"
   xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.CreditsViewModel">
-  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-padding: 0;">
-    <Label contentDisplay="CENTER" style="-fx-font-size: 32" text="WHOA!" textAlignment="CENTER">
-      <padding>
-        <Insets left="20.0" right="20.0"/>
-      </padding>
-    </Label>
+  <HBox alignment="CENTER" style="-fx-padding: 0;">
+    <Label contentDisplay="CENTER" style="-fx-font-size: 32" text="%creditsTitle"
+      textAlignment="CENTER"/>
   </HBox>
-  <Label text="YANKEE WITH NO BRIM"/>
+  <VBox>
+    <Label text="%creditsExternalAPIs"/>
+    <Label text=" - EventBus v3.2.0 (GitHub: greenrobot)"/>
+    <Label layoutX="10.0" layoutY="35.0" text=" - Guice v4.2.3 (Google LLC)"/>
+    <Label text=" - JavaWuzzy v1.1.6 (GitHub: xdrop)"/>
+    <Label text=" - QRGen v2.6.0 (GitHub: kenglxn)"/>
+    <Label text=" - JFoenix v9.0.9 (GitHub: jfoenixadmin)"/>
+    <Label text=" - Apache Derby v10.14.2.0 (Apache Software Foundation)"/>
+    <Label text=" - Simple Logging Facade for Java v1.7.30 (Ceki Gülcü)"/>
+    <Label text=" - Java Code Coverage Library v0.8.5 (EclEmma)"/>
+    <Label text=" - Project Lombok v5.0.0-rc6 (The Project Lombok Authors)"/>
+    <Label text=" - JavaFX (Sun Microsystems/Oracle Corporation)"/>
+  </VBox>
+  <VBox prefHeight="200.0" prefWidth="100.0">
+    <Label text="%creditsInternalAPIs"/>
+    <Label text=" - Team R: Appointment Request, v4.2.0"/>
+  </VBox>
   <JFXButton buttonType="RAISED" onAction="#close" style="-fx-background-color: LIGHTGRAY;"
-    text="click here to die instantly lmao"/>
+    text="%creditsBack"/>
 </VBox>

@@ -158,7 +158,8 @@ public class AVServiceTest extends FxRobot {
     clickOn("Floor");
     clickOn("1");
     clickOn("Room/Location on Floor");
-    clickOn("Floor 1");
+    write("(2)");
+    clickOn("(2) Test Lab2");
     clickOn("Select a service");
     clickOn("Music");
     clickOn("Time for Request");
