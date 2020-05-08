@@ -59,9 +59,9 @@ class HowToUseKioskTest extends FxRobot {
   @Test
   public void testClick() throws IOException {
     //Tests Opening Dialogs
-    clickOn("#openFindPathInfo");
-    clickOn("#openServiceRequestInfo");
-    clickOn("#openLanguageAndMiscInfo");
+    clickOn("About Path Finding");
+    clickOn("About Service Requests");
+    clickOn("About Miscellaneous Features");
     verify(dialog, times(3)).showFullscreenFXML(any());
   }
 }

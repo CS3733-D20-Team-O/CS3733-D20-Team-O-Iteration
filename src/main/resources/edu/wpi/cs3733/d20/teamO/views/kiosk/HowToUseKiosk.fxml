@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.Image?>
@@ -12,14 +9,14 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.HowToUseKiosk">
 
   <!-- Main Welcome Bar -->
-  <StackPane fx:id="UseThisApp" prefHeight="64" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="About This App's Components" />
+  <StackPane fx:id="UseThisApp" prefHeight="64" style="-fx-background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Brigham_and_Womens_Hospital_logo.svg/1200px-Brigham_and_Womens_Hospital_logo.svg.png'); -fx-background-position: center; -fx-background-repeat: no-repeat" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="FAQ's" />
   </StackPane>
 
   <!--  Main Container-->
   <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="60" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
     <VBox alignment="CENTER" spacing="35" AnchorPane.TopAnchor="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-      <Label text="Which Feature do you have questions about? Click on one to find out more about how it works" />
+      <Label text="Here are some features users commonly have questions about!" style="-fx-font-size: 20" />
 
       <!--Button for how Find path works, will include screnshots-->
       <HBox fx:id="pathContainer" alignment="CENTER_LEFT" spacing="8"
@@ -29,7 +26,7 @@
       </ImageView>
         <JFXButton buttonType="RAISED" onAction="#openFindPathInfo"
           style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
-          text="How do I use Path Finding?" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+          text="About Path Finding" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
       </HBox>
 
       <!--Button for how Service Requests works, will include screnshots-->
@@ -40,7 +37,7 @@
       </ImageView>
       <JFXButton buttonType="RAISED" onAction="#openServiceRequestInfo"
         style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
-        text="How do I make a Service Request, and how do I check their status?" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+        text="About Service Requests" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
       </HBox>
 
       <!--Button for how Language switching and other buttons work works, will include screnshots-->
@@ -51,7 +48,7 @@
       </ImageView>
       <JFXButton buttonType="RAISED" onAction="#openLanguageAndMiscInfo"
         style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
-        text="How can I change language and find out more about this project?" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+        text="About Miscellaneous Features" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
       </HBox>
 
       <Label text="For administrators and hospital workers, you may log in with the right credentials to acces more information" />
