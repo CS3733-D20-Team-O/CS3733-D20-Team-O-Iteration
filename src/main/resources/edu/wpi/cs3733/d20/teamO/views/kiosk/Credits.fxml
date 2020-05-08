@@ -14,7 +14,7 @@
   <VBox>
     <Label text="%creditsExternalAPIs"/>
     <Label text=" - EventBus v3.2.0 (GitHub: greenrobot)"/>
-    <Label layoutX="10.0" layoutY="35.0" text=" - Guice v4.2.3 (Google LLC)"/>
+    <Label text=" - Guice v4.2.3 (Google LLC)"/>
     <Label text=" - JavaWuzzy v1.1.6 (GitHub: xdrop)"/>
     <Label text=" - QRGen v2.6.0 (GitHub: kenglxn)"/>
     <Label text=" - JFoenix v9.0.9 (GitHub: jfoenixadmin)"/>
