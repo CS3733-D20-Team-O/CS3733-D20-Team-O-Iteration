@@ -43,9 +43,9 @@ public class DatabaseWrapperTest {
     database.addEdge("01", "OELEV00101", "OELEV00201");
     database.addEdge("02", "OELEV00101", "OELEV00301");
     database.addEdge("03", "OELEV00201", "OELEV00301");
-    database.addEmployee("01", "Jeff", "Gift", false);
-    database.addEmployee("02", "Jeff", "Gift", false);
-    database.addEmployee("03", "Liz", "Interpreter", true);
+    database.addEmployee("01", "Jeff", "Gift", "password", false);
+    database.addEmployee("02", "Jeff", "Gift", "password", false);
+    database.addEmployee("03", "Liz", "Interpreter", "password", true);
   }
 
   private final Node[] testNodes = {
@@ -67,7 +67,7 @@ public class DatabaseWrapperTest {
       new Employee("01", "Jeff", "Gift", "password", false),
       new Employee("02", "Jeff", "Gift", "password", false),
       new Employee("03", "Liz", "Interpreter", "password", true),
-      new Employee("0", "", "", "password", false),
+      new Employee("0", "", "", "", false),
   };
 
   private void checkResultEdges(Edge... expected) {
@@ -361,7 +361,7 @@ public class DatabaseWrapperTest {
   //ALL THE EMPLOYEE TESTS
   @Test
   public void addSameEmployeeTest() {
-    database.addEmployee("01", "Jeff", "Gift", false);
+    database.addEmployee("01", "Jeff", "Gift", "password", false);
     checkResultEmployees(testEmployees);
   }
 
@@ -409,7 +409,7 @@ public class DatabaseWrapperTest {
     Employee updatedEmployee = new Employee("01", "Jeff Sullivan", "Gift", "password", false);
     database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, "01", EmployeeProperty.NAME,
         "Jeff Sullivan");
-    checkResultEmployees(updatedEmployee, testEmployees[1], testEmployees[2], testEmployees[3]);
+    checkResultEmployees(testEmployees[3], updatedEmployee, testEmployees[1], testEmployees[2]);
   }
 
   @Test
@@ -705,23 +705,26 @@ public class DatabaseWrapperTest {
 
   //TESTS FOR EMPLOYEE NAME TO ID METHOD
   @Test
+  @Deprecated
   public void convertEmployeeIDtoNameTest() {
-    database.addEmployee("0123", "Fred", "Gift", true);
+    database.addEmployee("0123", "Fred", "Gift", "password", true);
     assertEquals("Fred", database.employeeNameFromID("0123"));
   }
 
   @Test
+  @Deprecated
   public void chooseCorrectEmployeeIDtoNameTest() {
-    database.addEmployee("0123", "Fred", "Gift", true);
-    database.addEmployee("345", "Maria", "Gift", false);
-    database.addEmployee("4598", "Paul", "Interpreter", true);
+    database.addEmployee("0123", "Fred", "Gift", "password", true);
+    database.addEmployee("345", "Maria", "Gift", "password", false);
+    database.addEmployee("4598", "Paul", "Interpreter", "password", true);
     assertEquals("Maria", database.employeeNameFromID("345"));
   }
 
   @Test
+  @Deprecated
   public void invalidEmployeeIDtoNameTest() {
-    database.addEmployee("0123", "Fred", "Gift", true);
-    database.addEmployee("345", "Maria", "Gift", false);
+    database.addEmployee("0123", "Fred", "Gift", "password", true);
+    database.addEmployee("345", "Maria", "Gift", "password", false);
     assertEquals("Failed to find name", database.employeeNameFromID("12345"));
   }
 

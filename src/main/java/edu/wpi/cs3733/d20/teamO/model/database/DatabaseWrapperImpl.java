@@ -119,8 +119,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.NAME.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(999), "
-            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
             + EmployeeProperty.PASSWORD.getColumnName() + " VARCHAR(999), "
+            + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
         log.info("Table " + Table.EMPLOYEE_TABLE + " created");
@@ -304,7 +304,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         .collect(Collectors.toSet());
     for (int i = 1; true; ++i) {
       if (!employees.contains(i)) {
-        addEmployee(Integer.toString(i), name, type, isAvailable);
+        addEmployee(Integer.toString(i), name, type, password, isAvailable);
         return Integer.toString(i);
       }
     }
@@ -320,7 +320,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(2, name);
       stmt.setString(3, type);
       stmt.setString(4, password);
-      stmt.setBoolean(4, isAvailable);
+      stmt.setBoolean(5, isAvailable);
       val employeesAffected = stmt.executeUpdate();
       log.info("Added employee with ID " + employeeID);
       log.debug("Result of add employee was " + employeesAffected);
@@ -390,7 +390,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       val affected = stmt.executeUpdate();
       log.info("Deleted " + affected + " record(s) from " + table.getTableName());
       log.debug("Result of deletion was " + affected);
-      addEmployee("0", "", "", false); // add null back if removed
+      //for()
+      addEmployee("0", "", "", "", false); // add null back if removed
       return affected;
     } catch (SQLException e) {
       val error = "Failed to delete record(s) from " + table.getTableName() +
