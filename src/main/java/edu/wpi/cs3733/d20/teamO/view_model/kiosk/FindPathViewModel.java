@@ -364,10 +364,12 @@ public class FindPathViewModel extends ViewModelBase {
   /**
    * gets the closest node of provided type to beginning
    *
-   * @param type the nodeType desired
+   * @param type                the nodeType desired
+   * @param sameFloorOnly       true if the node should be on the same floor as beginning
+   * @param shortNameSupplement extra string to check if the short name contains, otherwise ""
    * @return closest node of matching type
    */
-  private Node getNearest(String type) {
+  private Node getNearest(String type, boolean sameFloorOnly, String shortNameSupplement) {
     val nodes = new LinkedList<Node>();
     val beenTo = new LinkedList<Node>();
     nodes.add(beginning);
@@ -375,7 +377,10 @@ public class FindPathViewModel extends ViewModelBase {
 
     while (!nodes.isEmpty()) {
       val current = nodes.poll();
-      if (current.getNodeType().equals(type)) {
+      if (current.getNodeType().equals(type) &&
+          (!sameFloorOnly || current.getFloor().equals(beginning.getFloor())) &&
+          (shortNameSupplement.equals("") || current.getShortName()
+              .contains(shortNameSupplement))) {
         return current;
       }
       for (val n : current.getNeighbors()) {
@@ -391,7 +396,25 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private void setNearestBathroom() {
     nodeMapViewController.deleteNode(finish);
-    finish = getNearest("REST");
+    finish = getNearest("REST", true, "");
+    stopLocation.setTextWithoutPopup(finish.getLongName());
+    nodeMapViewController.draw();
+    drawPath();
+  }
+
+  @FXML
+  private void setNearestExit() {
+    nodeMapViewController.deleteNode(finish);
+    finish = getNearest("EXIT", false, "");
+    stopLocation.setTextWithoutPopup(finish.getLongName());
+    nodeMapViewController.draw();
+    drawPath();
+  }
+
+  @FXML
+  private void setNearestFood() {
+    nodeMapViewController.deleteNode(finish);
+    finish = getNearest("RETL", false, "Food");
     stopLocation.setTextWithoutPopup(finish.getLongName());
     nodeMapViewController.draw();
     drawPath();

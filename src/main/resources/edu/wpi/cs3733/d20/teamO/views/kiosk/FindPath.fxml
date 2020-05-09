@@ -75,12 +75,16 @@
         <Label text="Background color"/>
         <JFXColorPicker fx:id="colorPicker" onAction="#setBGColor"/>
       </HBox>
-      <JFXButton buttonType="RAISED" layoutX="18" layoutY="530" onAction="#setNearestBathroom"
-        style="-fx-background-color: lightgray" text="GOTTA SHIT"/>
       <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="350.0" onAction="#generateQR"
         style="-fx-background-color: lightgray" text="%generateQR"/>
       <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="385.0" onAction="#generateTD"
         style="-fx-background-color: lightgray" text="%generateText"/>
+      <JFXButton buttonType="RAISED" layoutX="18" layoutY="540" onAction="#setNearestBathroom"
+        style="-fx-background-color: lightgray" text="Baathroom"/>
+      <JFXButton buttonType="RAISED" layoutX="18" layoutY="580" onAction="#setNearestExit"
+        style="-fx-background-color: lightgray" text="Take me to an exit"/>
+      <JFXButton buttonType="RAISED" layoutX="18" layoutY="620" onAction="#setNearestFood"
+        style="-fx-background-color: lightgray" text="Take me to food"/>
     </AnchorPane>
   </left>
 </BorderPane>
