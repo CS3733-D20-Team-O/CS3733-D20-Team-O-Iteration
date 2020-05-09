@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.About_Features.AboutMiscFeatures">
   <!-- Main Welcome Bar -->
@@ -19,7 +20,11 @@
     <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0">
 
       <Label alignment="CENTER" style="-fx-font-size: 15; -fx-wrap-text: true"
-        text="%helpOtherDescription"/>
+        text="%helpOtherDescription">
+        <font>
+          <Font size="15.0"/>
+        </font>
+      </Label>
       <Label text="%helpOther1" wrapText="true"/>
       <Label text="%helpOther2" wrapText="true"/>
       <Label text="%helpOther3" wrapText="true"/>
