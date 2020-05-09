@@ -76,7 +76,6 @@ public class Main extends Application {
     primaryStage.setTitle("Hospital Kiosk Application");
     primaryStage.setScene(new Scene(get(Navigator.class).getRoot()));
     primaryStage.show();
-    clock.start();
   }
 
   @Override

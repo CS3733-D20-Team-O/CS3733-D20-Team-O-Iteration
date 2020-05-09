@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class NavigationBar extends ViewModelBase {
 
+  @FXML
   private Clock clock;
   private final Navigator navigator;
   private final SimpleStringProperty title = new SimpleStringProperty("Invalid Title");
