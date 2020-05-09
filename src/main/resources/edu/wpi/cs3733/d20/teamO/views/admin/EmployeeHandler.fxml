@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane fx:id="root" maxHeight="1080.0" maxWidth="1920.0" prefHeight="643.0" prefWidth="1280.0"
+  style="-fx-background-color: acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.EmployeeHandlerViewModel">
+
+</AnchorPane>
