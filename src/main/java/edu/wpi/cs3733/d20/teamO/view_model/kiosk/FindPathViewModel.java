@@ -169,7 +169,6 @@ public class FindPathViewModel extends ViewModelBase {
   private void drawPath() {
     miniButtons.getChildren().clear();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
-    System.out.println("TEST" + nodes.size());
     List<String> floorsCrossed = getPathFloors(nodes);
     for (String s : floorsCrossed) {
       JFXButton button = new JFXButton();
@@ -193,7 +192,6 @@ public class FindPathViewModel extends ViewModelBase {
     if (handicap.isPressed()) {
       startLocation.setNodes(handicapMap.values());
       stopLocation.setNodes(handicapMap.values());
-      System.out.println("HandicapMode");
     } else {
       startLocation.setNodes(nodeMap.values());
       stopLocation.setNodes(nodeMap.values());
