@@ -16,6 +16,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.MedicineDeliverySe
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
@@ -48,6 +49,8 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   Dialog dialog;
   @Mock
   JFXDialog jfxDialog;
+  @Mock
+  RequestConfirmationViewModel requestConfirmationViewModel;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
@@ -128,6 +131,9 @@ public class MedicineDeliveryServiceTest extends FxRobot {
   @Test
   public void testSubmit3() throws IOException {
     // Test all fields are filled out and adding succeeds
+    when(validator.validate(any())).thenReturn(true);
+    when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
+    when(database.addServiceRequest(any(), any(), any(), any(), any())).thenReturn("ABCDEFGH");
     clickOn("Patient name");
     write("John Smith");
     clickOn("Medicine name");
@@ -141,10 +147,10 @@ public class MedicineDeliveryServiceTest extends FxRobot {
     write("02:00 AM");
     clickOn("Submit");
     verify(validator, times(1)).validate(any());
-    verify(database, times(1)).addServiceRequest(anyString(),
-        anyString(), anyString(), anyString(),
-        eq(new MedicineDeliveryServiceData("Ibuprofen", "Oral")));
-    verify(snackBar, times(1)).show(anyString());
+    verify(database, times(1))
+        .addServiceRequest(anyString(), eq("Floor 1"), eq("Medicine delivery"), eq("John Smith"),
+            eq(new MedicineDeliveryServiceData("Ibuprofen", "Oral")));
+    verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(1)).showFullscreenFXML(anyString());
     verify(jfxDialog, times(1)).close();
   }
