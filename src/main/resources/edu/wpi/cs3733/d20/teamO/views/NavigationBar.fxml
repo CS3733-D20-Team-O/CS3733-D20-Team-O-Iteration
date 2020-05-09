@@ -21,4 +21,7 @@
     </graphic>
   </JFXButton>
 
+  <!-- Clock -->
+  <fx:include source="/edu/wpi/cs3733/d20/teamO/views/Clock.fxml" fx:id="clock"/>
+
 </AnchorPane>
