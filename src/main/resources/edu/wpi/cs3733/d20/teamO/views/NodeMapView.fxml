@@ -8,6 +8,7 @@
   maxWidth="990.4" maxHeight="594.4" alignment="CENTER">
   <AnchorPane fx:id="colorLayer"/>
   <ImageView fx:id="backgroundImage" preserveRatio="true" fitWidth="990.4" fitHeight="594.4"/>
+  <AnchorPane fx:id="dragLayer"/>
   <AnchorPane fx:id="edgeGroup"/>
   <AnchorPane fx:id="nodeGroup"/>
   <AnchorPane fx:id="textLayer"/>
