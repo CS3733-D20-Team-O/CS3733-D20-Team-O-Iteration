@@ -11,7 +11,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
-import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.ServiceRequestBase;
 import java.net.URL;
@@ -29,7 +28,6 @@ import lombok.val;
 public class EmergencyReport extends ServiceRequestBase {
 
   private final DatabaseWrapper database;
-  private final SnackBar snackBar;
   private final LoginDetails loginDetails;
 
   @FXML
