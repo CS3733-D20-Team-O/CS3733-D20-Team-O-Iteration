@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
+import static com.jfoenix.controls.JFXButton.ButtonType.RAISED;
+
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
@@ -58,7 +60,8 @@ public class FindPathViewModel extends ViewModelBase {
   private JFXButton handicap;
   @FXML
   private JFXColorPicker colorPicker;
-
+  @FXML
+  private HBox miniButtons;
 
   private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
@@ -103,12 +106,14 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.setEdgeMovement(true);
 
     startLocation.setOnNodeSelectedListener(node -> {
+      miniButtons.getChildren().clear();
       nodeMapViewController.deleteNode(beginning);
       beginning = node;
       nodeMapViewController.draw();
       drawPath();
     });
     stopLocation.setOnNodeSelectedListener(node -> {
+      miniButtons.getChildren().clear();
       nodeMapViewController.deleteNode(finish);
       finish = node;
       nodeMapViewController.draw();
@@ -147,6 +152,7 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
+    miniButtons.getChildren().clear();
     nodeMapViewController.deleteNode(beginning);
     nodeMapViewController.deleteNode(finish);
     beginning = defaultStart;
@@ -157,31 +163,19 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.draw();
   }
 
-  @FXML
-  public void setZoom() {
-    nodeMapViewController.zoom(zoomSlider.getValue() / 100);
-  }
-
-  @FXML
-  public void zoomOutPressed() {
-    zoomSlider.decrement();
-    setZoom();
-  }
-
-  @FXML
-  public void zoomInPressed() {
-    zoomSlider.increment();
-    setZoom();
-  }
-
   private void drawPath() {
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    List<String> floorsCrossed = getPathFloors(nodes);
+    for (String s : floorsCrossed) {
+      JFXButton button = new JFXButton();
+      button.setButtonType(RAISED);
+      button.setText(s);
+      button.setStyle("-fx-background-color: lightgray");
+      miniButtons.getChildren().add(button);
+    }
     nodeMapViewController.clearText();
     nodeMapViewController.addNode(beginning);
     nodeMapViewController.addNode(finish);
-    nodeMapViewController
-        .addText(beginning.getXCoord(), beginning.getYCoord(), beginning.getLongName());
-    nodeMapViewController.addText(finish.getXCoord(), finish.getYCoord(), finish.getLongName());
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
     }
@@ -377,5 +371,20 @@ public class FindPathViewModel extends ViewModelBase {
       stopLocation.setTextWithoutPopup(finish.getLongName());
     }
     drawPath();
+  }
+
+  private List<String> getPathFloors(List<Node> path) {
+    List<String> floors = new LinkedList<>();
+    String currentFloor = path.get(0).getFloor();
+    String currentBuilding = path.get(0).getBuilding();
+    floors.add(currentFloor);
+    for (Node n : path) {
+      if (!n.getFloor().equals(currentFloor) || !n.getBuilding().equals(currentBuilding)) {
+        currentFloor = n.getFloor();
+        currentBuilding = n.getBuilding();
+        floors.add(currentFloor);
+      }
+    }
+    return floors;
   }
 }

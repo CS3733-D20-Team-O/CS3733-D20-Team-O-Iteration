@@ -19,13 +19,16 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel">
   <center>
     <AnchorPane fx:id="clipper">
-      <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
+      <VBox>
+        <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
+        <HBox fx:id="miniButtons"></HBox>
+      </VBox>
     </AnchorPane>
   </center>
   <left>
     <AnchorPane fx:id="sideBar" prefHeight="200.0" prefWidth="200.0"
       style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
-      <VBox alignment="TOP_CENTER" spacing="8.0">
+      <VBox alignment="TOP_CENTER" spacing="8.0" layoutX="0" layoutY="0">
         <padding>
           <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
         </padding>
