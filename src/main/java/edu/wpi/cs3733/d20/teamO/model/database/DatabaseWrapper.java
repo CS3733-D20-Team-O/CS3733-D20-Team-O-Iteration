@@ -105,10 +105,11 @@ public interface DatabaseWrapper {
    *
    * @param name        the name of the employee
    * @param type        the type of employee they are
+   * @param password    the password of the employee for login
    * @param isAvailable true if available, false if not available
    * @return the id of the added employee
    */
-  String addEmployee(String name, String type, boolean isAvailable);
+  String addEmployee(String name, String type, String password, boolean isAvailable);
 
   /**
    * Adds the specified employee to the database
@@ -116,10 +117,12 @@ public interface DatabaseWrapper {
    * @param employeeID  the id of the employee
    * @param name        the name of the employee
    * @param type        the type of employee they are
+   * @param password    the password of the employee for login
    * @param isAvailable true if available, false if not available
    * @return the number of affected entries
    */
-  int addEmployee(String employeeID, String name, String type, boolean isAvailable);
+  int addEmployee(String employeeID, String name, String type, String password,
+      boolean isAvailable);
 
   /**
    * Adds the specified scheduler request to the database with auto-generated ID
