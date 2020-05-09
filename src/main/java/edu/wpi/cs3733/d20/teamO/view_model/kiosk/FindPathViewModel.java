@@ -377,12 +377,12 @@ public class FindPathViewModel extends ViewModelBase {
     List<String> floors = new LinkedList<>();
     String currentFloor = path.get(0).getFloor();
     String currentBuilding = path.get(0).getBuilding();
-    floors.add(currentFloor);
+    floors.add(currentBuilding + " : " + currentFloor);
     for (Node n : path) {
       if (!n.getFloor().equals(currentFloor) || !n.getBuilding().equals(currentBuilding)) {
         currentFloor = n.getFloor();
         currentBuilding = n.getBuilding();
-        floors.add(currentFloor);
+        floors.add(currentBuilding + " : " + currentFloor);
       }
     }
     return floors;
