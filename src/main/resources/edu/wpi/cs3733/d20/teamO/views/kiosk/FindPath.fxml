@@ -22,7 +22,11 @@
       <AnchorPane fx:id="clipper">
         <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
       </AnchorPane>
-      <HBox fx:id="miniButtons"></HBox>
+      <HBox fx:id="miniButtons">
+        <padding>
+          <Insets bottom="0.0" left="8.0" right="8.0" top="0.0"/>
+        </padding>
+      </HBox>
     </VBox>
   </center>
   <left>

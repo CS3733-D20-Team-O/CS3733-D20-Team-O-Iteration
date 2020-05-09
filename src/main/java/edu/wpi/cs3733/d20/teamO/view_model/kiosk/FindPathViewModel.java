@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
+import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
@@ -30,6 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -75,6 +77,7 @@ public class FindPathViewModel extends ViewModelBase {
   @Override
   public void onEvent(Event event) {
     if (event instanceof RedrawEvent) {
+      miniButtons.getChildren().clear();
       drawPath();
     }
   }
@@ -164,12 +167,15 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
+    miniButtons.getChildren().clear();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    System.out.println("TEST" + nodes.size());
     List<String> floorsCrossed = getPathFloors(nodes);
     for (String s : floorsCrossed) {
       JFXButton button = new JFXButton();
       button.setButtonType(RAISED);
       button.setText(s);
+      button.setOnAction(actionEvent -> miniMapButtons(actionEvent));
       button.setStyle("-fx-background-color: lightgray");
       miniButtons.getChildren().add(button);
     }
@@ -386,5 +392,12 @@ public class FindPathViewModel extends ViewModelBase {
       }
     }
     return floors;
+  }
+
+  private void miniMapButtons(ActionEvent event) {
+    String fullName = ((JFXButton) event.getSource()).getText();
+    String building = fullName.split(" : ")[0];
+    String floor = fullName.split(" : ")[1];
+    dispatch(new FloorSwitchEvent(floor, building));
   }
 }
