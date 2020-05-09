@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXSlider;
-import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
@@ -55,7 +55,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private NodeSelector startLocation, stopLocation;
   @FXML
-  private JFXToggleButton handicap;
+  private JFXButton handicap;
   @FXML
   private JFXColorPicker colorPicker;
 
@@ -153,6 +153,7 @@ public class FindPathViewModel extends ViewModelBase {
     finish = defaultStop;
     stopLocation.clear();
     startLocation.clear();
+    nodeMapViewController.clearText();
     nodeMapViewController.draw();
   }
 
@@ -175,8 +176,12 @@ public class FindPathViewModel extends ViewModelBase {
 
   private void drawPath() {
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    nodeMapViewController.clearText();
     nodeMapViewController.addNode(beginning);
     nodeMapViewController.addNode(finish);
+    nodeMapViewController
+        .addText(beginning.getXCoord(), beginning.getYCoord(), beginning.getLongName());
+    nodeMapViewController.addText(finish.getXCoord(), finish.getYCoord(), finish.getLongName());
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
     }
@@ -185,7 +190,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   public void switchAccessibility() {
     resetPath();
-    if (handicap.isSelected()) {
+    if (handicap.isPressed()) {
       startLocation.setNodes(handicapMap.values());
       stopLocation.setNodes(handicapMap.values());
       System.out.println("HandicapMode");
