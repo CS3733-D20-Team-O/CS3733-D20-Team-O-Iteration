@@ -306,7 +306,6 @@ public class NodeMapView extends ViewModelBase {
         new Tooltip(node.getNodeType() + "//" + node.getLongName())
     );
     nodeGroup.getChildren().add(drawnNode);
-    addText(node.getXCoord(), node.getYCoord(), "Test", "-fx-background-color: white");
   }
 
   /**
