@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.view_model.kiosk.About_Features;
+package edu.wpi.cs3733.d20.teamO.view_model.kiosk.about_features;
 
 import com.google.inject.Inject;
 import com.jfoenix.effects.JFXDepthManager;
@@ -30,7 +30,7 @@ public class AboutServiceRequests extends DialogViewModel {
   @FXML
   public void openServiceRequestSelect() {
     try {
-      dialog.showFXML(container, "views/kiosk/serviceSelector.fxml");
+      dialog.showFullscreenFXML("views/kiosk/ServiceSelector.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request Screen", e);
     }

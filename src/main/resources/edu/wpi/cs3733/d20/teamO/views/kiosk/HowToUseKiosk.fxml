@@ -14,7 +14,7 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.HowToUseKiosk">
 
   <!-- Main Welcome Bar -->
-  <StackPane fx:id="UseThisApp" prefHeight="64"
+  <StackPane fx:id="useThisApp" prefHeight="64"
     style="-fx-background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Brigham_and_Womens_Hospital_logo.svg/1200px-Brigham_and_Womens_Hospital_logo.svg.png'); -fx-background-position: center; -fx-background-repeat: no-repeat"
     AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpTitle"/>

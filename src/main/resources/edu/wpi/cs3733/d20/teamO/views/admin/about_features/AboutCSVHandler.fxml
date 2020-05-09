@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.About_Features.AboutCSVHandler">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.about_features.AboutCSVHandler">
   <!-- Main Welcome Bar -->
   <StackPane fx:id="useCSVHandler" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0"
     AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -26,11 +26,9 @@
         </font>
       </Label>
       <VBox spacing="10.0">
-        <children>
-          <Label text="%helpCSVStep1" wrapText="true"/>
-          <Label text="%helpCSVStep2" wrapText="true"/>
-          <Label text="%helpCSVStep3" wrapText="true"/>
-        </children>
+        <Label text="%helpCSVStep1" wrapText="true"/>
+        <Label text="%helpCSVStep2" wrapText="true"/>
+        <Label text="%helpCSVStep3" wrapText="true"/>
       </VBox>
 
       <HBox alignment="CENTER_RIGHT" AnchorPane.rightAnchor="5">

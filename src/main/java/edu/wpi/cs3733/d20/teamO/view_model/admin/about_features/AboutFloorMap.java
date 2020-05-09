@@ -1,12 +1,12 @@
-package edu.wpi.cs3733.d20.teamO.view_model.admin.About_Features;
+package edu.wpi.cs3733.d20.teamO.view_model.admin.about_features;
 
 import com.google.inject.Inject;
 import com.jfoenix.effects.JFXDepthManager;
+import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog.DialogViewModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import edu.wpi.cs3733.d20.teamO.Navigator;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import lombok.RequiredArgsConstructor;
