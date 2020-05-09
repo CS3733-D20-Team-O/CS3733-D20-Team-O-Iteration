@@ -41,9 +41,6 @@ public class LoginDetails {
         }
       }
     }
-//    boolean staff = username.equals("staff") && password.equals("staff");
-//    boolean admin = username.equals("admin") && password.equals("admin");
-//    return staff || admin;
     return false;
   }
 }
