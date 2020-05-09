@@ -95,7 +95,7 @@
                                       promptText="%nodeSelectorPromptText">
                                        <validators>
                                           <NodeRequiredValidator
-                                            message="%serviceIntTransportRoomValidator"/>
+                                            message="%locationPromptValidator"/>
                                        </validators>
                                     </NodeSelector>
                                  </children>
