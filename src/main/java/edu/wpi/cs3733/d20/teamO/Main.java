@@ -30,6 +30,8 @@ import org.greenrobot.eventbus.Subscribe;
 @Slf4j
 public class Main extends Application {
 
+  public Clock clock;
+
   /**
    * A list of the registered ViewModelBases to forward events to
    */
@@ -74,6 +76,7 @@ public class Main extends Application {
     primaryStage.setTitle("Hospital Kiosk Application");
     primaryStage.setScene(new Scene(get(Navigator.class).getRoot()));
     primaryStage.show();
+    clock.start();
   }
 
   @Override
