@@ -36,9 +36,9 @@
         text="%mainLeftButton"/>
 
       <!-- Service Request Creation -->
-            <JFXButton buttonType="RAISED" onAction="#openServiceRequestSelect"
-              style="-fx-font-size: 32; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 16; -fx-background-radius: 16"
-              text="%mainReqService"/>
+      <JFXButton buttonType="RAISED" onAction="#openServiceRequestSelect"
+        style="-fx-font-size: 32; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 16; -fx-background-radius: 16"
+        text="%mainReqService"/>
 
       <!-- Service Request Lookup -->
       <Label style="-fx-font-size: 32; -fx-padding: 24 0 0 0" text="%serviceRequestLookupLabel"/>
@@ -68,6 +68,9 @@
   <JFXButton buttonType="RAISED" onAction="#openAbout"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;"
     text="%about" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0"/>
+  <ImageView fx:id="FAQ" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="80.0" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openHowToUseKiosk" pickOnBounds="true" preserveRatio="true">
+    <Image url="@/FAQ.png" />
+  </ImageView>
 
   <!-- Language Switcher -->
   <HBox fx:id="langContainer" alignment="CENTER" spacing="8"

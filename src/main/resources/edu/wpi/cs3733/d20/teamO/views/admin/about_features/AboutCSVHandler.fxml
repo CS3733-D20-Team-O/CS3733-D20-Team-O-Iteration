@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.about_features.AboutCSVHandler">
+  <!-- Main Welcome Bar -->
+  <StackPane fx:id="useCSVHandler" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0"
+    AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpCSVTitle"/>
+  </StackPane>
+
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="65"
+    AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+    <VBox alignment="CENTER" spacing="20">
+
+      <Label text="%helpCSVDescription" wrapText="true">
+        <font>
+          <Font size="15.0"/>
+        </font>
+      </Label>
+      <VBox spacing="10.0">
+        <Label text="%helpCSVStep1" wrapText="true"/>
+        <Label text="%helpCSVStep2" wrapText="true"/>
+        <Label text="%helpCSVStep3" wrapText="true"/>
+      </VBox>
+
+      <HBox alignment="CENTER_RIGHT" AnchorPane.rightAnchor="5">
+        <JFXButton buttonType="RAISED" onAction="#openCSVHandler"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%helpCSVHandler">
+          <HBox.margin>
+            <Insets right="20.0"/>
+          </HBox.margin>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" onAction="#close"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%helpCSVBack"/>
+      </HBox>
+      <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+      </padding>
+    </VBox>
+  </StackPane>
+</AnchorPane>
