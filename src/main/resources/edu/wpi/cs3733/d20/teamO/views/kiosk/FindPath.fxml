@@ -81,6 +81,32 @@
           <Label text="Background color"/>
           <JFXColorPicker fx:id="colorPicker" onAction="#setBGColor"/>
         </HBox>
+        <HBox>
+          <JFXButton buttonType="RAISED" onAction="#setNearestBathroom"
+            style="-fx-background-color: lightgray">
+            <graphic>
+              <ImageView fitHeight="24" fitWidth="24">
+                <Image url="@/Toilet-Icon.png"/>
+              </ImageView>
+            </graphic>
+          </JFXButton>
+          <JFXButton buttonType="RAISED" onAction="#setNearestExit"
+            style="-fx-background-color: lightgray">
+            <graphic>
+              <ImageView fitHeight="24" fitWidth="24">
+                <Image url="@/Exit-Icon.png"/>
+              </ImageView>
+            </graphic>
+          </JFXButton>
+          <JFXButton buttonType="RAISED" onAction="#setNearestFood"
+            style="-fx-background-color: lightgray">
+            <graphic>
+              <ImageView fitHeight="24" fitWidth="24">
+                <Image url="@/Food-Icon.png"/>
+              </ImageView>
+            </graphic>
+          </JFXButton>
+        </HBox>
       </VBox>
     </AnchorPane>
   </left>
