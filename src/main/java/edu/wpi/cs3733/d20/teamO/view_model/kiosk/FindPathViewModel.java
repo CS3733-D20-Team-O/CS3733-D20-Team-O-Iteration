@@ -147,6 +147,7 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
+    nodeMapViewController.clearText();
     nodeMapViewController.deleteNode(beginning);
     nodeMapViewController.deleteNode(finish);
     beginning = defaultStart;
@@ -174,9 +175,13 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
+    nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     nodeMapViewController.addNode(beginning);
     nodeMapViewController.addNode(finish);
+    nodeMapViewController.addText(beginning, beginning.getLongName());
+    nodeMapViewController.addText(finish, finish.getLongName());
+
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
     }
@@ -372,52 +377,69 @@ public class FindPathViewModel extends ViewModelBase {
   private Node getNearest(String type, boolean sameFloorOnly, String shortNameSupplement) {
     val nodes = new LinkedList<Node>();
     val beenTo = new LinkedList<Node>();
-    nodes.add(beginning);
-    beenTo.add(beginning);
+    if (beginning != null) {
+      nodes.add(beginning);
+      beenTo.add(beginning);
 
-    while (!nodes.isEmpty()) {
-      val current = nodes.poll();
-      if (current.getNodeType().equals(type) &&
-          current.getBuilding().equals(beginning.getBuilding()) &&
-          (!sameFloorOnly || current.getFloor().equals(beginning.getFloor())) &&
-          (shortNameSupplement.equals("") || current.getShortName()
-              .contains(shortNameSupplement))) {
-        return current;
-      }
-      for (val n : current.getNeighbors()) {
-        if (!beenTo.contains(n) && n.getFloor().equals(beginning.getFloor())) {
-          nodes.add(n);
-          beenTo.add(n);
+      while (!nodes.isEmpty()) {
+        val current = nodes.poll();
+        if (current.getNodeType().equals(type) &&
+            current.getBuilding().equals(beginning.getBuilding()) &&
+            (!sameFloorOnly || current.getFloor().equals(beginning.getFloor())) &&
+            (shortNameSupplement.equals("") || current.getShortName()
+                .contains(shortNameSupplement))) {
+          return current;
+        }
+        for (val n : current.getNeighbors()) {
+          if (!beenTo.contains(n) && n.getFloor().equals(beginning.getFloor())) {
+            nodes.add(n);
+            beenTo.add(n);
+          }
         }
       }
     }
-    return new Node("ERROR-NO-NODE-FOUND", -1, -1, "NONE", "NONE", "NONE", "NONE", "NONE");
+    return null;
   }
 
   @FXML
   private void setNearestBathroom() {
-    nodeMapViewController.deleteNode(finish);
-    finish = getNearest("REST", true, "");
-    stopLocation.setTextWithoutPopup(finish.getLongName());
-    nodeMapViewController.draw();
-    drawPath();
+    if (!getToNearest("REST", true, "")) {
+      snackBar.show("Unable to set nearest bathroom");
+    }
   }
 
   @FXML
   private void setNearestExit() {
-    nodeMapViewController.deleteNode(finish);
-    finish = getNearest("EXIT", false, "");
-    stopLocation.setTextWithoutPopup(finish.getLongName());
-    nodeMapViewController.draw();
-    drawPath();
+    if (!getToNearest("EXIT", false, "")) {
+      snackBar.show("Unable to set nearest exit");
+    }
   }
 
   @FXML
   private void setNearestFood() {
+    if (!getToNearest("RETL", false, "Food")) {
+      snackBar.show("Unable to set nearest food provider");
+    }
+  }
+
+  /**
+   * draws a path to the nearest node matching the parameters
+   *
+   * @param type                the type of node
+   * @param sameFloorOnly       if the node must be on the same floor as beginning
+   * @param shortNameSupplement additional string to check for in node shortName
+   * @return true if the path is drawn, false otherwise
+   */
+  private boolean getToNearest(String type, boolean sameFloorOnly, String shortNameSupplement) {
     nodeMapViewController.deleteNode(finish);
-    finish = getNearest("RETL", false, "Food");
+    val nearestNode = getNearest(type, sameFloorOnly, shortNameSupplement);
+    if (nearestNode == null) {
+      return false;
+    }
+    finish = nearestNode;
     stopLocation.setTextWithoutPopup(finish.getLongName());
     nodeMapViewController.draw();
     drawPath();
+    return true;
   }
 }
