@@ -6,6 +6,9 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Region?>
 <VBox alignment="CENTER" spacing="32" xmlns:fx="http://javafx.com/fxml"
   style="-fx-padding: 32; -fx-font-size: 16"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel">
@@ -35,6 +38,10 @@
     </Spinner>
   </HBox>
   <HBox alignment="CENTER_RIGHT">
-    <JFXButton text="%adminLogout" onAction="#close"/>
+    <ImageView fx:id="FAQ" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openHowToUseAdminKiosk" pickOnBounds="true" preserveRatio="true">
+      <Image url="@/questionmark.png" />
+    </ImageView>
+    <Region prefHeight="50.0" prefWidth="80.0" HBox.hgrow="ALWAYS" />
+    <JFXButton text="%adminLogout" onAction="#close" />
   </HBox>
 </VBox>

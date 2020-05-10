@@ -161,6 +161,7 @@ public class FindPathViewModel extends ViewModelBase {
   void resetPath() {
     buttonStep = 1;
     miniButtons.getChildren().clear();
+    nodeMapViewController.clearText();
     nodeMapViewController.deleteNode(beginning);
     nodeMapViewController.deleteNode(finish);
     beginning = defaultStart;
@@ -174,6 +175,7 @@ public class FindPathViewModel extends ViewModelBase {
   private void drawPath() {
     buttonStep = 1;
     miniButtons.getChildren().clear();
+    nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     List<String> floorsCrossed = getPathFloors(nodes);
     for (String s : floorsCrossed) {
@@ -188,6 +190,12 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.clearText();
     nodeMapViewController.addNode(beginning);
     nodeMapViewController.addNode(finish);
+    nodeMapViewController
+        .addText(beginning.getXCoord(), beginning.getYCoord(), beginning.getLongName(),
+            "-fx-background-color:lightgray");
+    nodeMapViewController.addText(finish.getXCoord(), finish.getYCoord(), finish.getLongName(),
+        "-fx-background-color:lightgray");
+
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
     }
@@ -404,5 +412,83 @@ public class FindPathViewModel extends ViewModelBase {
     String building = fullName.split(" : ")[1];
     String floor = fullName.split(" : ")[2];
     dispatch(new FloorSwitchEvent(floor, building));
+  }
+
+  /**
+   * gets the closest node of provided type to beginning
+   *
+   * @param type                the nodeType desired
+   * @param sameFloorOnly       true if the node should be on the same floor as beginning
+   * @param shortNameSupplement extra string to check if the short name contains, otherwise ""
+   * @return closest node of matching type
+   */
+  private Node getNearest(String type, boolean sameFloorOnly, String shortNameSupplement) {
+    val nodes = new LinkedList<Node>();
+    val beenTo = new LinkedList<Node>();
+    if (beginning != null) {
+      nodes.add(beginning);
+      beenTo.add(beginning);
+
+      while (!nodes.isEmpty()) {
+        val current = nodes.poll();
+        if (current.getNodeType().equals(type) &&
+            current.getBuilding().equals(beginning.getBuilding()) &&
+            (!sameFloorOnly || current.getFloor().equals(beginning.getFloor())) &&
+            (shortNameSupplement.equals("") || current.getShortName()
+                .contains(shortNameSupplement))) {
+          return current;
+        }
+        for (val n : current.getNeighbors()) {
+          if (!beenTo.contains(n) && n.getFloor().equals(beginning.getFloor())) {
+            nodes.add(n);
+            beenTo.add(n);
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  @FXML
+  private void setNearestBathroom() {
+    if (!findPathToNearest("REST", true, "")) {
+      snackBar.show("Unable to set nearest bathroom");
+    }
+  }
+
+  @FXML
+  private void setNearestExit() {
+    if (!findPathToNearest("EXIT", false, "")) {
+      snackBar.show("Unable to set nearest exit");
+    }
+  }
+
+  @FXML
+  private void setNearestFood() {
+    if (!findPathToNearest("RETL", false, "Food")) {
+      snackBar.show("Unable to set nearest food provider");
+    }
+  }
+
+  /**
+   * draws a path to the nearest node matching the parameters
+   *
+   * @param type                the type of node
+   * @param sameFloorOnly       if the node must be on the same floor as beginning
+   * @param shortNameSupplement additional string to check for in node shortName
+   * @return true if the path is drawn, false otherwise
+   */
+  private boolean findPathToNearest(String type, boolean sameFloorOnly,
+      String shortNameSupplement) {
+    nodeMapViewController.deleteNode(finish);
+    val nearestNode = getNearest(type, sameFloorOnly, shortNameSupplement);
+    if (nearestNode == null) {
+      return false;
+    }
+    finish = nearestNode;
+    stopLocation.setTextWithoutPopup(finish.getLongName());
+    nodeMapViewController.draw();
+    drawPath();
+    return true;
   }
 }
