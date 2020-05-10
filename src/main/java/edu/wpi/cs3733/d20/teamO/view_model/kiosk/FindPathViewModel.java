@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -224,17 +225,41 @@ public class FindPathViewModel extends ViewModelBase {
     StringBuilder directions = new StringBuilder();
     VBox labels = new VBox();
     scrollPane.setContent(labels);
+    int number = 1;
     for (val s : steps) {
       directions.append(s.getBuilding()).append(" ").append(s.getFloor()).append("\n");
+      Label step = new Label();
+      step.setText(directions.toString());
+      labels.getChildren().add(step);
+      directions.delete(0, directions.length());
       for (val i : s.getInstructions()) {
-        directions.append(i.getDirections()).append("\n");
+        directions.append(number).append("  ").append(i.getDirections());
+        JFXButton label = new JFXButton();
+        label.setText(directions.toString());
+        label.setOnAction(actionEvent -> highlightSelectedEdge(actionEvent));
+        labels.getChildren().add(label);
+        directions.delete(0, directions.length());
+        number++;
       }
-      JFXButton label = new JFXButton();
-      label.setText(directions.toString());
-      labels.getChildren().add(label);
       directions.delete(0, directions.length());
     }
     scrollPane.setContent(labels);
+  }
+
+  private void highlightSelectedEdge(ActionEvent actionEvent) {
+    //change to floor of step and highlight the step edge
+    int number = Integer.parseInt(((JFXButton) actionEvent.getSource()).getText().split("  ")[0]);
+    val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    for (Edge e : database.exportEdges()) {
+      if (e.getStartID().equals(nodes.get(number - 1).getNodeID()) && e.getStopID()
+          .equals(nodes.get(number).getNodeID())
+          || e.getStartID().equals(nodes.get(number).getNodeID()) && e.getStopID()
+          .equals(nodes.get(number - 1).getNodeID())) {
+        nodeMapViewController.highlightEdge(e);
+      } else {
+        nodeMapViewController.unhighlightEdge(e);
+      }
+    }
   }
 
   /* Sample directions
