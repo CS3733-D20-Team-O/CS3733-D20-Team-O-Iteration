@@ -26,10 +26,10 @@
   </VBox>
   <VBox>
     <Label text="%creditsInternalAPIs"/>
-    <Label layoutX="10.0" layoutY="85.0" text=" - Team B: Secure Incident Reporting, v1.0.0"/>
+    <Label text=" - Team B: Secure Incident Reporting, v1.0.0"/>
     <Label text=" - Team E: onCallBedsAPI, v1.0.3"/>
-    <Label layoutX="10.0" layoutY="35.0" text=" - Team K: MortuWary Requests, v.1.0.1"/>
-    <Label layoutX="10.0" layoutY="60.0" text=" - Team P: Food Request, v1.1.0"/>
+    <Label text=" - Team K: MortuWary Requests, v.1.0.1"/>
+    <Label text=" - Team P: Food Request, v1.1.0"/>
   </VBox>
   <JFXButton buttonType="RAISED" onAction="#close" style="-fx-background-color: LIGHTGRAY;"
     text="%creditsBack"/>
