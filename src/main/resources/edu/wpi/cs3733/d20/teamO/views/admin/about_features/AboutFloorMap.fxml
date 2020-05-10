@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.about_features.AboutFloorMap">
+  <!-- Main Welcome Bar -->
+  <StackPane fx:id="useFloorMap" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0"
+    AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpFMETitle"/>
+    <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+  </StackPane>
+
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="65"
+    AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5">
+    <VBox alignment="CENTER_LEFT" spacing="20">
+      <VBox alignment="CENTER" spacing="10.0">
+        <Label text="%helpFMEDescription" wrapText="true">
+          <font>
+            <Font size="15.0"/>
+          </font>
+        </Label>
+        <Label text="%helpFMEControls" wrapText="true"/>
+      </VBox>
+      <Label text="%helpFMEAdd">
+        <VBox.margin>
+          <Insets right="10.0"/>
+        </VBox.margin>
+      </Label>
+      <VBox alignment="CENTER_LEFT" spacing="10.0">
+        <Label text="%helpFMEAddStep1"/>
+        <Label text="%helpFMEAddStep2"/>
+        <Label text="%helpFMEAddStep3"/>
+      </VBox>
+      <Label text="%helpFMEEditDelete"/>
+      <VBox alignment="CENTER_LEFT" spacing="10.0">
+        <VBox spacing="10.0">
+          <Label text="%helpFMEEditDeleteStep1"/>
+          <Label text="%helpFMEEditDeleteStep2"/>
+          <Label text="%helpFMEEditDeleteStep2a"/>
+          <Label text="%helpFMEEditDeleteStep2b"/>
+          <Label text="%helpFMEEditDeleteStep2c"/>
+          <Label text="%helpFMEEditDeleteStep2d"/>
+          <Label text="%helpFMEEditDeleteStep3"/>
+          <Label text="%helpFMEEditDeleteStep4"/>
+        </VBox>
+      </VBox>
+
+      <HBox alignment="CENTER_RIGHT" AnchorPane.rightAnchor="5">
+        <JFXButton buttonType="RAISED" onAction="#openFloorMapEditor"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%helpFMEAccessFME">
+          <HBox.margin>
+            <Insets/>
+          </HBox.margin>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" onAction="#close"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%helpFMEBack">
+          <HBox.margin>
+            <Insets left="20.0"/>
+          </HBox.margin>
+        </JFXButton>
+      </HBox>
+    </VBox>
+    <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+  </StackPane>
+</AnchorPane>
