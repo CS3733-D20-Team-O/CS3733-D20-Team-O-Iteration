@@ -14,7 +14,7 @@ import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.EmergencyReportData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
@@ -194,11 +194,9 @@ public class EmergencyReportTest extends FxRobot {
     clickOn("Bomb Threat");
     clickOn("Submit");
     verify(database, times(1)).exportNodes();
-    verify(database, times(1)).exportEmployees();
-    verify(database, times(1)).exportServiceRequests();
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Security"), eq("Submit Name2"),
-        eq(new SecurityRequestData("Bomb Threat", "no notes")));
+        eq("Floor 1"), eq("Emergency"), eq("Submit Name2"),
+        eq(new EmergencyReportData("Bomb Threat", "no notes")));
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(1)).showFullscreenFXML(any());
     verify(loginDetails, times(1)).getUsername();
@@ -215,11 +213,9 @@ public class EmergencyReportTest extends FxRobot {
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Bomb Threat");
     clickOn("Submit");
-    verify(database, times(1)).exportEmployees();
-    verify(database, times(1)).exportServiceRequests();
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Unknown Location"), eq("Security"), eq("barf"),
-        eq(new SecurityRequestData("Bomb Threat", "no notes")));
+        eq("Unknown Location"), eq("Emergency"), eq("barf"),
+        eq(new EmergencyReportData("Bomb Threat", "no notes")));
     verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(1)).showFullscreenFXML(anyString());
     verify(loginDetails, times(2)).getUsername();
