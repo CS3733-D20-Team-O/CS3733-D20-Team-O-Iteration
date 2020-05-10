@@ -32,12 +32,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
@@ -220,15 +220,21 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void generateTD() {
-    val instructions = createInstructionsFromNodes(
-        pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish));
+    val steps = generateSteps();
     StringBuilder directions = new StringBuilder();
-    for (Instruction i : instructions) {
-      directions.append(i.getDirections()).append("\n");
+    VBox labels = new VBox();
+    scrollPane.setContent(labels);
+    for (val s : steps) {
+      directions.append(s.getBuilding()).append(" ").append(s.getFloor()).append("\n");
+      for (val i : s.getInstructions()) {
+        directions.append(i.getDirections()).append("\n");
+      }
+      JFXButton label = new JFXButton();
+      label.setText(directions.toString());
+      labels.getChildren().add(label);
+      directions.delete(0, directions.length());
     }
-    Label label = new Label();
-    label.setText(directions.toString());
-    scrollPane.setContent(label);
+    scrollPane.setContent(labels);
   }
 
   /* Sample directions
