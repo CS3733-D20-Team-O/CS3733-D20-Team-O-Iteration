@@ -13,8 +13,7 @@
     <Label text="${controller.title}" style="-fx-font-size: 32px; -fx-text-fill: floralwhite"/>
   </StackPane>
   <!-- Clock -->
-  <StackPane alignment="CENTER" scaleX="1.3" scaleY="1.3" prefHeight="-Infinity" prefWidth="100"
-    AnchorPane.leftAnchor="50" AnchorPane.topAnchor="8">
+  <StackPane AnchorPane.leftAnchor="50" AnchorPane.topAnchor="8" AnchorPane.bottomAnchor="8">
     <fx:include source="/edu/wpi/cs3733/d20/teamO/views/Clock.fxml"/>
   </StackPane>
 
