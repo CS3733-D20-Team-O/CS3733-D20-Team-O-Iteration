@@ -179,8 +179,11 @@ public class FindPathViewModel extends ViewModelBase {
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     nodeMapViewController.addNode(beginning);
     nodeMapViewController.addNode(finish);
-    nodeMapViewController.addText(beginning, beginning.getLongName());
-    nodeMapViewController.addText(finish, finish.getLongName());
+    nodeMapViewController
+        .addText(beginning.getXCoord(), beginning.getYCoord(), beginning.getLongName(),
+            "-fx-background-color:lightgray");
+    nodeMapViewController.addText(finish.getXCoord(), finish.getYCoord(), finish.getLongName(),
+        "-fx-background-color:lightgray");
 
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
