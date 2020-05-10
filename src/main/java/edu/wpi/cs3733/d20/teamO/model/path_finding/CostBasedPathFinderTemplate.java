@@ -88,7 +88,10 @@ abstract class CostBasedPathFinderTemplate implements PathFinder {
    * @return the Euclidean distance between both nodes
    */
   protected double distanceBetween(Node n1, Node n2) {
-    return Math.hypot(n1.getXCoord() - n2.getXCoord(), n1.getYCoord() - n2.getYCoord());
+    if (n1.getBuilding().equals(n2.getBuilding()) && n1.getFloor().equals(n2.getFloor())) {
+      return Math.hypot(n1.getXCoord() - n2.getXCoord(), n1.getYCoord() - n2.getYCoord());
+    }
+    return Math.hypot(n1.getXCoord() - n2.getXCoord(), n1.getYCoord() - n2.getYCoord()) + 1000;
   }
 
   /**

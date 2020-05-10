@@ -92,6 +92,15 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
     }
   }
 
+  @FXML
+  private void openHowToUseAdminKiosk() {
+    try {
+      dialog.showFullscreenFXML("views/admin/HowToUseAdminKiosk.fxml");
+    } catch (IOException e) {
+      log.error("Failed to open dialog", e);
+    }
+  }
+
   @Override
   protected void onClose() {
     log.info("Resetting login details");
