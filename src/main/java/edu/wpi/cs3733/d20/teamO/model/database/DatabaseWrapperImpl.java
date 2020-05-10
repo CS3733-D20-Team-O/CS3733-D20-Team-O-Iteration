@@ -119,6 +119,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.NAME.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(999), "
+            + EmployeeProperty.PASSWORD.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
@@ -126,8 +127,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
-      if (addEmployee("0", "", "", false) != 1) {
+      if (addEmployee("0", "", "", "", false) != 1) {
         log.error("Failed to add the null employee!");
+      }
+      if (addEmployee("admin", "admin", "admin", "admin", false) != 1) {
+        log.error("Failed to add the admin employee!");
+      }
+      if (addEmployee("staff", "staff", "staff", "staff", false) != 1) {
+        log.error("Failed to add the staff employee!");
       }
     }
 
@@ -193,8 +200,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Override
   public String addNode(int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName) {
-    floor = String.format("%2s", floor).replace(' ', '0');
-    String id = getNodeID(nodeType, floor);
+    val newFloor = String.format("%2s", floor).replace(' ', '0');
+    String id = getNodeID(nodeType, newFloor);
     val numAffected = addNode(id, xCoord, yCoord, floor, building, nodeType, longName, shortName);
     return (numAffected == 1) ? id : null;
   }
@@ -296,28 +303,31 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   }
 
   @Override
-  public String addEmployee(String name, String type, boolean isAvailable) {
-    val employees = exportEmployees().stream()
-        .map(Employee::getEmployeeID)
-        .map(Integer::parseInt)
-        .collect(Collectors.toSet());
-    for (int i = 1; true; ++i) {
-      if (!employees.contains(i)) {
-        addEmployee(Integer.toString(i), name, type, isAvailable);
-        return Integer.toString(i);
-      }
+  public String addEmployee(String name, String type, String password, boolean isAvailable) {
+    val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    val length = 8;
+    val randomID = new StringBuilder(length);
+    val rand = new Random();
+    for (int i = 0; i < length; ++i) {
+      val index = rand.nextInt(chars.length());
+      randomID.append(chars.charAt(index));
     }
+    val id = randomID.toString();
+    addEmployee(id, name, type, password, isAvailable);
+    return id;
   }
 
 
   @Override
-  public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
-    val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
+  public int addEmployee(String employeeID, String name, String type, String password,
+      boolean isAvailable) {
+    val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?, ?)";
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, employeeID);
       stmt.setString(2, name);
       stmt.setString(3, type);
-      stmt.setBoolean(4, isAvailable);
+      stmt.setString(4, password);
+      stmt.setBoolean(5, isAvailable);
       val employeesAffected = stmt.executeUpdate();
       log.info("Added employee with ID " + employeeID);
       log.debug("Result of add employee was " + employeesAffected);
@@ -387,7 +397,10 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       val affected = stmt.executeUpdate();
       log.info("Deleted " + affected + " record(s) from " + table.getTableName());
       log.debug("Result of deletion was " + affected);
-      addEmployee("0", "", "", false); // add null back if removed
+      //for()
+      addEmployee("0", "", "", "", false); // add null back if removed
+      addEmployee("admin", "admin", "admin", "admin", false); //add admin back if removed
+      addEmployee("staff", "staff", "staff", "staff", false);
       return affected;
     } catch (SQLException e) {
       val error = "Failed to delete record(s) from " + table.getTableName() +
@@ -557,7 +570,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         employees.add(new Employee(rset.getString(1),
             rset.getString(2),
             rset.getString(3),
-            rset.getBoolean(4)));
+            rset.getString(4),
+            rset.getBoolean(5)));
       }
     } catch (SQLException e) {
       log.error("Failed to export employees", e);
