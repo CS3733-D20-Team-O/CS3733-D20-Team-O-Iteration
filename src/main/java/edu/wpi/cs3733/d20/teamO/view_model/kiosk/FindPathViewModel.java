@@ -59,13 +59,13 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private NodeSelector startLocation, stopLocation;
   @FXML
-  private JFXButton handicap;
+  private JFXButton handicap, stairsOnly;
   @FXML
   private JFXColorPicker colorPicker;
   @FXML
   private HBox mapSwitcherButtons;
 
-  private Map<String, Node> nodeMap, handicapMap;
+  private Map<String, Node> nodeMap, handicapMap, stairsMap;
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
   private final Dialog dialog;
@@ -94,7 +94,8 @@ public class FindPathViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
     handicapMap = new HashMap<>();
     handicap.setStyle("-fx-background-color: lightgray;");
-
+    stairsMap = new HashMap<>();
+    stairsOnly.setStyle("-fx-background-color: lightgray;");
     buttonStep = 1;
 
     val clipRect = new Rectangle();
@@ -106,6 +107,7 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMap = database.exportNodes();
     handicapMap = new HashMap<>();
     createHandicap();
+    createStairsOnly();
     defaultStart = (Node) nodeMap.values().toArray()[0];
     defaultStop = (Node) nodeMap.values().toArray()[0];
     beginning = defaultStart;
@@ -151,6 +153,23 @@ public class FindPathViewModel extends ViewModelBase {
       if (handicapMap.containsKey(edge.getStartID()) && handicapMap.containsKey(edge.getStopID())) {
         handicapMap.get(edge.getStartID()).getNeighbors().add(handicapMap.get(edge.getStopID()));
         handicapMap.get(edge.getStopID()).getNeighbors().add(handicapMap.get(edge.getStartID()));
+      }
+    }
+  }
+
+  public void createStairsOnly() {
+    //create the map of nodes without edges
+    for (Node node : nodeMap.values()) {
+      if (!node.getNodeType().equals("ELEV")) {
+        val newNode = node.withNeighbors(new LinkedList<>());
+        stairsMap.put(newNode.getNodeID(), newNode);
+      }
+    }
+    //populate only edges that still exists
+    for (Edge edge : database.exportEdges()) {
+      if (stairsMap.containsKey(edge.getStartID()) && stairsMap.containsKey(edge.getStopID())) {
+        stairsMap.get(edge.getStartID()).getNeighbors().add(stairsMap.get(edge.getStopID()));
+        stairsMap.get(edge.getStopID()).getNeighbors().add(stairsMap.get(edge.getStartID()));
       }
     }
   }
@@ -209,17 +228,32 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   @FXML
-  public void switchAccessibility() {
+  public void switchAccessibility(ActionEvent event) {
     resetPath();
-    if (handicap.getStyle().contains("lightgray")) {
-      startLocation.setNodes(handicapMap.values());
-      stopLocation.setNodes(handicapMap.values());
-      handicap.setStyle("-fx-background-color: dodgerblue;");
+    if (event.getSource().equals(handicap)) {
+      if (handicap.getStyle().contains("lightgray")) {
+        startLocation.setNodes(handicapMap.values());
+        stopLocation.setNodes(handicapMap.values());
+        handicap.setStyle("-fx-background-color: dodgerblue;");
+        stairsOnly.setStyle("-fx-background-color: lightgray;");
+      } else {
+        startLocation.setNodes(nodeMap.values());
+        stopLocation.setNodes(nodeMap.values());
+        handicap.setStyle("-fx-background-color: lightgray;");
+      }
     } else {
-      startLocation.setNodes(nodeMap.values());
-      stopLocation.setNodes(nodeMap.values());
-      handicap.setStyle("-fx-background-color: lightgray;");
+      if (stairsOnly.getStyle().contains("lightgray")) {
+        startLocation.setNodes(stairsMap.values());
+        stopLocation.setNodes(stairsMap.values());
+        stairsOnly.setStyle("-fx-background-color: seagreen;");
+        handicap.setStyle("-fx-background-color: lightgray;");
+      } else {
+        startLocation.setNodes(nodeMap.values());
+        stopLocation.setNodes(nodeMap.values());
+        stairsOnly.setStyle("-fx-background-color: lightgray;");
+      }
     }
+
   }
 
   @FXML

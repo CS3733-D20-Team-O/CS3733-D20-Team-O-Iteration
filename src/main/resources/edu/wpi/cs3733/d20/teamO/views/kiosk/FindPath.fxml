@@ -69,6 +69,14 @@
                 </ImageView>
               </graphic>
             </JFXButton>
+            <JFXButton fx:id="stairsOnly" onAction="#switchAccessibility"
+              style="-fx-background-color: lightgrey;">
+              <graphic>
+                <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@/Stairs Icon.png"/>
+                </ImageView>
+              </graphic>
+            </JFXButton>
           </children>
           <padding>
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
