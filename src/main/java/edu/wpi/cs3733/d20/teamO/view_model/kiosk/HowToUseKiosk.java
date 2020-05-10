@@ -32,7 +32,7 @@ public class HowToUseKiosk extends DialogViewModel {
   @FXML
   private void openFindPathInfo() {
     try {
-      dialog.showFullscreenFXML("views/kiosk/About_Features/AboutPathFinding.fxml");
+      dialog.showFullscreenFXML("views/kiosk/about_features/AboutPathFinding.fxml");
     } catch (IOException e) {
       log.error("Failed to open", e);
     }
@@ -41,7 +41,7 @@ public class HowToUseKiosk extends DialogViewModel {
   @FXML
   private void openServiceRequestInfo() {
     try {
-      dialog.showFullscreenFXML("views/kiosk/About_Features/AboutServiceRequests.fxml");
+      dialog.showFullscreenFXML("views/kiosk/about_features/AboutServiceRequests.fxml");
     } catch (IOException e) {
       log.error("Failed to open", e);
     }
@@ -50,7 +50,7 @@ public class HowToUseKiosk extends DialogViewModel {
   @FXML
   private void openLanguageAndMiscInfo() {
     try {
-      dialog.showFullscreenFXML("views/kiosk/About_Features/AboutMiscFeatures.fxml");
+      dialog.showFullscreenFXML("views/kiosk/about_features/AboutMiscFeatures.fxml");
     } catch (IOException e) {
       log.error("Failed to open", e);
     }

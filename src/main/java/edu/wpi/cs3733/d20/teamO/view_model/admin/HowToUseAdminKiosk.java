@@ -31,7 +31,7 @@ public class HowToUseAdminKiosk extends DialogViewModel{
   @FXML
   private void openFloorEditorInfo() {
     try {
-      dialog.showFullscreenFXML("views/admin/About_Features/AboutFloorMap.fxml");
+      dialog.showFullscreenFXML("views/admin/about_features/AboutFloorMap.fxml");
     } catch (IOException e) {
       log.error("Failed to open", e);
     }
@@ -40,7 +40,7 @@ public class HowToUseAdminKiosk extends DialogViewModel{
   @FXML
   private void openRequestHandlerInfo() {
     try {
-      dialog.showFullscreenFXML("views/admin/About_Features/AboutRequestHandler.fxml");
+      dialog.showFullscreenFXML("views/admin/about_features/AboutRequestHandler.fxml");
     } catch (IOException e) {
       log.error("Failed to open", e);
     }
@@ -49,7 +49,7 @@ public class HowToUseAdminKiosk extends DialogViewModel{
   @FXML
   private void openCSVInfo() {
     try {
-      dialog.showFullscreenFXML("views/admin/About_Features/AboutCSVHandler.fxml");
+      dialog.showFullscreenFXML("views/admin/about_features/AboutCSVHandler.fxml");
     } catch (IOException e) {
       log.error("Failed to open", e);
     }

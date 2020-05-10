@@ -1,12 +1,12 @@
-package edu.wpi.cs3733.d20.teamO.view_model.kiosk.About_Features;
+package edu.wpi.cs3733.d20.teamO.view_model.kiosk.about_features;
 
 import com.google.inject.Inject;
 import com.jfoenix.effects.JFXDepthManager;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog.DialogViewModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import edu.wpi.cs3733.d20.teamO.Navigator;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import lombok.RequiredArgsConstructor;
@@ -14,26 +14,25 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class AboutPathFinding extends DialogViewModel {
+public class AboutServiceRequests extends DialogViewModel {
 
-  private final Navigator navigator;
+  private final Dialog dialog;
 
   @FXML
-  private StackPane usePathFind, container;
+  private StackPane useServReq, container;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
     // Set UI properties not set in FXML
-    JFXDepthManager.setDepth(usePathFind, 2);
+    JFXDepthManager.setDepth(useServReq, 2);
     JFXDepthManager.setDepth(container, 2);
   }
-
   @FXML
-  private void openPathFinder() {
+  public void openServiceRequestSelect() {
     try {
-      navigator.push(getString("mainLeftButton"), "views/kiosk/FindPath.fxml");
+      dialog.showFullscreenFXML("views/kiosk/serviceSelector.fxml");
     } catch (IOException e) {
-      log.error("Failed to open the path finder", e);
+      log.error("Failed to open Service Request Screen", e);
     }
   }
 }
