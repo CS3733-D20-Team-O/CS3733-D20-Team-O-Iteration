@@ -28,7 +28,19 @@ public class EmployeeHandlerViewModel extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    employeeTable.getColumns().remove(3); //4th col
+    employeeTable.getItems().addAll(database.exportEmployees());
+  }
+
+  /**
+   * Updates the employee table and data box based on the service request selected
+   */
+  @FXML
+  private void updateDisplays() {
+    employeeTable.getItems().setAll(database.exportEmployees());
+  }
+
+  Employee getSelectedEmployee() {
+    return employeeTable.getSelectionModel().getSelectedItem();
   }
 
 }
