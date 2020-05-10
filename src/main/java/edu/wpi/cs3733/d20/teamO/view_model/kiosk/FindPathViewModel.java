@@ -5,7 +5,6 @@ import static com.jfoenix.controls.JFXButton.ButtonType.RAISED;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
-import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
@@ -34,6 +33,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -55,7 +55,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private AnchorPane sideBar;
   @FXML
-  private JFXSlider zoomSlider;
+  private ScrollPane scrollPane;
   @FXML
   private NodeSelector startLocation, stopLocation;
   @FXML
@@ -185,6 +185,7 @@ public class FindPathViewModel extends ViewModelBase {
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
     }
+    generateTD();
   }
 
   @FXML
@@ -212,7 +213,6 @@ public class FindPathViewModel extends ViewModelBase {
     }
   }
 
-  @FXML
   private void generateTD() {
     val instructions = createInstructionsFromNodes(
         pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish));
@@ -220,7 +220,9 @@ public class FindPathViewModel extends ViewModelBase {
     for (Instruction i : instructions) {
       directions.append(i.getDirections()).append("\n");
     }
-    dialog.showFullscreen(new HBox(new Label(directions.toString())));
+    Label label = new Label();
+    label.setText(directions.toString());
+    scrollPane.setContent(label);
   }
 
   /* Sample directions

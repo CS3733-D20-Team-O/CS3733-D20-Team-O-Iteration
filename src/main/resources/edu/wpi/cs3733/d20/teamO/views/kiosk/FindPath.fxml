@@ -75,7 +75,7 @@
             <NodeRequiredValidator message="%pathFindNodeError"/>
           </validators>
         </NodeSelector>
-        <ScrollPane prefHeight="200.0" prefWidth="202.0"/>
+        <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="202.0"/>
         <HBox alignment="CENTER" spacing="8.0">
           <Label text="Background color"/>
           <JFXColorPicker fx:id="colorPicker" onAction="#setBGColor"/>
