@@ -30,8 +30,6 @@ import org.greenrobot.eventbus.Subscribe;
 @Slf4j
 public class Main extends Application {
 
-  public Clock clock;
-
   /**
    * A list of the registered ViewModelBases to forward events to
    */
