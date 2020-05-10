@@ -61,7 +61,7 @@
                 </ImageView>
               </graphic>
             </JFXButton>
-            <JFXButton fx:id="handicap" onAction="#switchAccessibility"
+            <JFXButton buttonType="RAISED" fx:id="handicap" onAction="#switchAccessibility"
               style="-fx-background-color: lightgrey;">
               <graphic>
                 <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
@@ -69,7 +69,7 @@
                 </ImageView>
               </graphic>
             </JFXButton>
-            <JFXButton fx:id="stairsOnly" onAction="#switchAccessibility"
+            <JFXButton buttonType="RAISED" fx:id="stairsOnly" onAction="#switchAccessibility"
               style="-fx-background-color: lightgrey;">
               <graphic>
                 <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
