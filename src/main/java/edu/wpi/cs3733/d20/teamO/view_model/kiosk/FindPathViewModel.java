@@ -378,6 +378,7 @@ public class FindPathViewModel extends ViewModelBase {
     while (!nodes.isEmpty()) {
       val current = nodes.poll();
       if (current.getNodeType().equals(type) &&
+          current.getBuilding().equals(beginning.getBuilding()) &&
           (!sameFloorOnly || current.getFloor().equals(beginning.getFloor())) &&
           (shortNameSupplement.equals("") || current.getShortName()
               .contains(shortNameSupplement))) {

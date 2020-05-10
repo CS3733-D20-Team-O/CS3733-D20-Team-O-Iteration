@@ -79,12 +79,32 @@
         style="-fx-background-color: lightgray" text="%generateQR"/>
       <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="385.0" onAction="#generateTD"
         style="-fx-background-color: lightgray" text="%generateText"/>
-      <JFXButton buttonType="RAISED" layoutX="18" layoutY="540" onAction="#setNearestBathroom"
-        style="-fx-background-color: lightgray" text="Baathroom"/>
-      <JFXButton buttonType="RAISED" layoutX="18" layoutY="580" onAction="#setNearestExit"
-        style="-fx-background-color: lightgray" text="Take me to an exit"/>
-      <JFXButton buttonType="RAISED" layoutX="18" layoutY="620" onAction="#setNearestFood"
-        style="-fx-background-color: lightgray" text="Take me to food"/>
+      <HBox layoutX="18" layoutY="540">
+        <JFXButton buttonType="RAISED" onAction="#setNearestBathroom"
+          style="-fx-background-color: lightgray">
+          <graphic>
+            <ImageView fitHeight="24" fitWidth="24">
+              <Image url="@/Toilet-Icon.png"/>
+            </ImageView>
+          </graphic>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" onAction="#setNearestExit"
+          style="-fx-background-color: lightgray">
+          <graphic>
+            <ImageView fitHeight="24" fitWidth="24">
+              <Image url="@/Exit-Icon.png"/>
+            </ImageView>
+          </graphic>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" onAction="#setNearestFood"
+          style="-fx-background-color: lightgray">
+          <graphic>
+            <ImageView fitHeight="24" fitWidth="24">
+              <Image url="@/Food-Icon.png"/>
+            </ImageView>
+          </graphic>
+        </JFXButton>
+      </HBox>
     </AnchorPane>
   </left>
 </BorderPane>
