@@ -114,6 +114,9 @@ public class FindPathViewModel extends ViewModelBase {
       nodeMapViewController.draw();
       drawPath();
     });
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> {
+      selectNearestNode(x, y);
+    });
 
     startLocation.setNodes(nodeMap.values());
     stopLocation.setNodes(nodeMap.values());
@@ -339,6 +342,43 @@ public class FindPathViewModel extends ViewModelBase {
     // Clear out remaining data in buffers into a step
     steps.add(new Step(instructionBuffer, nodeBuffer, currBuilding, currFloor));
     return steps;
+  }
+
+  /**
+   * Using a set of coordinates, find the closest node and set it to either the beginning or ending
+   *
+   * @param x the x coordinate
+   * @param y the y coordinate
+   */
+  private void selectNearestNode(int x, int y) {
+    double distance = Double.MAX_VALUE;
+    Node closestNode = null;
+
+    for (Node node : nodeMap.values()) {
+      if (node.getFloor().equals(nodeMapViewController.getFloor()) && node.getBuilding()
+          .equals(nodeMapViewController.getBuilding())) {
+
+        val legX = Math.abs(x - node.getXCoord());
+        val legY = Math.abs(y - node.getYCoord());
+        val hypoX = Math.pow(legX, 2);
+        val hypoY = Math.pow(legY, 2);
+
+        if (Math.sqrt(hypoX + hypoY) < distance) {
+          closestNode = node;
+          distance = Math.sqrt(hypoX + hypoY);
+        }
+      }
+    }
+
+    if (closestNode != null && distance < 25) {
+      if (beginning == null) {
+        System.out.println("Set start: " + closestNode.getNodeID());
+        beginning = closestNode;
+      } else {
+        System.out.println("Set finish: " + closestNode.getNodeID());
+        finish = closestNode;
+      }
+    }
   }
 
   public void setBGColor() {

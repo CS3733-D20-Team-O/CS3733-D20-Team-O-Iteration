@@ -41,7 +41,9 @@ import lombok.val;
 public class NodeMapView extends ViewModelBase {
 
   // Floor Storage
+  @Getter
   private String floor = "1";
+  @Getter
   private String building = "Faulkner";
 
   // Zoom Controls
@@ -105,16 +107,6 @@ public class NodeMapView extends ViewModelBase {
    */
   @Setter
   private BiConsumer<Integer, Integer> onMissRightTapListener;
-  /**
-   * Gets called when a node is hovered over
-   */
-  @Setter
-  private Consumer<Node> onNodeHover;
-  /**
-   * Gets called when a node isn't hovered over anymore
-   */
-  @Setter
-  private Consumer<Node> onNodeHoverExit;
 
   // Node storage
   /**
@@ -158,8 +150,9 @@ public class NodeMapView extends ViewModelBase {
       if (event.getButton().equals(MouseButton.PRIMARY)) { // Used for dragging
         dragX = floorPane.getTranslateX() - event.getSceneX();
         dragY = floorPane.getTranslateY() - event.getSceneY();
-      } else if (event.getButton()
-          .equals(MouseButton.SECONDARY)) { // Used for right click on the background
+      } else if (onMissRightTapListener != null &&
+          event.getButton()
+              .equals(MouseButton.SECONDARY)) { // Used for right click on the background
         val imageX = translateToImageX((int) event.getX());
         val imageY = translateToImageY((int) event.getY());
         onMissRightTapListener.accept(imageX, imageY);
@@ -608,10 +601,6 @@ public class NodeMapView extends ViewModelBase {
     } catch (Exception e) {
       log.error("The floor map associated with that floor doesn't exist!");
     }
-  }
-
-  public String getFloor() {
-    return this.floor;
   }
 
   /**
