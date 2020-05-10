@@ -448,7 +448,7 @@ public class FindPathViewModel extends ViewModelBase {
           return current;
         }
         for (val n : current.getNeighbors()) {
-          if (!beenTo.contains(n) /*&& n.getFloor().equals(beginning.getFloor())*/) {
+          if (!beenTo.contains(n)) {
             nodes.add(n);
             beenTo.add(n);
           }
