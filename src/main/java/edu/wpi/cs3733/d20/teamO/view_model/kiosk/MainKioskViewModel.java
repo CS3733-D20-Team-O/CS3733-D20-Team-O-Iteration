@@ -147,6 +147,15 @@ public class MainKioskViewModel extends ViewModelBase {
   }
 
   @FXML
+  private void openHowToUseKiosk() {
+    try {
+      dialog.showFXML(container, "views/kiosk/HowToUseKiosk.fxml");
+    } catch (IOException e) {
+      log.error("Could not load the dialog", e);
+    }
+  }
+
+  @FXML
   private void openPathFinder() {
     try {
       navigator.push(getString("mainLeftButton"), "views/kiosk/FindPath.fxml");
@@ -158,7 +167,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   public void openServiceRequestSelect() {
     try {
-      dialog.showFXML(container, "views/kiosk/serviceSelector.fxml");
+      dialog.showFXML(container, "views/kiosk/ServiceSelector.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request Screen", e);
     }
