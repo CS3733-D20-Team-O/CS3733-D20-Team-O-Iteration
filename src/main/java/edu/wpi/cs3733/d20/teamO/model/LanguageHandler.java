@@ -22,6 +22,7 @@ public class LanguageHandler {
   public static final Locale[] SUPPORTED_LOCALES = {
       new Locale("en"),
       new Locale("es"),
+      new Locale("zh"),
   };
 
   /**

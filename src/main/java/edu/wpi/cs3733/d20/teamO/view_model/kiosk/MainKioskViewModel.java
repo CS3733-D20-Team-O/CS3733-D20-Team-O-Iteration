@@ -17,7 +17,6 @@ import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -59,6 +58,7 @@ public class MainKioskViewModel extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+
     // Set UI properties not set in FXML
     JFXDepthManager.setDepth(welcomeBar, 2);
     JFXDepthManager.setDepth(contentContainer, 3);
@@ -75,41 +75,6 @@ public class MainKioskViewModel extends ViewModelBase {
     languageSwitcher.getSelectionModel().selectedIndexProperty().addListener(((o, old, index) ->
         languageHandler.setCurrentLocale(LanguageHandler.SUPPORTED_LOCALES[index.intValue()])));
 
-    // Create a map of available descriptions to their corresponding fxml files
-    val requests = new HashMap<String, String>();
-    requests.put(getString("serviceGiftDeliveryDescription") + " - Mark Hogan",
-        "GiftDeliveryService.fxml");
-    requests.put(getString("serviceSanitationDescription") + " - Gregory Conrad",
-        "SanitationService.fxml");
-    requests.put(getString("serviceInfoTechDescription") + " - Michael Lai",
-        "InfoTechService.fxml");
-    requests.put(getString("serviceExtTransportationDescription") + " - Ryan Stebe",
-        "ExternalTransportationService.fxml");
-    requests.put(getString("serviceMedicineDeliveryDescription") + " - Collin Broderick",
-        "MedicineDeliveryService.fxml");
-    requests.put(getString("serviceAVDescription") + " - Benjamin Klaiman",
-        "AVService.fxml");
-    requests.put(getString("serviceInterpreterDescription") + " - Victoria Grasso",
-        "InterpreterService.fxml");
-    requests.put(getString("serviceIntTransportationDescription") + " - James Casella",
-        "InternalTransportationService.fxml");
-    requests.put(getString("serviceFloristDeliveryDescription") + " - Emily Austin",
-        "FloristDeliveryService.fxml");
-    requests.put(getString("serviceSecurityDescription") + " - Jesus Barron",
-        "SecurityService.fxml");
-    requests.keySet().stream().sorted().forEach(serviceSelector.getItems()::add);
-    serviceSelector.getSelectionModel().selectedItemProperty().addListener(((o, old, desc) -> {
-      if (desc != null) {
-        try {
-          dialog.showFullscreenFXML("views/kiosk/service_requests/" + requests.get(desc));
-        } catch (IOException e) {
-          log.error("Failed to open " + desc, e);
-        }
-        // Silences the "IndexOutOfBounds" exception by wrapping in run later
-        Platform.runLater(serviceSelector.getSelectionModel()::clearSelection);
-      }
-    }));
-
     // Load the admin dialog if appropriate
     if (loginDetails.isValid()) {
       // Put this in a run later so it doesn't mess up navigation
@@ -119,6 +84,7 @@ public class MainKioskViewModel extends ViewModelBase {
 
   @FXML
   private void openLoginDialog() {
+
     val header = new Label("Login");
     header.setStyle("-fx-font-size: 24");
     val username = new JFXTextField();
@@ -153,6 +119,16 @@ public class MainKioskViewModel extends ViewModelBase {
     });
   }
 
+  @FXML
+  private void openAbout() {
+    try {
+      dialog.showFullscreenFXML("views/kiosk/About.fxml");
+    } catch (IOException e) {
+      log.error("Could not load the about page", e);
+    }
+  }
+
+  @FXML
   private void openAdminDialog() {
     try {
       dialog.showFXML(container, "views/admin/Main.fxml");
@@ -162,11 +138,29 @@ public class MainKioskViewModel extends ViewModelBase {
   }
 
   @FXML
+  private void openHowToUseKiosk() {
+    try {
+      dialog.showFXML(container, "views/kiosk/HowToUseKiosk.fxml");
+    } catch (IOException e) {
+      log.error("Could not load the dialog", e);
+    }
+  }
+
+  @FXML
   private void openPathFinder() {
     try {
       navigator.push(getString("mainLeftButton"), "views/kiosk/FindPath.fxml");
     } catch (IOException e) {
       log.error("Failed to open the path finder", e);
+    }
+  }
+
+  @FXML
+  public void openServiceRequestSelect() {
+    try {
+      dialog.showFXML(container, "views/kiosk/ServiceSelector.fxml");
+    } catch (IOException e) {
+      log.error("Failed to open Service Request Screen", e);
     }
   }
 

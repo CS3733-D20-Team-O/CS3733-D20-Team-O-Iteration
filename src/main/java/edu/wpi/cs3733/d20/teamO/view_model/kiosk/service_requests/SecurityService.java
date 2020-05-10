@@ -1,24 +1,24 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
-import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
-import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
+import com.google.inject.Inject;
 import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
+import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
+import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.google.inject.Inject;
-import java.util.ResourceBundle;
-import java.time.LocalDateTime;
-import java.io.IOException;
-import javafx.fxml.FXML;
-import java.net.URL;
 import lombok.val;
 
 @Slf4j
@@ -32,27 +32,27 @@ public class SecurityService extends ServiceRequestBase {
   @FXML
   private JFXTextField requesterName;
   @FXML
-  private JFXComboBox<Integer> floors;
-  @FXML
-  private JFXComboBox<String> locations;
+  private NodeSelector nodeSelector;
   @FXML
   private ToggleGroup levelSelection;
   @FXML
   private JFXTextArea additionalNotes;
 
   @Override
-  protected void start(URL location, ResourceBundle resources) { setLocations(floors, locations); }
+  protected void start(URL location, ResourceBundle resources) {
+    nodeSelector.setNodes(database.exportNodes().values());
+  }
 
   //todo Submit and Cancel Requests
   @FXML
   private void submitRequest() {
-    if (validator.validate(requesterName, floors, locations)) {
+    if (validator.validate(requesterName, nodeSelector)) {
       val requestData = new SecurityRequestData(
           ((JFXRadioButton) levelSelection.getSelectedToggle()).getText(),
           additionalNotes.getText());
       val time = LocalDateTime.now().toString();
       val confirmationCode = database.addServiceRequest(
-          time, locations.getSelectionModel().getSelectedItem(),
+          time, nodeSelector.getSelectedNode().getLongName(),
           "Security", requesterName.getText(), requestData);
       if (confirmationCode == null) {
         snackBar.show("Failed to create the Security service request");

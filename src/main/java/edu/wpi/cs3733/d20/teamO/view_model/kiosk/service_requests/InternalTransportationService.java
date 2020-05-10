@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests;
 
 import com.google.inject.Inject;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
@@ -10,6 +9,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -41,16 +41,15 @@ public class InternalTransportationService extends ServiceRequestBase {
   private JFXTimePicker reqTime;
   @FXML
   private ToggleGroup assistedToggle, unassistedToggle;
+
   @FXML
-  private JFXComboBox<Integer> destinationFloor, currentFloor;
-  @FXML
-  private JFXComboBox<String> currentRoom, destinationRoom;
+  private NodeSelector currentNode, destinationNode;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
     currentState = State.ASSISTED;
-    setLocations(currentFloor, currentRoom);
-    setLocations(destinationFloor, destinationRoom);
+    currentNode.setNodes(database.exportNodes().values());
+    destinationNode.setNodes(database.exportNodes().values());
 
   }
 
@@ -58,16 +57,16 @@ public class InternalTransportationService extends ServiceRequestBase {
   private void onSubmit() {
     switch (currentState) {
       case ASSISTED:
-        if (validator.validate(currentRoom, reqName, reqTime, destinationRoom)) {
+        if (validator.validate(currentNode, reqName, reqTime, destinationNode)) {
           val data = new InternalTransportationRequestData("Assisted",
               ((RadioButton) assistedToggle.getSelectedToggle()).getText(),
-              destinationRoom.getSelectionModel().getSelectedItem());
+              destinationNode.getSelectedNode().getLongName());
           addToDatabase(data);
         }
         break;
       default:
       case UNASSISTED:
-        if (validator.validate(currentRoom, reqName, reqTime)) {
+        if (validator.validate(currentNode, reqName, reqTime)) {
           val data = new InternalTransportationRequestData("Unassisted",
               ((RadioButton) unassistedToggle.getSelectedToggle()).getText(), "None required");
           addToDatabase(data);
@@ -84,7 +83,7 @@ public class InternalTransportationService extends ServiceRequestBase {
   private void addToDatabase(ServiceRequestData data) {
     val confirmationCode = database
         .addServiceRequest(reqTime.getValue().toString(),
-            currentRoom.getSelectionModel().getSelectedItem(),
+            currentNode.getSelectedNode().getLongName(),
             "Internal Transportation", reqName.getText(), data);
     if (confirmationCode == null) {
       snackBar.show("Failed to create the internal transportation request");

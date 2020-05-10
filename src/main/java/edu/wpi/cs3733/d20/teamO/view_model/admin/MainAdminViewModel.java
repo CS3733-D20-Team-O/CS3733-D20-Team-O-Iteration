@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.cs3733.d20.teamO.IdleDetector;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -11,6 +12,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -22,10 +25,14 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
   private final Navigator navigator;
   private final Dialog dialog;
   private final SelectedPathFinder selectedPathFinder;
+  private IdleDetector idleDetector;
   private final LoginDetails loginDetails;
 
   @FXML
   private JFXComboBox<Label> searchAlgorithms;
+
+  @FXML
+  private Spinner timeOutTime;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
@@ -45,6 +52,17 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
     // Set a listener to set the algorithm to use
     searchAlgorithms.getSelectionModel().selectedIndexProperty().addListener((o, oldInt, newInt) ->
         selectedPathFinder.setCurrentPathFinder(pathFinders[newInt.intValue()]));
+
+    //get the idleDetector used by Navigator
+    idleDetector = navigator.getIdleDetector();
+
+    // Set a listener to set the time-out time
+    timeOutTime.valueProperty().addListener((o, oldInt, newInt) ->
+        idleDetector.setTimeOutTime((int) newInt));
+
+    // Set min, max, and initial value
+    timeOutTime
+        .setValueFactory(new IntegerSpinnerValueFactory(30, 3600, idleDetector.getTimeOutTime()));
   }
 
   @FXML
@@ -71,6 +89,15 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
       dialog.showFullscreenFXML("views/admin/ImportExportCSV.fxml");
     } catch (IOException e) {
       log.error("Failed to open the import/export csv dialog", e);
+    }
+  }
+
+  @FXML
+  private void openHowToUseAdminKiosk() {
+    try {
+      dialog.showFullscreenFXML("views/admin/HowToUseAdminKiosk.fxml");
+    } catch (IOException e) {
+      log.error("Failed to open dialog", e);
     }
   }
 

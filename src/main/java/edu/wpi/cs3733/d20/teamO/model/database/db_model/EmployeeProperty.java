@@ -11,6 +11,7 @@ public enum EmployeeProperty implements TableProperty {
   EMPLOYEE_ID("employeeID"),
   NAME("name"),
   TYPE("type"),
+  PASSWORD("password"),
   IS_AVAILABLE("isAvailable");
 
   @Getter

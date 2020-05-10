@@ -5,9 +5,11 @@
 <?import javafx.scene.layout.StackPane?>
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NodeMapView" fx:id="floorPane"
-  maxWidth="990.4" maxHeight="594.4">
+  maxWidth="990.4" maxHeight="594.4" alignment="CENTER">
+  <AnchorPane fx:id="colorLayer"/>
   <ImageView fx:id="backgroundImage" preserveRatio="true" fitWidth="990.4" fitHeight="594.4"/>
-  <AnchorPane fx:id="dummyLayer" maxWidth="990.4" maxHeight="594.4"/>
-  <AnchorPane fx:id="edgeGroup" maxWidth="990.4" maxHeight="594.4"/>
-  <AnchorPane fx:id="nodeGroup" maxWidth="990.4" maxHeight="594.4"/>
+  <AnchorPane fx:id="dragLayer"/>
+  <AnchorPane fx:id="edgeGroup"/>
+  <AnchorPane fx:id="nodeGroup"/>
+  <AnchorPane fx:id="textLayer"/>
 </StackPane>

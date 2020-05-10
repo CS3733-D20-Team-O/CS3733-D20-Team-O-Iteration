@@ -5,6 +5,8 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
@@ -16,23 +18,18 @@
   <VBox alignment="CENTER" spacing="32"
     style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
     <Label style="-fx-font-size: 32" text="Florist Delivery Service"/>
-    <JFXTextField fx:id="requesterName" promptText="Your Name">
+    <JFXTextField fx:id="requesterName" promptText="%namePrompt">
       <validators>
-        <RequiredFieldValidator message="Your name is required!"/>
+        <RequiredFieldValidator message="%namePromptValidator"/>
       </validators>
     </JFXTextField>
     <HBox alignment="CENTER" spacing="32">
-      <JFXComboBox fx:id="floors" promptText="Floor">
+      <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
         <validators>
-          <RequiredFieldValidator message="You need to select the floor"/>
+          <NodeRequiredValidator message="%locationPromptValidator"/>
         </validators>
-      </JFXComboBox>
-      <JFXComboBox fx:id="locations" promptText="Room/Location on Floor">
-        <validators>
-          <RequiredFieldValidator message="You need to select the location"/>
-        </validators>
-      </JFXComboBox>
-      <JFXComboBox fx:id="bouquet" prefHeight="37.0" prefWidth="173.0" promptText="Bouquet Type">
+      </NodeSelector>
+      <JFXComboBox fx:id="bouquet" prefHeight="37.0" prefWidth="173.0" promptText="%BouquetType">
         <items>
           <FXCollections fx:factory="observableArrayList">
             <String fx:value="Basket 9.99"/>
@@ -48,15 +45,15 @@
           </FXCollections>
         </items>
         <validators>
-          <RequiredFieldValidator message="You need to select the Bouquet type"/>
+          <RequiredFieldValidator message="%BouquetValidator"/>
         </validators>
       </JFXComboBox>
     </HBox>
     <JFXTextArea fx:id="additionalNotes" prefHeight="221.0" prefWidth="618.0"
-      promptText="Additional Notes"/>
+      promptText="%notesPrompt"/>
     <HBox alignment="CENTER_RIGHT" spacing="16">
-      <JFXButton onAction="#submitRequest" text="Submit"/>
-      <JFXButton onAction="#close" text="Cancel"/>
+      <JFXButton onAction="#submitRequest" text="%submitButton"/>
+      <JFXButton onAction="#close" text="%cancelButton"/>
     </HBox>
   </VBox>
 </StackPane>

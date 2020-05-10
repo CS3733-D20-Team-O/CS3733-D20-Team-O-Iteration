@@ -5,12 +5,14 @@ import com.google.inject.Inject;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.database.db_model.SchedulerProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Scheduler;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ExternalTransportationRequestData;
@@ -78,7 +80,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + "(" + NodeProperty.NODE_ID.getColumnName() + " VARCHAR(999), "
             + NodeProperty.X_COORD.getColumnName() + " INT, "
             + NodeProperty.Y_COORD.getColumnName() + " INT, "
-            + NodeProperty.FLOOR.getColumnName() + " INT, "
+            + NodeProperty.FLOOR.getColumnName() + " VARCHAR(999), "
             + NodeProperty.BUILDING.getColumnName() + " VARCHAR(999), "
             + NodeProperty.NODE_TYPE.getColumnName() + " VARCHAR(999), "
             + NodeProperty.LONG_NAME.getColumnName() + " VARCHAR(999), "
@@ -117,6 +119,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             + "(" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.NAME.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.TYPE.getColumnName() + " VARCHAR(999), "
+            + EmployeeProperty.PASSWORD.getColumnName() + " VARCHAR(999), "
             + EmployeeProperty.IS_AVAILABLE.getColumnName() + " BOOLEAN, "
             + "PRIMARY KEY (" + EmployeeProperty.EMPLOYEE_ID.getColumnName() + "))";
         stmt.execute(query);
@@ -124,8 +127,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
-      if (addEmployee("0", "", "", false) != 1) {
+      if (addEmployee("0", "", "", "", false) != 1) {
         log.error("Failed to add the null employee!");
+      }
+      if (addEmployee("admin", "admin", "admin", "admin", false) != 1) {
+        log.error("Failed to add the admin employee!");
+      }
+      if (addEmployee("staff", "staff", "staff", "staff", false) != 1) {
+        log.error("Failed to add the staff employee!");
       }
     }
 
@@ -153,13 +162,31 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
       }
     }
+
+    // Initialize the scheduler table if not initialized
+    if (isNotInitialized(Table.SCHEDULER_TABLE)) {
+      try (val stmt = connection.createStatement()) {
+        String query = "CREATE TABLE " + Table.SCHEDULER_TABLE
+            + "(" + SchedulerProperty.SCHEDULER_ID.getColumnName() + " VARCHAR(999), "
+            + SchedulerProperty.EMPLOYEE_ID.getColumnName() + " VARCHAR(999), "
+            + SchedulerProperty.START_TIME.getColumnName() + " VARCHAR(999), "
+            + SchedulerProperty.END_TIME.getColumnName() + " VARCHAR(999), "
+            + SchedulerProperty.ROOM_TYPE.getColumnName() + " VARCHAR(999), "
+            + "PRIMARY KEY (" + SchedulerProperty.SCHEDULER_ID.getColumnName() + "))";
+        stmt.execute(query);
+        log.info("Table " + Table.SCHEDULER_TABLE + " created");
+      } catch (SQLException e) {
+        log.error("Failed to initialize " + Table.SCHEDULER_TABLE, e);
+      }
+    }
   }
 
-  public String getNodeID(String type, int floor) {
+  public String getNodeID(String type, String floor) {
     val takenIDs = exportNodes().keySet().stream()
         .filter(id -> id.substring(1, 5).equals(type))
-        .filter(id -> Integer.parseInt(id.substring(8)) == floor)
-        .map(id -> Integer.parseInt(id.substring(5, 8)))
+        .filter(id -> id.substring(8).equals(floor))
+        .map(id -> (id.substring(5, 8)))
+        .map(id -> Integer.parseInt(id))
         .collect(Collectors.toSet());
     for (int i = 1; i < 1000; ++i) {
       if (!takenIDs.contains(i)) {
@@ -171,22 +198,17 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
 
 
   @Override
-  public String addNode(int xCoord, int yCoord, int floor, String building,
+  public String addNode(int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName) {
-    String id = "";
-    if (!nodeType.equals("ELEV")) {
-      id = getNodeID(nodeType, floor);
-    } else {
-      val elevLetter = longName.substring(9);
-      id = "O" + nodeType + "00" + elevLetter + "0" + floor;
-    }
+    val newFloor = String.format("%2s", floor).replace(' ', '0');
+    String id = getNodeID(nodeType, newFloor);
     val numAffected = addNode(id, xCoord, yCoord, floor, building, nodeType, longName, shortName);
     return (numAffected == 1) ? id : null;
   }
 
 
   @Override
-  public int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
+  public int addNode(String nodeID, int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName) {
     val query = "INSERT into " + Table.NODES_TABLE.getTableName() +
         " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -194,7 +216,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       stmt.setString(1, nodeID);
       stmt.setInt(2, xCoord);
       stmt.setInt(3, yCoord);
-      stmt.setInt(4, floor);
+      stmt.setString(4, floor);
       stmt.setString(5, building);
       stmt.setString(6, nodeType);
       stmt.setString(7, longName);
@@ -281,28 +303,31 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   }
 
   @Override
-  public String addEmployee(String name, String type, boolean isAvailable) {
-    val employees = exportEmployees().stream()
-        .map(Employee::getEmployeeID)
-        .map(Integer::parseInt)
-        .collect(Collectors.toSet());
-    for (int i = 1; true; ++i) {
-      if (!employees.contains(i)) {
-        addEmployee(Integer.toString(i), name, type, isAvailable);
-        return Integer.toString(i);
-      }
+  public String addEmployee(String name, String type, String password, boolean isAvailable) {
+    val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    val length = 8;
+    val randomID = new StringBuilder(length);
+    val rand = new Random();
+    for (int i = 0; i < length; ++i) {
+      val index = rand.nextInt(chars.length());
+      randomID.append(chars.charAt(index));
     }
+    val id = randomID.toString();
+    addEmployee(id, name, type, password, isAvailable);
+    return id;
   }
 
 
   @Override
-  public int addEmployee(String employeeID, String name, String type, boolean isAvailable) {
-    val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?)";
+  public int addEmployee(String employeeID, String name, String type, String password,
+      boolean isAvailable) {
+    val query = "INSERT into " + Table.EMPLOYEE_TABLE.getTableName() + " VALUES (?, ?, ?, ?, ?)";
     try (val stmt = connection.prepareStatement(query)) {
       stmt.setString(1, employeeID);
       stmt.setString(2, name);
       stmt.setString(3, type);
-      stmt.setBoolean(4, isAvailable);
+      stmt.setString(4, password);
+      stmt.setBoolean(5, isAvailable);
       val employeesAffected = stmt.executeUpdate();
       log.info("Added employee with ID " + employeeID);
       log.debug("Result of add employee was " + employeesAffected);
@@ -313,6 +338,31 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     }
   }
 
+  @Override
+  public String addScheduler(String employeeID, String startTime, String endTime, String roomType) {
+    val schedules = exportScheduler().stream()
+        .map(Scheduler::getSchedulerID)
+        .map(Integer::parseInt)
+        .collect(Collectors.toSet());
+    for (int i = 1; true; ++i) {
+      if (!schedules.contains(i)) {
+        val query =
+            "INSERT into " + Table.SCHEDULER_TABLE.getTableName() + " VALUES (?, ?, ?, ?, ?)";
+        try (val stmt = connection.prepareStatement(query)) {
+          stmt.setString(1, Integer.toString(i));
+          stmt.setString(2, employeeID);
+          stmt.setString(3, startTime);
+          stmt.setString(4, endTime);
+          stmt.setString(5, roomType);
+          stmt.executeUpdate();
+          log.info("Added schedule with ID " + i);
+        } catch (SQLException e) {
+          log.error("Failed to add a new schedule with ID " + i, e);
+        }
+        return Integer.toString(i);
+      }
+    }
+  }
 
   @Override
   public int deleteFromTable(Table table, TableProperty property, String matching) {
@@ -347,7 +397,10 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       val affected = stmt.executeUpdate();
       log.info("Deleted " + affected + " record(s) from " + table.getTableName());
       log.debug("Result of deletion was " + affected);
-      addEmployee("0", "", "", false); // add null back if removed
+      //for()
+      addEmployee("0", "", "", "", false); // add null back if removed
+      addEmployee("admin", "admin", "admin", "admin", false); //add admin back if removed
+      addEmployee("staff", "staff", "staff", "staff", false);
       return affected;
     } catch (SQLException e) {
       val error = "Failed to delete record(s) from " + table.getTableName() +
@@ -413,7 +466,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
             rset.getString(1),
             rset.getInt(2),
             rset.getInt(3),
-            rset.getInt(4),
+            rset.getString(4),
             rset.getString(5),
             rset.getString(6),
             rset.getString(7),
@@ -517,12 +570,31 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
         employees.add(new Employee(rset.getString(1),
             rset.getString(2),
             rset.getString(3),
-            rset.getBoolean(4)));
+            rset.getString(4),
+            rset.getBoolean(5)));
       }
     } catch (SQLException e) {
       log.error("Failed to export employees", e);
     }
     return employees;
+  }
+
+  @Override
+  public List<Scheduler> exportScheduler() {
+    val schedules = new LinkedList<Scheduler>();
+    val query = "SELECT * from " + Table.SCHEDULER_TABLE;
+    try (val stmt = connection.prepareStatement(query); val rset = stmt.executeQuery()) {
+      while (rset.next()) {
+        schedules.add(new Scheduler(rset.getString(1),
+            rset.getString(2),
+            rset.getString(3),
+            rset.getString(4),
+            rset.getString(5)));
+      }
+    } catch (SQLException e) {
+      log.error("Failed to export schedules", e);
+    }
+    return schedules;
   }
 
   @Override

@@ -5,6 +5,8 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
+<?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -19,7 +21,7 @@
     <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
   </padding>
   <children>
-    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%serviceMedicineDeliveryMedicationRequest">
+    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%serviceMedicineDeliveryDescription">
       <font>
         <Font size="18.0"/>
       </font>
@@ -51,47 +53,27 @@
               </validators>
             </JFXTextField>
           </children>
-        </HBox>
-        <HBox layoutX="18.0" layoutY="18.0" spacing="8.0">
-          <children>
-            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-              <image>
-                <Image url="/numbered-list-icon.png"/>
-              </image>
-            </ImageView>
-            <JFXComboBox fx:id="floorNumber" promptText="%serviceMedicineFloorRequest">
-              <validators>
-                <RequiredFieldValidator message="%serviceMedicineFloorRequestValidator"/>
+    </HBox>
+    <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
+      <validators>
+        <NodeRequiredValidator message="%locationPromptValidator"/>
+      </validators>
+    </NodeSelector>
+    <HBox alignment="TOP_CENTER" layoutX="18.0" layoutY="83.0" spacing="8.0">
+      <children>
+        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="/list-icon.png"/>
+          </image>
+        </ImageView>
+        <JFXComboBox fx:id="deliveryMethod" promptText="%serviceMedicineDeliveryDeliveryMethod">
+          <validators>
+            <RequiredFieldValidator message="%serviceMedicineDeliveryDeliveryMethodValidator"/>
               </validators>
             </JFXComboBox>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
-              pickOnBounds="true" preserveRatio="true">
-              <image>
-                <Image url="/location-icon.png"/>
-              </image>
-            </ImageView>
-            <JFXComboBox fx:id="roomName" promptText="%serviceMedicineLocationRequest">
+            <JFXTimePicker fx:id="timePicker" promptText="%timePrompt">
               <validators>
-                <RequiredFieldValidator message="%serviceMedicineLocationRequestValidator"/>
-              </validators>
-            </JFXComboBox>
-          </children>
-        </HBox>
-        <HBox alignment="TOP_CENTER" layoutX="18.0" layoutY="83.0" spacing="8.0">
-          <children>
-            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-              <image>
-                <Image url="/list-icon.png"/>
-              </image>
-            </ImageView>
-            <JFXComboBox fx:id="deliveryMethod" promptText="%serviceMedicineDeliveryDeliveryMethod">
-              <validators>
-                <RequiredFieldValidator message="%serviceMedicineDeliveryDeliveryMethodValidator"/>
-              </validators>
-            </JFXComboBox>
-            <JFXTimePicker fx:id="timePicker" promptText="%serviceRequestTime">
-              <validators>
-                <RequiredFieldValidator message="%serviceMedicineDeliveryTimeValidator"/>
+                <RequiredFieldValidator message="%timePromptValidator"/>
               </validators>
             </JFXTimePicker>
           </children>

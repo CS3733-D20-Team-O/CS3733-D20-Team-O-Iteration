@@ -3,31 +3,45 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Region?>
 <VBox alignment="CENTER" spacing="32" xmlns:fx="http://javafx.com/fxml"
   style="-fx-padding: 32; -fx-font-size: 16"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel">
-  <Label text="Admin Options" style="-fx-font-size: 36"/>
-  <JFXButton onAction="#openFloorMapEditor" text="Floor Map Editor" buttonType="RAISED"
+  <Label text="%adminOptionsTitle" style="-fx-font-size: 36"/>
+  <JFXButton onAction="#openFloorMapEditor" text="%accessFloorMapEditor" buttonType="RAISED"
     style="-fx-background-color: lightgray"/>
-  <JFXButton onAction="#openServiceRequestHandler" text="Service Request Handler"
+  <JFXButton onAction="#openServiceRequestHandler" text="%accessServiceRequestHandler"
     buttonType="RAISED" style="-fx-background-color: lightgray"/>
-  <JFXButton onAction="#openImportExportHandler" text="Import/Export CSV" buttonType="RAISED"
+  <JFXButton onAction="#openImportExportHandler" text="%accessCSVIE" buttonType="RAISED"
     style="-fx-background-color: lightgray"/>
   <HBox spacing="16" alignment="CENTER">
-    <Label text="Path Finding Algorithm:"/>
+    <Label text="%accessAlgorithms"/>
     <JFXComboBox fx:id="searchAlgorithms">
       <items>
         <FXCollections fx:factory="observableArrayList">
-          <Label text="Fastest Route (A*)"/>
-          <Label text="Quick Route (BFS)"/>
-          <Label text="Scenic Route (DFS)"/>
+          <Label text="%aStar"/>
+          <Label text="%bfs"/>
+          <Label text="%dfs"/>
+          <Label text="%dijkstra"/>
         </FXCollections>
       </items>
     </JFXComboBox>
   </HBox>
+  <HBox alignment="CENTER" spacing="16">
+    <Label text="%timeout"/>
+    <Spinner fx:id="timeOutTime">
+    </Spinner>
+  </HBox>
   <HBox alignment="CENTER_RIGHT">
-    <JFXButton text="Logout" onAction="#close"/>
+    <ImageView fx:id="FAQ" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openHowToUseAdminKiosk" pickOnBounds="true" preserveRatio="true">
+      <Image url="@/questionmark.png" />
+    </ImageView>
+    <Region prefHeight="50.0" prefWidth="80.0" HBox.hgrow="ALWAYS" />
+    <JFXButton text="%adminLogout" onAction="#close" />
   </HBox>
 </VBox>

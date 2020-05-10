@@ -18,5 +18,6 @@ public class SelectedPathFinder {
   /**
    * A list of available path finders to the application
    */
-  private final PathFinder[] pathFinders = new PathFinder[]{new AStar(), new BFS(), new DFS()};
+  private final PathFinder[] pathFinders = new PathFinder[]{new AStar(), new BFS(), new DFS(),
+      new Dijkstra()};
 }

@@ -10,6 +10,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -29,17 +30,19 @@ public class AVService extends ServiceRequestBase {
   @FXML
   private JFXComboBox<String> durationComboBox, serviceRequestComboBox, locationComboBox;
   @FXML
-  private JFXComboBox<Integer> floorNumberComboBox;
+  private JFXComboBox<String> floorNumberComboBox;
   @FXML
   private JFXTextField requesterNameField;
   @FXML
   private JFXTextArea commentTextArea;
   @FXML
   private JFXTimePicker startTimePicker;
+  @FXML
+  private NodeSelector nodeSelector;
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    setLocations(floorNumberComboBox, locationComboBox);
+    nodeSelector.setNodes(database.exportNodes().values());
   }
 
   @FXML
@@ -47,9 +50,7 @@ public class AVService extends ServiceRequestBase {
     if (!validator
         .validate(requesterNameField, floorNumberComboBox, locationComboBox, durationComboBox,
             serviceRequestComboBox)) {
-      dialog.showBasic("Missing Information",
-          "Please fill out the form completely to make request.",
-          "OK");
+      snackBar.show("Please fill out the form completely to make a request.");
       return;
     }
 
@@ -57,22 +58,22 @@ public class AVService extends ServiceRequestBase {
   }
 
   private void generateRequest() {
-    val time = startTimePicker.getValue().toString();
+    val startTime = startTimePicker.getValue().toString();
     val requestData = new AVRequestData(
         serviceRequestComboBox.getSelectionModel().getSelectedItem(),
-        time,
+        startTime,
         durationComboBox.getSelectionModel().getSelectedItem(),
         commentTextArea.getText());
 
-    val confirmationCode = database.addServiceRequest(time,
-        locationComboBox.getSelectionModel().getSelectedItem(),
+    val confirmationCode = database.addServiceRequest(startTime,
+        nodeSelector.getSelectedNode().getLongName(),
         "A/V", requesterNameField.getText(), requestData);
 
     if (confirmationCode == null) {
       snackBar.show("Failed to create the A/V service request");
     } else {
-      dialog.showBasic("A/V Request Submitted Successfully",
-          "Your confirmation code is:\n" + confirmationCode, "CLOSE");
+      close();
+      showRequestConfirmation(confirmationCode);
     }
   }
 }

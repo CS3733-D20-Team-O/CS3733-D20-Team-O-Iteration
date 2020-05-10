@@ -18,7 +18,7 @@ public class AStarTest {
   private final static Map<String, Node> map = new HashMap<>();
 
   private static Node newNode(String id, int x, int y) {
-    return new Node(id, x, y, 0, null, null, null, null);
+    return new Node(id, x, y, "0", "test", null, null, null);
   }
 
   @BeforeAll
@@ -33,7 +33,6 @@ public class AStarTest {
         h = newNode("h", 4, 1),
         // n is an unreachable node to test when no path can be found
         n = newNode("n", 1, 0);
-
     a.getNeighbors().addAll(Arrays.asList(b, c));
     b.getNeighbors().addAll(Arrays.asList(a, d, h));
     c.getNeighbors().addAll(Arrays.asList(a, d));

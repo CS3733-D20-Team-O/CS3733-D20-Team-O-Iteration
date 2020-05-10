@@ -58,14 +58,19 @@ public class InternalTransportationTest extends FxRobot {
   InternalTransportationService viewModel;
 
   private void initializeBundle() {
-    bundle.put("serviceIntTransportTitle", "Internal Transportation");
+    //General use Bundles
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("namePromptValidator", "Your name is required!");
+    bundle.put("locationPromptValidator", "A Room or Location is Required for the Service Request!");
+    bundle.put("timePrompt", "Time for Request");
+    bundle.put("notesPrompt", "Additional Notes:");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+
+    //Unique Bundles
+    bundle.put("serviceIntTransportationDescription ", "Internal Transportation Service Request");
     bundle.put("serviceIntTransportCurrentFloor", "Current Floor");
     bundle.put("serviceIntTransportCurrentRoom", "Current Room");
-    bundle.put("serviceIntTransportRoomValidator", "A room is required");
-    bundle.put("serviceIntTransportRequesterName", "Requester Name");
-    bundle.put("serviceIntTransportNameValidator", "Your name is required");
-    bundle.put("serviceIntTransportRequestTime", "Request Time");
-    bundle.put("serviceIntTransportTimeValidator", "Time is required");
     bundle.put("serviceIntTransportAssistedTabTitle", "Assisted");
     bundle.put("serviceIntTransportWheelchair", "Wheelchair");
     bundle.put("serviceIntTransportBed", "Bed Move");
@@ -79,8 +84,6 @@ public class InternalTransportationTest extends FxRobot {
     bundle.put("serviceIntTransportCrutches", "Crutches");
     bundle.put("serviceIntTransportCast", "Cast Scooter");
     bundle.put("serviceIntTransportIV", "Mobile IV Stand");
-    bundle.put("serviceIntTransportSubmit", "Submit");
-    bundle.put("serviceIntTransportCancel", "Cancel");
   }
 
   @Start
@@ -98,10 +101,10 @@ public class InternalTransportationTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Floor 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
+    map.put("a", new Node("a", 0, 0, "1", "", "", "Floor 1", ""));
+    map.put("b", new Node("b", 0, 0, "3", "", "", "Floor 3-1", ""));
+    map.put("c", new Node("c", 0, 0, "3", "", "", "Floor 3-2", ""));
+    map.put("d", new Node("d", 0, 0, "5", "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
 
@@ -113,6 +116,7 @@ public class InternalTransportationTest extends FxRobot {
     when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
 
     // Test when there are fields not filled out
+    clickOn("(1) Floor 1");
     clickOn("Submit");
     verify(validator, times(1)).validate(any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
@@ -120,15 +124,11 @@ public class InternalTransportationTest extends FxRobot {
     verify(dialog, times(0)).showBasic(any(), any(), any());
 
     // Test when there are fields filled out (but adding fails)
-    clickOn("Requester Name");
+    clickOn("Your Name");
     write("John Smith");
-    clickOn("Request Time");
+    clickOn("Time for Request");
     write("12:43 PM");
     clickOn("Unassisted");
-    clickOn("Current Floor");
-    clickOn("1");
-    clickOn("Current Room");
-    clickOn("Floor 1");
     clickOn("Crutches");
     clickOn("Submit");
     verify(validator, times(2)).validate(any());

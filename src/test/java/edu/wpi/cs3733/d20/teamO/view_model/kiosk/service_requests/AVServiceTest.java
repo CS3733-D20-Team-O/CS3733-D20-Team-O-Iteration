@@ -55,16 +55,19 @@ public class AVServiceTest extends FxRobot {
   AVService viewModel;
 
   private void bundleInit() {
-    bundle.put("serviceAVRequestCreation", "Audio/Visual Service Request");
-    bundle.put("serviceAVRequesterNameField", "Your Name");
-    bundle.put("serviceAVFloorNumberComboBox", "Floor Number");
-    bundle.put("serviceAVLocationComboBox", "Location");
+    //General use Bundles
+    bundle.put("serviceAVDescription", "Audio/Visual Service Request");
+    bundle.put("namePrompt", "Your Name");
+    bundle.put("floorPrompt", "Floor");
+    bundle.put("nodeSelectorPromptText", "Select or search for a location");
+    bundle.put("submitButton", "Submit");
+    bundle.put("cancelButton", "Cancel");
+    bundle.put("timePrompt", "Time for Request");
+    bundle.put("notesPrompt", "Additional Notes:");
+
+    //Unique Bundles
     bundle.put("serviceAVRequestComboBox", "Select a service");
-    bundle.put("serviceAVStartTimePicker", "At what time?");
-    bundle.put("serviceAVDurationComboBox", "For how long?");
-    bundle.put("serviceAVCommentTextArea", "Additional Notes");
-    bundle.put("serviceAVSubmitButton", "Submit");
-    bundle.put("serviceAVCancelButton", "Cancel");
+    bundle.put("serviceAVDurationComboBox", "Duration of Request");
   }
 
   @Start
@@ -82,41 +85,14 @@ public class AVServiceTest extends FxRobot {
 
   private void populateFloorAndLocation() {
     val map = new HashMap<String, Node>();
-    map.put("a", new Node("a", 0, 0, 1, "", "", "Floor 1", ""));
-    map.put("b", new Node("b", 0, 0, 3, "", "", "Floor 3-1", ""));
-    map.put("c", new Node("c", 0, 0, 3, "", "", "Floor 3-2", ""));
-    map.put("d", new Node("d", 0, 0, 5, "", "", "Floor 5", ""));
+    map.put("a", new Node("a", 0, 0, "1", "", "", "Floor 1", ""));
+    map.put("b", new Node("b", 0, 0, "3", "", "", "Floor 3-1", ""));
+    map.put("c", new Node("c", 0, 0, "3", "", "", "Floor 3-2", ""));
+    map.put("d", new Node("d", 0, 0, "5", "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
 
-  /*
-  @Test
-  public void testFloorLocationPopulated() {
-    // Verify that all floors are populated
-    clickOn("Floor Number");
-    sleep(2000);
-    verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("5", javafx.scene.Node::isVisible);
 
-    // Now that we know all floors are correct, lets check to see if the locations are present
-    // First floor
-    clickOn("Floor 1");
-    verifyThat("Floor 1", javafx.scene.Node::isVisible);
-
-    // Third floor
-    clickOn("1");
-    clickOn("3");
-    clickOn("Floor 3-1");
-    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
-
-    // Fifth floor
-    clickOn("3");
-    clickOn("5");
-    verifyThat("Floor 5", javafx.scene.Node::isVisible);
-  }
-  */
 
   @Test
   public void testComboBox() {
@@ -130,7 +106,7 @@ public class AVServiceTest extends FxRobot {
     clickOn("Your Name");
     write("Alan Smithee");
     verifyThat("Alan Smithee", javafx.scene.Node::isVisible);
-    clickOn("Additional Notes");
+    clickOn("Additional Notes:");
     write("Sample Text");
     verifyThat("Sample Text", javafx.scene.Node::isVisible);
   }
@@ -144,31 +120,30 @@ public class AVServiceTest extends FxRobot {
 
     // Test when there are fields not filled out
     clickOn("Submit");
-    verify(validator, times(1)).validate(any(), any(), any(), any(), any());
+    verify(validator, times(1)).validate(any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
-    verify(snackBar, times(0)).show(anyString());
-    verify(dialog, times(1)).showBasic(any(), any(), any());
+    verify(snackBar, times(1)).show(anyString());
+    verify(dialog, times(0)).showBasic(any(), any(), any());
 
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("Alan Smithee");
-    clickOn("Floor Number");
-    clickOn("1");
-    clickOn("Location");
-    clickOn("Floor 1");
+    clickOn("Select or search for a location");
+    write("1");
+    clickOn("(1) Floor 1");
     clickOn("Select a service");
     clickOn("Music");
-    clickOn("At what time?");
+    clickOn("Time for Request");
     write("4:20 PM");
-    clickOn("For how long?");
+    clickOn("Duration of Request");
     clickOn("10 minutes");
-    clickOn("Additional Notes");
+    clickOn("Additional Notes:");
     write("Sample Text");
 
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
-    verify(database, times(0)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("AV"), eq("Alan Smithee"),
+    verify(database, times(1)).addServiceRequest(anyString(),
+        eq("(1) Floor 1"), eq("AV"), eq("Alan Smithee"),
         eq(new AVRequestData("Music", "Sample Text", "10 minutes",
             LocalDateTime.now().toString())));
     verify(snackBar, times(1)).show(anyString());
@@ -177,8 +152,8 @@ public class AVServiceTest extends FxRobot {
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Submit");
     verify(validator, times(3)).validate(any());
-    verify(database, times(0)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("AV"), eq("Alan Smithee"),
+    verify(database, times(2)).addServiceRequest(anyString(),
+        eq("(1) Floor 1"), eq("AV"), eq("Alan Smithee"),
         eq(new AVRequestData("Music", "Sample Text", "10 minutes",
             LocalDateTime.now().toString())));
     verify(snackBar, times(1)).show(anyString());

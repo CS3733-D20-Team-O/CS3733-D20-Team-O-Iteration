@@ -1,22 +1,29 @@
 'use strict';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "/icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"/icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"/manifest.json": "8c76aa4df182e5cdae50eb4d9fb9fcba",
-"/main.dart.js": "7417beb88ce6c5dffb51f5757d2bd633",
-"/index.html": "d13c5250e5018aa52d6d90698cce858a",
-"/assets/FontManifest.json": "580ff1a5d08679ded8fcf5c6848cece7",
-"/assets/AssetManifest.json": "9c799c883f040e52c4dd4f7f6cef925c",
-"/assets/LICENSE": "08d5b7644bec8b5a5b1ca0f497d08442",
-"/assets/fonts/MaterialIcons-Regular.ttf": "56d3ffdef7a25659eab6a68a3fbfaf16",
-"/assets/assets/logo.png": "4efc8914d5b94891ed9a8d6f1ea87848",
-"/assets/assets/floors/4.png": "27d106458122ea2ca6b83407e2e50071",
-"/assets/assets/floors/5.png": "fe247a9e2b89e5f7a7b03a768c95e1c9",
-"/assets/assets/floors/2.png": "8b3a3b0fda35d92150fae4579a47a5c4",
-"/assets/assets/floors/3.png": "691f0b98837f5cae02513a63f08a654a",
-"/assets/assets/floors/1.png": "c079b281ef519570ae60811b6b1fdebe",
-"/favicon.png": "4efc8914d5b94891ed9a8d6f1ea87848"
+  "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
+"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
+"manifest.json": "8c76aa4df182e5cdae50eb4d9fb9fcba",
+"main.dart.js": "1d8a616ebbb20e7f8fb33c316a036442",
+"index.html": "d13c5250e5018aa52d6d90698cce858a",
+"/": "d13c5250e5018aa52d6d90698cce858a",
+"assets/FontManifest.json": "580ff1a5d08679ded8fcf5c6848cece7",
+"assets/AssetManifest.json": "ea5bca934c81853ddfb4581ac5c43c10",
+"assets/LICENSE": "c98da95c70612cf417cbeb9431716ae5",
+"assets/fonts/MaterialIcons-Regular.ttf": "56d3ffdef7a25659eab6a68a3fbfaf16",
+"assets/assets/logo.png": "4efc8914d5b94891ed9a8d6f1ea87848",
+"assets/assets/maps/f4.png": "5d79ff1d60d7101898fffb1ff572ed6e",
+"assets/assets/maps/m2.png": "65938c8140a18926dcbed633219dd4f6",
+"assets/assets/maps/f3.png": "45a8432d2ad6d801e9d25bf3211c9b23",
+"assets/assets/maps/m1.png": "178fd33554f0d61408b44efe0448502c",
+"assets/assets/maps/f1.png": "70cb5ff2a10f7215fba0223cb08ad964",
+"assets/assets/maps/mG.png": "89cf5f83c4db42866bbbdcc4d164b18c",
+"assets/assets/maps/mL1.png": "0eeba2524ce3155e6a1d657c742ea838",
+"assets/assets/maps/f2.png": "b5407c0036c9ad436f954acd18d344fb",
+"assets/assets/maps/mL2.png": "8f97f35c0b04f4f91fb4efa837e79463",
+"assets/assets/maps/m3.png": "904ebb987a0e51593a00062b65a0915c",
+"assets/assets/maps/f5.png": "0b63c2902c930ce6b9f3c400cec04ffd",
+"favicon.png": "4efc8914d5b94891ed9a8d6f1ea87848"
 };
 
 self.addEventListener('activate', function (event) {

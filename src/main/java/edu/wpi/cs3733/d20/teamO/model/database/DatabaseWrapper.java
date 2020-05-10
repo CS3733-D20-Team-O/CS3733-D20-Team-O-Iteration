@@ -6,6 +6,7 @@ import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.Scheduler;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import java.util.List;
@@ -31,7 +32,7 @@ public interface DatabaseWrapper {
    * @param shortName the short name of the node
    * @return the id of the added node
    */
-  String addNode(int xCoord, int yCoord, int floor, String building,
+  String addNode(int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName);
 
   /**
@@ -47,7 +48,7 @@ public interface DatabaseWrapper {
    * @param shortName the short name of the node
    * @return the number of affected entries
    */
-  int addNode(String nodeID, int xCoord, int yCoord, int floor, String building,
+  int addNode(String nodeID, int xCoord, int yCoord, String floor, String building,
       String nodeType, String longName, String shortName);
 
   /**
@@ -104,10 +105,11 @@ public interface DatabaseWrapper {
    *
    * @param name        the name of the employee
    * @param type        the type of employee they are
+   * @param password    the password of the employee for login
    * @param isAvailable true if available, false if not available
    * @return the id of the added employee
    */
-  String addEmployee(String name, String type, boolean isAvailable);
+  String addEmployee(String name, String type, String password, boolean isAvailable);
 
   /**
    * Adds the specified employee to the database
@@ -115,10 +117,23 @@ public interface DatabaseWrapper {
    * @param employeeID  the id of the employee
    * @param name        the name of the employee
    * @param type        the type of employee they are
+   * @param password    the password of the employee for login
    * @param isAvailable true if available, false if not available
    * @return the number of affected entries
    */
-  int addEmployee(String employeeID, String name, String type, boolean isAvailable);
+  int addEmployee(String employeeID, String name, String type, String password,
+      boolean isAvailable);
+
+  /**
+   * Adds the specified scheduler request to the database with auto-generated ID
+   *
+   * @param employeeID the id of the employee
+   * @param startTime  the start time for the scheduled room
+   * @param endTime    the end time for the scheduled room
+   * @param roomType   the type of the room scheduled
+   * @return the confirmation ID
+   */
+  String addScheduler(String employeeID, String startTime, String endTime, String roomType);
 
   /**
    * Deletes record(s) (example: a node or edge) from the specified table
@@ -177,6 +192,11 @@ public interface DatabaseWrapper {
    * @return a list of the employees this database contains
    */
   List<Employee> exportEmployees();
+
+  /**
+   * @return a list of the scheduler information this database contains
+   */
+  List<Scheduler> exportScheduler();
 
   /**
    * @param id the id of an Employee
