@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXSlider;
-import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
@@ -60,7 +59,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private NodeSelector startLocation, stopLocation;
   @FXML
-  private JFXToggleButton handicap;
+  private JFXButton handicap;
   @FXML
   private JFXColorPicker colorPicker;
   @FXML
@@ -94,6 +93,7 @@ public class FindPathViewModel extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
     handicapMap = new HashMap<>();
+    handicap.setStyle("-fx-background-color: lightgray;");
 
     buttonStep = 1;
 
@@ -211,12 +211,14 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   public void switchAccessibility() {
     resetPath();
-    if (handicap.isSelected()) {
+    if (handicap.getStyle().contains("lightgray")) {
       startLocation.setNodes(handicapMap.values());
       stopLocation.setNodes(handicapMap.values());
+      handicap.setStyle("-fx-background-color: dodgerblue;");
     } else {
       startLocation.setNodes(nodeMap.values());
       stopLocation.setNodes(nodeMap.values());
+      handicap.setStyle("-fx-background-color: lightgray;");
     }
   }
 
@@ -446,7 +448,7 @@ public class FindPathViewModel extends ViewModelBase {
           return current;
         }
         for (val n : current.getNeighbors()) {
-          if (!beenTo.contains(n) && n.getFloor().equals(beginning.getFloor())) {
+          if (!beenTo.contains(n) /*&& n.getFloor().equals(beginning.getFloor())*/) {
             nodes.add(n);
             beenTo.add(n);
           }
