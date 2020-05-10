@@ -49,12 +49,6 @@
                 <HBox fx:id="secondServices" alignment="CENTER" prefHeight="50.0" spacing="130">
                   <StackPane>
                   <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
-                  <ImageView fx:id="Florist" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openFlorist" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@/flower.png" />
-                  </ImageView>
-                  </StackPane>
-                  <StackPane>
-                  <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="giftDelivery" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openGiftDelivery" pickOnBounds="true" preserveRatio="true">
                     <Image url="@/gift.png" />
                   </ImageView>
@@ -68,7 +62,6 @@
                 </HBox>
 
                 <HBox alignment="CENTER" prefHeight="17.0" spacing="75" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-                  <Label text="%shortFlorist" />
                   <Label text="%shortGift" />
                   <Label text="%shortMedicine" />
                 </HBox>
@@ -119,11 +112,46 @@
                   <Image url="@/clock.png" />
                 </ImageView>
                   </StackPane>
+                  <StackPane>
+                    <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
+                    <ImageView fx:id="Florist" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openFlorist" pickOnBounds="true" preserveRatio="true">
+                      <Image url="@/flower.png" />
+                    </ImageView>
+                  </StackPane>
                 </HBox>
 
                 <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="70" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
                 <Label text="%shortAPIName" />
+                  <Label text="%shortFlorist" />
                 </HBox>
+
+                <HBox  fx:id="MoreAPI" alignment="CENTER" spacing="110" prefHeight="50">
+                  <StackPane>
+                    <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
+                    <ImageView fx:id="onCallBed" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openOnCallBed" pickOnBounds="true" preserveRatio="true">
+                      <Image url="@/onCallBeds.png" />
+                    </ImageView>
+                  </StackPane>
+                  <StackPane>
+                    <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
+                    <ImageView fx:id="foodDelivery" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openFoodDelivery" pickOnBounds="true" preserveRatio="true">
+                      <Image url="@/foodDelivery.png" />
+                    </ImageView>
+                  </StackPane>
+                  <StackPane>
+                    <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
+                    <ImageView fx:id="mortuary" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openMortuary" pickOnBounds="true" preserveRatio="true">
+                      <Image url="@/mortuary.png" />
+                    </ImageView>
+                  </StackPane>
+                </HBox>
+
+                <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="70" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+                  <Label text="On Call Beds" />
+                  <Label text="Food Delivery" />
+                  <Label text="Mortuary" />
+                </HBox>
+
               </VBox>
             </StackPane>
           </AnchorPane>

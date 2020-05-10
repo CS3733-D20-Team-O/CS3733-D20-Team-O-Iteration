@@ -141,4 +141,13 @@ public class ServiceSelector extends DialogViewModel {
 
   @FXML
   private void External() {}
+
+  @FXML
+  private void openOnCallBed() { }
+
+  @FXML
+  private void openFoodDelivery() { }
+
+  @FXML
+  private void openMortuary() { }
 }
