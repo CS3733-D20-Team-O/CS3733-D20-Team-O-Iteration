@@ -63,7 +63,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private JFXColorPicker colorPicker;
   @FXML
-  private HBox miniButtons;
+  private HBox mapSwitcherButtons;
 
   private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
@@ -79,7 +79,7 @@ public class FindPathViewModel extends ViewModelBase {
   @Override
   public void onEvent(Event event) {
     if (event instanceof RedrawEvent) {
-      miniButtons.getChildren().clear();
+      mapSwitcherButtons.getChildren().clear();
       drawPath();
     }
   }
@@ -113,14 +113,14 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.setEdgeMovement(true);
 
     startLocation.setOnNodeSelectedListener(node -> {
-      miniButtons.getChildren().clear();
+      mapSwitcherButtons.getChildren().clear();
       nodeMapViewController.deleteNode(beginning);
       beginning = node;
       nodeMapViewController.draw();
       drawPath();
     });
     stopLocation.setOnNodeSelectedListener(node -> {
-      miniButtons.getChildren().clear();
+      mapSwitcherButtons.getChildren().clear();
       nodeMapViewController.deleteNode(finish);
       finish = node;
       nodeMapViewController.draw();
@@ -160,7 +160,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   void resetPath() {
     buttonStep = 1;
-    miniButtons.getChildren().clear();
+    mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     nodeMapViewController.deleteNode(beginning);
     nodeMapViewController.deleteNode(finish);
@@ -174,7 +174,7 @@ public class FindPathViewModel extends ViewModelBase {
 
   private void drawPath() {
     buttonStep = 1;
-    miniButtons.getChildren().clear();
+    mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     List<String> floorsCrossed = getPathFloors(nodes);
@@ -184,17 +184,23 @@ public class FindPathViewModel extends ViewModelBase {
       button.setText("Step " + buttonStep + " : " + s);
       button.setOnAction(actionEvent -> miniMapButtons(actionEvent));
       button.setStyle("-fx-background-color: lightgray");
-      miniButtons.getChildren().add(button);
+      mapSwitcherButtons.getChildren().add(button);
       buttonStep++;
     }
     nodeMapViewController.clearText();
     nodeMapViewController.addNode(beginning);
     nodeMapViewController.addNode(finish);
-    nodeMapViewController
-        .addText(beginning.getXCoord(), beginning.getYCoord(), beginning.getLongName(),
-            "-fx-background-color:lightgray");
-    nodeMapViewController.addText(finish.getXCoord(), finish.getYCoord(), finish.getLongName(),
-        "-fx-background-color:lightgray");
+    if (beginning.getFloor().equals(nodeMapViewController.getFloor()) && beginning.getBuilding()
+        .equals(nodeMapViewController.getBuilding())) {
+      nodeMapViewController
+          .addText(beginning.getXCoord(), beginning.getYCoord(), beginning.getLongName(),
+              "-fx-background-color:lightgray");
+    }
+    if (finish.getFloor().equals(nodeMapViewController.getFloor()) && finish.getBuilding()
+        .equals(nodeMapViewController.getBuilding())) {
+      nodeMapViewController.addText(finish.getXCoord(), finish.getYCoord(), finish.getLongName(),
+          "-fx-background-color:lightgray");
+    }
 
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
