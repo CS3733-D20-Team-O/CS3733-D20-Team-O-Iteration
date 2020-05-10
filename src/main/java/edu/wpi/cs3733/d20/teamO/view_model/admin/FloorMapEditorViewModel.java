@@ -126,10 +126,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
             NodeProperty.Y_COORD, Integer.toString(y));
         exportDatabase();
         val newNode = nodeMap.get(node.getNodeID());
-        nodeMapViewController.relocateNode(node, newNode);
-        for (Node nodeItem : newNode.getNeighbors()) {
-          nodeMapViewController.relocateEdge(newNode, nodeItem);
-        }
+        nodeMapViewController.updateNode(node, newNode);
       }
     });
     nodeMapViewController.setOnEdgeLeftTapListener((node1, node2) -> {
