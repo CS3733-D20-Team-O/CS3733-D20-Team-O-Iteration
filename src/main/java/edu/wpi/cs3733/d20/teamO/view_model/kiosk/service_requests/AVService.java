@@ -50,9 +50,7 @@ public class AVService extends ServiceRequestBase {
     if (!validator
         .validate(requesterNameField, floorNumberComboBox, locationComboBox, durationComboBox,
             serviceRequestComboBox)) {
-      dialog.showBasic("Missing Information",
-          "Please fill out the form completely to make request.",
-          "OK");
+      snackBar.show("Please fill out the form completely to make a request.");
       return;
     }
 
