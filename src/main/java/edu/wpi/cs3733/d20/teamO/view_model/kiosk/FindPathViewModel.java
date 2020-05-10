@@ -72,6 +72,8 @@ public class FindPathViewModel extends ViewModelBase {
   private final SnackBar snackBar;
   private Color color = Color.web("fd8842");
 
+  private int buttonStep;
+
   private final SelectedPathFinder pathFinder;
 
   @Override
@@ -91,6 +93,8 @@ public class FindPathViewModel extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
     handicapMap = new HashMap<>();
+
+    buttonStep = 1;
 
     val clipRect = new Rectangle();
     clipRect.widthProperty().bind(clipper.widthProperty());
@@ -155,6 +159,7 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
+    buttonStep = 1;
     miniButtons.getChildren().clear();
     nodeMapViewController.deleteNode(beginning);
     nodeMapViewController.deleteNode(finish);
@@ -167,16 +172,18 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
+    buttonStep = 1;
     miniButtons.getChildren().clear();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     List<String> floorsCrossed = getPathFloors(nodes);
     for (String s : floorsCrossed) {
       JFXButton button = new JFXButton();
       button.setButtonType(RAISED);
-      button.setText(s);
+      button.setText("Step " + buttonStep + " : " + s);
       button.setOnAction(actionEvent -> miniMapButtons(actionEvent));
       button.setStyle("-fx-background-color: lightgray");
       miniButtons.getChildren().add(button);
+      buttonStep++;
     }
     nodeMapViewController.clearText();
     nodeMapViewController.addNode(beginning);
@@ -394,8 +401,8 @@ public class FindPathViewModel extends ViewModelBase {
 
   private void miniMapButtons(ActionEvent event) {
     String fullName = ((JFXButton) event.getSource()).getText();
-    String building = fullName.split(" : ")[0];
-    String floor = fullName.split(" : ")[1];
+    String building = fullName.split(" : ")[1];
+    String floor = fullName.split(" : ")[2];
     dispatch(new FloorSwitchEvent(floor, building));
   }
 }
