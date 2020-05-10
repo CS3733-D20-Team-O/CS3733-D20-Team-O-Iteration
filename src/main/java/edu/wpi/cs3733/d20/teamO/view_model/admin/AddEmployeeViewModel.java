@@ -4,15 +4,15 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.material.Dialog.DialogViewModel;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
-import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import javafx.fxml.FXML;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class AddEmployeeViewModel extends ViewModelBase {
+public class AddEmployeeViewModel extends DialogViewModel {
 
   private final DatabaseWrapper database;
   private final SnackBar snackBar;
@@ -45,6 +45,8 @@ public class AddEmployeeViewModel extends ViewModelBase {
         addEmployee(newName.getText(), newID.getText(), types.getSelectionModel().getSelectedItem(),
             newPassword.getText());
         snackBar.show("Employee successfully added");
+        //Todo Figure out how to update table - refresh
+        close();
       } else {
         snackBar.show("Employee ID already exists in database");
       }
@@ -52,11 +54,8 @@ public class AddEmployeeViewModel extends ViewModelBase {
   }
 
   @FXML
-  private void clear() {
-    newName.clear();
-    newID.clear();
-    newPassword.clear();
-    types.getSelectionModel().clearSelection();
+  private void cancel() {
+    close();
   }
 
 }

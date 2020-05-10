@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -32,6 +31,7 @@ public class EmployeeHandlerViewModel extends ViewModelBase {
   private final LoginDetails loginDetails;
   private final SnackBar snackBar;
   private final Dialog dialog;
+  private final FXMLLoader fxmlLoader;
 
   @FXML
   private TableView<Employee> employeeTable;
@@ -49,17 +49,17 @@ public class EmployeeHandlerViewModel extends ViewModelBase {
   @FXML
   private void updateDisplays() {
     List<Employee> tableItems = database.exportEmployees().stream()
-        .filter((e) -> !e.getType().equals("admin")).collect(
-            Collectors.toList());
+        .filter((e) -> !e.getType().equals("start"))
+        .filter((e) -> !e.getType().equals("nullEmp"))
+        .collect(Collectors.toList());
     employeeTable.getItems().setAll(tableItems);
   }
 
   @FXML
   private void addEmployee() {
     try {
-      StackPane stack = new StackPane();
-      stack.getChildren().addAll(new Rectangle());
       dialog.showFullscreenFXML("views/admin/AddEmployee.fxml");
+      updateDisplays();
     } catch (IOException e) {
       log.error("Failed to open", e);
     }
@@ -70,15 +70,25 @@ public class EmployeeHandlerViewModel extends ViewModelBase {
     val emp = getSelectedEmployee();
     database
         .deleteFromTable(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, emp.getEmployeeID());
+    updateDisplays();
   }
 
   @FXML
   private void updateEmployee() {
-
+    try {
+      val viewModel = (UpdateEmployeeViewModel) dialog
+          .showFullscreenFXML("views/admin/UpdateEmployee.fxml");
+      viewModel.init(getSelectedEmployee());
+      updateDisplays();
+    } catch (IOException e) {
+      log.error("Failed to open", e);
+    }
+    updateDisplays();
   }
 
   Employee getSelectedEmployee() {
     return employeeTable.getSelectionModel().getSelectedItem();
+    //Todo figure out how to check if nothing is selected
   }
 
 }

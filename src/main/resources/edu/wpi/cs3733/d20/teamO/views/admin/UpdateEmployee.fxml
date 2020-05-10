@@ -11,9 +11,9 @@
 <VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="238.0"
   style="-fx-spacing: 16; -fx-padding: 16;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.AddEmployeeViewModel">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.UpdateEmployeeViewModel">
   <children>
-    <Label text="ADD EMPLOYEE">
+    <Label text="UPDATE EMPLOYEE">
       <font>
         <Font name="System Bold" size="20.0"/>
       </font>
@@ -37,7 +37,6 @@
       </items>
     </JFXComboBox>
     <JFXTextField fx:id="newID" promptText="Employee ID"/>
-    <JFXTextField fx:id="newPassword" promptText="Password"/>
     <JFXButton onAction="#confirm" prefHeight="36.0" prefWidth="130.0"
       style="-fx-background-color: #00bb00;" text="Confirm"/>
     <JFXButton onAction="#cancel" prefHeight="36.0" prefWidth="130.0"
