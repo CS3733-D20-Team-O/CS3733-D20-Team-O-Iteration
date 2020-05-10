@@ -403,21 +403,21 @@ public class FindPathViewModel extends ViewModelBase {
 
   @FXML
   private void setNearestBathroom() {
-    if (!getToNearest("REST", true, "")) {
+    if (!findPathToNearest("REST", true, "")) {
       snackBar.show("Unable to set nearest bathroom");
     }
   }
 
   @FXML
   private void setNearestExit() {
-    if (!getToNearest("EXIT", false, "")) {
+    if (!findPathToNearest("EXIT", false, "")) {
       snackBar.show("Unable to set nearest exit");
     }
   }
 
   @FXML
   private void setNearestFood() {
-    if (!getToNearest("RETL", false, "Food")) {
+    if (!findPathToNearest("RETL", false, "Food")) {
       snackBar.show("Unable to set nearest food provider");
     }
   }
@@ -430,7 +430,8 @@ public class FindPathViewModel extends ViewModelBase {
    * @param shortNameSupplement additional string to check for in node shortName
    * @return true if the path is drawn, false otherwise
    */
-  private boolean getToNearest(String type, boolean sameFloorOnly, String shortNameSupplement) {
+  private boolean findPathToNearest(String type, boolean sameFloorOnly,
+      String shortNameSupplement) {
     nodeMapViewController.deleteNode(finish);
     val nearestNode = getNearest(type, sameFloorOnly, shortNameSupplement);
     if (nearestNode == null) {
