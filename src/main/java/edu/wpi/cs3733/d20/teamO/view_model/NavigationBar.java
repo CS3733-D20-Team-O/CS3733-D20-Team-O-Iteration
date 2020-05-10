@@ -17,7 +17,6 @@ public class NavigationBar extends ViewModelBase {
 
   @FXML
   private void onBackPressed() {
-    System.out.println("Back pressed");
     try {
       navigator.pop();
     } catch (IOException e) {

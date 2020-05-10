@@ -25,10 +25,7 @@ public class Clock extends ViewModelBase {
     Timeline clock = new Timeline(
         new KeyFrame(Duration.ZERO, e -> {
           LocalTime currentTime = LocalTime.now();
-//          currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-
           time.setText(currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-
         }),
         new KeyFrame(Duration.seconds(1))
     );

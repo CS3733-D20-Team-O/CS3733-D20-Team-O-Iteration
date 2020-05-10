@@ -3,12 +3,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-  xmlns:fx="http://javafx.com/fxml"
-  fx:controller="edu.wpi.cs3733.d20.teamO.Clock"
-  prefHeight="0" prefWidth="0"
-  stylesheets="@ClockCSS.css">
-  <VBox AnchorPane.topAnchor="8" AnchorPane.leftAnchor="100" alignment="CENTER">
+<AnchorPane prefHeight="-Infinity" prefWidth="-Infinity"
+  style="-fx-border-color: FLORALWHITE; -fx-border-radius: 18; -fx-border-width: 2"
+  stylesheets="@ClockCSS.css" xmlns="http://javafx.com/javafx/11.0.1"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.Clock">
+  <VBox alignment="CENTER" layoutX="1.0" prefHeight="-Infinity" prefWidth="100"
+    AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
     <Label fx:id="date" text="date"/>
     <Label fx:id="time" text="time"/>
   </VBox>
