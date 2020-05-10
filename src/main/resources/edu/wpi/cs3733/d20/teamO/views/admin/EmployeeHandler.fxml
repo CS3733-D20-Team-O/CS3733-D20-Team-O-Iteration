@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <AnchorPane fx:id="root" maxHeight="1080.0" maxWidth="1920.0" prefHeight="643.0" prefWidth="1280.0"
   style="-fx-background-color: acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.EmployeeHandlerViewModel">
-
+  <children>
+    <TableView fx:id="employeeTable" layoutX="40.0" layoutY="181.0" prefHeight="425.0"
+      prefWidth="1200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0"
+      AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="177.39999999999998">
+      <columns>
+        <TableColumn prefWidth="300.0" text="Employee ID"/>
+        <TableColumn prefWidth="300.0" text="Name"/>
+        <TableColumn prefWidth="300.0" text="Type"/>
+        <TableColumn prefWidth="300.0" text="Availability"/>
+      </columns>
+    </TableView>
+    <HBox prefHeight="100.0" prefWidth="600.0" spacing="16.0" AnchorPane.leftAnchor="770.0"
+      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+      <children>
+        <JFXButton prefHeight="36.0" prefWidth="130.0" style="-fx-background-color: WHITE;"
+          text="Delete"/>
+        <JFXButton prefHeight="36.0" prefWidth="130.0" style="-fx-background-color: WHITE;"
+          text="Add"/>
+        <JFXButton prefHeight="36.0" prefWidth="130.0" style="-fx-background-color: WHITE;"
+          text="Update"/>
+      </children>
+      <padding>
+        <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+      </padding>
+    </HBox>
+  </children>
 </AnchorPane>
