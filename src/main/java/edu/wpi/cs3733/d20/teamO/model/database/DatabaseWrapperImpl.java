@@ -127,13 +127,13 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
-      if (addEmployee("0", "", "", "", false) != 1) {
+      if (addEmployee("0", "", "admin", "", false) != 1) {
         log.error("Failed to add the null employee!");
       }
       if (addEmployee("admin", "admin", "admin", "admin", false) != 1) {
         log.error("Failed to add the admin employee!");
       }
-      if (addEmployee("staff", "staff", "staff", "staff", false) != 1) {
+      if (addEmployee("staff", "staff", "admin", "staff", false) != 1) {
         log.error("Failed to add the staff employee!");
       }
     }
