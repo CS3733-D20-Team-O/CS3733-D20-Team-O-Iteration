@@ -12,8 +12,6 @@
   <StackPane AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
     AnchorPane.topAnchor="16">
     <Label style="-fx-font-size: 24px; -fx-text-fill: floralwhite" text="${controller.title}"/>
-    <Label fx:id="timeTracker" alignment="CENTER_RIGHT"
-      style="-fx-font-size: 24px; -fx-text-fill: floralwhite"/>
   </StackPane>
   <JFXButton onAction="#onBackPressed" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
     AnchorPane.topAnchor="0">
@@ -24,7 +22,7 @@
     </graphic>
   </JFXButton>
   <!-- Emergency Button -->
-  <AnchorPane AnchorPane.rightAnchor="150"
+  <AnchorPane AnchorPane.rightAnchor="100"
     AnchorPane.topAnchor="8">
     <fx:include source="/edu/wpi/cs3733/d20/teamO/views/EmergencyButton.fxml"
       fx:id="emergencyButton"/>

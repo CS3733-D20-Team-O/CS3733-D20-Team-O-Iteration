@@ -28,7 +28,6 @@ public class NavigationBar extends ViewModelBase {
 
   @FXML
   private void onEmergencyPressed() {
-    //needs to be Emergency Request
     try {
       dialog.showFullscreenFXML("views/kiosk/service_requests/InterpreterService.fxml");
     } catch (IOException e) {

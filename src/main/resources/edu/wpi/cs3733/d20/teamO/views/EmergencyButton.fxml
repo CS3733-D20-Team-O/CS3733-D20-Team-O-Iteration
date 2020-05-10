@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
+<JFXButton xmlns="http://javafx.com/javafx"
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.EmergencyButton"
-  prefHeight="50" prefWidth="80.0">
-  <!--  <StackPane AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="16"/>-->
-  <JFXButton text="Emergency" buttonType="RAISED"
-    style="-fx-background-color: darkred; -fx-font-size: 24px; -fx-text-fill: floralwhite"
-    onAction="#onEmergencyPressed"/>
-</AnchorPane>
+  prefHeight="50" prefWidth="150.0" text="Emergency" buttonType="RAISED"
+  style="-fx-background-color: darkred; -fx-font-size: 24px; -fx-text-fill: floralwhite"
+  onAction="#onEmergencyPressed"/>
+
