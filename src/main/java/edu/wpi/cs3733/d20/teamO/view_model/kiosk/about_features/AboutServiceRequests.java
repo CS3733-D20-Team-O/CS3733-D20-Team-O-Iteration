@@ -30,7 +30,7 @@ public class AboutServiceRequests extends DialogViewModel {
   @FXML
   public void openServiceRequestSelect() {
     try {
-      dialog.showFullscreenFXML("views/kiosk/serviceSelector.fxml");
+      dialog.showFullscreenFXML("views/kiosk/ServiceSelector.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request Screen", e);
     }

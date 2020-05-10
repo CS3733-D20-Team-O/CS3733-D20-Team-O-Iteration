@@ -23,15 +23,12 @@
     AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5">
     <VBox alignment="CENTER_LEFT" spacing="20">
       <VBox alignment="CENTER" spacing="10.0">
-        <children>
-
-          <Label text="%helpFMEDescription" wrapText="true">
-            <font>
-              <Font size="15.0"/>
-            </font>
-          </Label>
-          <Label text="%helpFMEControls" wrapText="true"/>
-        </children>
+        <Label text="%helpFMEDescription" wrapText="true">
+          <font>
+            <Font size="15.0"/>
+          </font>
+        </Label>
+        <Label text="%helpFMEControls" wrapText="true"/>
       </VBox>
       <Label text="%helpFMEAdd">
         <VBox.margin>
@@ -39,28 +36,22 @@
         </VBox.margin>
       </Label>
       <VBox alignment="CENTER_LEFT" spacing="10.0">
-        <children>
-          <Label text="%helpFMEAddStep1"/>
-          <Label text="%helpFMEAddStep2"/>
-          <Label text="%helpFMEAddStep3"/>
-        </children>
+        <Label text="%helpFMEAddStep1"/>
+        <Label text="%helpFMEAddStep2"/>
+        <Label text="%helpFMEAddStep3"/>
       </VBox>
       <Label text="%helpFMEEditDelete"/>
       <VBox alignment="CENTER_LEFT" spacing="10.0">
-        <children>
-          <VBox spacing="10.0">
-            <children>
-              <Label text="%helpFMEEditDeleteStep1"/>
-              <Label text="%helpFMEEditDeleteStep2"/>
-              <Label text="%helpFMEEditDeleteStep2a"/>
-              <Label text="%helpFMEEditDeleteStep2b"/>
-              <Label text="%helpFMEEditDeleteStep2c"/>
-              <Label text="%helpFMEEditDeleteStep2d"/>
-              <Label text="%helpFMEEditDeleteStep3"/>
-              <Label text="%helpFMEEditDeleteStep4"/>
-            </children>
-          </VBox>
-        </children>
+        <VBox spacing="10.0">
+          <Label text="%helpFMEEditDeleteStep1"/>
+          <Label text="%helpFMEEditDeleteStep2"/>
+          <Label text="%helpFMEEditDeleteStep2a"/>
+          <Label text="%helpFMEEditDeleteStep2b"/>
+          <Label text="%helpFMEEditDeleteStep2c"/>
+          <Label text="%helpFMEEditDeleteStep2d"/>
+          <Label text="%helpFMEEditDeleteStep3"/>
+          <Label text="%helpFMEEditDeleteStep4"/>
+        </VBox>
       </VBox>
 
       <HBox alignment="CENTER_RIGHT" AnchorPane.rightAnchor="5">

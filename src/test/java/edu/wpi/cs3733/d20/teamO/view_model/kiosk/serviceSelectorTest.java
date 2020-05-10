@@ -53,7 +53,7 @@ public class serviceSelectorTest extends FxRobot {
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
     stage.setScene(new Scene(loader.load(Main.class
-        .getResourceAsStream("views/kiosk/serviceSelector.fxml"))));
+        .getResourceAsStream("views/kiosk/ServiceSelector.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }

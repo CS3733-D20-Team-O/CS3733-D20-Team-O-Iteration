@@ -158,7 +158,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   public void openServiceRequestSelect() {
     try {
-      dialog.showFXML(container, "views/kiosk/serviceSelector.fxml");
+      dialog.showFXML(container, "views/kiosk/ServiceSelector.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request Screen", e);
     }

@@ -26,11 +26,9 @@
         </font>
       </Label>
       <VBox spacing="10.0">
-        <children>
-          <Label text="%helpCSVStep1" wrapText="true"/>
-          <Label text="%helpCSVStep2" wrapText="true"/>
-          <Label text="%helpCSVStep3" wrapText="true"/>
-        </children>
+        <Label text="%helpCSVStep1" wrapText="true"/>
+        <Label text="%helpCSVStep2" wrapText="true"/>
+        <Label text="%helpCSVStep3" wrapText="true"/>
       </VBox>
 
       <HBox alignment="CENTER_RIGHT" AnchorPane.rightAnchor="5">
