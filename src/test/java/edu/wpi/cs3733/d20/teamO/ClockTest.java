@@ -52,11 +52,11 @@ class ClockTest extends FxRobot {
     verifyThat(nowDate, javafx.scene.Node::isVisible);
   }
 
-  @Test
-  public void testClock3() {
-
-    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss"));
-    verifyThat(nowDate, javafx.scene.Node::isVisible);
-  }
+//  @Test
+//  public void testClock3() {
+//
+//    val nowDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss"));
+//    verifyThat(nowDate, javafx.scene.Node::isVisible);
+//  }
 
 }
