@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
@@ -59,7 +60,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private NodeSelector startLocation, stopLocation;
   @FXML
-  private JFXButton handicap;
+  private JFXToggleButton handicap;
   @FXML
   private JFXColorPicker colorPicker;
   @FXML
@@ -138,7 +139,7 @@ public class FindPathViewModel extends ViewModelBase {
   public void createHandicap() {
     //create the map of nodes without edges
     for (Node node : nodeMap.values()) {
-      if ((!node.getNodeType().equals("STAI") && !node.getNodeType().equals("REST"))
+      if ((!node.getNodeType().equals("STAI") && !(node.getNodeType().equals("REST")))
           || (node.getNodeType().equals("REST") && node.getLongName().toLowerCase()
           .contains("handicap"))) {
         val newNode = node.withNeighbors(new LinkedList<>());
@@ -210,7 +211,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   public void switchAccessibility() {
     resetPath();
-    if (handicap.isPressed()) {
+    if (handicap.isSelected()) {
       startLocation.setNodes(handicapMap.values());
       stopLocation.setNodes(handicapMap.values());
     } else {

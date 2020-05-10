@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXColorPicker?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
 <?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import javafx.geometry.Insets?>
@@ -61,7 +62,7 @@
                 </ImageView>
               </graphic>
             </JFXButton>
-            <JFXButton fx:id="handicap" buttonType="RAISED" onAction="#switchAccessibility"
+            <JFXToggleButton fx:id="handicap" onAction="#switchAccessibility"
               style="-fx-background-color: lightgrey;" text="\%pathFindHandicap"/>
           </children>
           <padding>
