@@ -15,6 +15,7 @@ import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.ServiceRequestBase;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
@@ -46,71 +47,74 @@ public class EmergencyReport extends ServiceRequestBase {
 
   @FXML
   public void submitRequest() {
-    //Generates a request, and immediately assigns an employee to it.
-    database.addEmployee("1001", "Serviceemployee", "Security", true);
-    database.addEmployee("1002", "Serviceemployee2", "Security", true);
-    database.addEmployee("1003", "Serviceemployee3", "Security", true);
-    database.addEmployee("1004", "Serviceemployee4", "Security", true);
-
-    val securityRequest = new SecurityRequestData(checkBox(), checkNotes());
+    val securityRequest = new SecurityRequestData(checkButton(), checkNotes());
+    val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd hh:mm a"));
     val confirmationCode = database
-        .addServiceRequest(LocalDateTime.now().toString(), checkLocation(), "Security", checkName(),
+        .addServiceRequest(time, checkLocation(), "Security", checkName(),
             securityRequest);
 
     assignEmployee(confirmationCode);
 
     showRequestConfirmation(confirmationCode);
-//    val confirmationCode = database.addServiceRequest(
-//        time, nodeSelector.getSelectedNode().getLongName(),
-//        "Sanitation", requesterName.getText(), requestData);
+
   }
 
   private void assignEmployee(String confirmationCode) {
-    val currentRequest = database.exportServiceRequests();
+    System.out.println("assignEmployee()");
     Employee employee = null;
 
     for (Employee employeeToAssign : database.exportEmployees()) {
       if (employeeToAssign.getIsAvailable() && employeeToAssign.getType().equals("Security")) {
         employee = employeeToAssign;
-        System.out.println("sets employee to employeeToAssign");
+        break;
       }
     }
 
-    for (ServiceRequest currentReq : database.exportServiceRequests()) {
-      if (database.exportServiceRequests().contains(confirmationCode)) {
-        System.out.print("updates the current request with the employee.");
+    for (ServiceRequest request : database.exportServiceRequests()) {
+      if (request.getRequestID().equals(confirmationCode) && employee != null) {
+
+        //Updates the requests, using the request id of the currently selected request from this for loop
+        //updates the employee assigned field with the employee assigned in the previous loop
         database.update(
             Table.SERVICE_REQUESTS_TABLE,
             ServiceRequestProperty.REQUEST_ID,
-            currentReq.getRequestID(),
+            request.getRequestID(),
             ServiceRequestProperty.EMPLOYEE_ASSIGNED,
             employee.getEmployeeID());
-        database.update(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID,
-            employee.getEmployeeID(), EmployeeProperty.IS_AVAILABLE, "false");
+
+        //Updates the employees, using the currently assigned employee's ID
+        //sets that employees availability to false - because they're assigned to the request now.
+        database.update(
+            Table.EMPLOYEE_TABLE,
+            EmployeeProperty.EMPLOYEE_ID,
+            employee.getEmployeeID(),
+            EmployeeProperty.IS_AVAILABLE,
+            "false");
+
+        //updates the requests, using the request ID from the currently selected request from this for loop
+        //sets the status of this request to be assigned - as an employee is now assigned to it.
+        database.update(
+            Table.SERVICE_REQUESTS_TABLE,
+            ServiceRequestProperty.REQUEST_ID,
+            request.getRequestID(),
+            ServiceRequestProperty.STATUS,
+            "Assigned");
+
+        break;
       }
     }
 
 
   }
 
-  private String getEmployee() {
-    // go through the database
-    // find the first employee that is "Security" && isAvailable
-    for (val assignEmployee : database.exportEmployees()) {
-      if (assignEmployee.getType().equals("Security") && assignEmployee.getIsAvailable()) {
-
-        return assignEmployee.getName();
-      }
-    }
-    return "unassigned";
-  }
 
   public String checkName() {
-    if (requesterName.getText().isEmpty()) {
-      return "no name";
-    } else if (!loginDetails.getUsername().equals("")) {
+    if (!loginDetails.getUsername().equals("")) {
       return loginDetails.getUsername();
+    } else if (requesterName.getText().isEmpty()) {
+      return "no name";
     }
+
     return requesterName.getText();
   }
 
@@ -122,7 +126,7 @@ public class EmergencyReport extends ServiceRequestBase {
     return nodeSelector.getSelectedNode().getLongName();
   }
 
-  public String checkBox() {
+  public String checkButton() {
     val checkedButton = (RadioButton) levelSelection.getSelectedToggle();
 
     if (checkedButton.getText().equals("unknownButton")) {
