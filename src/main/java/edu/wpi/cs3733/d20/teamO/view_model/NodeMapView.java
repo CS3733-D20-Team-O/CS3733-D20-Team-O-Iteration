@@ -79,22 +79,22 @@ public class NodeMapView extends ViewModelBase {
    * Gets called when a node is left-click dragged
    */
   @Setter
-  private NodeCoordConsumer<Node, Integer, Integer> onNodeLeftDragListener;
+  private NodeCoordConsumer onNodeLeftDragListener;
   /**
    * Gets called when a node is right-clicked dragged
    */
   @Setter
-  private NodeCoordConsumer<Node, Integer, Integer> onNodeRightDragListener;
+  private NodeCoordConsumer onNodeRightDragListener;
   /**
    * Gets called when a node has been released from a left-click
    */
   @Setter
-  private NodeCoordConsumer<Node, Integer, Integer> onNodeLeftTapReleaseListener;
+  private NodeCoordConsumer onNodeLeftTapReleaseListener;
   /**
    * Gets called when a node has been released from a right-click
    */
   @Setter
-  private NodeCoordConsumer<Node, Integer, Integer> onNodeRightTapReleaseListener;
+  private NodeCoordConsumer onNodeRightTapReleaseListener;
   /**
    * Gets called when a edge is left-clicked
    */
@@ -737,15 +737,11 @@ public class NodeMapView extends ViewModelBase {
 
   /**
    * A NodeCoordConsumer
-   *
-   * @param <T>
-   * @param <U>
-   * @param <X>
    */
   @FunctionalInterface
-  public interface NodeCoordConsumer<T, U, X> {
+  public interface NodeCoordConsumer {
 
-    void accept(T t, U u, X x);
+    void accept(Node node, int x, int y);
   }
 
   public void onEvent(Event event) {
