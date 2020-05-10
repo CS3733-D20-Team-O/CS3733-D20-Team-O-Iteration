@@ -11,7 +11,7 @@ import lombok.val;
 public class FloorSelector extends ViewModelBase {
 
   @FXML
-  private JFXButton faulkner1, faulkner2, faulkner3, faulkner4, faulkner5, mainL1, mainL2, mainG, main1, main2, main3, main4, faulknerBtn, mainCampusBtn;
+  private JFXButton faulkner1, faulkner2, faulkner3, faulkner4, faulkner5, mainL1, mainL2, mainG, main1, main2, main3, faulknerBtn, mainCampusBtn;
   @FXML
   private TilePane faulknerBtns, mainCampusBtns;
   private String floor = "1";
@@ -33,7 +33,7 @@ public class FloorSelector extends ViewModelBase {
         break;
       case ("Main Campus"):
         for (JFXButton btn : Arrays
-            .asList(mainL2, mainL1, mainG, main1, main2, main3, main4)) {
+            .asList(mainL2, mainL1, mainG, main1, main2, main3)) {
           btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
         }
         break;
@@ -60,7 +60,7 @@ public class FloorSelector extends ViewModelBase {
         break;
       case ("Main Campus"):
         for (JFXButton btn : Arrays
-            .asList(main2, main3, main4, mainG, mainL1, mainL2, faulknerBtn)) {
+            .asList(main2, main3, mainG, mainL1, mainL2, faulknerBtn)) {
           btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
         }
         main1.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");

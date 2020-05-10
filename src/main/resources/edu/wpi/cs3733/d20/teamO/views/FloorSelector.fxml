@@ -56,9 +56,6 @@
                   <JFXButton fx:id="main3" layoutX="129.0" layoutY="10.0" onAction="#setFloor"
                     prefHeight="30.0" prefWidth="30.0"
                     style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="3"/>
-                  <JFXButton fx:id="main4" layoutX="146.0" layoutY="10.0" onAction="#setFloor"
-                    prefHeight="30.0" prefWidth="30.0"
-                    style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="4"/>
                </children>
             </TilePane>
          </children>
