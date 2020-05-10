@@ -19,78 +19,96 @@
             <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
               <VBox fx:id="contentContainer" spacing="20" AnchorPane.TopAnchor="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-                <HBox fx:id="firstServices" alignment="CENTER" spacing="130">
+                <HBox fx:id="firstServices" alignment="CENTER" spacing="100">
+                  <VBox spacing="20">
                   <StackPane>
                   <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="AVService" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openAVService" pickOnBounds="true" preserveRatio="true">
                     <Image url="@/audioVisual.png" />
                   </ImageView>
                   </StackPane>
+                    <Label text="%shortAV" />
+                  </VBox>
+
+                  <VBox spacing="20">
                   <StackPane>
                   <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="ExtTransport" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openAExtTransport" pickOnBounds="true" preserveRatio="true">
                     <Image url="@/Transport.png" />
                   </ImageView>
                   </StackPane>
+                    <Label text="%shortExtTransport" />
+                  </VBox>
+
+                  <VBox spacing="20">
                   <StackPane>
                   <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="intTransport" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openIntTransport" pickOnBounds="true" preserveRatio="true">
                     <Image url="@/intTransport.png" />
                   </ImageView>
                   </StackPane>
-                </HBox>
-
-                <HBox alignment="CENTER" prefHeight="0.0" spacing="50" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-                  <Label text="%shortAV" />
-                  <Label text="%shortExtTransport" />
                   <Label text="%shortIntTransport" />
+                </VBox>
                 </HBox>
 
-                <HBox fx:id="secondServices" alignment="CENTER" prefHeight="50.0" spacing="130">
+                <HBox fx:id="secondServices" alignment="CENTER" prefHeight="50.0" spacing="200">
+
+                  <VBox spacing="20">
                   <StackPane>
                   <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="giftDelivery" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openGiftDelivery" pickOnBounds="true" preserveRatio="true">
                     <Image url="@/gift.png" />
                   </ImageView>
                   </StackPane>
+                    <Label text="%shortGift" />
+                  </VBox>
+
+
+                  <VBox spacing="20">
                   <StackPane>
                   <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="medDelivery" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openMedicineDelivery" pickOnBounds="true" preserveRatio="true">
                     <Image url="@/medicine.png" />
                   </ImageView>
                   </StackPane>
+                    <Label text="%shortMedicine" />
+                  </VBox>
                 </HBox>
 
-                <HBox alignment="CENTER" prefHeight="17.0" spacing="75" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-                  <Label text="%shortGift" />
-                  <Label text="%shortMedicine" />
-                </HBox>
 
-                <HBox fx:id="thirdServices" alignment="CENTER" spacing="110">
+
+                <HBox fx:id="thirdServices" alignment="CENTER" spacing="100">
+
+
+                  <VBox spacing="20">
                   <StackPane>
                   <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="sanitationService" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openSanitation" pickOnBounds="true" preserveRatio="true">
                     <Image url="@/janitor-icon-17.png" />
                   </ImageView>
                   </StackPane>
+                    <Label text="%shortSanitation" />
+                  </VBox>
+
+                  <VBox spacing="20">
                   <StackPane>
                   <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="interpreterService" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openInterpreter" pickOnBounds="true" preserveRatio="true">
                     <Image url="@/interpreter.png" />
                   </ImageView>
                   </StackPane>
+                    <Label text="%shortInterpreter" />
+                  </VBox>
+
+                  <VBox spacing="20">
                   <StackPane>
                   <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="infoTech" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openInfoTech" pickOnBounds="true" preserveRatio="true">
                     <Image url="@/infoTech.png" />
                   </ImageView>
                   </StackPane>
-                </HBox>
-
-                <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="70" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-                  <Label text="%shortSanitation" />
-                  <Label text="%shortInterpreter" />
-                  <Label text="%shortIT" />
+                    <Label text="%shortIT" />
+                  </VBox>
                 </HBox>
               </VBox>
             </StackPane>
@@ -106,52 +124,62 @@
 
               <VBox fx:id="secondContainer" spacing="30" AnchorPane.TopAnchor="30" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
                 <HBox  fx:id="API" alignment="CENTER" spacing="110" prefHeight="50">
+
+                  <VBox spacing="20">
                   <StackPane>
                     <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                   <ImageView fx:id="appointmentRequest" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openAppointmentRequest" pickOnBounds="true" preserveRatio="true">
                   <Image url="@/clock.png" />
                 </ImageView>
                   </StackPane>
+                    <Label text="%shortAPIName" />
+                  </VBox>
+
+                  <VBox spacing="20">
                   <StackPane>
                     <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                     <ImageView fx:id="Florist" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openFlorist" pickOnBounds="true" preserveRatio="true">
                       <Image url="@/flower.png" />
                     </ImageView>
                   </StackPane>
+                    <Label text="%shortFlorist" />
+                  </VBox>
                 </HBox>
 
-                <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="70" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-                <Label text="%shortAPIName" />
-                  <Label text="%shortFlorist" />
-                </HBox>
+
 
                 <HBox  fx:id="MoreAPI" alignment="CENTER" spacing="110" prefHeight="50">
+
+                  <VBox spacing="20">
                   <StackPane>
                     <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                     <ImageView fx:id="onCallBed" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openOnCallBed" pickOnBounds="true" preserveRatio="true">
                       <Image url="@/onCallBeds.png" />
                     </ImageView>
                   </StackPane>
+                    <Label text="On Call Beds" />
+                  </VBox>
+
+                  <VBox spacing="20">
                   <StackPane>
                     <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                     <ImageView fx:id="foodDelivery" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openFoodDelivery" pickOnBounds="true" preserveRatio="true">
                       <Image url="@/foodDelivery.png" />
                     </ImageView>
                   </StackPane>
+                    <Label text="Food Delivery" />
+                  </VBox>
+
+                  <VBox spacing="20">
                   <StackPane>
                     <Circle radius="25" stroke="black" strokeWidth="2" fill="transparent"/>
                     <ImageView fx:id="mortuary" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#openMortuary" pickOnBounds="true" preserveRatio="true">
                       <Image url="@/mortuary.png" />
                     </ImageView>
                   </StackPane>
+                    <Label text="Mortuary" />
+                  </VBox>
                 </HBox>
-
-                <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="70" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-                  <Label text="On Call Beds" />
-                  <Label text="Food Delivery" />
-                  <Label text="Mortuary" />
-                </HBox>
-
               </VBox>
             </StackPane>
           </AnchorPane>
