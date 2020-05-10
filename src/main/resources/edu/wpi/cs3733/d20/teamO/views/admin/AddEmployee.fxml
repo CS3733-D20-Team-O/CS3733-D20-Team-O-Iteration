@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="238.0"
+  style="-fx-spacing: 16; -fx-padding: 16;" xmlns="http://javafx.com/javafx/11.0.1"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.AddEmployeeViewModel">
+  <children>
+    <JFXTextField promptText="Full Name" fx:id="newName"/>
+    <JFXComboBox promptText="Employee Type" fx:id="types"/>
+    <JFXTextField promptText="Employee ID" fx:id="newID"/>
+    <JFXTextField promptText="Password" fx:id="newPassword"/>
+    <JFXButton prefHeight="36.0" prefWidth="130.0" style="-fx-background-color: #00bb00;"
+      text="Confirm" onAction="#confirm"/>
+    <JFXButton prefHeight="36.0" prefWidth="130.0" style="-fx-background-color: lightgray;"
+      text="Clear" onAction="#clear"/>
+  </children>
+</VBox>
