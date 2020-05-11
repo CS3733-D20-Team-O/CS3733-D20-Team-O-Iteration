@@ -28,6 +28,7 @@ import org.testfx.framework.junit5.Start;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 class HowToUseKioskTest extends FxRobot {
+
   @Mock
   EventBus eventBus;
   @Mock
