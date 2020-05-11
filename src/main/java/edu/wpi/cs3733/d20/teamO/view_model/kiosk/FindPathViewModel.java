@@ -233,49 +233,43 @@ public class FindPathViewModel extends ViewModelBase {
     switch (currentState) {
       case NONE:
         if (event.getSource().equals(handicap)) {
-          startLocation.setNodes(handicapMap.values());
-          stopLocation.setNodes(handicapMap.values());
+          updateMapAndState(AccessabilityState.HANDICAP, handicapMap);
           handicap.setStyle("-fx-background-color: dodgerblue;");
-          currentState = AccessabilityState.HANDICAP;
         } else {
-          startLocation.setNodes(stairsMap.values());
-          stopLocation.setNodes(stairsMap.values());
+          updateMapAndState(AccessabilityState.STAIR, stairsMap);
           stairsOnly.setStyle("-fx-background-color: seagreen;");
-          currentState = AccessabilityState.STAIR;
         }
         break;
       case HANDICAP:
         if (event.getSource().equals(handicap)) {
-          startLocation.setNodes(nodeMap.values());
-          stopLocation.setNodes(nodeMap.values());
+          updateMapAndState(AccessabilityState.NONE, nodeMap);
           handicap.setStyle("-fx-background-color: lightgray;");
-          currentState = AccessabilityState.NONE;
         } else {
-          startLocation.setNodes(stairsMap.values());
-          stopLocation.setNodes(stairsMap.values());
+          updateMapAndState(AccessabilityState.STAIR, stairsMap);
           stairsOnly.setStyle("-fx-background-color: seagreen;");
           handicap.setStyle("-fx-background-color: lightgray;");
-          currentState = AccessabilityState.STAIR;
         }
         break;
       case STAIR:
         if (event.getSource().equals(handicap)) {
-          startLocation.setNodes(handicapMap.values());
-          stopLocation.setNodes(handicapMap.values());
+          updateMapAndState(AccessabilityState.HANDICAP, handicapMap);
           handicap.setStyle("-fx-background-color: dodgerblue;");
           stairsOnly.setStyle("-fx-background-color: lightgray;");
-          currentState = AccessabilityState.HANDICAP;
         } else {
-          startLocation.setNodes(nodeMap.values());
-          stopLocation.setNodes(nodeMap.values());
+          updateMapAndState(AccessabilityState.NONE, nodeMap);
           stairsOnly.setStyle("-fx-background-color: lightgray;");
-          currentState = AccessabilityState.NONE;
         }
         break;
       default:
         snackBar.show("Error: unable to set accessibility mode");
     }
 
+  }
+
+  private void updateMapAndState(AccessabilityState newState, Map<String, Node> newMap) {
+    startLocation.setNodes(newMap.values());
+    stopLocation.setNodes(newMap.values());
+    currentState = newState;
   }
 
   @FXML
