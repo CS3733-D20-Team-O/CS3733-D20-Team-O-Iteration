@@ -459,9 +459,8 @@ public class FindPathViewModel extends ViewModelBase {
 
   private List<String> getPathFloors(List<Node> path) {
     List<String> floors = new LinkedList<>();
-    String currentFloor = path.get(0).getFloor();
-    String currentBuilding = path.get(0).getBuilding();
-    floors.add(currentBuilding + ", Floor " + currentFloor);
+    String currentFloor = null;
+    String currentBuilding = null;
     for (Node n : path) {
       if (!n.getFloor().equals(currentFloor) || !n.getBuilding().equals(currentBuilding)) {
         currentFloor = n.getFloor();
