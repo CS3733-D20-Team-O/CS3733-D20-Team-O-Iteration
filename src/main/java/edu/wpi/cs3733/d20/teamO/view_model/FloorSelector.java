@@ -18,6 +18,8 @@ public class FloorSelector extends ViewModelBase {
   private String building = "Faulkner";
   private static final String faulkner = "Faulkner";
   private static final String main = "Main Campus";
+  private static final String unselectedStyle = "-fx-background-color: lightgray; -fx-background-radius: 30;";
+  private static final String selectedStyle = "-fx-background-color: lightseagreen; -fx-background-radius: 30;";
 
   /**
    * Sets the floor of the application
@@ -30,17 +32,17 @@ public class FloorSelector extends ViewModelBase {
       case (faulkner):
         for (JFXButton btn : Arrays
             .asList(faulkner1, faulkner2, faulkner3, faulkner4, faulkner5)) {
-          btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+          btn.setStyle(unselectedStyle);
         }
         break;
       case (main):
         for (JFXButton btn : Arrays
             .asList(mainL2, mainL1, mainG, main1, main2, main3)) {
-          btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+          btn.setStyle(unselectedStyle);
         }
         break;
     }
-    target.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
+    target.setStyle(selectedStyle);
     dispatch(new FloorSwitchEvent(floor, building));
   }
 
@@ -54,23 +56,23 @@ public class FloorSelector extends ViewModelBase {
       case (faulkner):
         for (JFXButton btn : Arrays
             .asList(faulkner2, faulkner3, faulkner4, faulkner5, mainCampusBtn)) {
-          btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+          btn.setStyle(unselectedStyle);
         }
-        faulkner1.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
+        faulkner1.setStyle(selectedStyle);
         faulknerBtns.setVisible(true);
         mainCampusBtns.setVisible(false);
         break;
       case (main):
         for (JFXButton btn : Arrays
             .asList(main2, main3, mainG, mainL1, mainL2, faulknerBtn)) {
-          btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+          btn.setStyle(unselectedStyle);
         }
-        main1.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
+        main1.setStyle(selectedStyle);
         mainCampusBtns.setVisible(true);
         faulknerBtns.setVisible(false);
         break;
     }
-    target.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
+    target.setStyle(selectedStyle);
     floor = "1";
     dispatch(new FloorSwitchEvent(floor, building));
   }
