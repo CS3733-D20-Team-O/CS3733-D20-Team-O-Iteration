@@ -72,6 +72,19 @@
       <Insets bottom="10.0"/>
     </VBox.margin>
   </Label>
-  <JFXButton buttonType="RAISED" onAction="#close" style="-fx-background-color: LIGHTGRAY;"
-    text="%aboutBack"/>
+  <HBox alignment="CENTER">
+    <children>
+      <!-- Software Used Button -->
+      <JFXButton buttonType="RAISED" onAction="#openCredits"
+        style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;"
+        text="%credits"/>
+      <JFXButton buttonType="RAISED" onAction="#close"
+        style="-fx-background-color: LIGHTGRAY; -fx-background-radius: 24; -fx-padding: 12 16;"
+        text="%aboutBack">
+        <HBox.margin>
+          <Insets left="40.0"/>
+        </HBox.margin>
+      </JFXButton>
+    </children>
+  </HBox>
 </VBox>
