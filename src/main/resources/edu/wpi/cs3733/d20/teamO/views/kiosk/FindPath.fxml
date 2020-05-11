@@ -20,7 +20,14 @@
   <center>
     <VBox>
       <AnchorPane fx:id="clipper">
-        <fx:include fx:id="nodeMapView" source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
+        <HBox fx:id="nodeMapContainer" visible="true">
+          <fx:include fx:id="nodeMapView"
+            source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
+        </HBox>
+        <HBox fx:id="streetMapContainer" visible="false">
+          <fx:include fx:id="streetViewViewModel"
+            source="/edu/wpi/cs3733/d20/teamO/views/StreetView.fxml"/>
+        </HBox>
       </AnchorPane>
       <HBox fx:id="mapSwitcherButtons" spacing="16">
         <padding>
