@@ -19,7 +19,7 @@
       </HBox>
       <Group>
          <children>
-            <TilePane fx:id="faulknerBtns" alignment="CENTER" hgap="4.0" vgap="4.0">
+            <TilePane fx:id="faulknerBtns" alignment="CENTER" hgap="4.0" prefRows="1" vgap="4.0">
                <children>
                   <JFXButton fx:id="faulkner1" onAction="#setFloor" prefHeight="30.0"
                     prefWidth="30.0"
@@ -39,8 +39,8 @@
                     style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="5"/>
                </children>
             </TilePane>
-            <TilePane fx:id="mainCampusBtns" alignment="CENTER" hgap="4.0" prefColumns="7"
-              vgap="4.0" visible="false">
+            <TilePane fx:id="mainCampusBtns" alignment="CENTER" hgap="4.0" prefColumns="6"
+              prefRows="1" vgap="4.0" visible="false">
                <children>
                   <JFXButton fx:id="mainG" onAction="#setFloor" prefHeight="30.0" prefWidth="30.0"
                     style="-fx-background-color: lightgray; -fx-background-radius: 30;" text="G"/>
