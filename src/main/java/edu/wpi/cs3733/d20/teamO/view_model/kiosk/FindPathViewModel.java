@@ -72,8 +72,6 @@ public class FindPathViewModel extends ViewModelBase {
   private final SnackBar snackBar;
   private Color color = Color.web("fd8842");
 
-  private int buttonStep;
-
   private final SelectedPathFinder pathFinder;
 
   @Override
@@ -96,7 +94,6 @@ public class FindPathViewModel extends ViewModelBase {
     handicap.setStyle("-fx-background-color: lightgray;");
     stairsMap = new HashMap<>();
     stairsOnly.setStyle("-fx-background-color: lightgray;");
-    buttonStep = 1;
 
     val clipRect = new Rectangle();
     clipRect.widthProperty().bind(clipper.widthProperty());
@@ -179,7 +176,6 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
-    buttonStep = 1;
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     nodeMapViewController.deleteNode(beginning);
@@ -193,19 +189,17 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
-    buttonStep = 1;
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     List<String> floorsCrossed = getPathFloors(nodes);
-    for (String s : floorsCrossed) {
-      JFXButton button = new JFXButton();
+    for (int i = 0; i < floorsCrossed.size(); i++) {
+      val button = new JFXButton();
       button.setButtonType(RAISED);
-      button.setText("Step " + buttonStep + " : " + s);
-      button.setOnAction(actionEvent -> miniMapButtons(actionEvent));
+      button.setText("Step " + (i + 1) + " : " + floorsCrossed.get(i));
+      button.setOnAction(event -> miniMapButtons(event));
       button.setStyle("-fx-background-color: lightgray");
       mapSwitcherButtons.getChildren().add(button);
-      buttonStep++;
     }
     nodeMapViewController.clearText();
     nodeMapViewController.addNode(beginning);
