@@ -461,12 +461,12 @@ public class FindPathViewModel extends ViewModelBase {
     List<String> floors = new LinkedList<>();
     String currentFloor = path.get(0).getFloor();
     String currentBuilding = path.get(0).getBuilding();
-    floors.add(currentBuilding + " : " + currentFloor);
+    floors.add(currentBuilding + ", Floor " + currentFloor);
     for (Node n : path) {
       if (!n.getFloor().equals(currentFloor) || !n.getBuilding().equals(currentBuilding)) {
         currentFloor = n.getFloor();
         currentBuilding = n.getBuilding();
-        floors.add(currentBuilding + " : " + currentFloor);
+        floors.add(currentBuilding + ", Floor " + currentFloor);
       }
     }
     return floors;
@@ -475,8 +475,8 @@ public class FindPathViewModel extends ViewModelBase {
   private void miniMapButtons(ActionEvent event) {
     String fullName = ((JFXButton) event.getSource()).getText();
     fullName = fullName.split("\n")[1];
-    String building = fullName.split(" : ")[0];
-    String floor = fullName.split(" : ")[1];
+    String building = fullName.split(", Floor ")[0];
+    String floor = fullName.split(", Floor ")[1];
     dispatch(new FloorSwitchEvent(floor, building));
   }
 
