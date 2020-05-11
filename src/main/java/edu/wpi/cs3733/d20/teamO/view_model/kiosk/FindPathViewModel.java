@@ -48,6 +48,12 @@ import lombok.val;
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FindPathViewModel extends ViewModelBase {
 
+  private enum AccessabilityState {
+    NONE, HANDICAP, STAIR
+  }
+
+  private AccessabilityState currentState;
+
   @FXML
   private Pane clipper;
   @FXML
@@ -94,6 +100,8 @@ public class FindPathViewModel extends ViewModelBase {
     handicap.setStyle("-fx-background-color: lightgray;");
     stairsMap = new HashMap<>();
     stairsOnly.setStyle("-fx-background-color: lightgray;");
+
+    currentState = AccessabilityState.NONE;
 
     val clipRect = new Rectangle();
     clipRect.widthProperty().bind(clipper.widthProperty());
@@ -224,28 +232,50 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private void switchAccessibility(ActionEvent event) {
     resetPath();
-    if (event.getSource().equals(handicap)) {
-      if (handicap.getStyle().contains("lightgray")) {
-        startLocation.setNodes(handicapMap.values());
-        stopLocation.setNodes(handicapMap.values());
-        handicap.setStyle("-fx-background-color: dodgerblue;");
-        stairsOnly.setStyle("-fx-background-color: lightgray;");
-      } else {
-        startLocation.setNodes(nodeMap.values());
-        stopLocation.setNodes(nodeMap.values());
-        handicap.setStyle("-fx-background-color: lightgray;");
-      }
-    } else {
-      if (stairsOnly.getStyle().contains("lightgray")) {
-        startLocation.setNodes(stairsMap.values());
-        stopLocation.setNodes(stairsMap.values());
-        stairsOnly.setStyle("-fx-background-color: seagreen;");
-        handicap.setStyle("-fx-background-color: lightgray;");
-      } else {
-        startLocation.setNodes(nodeMap.values());
-        stopLocation.setNodes(nodeMap.values());
-        stairsOnly.setStyle("-fx-background-color: lightgray;");
-      }
+    switch (currentState) {
+      case NONE:
+        if (event.getSource().equals(handicap)) {
+          startLocation.setNodes(handicapMap.values());
+          stopLocation.setNodes(handicapMap.values());
+          handicap.setStyle("-fx-background-color: dodgerblue;");
+          currentState = AccessabilityState.HANDICAP;
+        } else {
+          startLocation.setNodes(stairsMap.values());
+          stopLocation.setNodes(stairsMap.values());
+          stairsOnly.setStyle("-fx-background-color: seagreen;");
+          currentState = AccessabilityState.STAIR;
+        }
+        break;
+      case HANDICAP:
+        if (event.getSource().equals(handicap)) {
+          startLocation.setNodes(nodeMap.values());
+          stopLocation.setNodes(nodeMap.values());
+          handicap.setStyle("-fx-background-color: lightgray;");
+          currentState = AccessabilityState.NONE;
+        } else {
+          startLocation.setNodes(stairsMap.values());
+          stopLocation.setNodes(stairsMap.values());
+          stairsOnly.setStyle("-fx-background-color: seagreen;");
+          handicap.setStyle("-fx-background-color: lightgray;");
+          currentState = AccessabilityState.STAIR;
+        }
+        break;
+      case STAIR:
+        if (event.getSource().equals(handicap)) {
+          startLocation.setNodes(handicapMap.values());
+          stopLocation.setNodes(handicapMap.values());
+          handicap.setStyle("-fx-background-color: dodgerblue;");
+          stairsOnly.setStyle("-fx-background-color: lightgray;");
+          currentState = AccessabilityState.HANDICAP;
+        } else {
+          startLocation.setNodes(nodeMap.values());
+          stopLocation.setNodes(nodeMap.values());
+          stairsOnly.setStyle("-fx-background-color: lightgray;");
+          currentState = AccessabilityState.NONE;
+        }
+        break;
+      default:
+        snackBar.show("Error: unable to set accessibility mode");
     }
 
   }
