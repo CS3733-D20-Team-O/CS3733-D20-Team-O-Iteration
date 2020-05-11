@@ -39,6 +39,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +71,9 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private JFXColorPicker colorPicker;
   @FXML
-  private HBox mapSwitcherButtons, nodeMapContainer, streetMapContainer;
+  private HBox mapSwitcherButtons, nodeMapContainer;
+  @FXML
+  private VBox streetMapContainer;
 
 
   @FXML
