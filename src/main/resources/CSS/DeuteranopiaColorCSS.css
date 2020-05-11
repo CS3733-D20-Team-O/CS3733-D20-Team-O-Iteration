@@ -1,0 +1,74 @@
+#mainAnchorPane {
+  -fx-background-image: url('/BWFHBackground.jpg');
+  -fx-background-size: cover;
+  -fx-background-position: center;
+  -fx-background-repeat: no-repeat;
+  -fx-font-size: 16;
+}
+
+#welcomeBar {
+  -fx-background-color: #004e88;
+}
+
+#welcomeLabel {
+  -fx-font-size: 32;
+  -fx-text-fill: floralwhite;
+}
+
+
+#contentContainer {
+  -fx-background-color: whitesmoke;
+  -fx-opacity: 0.9;
+  -fx-padding: 32;
+  -fx-background-radius: 16;
+}
+
+#mainQuestionLabel {
+  -fx-font-size: 36;
+  -fx-padding: 0 0 36 0;
+}
+
+#pathButton {
+  -fx-font-size: 32;
+  -fx-background-color: #004e88;
+  -fx-text-fill: white;
+  -fx-padding: 16;
+  -fx-background-radius: 16;
+}
+
+#serviceButton {
+  -fx-font-size: 32;
+  -fx-background-color: #004e88;
+  -fx-text-fill: white;
+  -fx-padding: 16;
+  -fx-background-radius: 16;
+
+}
+
+#loginButton {
+  -fx-background-color: whitesmoke;
+  -fx-background-radius: 24;
+  -fx-padding: 12 16;
+
+}
+
+#aboutButton {
+  -fx-background-color: whitesmoke;
+  -fx-background-radius: 24;
+  -fx-padding: 12 16;
+}
+
+#langContainer {
+  -fx-background-color: whitesmoke;
+  -fx-background-radius: 24;
+  -fx-padding: 8 16 8 8;
+}
+
+#serviceLookupLabel {
+  -fx-font-size: 32;
+  -fx-padding: 24 0 0 0;
+}
+
+.jfx-button {
+
+}

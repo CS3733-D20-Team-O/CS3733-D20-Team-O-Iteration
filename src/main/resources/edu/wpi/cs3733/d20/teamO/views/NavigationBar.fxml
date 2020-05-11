@@ -7,10 +7,11 @@
 <?import javafx.scene.layout.StackPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NavigationBar"
-  style="-fx-background-color: #004c8c">
+  fx:id="mainAnchorPane_NavigationBar"
+  stylesheets="@/CSS/TritanopiaColorCSS.css">
   <StackPane AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="0"
     AnchorPane.rightAnchor="0" AnchorPane.topAnchor="16">
-    <Label text="${controller.title}" style="-fx-font-size: 24px; -fx-text-fill: floralwhite"/>
+    <Label fx:id="controllerTitle" text="${controller.title}"/>
   </StackPane>
   <JFXButton onAction="#onBackPressed" AnchorPane.leftAnchor="0"
     AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">

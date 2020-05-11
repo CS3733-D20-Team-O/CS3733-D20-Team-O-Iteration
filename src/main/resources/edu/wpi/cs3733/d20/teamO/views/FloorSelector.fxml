@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.VBox?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
   spacing="8.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.FloorSelector">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.FloorSelector"
+  stylesheets="@/CSS/TritanopiaColorCSS.css">
    <children>
       <HBox alignment="TOP_CENTER" spacing="8.0">
          <children>
