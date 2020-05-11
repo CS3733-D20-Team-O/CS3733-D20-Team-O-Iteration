@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.HowToUseAdminKiosk" prefHeight="400.0"
+  prefWidth="600.0">
+  <!-- Main Welcome Bar -->
+  <StackPane fx:id="useThisAppAdmin" prefHeight="64"
+    style="-fx-background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Brigham_and_Womens_Hospital_logo.svg/1200px-Brigham_and_Womens_Hospital_logo.svg.png'); -fx-background-position: center; -fx-background-repeat: no-repeat"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="Admin FAQ's"/>
+  </StackPane>
+
+  <!--  Main Container-->
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="60"
+    AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+    <VBox alignment="CENTER" spacing="35" AnchorPane.TopAnchor="30" AnchorPane.bottomAnchor="0"
+      AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+      <Label text="Find out more about using Admin Features" style="-fx-font-size: 20"
+        wrapText="true"/>
+
+      <!--Button for how Find path works, will include screnshots-->
+      <HBox fx:id="pathContainer" alignment="CENTER_LEFT" spacing="8"
+        AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
+        <ImageView fitHeight="32" fitWidth="32">
+          <Image url="@/location-icon.png"/>
+        </ImageView>
+        <JFXButton buttonType="RAISED" onAction="#openFloorEditorInfo"
+          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+          text="About the Floor Map Editor" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+      </HBox>
+
+      <!--Button for how Service Requests works, will include screnshots-->
+      <HBox fx:id="serviceContainer" alignment="CENTER_LEFT" spacing="8"
+        AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
+        <ImageView fitHeight="32" fitWidth="32">
+          <Image url="@/list-icon.png"/>
+        </ImageView>
+        <JFXButton buttonType="RAISED" onAction="#openRequestHandlerInfo"
+          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+          text="About the Requests Handler" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+      </HBox>
+
+      <!--Button for how Language switching and other buttons work works, will include screnshots-->
+      <HBox fx:id="langContainer" alignment="CENTER_LEFT" spacing="8"
+        AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
+        <ImageView fitHeight="32" fitWidth="32">
+          <Image url="@/file-icon.png"/>
+        </ImageView>
+        <JFXButton buttonType="RAISED" onAction="#openCSVInfo"
+          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+          text="About the CSV Handler" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+      </HBox>
+
+      <HBox alignment="CENTER_RIGHT">
+        <JFXButton buttonType="RAISED" onAction="#close" style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%aboutBack"/>
+      </HBox>
+    </VBox>
+  </StackPane>
+</AnchorPane>

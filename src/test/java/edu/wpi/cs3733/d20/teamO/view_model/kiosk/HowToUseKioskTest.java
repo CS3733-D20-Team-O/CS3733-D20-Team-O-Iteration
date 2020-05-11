@@ -27,8 +27,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
-public class serviceSelectorTest extends FxRobot {
-
+class HowToUseKioskTest extends FxRobot {
   @Mock
   EventBus eventBus;
   @Mock
@@ -44,33 +43,25 @@ public class serviceSelectorTest extends FxRobot {
   private final ResourceBundleMock bundle = new ResourceBundleMock();
 
   @InjectMocks
-  ServiceSelector viewModel;
+  HowToUseKiosk viewModel;
 
   @Start
   public void start(Stage stage) throws IOException {
-    bundle.put("nodeSelectorPromptText", "node selector");
     val loader = new FXMLLoader();
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
     stage.setScene(new Scene(loader.load(Main.class
-        .getResourceAsStream("views/kiosk/ServiceSelector.fxml"))));
+        .getResourceAsStream("views/kiosk/HowToUseKiosk.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }
 
   @Test
   public void testClick() throws IOException {
-    //Tests AVService
-    clickOn("#AVService");
-    clickOn("#ExtTransport");
-    clickOn("#intTransport");
-    clickOn("#Florist");
-    clickOn("#giftDelivery");
-    clickOn("#medDelivery");
-    clickOn("#sanitationService");
-    clickOn("#interpreterService");
-    clickOn("#infoTech");
-    clickOn("#securityService");
-    verify(dialog, times(10)).showFullscreenFXML(any());
+    //Tests Opening Dialogs
+    clickOn("About Path Finding");
+    clickOn("About Service Requests");
+    clickOn("About Miscellaneous Features");
+    verify(dialog, times(3)).showFullscreenFXML(any());
   }
 }

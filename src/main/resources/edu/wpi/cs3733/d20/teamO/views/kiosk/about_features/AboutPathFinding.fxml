@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane prefHeight="441.0" prefWidth="672.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.about_features.AboutPathFinding">
+
+  <!-- Main Welcome Bar -->
+  <StackPane fx:id="usePathFind" prefHeight="64" style="-fx-background-color: #004c8c"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpPFTitle"/>
+  </StackPane>
+
+  <StackPane fx:id="container" alignment="CENTER" AnchorPane.TopAnchor="65"
+    AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
+    <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="5">
+      <Label alignment="CENTER" style="-fx-font-size: 15; -fx-wrap-text: true"
+        text="%helpPFDescription">
+        <VBox.margin>
+          <Insets bottom="10.0"/>
+        </VBox.margin>
+      </Label>
+
+      <HBox alignment="CENTER_LEFT">
+        <Label text="%helpPFStep1"/>
+        <ImageView fitHeight="20" fitWidth="50">
+          <Image url="@/FPBtn.PNG"/>
+          <HBox.margin>
+            <Insets left="20.0"/>
+          </HBox.margin>
+        </ImageView>
+      </HBox>
+
+      <Label text="%helpPFStep2" wrapText="true"/>
+      <Label text="%helpPFStep3" wrapText="true"/>
+      <Label text="%helpPFStep4" wrapText="true"/>
+      <Label text="%helpPFStep5" wrapText="true"/>
+      <Label text="%helpPFStep6" wrapText="true"/>
+      <Label text="%helpPFStep7" wrapText="true"/>
+
+      <HBox alignment="CENTER_RIGHT">
+        <JFXButton buttonType="RAISED" onAction="#openPathFinder"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%helpPFFindPath">
+          <HBox.margin>
+            <Insets right="20.0"/>
+          </HBox.margin>
+        </JFXButton>
+        <JFXButton buttonType="RAISED" onAction="#close"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          text="%helpPFBack"/>
+      </HBox>
+
+    </VBox>
+  </StackPane>
+</AnchorPane>

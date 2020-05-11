@@ -92,35 +92,6 @@ public class AVServiceTest extends FxRobot {
     when(database.exportNodes()).thenReturn(map);
   }
 
-  /*
-  @Test
-  public void testFloorLocationPopulated() {
-    // Verify that all floors are populated
-    clickOn("Floor Number");
-    sleep(2000);
-    verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("5", javafx.scene.Node::isVisible);
-
-    // Now that we know all floors are correct, lets check to see if the locations are present
-    // First floor
-    clickOn("Floor 1");
-    verifyThat("Floor 1", javafx.scene.Node::isVisible);
-
-    // Third floor
-    clickOn("1");
-    clickOn("3");
-    clickOn("Floor 3-1");
-    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
-
-    // Fifth floor
-    clickOn("3");
-    clickOn("5");
-    verifyThat("Floor 5", javafx.scene.Node::isVisible);
-  }
-  */
-
   @Test
   public void testComboBox() {
     clickOn("Select a service");

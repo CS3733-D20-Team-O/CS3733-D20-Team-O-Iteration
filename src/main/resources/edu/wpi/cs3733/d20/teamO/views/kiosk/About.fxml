@@ -60,8 +60,31 @@
     </VBox>
   </HBox>
   <Pane prefHeight="26.0" prefWidth="539.0"/>
-  <Label prefHeight="133.0" prefWidth="425.0" text="%aboutThanks" textAlignment="CENTER"
-    wrapText="true"/>
-  <JFXButton buttonType="RAISED" onAction="#close" style="-fx-background-color: LIGHTGRAY;"
-    text="%aboutBack"/>
+  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="74.0" prefWidth="425.0"
+    text="%aboutThanks" textAlignment="CENTER" wrapText="true">
+    <VBox.margin>
+      <Insets bottom="10.0"/>
+    </VBox.margin>
+  </Label>
+  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="99.0" layoutY="509.0" prefHeight="77.0"
+    prefWidth="552.0" text="%aboutEduDisclaimer" textAlignment="CENTER" wrapText="true">
+    <VBox.margin>
+      <Insets bottom="10.0"/>
+    </VBox.margin>
+  </Label>
+  <HBox alignment="CENTER">
+    <children>
+      <!-- Software Used Button -->
+      <JFXButton buttonType="RAISED" onAction="#openCredits"
+        style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;"
+        text="%credits"/>
+      <JFXButton buttonType="RAISED" onAction="#close"
+        style="-fx-background-color: LIGHTGRAY; -fx-background-radius: 24; -fx-padding: 12 16;"
+        text="%aboutBack">
+        <HBox.margin>
+          <Insets left="40.0"/>
+        </HBox.margin>
+      </JFXButton>
+    </children>
+  </HBox>
 </VBox>
