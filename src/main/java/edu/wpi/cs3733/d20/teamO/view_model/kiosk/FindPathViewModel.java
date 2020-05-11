@@ -78,6 +78,10 @@ public class FindPathViewModel extends ViewModelBase {
   private final SnackBar snackBar;
   private Color color = Color.web("fd8842");
 
+  private final String colorProperty = "-fx-background-color: ";
+  private final String handicapHighlight = "dodgerblue;";
+  private final String stairsHighlight = "seagreen;";
+  private final String notSelected = "lightgray;";
   private final SelectedPathFinder pathFinder;
 
   @Override
@@ -234,30 +238,30 @@ public class FindPathViewModel extends ViewModelBase {
       case NONE:
         if (event.getSource().equals(handicap)) {
           updateMapAndState(AccessabilityState.HANDICAP, handicapMap);
-          handicap.setStyle("-fx-background-color: dodgerblue;");
+          handicap.setStyle(colorProperty + handicapHighlight);
         } else {
           updateMapAndState(AccessabilityState.STAIR, stairsMap);
-          stairsOnly.setStyle("-fx-background-color: seagreen;");
+          stairsOnly.setStyle(colorProperty + stairsHighlight);
         }
         break;
       case HANDICAP:
         if (event.getSource().equals(handicap)) {
           updateMapAndState(AccessabilityState.NONE, nodeMap);
-          handicap.setStyle("-fx-background-color: lightgray;");
+          handicap.setStyle(colorProperty + notSelected);
         } else {
           updateMapAndState(AccessabilityState.STAIR, stairsMap);
-          stairsOnly.setStyle("-fx-background-color: seagreen;");
-          handicap.setStyle("-fx-background-color: lightgray;");
+          stairsOnly.setStyle(colorProperty + stairsHighlight);
+          handicap.setStyle(colorProperty + notSelected);
         }
         break;
       case STAIR:
         if (event.getSource().equals(handicap)) {
           updateMapAndState(AccessabilityState.HANDICAP, handicapMap);
-          handicap.setStyle("-fx-background-color: dodgerblue;");
-          stairsOnly.setStyle("-fx-background-color: lightgray;");
+          handicap.setStyle(colorProperty + handicapHighlight);
+          stairsOnly.setStyle(colorProperty + notSelected);
         } else {
           updateMapAndState(AccessabilityState.NONE, nodeMap);
-          stairsOnly.setStyle("-fx-background-color: lightgray;");
+          stairsOnly.setStyle(colorProperty + notSelected);
         }
         break;
       default:
