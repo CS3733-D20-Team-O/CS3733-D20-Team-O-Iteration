@@ -40,16 +40,13 @@
       </VBox>
 
 
-      <!-- Button Column : Armed, Evac, Hostage, EMPTY-->
+      <!-- Button Column : Armed, Evac, Hostage-->
       <VBox alignment="TOP_CENTER" spacing="16">
         <children>
           <JFXRadioButton fx:id="codeGray" text="Armed Individual" toggleGroup="$levelSelection"
             wrapText="true"/>
           <JFXRadioButton fx:id="codeGreen" text="Evacuation" toggleGroup="$levelSelection"/>
           <JFXRadioButton fx:id="codePurple" text="Hostage" toggleGroup="$levelSelection"/>
-          <!--THIS BUTTON IS LEFT INVISIBLE ON PURPOSE -->
-          <JFXRadioButton fx:id="unknownButton" selected="true" toggleGroup="$levelSelection"
-            visible="false"/>
         </children>
       </VBox>
 

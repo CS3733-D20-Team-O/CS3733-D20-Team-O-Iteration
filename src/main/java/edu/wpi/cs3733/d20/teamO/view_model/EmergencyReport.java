@@ -53,9 +53,9 @@ public class EmergencyReport extends ServiceRequestBase {
   }
 
   public String checkName() {
-    if (!loginDetails.getUsername().equals("")) {
+    if (!loginDetails.getUsername().isBlank()) {
       return loginDetails.getUsername();
-    } else if (requesterName.getText().isEmpty()) {
+    } else if (requesterName.getText().isBlank()) {
       return "no name";
     }
 
@@ -73,14 +73,14 @@ public class EmergencyReport extends ServiceRequestBase {
   public String checkButton() {
     val checkedButton = (RadioButton) levelSelection.getSelectedToggle();
 
-    if (checkedButton.getText().equals("unknownButton")) {
+    if (levelSelection.getSelectedToggle() == null) {
       return "Unknown Emergency";
     }
     return ((RadioButton) levelSelection.getSelectedToggle()).getText();
   }
 
   public String checkNotes() {
-    if (additionalNotes.getText().equals("")) {
+    if (additionalNotes.getText().isBlank()) {
       return "no notes";
     }
     return additionalNotes.getText();

@@ -1,5 +1,9 @@
 package edu.wpi.cs3733.d20.teamO;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
 
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -55,7 +59,10 @@ class EmergencyButtonTest extends FxRobot {
   }
 
   @Test
-  public void testPresS() {
+  public void testPresS() throws IOException {
+    when(dialog.showFullscreenFXML(anyString())).thenReturn(EmergencyReportViewModel);
+
     clickOn("Emergency");
+    verify(dialog, times(1)).showFullscreenFXML(anyString());
   }
 }
