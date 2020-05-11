@@ -45,7 +45,7 @@ public class NodeMapView extends ViewModelBase {
   private String building = "Faulkner";
 
   // Zoom Controls
-  private DoubleProperty currentZoom = new SimpleDoubleProperty(1.0);
+  private final DoubleProperty currentZoom = new SimpleDoubleProperty(1.0);
   private final static double ZOOM_INC = 0.1;
 
   // Drag controls

@@ -60,7 +60,8 @@
       </HBox>
 
       <HBox alignment="CENTER_RIGHT">
-        <JFXButton buttonType="RAISED" onAction="#close" style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+        <JFXButton buttonType="RAISED" onAction="#close"
+          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
           text="%aboutBack"/>
       </HBox>
     </VBox>
