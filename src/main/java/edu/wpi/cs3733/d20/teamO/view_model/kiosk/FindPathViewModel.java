@@ -68,7 +68,7 @@ public class FindPathViewModel extends ViewModelBase {
 
   private Map<String, Node> nodeMap, handicapMap;
   private final DatabaseWrapper database;
-  private Node beginning, finish, defaultStart, defaultStop;
+  private Node beginning, finish, defaultStart, defaultStop, lastNode;
   private final Dialog dialog;
   private final SnackBar snackBar;
   private Color color = Color.web("fd8842");
@@ -249,6 +249,20 @@ public class FindPathViewModel extends ViewModelBase {
   private void highlightSelectedEdge(ActionEvent actionEvent) {
     //change to floor of step and highlight the step edge
     int number = Integer.parseInt(((JFXButton) actionEvent.getSource()).getText().split("  ")[0]);
+    val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    if (lastNode == null) {
+      lastNode = beginning;
+    }
+    if (!lastNode.getFloor().equals(nodes.get(number - 1).getFloor()) || !lastNode.getBuilding()
+        .equals(nodes.get(number - 1).getBuilding())) {
+      dispatch(new FloorSwitchEvent(nodes.get(number - 1).getFloor(),
+          nodes.get(number - 1).getBuilding()));
+    }
+    highlightEdge(number);
+    lastNode = nodes.get(number - 1);
+  }
+
+  private void highlightEdge(int number) {
     val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     for (Edge e : database.exportEdges()) {
       if (e.getStartID().equals(nodes.get(number - 1).getNodeID()) && e.getStopID()
