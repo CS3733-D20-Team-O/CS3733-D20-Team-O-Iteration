@@ -547,7 +547,7 @@ public class NodeMapView extends ViewModelBase {
         pane.setLayoutY(translateToPaneY(y) - (text.getHeight() / 2)));
 
     // Even if the text is dragged on, it should still be able to move the map
-    text.setOnMousePressed(event -> {
+    /*text.setOnMousePressed(event -> {
       if (event.getButton().equals(MouseButton.PRIMARY)) { // Used for dragging
         dragX = floorPane.getTranslateX() - event.getSceneX();
         dragY = floorPane.getTranslateY() - event.getSceneY();
@@ -563,8 +563,9 @@ public class NodeMapView extends ViewModelBase {
           floorPane.setTranslateY(event.getSceneY() + dragY);
         }
       }
-    });
-
+    });*/
+    text.setPickOnBounds(false);
+    pane.setPickOnBounds(false);
     textLayer.getChildren().add(pane);
   }
 

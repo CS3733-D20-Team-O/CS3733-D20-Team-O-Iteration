@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
@@ -58,6 +60,8 @@ public class FindPathViewModel extends ViewModelBase {
   private JFXToggleButton handicap;
   @FXML
   private JFXColorPicker colorPicker;
+  @FXML
+  private JFXDrawer directoryPane;
 
 
   private Map<String, Node> nodeMap, handicapMap;
@@ -362,6 +366,7 @@ public class FindPathViewModel extends ViewModelBase {
     double distance = Double.MAX_VALUE;
     Node closestNode = null;
 
+    // Find the node that's closest on the current floor and building
     for (Node node : nodeMap.values()) {
       if (node.getFloor().equals(nodeMapViewController.getFloor()) && node.getBuilding()
           .equals(nodeMapViewController.getBuilding())) {
@@ -378,14 +383,35 @@ public class FindPathViewModel extends ViewModelBase {
       }
     }
 
-    if (closestNode != null && distance < 25) {
+    // See if the closest node is within a set distance to be set
+    if (closestNode != null && distance < 75) {
       if (beginning == null) {
+        startLocation.setTextWithoutPopup(String.format("(%s/%s) %s",
+            closestNode.getFloor(), closestNode.getBuilding(), closestNode.getLongName()));
         System.out.println("Set start: " + closestNode.getNodeID());
         beginning = closestNode;
       } else {
+        stopLocation.setTextWithoutPopup(String.format("(%s/%s) %s",
+            closestNode.getFloor(), closestNode.getBuilding(), closestNode.getLongName()));
         System.out.println("Set finish: " + closestNode.getNodeID());
         finish = closestNode;
       }
+    }
+  }
+
+  private void setupDirectory() {
+    AnchorPane directory = new AnchorPane();
+    directory.getChildren().add(new JFXButton("Test"));
+    directory.getStyleClass().add("red-400");
+    directoryPane.setSidePane(directory);
+  }
+
+  @FXML
+  private void openDirectory() {
+    if (directoryPane.isOpened()) {
+      directoryPane.close();
+    } else {
+      directoryPane.open();
     }
   }
 
