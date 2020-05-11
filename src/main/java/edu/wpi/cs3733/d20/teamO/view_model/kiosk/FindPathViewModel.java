@@ -97,9 +97,7 @@ public class FindPathViewModel extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
     handicapMap = new HashMap<>();
-    handicap.setStyle("-fx-background-color: lightgray;");
     stairsMap = new HashMap<>();
-    stairsOnly.setStyle("-fx-background-color: lightgray;");
 
     currentState = AccessabilityState.NONE;
 
