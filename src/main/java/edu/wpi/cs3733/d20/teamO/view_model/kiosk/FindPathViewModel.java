@@ -141,7 +141,7 @@ public class FindPathViewModel extends ViewModelBase {
   public void createHandicap() {
     //create the map of nodes without edges
     for (Node node : nodeMap.values()) {
-      if ((!node.getNodeType().equals("STAI") && !(node.getNodeType().equals("REST")))
+      if ((!node.getNodeType().equals("STAI") && !node.getNodeType().equals("REST"))
           || (node.getNodeType().equals("REST") && node.getLongName().toLowerCase()
           .contains("handicap"))) {
         val newNode = node.withNeighbors(new LinkedList<>());
