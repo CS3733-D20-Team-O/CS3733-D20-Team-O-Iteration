@@ -53,10 +53,10 @@ public class FloorSelectorTest extends FxRobot {
     clickOn("Main Campus");
     clickOn("G");
     verify(eventBus, times(1)).post(new FloorSwitchEvent("G", "Main Campus"));
-    clickOn("L1");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent("L1", "Main Campus"));
     clickOn("L2");
     verify(eventBus, times(1)).post(new FloorSwitchEvent("L2", "Main Campus"));
+    clickOn("L1");
+    verify(eventBus, times(1)).post(new FloorSwitchEvent("L1", "Main Campus"));
   }
 
   @Test
@@ -65,7 +65,5 @@ public class FloorSelectorTest extends FxRobot {
     verify(eventBus, times(1)).post(new FloorSwitchEvent("1", "Main Campus"));
     clickOn("Faulkner");
     verify(eventBus, times(1)).post(new FloorSwitchEvent("1", "Faulkner"));
-    clickOn("Street");
-    verify(eventBus, times(1)).post(new FloorSwitchEvent("1", "Street"));
   }
 }
