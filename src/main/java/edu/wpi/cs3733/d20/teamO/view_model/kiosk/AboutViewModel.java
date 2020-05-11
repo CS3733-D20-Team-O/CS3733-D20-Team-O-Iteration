@@ -18,6 +18,7 @@ public class AboutViewModel extends DialogViewModel {
   private void openCredits() {
     try {
       dialog.showFullscreenFXML("views/kiosk/SoftwareUsed.fxml");
+      close();
     } catch (IOException e) {
       log.error("Could not load the credits page", e);
     }
