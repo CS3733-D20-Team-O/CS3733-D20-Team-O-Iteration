@@ -20,8 +20,8 @@ public class UpdateEmployeeViewModel extends DialogViewModel {
   private final DatabaseWrapper database;
   private final SnackBar snackBar;
   private final Validator validator;
-  private String password;
   private String oldEmpID;
+  private EmployeeHandlerViewModel theEmpVM;
 
   @FXML
   private JFXTextField newName, newID;
@@ -29,10 +29,11 @@ public class UpdateEmployeeViewModel extends DialogViewModel {
   @FXML
   private JFXComboBox<String> types;
 
-  public void init(Employee emp) {
+  public void init(Employee emp, EmployeeHandlerViewModel empViewMod) {
     oldEmpID = emp.getEmployeeID();
     String name = emp.getName();
     String type = emp.getType();
+    theEmpVM = empViewMod;
 
     newName.setText(name);
     newID.setText(oldEmpID);
@@ -68,7 +69,7 @@ public class UpdateEmployeeViewModel extends DialogViewModel {
         updateEmployee(newName.getText(), newID.getText(),
             types.getSelectionModel().getSelectedItem());
         snackBar.show("Employee successfully updated");
-        //Todo Refresh table
+        theEmpVM.updateDisplays();
         close();
       } else {
         snackBar.show("Employee ID already exists in database");

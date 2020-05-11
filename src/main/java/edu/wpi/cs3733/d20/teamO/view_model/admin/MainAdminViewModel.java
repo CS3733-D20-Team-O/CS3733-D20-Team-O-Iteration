@@ -101,6 +101,15 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
     }
   }
 
+  @FXML
+  private void openChangePassword() {
+    try {
+      dialog.showFullscreenFXML("views/admin/ChangePassword.fxml");
+    } catch (IOException e) {
+      log.error("Failed to open the change password dialog", e);
+    }
+  }
+
   @Override
   protected void onClose() {
     log.info("Resetting login details");

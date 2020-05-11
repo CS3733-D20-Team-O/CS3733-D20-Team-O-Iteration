@@ -3,11 +3,13 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <AnchorPane fx:id="root" maxHeight="1080.0" maxWidth="1920.0" prefHeight="643.0" prefWidth="1280.0"
   style="-fx-background-color: acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
@@ -43,12 +45,27 @@
       <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="600.0" spacing="16.0"
         AnchorPane.leftAnchor="770.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
         <children>
-          <JFXButton fx:id="deleteEmp" prefHeight="36.0" prefWidth="130.0"
-            style="-fx-background-color: WHITE;" text="Delete" onAction="#deleteEmployee"/>
-          <JFXButton fx:id="addEmp" prefHeight="36.0" prefWidth="130.0"
-            style="-fx-background-color: WHITE;" text="Add" onAction="#addEmployee"/>
-          <JFXButton fx:id="updateEmp" prefHeight="36.0" prefWidth="130.0"
-            style="-fx-background-color: WHITE;" text="Update" onAction="#updateEmployee"/>
+          <JFXButton fx:id="addEmp" onAction="#addEmployee" prefHeight="36.0" prefWidth="130.0"
+            style="-fx-background-color: WHITE;" text="Add"/>
+          <JFXButton fx:id="updateEmp" onAction="#updateEmployee" prefHeight="36.0"
+            prefWidth="130.0" style="-fx-background-color: WHITE;" text="Edit"/>
+          <JFXButton fx:id="deleteEmp" onAction="#deleteEmployee" prefHeight="36.0"
+            prefWidth="130.0" style="-fx-background-color: WHITE;" text="Delete"/>
+          <Label text="INSTRUCTIONS:">
+            <padding>
+              <Insets top="32.0"/>
+            </padding>
+            <font>
+              <Font name="System Bold" size="12.0"/>
+            </font>
+          </Label>
+          <Label text="Add: To add an employee, click Add and fill in fields." wrapText="true"/>
+          <Label contentDisplay="CENTER"
+            text="Edit: To edit an employee, select an employee in the table. Then click Edit and update fields as necessary."
+            wrapText="true"/>
+          <Label
+            text="Delete: To delete an employee, select an employee in the table. Then click Delete."
+            wrapText="true"/>
         </children>
         <padding>
           <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>

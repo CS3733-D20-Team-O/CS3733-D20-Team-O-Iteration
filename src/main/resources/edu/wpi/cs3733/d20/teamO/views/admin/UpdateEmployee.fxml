@@ -3,13 +3,14 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox alignment="TOP_CENTER" prefHeight="327.0" prefWidth="238.0"
-  style="-fx-spacing: 16; -fx-padding: 16;" xmlns="http://javafx.com/javafx/11.0.1"
+<VBox alignment="TOP_CENTER" prefHeight="359.0" prefWidth="245.0"
+  style="-fx-spacing: 32; -fx-padding: 16;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.UpdateEmployeeViewModel">
   <children>
@@ -18,8 +19,15 @@
         <Font name="System Bold" size="20.0"/>
       </font>
     </Label>
-    <JFXTextField fx:id="newName" promptText="Full Name"/>
+    <JFXTextField fx:id="newName" promptText="Full Name">
+      <validators>
+        <RequiredFieldValidator message="Employees must have a name"/>
+      </validators>
+    </JFXTextField>
     <JFXComboBox fx:id="types" promptText="Employee Type">
+      <validators>
+        <RequiredFieldValidator message="Employees must have a type"/>
+      </validators>
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="A/V"/>
@@ -36,10 +44,18 @@
         </FXCollections>
       </items>
     </JFXComboBox>
-    <JFXTextField fx:id="newID" promptText="Employee ID"/>
-    <JFXButton onAction="#confirm" prefHeight="36.0" prefWidth="130.0"
-      style="-fx-background-color: #00bb00;" text="Confirm"/>
-    <JFXButton onAction="#cancel" prefHeight="36.0" prefWidth="130.0"
-      style="-fx-background-color: lightgray;" text="Cancel"/>
+    <JFXTextField fx:id="newID" promptText="Employee ID">
+      <validators>
+        <RequiredFieldValidator message="Employees must have an ID"/>
+      </validators>
+    </JFXTextField>
+    <VBox alignment="TOP_CENTER" prefHeight="97.0" prefWidth="210.0" style="-fx-spacing: 16;">
+      <children>
+        <JFXButton onAction="#confirm" prefHeight="36.0" prefWidth="130.0"
+          style="-fx-background-color: #00bb00;" text="Confirm"/>
+        <JFXButton onAction="#cancel" prefHeight="36.0" prefWidth="130.0"
+          style="-fx-background-color: lightgray;" text="Cancel"/>
+      </children>
+    </VBox>
   </children>
 </VBox>

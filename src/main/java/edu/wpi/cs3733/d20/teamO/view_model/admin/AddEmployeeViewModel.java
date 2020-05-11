@@ -17,6 +17,7 @@ public class AddEmployeeViewModel extends DialogViewModel {
   private final DatabaseWrapper database;
   private final SnackBar snackBar;
   private final Validator validator;
+  private EmployeeHandlerViewModel theEmpVM;
 
   @FXML
   private JFXTextField newName, newID, newPassword;
@@ -24,6 +25,9 @@ public class AddEmployeeViewModel extends DialogViewModel {
   @FXML
   private JFXComboBox<String> types;
 
+  public void init(EmployeeHandlerViewModel empViewMod) {
+    theEmpVM = empViewMod;
+  }
 
   private void addEmployee(String name, String id, String type, String password) {
     database.addEmployee(id, name, type, password, true);
@@ -45,7 +49,7 @@ public class AddEmployeeViewModel extends DialogViewModel {
         addEmployee(newName.getText(), newID.getText(), types.getSelectionModel().getSelectedItem(),
             newPassword.getText());
         snackBar.show("Employee successfully added");
-        //Todo Figure out how to update table - refresh
+        theEmpVM.updateDisplays();
         close();
       } else {
         snackBar.show("Employee ID already exists in database");

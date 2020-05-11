@@ -35,7 +35,7 @@ public class LoginDetails {
 
   public boolean isValid() {
     for (val e : database.exportEmployees()) {
-      if (e.getEmployeeID().equals(username) && (e.getType().equals("admin") || e.getType()
+      if (e.getEmployeeID().equals(username) && (e.getType().equals("Admin") || e.getType()
           .equals("start"))) {
         if (e.getPassword().equals(password)) {
           return true;
