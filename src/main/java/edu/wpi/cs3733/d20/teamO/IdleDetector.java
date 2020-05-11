@@ -28,7 +28,7 @@ public class IdleDetector {
     this.root = navigator.getRoot();
     this.loginDetails = injector.getInstance(LoginDetails.class);
 
-    setTimeOutTime(30);
+    setTimeOutTime(15);
     root.addEventHandler(InputEvent.ANY, e -> resetTimer());
   }
 
