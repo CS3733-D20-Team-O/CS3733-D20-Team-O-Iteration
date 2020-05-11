@@ -62,7 +62,7 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
 
     // Set min, max, and initial value
     timeOutTime
-        .setValueFactory(new IntegerSpinnerValueFactory(30, 3600, idleDetector.getTimeOutTime()));
+        .setValueFactory(new IntegerSpinnerValueFactory(15, 3600, idleDetector.getTimeOutTime()));
   }
 
   @FXML
