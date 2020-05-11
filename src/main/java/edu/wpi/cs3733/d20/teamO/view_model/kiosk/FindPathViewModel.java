@@ -222,7 +222,7 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   @FXML
-  public void switchAccessibility(ActionEvent event) {
+  private void switchAccessibility(ActionEvent event) {
     resetPath();
     if (event.getSource().equals(handicap)) {
       if (handicap.getStyle().contains("lightgray")) {
