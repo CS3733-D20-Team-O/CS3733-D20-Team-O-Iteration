@@ -71,10 +71,9 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private JFXColorPicker colorPicker;
   @FXML
-  private HBox mapSwitcherButtons, nodeMapContainer;
+  private HBox mapSwitcherButtons, nodeMapContainer, floorSelectorContainer;
   @FXML
   private VBox streetMapContainer;
-
 
   @FXML
   private StreetViewViewModel streetViewViewModelController;
@@ -198,6 +197,7 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
+    floorSelectorContainer.setVisible(true);
     lastNode = null;
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
@@ -219,6 +219,8 @@ public class FindPathViewModel extends ViewModelBase {
     if (beginning == null || finish == null) { //only pathfind if both nodes are set
       return;
     }
+
+    floorSelectorContainer.setVisible(false);
 
     if (beginning.getBuilding().equals("Faulkner")) {
       streetViewViewModelController.goToMainCampus();
