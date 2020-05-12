@@ -372,7 +372,7 @@ public class FindPathViewModel extends ViewModelBase {
     for (int i = 0; i < floorsCrossed.size(); i++) { //create the bottom path overview buttons
       val button = new JFXButton();
       button.setButtonType(RAISED);
-      button.setText("Step " + floorChangeStepNumber.get(i) + "\n" + floorsCrossed.get(i));
+      button.setText(floorsCrossed.get(i));
       button.setOnAction(event -> miniMapButtons(event));
       button.setStyle("-fx-background-color: lightgray");
       mapSwitcherButtons.getChildren().add(button);
@@ -585,7 +585,7 @@ public class FindPathViewModel extends ViewModelBase {
 
   private void miniMapButtons(ActionEvent event) {
     String fullName = ((JFXButton) event.getSource()).getText();
-    fullName = fullName.split("\n")[1];
+
     String building = fullName.split(", Floor ")[0];
     String floor = fullName.split(", Floor ")[1];
 
