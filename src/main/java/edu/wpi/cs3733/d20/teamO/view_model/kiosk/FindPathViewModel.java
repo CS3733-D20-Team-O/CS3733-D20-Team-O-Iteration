@@ -98,6 +98,14 @@ public class FindPathViewModel extends ViewModelBase {
     if (event instanceof RedrawEvent) {
       mapSwitcherButtons.getChildren().clear();
       drawPath();
+      for (javafx.scene.Node n : mapSwitcherButtons.getChildren()) {
+        if (((JFXButton) n).getText().contains(nodeMapViewController.getFloor()) &&
+            ((JFXButton) n).getText().contains(nodeMapViewController.getBuilding())) {
+          (n).setStyle("-fx-background-color: dodgerblue");
+        } else {
+          n.setStyle("-fx-background-color: lightgray");
+        }
+      }
     }
   }
 
