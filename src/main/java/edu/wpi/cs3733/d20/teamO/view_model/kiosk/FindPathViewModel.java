@@ -205,14 +205,7 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     List<String> floorsCrossed = getPathFloors(nodes);
-    for (int i = 0; i < floorsCrossed.size(); i++) {
-      val button = new JFXButton();
-      button.setButtonType(RAISED);
-      button.setText("Step " + (i + 1) + "\n" + floorsCrossed.get(i));
-      button.setOnAction(event -> miniMapButtons(event));
-      button.setStyle("-fx-background-color: lightgray");
-      mapSwitcherButtons.getChildren().add(button);
-    }
+
     nodeMapViewController.clearText();
     nodeMapViewController.addNode(beginning);
     nodeMapViewController.addNode(finish);
@@ -231,7 +224,7 @@ public class FindPathViewModel extends ViewModelBase {
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
     }
-    generateTD();
+    generateTD(floorsCrossed);
   }
 
   @FXML
@@ -291,18 +284,20 @@ public class FindPathViewModel extends ViewModelBase {
     }
   }
 
-  private void generateTD() {
+  private void generateTD(List<String> floorsCrossed) {
     val steps = generateSteps();
     StringBuilder directions = new StringBuilder();
     VBox labels = new VBox();
     scrollPane.setContent(labels);
     int number = 1;
+    List<Integer> floorChangeStepNumber = new LinkedList<>();
     for (val s : steps) {
       directions.append(s.getBuilding()).append(" ").append(s.getFloor()).append("\n");
       Label step = new Label();
       step.setText(directions.toString());
       labels.getChildren().add(step);
       directions.delete(0, directions.length());
+      floorChangeStepNumber.add(number);
       for (val i : s.getInstructions()) {
         directions.append(number).append("  ").append(i.getDirections());
         JFXButton label = new JFXButton();
@@ -315,6 +310,14 @@ public class FindPathViewModel extends ViewModelBase {
       directions.delete(0, directions.length());
     }
     scrollPane.setContent(labels);
+    for (int i = 0; i < floorsCrossed.size(); i++) {
+      val button = new JFXButton();
+      button.setButtonType(RAISED);
+      button.setText("Step " + floorChangeStepNumber.get(i) + "\n" + floorsCrossed.get(i));
+      button.setOnAction(event -> miniMapButtons(event));
+      button.setStyle("-fx-background-color: lightgray");
+      mapSwitcherButtons.getChildren().add(button);
+    }
   }
 
   private void highlightSelectedEdge(ActionEvent actionEvent) {
