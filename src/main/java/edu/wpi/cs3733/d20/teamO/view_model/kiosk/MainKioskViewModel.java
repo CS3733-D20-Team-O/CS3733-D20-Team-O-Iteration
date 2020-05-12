@@ -60,6 +60,8 @@ public class MainKioskViewModel extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+//    dispatch(new CSSSwitchEvent("/CSS/NormalColorCSS.css"));
+//    Platform.runLater(() -> dispatch(new CSSSwitchEvent("/CSS/NormalColorCSS.css")));
 
     // Set UI properties not set in FXML
     JFXDepthManager.setDepth(welcomeBar, 2);

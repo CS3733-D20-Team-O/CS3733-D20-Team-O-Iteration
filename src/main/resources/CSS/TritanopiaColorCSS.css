@@ -1,4 +1,7 @@
-/* Main Page */
+* {
+  -main-color: #00555a;
+}
+
 #mainAnchorPane {
   -fx-background-image: url('/BWFHBackground.jpg');
   -fx-background-size: cover;
@@ -7,75 +10,87 @@
   -fx-font-size: 16;
 }
 
-#welcomeBar {
-  -fx-background-color: #00555a;
-}
-
-#welcomeLabel {
-  -fx-font-size: 32;
-  -fx-text-fill: floralwhite;
-}
-
-
-#contentContainer {
-  -fx-background-color: whitesmoke;
-  -fx-opacity: 0.9;
-  -fx-padding: 32;
-  -fx-background-radius: 16;
-}
-
-#mainQuestionLabel {
-  -fx-font-size: 36;
-  -fx-padding: 0 0 36 0;
-}
-
-#pathButton {
-  -fx-font-size: 32;
-  -fx-background-color: #00555a;
-  -fx-text-fill: white;
-  -fx-padding: 16;
-  -fx-background-radius: 16;
-}
-
-#serviceButton {
-  -fx-font-size: 32;
-  -fx-background-color: #00555a;
-  -fx-text-fill: white;
-  -fx-padding: 16;
-  -fx-background-radius: 16;
-
-}
-
-#loginButton {
-  -fx-background-color: whitesmoke;
-  -fx-background-radius: 24;
-  -fx-padding: 12 16;
-
-}
-
-#aboutButton {
-  -fx-background-color: whitesmoke;
-  -fx-background-radius: 24;
-  -fx-padding: 12 16;
-}
-
-#langContainer {
-  -fx-background-color: whitesmoke;
-  -fx-background-radius: 24;
-  -fx-padding: 8 16 8 8;
-}
-
-#serviceLookupLabel {
-  -fx-font-size: 32;
-  -fx-padding: 24 0 0 0;
-}
-
 /* NavigationBar */
-#mainAnchorPane_NavigationBar {
-  -fx-background-color: #00555a
-}
 
 #controllerTitle {
   -fx-font-size: 24px;
   -fx-text-fill: floralwhite
+}
+
+/* Street View */
+#streetToFaulknerButton {
+}
+
+#streetToMainCampusButton {
+}
+
+#buttonContainer {
+}
+
+/* styleClasses */
+.mainButton {
+  -fx-font-size: 32;
+  -fx-background-color: -main-color;
+  -fx-text-fill: white;
+  -fx-padding: 16;
+  -fx-background-radius: 16;
+}
+
+.main_secondaryButtons {
+  -fx-background-color: whitesmoke;
+  -fx-background-radius: 24;
+  -fx-padding: 12 16;
+}
+
+.topBar {
+  -fx-background-color: -main-color;
+  -fx-font-size: 32;
+  -fx-text-fill: floralwhite;
+}
+
+.buildingButton {
+  -fx-background-color: lightgrey;
+  -fx-background-radius: 30;
+}
+
+.floorButton {
+  -fx-background-color: lightgray;
+  -fx-background-radius: 30;
+}
+
+/* Service Requests */
+.submitButton {
+  -fx-background-color: -main-color;
+  -fx-text-fill: floralwhite;
+  -fx-padding: 16;
+  -fx-background-radius: 16;
+}
+
+.cancelButton {
+  -fx-background-color: gray;
+  -fx-text-fill: floralwhite;
+  -fx-padding: 16;
+  -fx-background-radius: 16;
+}
+
+.cancelButton .jfx-rippler {
+  /*red ripple*/
+  -jfx-rippler-fill: #b90c0c;
+}
+
+.serviceBase {
+  /*#58A5F0*/
+  -fx-background-color: derive(#abc0d4, 70%);
+  -fx-padding: 16;
+}
+
+.serviceBox {
+  -fx-padding: 8;
+  -fx-font-size: 16;
+}
+
+.serviceFields {
+  -jfx-label-float: true;
+  -fx-background-color: floralwhite;
+  -fx-padding: 8;
 }

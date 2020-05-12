@@ -8,47 +8,68 @@
 <?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeRequiredValidator?>
 <?import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.ExternalTransportationService">
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.ExternalTransportationService"
+  styleClass="serviceBase">
+
   <VBox spacing="32" maxWidth="-Infinity" maxHeight="-Infinity" alignment="CENTER"
-    style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16">
+    styleClass="serviceBox">
     <Label text="%serviceExtTransportationDescription" style="-fx-font-size: 32"/>
-    <JFXTextField fx:id="requesterName" promptText="%namePrompt">
-      <validators>
-        <RequiredFieldValidator message="%namePromptValidator"/>
-      </validators>
-    </JFXTextField>
-    <HBox alignment="CENTER" spacing="32">
-      <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
+
+    <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding: 8">
+      <JFXTextField fx:id="requesterName" prefWidth="300" styleClass="serviceFields"
+        promptText="%namePrompt">
         <validators>
-          <NodeRequiredValidator message="%locationPromptValidator"/>
+          <RequiredFieldValidator message="%namePromptValidator"/>
         </validators>
-      </NodeSelector>
-    </HBox>
-    <HBox>
-      <JFXComboBox fx:id="transportationType" promptText="%externalTransportationModePrompt">
-        <validators>
-          <RequiredFieldValidator message="%externalTransportationModeMissing"/>
-        </validators>
-      </JFXComboBox>
-      <JFXTimePicker fx:id="timePicker" promptText="%timePrompt">
+      </JFXTextField>
+      <JFXTimePicker fx:id="timePicker" styleClass="serviceFields" promptText="%timePrompt">
         <validators>
           <RequiredFieldValidator message="%timePromptValidator"/>
         </validators>
       </JFXTimePicker>
     </HBox>
-    <JFXTextField fx:id="destination" promptText="%externalTransportationDestinationPrompt">
-      <validators>
-        <RequiredFieldValidator message="%externalTransportationDestinationMissing"/>
-      </validators>
-    </JFXTextField>
-    <JFXTextArea fx:id="additionalNotes" promptText="%notesPrompt"/>
-    <HBox alignment="CENTER_RIGHT" spacing="16">
-      <JFXButton text="%submitButton" onAction="#submitRequest"/>
-      <JFXButton text="%cancelButton" onAction="#close"/>
+
+    <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding: 8">
+      <NodeSelector fx:id="nodeSelector" styleClass="serviceFields" prefWidth="350"
+        promptText="%nodeSelectorPromptText">
+        <validators>
+          <NodeRequiredValidator message="%locationPromptValidator"/>
+        </validators>
+      </NodeSelector>
+      <JFXTextField fx:id="destination" styleClass="serviceFields" prefWidth="250"
+        promptText="%externalTransportationDestinationPrompt">
+        <validators>
+          <RequiredFieldValidator message="%externalTransportationDestinationMissing"/>
+        </validators>
+      </JFXTextField>
+    </HBox>
+
+    <HBox style="-fx-padding: 8">
+      <JFXComboBox fx:id="transportationType" styleClass="serviceFields"
+        promptText="%externalTransportationModePrompt">
+        <validators>
+          <RequiredFieldValidator message="%externalTransportationModeMissing"/>
+        </validators>
+      </JFXComboBox>
+    </HBox>
+
+    <HBox style="-fx-padding: 8">
+      <JFXTextArea fx:id="additionalNotes" styleClass="serviceFields" prefHeight="75"
+        promptText="%notesPrompt"/>
+    </HBox>
+
+    <HBox alignment="CENTER_RIGHT" spacing="16" style="-fx-padding: 8">
+      <!-- Submit button -->
+      <JFXButton text="%submitButton" onAction="#submitRequest"
+        styleClass="submitButton"/>
+      <!-- Cancel button -->
+      <JFXButton text="%cancelButton" onAction="#close"
+        styleClass="cancelButton"/>
     </HBox>
   </VBox>
-</StackPane>
+
+</AnchorPane>

@@ -13,9 +13,6 @@
 <AnchorPane
   fx:id="mainAnchorPane"
   prefHeight="720" prefWidth="1280"
-
-  stylesheets="@/CSS/TritanopiaColorCSS.css"
-
   xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.MainKioskViewModel">
   <!--  stylesheets="@/CSS/NormalColorCSS.css"-->
@@ -25,35 +22,41 @@
 
   <!-- Main Welcome Bar -->
   <StackPane fx:id="welcomeBar" prefHeight="64"
-    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-    <Label fx:id="welcomeLabel" text="%mainWelcomeMessage"/>
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
+    styleClass="topBar">
+    <Label fx:id="welcomeLabel" text="%mainWelcomeMessage" styleClass="topBar"/>
   </StackPane>
 
   <!-- Colorblind Toggle -->
   <AnchorPane AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="75">
-    <fx:include source="/edu/wpi/cs3733/d20/teamO/views/ColorblindToggle.fxml"></fx:include>
+    <fx:include source="/edu/wpi/cs3733/d20/teamO/views/ColorblindToggle.fxml"/>
   </AnchorPane>
 
   <!-- Wrapper to center the main content -->
   <StackPane fx:id="container" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
     AnchorPane.rightAnchor="0" AnchorPane.topAnchor="64">
+
     <!-- The actual main content box -->
     <VBox fx:id="contentContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
-      spacing="16">
-      <Label fx:id="mainQuestionLabel" text="%mainQuestionPrompt"/>
+      spacing="16"
+      style="-fx-background-color: whitesmoke; -fx-opacity: 0.9; -fx-padding: 32; -fx-background-radius: 16;">
+      <Label text="%mainQuestionPrompt" style="-fx-font-size: 36; -fx-padding: 0 0 36 0;"/>
 
       <!-- Path Finding -->
-      <JFXButton fx:id="pathButton"
+      <JFXButton
         buttonType="RAISED" onAction="#openPathFinder"
+        styleClass="mainButton"
         text="%mainLeftButton"/>
 
       <!-- Service Request Creation -->
-      <JFXButton fx:id="serviceButton"
+      <JFXButton
         buttonType="RAISED" onAction="#openServiceRequestSelect"
+        styleClass="mainButton"
         text="%mainReqService"/>
 
       <!-- Service Request Lookup -->
-      <Label fx:id="serviceLookupLabel" text="%serviceRequestLookupLabel"/>
+      <Label text="%serviceRequestLookupLabel"
+        style="-fx-font-size: 32; -fx-padding: 24 0 0 0;"/>
       <AnchorPane maxWidth="Infinity" style="-fx-font-size: 20">
         <JFXTextField fx:id="confirmationCode" promptText="%serviceRequestConfirmationID"
           AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
@@ -71,24 +74,30 @@
   </StackPane>
 
   <!-- Login Button -->
-  <JFXButton fx:id="loginButton" buttonType="RAISED" onAction="#openLoginDialog"
-    text="%adminLogin" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+  <JFXButton buttonType="RAISED" onAction="#openLoginDialog"
+    text="%adminLogin" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"
+    styleClass="main_secondaryButtons"/>
 
   <!-- About Button-->
-  <JFXButton fx:id="aboutButton" buttonType="RAISED" onAction="#openAbout"
-    text="%about" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0"/>
+  <JFXButton buttonType="RAISED" onAction="#openAbout"
+    text="%about" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0"
+    styleClass="main_secondaryButtons"/>
 
-  <ImageView fx:id="FAQ" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="80.0" fitHeight="50.0"
-    fitWidth="50.0" onMouseClicked="#openHowToUseKiosk" pickOnBounds="true" preserveRatio="true">
+  <!-- FAQ Button -->
+  <ImageView AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="80.0" fitHeight="50.0"
+    fitWidth="50.0" onMouseClicked="#openHowToUseKiosk" pickOnBounds="true" preserveRatio="true"
+    styleClass="main_secondaryButtons">
     <Image url="@/FAQ.png"/>
   </ImageView>
 
   <!-- Language Switcher -->
   <HBox fx:id="langContainer" alignment="CENTER" spacing="8"
-    AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16">
+    AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16"
+    styleClass="main_secondaryButtons">
     <ImageView fitHeight="32" fitWidth="32">
       <Image url="@/language-icon.png"/>
     </ImageView>
     <JFXComboBox fx:id="languageSwitcher"/>
   </HBox>
+
 </AnchorPane>
