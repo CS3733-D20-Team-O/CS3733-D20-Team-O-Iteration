@@ -23,6 +23,7 @@ import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction.Icon;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
+import edu.wpi.cs3733.d20.teamO.view_model.StreetViewViewModel;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +71,13 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private JFXColorPicker colorPicker;
   @FXML
-  private HBox mapSwitcherButtons;
+  private HBox mapSwitcherButtons, nodeMapContainer;
+  @FXML
+  private VBox streetMapContainer;
+
+
+  @FXML
+  private StreetViewViewModel streetViewViewModelController;
 
   private Map<String, Node> nodeMap, handicapMap, stairsMap;
   private final DatabaseWrapper database;
@@ -199,6 +207,11 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
+    if (beginning.getBuilding().equals("Faulkner")) {
+      streetViewViewModelController.goToMainCampus();
+    } else {
+      streetViewViewModelController.goToFaulkner();
+    }
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
@@ -474,7 +487,15 @@ public class FindPathViewModel extends ViewModelBase {
     fullName = fullName.split("\n")[1];
     String building = fullName.split(", Floor ")[0];
     String floor = fullName.split(", Floor ")[1];
-    dispatch(new FloorSwitchEvent(floor, building));
+
+    if (building.equals("Street")) {
+      nodeMapContainer.setVisible(false);
+      streetMapContainer.setVisible(true);
+    } else {
+      dispatch(new FloorSwitchEvent(floor, building));
+      nodeMapContainer.setVisible(true);
+      streetMapContainer.setVisible(false);
+    }
   }
 
   /**
