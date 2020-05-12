@@ -1,10 +1,13 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import java.util.Arrays;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.TilePane;
 import lombok.val;
 
@@ -20,6 +23,44 @@ public class FloorSelector extends ViewModelBase {
   private static final String main = "Main Campus";
   private static final String unselectedStyle = "-fx-background-color: lightgray; -fx-background-radius: 30;";
   private static final String selectedStyle = "-fx-background-color: lightseagreen; -fx-background-radius: 30;";
+  private boolean selfLaunched = false;
+
+
+  @Override
+  public void onEvent(Event event) {
+    if (event instanceof FloorSwitchEvent) {
+      List<Node> faulknerNodes = Arrays
+          .asList(faulkner1, faulkner2, faulkner3, faulkner4, faulkner5);
+      List<Node> mainCampusNodes = Arrays.asList(mainL2, mainL1, mainG, main1, main2, main3);
+      if (!selfLaunched) {
+        if (((FloorSwitchEvent) event).getBuilding().equals("Faulkner")) {
+          faulknerBtn.setStyle(selectedStyle);
+          mainCampusBtn.setStyle(unselectedStyle);
+          faulknerBtns.setVisible(true);
+          mainCampusBtns.setVisible(false);
+          for (Node n : faulknerNodes) {
+            if (((FloorSwitchEvent) event).getFloor().equals(((JFXButton) n).getText())) {
+              n.setStyle(selectedStyle);
+            } else {
+              n.setStyle(unselectedStyle);
+            }
+          }
+        } else {
+          mainCampusBtn.setStyle(selectedStyle);
+          faulknerBtn.setStyle(unselectedStyle);
+          faulknerBtns.setVisible(false);
+          mainCampusBtns.setVisible(true);
+          for (Node n : mainCampusNodes) {
+            if (((FloorSwitchEvent) event).getFloor().equals(((JFXButton) n).getText())) {
+              n.setStyle(selectedStyle);
+            } else {
+              n.setStyle(unselectedStyle);
+            }
+          }
+        }
+      }
+    }
+  }
 
   /**
    * Sets the floor of the application
@@ -43,6 +84,7 @@ public class FloorSelector extends ViewModelBase {
         break;
     }
     target.setStyle(selectedStyle);
+    selfLaunched = true;
     dispatch(new FloorSwitchEvent(floor, building));
   }
 
@@ -74,6 +116,7 @@ public class FloorSelector extends ViewModelBase {
     }
     target.setStyle(selectedStyle);
     floor = "1";
+    selfLaunched = true;
     dispatch(new FloorSwitchEvent(floor, building));
   }
 }
