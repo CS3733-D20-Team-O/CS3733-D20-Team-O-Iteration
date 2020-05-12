@@ -213,6 +213,8 @@ public class FindPathViewModel extends ViewModelBase {
     startLocation.clear();
     nodeMapViewController.clearText();
     nodeMapViewController.draw();
+
+    scrollPane.setContent(new Label()); //clear scroll pane
   }
 
   private void drawPath() {
