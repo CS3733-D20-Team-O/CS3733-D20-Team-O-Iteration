@@ -53,9 +53,10 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     this.connection = connection;
     if (init()) {
       val csvHandler = new CSVHandlerImpl(this);
-      csvHandler.importNodes(Main.class.getResource("CSV/MapOAllnodes (final).csv").getPath());
-      csvHandler.importEdges(Main.class.getResource("CSV/MapOAlledges (final).csv").getPath());
-      csvHandler.importEmployees(Main.class.getResource("CSV/demoEmployees.csv").getPath());
+
+      csvHandler.importNodes(Main.class.getResource("/CSV/MapOAllnodes.csv").getPath());
+      csvHandler.importEdges(Main.class.getResource("/CSV/MapOAlledges.csv").getPath());
+      csvHandler.importEmployees(Main.class.getResource("/CSV/demoEmployees.csv").getPath());
     }
   }
 
