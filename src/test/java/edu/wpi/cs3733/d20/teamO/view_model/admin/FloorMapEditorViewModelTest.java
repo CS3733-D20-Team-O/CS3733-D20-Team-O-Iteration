@@ -4,7 +4,8 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.wpi.cs3733.d20.teamO.Main;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,7 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
 public class FloorMapEditorViewModelTest extends FxRobot {

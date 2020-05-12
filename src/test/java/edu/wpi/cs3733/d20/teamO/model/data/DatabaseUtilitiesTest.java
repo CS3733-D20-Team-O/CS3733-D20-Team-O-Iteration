@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.model.database;
+package edu.wpi.cs3733.d20.teamO.model.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

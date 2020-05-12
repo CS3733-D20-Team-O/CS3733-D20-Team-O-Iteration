@@ -2,7 +2,7 @@ package edu.wpi.cs3733.d20.teamO.model.datatypes;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
