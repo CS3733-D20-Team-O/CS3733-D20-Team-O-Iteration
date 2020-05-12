@@ -232,7 +232,6 @@ FHALL01005,1250,690,5,Faulkner,HALL,Abulatory Hall 2,AbHall2
 DRETL00102,4270,480,2,Main Campus,RETL,Pats Place,Pats Place Food
 CHALL003L2,2215,904,L2,Main Campus,HALL,Hallway 3 Floor L2,Hallway C003L2
 FHALL01001,1627,802,1,Main Campus,HALL,Tower Hallway 3,Hallway F01001
-OHALL04301,498,474,1,Street,HALL,Step3,p3
 CHALL003L1,2445,1284,L1,Main Campus,HALL,Hallway 3 Floor L1,Hallway C003L1
 XRETL  004,3768,2587,4,Main Campus,RETL,Flexible Pantry,Pantry Food
 BHALL02502,3163,945,2,Main Campus,HALL,Hallway Intersection 25 Level 2,Hallway B2502
@@ -293,7 +292,6 @@ CREST001L2,2300,884,L2,Main Campus,REST,Restroom,Restroom C001L2
 EHALL01001,2585,890,1,Main Campus,HALL,Hallway Node 8 Floor 1,HallE08
 CHALL001L2,2360,854,L2,Main Campus,HALL,Hallway K Elevator Floor L2,Hallway C001L2
 CHALL001L1,1732,924,L1,Main Campus,HALL,Hallway 1 Floor L1,Hallway C001L1
-OHALL04501,555,257,1,Street,HALL,step 5,p5
 BHALL02302,2912,963,2,Main Campus,HALL,Hallway Intersection 23 Level 2,Hallway B2302
 GHALL00402,1230,1820,2,Main Campus,HALL,Hall Node 4 Floor 2,Hall
 IHALL01903,2492,851,3,Main Campus,HALL,Hallway Node 19,H19
@@ -420,7 +418,6 @@ DRETL00303,1170,980,3,Faulkner,RETL,Gift Shop,RETLGIF
 CHALL005L2,1745,1280,L2,Main Campus,HALL,Hallway 5 Floor L2,Hallway C005L2
 CHALL005L1,1750,1284,L1,Main Campus,HALL,Hallway 5 Floor L1,Hallway C005L1
 DCONF00102,4595,550,2,Main Campus,CONF,Carrie M. Hall Conference Center,Conference Center
-OHALL04101,348,761,1,Street,HALL,Step 1,p1
 BHALL02702,3296,1043,2,Main Campus,HALL,Hallway Intersection 27 Level 2,Hallway B2702
 DHALL05502,3450,850,2,Main Campus,HALL,Hallway 55 Floor 2,Hallway D5502
 EHALL00304,860,1219,4,Faulkner,HALL,Hallway W 3,HW3
@@ -637,7 +634,6 @@ CDEPT004L1,2310,1043,L1,Main Campus,DEPT,Medical Records Film Library,Department
 OELEV00503,1320,1150,5,Faulkner,ELEV,Elevator near bottom bathrooms,test
 FHALL02401,1965,1280,1,Main Campus,HALL,Lobby Hallway 2,Hallway F02401
 GHALL006L1,1665,2116,L1,Main Campus,HALL,Hallway MapNode 6 Floor L1,Hall
-OHALL03801,575,103,1,Street,HALL,step 6,p6
 FDEPT01605,1089,217,5,Faulkner,DEPT,ENT / Eye Physical / Dermatologist,ENT
 HRETL00102,1935,860,2,Main Campus,RETL,Garden CafÃƒÆ’Ã‚Â© ,Garden CafÃƒÆ’Ã‚Â© Food
 EDEPT01304,1350,808,4,Faulkner,DEPT,Pulmonary Services,Pulmo
@@ -740,7 +736,6 @@ DDEPT00102,4330,700,2,Main Campus,DEPT,Chest Diseases,Chest Diseases
 DHALL00802,4660,770,2,Main Campus,HALL,Hallway 8 Floor 2,Hallway D0802
 FHALL01105,1250,610,5,Faulkner,HALL,Abulatory Hall 3,AbHall3
 CHALL004L1,2770,1070,L1,Main Campus,HALL,Hallway 4 Floor L1,Hallway C004L1
-OHALL04401,498,363,1,Street,HALL,step4,p4
 CHALL004L2,2130,904,L2,Main Campus,HALL,Hallway 4 Floor L2,Hallway C004L2
 FHALL01101,1627,930,1,Main Campus,HALL,Tower Hallway 4,Hallway F01101
 GHALL00103,1562,2230,3,Main Campus,HALL,Hallway Node 1 Floor 3,Hall
@@ -809,7 +804,6 @@ EHALL01101,2610,910,1,Main Campus,HALL,Hallway Node 9 Floor 1,HallE09
 CHALL002L1,2445,1043,L1,Main Campus,HALL,Hallway 2 Floor L1,Hallway C002L1
 CHALL002L2,2270,904,L2,Main Campus,HALL,Hallway 2 Floor L2,Hallway C002L2
 BHALL02202,2900,985,2,Main Campus,HALL,Hallway Intersection 22 Level 2,Hallway B2202
-OHALL04601,553,164,1,Street,HALL,step 6,p6
 GHALL00303,1580,2180,3,Main Campus,HALL,Hallway Node 3 Floor 3,Hall
 GHALL00301,1705,1831,1,Main Campus,HALL,Hallway MapNode 3 Floor 1,Hall
 IHALL01803,2362,851,3,Main Campus,HALL,Hallway Node 18,H18
@@ -929,4 +923,4 @@ CREST004L1,2770,1160,L1,Main Campus,REST,Restroom,Restroom C004L1
 DRETL00203,1530,757,3,Faulkner,RETL,Outdoor Dining Area,RETLODA
 CHALL006L1,2130,1284,L1,Main Campus,HALL,Hallway 6 Floor L1,Hallway C006L1
 BHALL02602,3296,945,2,Main Campus,HALL,Hallway Intersection 26 Level 2,Hallway B2602
-OHALL04201,423,592,1,Street,HALL,step2,p2
+OHALLStreet,500,500,1,Street,HALL,Street,Street
