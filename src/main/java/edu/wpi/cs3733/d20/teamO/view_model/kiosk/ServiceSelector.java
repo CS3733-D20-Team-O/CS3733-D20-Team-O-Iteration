@@ -3,9 +3,12 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 import com.google.inject.Inject;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
+import edu.wpi.cs3733.d20.teamE.onCallBeds;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog.DialogViewModel;
+import edu.wpi.cs3733.d20.teamP.APIController;
 import edu.wpi.teamname.SecurityServiceRequestViewModel;
+import flowerapi.FlowerAPI;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ServiceSelector extends DialogViewModel {
 
   private final Dialog dialog;
+
 
   @FXML
   private StackPane container;
@@ -65,9 +69,10 @@ public class ServiceSelector extends DialogViewModel {
   @FXML
   private void openFlorist() {
     try {
-      dialog.showFullscreenFXML("views/kiosk/service_requests/FloristDeliveryService.fxml");
-    } catch (IOException e) {
-      log.error("Failed to open", e);
+      FlowerAPI.run(300, 300, 900, 750,
+          null, null, null);
+    } catch (Exception e) {
+      log.error("Failed to open API", e);
     }
   }
 
@@ -143,11 +148,25 @@ public class ServiceSelector extends DialogViewModel {
   private void External() {}
 
   @FXML
-  private void openOnCallBed() { }
+  private void openOnCallBed() {
+    try {
+      onCallBeds.run(300,  300, 500, 450 ,
+          null, null, null);
+    } catch (Exception e) {
+      log.error("Failed to open API", e);
+    }
+  }
 
   @FXML
-  private void openFoodDelivery() { }
+  private void openFoodDelivery() {
+    try {
+    APIController.run( 350,  100, 650, 550 ,
+       null, null, null);
+  } catch (Exception e) {
+    log.error("Failed to open API", e);
+  }
+  }
 
   @FXML
-  private void openMortuary() { }
+  private void openMortuary() {}
 }
