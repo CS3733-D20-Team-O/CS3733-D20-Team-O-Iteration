@@ -81,7 +81,9 @@ public class FindPathViewModel extends ViewModelBase {
 
   private Map<String, Node> nodeMap, handicapMap, stairsMap;
   private final DatabaseWrapper database;
-  private Node beginning, finish, defaultStart, defaultStop, lastNode;
+  private Node beginning;
+  private Node finish;
+  private Node lastNode;
   private final Dialog dialog;
   private final SnackBar snackBar;
   private Color color = Color.web("fd8842");
@@ -123,23 +125,25 @@ public class FindPathViewModel extends ViewModelBase {
     handicapMap = new HashMap<>();
     createHandicap();
     createStairsOnly();
-    defaultStart = (Node) nodeMap.values().toArray()[0];
-    defaultStop = (Node) nodeMap.values().toArray()[0];
-    beginning = defaultStart;
-    finish = defaultStop;
+    beginning = null;
+    finish = null;
     colorPicker.setValue(Color.valueOf("fd8842"));
     nodeMapViewController.setEdgeMovement(true);
 
     startLocation.setOnNodeSelectedListener(node -> {
       mapSwitcherButtons.getChildren().clear();
-      nodeMapViewController.deleteNode(beginning);
+      if (beginning != null) {
+        nodeMapViewController.deleteNode(beginning);
+      }
       beginning = node;
       nodeMapViewController.draw();
       drawPath();
     });
     stopLocation.setOnNodeSelectedListener(node -> {
       mapSwitcherButtons.getChildren().clear();
-      nodeMapViewController.deleteNode(finish);
+      if (finish != null) {
+        nodeMapViewController.deleteNode(finish);
+      }
       finish = node;
       nodeMapViewController.draw();
       drawPath();
@@ -197,10 +201,14 @@ public class FindPathViewModel extends ViewModelBase {
     lastNode = null;
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
-    nodeMapViewController.deleteNode(beginning);
-    nodeMapViewController.deleteNode(finish);
-    beginning = defaultStart;
-    finish = defaultStop;
+    if (beginning != null) {
+      nodeMapViewController.deleteNode(beginning);
+      beginning = null;
+    }
+    if (finish != null) {
+      nodeMapViewController.deleteNode(finish);
+      finish = null;
+    }
     stopLocation.clear();
     startLocation.clear();
     nodeMapViewController.clearText();
@@ -208,6 +216,9 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
+    if (beginning == null || finish == null) { //only pathfind if both nodes are set
+      return;
+    }
 
     if (beginning.getBuilding().equals("Faulkner")) {
       streetViewViewModelController.goToMainCampus();
