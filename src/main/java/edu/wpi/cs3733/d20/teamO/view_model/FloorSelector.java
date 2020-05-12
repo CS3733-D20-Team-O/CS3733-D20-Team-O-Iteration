@@ -4,10 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import java.util.Arrays;
-import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.layout.TilePane;
 import lombok.val;
 
@@ -29,17 +27,17 @@ public class FloorSelector extends ViewModelBase {
   @Override
   public void onEvent(Event event) {
     if (event instanceof FloorSwitchEvent) {
-      List<Node> faulknerNodes = Arrays
+      val faulknerNodes = Arrays
           .asList(faulkner1, faulkner2, faulkner3, faulkner4, faulkner5);
-      List<Node> mainCampusNodes = Arrays.asList(mainL2, mainL1, mainG, main1, main2, main3);
+      val mainCampusNodes = Arrays.asList(mainL2, mainL1, mainG, main1, main2, main3);
       if (!selfLaunched) {
         if (((FloorSwitchEvent) event).getBuilding().equals("Faulkner")) {
           faulknerBtn.setStyle(selectedStyle);
           mainCampusBtn.setStyle(unselectedStyle);
           faulknerBtns.setVisible(true);
           mainCampusBtns.setVisible(false);
-          for (Node n : faulknerNodes) {
-            if (((FloorSwitchEvent) event).getFloor().equals(((JFXButton) n).getText())) {
+          for (val n : faulknerNodes) {
+            if (((FloorSwitchEvent) event).getFloor().equals(n.getText())) {
               n.setStyle(selectedStyle);
             } else {
               n.setStyle(unselectedStyle);
@@ -50,8 +48,8 @@ public class FloorSelector extends ViewModelBase {
           faulknerBtn.setStyle(unselectedStyle);
           faulknerBtns.setVisible(false);
           mainCampusBtns.setVisible(true);
-          for (Node n : mainCampusNodes) {
-            if (((FloorSwitchEvent) event).getFloor().equals(((JFXButton) n).getText())) {
+          for (val n : mainCampusNodes) {
+            if (((FloorSwitchEvent) event).getFloor().equals(n.getText())) {
               n.setStyle(selectedStyle);
             } else {
               n.setStyle(unselectedStyle);

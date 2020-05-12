@@ -98,7 +98,7 @@ public class FindPathViewModel extends ViewModelBase {
     if (event instanceof RedrawEvent) {
       mapSwitcherButtons.getChildren().clear();
       drawPath();
-      for (javafx.scene.Node n : mapSwitcherButtons.getChildren()) {
+      for (val n : mapSwitcherButtons.getChildren()) {
         if (((JFXButton) n).getText().split("\n")[1].contains(nodeMapViewController.getFloor()) &&
             ((JFXButton) n).getText().split("\n")[1]
                 .contains(nodeMapViewController.getBuilding())) {
