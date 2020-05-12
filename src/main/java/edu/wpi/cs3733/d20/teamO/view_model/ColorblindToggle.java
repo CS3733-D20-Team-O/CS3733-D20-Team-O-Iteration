@@ -20,6 +20,7 @@ public class ColorblindToggle extends ViewModelBase {
     String selection = colorPicker.getSelectionModel().getSelectedItem().getText();
     String path = "";
     switch (selection) {
+      default:
       case "Normal Vision":
         path = normalVisionCSSPath;
         break;

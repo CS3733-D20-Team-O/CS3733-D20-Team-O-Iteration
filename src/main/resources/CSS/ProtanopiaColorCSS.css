@@ -1,8 +1,4 @@
-* {
-  -main-color: #2d4a88;
-}
-
-#mainAnchorPane {
+.mainBackground {
   -fx-background-image: url('/BWFHBackground.jpg');
   -fx-background-size: cover;
   -fx-background-position: center;
@@ -30,7 +26,7 @@
 /* styleClasses */
 .mainButton {
   -fx-font-size: 32;
-  -fx-background-color: -main-color;
+  -fx-background-color: #2d4a88;
   -fx-text-fill: white;
   -fx-padding: 16;
   -fx-background-radius: 16;
@@ -43,7 +39,7 @@
 }
 
 .topBar {
-  -fx-background-color: -main-color;
+  -fx-background-color: #2d4a88;
   -fx-font-size: 32;
   -fx-text-fill: floralwhite;
 }
@@ -60,7 +56,7 @@
 
 /* Service Requests */
 .submitButton {
-  -fx-background-color: -main-color;
+  -fx-background-color: #2d4a88;
   -fx-text-fill: floralwhite;
   -fx-padding: 16;
   -fx-background-radius: 16;
@@ -93,4 +89,5 @@
   -jfx-label-float: true;
   -fx-background-color: floralwhite;
   -fx-padding: 8;
+  -fx-wrap-text: true;
 }

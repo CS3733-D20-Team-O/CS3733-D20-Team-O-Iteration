@@ -1,8 +1,4 @@
-* {
-  -main-color: #004c8c;
-}
-
-#mainAnchorPane {
+.mainBackground {
   -fx-background-image: url('/BWFHBackground.jpg');
   -fx-background-size: cover;
   -fx-background-position: center;
@@ -10,8 +6,13 @@
   -fx-font-size: 16;
 }
 
-/* NavigationBar */
+#welcomeBar {
+  -mainColor: #004c8c;
 
+  -fx-background-color: -mainColor;
+}
+
+/* NavigationBar */
 #controllerTitle {
   -fx-font-size: 24px;
   -fx-text-fill: floralwhite
@@ -30,8 +31,8 @@
 /* styleClasses */
 .mainButton {
   -fx-font-size: 32;
-  -fx-background-color: -main-color;
-  -fx-text-fill: white;
+  -fx-background-color: #004c8c;
+  -fx-text-fill: floralwhite;
   -fx-padding: 16;
   -fx-background-radius: 16;
 }
@@ -43,7 +44,7 @@
 }
 
 .topBar {
-  -fx-background-color: -main-color;
+  -fx-background-color: #004c8c;
   -fx-font-size: 32;
   -fx-text-fill: floralwhite;
 }
@@ -60,7 +61,7 @@
 
 /* Service Requests */
 .submitButton {
-  -fx-background-color: -main-color;
+  -fx-background-color: #004c8c;
   -fx-text-fill: floralwhite;
   -fx-padding: 16;
   -fx-background-radius: 16;

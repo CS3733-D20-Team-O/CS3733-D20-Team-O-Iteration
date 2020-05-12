@@ -23,7 +23,9 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -44,6 +46,8 @@ public class MainKioskViewModel extends ViewModelBase {
   private final SnackBar snackBar;
   private final Dialog dialog;
 
+  @FXML
+  private AnchorPane mainAnchorPane;
   @FXML
   private StackPane welcomeBar, container;
   @FXML
@@ -84,6 +88,8 @@ public class MainKioskViewModel extends ViewModelBase {
       // Put this in a run later so it doesn't mess up navigation
       Platform.runLater(this::openAdminDialog);
     }
+//       dispatch(new CSSSwitchEvent("/CSS/NormalColorCSS.css"));
+//       Platform.runLater(() -> dispatch(new CSSSwitchEvent("/CSS/NormalColorCSS.css")));
   }
 
   @FXML
@@ -188,9 +194,12 @@ public class MainKioskViewModel extends ViewModelBase {
 
   public void onEvent(Event event) {
     if (event.getClass().equals(CSSSwitchEvent.class)) {
+      for (Node n : mainAnchorPane.getChildren()) {
+        n.setStyle("");
+      }
       String path = ((CSSSwitchEvent) event).getPath();
-      container.getScene().getStylesheets().clear();
-      container.getScene().getStylesheets().add(path);
+      welcomeBar.getScene().getStylesheets().clear();
+      welcomeBar.getScene().getStylesheets().add(path);
     }
   }
 }
