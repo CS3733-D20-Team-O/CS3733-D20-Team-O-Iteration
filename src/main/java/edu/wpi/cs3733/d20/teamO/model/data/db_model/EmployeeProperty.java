@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.model.database.db_model;
+package edu.wpi.cs3733.d20.teamO.model.data.db_model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

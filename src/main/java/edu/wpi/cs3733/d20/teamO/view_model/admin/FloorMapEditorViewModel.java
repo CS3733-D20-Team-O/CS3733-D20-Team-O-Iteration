@@ -7,10 +7,10 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.EdgeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -68,7 +68,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   // globally accessible fields
   private State state; // current state of view
-  private LinkedList<Node> selection = new LinkedList<>();
+  private final LinkedList<Node> selection = new LinkedList<>();
   private Node selectedNode, selectedTargetNode, previewNode; // todo move over to selection
   private Edge selectedEdge;
   private int xSelection, ySelection; // the selected x and y coords

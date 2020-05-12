@@ -3,7 +3,7 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
+import edu.wpi.cs3733.d20.teamO.model.data.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import java.net.URL;
