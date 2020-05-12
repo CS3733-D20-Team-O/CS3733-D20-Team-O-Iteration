@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.model.database;
 
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
 import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
@@ -48,9 +49,14 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   private final Connection connection;
 
   @Inject
-  public DatabaseWrapperImpl(Connection connection) {
+  public DatabaseWrapperImpl(Connection connection, CSVHandler csvHandler) {
     this.connection = connection;
-    init();
+    boolean inited = init();
+    if (inited) {
+      csvHandler.importNodes("src/main/resources/CSV/MapOAllnodes (final).csv");
+      csvHandler.importEdges("resources/CSV/MapOAlledges (final).csv");
+      csvHandler.importEmployees("CSV/demoEmployees.csv");
+    }
   }
 
   /**
@@ -72,7 +78,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   /**
    * Initializes the database
    */
-  private void init() {
+  private boolean init() {
+    boolean init = false;
     // Initialize the nodes table if not initialized
     if (isNotInitialized(Table.NODES_TABLE)) {
       try (val stmt = connection.createStatement()) {
@@ -91,6 +98,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.NODES_TABLE, e);
       }
+      init = true;
     }
 
     // Initialize the edges table if not initialized
@@ -110,6 +118,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EDGES_TABLE, e);
       }
+      init = true;
     }
 
     // Initialize the employee table if not initialized
@@ -136,6 +145,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       if (addEmployee("staff", "staff", "staff", "staff", false) != 1) {
         log.error("Failed to add the staff employee!");
       }
+      init = true;
     }
 
     // Initialize the service requests table if not initialized
@@ -161,6 +171,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
       }
+      init = true;
     }
 
     // Initialize the scheduler table if not initialized
@@ -178,7 +189,9 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.SCHEDULER_TABLE, e);
       }
+      init = true;
     }
+    return init;
   }
 
   public String getNodeID(String type, String floor) {

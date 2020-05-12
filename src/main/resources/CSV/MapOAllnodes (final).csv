@@ -1,0 +1,932 @@
+EHALL00404,538,1219,4,Faulkner,HALL,Hallway W 4,HW4
+AHALL01801,1405,955,1,Faulkner,HALL,Hallway Intersection 18,teamAdidntAddThis
+BSTAI00302,2554,783,2,Main Campus,STAI,Staircase Intersection 3 Level 2,Stair B0302
+EHALL00401,2275,910,1,Main Campus,HALL,Hallway Node 2 Floor 1,HallE02
+DHALL05802,3510,790,2,Main Campus,HALL,Hallway 58 Floor 2,Hallway D5802
+ELABS00304,1770,1160,4,Faulkner,LABS,SURGSPEC,SURGSPEC
+IHALL00103,2255,1290,3,Main Campus,HALL,Hallway Node 1,H1
+FHALL00705,1250,970,5,Faulkner,HALL,X-Ray Hall,XRayHall
+FHALL00701,1758,930,1,Main Campus,HALL,Tower Elevator Entrance,Hallway F00701
+BDEPT00102,2260,786,2,Main Campus,DEPT,Comprehensive Breast Heath,DEPT B0102
+OKIOSKHILLSIDE,1256,1249,3,Faulkner,DEPT,Kiosk in hillside lobby,test
+DHALL00102,4770,1140,2,Main Campus,HALL,Hallway 1 Floor 2,Hallway D0102
+DHALL00103,1257,394,3,Faulkner,HALL,Hallway Intersection Elevator Stairs HALL00803 HALL00203,HALLX
+WELEV00KL2,2215,974,L2,Main Campus,ELEV,Elevator K,Elevator KL2
+ECONF00104,443,1306,4,Faulkner,CONF,Tynan Conferance Room,Tynan
+WELEV00KL1,2220,974,L1,Main Campus,ELEV,Elevator K,Elevator KL1
+OHALL014L2,1618,2619,L2,Main Campus,HALL,Hall in L2,fds
+DHALL04702,3745,780,2,Main Campus,HALL,Hallway 47 Floor 2,Hallway D4702
+CDEPT00402,1164,287,2,Faulkner,DEPT,Otolaryngology,DEPT C0502
+AHALL004L2,1698,2687,L2,Main Campus,HALL,Hall,Hall
+FEXIT00301,2099,1357,1,Main Campus,EXIT,Emergency Department Entrance,Emergency Entrance
+FHALL01805,1355,310,5,Faulkner,HALL,Right Upper Hall,RightUpHall
+FHALL01801,1758,956,1,Main Campus,HALL,Tower Hallway 10,Hallway F01801
+EHALL02804,1145,480,4,Faulkner,HALL,Hallway O 2,HO2
+DHALL03402,3925,740,2,Main Campus,HALL,Hallway 34 Floor 2,Hallway D3402
+EHALL02801,2925,1050,1,Main Campus,HALL,Hallway Node 26 Floor 1,HallE26
+GDEPT01403,1580,1904,3,Main Campus,DEPT,Watkins Clinic C,Watkins Clinic C
+OREST00304,1204,317,4,Faulkner,REST,Handicap Bathroom Level 4 left,hb31
+AEXIT00101,1257,149,1,Faulkner,EXIT,Lobby Entrance,teamAdidntAddThis
+FDEPT01105,1354,754,5,Faulkner,DEPT,Abulatory Care 4,Abula4
+GHALL007L2,1578,2089,L2,Main Campus,HALL,Hallway MapNode 7 Floor L2,Hall
+EHALL01704,2212,1219,4,Faulkner,HALL,Hallway E 10,HE10
+FSTAI00205,188,1220,5,Faulkner,STAI,Stairwell inside ICU,ICUStair
+DHALL02302,4270,440,2,Main Campus,HALL,Hallway 23 Floor 2,Hallway D2302
+EHALL01701,2910,907,1,Main Campus,HALL,Hallway Node 15 Floor 1,HallE15
+AHALL00701,984,520,1,Faulkner,HALL,Hallway Intersection 7,teamAdidntAddThis
+FSTAI00201,1673,802,1,Main Campus,STAI,Tower Stairway 1,Tower Stairs 1
+GREST004L2,1680,2090,L2,Main Campus,REST,Restroom,Restroom Shapiro L2
+IHALL01203,2220,1034,3,Main Campus,HALL,Hallway Node 12,H12
+IDEPT00903,2631,851,3,Main Campus,DEPT,Gynecology,D9
+EHALL00604,356,1219,4,Faulkner,HALL,Hallway W 6,HW6
+AHALL0090G,1524,2726,G,Main Campus,HALL,Hall,Hall
+BHALL00802,2605,783,2,Main Campus,HALL,Hallway Intersection 8 Level 2,Hallway B0802
+ADEPT01101,1755,1000,1,Faulkner,DEPT,Operation Rooms,teamAdidntAddThis
+EHALL00601,2385,910,1,Main Campus,HALL,Hallway Node 4 Floor 1,HallE04
+ELABS00101,3050,730,1,Main Campus,LABS,Asthma Research Lab,Asthma 1
+DHALL01403,1256,1064,3,Faulkner,HALL,Hallway Intersection HALL01303 HALL 01503 Staircase Y,HALL1303X1503
+AELEV00S0G,1523,2763,G,Main Campus,ELEV,Elevator S,Elevator S G
+FRETL00201,1609,1246,1,Main Campus,RETL,Au Bon Pain,ABP Food
+ELABS00104,1470,1170,4,Faulkner,LABS,PATSAFE,PATSAFE
+DHALL01402,4570,455,2,Main Campus,HALL,Hallway 14 Floor 2,Hallway D1402
+BSTAI00502,2945,840,2,Main Campus,STAI,Staircase Intersection 5 Level 2,Stair B0502
+FHALL00501,1950,910,1,Main Campus,HALL,Shattuck Street Lobby 3,Hallway F00501
+AHALL00901,1410,527,1,Faulkner,HALL,Hallway Intersection 9,teamAdidntAddThis
+BDEPT00302,2385,753,2,Main Campus,DEPT,Lee Bell Breast Center,DEPT B0302
+FHALL00505,1251,1109,5,Faulkner,HALL,Elevator Z landing hallway,ElevZHall
+BHALL01902,2678,1032,2,Main Campus,HALL,Hallway Intersection 19 Level 2,Hallway B1902
+AELEV00S01,1534,2777,1,Main Campus,ELEV,Elevator S,Elevator S 1
+AELEV00S03,1539,2773,3,Main Campus,ELEV,Elevator S,Elevator S 3
+AELEV00S02,1532,2777,2,Main Campus,ELEV,Elevator S,Elevator S 2
+OHALL016L1,1618,2202,L1,Main Campus,HALL,Stairs L1,stairsl1
+WELEV00ML1,1820,1284,L1,Main Campus,ELEV,Elevator M,Elevator ML1
+DHALL00302,4725,995,2,Main Campus,HALL,Hallway 3 Floor 2,Hallway D0302
+HHALL01103,1690,820,3,Main Campus,HALL,Hallway Connector 11,Hallway H01103
+DHALL00303,1314,264,3,Faulkner,HALL,Hallway Intersection Gynecology and Oncology and OBGYN Associates,HALLGOXOGA
+DHALL04902,3645,775,2,Main Campus,HALL,Hallway 49 Floor 2,Hallway D4902
+WELEV00ML2,1820,1280,L2,Main Campus,ELEV,Elevator M,Elevator ML2
+AEXIT0010G,1678,2460,G,Main Campus,EXIT,Fenwood Road,Fenwood Road
+FHALL01601,1758,1060,1,Main Campus,HALL,Tower Hallway 8,Hallway F01601
+CDEPT00202,750,810,2,Faulkner,DEPT,Morgue,DEPT C0302
+FHALL01605,1250,280,5,Faulkner,HALL,Upper Curved Intersection Hall,UPCurveHall
+XHALL  004,3800,2293,4,Main Campus,HALL,Flex 4 Hall,Flex 4 Hall
+OREST00502,1289,319,5,Faulkner,REST,Bathroom at the top right,test
+DHALL03602,3955,830,2,Main Campus,HALL,Hallway 36 Floor 2,Hallway D3602
+OREST00501,1214,314,5,Faulkner,REST,Bathroom at the top left,test
+GHALL009L2,1578,2031,L2,Main Campus,HALL,Hallway MapNode 9 Floor L2,Hall
+XCONF 1304,2785,2164,4,Main Campus,CONF,Flexible Workzone 4,Workzone 4
+FDEPT01305,1374,602,5,Faulkner,DEPT,Ambulatory Clinic,AbClinic
+XHALL15802,3372,1219,2,Main Campus,HALL,45 sidewalk,45 sidewalk
+GHALL03001,1256,1858,1,Main Campus,HALL,Hallway MapNode 30 Floor 1,Hall
+FHALL02901,1700,1280,1,Main Campus,HALL,75 Lobby,75 Lobby
+GHALL03002,1580,2090,2,Main Campus,HALL,Hall Node 30 Floor 2,Hall
+EHALL01904,1250,1158,4,Faulkner,HALL,Hallway N 2,HN2
+BREST00502,2782,1152,2,Main Campus,REST,Restroom,REST B0502
+FSTAI00405,1204,1049,5,Faulkner,STAI,X-Ray Stairwell,XRayStairs
+EHALL01901,2960,900,1,Main Campus,HALL,Hallway Node 17 Floor 1,HallE17
+FELEV00Y05,1154,1164,5,Faulkner,ELEV,Elevator Y,ElevY
+DHALL02502,4290,470,2,Main Campus,HALL,Hallway 25 Floor 2,Hallway D2502
+FDEPT00201,1610,1120,1,Main Campus,DEPT,Bretholtz Center for Patients and Families,Bretholtz WR
+IHALL01003,2772,1075,3,Main Campus,HALL,Hallway Node 10,H10
+FDEPT00205,812,1174,5,Faulkner,DEPT,Hemo Dialysis,HemoDial
+OHALL06102,1436,754,2,Faulkner,HALL,Hallway intersection Physica therapy,phy hall
+EHALL00804,1426,1219,4,Faulkner,HALL,Hallway E 1,HE1
+WHALL00402,2105,900,2,Main Campus,HALL,Hallway Connector 4 Floor 2,Hallway W0402
+DSERV00203,1130,800,3,Faulkner,SERV,Huvos Auditorium,SERVHUA
+EHALL00801,2460,910,1,Main Campus,HALL,Hallway Node 6 Floor 1,HallE06
+DHALL01603,1254,1340,3,Faulkner,HALL,Hallway Intersection Chapel Volunteer EXIT,HALL1603
+DHALL01602,4480,580,2,Main Campus,HALL,Hallway 16 Floor 2,Hallway D1602
+OBATHHUVOS,1139,642,3,Faulkner,REST,Handicap Bathroom above Huvos,tes
+AINFO001L2,1681,2747,L2,Main Campus,INFO,BTM Security Desk,Security
+AHALL01401,1258,830,1,Faulkner,HALL,Hallway Intersection 14,teamAdidntAddThis
+CHALL010L2,2130,849,L2,Main Campus,HALL,Hallway 10 Floor L2,Hallway C010L2
+FHALL00301,2017,910,1,Main Campus,HALL,Shattuck Street Lobby 1,Hallway F00301
+CHALL010L1,2265,904,L1,Main Campus,HALL,Hallway 10 Floor L1,Hallway C010L1
+ALABS00203,1671,2695,3,Main Campus,LABS,Clinical Trials,Clinical Trials
+ALABS00201,1195,762,1,Faulkner,LABS,Special Testing,teamAdidntAddThis
+BHALL03202,2554,1472,2,Main Campus,HALL,Hallway Intersection 32 Level 2,Hallway B3202
+IHALL00503,2730,1290,3,Main Campus,HALL,Hallway Node 5,H5
+ESERV00504,1920,1166,4,Faulkner,SERV,Finance 1,Fin1
+GLABS015L2,1512,1811,L2,Main Campus,LABS,CVRR,CVRR
+AELEV00Y01,1182,1160,1,Faulkner,ELEV,Elevator Intersection 2 Level 2,teamAdidntAddThis
+FHALL00305,999,1215,5,Faulkner,HALL,Hallway outside Residents,ResHall
+BSTAI01002,2238,932,2,Main Campus,STAI,Staircase Intersection 10 Level 2,Stair B1002
+AHALL0140G,1599,2727,G,Main Campus,HALL,Hall,Hall
+FSERV00101,1950,871,1,Main Campus,SERV,Shattuck Street Lobby ATM,Lobby ATM
+DHALL00502,4705,925,2,Main Campus,HALL,Hallway 5 Floor 2,Hallway D0502
+CDEPT00802,1650,1204,2,Faulkner,DEPT,Psychiatric Inpatient Care,DEPT C0902
+DHALL00503,1360,334,3,Faulkner,HALL,Hallway Intersection  Division of Gynecology and Medical Staff Lounge,HALLGYNXMSL
+FSERV00105,1246,1291,5,Faulkner,SERV,Vacant,Vacant
+FHALL01401,1627,1029,1,Main Campus,HALL,Tower Hallway 6,Hallway F01401
+BHALL02102,2841,1032,2,Main Campus,HALL,Hallway Intersection 21 Level 2,Hallway B2102
+OHALL02403,687,1274,3,Faulkner,HALL,Mechanical Space 1 East Stairs,m1estair
+GHALL00603,1685,2142,3,Main Campus,HALL,Hallway Node 6 Floor 3,Hall
+ESTAI00104,188,1220,4,Faulkner,STAI,Stairwell 1,Stair1
+GHALL00601,1707,2015,1,Main Campus,HALL,Hallway MapNode 6 Floor 1,Hall
+ESTAI00101,2190,910,1,Main Campus,STAI,Staircase K1 Floor 1,Stair K1
+ADEPT00901,1790,527,1,Faulkner,DEPT,Radiology,teamAdidntAddThis
+FHALL01405,1250,410,5,Faulkner,HALL,Elevator X Landing,ElevXHall
+DHALL03802,3970,880,2,Main Campus,HALL,Hallway 38 Floor 2,Hallway D3802
+DREST00202,3895,695,2,Main Campus,REST,Restroom,Restroom C
+DDHALL00803,1251,462,3,Faulkner,HALL,Hallway Intersection HALLX HALL00703 Family Patient Resources,HALL803XFPR
+CHALL00202,750,1204,2,Faulkner,HALL,Hallway Intersection 2 Level 2,Hallway C0202
+FHALL02701,2066,1239,1,Main Campus,HALL,Lobby Hallway 7,Hallway F02701
+FDEPT01505,1374,517,5,Faulkner,DEPT,Endocrinology/ Diabetes/ Hem-Onc,Endo
+GHALL003L1,1688,2167,L1,Main Campus,HALL,Hallway MapNode 3 Floor L1,Hall
+OHALL03701,322,745,1,Street,HALL,Faulker Hospital,faulkner
+GHALL01702,1578,1820,2,Main Campus,HALL,Hall Node 17 (Exit?) Floor 2,Hall
+GHALL01701,1605,2093,1,Main Campus,HALL,Hallway MapNode 17 Floor 1,Hall
+HRETL00202,1615,1025,2,Main Campus,RETL,Vending Machine,Vending Machine Food
+WHALL001L2,1745,1524,L2,Main Campus,HALL,Hallway Connector 1 Floor L2,Hallway W01L2
+EDEPT01004,2111,1275,4,Faulkner,DEPT,BWH Plastics,BWH
+ESERV00704,1970,1280,4,Faulkner,SERV,VP Clinical Service,VP
+DHALL02702,4285,715,2,Main Campus,HALL,Hallway 27 Floor 2,Hallway D2702
+AHALL00303,1650,2732,3,Main Campus,HALL,Hall,Hall
+AHALL00301,1260,407,1,Faulkner,HALL,Hallway Intersection 3,teamAdidntAddThis
+AHALL00302,1590,2745,2,Main Campus,HALL,Hall,Hall
+FDEPT00401,1794,1146,1,Main Campus,DEPT,Sharf Admitting Center,Sharf Center
+IHALL01603,2252,851,3,Main Campus,HALL,Hallway Node 16,H16
+FDEPT00405,999,1142,5,Faulkner,DEPT,Residents,Res
+BHALL04302,2782,1067,2,Main Campus,HALL,Hallway Intersection 43 level 2,Hallway B04302
+GHALL02801,1270,1830,1,Main Campus,HALL,Hallway MapNode 28 Floor 1,Hall
+IREST00203,2570,1257,3,Main Campus,REST,Restroom,R2
+IDEPT00503,2868,1075,3,Main Campus,DEPT,Urology,D5
+DSERV00403,500,1210,3,Faulkner,SERV,Mechanical Space 1,MECHMS1
+WHALL00203,2080,1290,3,Main Campus,HALL,Hallway Connector 2 Floor 3,Hallway W0203
+WHALL00202,3360,860,2,Main Campus,HALL,Hallway Connector 2 Floor 2,Hallway W0202
+AHALL0050G,1713,2558,G,Main Campus,HALL,Hall,Hall
+EDEPT00104,264,1267,4,Faulkner,DEPT,Medical Records,MR
+EDEPT00101,2335,860,1,Main Campus,DEPT,Waiting Room 1,Wait 1
+ESTAI00301,2790,1155,1,Main Campus,STAI,Staircase H1 Floor 1,Stair H1
+WHALL00201,2175,910,1,Main Campus,HALL,Hallway Connector 2 Floor 1,Hallway W0201
+AHALL002L2,1698,2776,L2,Main Campus,HALL,Hallway Intersection,Hall
+ESTAI00304,1778,1215,4,Faulkner,STAI,Stairwell 3,Stair3
+AHALL01601,1257,1050,1,Faulkner,HALL,Hallway Intersection 16,teamAdidntAddThis
+BSTAI00102,2177,902,2,Main Campus,STAI,Staircase Intersection 1 Level 2,Stair B0102
+DHALL01803,1149,464,3,Faulkner,HALL,Hallway Intersection HALL1703 HALL0903,HALL1703X903
+DHALL01802,4385,585,2,Main Campus,HALL,Hallway 18 Floor 2,Hallway D1802
+FHALL00105,685,1215,5,Faulkner,HALL,ICU Hallway,ICUHall
+BHALL03002,2782,1165,2,Main Campus,HALL,Hallway Intersection 30 Level 2,Hallway B3002
+ALABS00401,1300,924,1,Faulkner,LABS,VASC Lab,teamAdidntAddThis
+IHALL00303,2448,1290,3,Main Campus,HALL,Hallway Node 3,H3
+FHALL00101,2055,910,1,Main Campus,HALL,Lower Pike Hallway Exit Lobby,Hallway F00101
+CRETL001L1,2185,904,L1,Main Campus,RETL,Vending Machine,Retail C001L1 Food
+CDEPT00602,1486,757,2,Faulkner,DEPT,Physical Therapy,DEPT C0702
+ALABS001L2,1667,2682,L2,Main Campus,LABS,MRI CT Scan Imaging,MRI CT Imaging
+DHALL00702,4675,820,2,Main Campus,HALL,Hallway 7 Floor 2,Hallway D0702
+DHALL00703,1360,460,3,Faulkner,HALL,Hallway Intersection Cafeteria and HALL00803,HALLCAFX803
+FHALL01205,1250,530,5,Faulkner,HALL,Suite Hall,SuiteHall
+OELEVATOR1Bottom,1357,1150,1,Faulkner,ELEV,Bottom elevator first floor,yes
+GHALL00803,1685,2106,3,Main Campus,HALL,Hallway Node 8 Floor 3,Hall
+FHALL01201,1548,930,1,Main Campus,HALL,Tower Staff Entrance,Hallway F01201
+GHALL00801,1707,2152,1,Main Campus,HALL,Hallway MapNode 8 Floor 1,Hall
+ASERV00101,1370,957,1,Faulkner,SERV,Linens,teamAdidntAddThis
+DHALL06002,4330,580,2,Main Campus,HALL,Hallway 60 Floor 2,Hallway D6002
+HSTAI00202,1695,1165,2,Main Campus,STAI,Stairwell 2 Tower,Stairwell 0202
+HDEPT00203,1690,830,3,Main Campus,DEPT,MICU 3BC Waiting Room,MICU 3BC WR
+AREST00201,1190,485,1,Faulkner,REST,Restroom Male Level 1,teamAdidntAddThis
+FDEPT01705,1256,179,5,Faulkner,DEPT,Othopedic Association,Otho
+DREST00402,3525,850,2,Main Campus,REST,Restroom,Restroom D
+CDEPT003L1,1845,844,L1,Main Campus,DEPT,Day Surgery Family Waiting Exit,Department C003L1
+FHALL02501,1965,1239,1,Main Campus,HALL,Lobby Hallway 3,Hallway F02501
+GHALL005L1,1688,2131,L1,Main Campus,HALL,Hallway MapNode 5 Floor L1,Hall
+OHALL03901,1255,597,1,Faulkner,HALL,Pre-Addmittance Hallway,PreAd Scr hall
+GHALL005L2,1642,2089,L2,Main Campus,HALL,Hallway MapNode 5 Floor L2,Hall
+OSERV01304,1246,1034,4,Faulkner,SERV,Hallway infront of Lung Research,halllunch
+EDEPT01204,1145,900,4,Faulkner,DEPT,MOHS Clinic,MOHS
+ESERV00904,2240,1264,4,Faulkner,SERV,Finance Office,Fin O
+FDEPT00605,1250,1015,5,Faulkner,DEPT,X-Ray/Nursing Staff Development,XRayNursing
+AHALL00503,1650,2855,3,Main Campus,HALL,Hall,Hall
+AHALL00501,1117,520,1,Faulkner,HALL,Hallway Intersection 5,teamAdidntAddThis
+AHALL00502,1398,2745,2,Main Campus,HALL,Hall,Hall
+EEXIT00201,2950,705,1,Main Campus,EXIT,Exit 2,Exit 2
+EHALL03001,2790,1070,1,Main Campus,HALL,Hallway Node 28 Floor 1,HallE28
+EHALL03004,1145,316,4,Faulkner,HALL,Hallway O 4,HO4
+DHALL02902,4185,665,2,Main Campus,HALL,Hallway 29 Floor 2,Hallway D2902
+FDEPT00601,1780,1029,1,Main Campus,DEPT,International Patient Center,IPC
+GHALL016L2,1512,1701,L2,Main Campus,HALL,Hallway MapNode 16 Floor L2,Hall
+BHALL04102,2678,1067,2,Main Campus,HALL,Hallway Intersection 41 Level 2,Hallway B04102
+IHALL01403,2323,993,3,Main Campus,HALL,Hallway Node 14,H14
+CELEV00302,1336,1132,2,Faulkner,ELEV,Elevator 3 Level 2,Elevator C0302
+IDEPT00703,2400,764,3,Main Campus,DEPT,Obstetrics,D7
+AINFO0020G,1699,2707,G,Main Campus,INFO,Information Desk,Information
+CLABS002L1,1750,1090,L1,Main Campus,LABS,Pre-Op PACU,Lab C002L1
+CLABS002L2,2215,1280,L2,Main Campus,LABS,Radiation Oncology Lab,Lab C002L2
+EDEPT00304,875,1150,4,Faulkner,DEPT,Department Offices,DO
+EDEPT00301,3200,880,1,Main Campus,DEPT,Ocupational Health Department,Ocupational 1
+BDEPT00902,3257,879,2,Main Campus,DEPT,Weiner Center for Preoperative Evaluation,DEPT B0902
+GHALL03702,1692,2211,2,Main Campus,HALL,Hall Node 37 Floor 2,Hall
+XHALL  704,2789,1873,4,Main Campus,HALL,Flex hall,Flex hall
+CHALL014L1,1845,924,L1,Main Campus,HALL,Hallway 14 Floor L1,Hallway C014L1
+XEXIT  202,3867,1923,2,Main Campus,EXIT,Flexible Workspaces Entrance,Flex Entrance
+BHALL03602,2279,762,2,Main Campus,HALL,Hallway Intersection 36 Level 2,Hallway B3602
+XHALL 1004,3646,2324,4,Main Campus,HALL,Flex Hall,Flex Hall
+ESERV00104,990,1290,4,Faulkner,SERV,Medical Library,ML
+DINFO00202,3490,825,2,Main Campus,INFO,Security Desk Thorn,Security Desk
+OSERV00202,1192,1047,2,Faulkner,SERV,Central Sterile Supply Stairs,stairs 2
+DHALL00902,4635,680,2,Main Campus,HALL,Hallway 9 Floor 2,Hallway D0902
+XCONF  404,3746,1837,4,Main Campus,CONF,Flexible Classroom 1,Classroom 1
+DHALL00903,1209,489,3,Faulkner,HALL,Hallway Intersection Family Patient Resources HALL00803 HALL01003,HALLFPRX1003
+DRETL00103,1367,740,3,Faulkner,RETL,Cafeteria,RETLCAF Food
+FHALL01005,1250,690,5,Faulkner,HALL,Abulatory Hall 2,AbHall2
+DRETL00102,4270,480,2,Main Campus,RETL,Pats Place,Pats Place Food
+CHALL003L2,2215,904,L2,Main Campus,HALL,Hallway 3 Floor L2,Hallway C003L2
+FHALL01001,1627,802,1,Main Campus,HALL,Tower Hallway 3,Hallway F01001
+OHALL04301,498,474,1,Street,HALL,Step3,p3
+CHALL003L1,2445,1284,L1,Main Campus,HALL,Hallway 3 Floor L1,Hallway C003L1
+XRETL  004,3768,2587,4,Main Campus,RETL,Flexible Pantry,Pantry Food
+BHALL02502,3163,945,2,Main Campus,HALL,Hallway Intersection 25 Level 2,Hallway B2502
+GHALL00202,1168,1820,2,Main Campus,HALL,Hall Node 2 Floor 2,Hall
+GHALL00203,1580,2230,3,Main Campus,HALL,Hallway Node 2 Floor 3,Hall
+GHALL00201,1722,1832,1,Main Campus,HALL,Hallway MapNode 2 Floor 1,Hall
+XHALL16102,3830,1991,2,Main Campus,HALL,FLEX Entry Hall,FLEX Entry Hall
+HHALL00702,1740,1165,2,Main Campus,HALL,Hallway Connector 7,Hallway H00702
+AHALL01101,1992,740,1,Faulkner,HALL,Hallway Intersection 11,teamAdidntAddThis
+EELEV00Y04,1182,1160,4,Faulkner,ELEV,Elevator Y,Elv Y
+HHALL00703,1735,900,3,Main Campus,HALL,Hallway Connector 7,Hallway H00703
+BHALL00102,2238,902,2,Main Campus,HALL,Hallway Intersection 1 Level 2,Hallway B0102
+ESTAI00401,2605,1340,1,Main Campus,STAI,Staircase H2 Floor 1,Stair H2
+ESTAI00404,2347,1226,4,Faulkner,STAI,Stairwell 4,Stair4
+FDEPT01905,1321,1069,5,Faulkner,DEPT,X-Ray Waiting Room,XRayWait
+WHALL00702,1740,1500,2,Main Campus,HALL,Hallway Connector 7 Floor 2,Hallway W0702
+CHALL00602,1351,478,2,Faulkner,HALL,Hallway Intersection 6 Level 2,Hallway C0602
+FHALL02301,1845,1280,1,Main Campus,HALL,Lobby Hallway 1,Hallway F02301
+BHALL01202,2945,902,2,Main Campus,HALL,Hallway Intersection 12 Level 2,Hallway B1202
+IHALL00803,2772,1147,3,Main Campus,HALL,Hallway Node 8,H8
+GHALL01303,1580,2006,3,Main Campus,HALL,Hallway Node 13 Floor 3,Hall
+GHALL01302,1450,1781,2,Main Campus,HALL,Hall Node 13 Floor 2,Hall
+DSTAI00302,4250,440,2,Main Campus,STAI,Staircase3 Floor2,Staircase3
+AHALL02201,2247,1117,1,Faulkner,HALL,Hallway Intersection 22,teamAdidntAddThis
+EDEPT01404,1346,642,4,Faulkner,DEPT,Neurology,Neuro
+CCONF002L1,2665,1043,L1,Main Campus,CONF,Medical Records Conference Room,Conf C002L1
+ADEPT00401,985,573,1,Faulkner,DEPT,AUD,teamAdidntAddThis
+EHALL03204,1356,310,4,Faulkner,HALL,Hallway O 6,HO6
+FSERV00401,1721,970,1,Main Campus,DEPT,Spiritual Care Office,SCO
+FDEPT00805,1149,689,5,Faulkner,DEPT,BWH Primary Care Physicians,PriCare
+FSERV00405,1094,467,5,Faulkner,SERV,Suite 51,Suite51
+EHALL03201,2670,1380,1,Main Campus,HALL,Hallway Node 30 Floor 1,HallE30
+OHALL02103,1132,687,3,Faulkner,HALL,Family Patient Resources,fp rest hall
+IDEPT00103,2323,1328,3,Main Campus,DEPT,Center for Infertility and Reproductive Surgery,D1
+WELEV00F01,3050,980,1,Main Campus,ELEV,Elevator F,Elevator F1
+WELEV00F02,3075,960,2,Main Campus,ELEV,Elevator F,Elevator F2
+CELEV00102,1216,416,2,Faulkner,ELEV,Elevator 1 Level 2,Elevator C0102
+OHALL02105,1207,1159,5,Faulkner,HALL,Floor 5 South Hallway,asdf
+GHALL010L2,1550,2031,L2,Main Campus,HALL,Hallway MapNode 10 Floor L2,Hall
+AHALL0110G,1550,2853,G,Main Campus,HALL,Hall,Hall
+GHALL02401,1602,1928,1,Main Campus,HALL,Hallway MapNode 24 Floor 1,Hall
+HSTAI00102,2060,880,2,Main Campus,STAI,Stairwell 1,Stairwell 0102
+HSTAI00103,1680,1275,3,Main Campus,STAI,Stairwell 1,Stairwell
+EDEPT00504,1250,1300,4,Faulkner,DEPT,Administration,Admin
+EHALL02104,1250,910,4,Faulkner,HALL,Hallway N 4,HN4
+XHALL  904,3731,2323,4,Main Campus,HALL,Flex Hall,Flex Hall
+EHALL02101,3230,880,1,Main Campus,HALL,Hallway Node 19 Floor 1,HallE19
+GDEPT01901,1566,2139,1,Main Campus,DEPT,Zinner Breakout Room,Zinner Breakout Room
+CHALL012L1,2130,904,L1,Main Campus,HALL,Hallway 12 Floor L1,Hallway C012L1
+CREST001L1,1732,1019,L1,Main Campus,REST,Restroom,Restroom C001L1
+BHALL03402,2166,1028,2,Main Campus,HALL,Hallway Intersection 34 Level 2,Hallway B3402
+XHALL 1204,2787,2106,4,Main Campus,HALL,Flex Hall,Flex Hall
+ESERV00304,1866,1266,4,Faulkner,SERV,Compliance/Patient Relations 1,CPR1
+OKIOSK1,1212,275,1,Faulkner,DEPT,First Floor Kiosk 1,yes
+EHALL01004,1580,1219,4,Faulkner,HALL,Hallway E 3,HE3
+XCONF  204,3834,2090,4,Main Campus,CONF,Flexible Computer Room 3,Computer Room 3
+CREST001L2,2300,884,L2,Main Campus,REST,Restroom,Restroom C001L2
+EHALL01001,2585,890,1,Main Campus,HALL,Hallway Node 8 Floor 1,HallE08
+CHALL001L2,2360,854,L2,Main Campus,HALL,Hallway K Elevator Floor L2,Hallway C001L2
+CHALL001L1,1732,924,L1,Main Campus,HALL,Hallway 1 Floor L1,Hallway C001L1
+OHALL04501,555,257,1,Street,HALL,step 5,p5
+BHALL02302,2912,963,2,Main Campus,HALL,Hallway Intersection 23 Level 2,Hallway B2302
+GHALL00402,1230,1820,2,Main Campus,HALL,Hall Node 4 Floor 2,Hall
+IHALL01903,2492,851,3,Main Campus,HALL,Hallway Node 19,H19
+GSTAI008L1,1720,2131,L1,Main Campus,STAI,Stairs MapNode 8 Floor L1,L1 Stairs
+XHALL16302,3772,2316,2,Main Campus,HALL,FLEX Entry Hall,FLEX Entry Hall
+HHALL00902,1740,1280,2,Main Campus,HALL,Hallway Connector 9,Hallway H00902
+WHALL00502,2085,1280,2,Main Campus,HALL,Hallway Connector 5 Floor 2,Hallway W0502
+HHALL00903,1735,820,3,Main Campus,HALL,Hallway Connector 9,Hallway H00903
+DEXIT00102,4295,750,2,Main Campus,EXIT,15 Lobby Entrance,15 Lobby Entrance
+DHALL05102,3575,825,2,Main Campus,HALL,Hallway 51 Floor 2,Hallway D5102
+HBATH00203,1750,985,3,Main Campus,BATH,Restroom,Bathroom 0203
+ESTAI00604,1285,415,4,Faulkner,STAI,Stairwell 6,Stair6
+AHALL01301,1258,762,1,Faulkner,HALL,Hallway Intersection 13,teamAdidntAddThis
+ALABS00101,1057,587,1,Faulkner,LABS,Blood Draw Lab,teamAdidntAddThis
+DSTAI00102,4650,675,2,Main Campus,STAI,Staircase1 Floor2,Staircase1
+DSTAI00103,1331,384,3,Faulkner,STAI,Staircase X,STAIX
+CHALL00402,1436,502,2,Faulkner,HALL,Hallway Intersection 4 Level 2,Hallway C0402
+ALABS00103,1611,2678,3,Main Campus,LABS,Innovation Hub,Innovation Hub
+BHALL01002,2713,902,2,Main Campus,HALL,Hallway Intersection 10 Level 2,Hallway B1002
+IHALL00603,2772,1290,3,Main Campus,HALL,Hallway Node 6,H6
+FHALL02101,1769,1146,1,Main Campus,HALL,Tower Hallway Entrance,Tower Entrance 2
+AHALL0020G,1623,2531,G,Main Campus,HALL,Hall,Hall
+GHALL001L2,1730,1584,L2,Main Campus,HALL,Hallway MapNode 1 Floor L2,Hall
+GHALL01502,1502,1781,2,Main Campus,HALL,Hall Node 15 Floor 2,Hall
+GHALL01501,1749,2224,1,Main Campus,HALL,Hallway MapNode 15 Floor 1,Hall
+GEXIT00101,1751,1825,1,Main Campus,EXIT,Francis Street Exit,Francis Street Exit Floor 1
+GSTAI00903,1685,2052,3,Main Campus,STAI,Staircase Node 9 Floor 3,Floor 3 Stairs
+OSTAI00603,1630,2179,3,Main Campus,STAI,Stairs 3,Stairs 3
+EDEPT01604,1050,450,4,Faulkner,DEPT,Cardiology,Cardio
+GELEV00N03,1628,1904,3,Main Campus,ELEV,Elevator N,Elevator N Floor 3
+OSTAI00601,1805,1270,1,Faulkner,STAI,Lab Stair ways 1,Lab Stairs
+GELEV00N02,1630,1931,2,Main Campus,ELEV,Elevator N,Elevator N Floor 1
+GELEV00N01,1647,1930,1,Main Campus,ELEV,Elevator N,Hall
+DHALL04002,3910,685,2,Main Campus,HALL,Hallway 40 Floor 2,Hallway D4002
+FSERV00201,1605,1029,1,Main Campus,SERV,Tower Medical Cashier,Tower Cashier
+EHALL03401,2835,1460,1,Main Campus,HALL,Hallway Node 32 Floor 1,HallE32
+EHALL03404,1356,440,4,Faulkner,HALL,Hallway O 8,HO8
+FSERV00205,1169,514,5,Faulkner,SERV,Suite 5945,Suite5945
+WELEV00H01,2735,1070,1,Main Campus,ELEV,Elevator H,Elevator H1
+WELEV00H02,2725,1065,2,Main Campus,ELEV,Elevator H,Elevator H2
+WELEV00H03,2715,1075,3,Main Campus,ELEV,Elevator H,Elevator H3
+FHALL03201,1758,1029,1,Main Campus,HALL,Tower Hallway 13,Hallway F03201
+OHALL02303,129,1254,3,Faulkner,HALL,Mechanical space 1 West Stairs,m1wstair
+GHALL012L2,1512,1966,L2,Main Campus,HALL,Hallway MapNode 12 Floor L2,Hall
+ADEPT00601,1175,585,1,Faulkner,DEPT,Cardiac Rehabilitation,teamAdidntAddThis
+AHALL0130G,1582,2533,G,Main Campus,HALL,Hall,Hall
+IDEPT00303,2730,1315,3,Main Campus,DEPT,General Surgical Specialties Suite A,D3
+IREST00403,2300,1018,3,Main Campus,REST,Restroom,R4
+DHALL03102,4130,650,2,Main Campus,HALL,Hallway 31 Floor 2,Hallway D3102
+XHALL  304,3730,1882,4,Main Campus,HALL,Flex Hall,Flex Hall
+GHALL03301,1255,1872,1,Main Campus,HALL,Hallway MapNode 33 Floor 1,Hall
+BDEPT00502,2623,1018,2,Main Campus,DEPT,Ear Nose & Throat,DEPT B0502
+GHALL03302,1692,2124,2,Main Campus,HALL,Hall Node 33 Floor 2,Hall
+ADEPT01301,2162,1180,1,Faulkner,DEPT,Operation Room,teamAdidntAddThis
+CHALL007L2,1730,1009,L2,Main Campus,HALL,Hallway 7 Floor L2,Hallway C007L2
+EHALL02301,3325,870,1,Main Campus,HALL,Hallway Node 21 Floor 1,HallE21
+CHALL007L1,2130,1045,L1,Main Campus,HALL,Hallway 7 Floor L1,Hallway C007L1
+EHALL02304,1250,705,4,Faulkner,HALL,Hallway N 6,HN6
+ADEPT0020G,1552,2843,G,Main Campus,DEPT,Infusion Waiting Area ,Infusion Waiting Area
+ACONF0010G,1671,2648,G,Main Campus,CONF,Schlagler Innovation Lobby,Schlagler Lobby
+EDEPT00704,1580,1300,4,Faulkner,DEPT,Primary Care Physicians,PCP
+DHALL02002,4310,585,2,Main Campus,HALL,Hallway 20 Floor 2,Hallway D2002
+DDEPT00402,3425,870,2,Main Campus,DEPT,Waiting Room,Waiting Room
+EHALL01201,2610,954,1,Main Campus,HALL,Hallway Node 10 Floor 1,HallE10
+DDEPT00403,1460,356,3,Faulkner,DEPT,Division of Gynecology,DEPTDOG
+EHALL01204,1861,1219,4,Faulkner,HALL,Hallway E 5,HE5
+FELEV00Z05,1320,1150,5,Faulkner,ELEV,Elevator Z,ElevZ
+CREST003L1,2300,879,L1,Main Campus,REST,Restroom,Restroom C003L1
+OHALL018L2,1613,2299,L2,Main Campus,HALL,Hall4,hall4
+EINFO00101,2460,850,1,Main Campus,INFO,Connors Center Security Desk,Security 1
+OSERV00601,1062,245,1,Faulkner,RETL,Starbucks,starbucks Food
+BHALL02902,2782,1091,2,Main Campus,HALL,Hallway Intersection 29 Level 2,Hallway B2902
+OSTAI001L1,1149,1859,L1,Main Campus,STAI,Shaprio L1 Stairs B1,SL1SB1
+OSTAI001L2,1155,1859,L2,Main Campus,STAI,Shaprio L2 Stairs B2,SL2SB2
+BHALL00502,2385,902,2,Main Campus,HALL,Hallway Intersection 5 Level 2,Hallway B0502
+GELEV00QL1,1637,2116,L1,Main Campus,ELEV,Elevator Q,Elevator Q L1
+DHALL05302,3525,840,2,Main Campus,HALL,Hallway 53 Floor 2,Hallway D5302
+GELEV00QL2,1625,2089,L2,Main Campus,ELEV,Elevator Q,Elevator Q L2
+EHALL00104,1084,1219,4,Faulkner,HALL,Hallway W 1,HW1
+BSTAI00802,2554,1316,2,Main Campus,STAI,Staircase Intersection 8 Level 2,Stair B0802
+HHALL00302,2035,900,2,Main Campus,HALL,Hallway Connector 3,Hallway H00302
+HHALL00303,1325,985,3,Main Campus,HALL,Hallway Connector 3,Hallway H00303
+XCONF  804,3347,1922,4,Main Campus,CONF,Flexible Computer Room 6,Computer Room 6
+XCONF 1104,2796,1828,4,Main Campus,CONF,Flexible Workzone 3,Workzone 3
+DSTAI00702,3855,565,2,Main Campus,STAI,Staircase7 Floor2,Staircase7
+BHALL01602,2721,750,2,Main Campus,HALL,Hallway Intersection 16 Level 2,Hallway B1602
+BREST00302,2225,1280,2,Main Campus,REST,Restroom,REST B0302
+OSTAI00403,1826,1276,3,Faulkner,STAI,mech 2 satairs 2,Mecha stairs 2
+EREST00301,2790,1190,1,Main Campus,REST,Restroom,Restroom H1
+DHALL04202,3870,540,2,Main Campus,HALL,Hallway 42 Floor 2,Hallway D4202
+FHALL03001,1645,1246,1,Main Campus,HALL,Lobby Hallway 5,Hallway F02701
+EHALL03601,2760,1405,1,Main Campus,HALL,Hallway Node 34 Floor 1,HallE34
+HHALL01403,1735,1030,3,Main Campus,HALL,Hallway Connector 14,Hallway H01403
+ACONF00103,1648,2968,3,Main Campus,CONF,BTM Conference Center,BTM Conference
+ACONF00102,1580,2538,2,Main Campus,HALL,Hall,Hall
+WELEV00J03,2365,800,3,Main Campus,ELEV,Elevator J,Elevator J3
+WELEV00J01,2385,810,1,Main Campus,ELEV,Elevator J,Elevator J1
+WELEV00J02,2385,800,2,Main Campus,ELEV,Elevator J,Elevator J2
+OHALL06302,1436,1129,2,Faulkner,HALL,South Eleve Hall,south elev hall
+EDEPT01804,1450,350,4,Faulkner,DEPT,HVMA Neurology,HVMA Neuro
+DELEV00C02,3955,885,2,Main Campus,ELEV,Elevator C,Elevator C2
+ESERV01004,1325,975,4,Faulkner,SERV,House keeping,HK
+GHALL02002,1684,1801,2,Main Campus,HALL,Hall Node 20 Floor 2,Hall
+BDEPT00702,2945,775,2,Main Campus,DEPT,Plastic Surgery,DEPT B0702
+EHALL02504,1250,530,4,Faulkner,HALL,Hallway N 8,HN8
+DHALL03302,4000,645,2,Main Campus,HALL,Hallway 33 Floor 2,Hallway D3302
+EHALL02501,2925,980,1,Main Campus,HALL,Hallway Node 23 Floor 1,HallE23
+WELEV00L03,1790,925,3,Main Campus,ELEV,Elevator L,Elevator L3
+ODEPT01401,795,830,1,Faulkner,DEPT,EmergencyDepartment,Er
+XHALL  504,3510,1875,4,Main Campus,HALL,Flex Hall,Flex Hall
+BINFO00102,2962,963,2,Main Campus,INFO,Information Desk,INFO B0102
+BSERV00102,2853,1067,2,Main Campus,SERV,Patient Financial Services,SERV B0102
+HSERV00103,1750,865,3,Main Campus,SERV,Nursing Room,Nursing Room
+EDEPT00904,2111,1130,4,Faulkner,DEPT,Foot and Ankle Center,FaAC
+BHALL03802,2279,786,2,Main Campus,HALL,Hallway Intersection 38 Level 2,Hallway B3802
+CLABS004L1,2320,1284,L1,Main Campus,LABS,Ultrasound Lab,Lab C004L1
+EHALL01404,1967,1219,4,Faulkner,HALL,Hallway E 7,HE7
+DHALL02202,4280,475,2,Main Campus,HALL,Hallway 22 Floor 2,Hallway D2202
+DDEPT00203,1350,170,3,Faulkner,DEPT,Gynecology & Oncology,DEPTGYO
+EHALL01401,2660,979,1,Main Campus,HALL,Hallway Node 12 Floor 1,HallE12
+DDEPT00202,4240,730,2,Main Campus,DEPT,Thoracic Surgery Clinic,Thoracic Surgery Clinic
+XCONF  604,3522,1912,4,Main Campus,CONF,Flexible Computer Room 5,Computer Room 5
+DRETL00303,1170,980,3,Faulkner,RETL,Gift Shop,RETLGIF
+CHALL005L2,1745,1280,L2,Main Campus,HALL,Hallway 5 Floor L2,Hallway C005L2
+CHALL005L1,1750,1284,L1,Main Campus,HALL,Hallway 5 Floor L1,Hallway C005L1
+DCONF00102,4595,550,2,Main Campus,CONF,Carrie M. Hall Conference Center,Conference Center
+OHALL04101,348,761,1,Street,HALL,Step 1,p1
+BHALL02702,3296,1043,2,Main Campus,HALL,Hallway Intersection 27 Level 2,Hallway B2702
+DHALL05502,3450,850,2,Main Campus,HALL,Hallway 55 Floor 2,Hallway D5502
+EHALL00304,860,1219,4,Faulkner,HALL,Hallway W 3,HW3
+BHALL00302,2238,1028,2,Main Campus,HALL,Hallway Intersection 3 Level 2,Hallway B0302
+BLABS00202,2945,995,2,Main Campus,LABS,Outpatient Specimen Collection,Labs B0202
+EHALL00301,2240,910,1,Main Campus,HALL,Hallway Node 1 Floor 1,Hall 01
+ELABS00404,2200,1160,4,Faulkner,LABS,Spine FAC,SFAC
+AEXIT00301,1257,1217,1,Faulkner,EXIT,Bottom Exit,teamAdidntAddThis
+WHALL00902,1690,2240,2,Main Campus,HALL,Hallway Connector 9 Floor 2,Hallway W0902
+HHALL00502,1825,1025,2,Main Campus,HALL,Hallway Connector 5,Hallway H00502
+HHALL00503,1680,1290,3,Main Campus,HALL,Hallway Connector 5,Hallway H00502
+ASTAI00301,1200,1050,1,Faulkner,STAI,Staircase Intersection 3 Level 1,teamAdidntAddThis
+GSTAI00501,1707,1992,1,Main Campus,STAI,Stairway MapNode 5 Floor 1,Northbound Stairs Floor 2
+CHALL00802,1254,287,2,Faulkner,HALL,Hallway Intersection 8 Level 2,Hallway C0802
+BHALL01402,3296,880,2,Main Campus,HALL,Hallway Intersection 14 Level 2,Hallway B1402
+DSTAI00502,4065,630,2,Main Campus,STAI,Staircase5 Floor2,Staircase5
+GHALL01103,1628,2070,3,Main Campus,HALL,Hallway Node 11 Floor 3,Hall
+GHALL01102,1396,1781,2,Main Campus,HALL,Hall Node 11 Floor 2,Hall
+BREST00102,2177,1010,2,Main Campus,REST,Restroom,REST B0102
+DHALL04402,3860,725,2,Main Campus,HALL,Hallway 44 Floor 2,Hallway D4402
+AHALL02001,1755,1117,1,Faulkner,HALL,Hallway Intersection 20,teamAdidntAddThis
+EREST00104,910,1215,4,Faulkner,REST,Bathroom 1,Bath1
+ADEPT00201,987,465,1,Faulkner,DEPT,Admitting,teamAdidntAddThis
+EREST00101,2950,730,1,Main Campus,REST,Restroom,Restroom G1
+GREST03102,1628,2092,2,Main Campus,REST,Restroom,Handicap Accessible Restrooms Shapiro Floor 2
+GDEPT00403,1580,2142,3,Main Campus,DEPT,Brigham Circle Medical Associates,Brigham Circle Medical Associates
+DELEV00A02,4550,375,2,Main Campus,ELEV,Elevator A,Elevator A2
+WELEV00L01,1810,930,1,Main Campus,ELEV,Elevator L,Elevator L1
+OHALL06502,1154,1204,2,Faulkner,HALL,Psych-Add Hallway,p-a hall
+WELEV00L02,1805,925,2,Main Campus,ELEV,Elevator L,Elevator L2
+ESERV01204,1350,533,4,Faulkner,SERV,Suites,Suites
+GHALL02202,1720,1801,2,Main Campus,HALL,Hall Node 22 Floor 2,Hall
+GHALL02201,1601,1866,1,Main Campus,HALL,Hallway MapNode 22 Floor 1,Hall
+ARETL00101,1619,2522,1,Main Campus,RETL,Cafe,CafÃƒÆ’Ã‚Â© Food
+DHALL03502,3945,790,2,Main Campus,HALL,Hallway 35 Floor 2,Hallway D3502
+EHALL02701,3085,1000,1,Main Campus,HALL,Hallway Node 25 Floor 1,HallE25
+AREST00301,1302,482,1,Faulkner,REST,Restroom Handicap Level 1,teamAdidntAddThis
+EHALL02704,1250,480,4,Faulkner,HALL,Hallway O 1,HO1
+AEXIT00201,871,416,1,Faulkner,EXIT,Side Exit Near Emergency,teamAdidntAddThis
+GSERV02301,1600,1895,1,Main Campus,SERV,ATM,ATM Floor 1
+GHALL008L2,1577,2195,L2,Main Campus,HALL,Hallway MapNode 8 Floor L2,Hall
+FDEPT01005,1339,849,5,Faulkner,DEPT,Abulatory Care 3,Abula3
+CDEPT002L1,1980,844,L1,Main Campus,DEPT,Day Surgery Family Waiting,Department C002L1
+XHALL15902,3378,1573,2,Main Campus,HALL,45 sidewalk,45 sidewalk
+DHALL02402,4280,435,2,Main Campus,HALL,Hallway 24 Floor 2,Hallway D2402
+EHALL01601,2910,910,1,Main Campus,HALL,Hallway Node 14 Floor 1,HallE14
+EHALL01604,2112,1219,4,Faulkner,HALL,Hallway E 9,HE9
+AHALL00602,1683,2543,2,Main Campus,HALL,Hall,Hall
+AHALL00603,1580,2858,3,Main Campus,HALL,HallNode,HallNode
+FSTAI00101,2026,892,1,Main Campus,STAI,Lobby Shattuck Street Stairs,Stairway F00101
+GDEPT02402,1578,1932,2,Main Campus,DEPT,Watkins A,Watkins A
+AHALL00601,1117,587,1,Faulkner,HALL,Hallway Intersection 6,teamAdidntAddThis
+FSTAI00105,697,1269,5,Faulkner,STAI,Stairwell outside HemoDia,HemoStair
+IHALL01303,2323,1034,3,Main Campus,HALL,Hallway Node 13,H13
+WELEV00M01,1810,1280,1,Main Campus,ELEV,Elevator M,Elevator M1
+IDEPT00803,2492,887,3,Main Campus,DEPT,Fetal Med & Genetics,D8
+AELEV00SL2,1630,2742,L2,Main Campus,ELEV,Elevator S,Elevator S L2
+DSERV00503,1580,1200,3,Faulkner,SERV,Mechanical Space 2,MECHMS2
+AHALL0080G,1602,2706,G,Main Campus,HALL,Hall,Hall
+DHALL05702,3480,790,2,Main Campus,HALL,Hallway 57 Floor 2,Hallway D5702
+DHALL01103,1214,684,3,Faulkner,HALL,Hallway Intersection Huvos Cafeteria HALL01003 HALL01203,HALL1003X1203
+ASTAI0010G,1622,2556,G,Main Campus,STAI,Schlagler Stairs,Schlager Stairs
+EHALL00501,2290,910,1,Main Campus,HALL,Hallway Node 3 Floor 1,HallE03
+OSTAI01102,1155,1870,2,Main Campus,STAI,Shaprio 2 Stairs B4,S2SB4
+EHALL00504,385,1219,4,Faulkner,HALL,Hallway W 5,HW5
+DHALL01102,4605,655,2,Main Campus,HALL,Hallway 11 Floor 2,Hallway D1102
+BINFO00202,3136,963,2,Main Campus,INFO,Valet Service,INFO B0202
+AHALL01901,1407,1117,1,Faulkner,HALL,Hallway Intersection 19,teamAdidntAddThis
+CSERV001L1,2490,1043,L1,Main Campus,SERV,Volunteers Floor,Service C001L1
+ELABS00201,2790,1290,1,Main Campus,LABS,Ambulatory X-Ray,X-Ray 1
+ELABS00204,1690,1160,4,Faulkner,LABS,QUALIMP,QUALIMP
+CSERV001L2,2015,1280,L2,Main Campus,SERV,Interpreter Services,Service C001L2
+GREST00602,1284,1821,2,Main Campus,REST,Restroom,Restroom 1 Shapiro Floor 2
+ASTAI00102,1650,2602,2,Main Campus,STAI,Stairs,Stairs Floor 2
+GSTAI02602,1686,1931,2,Main Campus,STAI,Stairs Node 26 Floor 2,Floor 2 Stairs Upper
+FHALL00805,1370,975,5,Faulkner,HALL,Shortcut Hall,ShrtHall
+OEXITATRM,1255,127,1,Faulkner,EXIT,Atrium Main Entrance,Main enterance
+BDEPT00202,2166,1039,2,Main Campus,DEPT,Oral Medicine and Dentistry,DEPT B0202
+FHALL00801,1758,850,1,Main Campus,HALL,Tower Hallway 1,Hallway F00801
+DHALL04602,3825,760,2,Main Campus,HALL,Hallway 46 Floor 2,Hallway D4602
+XELEV 1502,3739,2252,2,Main Campus,ELEV,Elevator T,FLEX Elevator
+FEXIT00201,1748,1321,1,Main Campus,EXIT,75 Francis Valet Drop-off,75 Francis Exit
+HHALL01002,2055,1280,2,Main Campus,HALL,Hallway Connector 10,Hallway H01002
+WELEV00LL1,1785,924,L1,Main Campus,ELEV,Elevator L,Elevator LL1
+OHALL015L2,1658,2562,L2,Main Campus,HALL,Hall 3,hall3
+HHALL01003,1785,820,3,Main Campus,HALL,Hallway Connector 10,Hallway H01003
+WELEV00LL2,1785,924,L2,Main Campus,ELEV,Elevator L,Elevator LL2
+GHALL00901,1707,2164,1,Main Campus,HALL,Hallway MapNode 9 Floor 1,Hall
+CDEPT00302,1486,1074,2,Faulkner,DEPT,Occupational Therapy,DEPT C0402
+FHALL01905,1145,475,5,Faulkner,HALL,Suite 51 Hall,Suite51Hall
+BHALL00902,2330,590,2,Main Campus,HALL,Hallway Intersection 9 Level 2,Hallway B0902
+FHALL01901,1758,1120,1,Main Campus,HALL,Tower Hallway 11,Hallway F01901
+EHALL02904,1145,442,4,Faulkner,HALL,Hallway O 3,HO3
+XHALL  104,3856,2260,4,Main Campus,HALL,Flex Hall,Flex Hall
+EHALL02901,2770,1070,1,Main Campus,HALL,Hallway Node 27 Floor 1,HallE27
+EDEPT02004,1090,250,4,Faulkner,DEPT,HVMA Internal Medicine,HVMA Neuro
+OREST00404,1286,309,4,Faulkner,REST,Handicap Bathroom Level 4 right,hb42
+CHALL009L2,1730,849,L2,Main Campus,HALL,Hallway 9 Floor L2,Hallway C009L2
+DHALL03702,3965,860,2,Main Campus,HALL,Hallway 37 Floor 2,Hallway D3702
+CHALL009L1,2220,904,L1,Main Campus,HALL,Hallway 9 Floor L1,Hallway C009L1
+FDEPT01205,1354,679,5,Faulkner,DEPT,Abulatory Care 5,Abula5
+IHALL02203,2362,764,3,Main Campus,HALL,Hallway Node 22,H22
+XCONF 1404,3273,1836,4,Main Campus,CONF,Flexible Workzone 2,Workzone 2
+DSTAI00802,3535,645,2,Main Campus,STAI,Staircase8 Floor2,Staircase8
+XHALL15702,3281,1134,2,Main Campus,HALL,45 sidewalk,45 sidewalk
+FHALL02801,1748,1280,1,Main Campus,HALL,Lobby Entrance Hallway,HallwayF02801
+GHALL03101,1227,1859,1,Main Campus,HALL,Hallway MapNode 31 Floor 1,Hall
+FSTAI00305,2347,1226,5,Faulkner,STAI,Stairwell in Oncology Clinic,OncolStair
+EHALL01804,1250,1219,4,Faulkner,HALL,Hallway N 1,HN1
+BREST00402,2554,1389,2,Main Campus,REST,Restroom,REST B0402
+EHALL01801,2925,910,1,Main Campus,HALL,Hallway Node 16 Floor 1,HallE16
+WHALL01002,1690,2455,2,Main Campus,HALL,Hallway Connector 10 Floor 2,Hallway W1002
+AHALL00801,870,517,1,Faulkner,HALL,Hallway Intersection 8,teamAdidntAddThis
+DHALL02602,4270,650,2,Main Campus,HALL,Hallway 26 Floor 2,Hallway D2602
+FSTAI00301,1947,1239,1,Main Campus,STAI,Lobby Escalator,Lobby Escalator
+FDEPT00105,434,1167,5,Faulkner,DEPT,Intensive Care Unit / Critical Care Unit,ICU
+IHALL01103,2922,1075,3,Main Campus,HALL,Hallway Node 11,H11
+FDEPT00101,1617,825,1,Main Campus,DEPT,Center for International Medicine,CIM
+EHALL00704,267,1219,4,Faulkner,HALL,Hallway W 7,HW7
+BHALL00702,2672,902,2,Main Campus,HALL,Hallway Intersection 7 Level 2,Hallway B0702
+ADEPT01001,1992,802,1,Faulkner,DEPT,Recovery,teamAdidntAddThis
+DHALL01302,4545,460,2,Main Campus,HALL,Hallway 13 Floor 2,Hallway D1302
+EHALL00701,2385,860,1,Main Campus,HALL,Hallway Node 5 Floor 1,HallE05
+FRETL00101,1973,844,1,Main Campus,RETL,Lobby Vending Machine,VM Lobby Food
+GDEPT03502,1580,2166,2,Main Campus,DEPT,Watkins B,Watkins B
+HHALL00102,1875,925,2,Main Campus,HALL,Hallway Connector 1,Hallway H00102
+DHALL01303,1256,962,3,Faulkner,HALL,Hallway Intersection HALL01203 HALL 01403 Gift Shop,HALL1203X1403
+HHALL00103,1325,655,3,Main Campus,HALL,Hallway Connector 1,Hallway H00103
+FINFO00101,1700,1226,1,Main Campus,INFO,75 Lobby Information Desk,Lobby Info Desk
+DHALL05902,3420,850,2,Main Campus,HALL,Hallway 59 Floor 2,Hallway D5902
+BSTAI00602,3217,886,2,Main Campus,STAI,Staircase Intersection 6 Level 2,Stair B0602
+FELEV00X05,1187,412,5,Faulkner,ELEV,Elevator X,ElevX
+FHALL00605,1254,1064,5,Faulkner,HALL,X-Ray Waiting Hallway,XRayWaitHall
+BDEPT00402,2439,902,2,Main Campus,DEPT,Jen Center for Primary Care,DEPT B0402
+FHALL00601,1869,930,1,Main Campus,HALL,Tower Lobby Entrance 1,Tower Entrance
+BHALL01802,2610,953,2,Main Campus,HALL,Hallway Intersection 18 Level 2,Hallway B1802
+DLABS00102,3830,775,2,Main Campus,LABS,MRI Associates Lab,MRI Associates
+DHALL00202,4750,1080,2,Main Campus,HALL,Hallway 2 Floor 2,Hallway D0202
+ECONF00204,1095,1270,4,Faulkner,CONF,Sadowsky Conference Room,Sadowsky
+DHALL00203,1257,264,3,Faulkner,HALL,Hallway Intersection Roslindale and Gynecology and Oncology,HALLRPAXGO
+HHALL01203,1600,820,3,Main Campus,HALL,Hallway Connector 12,Hallway H01203
+DHALL04802,3655,805,2,Main Campus,HALL,Hallway 48 Floor 2,Hallway D4802
+CDEPT00102,750,1120,2,Faulkner,DEPT,Biomedical Engineering,DEPT C0102
+GSTAI01301,1750,2014,1,Main Campus,STAI,Staircase MapNode 13 Floor 1,Southbound Stairs Floor 1
+FHALL01705,1147,309,5,Faulkner,HALL,Left Upper Hall,LeftUpHall
+GINFO01902,1630,1821,2,Main Campus,INFO,Shapiro Information Center,Information Center Shapiro Floor 2
+DSERV00703,1437,1341,3,Faulkner,SERV,Volunteer Services,SERVVOS
+FHALL01701,1721,956,1,Main Campus,HALL,Tower Hallway 9,Hallway F01701
+HDEPT00102,2055,1330,2,Main Campus,DEPT,Endoscopy,Endoscopy
+HDEPT00103,1725,900,3,Main Campus,DEPT,Dialysis Waiting Room,Dialysis WR
+DREST00102,4125,625,2,Main Campus,REST,Restroom,Restroom B
+DHALL03902,3980,910,2,Main Campus,HALL,Hallway 39 Floor 2,Hallway D3902
+FHALL02601,2026,1239,1,Main Campus,HALL,Lobby Hallway 4,Hallway F02601
+FDEPT01405,1149,619,5,Faulkner,DEPT,Internal Medicine / Headache,Headache
+GHALL01802,1630,1801,2,Main Campus,HALL,Hall Node 18 Floor 2,Hall
+GHALL004L1,1666,2167,L1,Main Campus,HALL,Hallway MapNode 4 Floor L1,Hall
+HRETL00302,1870,1109,2,Main Campus,RETL,Gift Shop Tower,Gift Shop
+CHALL00102,750,660,2,Faulkner,HALL,Hallway Intersection 1 Level 2,Hallway C0102
+GSERV01603,1580,1858,3,Main Campus,SERV,The Porch,The Porch
+FSTAI00505,1319,389,5,Faulkner,STAI,Upper Stair,UPStair
+EDEPT01104,1313,1040,4,Faulkner,DEPT,Lung Research,Lung
+DHALL02802,4220,660,2,Main Campus,HALL,Hallway 28 Floor 2,Hallway D2802
+XCONF  004,3915,2301,4,Main Campus,CONF,Flexible Amphitheater,Amphitheater
+AHALL00202,1590,2604,2,Main Campus,HALL,Hall,Hall
+AHALL00203,1600,2732,3,Main Campus,HALL,Hall,Hall
+WHALL002L2,1745,1539,L2,Main Campus,HALL,Hallway Connector 2 Floor L2,Hallway W02L2
+AHALL00201,1255,307,1,Faulkner,HALL,Hallway Intersection 2,teamAdidntAddThis
+OHALL04701,636,62,1,Street,HALL,Briham and Women's Hospital Main Campus,BWHMC
+FDEPT00301,1721,931,1,Main Campus,DEPT,Multifaith Chapel,Chapel
+IREST00103,2255,1255,3,Main Campus,REST,Restroom,R1
+FDEPT00305,999,1294,5,Faulkner,DEPT,Outpatient Infusion Center,OutInfusion
+IHALL01703,2323,851,3,Main Campus,HALL,Hallway Node 17,H17
+BHALL04402,3063,963,2,Main Campus,HALL,Hallway Intersection 44 Level 2,Hallway B4402
+GHALL02902,1728,2042,2,Main Campus,HALL,Hall Node 29 Floor 2,Hall
+GHALL02901,1262,1850,1,Main Campus,HALL,Hallway MapNode 29 Floor 1,Hall
+GLABS003L2,1729,2089,L2,Main Campus,LABS,Cardiovascular Imaging Center,Cardiovascular Imaging Center
+IDEPT00403,2738,1227,3,Main Campus,DEPT,General Surgical Specialties Suite B,D4
+EHALL00901,2585,910,1,Main Campus,HALL,Hallway Node 7 Floor 1,HallE07
+WHALL00302,2085,900,2,Main Campus,HALL,Hallway Connector 3 Floor 2,Hallway W0302
+EHALL00904,1467,1219,4,Faulkner,HALL,Hallway E 2,HE2
+DSERV00103,1460,445,3,Faulkner,SERV,Medical Staff Lounge,SERVMSL
+AHALL0040G,1528,2531,G,Main Campus,HALL,Hall,Hall
+DHALL01503,1254,1170,3,Faulkner,HALL,Hallway Intersection Elevator Y Elevator  HALL1403 HALL1603,HALL1403X1603
+DHALL01502,4555,390,2,Main Campus,HALL,Hallway 15 Floor 2,Hallway D1502
+AHALL001L2,1627,2782,L2,Main Campus,HALL,Hallway to Elevator,Hall
+AHALL01501,1258,924,1,Faulkner,HALL,Hallway Intersection 15,teamAdidntAddThis
+CHALL011L1,2360,849,L1,Main Campus,HALL,Hallway 11 Floor L1,Hallway C011L1
+FHALL00401,1973,910,1,Main Campus,HALL,Shattuck Street Lobby 2,Hallway F00401
+BHALL03102,2554,1280,2,Main Campus,HALL,Hallway Intersection 31 Level 2,Hallway B3102
+IHALL00403,2570,1290,3,Main Campus,HALL,Hallway Node 4,H4
+ALABS00301,1295,867,1,Faulkner,LABS,PLUM Lab,teamAdidntAddThis
+ESERV00604,1920,1262,4,Faulkner,SERV,Finance 2,Fin2
+GLABS014L2,1512,1844,L2,Main Campus,LABS,Cardiac Stress Test Lab,Cardiac Stress Test Lab
+FHALL00405,1245,1210,5,Faulkner,HALL,Vacant Hallway,VacHall
+AHALL0150G,1598,2532,G,Main Campus,HALL,Hall,Hall
+DHALL00403,1360,292,3,Faulkner,HALL,Hallway Intersection OBGYN Associates and Division of Gynecology,HALLOGAXDOG
+CDEPT00702,1484,374,2,Faulkner,DEPT,Plastic Surgery,DEPT C0802
+DHALL00402,4785,975,2,Main Campus,HALL,Hallway 4 Floor 2,Hallway D0402
+FREST00101,2091,976,1,Main Campus,REST,Restroom,Bathroom Lobby
+FHALL01501,1627,1060,1,Main Campus,HALL,Tower Hallway 7,Hallway F01501
+FREST00105,1254,1162,5,Faulkner,REST,South restrooms,BOTrest
+BHALL02002,2761,1032,2,Main Campus,HALL,Hallway Intersection 20 Level 2,Hallway B2002
+OHALL02503,1256,1429,3,Faulkner,EXIT,Shuttle Pickup,shuttle
+GHALL00502,1283,1781,2,Main Campus,HALL,Hall Node 5 Floor 2,Hall
+ADEPT00801,1320,1050,1,Faulkner,DEPT,QR MAT Management,teamAdidntAddThis
+DELEV00Z,1359,1152,3,Faulkner,ELEV,Elevator Z,ELEVDZ
+DELEV00X,1189,389,3,Faulkner,ELEV,Elevator X,ELEVDX
+DELEV00Y,1152,1169,3,Faulkner,ELEV,Elevator Y,ELEVDY
+FHALL01505,1249,314,5,Faulkner,HALL,UpperBathrooms Hallway,UpBathHall
+AREST00101,1117,482,1,Faulkner,REST,Restroom Female Level 1,teamAdidntAddThis
+AREST00103,1552,2854,3,Main Campus,REST,Restroom BTM Conference Center,Restroom
+DREST00302,3635,830,2,Main Campus,REST,Restroom,Restroom C-D
+CDEPT004L1,2310,1043,L1,Main Campus,DEPT,Medical Records Film Library,Department C004L1
+OELEV00503,1320,1150,5,Faulkner,ELEV,Elevator near bottom bathrooms,test
+FHALL02401,1965,1280,1,Main Campus,HALL,Lobby Hallway 2,Hallway F02401
+GHALL006L1,1665,2116,L1,Main Campus,HALL,Hallway MapNode 6 Floor L1,Hall
+OHALL03801,575,103,1,Street,HALL,step 6,p6
+FDEPT01605,1089,217,5,Faulkner,DEPT,ENT / Eye Physical / Dermatologist,ENT
+HRETL00102,1935,860,2,Main Campus,RETL,Garden CafÃƒÆ’Ã‚Â© ,Garden CafÃƒÆ’Ã‚Â© Food
+EDEPT01304,1350,808,4,Faulkner,DEPT,Pulmonary Services,Pulmo
+ESERV00804,2015,1142,4,Faulkner,SERV,Lockers,Lock
+AHALL00402,1528,2745,2,Main Campus,HALL,Hall,Hall
+AHALL00403,1650,2766,3,Main Campus,HALL,Hall,Hall
+AHALL00401,1257,522,1,Faulkner,HALL,Hallway Intersection 4,teamAdidntAddThis
+EEXIT00101,2275,785,1,Main Campus,EXIT,Ambulance Parking Exit,AmbExit 1
+FDEPT00501,2128,1300,1,Main Campus,DEPT,Emergency Department,Emergency
+GHALL017L2,1512,1539,L2,Main Campus,HALL,Hallway MapNode 17 Floor L2,Hall
+BHALL04202,2761,1067,2,Main Campus,HALL,Hallway Intersection 42 Level 2,Hallway B04202
+FDEPT00505,1799,1217,5,Faulkner,DEPT,Oncology Clinic,Oncol
+IHALL01503,2220,944,3,Main Campus,HALL,Hallway Node 15,H15
+AINFO0010G,1484,2710,G,Main Campus,INFO,BTM Security Desk,Security
+IDEPT00603,2333,764,3,Main Campus,DEPT,Maternal Fetal Practice,D6
+DSERV00303,1132,562,3,Faulkner,SERV,Family/Patient Resources,SERVFPR
+WHALL00103,2060,1290,3,Main Campus,HALL,Hallway Connector 1 Floor 3,Hallway W0103
+AHALL0060G,1595,2583,G,Main Campus,HALL,Hall,Hall
+ESTAI00201,2275,830,1,Main Campus,STAI,Staircase J1 Floor 1,Stair J1
+WHALL00102,3345,865,2,Main Campus,HALL,Hallway Connector 1 Floor 2,Hallway W0102
+WHALL00101,2160,910,1,Main Campus,HALL,Hallway Connector 1 Floor 1,Hallway W0101
+ESTAI00204,722,1222,4,Faulkner,STAI,Stairwell 2,Stair2
+DHALL01702,4390,605,2,Main Campus,HALL,Hallway 17 Floor 2,Hallway D1702
+AHALL003L2,1701,2734,L2,Main Campus,HALL,Hall,Hall
+BSTAI00202,2279,827,2,Main Campus,STAI,Staircase Intersection 2 Level 2,Stair B0202
+AHALL01701,1257,1160,1,Faulkner,HALL,Hallway Intersection 17,teamAdidntAddThis
+DHALL01703,1147,292,3,Faulkner,HALL,Hallway Intersection HALL00203 HALL01803,HALL0203X1803
+FHALL00201,2026,910,1,Main Campus,HALL,Lobby Shattuck Street,Hallway F00201
+IHALL00203,2323,1290,3,Main Campus,HALL,Hallway Node 2,H2
+ALABS00501,1755,1235,1,Faulkner,LABS,Labs,teamAdidntAddThis
+XEXIT  102,3063,1095,2,Main Campus,EXIT,45 Francis Entrance,45 Entrance
+AELEV00X01,1187,407,1,Faulkner,ELEV,Elevator Intersection 1 Level 1,teamAdidntAddThis
+FHALL00205,812,1215,5,Faulkner,HALL,Hallway outside HemoDia,HemoHall
+DHALL00602,4690,870,2,Main Campus,HALL,Hallway 6 Floor 2,Hallway D0602
+FLABS00101,1845,1250,1,Main Campus,LABS,Obstetrics Admitting,Obs Admitting
+DHALL00603,1366,434,3,Faulkner,HALL,Hallway Intersection Medical Staff Lounge and Cafeteria,HALLMSLXCAF
+FHALL01301,1627,825,1,Main Campus,HALL,Tower Hallway 5,Hallway F01301
+CDEPT00502,750,730,2,Faulkner,DEPT,Pharmacy,DEPT C0602
+GHALL00703,1685,2230,3,Main Campus,HALL,Hallway Node 7 Floor 3,Hall
+GHALL00701,1708,2092,1,Main Campus,HALL,Hallway MapNode 7 Floor 1,Hall
+HSTAI00302,1790,1230,2,Main Campus,STAI,Escalator 1,Escalator 1
+FHALL01305,1250,480,5,Faulkner,HALL,Bottom Intersection of Top Hall,BotInterHall
+AHALL01001,1409,735,1,Faulkner,HALL,Hallway Intersection 10,teamAdidntAddThis
+EELEV00Z04,1320,1150,4,Faulkner,ELEV,Elevator Z,Elv Z
+HHALL00603,1735,925,3,Main Campus,HALL,Hallway Connector 6,Hallway H00603
+DHALL05002,3630,810,2,Main Campus,HALL,Hallway 50 Floor 2,Hallway D5002
+HBATH00102,1605,1008,2,Main Campus,BATH,Restroom,Bathroom 0102
+HBATH00103,1785,830,3,Main Campus,BATH,Restroom,Bathroom 0103
+BHALL00202,2279,902,2,Main Campus,HALL,Hallway Intersection 2 Level 2,Hallway B0202
+FDEPT01805,1424,239,5,Faulkner,DEPT,BWH Surgical Specialties,Surgical
+ESTAI00504,1197,1059,4,Faulkner,STAI,Stairwell 5,Stair5
+WHALL00802,1720,1745,2,Main Campus,HALL,Hallway Connector 8 Floor 2,Hallway W0802
+BLABS00102,2246,1350,2,Main Campus,LABS,Vascular Diagnostic Lab,Labs B0102
+HHALL00602,1775,1080,2,Main Campus,HALL,Hallway Connector 6,Hallway H00602
+DSTAI00202,4320,550,2,Main Campus,STAI,Staircase2 Floor2,Staircase2
+CHALL00502,1351,502,2,Faulkner,HALL,Hallway Intersection 5 Level 2,Hallway C0502
+FHALL02201,1769,1280,1,Main Campus,HALL,Hallway Lobby Entrance,Entrance Hallway
+BHALL01302,3135,890,2,Main Campus,HALL,Hallway Intersection 13 Level 2,Hallway B1302
+GHALL01402,1450,1820,2,Main Campus,HALL,Hall Node 14 Floor 2,Hall
+GHALL01401,1749,2151,1,Main Campus,HALL,Hallway MapNode 14 Floor 1,Hall
+IHALL00903,2649,1075,3,Main Campus,HALL,Hallway Node 9,H9
+DSTAI00203,1207,1064,3,Faulkner,STAI,Staircase Y,STAIY
+OSTAI00701,1172,1870,1,Main Campus,STAI,Shaprio 1 Stairs B5,S1SB5
+GELEV00Q01,1648,2161,1,Main Campus,ELEV,Elevator Q,Elevator Q Floor 1
+AHALL02101,2160,1120,1,Faulkner,HALL,Hallway Intersection 21,teamAdidntAddThis
+EDEPT01504,1140,625,4,Faulkner,DEPT,BD Cardiology,BD Cardio
+GELEV00Q03,1628,2142,3,Main Campus,ELEV,Elevator Q,Elevator Q Floor 3
+GELEV00Q02,1628,2102,2,Main Campus,ELEV,Elevator Q,Elevator Q Floor 2
+EHALL03104,1250,285,4,Faulkner,HALL,Hallway O 5,HO5
+FDEPT00705,1370,890,5,Faulkner,DEPT,Abulatory Care 1,Abula1
+PHALL00102,4300,630,2,Main Campus,HALL,Kiosk,HALL
+FSERV00501,1645,1280,1,Main Campus,SERV,75 Lobby Valet Cashier,Valet Cashier
+EHALL03101,2790,1460,1,Main Campus,HALL,Hallway Node 29 Floor 1,HallE29
+FSERV00505,1370,465,5,Faulkner,SERV,Suite 58,Suite58
+WELEV00E02,3235,880,2,Main Campus,ELEV,Elevator E,Elevator E2
+CELEV00202,1157,1149,2,Faulkner,ELEV,Elevator 2 Level 2,Elevator C0202
+FHALL03301,2066,1282,1,Main Campus,HALL,Emergency Hallway,Hallway F03301
+OHALL06602,1351,379,2,Faulkner,HALL,Plastic Surgey Hallway,ps hall
+ADEPT00501,935,997,1,Faulkner,DEPT,Endoscopy,teamAdidntAddThis
+GHALL011L2,1550,1966,L2,Main Campus,HALL,Hallway MapNode 11 Floor L2,Hall
+AHALL0100G,1600,2853,G,Main Campus,HALL,Hall,Hall
+CCONF001L1,2255,849,L1,Main Campus,CONF,Anesthesia Conference Room,Conf C001L1
+WELEV00E01,3265,830,1,Main Campus,ELEV,Elevator E,Elevator E1
+IREST00503,2277,995,3,Main Campus,REST,Restroom,R5
+CLABS003L1,2290,1284,L1,Main Campus,LABS,Nuclear Medicine,Lab C003L1
+EDEPT00204,444,1155,4,Faulkner,DEPT,Urology,Uro
+GHALL03602,1580,2208,2,Main Campus,HALL,Hall Node 36 Floor 2,Hall
+EDEPT00201,3100,890,1,Main Campus,DEPT,Wound and Ambulatory Department,WCCAT 1
+EHALL02004,1250,980,4,Faulkner,HALL,Hallway N 3,HN3
+EHALL02001,2950,745,1,Main Campus,HALL,Hallway Node 18 Floor 1,HallE18
+DHALL01902,4340,625,2,Main Campus,HALL,Hallway 19 Floor 2,Hallway D1902
+XHALL  604,3360,1876,4,Main Campus,HALL,Flex Hall,Flex Hall
+CHALL015L1,2300,849,L1,Main Campus,HALL,Hallway 15 Floor L1,Hallway C015L1
+BHALL03502,2246,1028,2,Main Campus,HALL,Hallway Intersection 35 Level 2,Hallway B3502
+ESERV00204,1080,1270,4,Faulkner,SERV,Social Work,Social
+DINFO00102,4210,630,2,Main Campus,INFO,15 Francis Security Desk,Information Desk
+XCONF  304,3670,1924,4,Main Campus,CONF,Flexible Computer Room 4,Computer Room 4
+DDEPT00103,1120,200,3,Faulkner,DEPT,Roslindale Pediatric Association,DEPTRPA
+DDEPT00102,4330,700,2,Main Campus,DEPT,Chest Diseases,Chest Diseases
+DHALL00802,4660,770,2,Main Campus,HALL,Hallway 8 Floor 2,Hallway D0802
+FHALL01105,1250,610,5,Faulkner,HALL,Abulatory Hall 3,AbHall3
+CHALL004L1,2770,1070,L1,Main Campus,HALL,Hallway 4 Floor L1,Hallway C004L1
+OHALL04401,498,363,1,Street,HALL,step4,p4
+CHALL004L2,2130,904,L2,Main Campus,HALL,Hallway 4 Floor L2,Hallway C004L2
+FHALL01101,1627,930,1,Main Campus,HALL,Tower Hallway 4,Hallway F01101
+GHALL00103,1562,2230,3,Main Campus,HALL,Hallway Node 1 Floor 3,Hall
+XHALL16002,3871,1573,2,Main Campus,HALL,45 sidewalk,45 sidewalk
+GHALL00102,1170,1780,2,Main Campus,HALL,Hall Node 1 Floor 2,Hall
+XHALL16402,3338,1166,2,Main Campus,HALL,45 sidewalk,45 sidewalk
+HHALL00802,1740,1230,2,Main Campus,HALL,Hallway Connector 8,Hallway H00802
+HHALL00803,1735,865,3,Main Campus,HALL,Hallway Connector 8,Hallway H00803
+DHALL05202,3555,730,2,Main Campus,HALL,Hallway 52 Floor 2,Hallway D5202
+DEXIT00203,1454,742,3,Faulkner,EXIT,Outdoor Dining Area Exit,EXITOUT
+WHALL00602,2105,1280,2,Main Campus,HALL,Hallway Connector 6 Floor 2,Hallway W0602
+AHALL01201,1407,827,1,Faulkner,HALL,Hallway Intersection 12,teamAdidntAddThis
+CHALL00302,1436,1204,2,Faulkner,HALL,Hallway Intersection 3 Level 2,Hallway C0302
+FHALL02005,1355,475,5,Faulkner,HALL,Suite 58 Hall,Suite58Hall
+FHALL02001,1700,1120,1,Main Campus,HALL,Tower Hallway 12,Hallway F02001
+BHALL01102,2912,903,2,Main Campus,HALL,Hallway Intersection 11 Level 2,Hallway B1102
+AHALL0010G,1677,2530,G,Main Campus,HALL,Hall,Hall
+GHALL01602,1502,1820,2,Main Campus,HALL,Hall Node 16 Floor 2,Hall
+GHALL002L1,1702,2167,L1,Main Campus,HALL,Hallway MapNode 2 Floor L1,Hall
+GHALL01601,1689,2225,1,Main Campus,HALL,Hallway MapNode 16 Floor 1,Hall
+IHALL00703,2772,1227,3,Main Campus,HALL,Hallway Node 7,H7
+OSTAI00503,1161,1847,3,Main Campus,STAI,Shaprio 3 Stairs B3,S3SB3
+CCONF003L1,2445,1245,L1,Main Campus,CONF,Abrams Conference Room,Conf C003L1
+DHALL04102,3875,560,2,Main Campus,HALL,Hallway 41 Floor 2,Hallway D4102
+FSERV00301,1700,1158,1,Main Campus,SERV,Kessler Library,Kessler Library
+EHALL03304,1356,339,4,Faulkner,HALL,Hallway O 7,HO7
+FDEPT00905,1326,789,5,Faulkner,DEPT,Abulatory Care 2,Abula2
+FSERV00305,1199,557,5,Faulkner,SERV,Suite 5940,Suite5940
+GDEPT00702,1341,1778,2,Main Campus,DEPT,Waiting room,Waiting Area Shapiro Floor 2
+EHALL03301,2605,1380,1,Main Campus,HALL,Hallway Node 31 Floor 1,HallE31
+AHALL02301,937,830,1,Faulkner,HALL,Hallway Intersection 23,teamAdidntAddThis
+WELEV00G02,2945,870,2,Main Campus,ELEV,Elevator G,Elevator G2
+IDEPT00203,2448,1328,3,Main Campus,DEPT,Gynecology Oncology MIGS,D2
+WELEV00G01,2935,900,1,Main Campus,ELEV,Elevator G,Elevator G1
+FHALL03101,2026,976,1,Main Campus,HALL,Lobby Hallway 6,Hallway F02801
+GHALL013L2,1512,1909,L2,Main Campus,HALL,Hallway MapNode 13 Floor L2,Hall
+AHALL0120G,1548,2538,G,Main Campus,HALL,Hall,Hall
+GHALL02702,1726,1930,2,Main Campus,HALL,Hall Node 27 Floor 2,Hall
+ADEPT00701,1330,595,1,Faulkner,DEPT,Pre-Admittance Screening,teamAdidntAddThis
+IREST00303,2745,1147,3,Main Campus,REST,Restroom,R3
+DELEV00D02,3475,760,2,Main Campus,ELEV,Elevator D,Elevator D2
+EDEPT01704,1450,445,4,Faulkner,DEPT,Rheumatology Center,Rheumo
+EDEPT00404,1010,1130,4,Faulkner,DEPT,Department Offices Admin,DOA
+CLABS001L2,2300,854,L2,Main Campus,LABS,Radiation Oncology TX Suite,Lab C001L2
+CLABS001L1,1965,1284,L1,Main Campus,LABS,Outpatient Fluoroscopy,Lab C001L1
+EDEPT00401,2790,1380,1,Main Campus,DEPT,Rehabilitation Services,Rehab 1
+GHALL03802,1726,2210,2,Main Campus,HALL,Hall Node 38 Floor 2,Hall
+EHALL02204,1250,848,4,Faulkner,HALL,Hallway N 5,HN5
+XHALL  804,3646,2117,4,Main Campus,HALL,Flex hall,Flex hall
+CRETL00102,1349,652,2,Faulkner,RETL,Food Services,DEPT C0202
+EHALL02201,3270,875,1,Main Campus,HALL,Hallway Node 20 Floor 1,HallE20
+CHALL013L1,2130,844,L1,Main Campus,HALL,Hallway 13 Floor L1,Hallway C013L1
+BHALL03302,2782,1280,2,Main Campus,HALL,Hallway Intersection 33 Level 2,Hallway B3302
+ESERV00404,2030,1266,4,Faulkner,SERV,Compliance/Patient Relations 2,CPR2
+XHALL 1104,3302,1871,4,Main Campus,HALL,Flex Hall,Flex Hall
+BCONF00102,2150,1025,2,Main Campus,CONF,Duncan Reid Conference Room,Conf B0102
+GREST01201,1671,2015,1,Main Campus,REST,Restroom,Restroom Shapiro Floor 1
+CDEPT00902,1157,1249,2,Faulkner,DEPT,Psychiatric/Addiction Recovery,DEPT C1002
+XCONF  104,3892,2270,4,Main Campus,CONF,Flexible Computer Room 2,Computer Room 2
+EHALL01104,1691,1219,4,Faulkner,HALL,Hallway E 4,HE4
+GREST01203,1628,2052,3,Main Campus,REST,Restroom,Restroom Shapiro Floor 3
+AHALL00103,1534,2732,3,Main Campus,HALL,Hall,Hall
+AHALL00101,1257,205,1,Faulkner,HALL,Hallway Intersection 1,teamAdidntAddThis
+AHALL00102,1591,2560,2,Main Campus,HALL,Hall,Hall
+EHALL01101,2610,910,1,Main Campus,HALL,Hallway Node 9 Floor 1,HallE09
+CHALL002L1,2445,1043,L1,Main Campus,HALL,Hallway 2 Floor L1,Hallway C002L1
+CHALL002L2,2270,904,L2,Main Campus,HALL,Hallway 2 Floor L2,Hallway C002L2
+BHALL02202,2900,985,2,Main Campus,HALL,Hallway Intersection 22 Level 2,Hallway B2202
+OHALL04601,553,164,1,Street,HALL,step 6,p6
+GHALL00303,1580,2180,3,Main Campus,HALL,Hallway Node 3 Floor 3,Hall
+GHALL00301,1705,1831,1,Main Campus,HALL,Hallway MapNode 3 Floor 1,Hall
+IHALL01803,2362,851,3,Main Campus,HALL,Hallway Node 18,H18
+GHALL00302,1231,1781,2,Main Campus,HALL,Hall Node 3 Floor 2,Hall
+GCONF02001,1493,2117,1,Main Campus,CONF,Shapiro Board Room,Shapiro Board Room
+XHALL16202,3830,2316,2,Main Campus,HALL,FLEX Hall,FLEX Hall
+DHALL05402,3490,845,2,Main Campus,HALL,Hallway 54 Floor 2,Hallway D5402
+BHALL00602,2605,902,2,Main Campus,HALL,Hallway Intersection 6 Level 2,Hallway B0602
+HHALL00202,1955,900,2,Main Campus,HALL,Hallway Connector 2,Hallway H00202
+HHALL00203,1235,985,3,Main Campus,HALL,Hallway Connector 2,Hallway H00203
+BSTAI00702,2811,1165,2,Main Campus,STAI,Staircase Intersection 7 Level 2,Stair B0702
+IHALL02003,2597,851,3,Main Campus,HALL,Hallway Node 20,H20
+ASTAI00401,2347,1235,1,Faulkner,STAI,Staircase Intersection 4 Level 1,teamAdidntAddThis
+XCONF  904,3739,2447,4,Main Campus,CONF,Flexible Computer Room 1,Computer Room 1
+XCONF 1204,3296,2113,4,Main Campus,CONF,Flexible Workzone 1,Workzone 1
+CHALL00902,1351,289,2,Faulkner,HALL,Hallway Intersection 9 Level 2,Hallway C0902
+BHALL01702,2945,710,2,Main Campus,HALL,Hallway Intersection 17 Level 2,Hallway B1702
+BREST00202,2605,841,2,Main Campus,REST,Restroom,REST B0202
+DSTAI00602,3950,865,2,Main Campus,STAI,Staircase6 Floor2,Staircase6
+GHALL01003,1580,2070,3,Main Campus,HALL,Hallway Node 10 Floor 3,Hall
+GHALL01002,1340,1820,2,Main Campus,HALL,Hall Node 10 Floor 2,Hall
+GHALL01001,1673,2165,1,Main Campus,HALL,Hallway MapNode 10 Floor 1,Hall
+DHALL04302,3865,750,2,Main Campus,HALL,Hallway 43 Floor 2,Hallway D4302
+OSTAI00303,2379,1256,3,Faulkner,STAI,Mechanical space Satirs 2,Mech 2 Stairs
+ADEPT00101,1401,2628,1,Main Campus,DEPT,Neuroscience Waiting Room,Neuro Waiting Room
+EHALL03504,1356,480,4,Faulkner,HALL,Hallway O 9,HO9
+ADEPT00102,1395,2674,2,Main Campus,DEPT,Orthopedics and Rhemutalogy,Orthopedics and Rhemutalogy
+EHALL03501,2760,1460,1,Main Campus,HALL,Hallway Node 33 Floor 1,HallE33
+HHALL01303,1600,1030,3,Main Campus,HALL,Hallway Connector 13,Hallway H01303
+HLABS00103,1235,865,3,Main Campus,LABS,Reproductive Endocrine Labs,Reproductive Endocrine Labs
+OHALL06202,1436,657,2,Faulkner,HALL,Food hallway,foodhall
+EDEPT01904,1370,205,4,Faulkner,DEPT,Gastroentology Associates,Gastro
+GHALL02102,1683,1821,2,Main Campus,HALL,Hall Node 21 Floor 2,Hall
+DELEV00B02,4155,650,2,Main Campus,ELEV,Elevator B,Elevator B2
+GHALL02101,1600,1830,1,Main Campus,HALL,Hallway MapNode 21 Floor 1,Hall
+DHALL03002,4140,680,2,Main Campus,HALL,Hallway 30 Floor 2,Hallway D3002
+GHALL03202,1684,2091,2,Main Campus,HALL,Hall Node 32 Floor 2,Hall
+BDEPT00602,2782,1303,2,Main Campus,HALL,Hallway Intersection 31,Hallway B3102
+XHALL  204,3810,2101,4,Main Campus,HALL,Flex Hall,Flex Hall
+EHALL02404,1250,642,4,Faulkner,HALL,Hallway N 7,HN7
+ADEPT01201,2245,1068,1,Faulkner,DEPT,Operation Rooms Entrance 2,teamAdidntAddThis
+CHALL008L1,2215,1045,L1,Main Campus,HALL,Hallway 8 Floor L1,Hallway C008L1
+EHALL02401,2770,1010,1,Main Campus,HALL,Hallway Node 22 Floor 1,HallE22
+ADEPT0010G,1530,2495,G,Main Campus,DEPT,Neuro Testing Waiting Area ,Neuro Wating Area
+CHALL008L2,1730,924,L2,Main Campus,HALL,Hallway 8 Floor L2,Hallway C008L2
+OREST00702,1479,1127,2,Faulkner,REST,Handicap Restroom level 2,hcrs 
+GRETL03501,1284,1884,1,Main Campus,REST,Restroom,Secret Room Floor 1
+WELEV00HL1,2715,1070,L1,Main Campus,ELEV,Elevator H,Elevator HL1
+EDEPT00604,1560,1135,4,Faulkner,DEPT,Surgery Department,Surg
+XELEV  803,3742,2260,3,Main Campus,ELEV,Elevator T,Flex Elevator
+GEXIT001L1,1702,2260,L1,Main Campus,EXIT,Fenwood Road Exit,Fenwood Road EntranceExit L1
+XELEV 1101,3743,2257,4,Main Campus,ELEV,Elevator T,Flex Elevator
+EHALL01304,1919,1219,4,Faulkner,HALL,Hallway E 6,HE6
+EHALL01301,2660,954,1,Main Campus,HALL,Hallway Node 11 Floor 1,HallE11
+CSTAI00102,1291,414,2,Faulkner,STAI,Staircase 1 Level 2,Stair C0102
+CREST002L1,2065,1284,L1,Main Campus,REST,Restroom,Restroom C002L1
+CREST002L2,1930,1280,L2,Main Campus,REST,Restroom,Restroom C002L2
+XCONF  704,3384,1836,4,Main Campus,CONF,Flexible Classroom 3,Classroom 3
+OHALL04001,1255,867,1,Faulkner,HALL,PULM Lab Hallway Intersection,PLUM hall
+BHALL02802,3063,1043,2,Main Campus,HALL,Hallway Intersection 28 Level 2,Hallway B2802
+OSTAI002L2,1618,2185,L2,Main Campus,STAI,Stairs 2,Stairs 2
+DHALL05602,3440,800,2,Main Campus,HALL,Hallway 56 Floor 2,Hallway D5602
+EHALL00204,987,1219,4,Faulkner,HALL,Hallway W 2,HW2
+BHALL00402,2246,1280,2,Main Campus,HALL,Hallway Intersection 4 Level 2,Hallway B0402
+DHALL01002,4625,650,2,Main Campus,HALL,Hallway 10 Floor 2,Hallway D1002
+DHALL01003,1212,562,3,Faulkner,HALL,Hallway Intersection Cafeteria Family Patient Resources HALL01103,HALLCAFX1203
+HHALL00402,1875,1025,2,Main Campus,HALL,Hallway Connector 4,Hallway H00402
+AEXIT00401,2347,1136,1,Faulkner,EXIT,Stair Exit,teamAdidntAddThis
+HHALL00403,1325,1290,3,Main Campus,HALL,Hallway Connector 4,Hallway H00403
+ELABS00504,2288,1160,4,Faulkner,LABS,IS,IS
+ASTAI00201,1330,412,1,Faulkner,STAI,Staircase Intersection 2 Level 1,teamAdidntAddThis
+BSTAI00902,2190,1280,2,Main Campus,STAI,Staircase Intersection 9 Level 2,Stair B0902
+CHALL00702,1252,478,2,Faulkner,HALL,Hallway Intersection 7 Level 2,Hallway C0702
+FHALL00905,1250,850,5,Faulkner,HALL,Abulatory Hall 1,AbHall1
+BHALL01502,2672,820,2,Main Campus,HALL,Hallway Intersection 15 Level 2,Hallway B1502
+GHALL01202,1395,1820,2,Main Campus,HALL,Hall Node 12 Floor 2,Hall
+FHALL00901,1627,850,1,Main Campus,HALL,Tower Hallway 2,Hallway F00901
+DSTAI00402,4175,620,2,Main Campus,STAI,Staircase4 Floor2,Staircase4
+XCONF 1004,3536,2591,4,Main Campus,CONF,Flexible Workzone 5,Workzone 5
+EREST00204,1250,343,4,Faulkner,REST,Bathroom 2,Bath2
+DHALL04502,3775,745,2,Main Campus,HALL,Hallway 45 Floor 2,Hallway D4502
+EREST00201,2985,980,1,Main Campus,REST,Restroom,Restroom F1
+ADEPT00301,1405,467,1,Faulkner,DEPT,MRI/CT,teamAdidntAddThis
+FEXIT00101,2017,799,1,Main Campus,EXIT,Shattuck Street Lobby Exit,Shattuck St. Exit
+HHALL01503,1735,985,3,Main Campus,HALL,Hallway Connector 15,Hallway H01503
+WELEV00K02,2240,965,2,Main Campus,ELEV,Elevator K,Elevator K2
+WELEV00K03,2220,985,3,Main Campus,ELEV,Elevator K,Elevator K3
+OHALL06402,1436,1069,2,Faulkner,HALL,Halloutside Occupation Therapy,OT hall
+WELEV00K01,2240,985,1,Main Campus,ELEV,Elevator K,Elevator K1
+GHALL02302,1726,1835,2,Main Campus,HALL,Hall Node 23 Floor 2,Hall
+EELEV00X04,1216,416,4,Faulkner,ELEV,Elevator X,Elv X
+ESERV01104,1333,920,4,Faulkner,SERV,Nurse's Suite,Nurse
+BDEPT00802,3155,890,2,Main Campus,DEPT,Outpatient Pharmacy,DEPT B0802
+XHALL  404,3664,1880,4,Main Campus,HALL,Flex Hall,Flex Hall
+GHALL03401,1284,1872,1,Main Campus,HALL,Hallway MapNode 34 Floor 1,Hall
+GHALL03402,1724,2123,2,Main Campus,HALL,Hall Node 34 Floor 2,Hall
+EHALL02604,1250,410,4,Faulkner,HALL,Hallway N 9,HN9
+DHALL03202,4020,715,2,Main Campus,HALL,Hallway 32 Floor 2,Hallway D3202
+CHALL006L2,1745,1009,L2,Main Campus,HALL,Hallway 6 Floor L2,Hallway C006L2
+WELEV00M02,1825,1280,2,Main Campus,ELEV,Elevator M,Elevator M2
+EHALL02601,3085,980,1,Main Campus,HALL,Hallway Node 24 Floor 1,HallE24
+WELEV00M03,1815,1290,3,Main Campus,ELEV,Elevator M,Elevator M3
+BHALL03702,2322,641,2,Main Campus,HALL,Hallway Intersection 37 Level 2,Hallway B3702
+GSTAI02802,1685,2041,2,Main Campus,STAI,Stairs Node 28 Floor 2,Floor 2 Stairs Lower
+EDEPT00804,1860,1177,4,Faulkner,DEPT,HR,HR
+CLABS005L1,2770,1284,L1,Main Campus,LABS,CSIR MRI Lab,Lab C005L1
+AEXIT001L2,1696,2788,L2,Main Campus,EXIT,Parking Garage,Parking Garage L2
+EHALL01504,2021,1219,4,Faulkner,HALL,Hallway E 8,HE8
+DHALL02102,4295,530,2,Main Campus,HALL,Hallway 21 Floor 2,Hallway D2102
+DDEPT00303,1456,233,3,Faulkner,DEPT,Obstetrics and Gynecology Associates,DEPTOGA
+DDEPT00302,3900,640,2,Main Campus,DEPT,Brigham Health,Brigham Health
+WELEV00JL1,2360,799,L1,Main Campus,ELEV,Elevator J,Elevator JL1
+EHALL01501,2675,910,1,Main Campus,HALL,Hallway Node 13 Floor 1,HallE13
+WELEV00JL2,2360,804,L2,Main Campus,ELEV,Elevator J,Elevator JL2
+XCONF  504,3493,1839,4,Main Campus,CONF,Flexible Classroom 2,Classroom 2
+CREST004L1,2770,1160,L1,Main Campus,REST,Restroom,Restroom C004L1
+DRETL00203,1530,757,3,Faulkner,RETL,Outdoor Dining Area,RETLODA
+CHALL006L1,2130,1284,L1,Main Campus,HALL,Hallway 6 Floor L1,Hallway C006L1
+BHALL02602,3296,945,2,Main Campus,HALL,Hallway Intersection 26 Level 2,Hallway B2602
+OHALL04201,423,592,1,Street,HALL,step2,p2
