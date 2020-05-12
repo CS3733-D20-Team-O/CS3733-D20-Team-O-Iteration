@@ -208,6 +208,7 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
+
     if (beginning.getBuilding().equals("Faulkner")) {
       streetViewViewModelController.goToMainCampus();
     } else {
@@ -304,23 +305,52 @@ public class FindPathViewModel extends ViewModelBase {
     int number = 1;
     List<Integer> floorChangeStepNumber = new LinkedList<>();
     for (val s : steps) { //create a set of JFXButtons, one set for each floor the path crosses
-      directions.append(s.getBuilding()).append(" ").append(s.getFloor()).append("\n");
-      Label step = new Label();
-      step.setText(directions.toString());
-      labels.getChildren().add(step);
-      directions.delete(0, directions.length());
-      floorChangeStepNumber.add(number);
-      for (val i : s
-          .getInstructions()) { //create a JFXButton containing one instruction (go to node x)
-        directions.append(number).append("  ").append(i.getDirections());
-        JFXButton label = new JFXButton();
-        label.setText(directions.toString());
-        label.setOnAction(actionEvent -> highlightSelectedEdge(actionEvent));
-        labels.getChildren().add(label);
-        directions.delete(0, directions.length());
+      if (s.getBuilding().equals(Building.STREET)) { //if the node is a street, use google maps
+        Label street = new Label();
+        street.setText("STREET");
+        labels.getChildren().add(street);
+        floorChangeStepNumber.add(number);
+        JFXButton departButton = new JFXButton();
+        departButton.setText(number + " Leave " + beginning.getBuilding());
+        departButton.setOnAction(event -> {
+          nodeMapContainer.setVisible(false);
+          streetMapContainer.setVisible(true);
+          lastNode = new Node("0", 0, 0, "1", "street", "HALL", "Street", "street");
+        });
+        labels.getChildren().add(departButton);
         number++;
+        JFXButton enterButton = new JFXButton();
+        enterButton.setText(number + " Enter " + finish.getBuilding());
+        enterButton.setOnAction(event -> {
+          nodeMapContainer.setVisible(false);
+          streetMapContainer.setVisible(true);
+          lastNode = new Node("0", 0, 0, "1", "street", "HALL", "Street", "street");
+        });
+        labels.getChildren().add(enterButton);
+        number++;
+      } else {
+        directions.append(s.getBuilding()).append(" ").append(s.getFloor()).append("\n");
+        Label step = new Label();
+        step.setText(directions.toString());
+        labels.getChildren().add(step);
+        directions.delete(0, directions.length());
+        floorChangeStepNumber.add(number);
+        for (val i : s
+            .getInstructions()) { //create a JFXButton containing one instruction (go to node x)
+          directions.append(number).append("  ").append(i.getDirections());
+          JFXButton label = new JFXButton();
+          label.setText(directions.toString());
+          label.setOnAction(actionEvent -> {
+            nodeMapContainer.setVisible(true);
+            streetMapContainer.setVisible(false);
+            highlightSelectedEdge(actionEvent);
+          });
+          labels.getChildren().add(label);
+          directions.delete(0, directions.length());
+          number++;
+        }
+        directions.delete(0, directions.length());
       }
-      directions.delete(0, directions.length());
     }
     scrollPane.setContent(labels);
     for (int i = 0; i < floorsCrossed.size(); i++) { //create the bottom path overview buttons
