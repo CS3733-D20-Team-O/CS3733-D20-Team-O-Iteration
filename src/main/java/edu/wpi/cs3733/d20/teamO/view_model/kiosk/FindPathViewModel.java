@@ -554,10 +554,8 @@ public class FindPathViewModel extends ViewModelBase {
     val focus = scene.getFocusOwner();
 
     if (focus.equals(startLocation)) {
-      System.out.println("Set start");
       return startLocation;
     } else if (focus.equals(stopLocation)) {
-      System.out.println("Set end");
       return stopLocation;
     }
 
