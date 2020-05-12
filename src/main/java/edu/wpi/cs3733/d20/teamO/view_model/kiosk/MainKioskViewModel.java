@@ -187,8 +187,8 @@ public class MainKioskViewModel extends ViewModelBase {
   public void onEvent(Event event) {
     if (event.getClass().equals(CSSSwitchEvent.class)) {
       String path = ((CSSSwitchEvent) event).getPath();
-      System.out.println("Clicked");
-      // todo set the CSS to path
+      container.getScene().getStylesheets().clear();
+      container.getScene().getStylesheets().add(path);
     }
   }
 }
