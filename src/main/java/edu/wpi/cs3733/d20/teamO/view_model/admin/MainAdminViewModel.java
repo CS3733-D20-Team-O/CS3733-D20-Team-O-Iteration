@@ -87,11 +87,29 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
   }
 
   @FXML
+  private void openEmployeeHandler() {
+    try {
+      navigator.push("Employee Handler", "views/admin/EmployeeHandler.fxml");
+    } catch (IOException e) {
+      log.error("Failed to open the employee handler", e);
+    }
+  }
+
+  @FXML
   private void openImportExportHandler() {
     try {
       dialog.showFullscreenFXML("views/admin/ImportExportCSV.fxml");
     } catch (IOException e) {
       log.error("Failed to open the import/export csv dialog", e);
+    }
+  }
+
+  @FXML
+  private void openChangePassword() {
+    try {
+      dialog.showFullscreenFXML("views/admin/ChangePassword.fxml");
+    } catch (IOException e) {
+      log.error("Failed to open the change password dialog", e);
     }
   }
 
