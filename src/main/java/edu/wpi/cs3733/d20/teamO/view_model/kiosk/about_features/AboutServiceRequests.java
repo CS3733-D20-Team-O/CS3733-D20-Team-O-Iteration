@@ -27,6 +27,7 @@ public class AboutServiceRequests extends DialogViewModel {
     JFXDepthManager.setDepth(useServReq, 2);
     JFXDepthManager.setDepth(container, 2);
   }
+
   @FXML
   public void openServiceRequestSelect() {
     try {
