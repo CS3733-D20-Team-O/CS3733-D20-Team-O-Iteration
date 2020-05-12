@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.d20.teamO.view_model;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import java.util.Arrays;
 import javafx.event.ActionEvent;
@@ -21,48 +20,7 @@ public class FloorSelector extends ViewModelBase {
   private static final String main = "Main Campus";
   private static final String unselectedStyle = "-fx-background-color: lightgray; -fx-background-radius: 30;";
   private static final String selectedStyle = "-fx-background-color: lightseagreen; -fx-background-radius: 30;";
-  private boolean selfLaunched = false;
 
-
-  @Override
-  public void onEvent(Event event) {
-    if (event instanceof FloorSwitchEvent) {
-      val faulknerNodes = Arrays
-          .asList(faulkner1, faulkner2, faulkner3, faulkner4, faulkner5);
-      val mainCampusNodes = Arrays.asList(mainL2, mainL1, mainG, main1, main2, main3);
-      if (!selfLaunched) {
-        if (((FloorSwitchEvent) event).getBuilding().equals("Faulkner")) {
-          building = faulkner;
-          faulknerBtn.setStyle(selectedStyle);
-          mainCampusBtn.setStyle(unselectedStyle);
-          faulknerBtns.setVisible(true);
-          mainCampusBtns.setVisible(false);
-          for (val n : faulknerNodes) {
-            if (((FloorSwitchEvent) event).getFloor().equals(n.getText())) {
-              n.setStyle(selectedStyle);
-            } else {
-              n.setStyle(unselectedStyle);
-            }
-          }
-        } else {
-          building = main;
-          mainCampusBtn.setStyle(selectedStyle);
-          faulknerBtn.setStyle(unselectedStyle);
-          faulknerBtns.setVisible(false);
-          mainCampusBtns.setVisible(true);
-          for (val n : mainCampusNodes) {
-            if (((FloorSwitchEvent) event).getFloor().equals(n.getText())) {
-              n.setStyle(selectedStyle);
-            } else {
-              n.setStyle(unselectedStyle);
-            }
-          }
-        }
-      } else {
-        selfLaunched = false;
-      }
-    }
-  }
 
   /**
    * Sets the floor of the application
@@ -86,7 +44,6 @@ public class FloorSelector extends ViewModelBase {
         break;
     }
     target.setStyle(selectedStyle);
-    selfLaunched = true;
     dispatch(new FloorSwitchEvent(floor, building));
   }
 
@@ -118,7 +75,39 @@ public class FloorSelector extends ViewModelBase {
     }
     target.setStyle(selectedStyle);
     floor = "1";
-    selfLaunched = true;
     dispatch(new FloorSwitchEvent(floor, building));
+  }
+
+  public void styleButtons(String building, String floor) {
+    if (building.equals("Faulkner")) {
+      this.building = faulkner;
+
+      faulknerBtn.setStyle(selectedStyle);
+      mainCampusBtn.setStyle(unselectedStyle);
+      faulknerBtns.setVisible(true);
+      mainCampusBtns.setVisible(false);
+      for (val n : faulknerBtns.getChildren()) {
+        val button = (JFXButton) n;
+        if (button.getText().equals(floor)) {
+          button.setStyle(selectedStyle);
+        } else {
+          button.setStyle(unselectedStyle);
+        }
+      }
+    } else {
+      this.building = main;
+      faulknerBtn.setStyle(unselectedStyle);
+      mainCampusBtn.setStyle(selectedStyle);
+      faulknerBtns.setVisible(false);
+      mainCampusBtns.setVisible(true);
+      for (val n : mainCampusBtns.getChildren()) {
+        val button = (JFXButton) n;
+        if (button.getText().equals(floor)) {
+          button.setStyle(selectedStyle);
+        } else {
+          button.setStyle(unselectedStyle);
+        }
+      }
+    }
   }
 }

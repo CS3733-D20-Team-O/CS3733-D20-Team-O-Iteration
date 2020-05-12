@@ -21,6 +21,7 @@ import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Building;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction.Icon;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
+import edu.wpi.cs3733.d20.teamO.view_model.FloorSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.StreetViewViewModel;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -77,6 +78,8 @@ public class FindPathViewModel extends ViewModelBase {
 
   @FXML
   private StreetViewViewModel streetViewViewModelController;
+  @FXML
+  private FloorSelector floorSelectorController;
 
   private Map<String, Node> nodeMap, handicapMap, stairsMap;
   private final DatabaseWrapper database;
@@ -209,6 +212,8 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   void resetPath() {
     floorSelectorContainer.setVisible(true);
+    floorSelectorController
+        .styleButtons(nodeMapViewController.getBuilding(), nodeMapViewController.getFloor());
     lastNode = null;
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
