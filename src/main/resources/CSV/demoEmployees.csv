@@ -1,6 +1,4 @@
 employeeID,name,type,password,isAvailable
-admin,admin,start,admin,FALSE
-staff,staff,start,staff,FALSE
 1234,June,Internal Transportation,June123,TRUE
 1111,Paula,Sanitation,Paula123,TRUE
 1235,John,Internal Transportation,John123,TRUE
@@ -22,4 +20,4 @@ staff,staff,start,staff,FALSE
 879,Cam,Security,Cam123,TRUE
 880,Mitchel,Security,Mitchel123,TRUE
 57,Grace,A/V,Grace123,TRUE
-404,Tom,InfoTech,Tom123,TRUE
+403,Tom,InfoTech,Tom123,TRUE

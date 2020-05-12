@@ -82,6 +82,7 @@ class CSVHandlerImpl implements CSVHandler {
         } else {
           scanner.next();
           scanner.next();
+          scanner.next();
           scanner.nextBoolean();
         }
       }
