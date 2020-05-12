@@ -32,6 +32,7 @@ public class FloorSelector extends ViewModelBase {
       val mainCampusNodes = Arrays.asList(mainL2, mainL1, mainG, main1, main2, main3);
       if (!selfLaunched) {
         if (((FloorSwitchEvent) event).getBuilding().equals("Faulkner")) {
+          building = faulkner;
           faulknerBtn.setStyle(selectedStyle);
           mainCampusBtn.setStyle(unselectedStyle);
           faulknerBtns.setVisible(true);
@@ -44,6 +45,7 @@ public class FloorSelector extends ViewModelBase {
             }
           }
         } else {
+          building = main;
           mainCampusBtn.setStyle(selectedStyle);
           faulknerBtn.setStyle(unselectedStyle);
           faulknerBtns.setVisible(false);
@@ -56,6 +58,8 @@ public class FloorSelector extends ViewModelBase {
             }
           }
         }
+      } else {
+        selfLaunched = false;
       }
     }
   }
