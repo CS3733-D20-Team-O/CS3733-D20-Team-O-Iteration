@@ -58,6 +58,11 @@
     </VBox>
   </StackPane>
 
+
+  <!-- Clock -->
+  <StackPane AnchorPane.topAnchor="8" AnchorPane.leftAnchor="64">
+    <fx:include source="/edu/wpi/cs3733/d20/teamO/views/Clock.fxml"/>
+  </StackPane>
   <!-- Login Button -->
   <JFXButton buttonType="RAISED" onAction="#openLoginDialog"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
