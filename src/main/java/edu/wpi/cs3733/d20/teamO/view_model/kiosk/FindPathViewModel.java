@@ -387,26 +387,29 @@ public class FindPathViewModel extends ViewModelBase {
     //change to floor of step and highlight the step edge
     int number = Integer.parseInt(((JFXButton) actionEvent.getSource()).getText().split("  ")[0]);
     val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    val node = nodes.get(number - 1);
     if (lastNode == null) {
       lastNode = beginning;
       dispatch(new FloorSwitchEvent(lastNode.getFloor(), lastNode.getBuilding()));
     }
-    if (!lastNode.getFloor().equals(nodes.get(number - 1).getFloor()) || !lastNode.getBuilding()
-        .equals(nodes.get(number - 1).getBuilding())) {
-      dispatch(new FloorSwitchEvent(nodes.get(number - 1).getFloor(),
-          nodes.get(number - 1).getBuilding()));
+    if (!lastNode.getFloor().equals(node.getFloor()) || !lastNode.getBuilding()
+        .equals(node.getBuilding())) {
+      dispatch(new FloorSwitchEvent(node.getFloor(),
+          node.getBuilding()));
     }
     highlightEdge(number);
-    lastNode = nodes.get(number - 1);
+    lastNode = node;
   }
 
   private void highlightEdge(int number) {
     val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    val firstNode = nodes.get(number - 1);
+    val secondNode = nodes.get(number);
     for (Edge e : database.exportEdges()) {
-      if (e.getStartID().equals(nodes.get(number - 1).getNodeID()) && e.getStopID()
-          .equals(nodes.get(number).getNodeID())
-          || e.getStartID().equals(nodes.get(number).getNodeID()) && e.getStopID()
-          .equals(nodes.get(number - 1).getNodeID())) {
+      if (e.getStartID().equals(firstNode.getNodeID()) && e.getStopID()
+          .equals(secondNode.getNodeID())
+          || e.getStartID().equals(secondNode.getNodeID()) && e.getStopID()
+          .equals(firstNode.getNodeID())) {
         nodeMapViewController.highlightEdge(e);
       } else {
         nodeMapViewController.unhighlightEdge(e);
