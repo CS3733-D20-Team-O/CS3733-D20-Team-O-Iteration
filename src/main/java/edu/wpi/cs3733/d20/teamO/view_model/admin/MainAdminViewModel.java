@@ -49,20 +49,23 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
       }
     }
 
-    // Set a listener to set the algorithm to use
+    // Set a listener to set the pathfinding algorithm to use
     searchAlgorithms.getSelectionModel().selectedIndexProperty().addListener((o, oldInt, newInt) ->
         selectedPathFinder.setCurrentPathFinder(pathFinders[newInt.intValue()]));
 
-    //get the idleDetector used by Navigator
+    // Get the idleDetector used by Navigator
     idleDetector = navigator.getIdleDetector();
 
     // Set a listener to set the time-out time
     timeOutTime.valueProperty().addListener((o, oldInt, newInt) ->
         idleDetector.setTimeOutTime((int) newInt));
 
-    // Set min, max, and initial value
+    // Set min, max, and initial value of spinner
     timeOutTime
         .setValueFactory(new IntegerSpinnerValueFactory(15, 3600, idleDetector.getTimeOutTime()));
+
+    // Make spinner editable
+    timeOutTime.setEditable(true);
   }
 
   @FXML

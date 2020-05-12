@@ -140,9 +140,9 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   private void openHowToUseKiosk() {
     try {
-      dialog.showFXML(container, "views/kiosk/HowToUseKiosk.fxml");
+      dialog.showFullscreenFXML("views/kiosk/HowToUseKiosk.fxml");
     } catch (IOException e) {
-      log.error("Could not load the dialog", e);
+      log.error("Could not load the how to use page", e);
     }
   }
 

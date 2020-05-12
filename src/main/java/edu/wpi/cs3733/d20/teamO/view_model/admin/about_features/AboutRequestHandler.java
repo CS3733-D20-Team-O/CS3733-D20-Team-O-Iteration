@@ -14,7 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class AboutRequestHandler extends DialogViewModel{
+public class AboutRequestHandler extends DialogViewModel {
+
   private final Navigator navigator;
 
   @FXML

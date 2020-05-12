@@ -14,7 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
-public class AboutCSVHandler extends DialogViewModel{
+public class AboutCSVHandler extends DialogViewModel {
+
   private final Dialog dialog;
 
   @FXML
