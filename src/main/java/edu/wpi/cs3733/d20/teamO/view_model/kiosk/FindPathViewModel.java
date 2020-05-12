@@ -194,6 +194,8 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
+    clearPreview(); // Clear the preview
+
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     nodeMapViewController.deleteNode(beginning);
