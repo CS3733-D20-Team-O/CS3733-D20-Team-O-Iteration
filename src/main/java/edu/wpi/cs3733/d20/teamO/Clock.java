@@ -21,11 +21,12 @@ public class Clock extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
-    date.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
     Timeline clock = new Timeline(
         new KeyFrame(Duration.ZERO, e -> {
           LocalTime currentTime = LocalTime.now();
           time.setText(currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+          date.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         }),
         new KeyFrame(Duration.seconds(1))
     );

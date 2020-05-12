@@ -1,4 +1,5 @@
 .label {
   -fx-text-fill: floralwhite;
   -fx-font-weight: BOLD;
+  -fx-font-size: 16px;
 }
