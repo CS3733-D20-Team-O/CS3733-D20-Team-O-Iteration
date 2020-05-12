@@ -113,7 +113,6 @@ public class FindPathViewModel extends ViewModelBase {
     stairsMap = new HashMap<>();
 
     currentState = AccessabilityState.NONE;
-
     val clipRect = new Rectangle();
     clipRect.widthProperty().bind(clipper.widthProperty());
     clipRect.heightProperty().bind(clipper.heightProperty());
@@ -315,25 +314,27 @@ public class FindPathViewModel extends ViewModelBase {
   private void generateTD(List<String> floorsCrossed) {
     val steps = generateSteps();
     StringBuilder directions = new StringBuilder();
-    VBox labels = new VBox();
-    scrollPane.setContent(labels);
+    VBox scrollPaneInstructions = new VBox();
+    scrollPane.setContent(scrollPaneInstructions);
     int number = 1;
     List<Integer> floorChangeStepNumber = new LinkedList<>();
     for (val s : steps) { //create a set of JFXButtons, one set for each floor the path crosses
       if (s.getBuilding().equals(Building.STREET)) { //if the node is a street, use google maps
         Label street = new Label();
         street.setText("STREET");
-        labels.getChildren().add(street);
+        scrollPaneInstructions.getChildren().add(street);
         floorChangeStepNumber.add(number);
         JFXButton departButton = new JFXButton();
+        //create the button that leaves the current hospital
         departButton.setText(number + " Leave " + beginning.getBuilding());
         departButton.setOnAction(event -> {
           nodeMapContainer.setVisible(false);
           streetMapContainer.setVisible(true);
           lastNode = new Node("0", 0, 0, "1", "street", "HALL", "Street", "street");
         });
-        labels.getChildren().add(departButton);
+        scrollPaneInstructions.getChildren().add(departButton);
         number++;
+        //create the button that enters the other hospital
         JFXButton enterButton = new JFXButton();
         enterButton.setText(number + " Enter " + finish.getBuilding());
         enterButton.setOnAction(event -> {
@@ -341,33 +342,37 @@ public class FindPathViewModel extends ViewModelBase {
           streetMapContainer.setVisible(true);
           lastNode = new Node("0", 0, 0, "1", "street", "HALL", "Street", "street");
         });
-        labels.getChildren().add(enterButton);
+        scrollPaneInstructions.getChildren().add(enterButton);
         number++;
       } else {
-        directions.append(s.getBuilding()).append(" ").append(s.getFloor()).append("\n");
+        directions.append(s.getBuilding()).append(" ").append(s.getFloor())
+            .append("\n"); //make the string the current floor
         Label step = new Label();
-        step.setText(directions.toString());
-        labels.getChildren().add(step);
+        step.setText(directions.toString()); //make a label with the current floor
+        scrollPaneInstructions.getChildren()
+            .add(step);  //add the label to the VBox to separate the JFXButtons by floor
         directions.delete(0, directions.length());
-        floorChangeStepNumber.add(number);
+        floorChangeStepNumber.add(
+            number); //add this current step number to the list of numbers so that the buttons in the bottom know what step to reflect
         for (val i : s
             .getInstructions()) { //create a JFXButton containing one instruction (go to node x)
           directions.append(number).append("  ").append(i.getDirections());
-          JFXButton label = new JFXButton();
-          label.setText(directions.toString());
-          label.setOnAction(actionEvent -> {
+          JFXButton instructionForEdge = new JFXButton();
+          instructionForEdge.setText(directions.toString());
+          instructionForEdge.setOnAction(actionEvent -> {
             nodeMapContainer.setVisible(true);
             streetMapContainer.setVisible(false);
             highlightSelectedEdge(actionEvent);
           });
-          labels.getChildren().add(label);
+          scrollPaneInstructions.getChildren()
+              .add(instructionForEdge); //add the button for the edge
           directions.delete(0, directions.length());
           number++;
         }
         directions.delete(0, directions.length());
       }
     }
-    scrollPane.setContent(labels);
+    scrollPane.setContent(scrollPaneInstructions);
     for (int i = 0; i < floorsCrossed.size(); i++) { //create the bottom path overview buttons
       val button = new JFXButton();
       button.setButtonType(RAISED);
