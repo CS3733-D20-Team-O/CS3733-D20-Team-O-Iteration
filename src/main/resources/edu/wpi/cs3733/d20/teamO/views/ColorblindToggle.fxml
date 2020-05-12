@@ -12,7 +12,7 @@
     <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
       StackPane.alignment="CENTER_LEFT">
       <image>
-        <Image url="@/language-icon.png"/>
+        <Image url="@/colorPalette.png"/>
       </image>
     </ImageView>
     <JFXComboBox onAction="#selectColors" prefHeight="10.0" prefWidth="0.0"

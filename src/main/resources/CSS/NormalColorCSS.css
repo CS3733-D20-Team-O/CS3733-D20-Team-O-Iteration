@@ -84,3 +84,17 @@
   -fx-opacity: 0;
 
 }
+
+#streetToFaulknerButton {
+
+}
+
+#streetToMainCampusButton {
+
+}
+
+#buttonContainer {
+  -fx-background-color: whitesmoke;
+  -fx-background-radius: 24;
+  -fx-padding: 12 16;
+}
