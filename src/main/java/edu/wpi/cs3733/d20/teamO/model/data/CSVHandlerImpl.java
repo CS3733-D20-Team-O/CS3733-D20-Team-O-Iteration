@@ -77,7 +77,8 @@ class CSVHandlerImpl implements CSVHandler {
         String id = scanner.next();
         //only import employee if it is not the dummy employee to avoid duplicate
         if (!id.equals("0")) {
-          database.addEmployee(id, scanner.next(), scanner.next(), scanner.nextBoolean());
+          database.addEmployee(id, scanner.next(), scanner.next(), scanner.next(),
+              scanner.nextBoolean());
         } else {
           scanner.next();
           scanner.next();
