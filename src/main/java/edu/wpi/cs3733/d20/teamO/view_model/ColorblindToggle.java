@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 
 public class ColorblindToggle {
 
+  private static final String normalVisionCSSPath = "";
   @FXML
   private JFXComboBox<String> colorPicker;
 
