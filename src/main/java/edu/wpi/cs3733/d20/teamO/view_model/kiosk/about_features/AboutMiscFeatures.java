@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class AboutMiscFeatures extends DialogViewModel {
+
   @FXML
   private StackPane useMisc, container;
 

@@ -63,11 +63,17 @@
   <JFXButton buttonType="RAISED" onAction="#openLoginDialog"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
     text="%adminLogin" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+
+  <!-- About Button -->
   <JFXButton buttonType="RAISED" onAction="#openAbout"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;"
     text="%about" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0"/>
-  <ImageView fx:id="FAQ" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="80.0" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openHowToUseKiosk" pickOnBounds="true" preserveRatio="true">
-    <Image url="@/FAQ.png" />
+
+
+  <ImageView fx:id="FAQ" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openHowToUseKiosk"
+    pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="16.0"
+    AnchorPane.topAnchor="7.0">
+    <Image url="@/FAQ.png"/>
   </ImageView>
 
   <!-- Language Switcher -->

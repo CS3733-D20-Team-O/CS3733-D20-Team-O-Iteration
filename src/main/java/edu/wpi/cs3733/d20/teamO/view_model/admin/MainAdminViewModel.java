@@ -49,20 +49,23 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
       }
     }
 
-    // Set a listener to set the algorithm to use
+    // Set a listener to set the pathfinding algorithm to use
     searchAlgorithms.getSelectionModel().selectedIndexProperty().addListener((o, oldInt, newInt) ->
         selectedPathFinder.setCurrentPathFinder(pathFinders[newInt.intValue()]));
 
-    //get the idleDetector used by Navigator
+    // Get the idleDetector used by Navigator
     idleDetector = navigator.getIdleDetector();
 
     // Set a listener to set the time-out time
     timeOutTime.valueProperty().addListener((o, oldInt, newInt) ->
         idleDetector.setTimeOutTime((int) newInt));
 
-    // Set min, max, and initial value
+    // Set min, max, and initial value of spinner
     timeOutTime
-        .setValueFactory(new IntegerSpinnerValueFactory(30, 3600, idleDetector.getTimeOutTime()));
+        .setValueFactory(new IntegerSpinnerValueFactory(15, 3600, idleDetector.getTimeOutTime()));
+
+    // Make spinner editable
+    timeOutTime.setEditable(true);
   }
 
   @FXML
@@ -84,11 +87,29 @@ public class MainAdminViewModel extends Dialog.DialogViewModel {
   }
 
   @FXML
+  private void openEmployeeHandler() {
+    try {
+      navigator.push("Employee Handler", "views/admin/EmployeeHandler.fxml");
+    } catch (IOException e) {
+      log.error("Failed to open the employee handler", e);
+    }
+  }
+
+  @FXML
   private void openImportExportHandler() {
     try {
       dialog.showFullscreenFXML("views/admin/ImportExportCSV.fxml");
     } catch (IOException e) {
       log.error("Failed to open the import/export csv dialog", e);
+    }
+  }
+
+  @FXML
+  private void openChangePassword() {
+    try {
+      dialog.showFullscreenFXML("views/admin/ChangePassword.fxml");
+    } catch (IOException e) {
+      log.error("Failed to open the change password dialog", e);
     }
   }
 

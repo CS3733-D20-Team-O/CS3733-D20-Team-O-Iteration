@@ -88,8 +88,8 @@ public class MainKioskViewModel extends ViewModelBase {
     val header = new Label("Login");
     header.setStyle("-fx-font-size: 24");
     val username = new JFXTextField();
-    username.setPromptText("Username");
-    username.setValidators(new RequiredFieldValidator("Username is required"));
+    username.setPromptText("Employee ID");
+    username.setValidators(new RequiredFieldValidator("Employee ID is required"));
     val password = new JFXPasswordField();
     password.setPromptText("Password");
     password.setValidators(new RequiredFieldValidator("Password is required"));
@@ -140,9 +140,9 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   private void openHowToUseKiosk() {
     try {
-      dialog.showFXML(container, "views/kiosk/HowToUseKiosk.fxml");
+      dialog.showFullscreenFXML("views/kiosk/HowToUseKiosk.fxml");
     } catch (IOException e) {
-      log.error("Could not load the dialog", e);
+      log.error("Could not load the how to use page", e);
     }
   }
 

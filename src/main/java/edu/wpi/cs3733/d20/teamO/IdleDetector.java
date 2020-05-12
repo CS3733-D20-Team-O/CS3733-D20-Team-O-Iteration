@@ -21,6 +21,7 @@ public class IdleDetector {
   private final StackPane root;
   private final Navigator navigator;
   private final LoginDetails loginDetails;
+  private final int defaultTimeOutTime = 900;
 
   @Inject
   IdleDetector(Injector injector, Navigator navigator) {
@@ -28,7 +29,7 @@ public class IdleDetector {
     this.root = navigator.getRoot();
     this.loginDetails = injector.getInstance(LoginDetails.class);
 
-    setTimeOutTime(30);
+    setTimeOutTime(defaultTimeOutTime);
     root.addEventHandler(InputEvent.ANY, e -> resetTimer());
   }
 
