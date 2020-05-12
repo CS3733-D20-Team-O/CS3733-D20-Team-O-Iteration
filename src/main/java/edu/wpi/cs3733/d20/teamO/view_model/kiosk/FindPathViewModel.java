@@ -520,6 +520,11 @@ public class FindPathViewModel extends ViewModelBase {
     }
   }
 
+  /**
+   * From a given node, check if it was part of the preview and set it to either beginning or end
+   *
+   * @param node the node
+   */
   private void selectNode(Node node) {
     // If this node is part of the preview, set it
     // Else, it must be part of the node path, don't do anything then
@@ -536,6 +541,12 @@ public class FindPathViewModel extends ViewModelBase {
     }
   }
 
+
+  /**
+   * Returns a selected NodeSelector
+   *
+   * @return a NodeSelector (or null if no selector is selected)
+   */
   private NodeSelector getSelector() {
     val scene = startLocation.getScene();
     val focus = scene.getFocusOwner();
@@ -551,6 +562,15 @@ public class FindPathViewModel extends ViewModelBase {
     return null;
   }
 
+  /**
+   * Gets the distance between two coordinates
+   *
+   * @param x1 x coordinate of the first spot
+   * @param y1 y coordinate of the first spot
+   * @param x2 x coordinate of the second spot
+   * @param y2 y coordinate of the second spot
+   * @return the distance between the two coordinates
+   */
   private double getDistance(double x1, double y1, double x2, double y2) {
     val legX = Math.abs(x1 - x2);
     val legY = Math.abs(y1 - y2);
@@ -559,6 +579,9 @@ public class FindPathViewModel extends ViewModelBase {
     return Math.sqrt(hypoX + hypoY);
   }
 
+  /**
+   * Clears the preview nodes off the map
+   */
   private void clearPreview() {
     for (Node node : previewMap.values()) {
       nodeMapViewController.deleteNode(node);
