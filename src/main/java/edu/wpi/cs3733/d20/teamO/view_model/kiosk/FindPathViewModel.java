@@ -343,7 +343,7 @@ public class FindPathViewModel extends ViewModelBase {
         floorChangeStepNumber.add(number);
         JFXButton departButton = new JFXButton();
         //create the button that leaves the current hospital
-        departButton.setText(number + " Leave " + beginning.getBuilding());
+        departButton.setText(number + " Head to " + finish.getBuilding());
         departButton.setOnAction(event -> {
           nodeMapContainer.setVisible(false);
           streetMapContainer.setVisible(true);
@@ -351,17 +351,6 @@ public class FindPathViewModel extends ViewModelBase {
           dispatch(new FloorSwitchEvent("1", "Street"));
         });
         scrollPaneInstructions.getChildren().add(departButton);
-        number++;
-        //create the button that enters the other hospital
-        JFXButton enterButton = new JFXButton();
-        enterButton.setText(number + " Enter " + finish.getBuilding());
-        enterButton.setOnAction(event -> {
-          nodeMapContainer.setVisible(false);
-          streetMapContainer.setVisible(true);
-          lastNode = new Node("0", 0, 0, "1", "street", "HALL", "Street", "street");
-          dispatch(new FloorSwitchEvent("1", "Street"));
-        });
-        scrollPaneInstructions.getChildren().add(enterButton);
         number++;
       } else {
         directions.append(s.getBuilding()).append(" ").append(s.getFloor())
