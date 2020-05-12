@@ -1,23 +1,25 @@
-1234,June,Internal Transportation,password,TRUE
-1111,Paula,Sanitation,password,TRUE
-fredhello,Fred,Admin,abc,TRUE
-1235,John,Internal Transportation,password,TRUE
-1112,Bo,Sanitation,password,TRUE
-1236,Steve,Internal Transportation,password,TRUE
-1113,Randy,Sanitation,password,TRUE
-56,April,A/V,password,TRUE
-40,Joe,External Transportation,password,TRUE
-41,Billy,External Transportation,password,TRUE
-99,Janet,Florist,password,TRUE
-100,Kyle,Florist,password,TRUE
-705,Leslie,Gift,password,TRUE
-704,Louis,Gift,password,TRUE
-404,Ron,InfoTech,password,TRUE
-1000,Carl,Interpreter,password,TRUE
-1001,Magdalena,Interpreter,password,TRUE
-500,Stephen,Medicine delivery,password,TRUE
-501,Giuseppe,Medicine delivery,password,TRUE
-879,Cam,Security,password,TRUE
-880,Mitchel,Security,password,TRUE
-57,Grace,A/V,password,TRUE
-404,Tom,InfoTech,password,TRUE
+employeeID,name,type,password,isAvailable
+admin,admin,start,admin,FALSE
+staff,staff,start,staff,FALSE
+1234,June,Internal Transportation,June123,TRUE
+1111,Paula,Sanitation,Paula123,TRUE
+1235,John,Internal Transportation,John123,TRUE
+1112,Bo,Sanitation,Bo123,TRUE
+1236,Steve,Internal Transportation,Steve123,TRUE
+1113,Randy,Sanitation,Randy123,TRUE
+56,April,A/V,April123,TRUE
+40,Joe,External Transportation,Joe123,TRUE
+41,Billy,External Transportation,Billy123,TRUE
+99,Janet,Florist,Janet123,TRUE
+100,Kyle,Florist,Kyle123,TRUE
+705,Leslie,Gift,Leslie123,TRUE
+704,Louis,Gift,Louis123,TRUE
+404,Ron,InfoTech,Ron123,TRUE
+1000,Carl,Interpreter,Carl123,TRUE
+1001,Magdalena,Interpreter,Magdalena123,TRUE
+500,Stephen,Medicine delivery,Stephen123,TRUE
+501,Giuseppe,Medicine delivery,Guiseppe123,TRUE
+879,Cam,Security,Cam123,TRUE
+880,Mitchel,Security,Mitchel123,TRUE
+57,Grace,A/V,Grace123,TRUE
+404,Tom,InfoTech,Tom123,TRUE
