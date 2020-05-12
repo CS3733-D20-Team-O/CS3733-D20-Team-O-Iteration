@@ -291,14 +291,15 @@ public class FindPathViewModel extends ViewModelBase {
     scrollPane.setContent(labels);
     int number = 1;
     List<Integer> floorChangeStepNumber = new LinkedList<>();
-    for (val s : steps) {
+    for (val s : steps) { //create a set of JFXButtons, one set for each floor the path crosses
       directions.append(s.getBuilding()).append(" ").append(s.getFloor()).append("\n");
       Label step = new Label();
       step.setText(directions.toString());
       labels.getChildren().add(step);
       directions.delete(0, directions.length());
       floorChangeStepNumber.add(number);
-      for (val i : s.getInstructions()) {
+      for (val i : s
+          .getInstructions()) { //create a JFXButton containing one instruction (go to node x)
         directions.append(number).append("  ").append(i.getDirections());
         JFXButton label = new JFXButton();
         label.setText(directions.toString());
@@ -310,7 +311,7 @@ public class FindPathViewModel extends ViewModelBase {
       directions.delete(0, directions.length());
     }
     scrollPane.setContent(labels);
-    for (int i = 0; i < floorsCrossed.size(); i++) {
+    for (int i = 0; i < floorsCrossed.size(); i++) { //create the bottom path overview buttons
       val button = new JFXButton();
       button.setButtonType(RAISED);
       button.setText("Step " + floorChangeStepNumber.get(i) + "\n" + floorsCrossed.get(i));
