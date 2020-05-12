@@ -140,7 +140,7 @@ public class FindPathViewModel extends ViewModelBase {
       drawPath();
     });
     nodeMapViewController.setOnMissRightTapListener((x, y) -> {
-      selectNearestNode(x, y);
+      checkNearestNodeSelect(x, y);
     });
 
     startLocation.setNodes(nodeMap.values());
@@ -429,12 +429,39 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   /**
-   * Using a set of coordinates, find the closest node and set it to either the beginning or ending
+   * Check which of the textboxes is selected and send coordinates to check for a node to set to
+   * that textbox
    *
    * @param x the x coordinate
    * @param y the y coordinate
    */
-  private void selectNearestNode(int x, int y) {
+  private void checkNearestNodeSelect(int x, int y) {
+
+    // Get the focus of the scene
+    val scene = startLocation.getScene();
+    val focus = scene.getFocusOwner();
+
+    if (focus.equals(startLocation)) {
+      System.out.println("Set start");
+      selectNearestNode(x, y, startLocation, beginning);
+    } else if (focus.equals(stopLocation)) {
+      System.out.println("Set end");
+      selectNearestNode(x, y, stopLocation, finish);
+    } else {
+      snackBar.show("Error: Please select one of the textboxes to set a node to!");
+    }
+  }
+
+  /**
+   * Using a set of coordinates, find the closest node, check the distance and set it to either the
+   * beginning or ending
+   *
+   * @param x        the x coordinate
+   * @param y        the y coordinate
+   * @param selector the selector to set it to
+   * @param location the node to set it to
+   */
+  private void selectNearestNode(int x, int y, NodeSelector selector, Node location) {
     double distance = Double.MAX_VALUE;
     Node closestNode = null;
 
@@ -457,33 +484,10 @@ public class FindPathViewModel extends ViewModelBase {
 
     // See if the closest node is within a set distance to be set
     if (closestNode != null && distance < 75) {
-      if (beginning == null) {
-        startLocation.setTextWithoutPopup(String.format("(%s/%s) %s",
-            closestNode.getFloor(), closestNode.getBuilding(), closestNode.getLongName()));
-        System.out.println("Set start: " + closestNode.getNodeID());
-        beginning = closestNode;
-      } else {
-        stopLocation.setTextWithoutPopup(String.format("(%s/%s) %s",
-            closestNode.getFloor(), closestNode.getBuilding(), closestNode.getLongName()));
-        System.out.println("Set finish: " + closestNode.getNodeID());
-        finish = closestNode;
-      }
-    }
-  }
-
-  private void setupDirectory() {
-    AnchorPane directory = new AnchorPane();
-    directory.getChildren().add(new JFXButton("Test"));
-    directory.getStyleClass().add("red-400");
-    directoryPane.setSidePane(directory);
-  }
-
-  @FXML
-  private void openDirectory() {
-    if (directoryPane.isOpened()) {
-      directoryPane.close();
-    } else {
-      directoryPane.open();
+      selector.setTextWithoutPopup(String.format("(%s/%s) %s",
+          closestNode.getFloor(), closestNode.getBuilding(), closestNode.getLongName()));
+      System.out.println("Set: " + closestNode.getNodeID());
+      location = closestNode;
     }
   }
 
