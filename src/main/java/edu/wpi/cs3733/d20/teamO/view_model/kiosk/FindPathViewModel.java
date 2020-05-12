@@ -659,7 +659,9 @@ public class FindPathViewModel extends ViewModelBase {
    */
   private boolean findPathToNearest(String type, boolean sameFloorOnly,
       String shortNameSupplement) {
-    nodeMapViewController.deleteNode(finish);
+    if (finish != null) {
+      nodeMapViewController.deleteNode(finish);
+    }
     val nearestNode = getNearest(type, sameFloorOnly, shortNameSupplement);
     if (nearestNode == null) {
       return false;
