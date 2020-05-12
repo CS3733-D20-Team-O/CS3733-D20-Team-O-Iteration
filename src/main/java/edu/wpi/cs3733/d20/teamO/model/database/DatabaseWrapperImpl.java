@@ -127,13 +127,13 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EMPLOYEE_TABLE, e);
       }
-      if (addEmployee("0", "", "", "", false) != 1) {
+      if (addEmployee("0", "", "nullEmp", "", false) != 1) {
         log.error("Failed to add the null employee!");
       }
-      if (addEmployee("admin", "admin", "admin", "admin", false) != 1) {
+      if (addEmployee("admin", "admin", "start", "admin", false) != 1) {
         log.error("Failed to add the admin employee!");
       }
-      if (addEmployee("staff", "staff", "staff", "staff", false) != 1) {
+      if (addEmployee("staff", "staff", "start", "staff", false) != 1) {
         log.error("Failed to add the staff employee!");
       }
     }
@@ -397,7 +397,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       val affected = stmt.executeUpdate();
       log.info("Deleted " + affected + " record(s) from " + table.getTableName());
       log.debug("Result of deletion was " + affected);
-      //for()
       addEmployee("0", "", "", "", false); // add null back if removed
       addEmployee("admin", "admin", "admin", "admin", false); //add admin back if removed
       addEmployee("staff", "staff", "staff", "staff", false);
