@@ -187,6 +187,7 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
+    lastNode = null;
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     nodeMapViewController.deleteNode(beginning);
@@ -322,6 +323,7 @@ public class FindPathViewModel extends ViewModelBase {
     val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     if (lastNode == null) {
       lastNode = beginning;
+      dispatch(new FloorSwitchEvent(lastNode.getFloor(), lastNode.getBuilding()));
     }
     if (!lastNode.getFloor().equals(nodes.get(number - 1).getFloor()) || !lastNode.getBuilding()
         .equals(nodes.get(number - 1).getBuilding())) {
