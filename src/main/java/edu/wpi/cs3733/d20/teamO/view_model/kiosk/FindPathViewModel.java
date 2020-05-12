@@ -5,8 +5,6 @@ import static com.jfoenix.controls.JFXButton.ButtonType.RAISED;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
@@ -62,8 +60,6 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private AnchorPane sideBar;
   @FXML
-  private JFXSlider zoomSlider;
-  @FXML
   private NodeSelector startLocation, stopLocation;
   @FXML
   private JFXButton handicap, stairsOnly;
@@ -71,10 +67,8 @@ public class FindPathViewModel extends ViewModelBase {
   private JFXColorPicker colorPicker;
   @FXML
   private HBox mapSwitcherButtons;
-  @FXML
-  private JFXDrawer directoryPane;
 
-  private Map<String, Node> nodeMap, handicapMap, stairsMap;
+  private Map<String, Node> nodeMap, handicapMap, stairsMap, previewMap;
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
   private final Dialog dialog;
@@ -105,6 +99,7 @@ public class FindPathViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
     handicapMap = new HashMap<>();
     stairsMap = new HashMap<>();
+    previewMap = new HashMap<>();
 
     currentState = AccessabilityState.NONE;
 
@@ -139,9 +134,8 @@ public class FindPathViewModel extends ViewModelBase {
       nodeMapViewController.draw();
       drawPath();
     });
-    nodeMapViewController.setOnMissRightTapListener((x, y) -> {
-      checkNearestNodeSelect(x, y);
-    });
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> selectNearestNode(x, y));
+    nodeMapViewController.setOnNodeRightTapListener(node -> selectNode(node));
 
     startLocation.setNodes(nodeMap.values());
     stopLocation.setNodes(nodeMap.values());
@@ -205,6 +199,8 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
+    clearPreview(); // Clear the preview
+
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
@@ -429,65 +425,129 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   /**
-   * Check which of the textboxes is selected and send coordinates to check for a node to set to
-   * that textbox
+   * Using a set of coordinates, find the closest node, check the distance and set it to either the
+   * beginning or ending
    *
    * @param x the x coordinate
    * @param y the y coordinate
    */
-  private void checkNearestNodeSelect(int x, int y) {
-
-    // Get the focus of the scene
-    val scene = startLocation.getScene();
-    val focus = scene.getFocusOwner();
-
-    if (focus.equals(startLocation)) {
-      System.out.println("Set start");
-      selectNearestNode(x, y, startLocation, beginning);
-    } else if (focus.equals(stopLocation)) {
-      System.out.println("Set end");
-      selectNearestNode(x, y, stopLocation, finish);
-    } else {
-      snackBar.show("Error: Please select one of the textboxes to set a node to!");
-    }
-  }
-
-  /**
-   * Using a set of coordinates, find the closest node, check the distance and set it to either the
-   * beginning or ending
-   *
-   * @param x        the x coordinate
-   * @param y        the y coordinate
-   * @param selector the selector to set it to
-   * @param location the node to set it to
-   */
-  private void selectNearestNode(int x, int y, NodeSelector selector, Node location) {
+  private void selectNearestNode(int x, int y) {
     double distance = Double.MAX_VALUE;
     Node closestNode = null;
+    val distanceMap = new HashMap<Node, Double>();
+    val selector = getSelector();
+
+    if (selector == null) { // If a selector isn't selected, then stop
+      snackBar.show("Error: Please select one of the textboxes to set a node to!");
+      return;
+    }
+
+    clearPreview(); // Clear the preview
 
     // Find the node that's closest on the current floor and building
     for (Node node : nodeMap.values()) {
       if (node.getFloor().equals(nodeMapViewController.getFloor()) && node.getBuilding()
           .equals(nodeMapViewController.getBuilding())) {
 
-        val legX = Math.abs(x - node.getXCoord());
-        val legY = Math.abs(y - node.getYCoord());
-        val hypoX = Math.pow(legX, 2);
-        val hypoY = Math.pow(legY, 2);
-
-        if (Math.sqrt(hypoX + hypoY) < distance) {
+        val nodeDistance = getDistance(x, y, node.getXCoord(), node.getYCoord());
+        if (nodeDistance < distance) { // Update the node and distance if needed
           closestNode = node;
-          distance = Math.sqrt(hypoX + hypoY);
+          distance = nodeDistance;
         }
+
+        // Place in a distance map (used to look through nodes when the node/distance is beyond
+        // the threshold)
+        distanceMap.put(node, nodeDistance);
       }
     }
 
-    // See if the closest node is within a set distance to be set
-    if (closestNode != null && distance < 75) {
+    if (closestNode != null && distance < 75) { // Check if the node is within a set distance
       selector.setTextWithoutPopup(String.format("(%s/%s) %s",
           closestNode.getFloor(), closestNode.getBuilding(), closestNode.getLongName()));
-      System.out.println("Set: " + closestNode.getNodeID());
-      location = closestNode;
+
+    } else { // Show preview nodes
+      // Set preview node colors
+      nodeMapViewController.setNodeColor(Color.AQUA);
+      nodeMapViewController.setNodeOutlineColor(Color.BLUE);
+
+      int z = 0;
+      while (z < 5) { // Print the 5 closest nodes
+        distance = Double.MAX_VALUE;
+        closestNode = null;
+
+        // Find the closest node
+        for (Map.Entry<Node, Double> entry : distanceMap.entrySet()) {
+          val nodeDistance = getDistance(x, y, entry.getKey().getXCoord(),
+              entry.getKey().getYCoord());
+          if (nodeDistance < distance) { // Update the node and distance if needed
+            closestNode = entry.getKey();
+            distance = nodeDistance;
+          }
+        }
+
+        if (closestNode != null) { // If there is a node
+          if (!closestNode.equals(beginning) && !closestNode
+              .equals(finish)) { // If the nodes isn't the starting or ending node
+            nodeMapViewController.addNode(closestNode);
+            previewMap
+                .put(closestNode.getNodeID(), closestNode); // Place the node into the preview map
+            z++; // Only increment z if it wasn't the starting or ending node
+          }
+          distanceMap.remove(closestNode);
+
+        } else { // No more nodes, break
+          break;
+        }
+      }
+
+      // Reset colors
+      nodeMapViewController.setNodeColor(Color.GREENYELLOW);
+      nodeMapViewController.setNodeOutlineColor(Color.web("#00991f"));
+    }
+  }
+
+  private void selectNode(Node node) {
+    // If this node is part of the preview, set it
+    // Else, it must be part of the node path, don't do anything then
+    if (previewMap.containsValue(node)) {
+      val selector = getSelector();
+      if (selector == null) { // If a selector isn't selected, then stop
+        snackBar.show("Error: Please select one of the textboxes to set a node to!");
+        return;
+      }
+
+      clearPreview();
+      selector.setTextWithoutPopup(String.format("(%s/%s) %s",
+          node.getFloor(), node.getBuilding(), node.getLongName()));
+    }
+  }
+
+  private NodeSelector getSelector() {
+    val scene = startLocation.getScene();
+    val focus = scene.getFocusOwner();
+
+    if (focus.equals(startLocation)) {
+      System.out.println("Set start");
+      return startLocation;
+    } else if (focus.equals(stopLocation)) {
+      System.out.println("Set end");
+      return stopLocation;
+    }
+
+    return null;
+  }
+
+  private double getDistance(double x1, double y1, double x2, double y2) {
+    val legX = Math.abs(x1 - x2);
+    val legY = Math.abs(y1 - y2);
+    val hypoX = Math.pow(legX, 2);
+    val hypoY = Math.pow(legY, 2);
+    return Math.sqrt(hypoX + hypoY);
+  }
+
+  private void clearPreview() {
+    for (Node node : previewMap.values()) {
+      nodeMapViewController.deleteNode(node);
     }
   }
 
