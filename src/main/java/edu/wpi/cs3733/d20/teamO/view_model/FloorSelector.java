@@ -21,6 +21,7 @@ public class FloorSelector extends ViewModelBase {
   private static final String unselectedStyle = "-fx-background-color: lightgray; -fx-background-radius: 30;";
   private static final String selectedStyle = "-fx-background-color: lightseagreen; -fx-background-radius: 30;";
 
+
   /**
    * Sets the floor of the application
    */
@@ -75,5 +76,38 @@ public class FloorSelector extends ViewModelBase {
     target.setStyle(selectedStyle);
     floor = "1";
     dispatch(new FloorSwitchEvent(floor, building));
+  }
+
+  public void styleButtons(String building, String floor) {
+    if (building.equals("Faulkner")) {
+      this.building = faulkner;
+
+      faulknerBtn.setStyle(selectedStyle);
+      mainCampusBtn.setStyle(unselectedStyle);
+      faulknerBtns.setVisible(true);
+      mainCampusBtns.setVisible(false);
+      for (val n : faulknerBtns.getChildren()) {
+        val button = (JFXButton) n;
+        if (button.getText().equals(floor)) {
+          button.setStyle(selectedStyle);
+        } else {
+          button.setStyle(unselectedStyle);
+        }
+      }
+    } else {
+      this.building = main;
+      faulknerBtn.setStyle(unselectedStyle);
+      mainCampusBtn.setStyle(selectedStyle);
+      faulknerBtns.setVisible(false);
+      mainCampusBtns.setVisible(true);
+      for (val n : mainCampusBtns.getChildren()) {
+        val button = (JFXButton) n;
+        if (button.getText().equals(floor)) {
+          button.setStyle(selectedStyle);
+        } else {
+          button.setStyle(unselectedStyle);
+        }
+      }
+    }
   }
 }
