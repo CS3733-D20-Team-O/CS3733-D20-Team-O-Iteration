@@ -31,6 +31,10 @@ public class EmployeeHandlerViewModel extends ViewModelBase {
   @FXML
   private TableView<Employee> employeeTable;
 
+  public TableView<Employee> getEmployeeTable() {
+    return employeeTable;
+  }
+
   @Override
   protected void start(URL location, ResourceBundle resources) {
     updateDisplays();
@@ -66,10 +70,10 @@ public class EmployeeHandlerViewModel extends ViewModelBase {
     if (!(emp == null)) {
       database
           .deleteFromTable(Table.EMPLOYEE_TABLE, EmployeeProperty.EMPLOYEE_ID, emp.getEmployeeID());
+      updateDisplays();
     } else {
       snackBar.show("Select an employee to delete");
     }
-    updateDisplays();
   }
 
   @FXML
@@ -79,13 +83,13 @@ public class EmployeeHandlerViewModel extends ViewModelBase {
         val viewModel = (UpdateEmployeeViewModel) dialog
             .showFullscreenFXML("views/admin/UpdateEmployee.fxml");
         viewModel.init(getSelectedEmployee(), this);
+        updateDisplays();
       } else {
         snackBar.show("Select an employee to update");
       }
     } catch (IOException e) {
       log.error("Failed to open", e);
     }
-    updateDisplays();
   }
 
   Employee getSelectedEmployee() {

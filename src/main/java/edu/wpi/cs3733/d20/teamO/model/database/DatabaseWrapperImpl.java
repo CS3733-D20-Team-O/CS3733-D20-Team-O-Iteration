@@ -397,7 +397,6 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       val affected = stmt.executeUpdate();
       log.info("Deleted " + affected + " record(s) from " + table.getTableName());
       log.debug("Result of deletion was " + affected);
-      //for()
       addEmployee("0", "", "", "", false); // add null back if removed
       addEmployee("admin", "admin", "admin", "admin", false); //add admin back if removed
       addEmployee("staff", "staff", "staff", "staff", false);

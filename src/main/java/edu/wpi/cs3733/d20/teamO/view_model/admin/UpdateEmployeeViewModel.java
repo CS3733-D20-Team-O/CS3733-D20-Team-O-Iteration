@@ -51,7 +51,10 @@ public class UpdateEmployeeViewModel extends DialogViewModel {
         EmployeeProperty.EMPLOYEE_ID, id);
   }
 
-  private boolean checkID(String id) { //if ID is in database return false
+  /**
+   * If ID is in database return false
+   */
+  private boolean checkID(String id) {
     if (!id.equals(oldEmpID)) {
       for (val e : database.exportEmployees()) {
         if (e.getEmployeeID().equals(id)) {
@@ -70,7 +73,6 @@ public class UpdateEmployeeViewModel extends DialogViewModel {
             types.getSelectionModel().getSelectedItem());
         snackBar.show("Employee successfully updated");
         theEmpVM.updateDisplays();
-        close();
       } else {
         snackBar.show("Employee ID already exists in database");
       }

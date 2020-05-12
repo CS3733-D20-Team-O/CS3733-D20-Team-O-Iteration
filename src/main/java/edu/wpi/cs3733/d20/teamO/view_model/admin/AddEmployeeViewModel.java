@@ -33,7 +33,10 @@ public class AddEmployeeViewModel extends DialogViewModel {
     database.addEmployee(id, name, type, password, true);
   }
 
-  private boolean checkID(String id) { //if ID is in database return false
+  /**
+   * If ID is in database return false
+   */
+  private boolean checkID(String id) {
     for (val e : database.exportEmployees()) {
       if (e.getEmployeeID().equals(id)) {
         return false;
@@ -50,7 +53,10 @@ public class AddEmployeeViewModel extends DialogViewModel {
             newPassword.getText());
         snackBar.show("Employee successfully added");
         theEmpVM.updateDisplays();
-        close();
+        newName.clear();
+        newID.clear();
+        newPassword.clear();
+        types.getSelectionModel().clearSelection();
       } else {
         snackBar.show("Employee ID already exists in database");
       }
