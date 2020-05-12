@@ -3,17 +3,23 @@ package edu.wpi.cs3733.d20.teamO.view_model;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import java.util.Arrays;
-import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.TilePane;
 import lombok.val;
 
 public class FloorSelector extends ViewModelBase {
 
   @FXML
-  private JFXButton floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn, faulknerBtn, mainCampusBtn, streetBtn;
+  private JFXButton faulkner1, faulkner2, faulkner3, faulkner4, faulkner5, mainL1, mainL2, mainG, main1, main2, main3, faulknerBtn, mainCampusBtn;
+  @FXML
+  private TilePane faulknerBtns, mainCampusBtns;
   private String floor = "1";
   private String building = "Faulkner";
+  private static final String faulkner = "Faulkner";
+  private static final String main = "Main Campus";
+  private static final String unselectedStyle = "-fx-background-color: lightgray; -fx-background-radius: 30;";
+  private static final String selectedStyle = "-fx-background-color: lightseagreen; -fx-background-radius: 30;";
 
   /**
    * Sets the floor of the application
@@ -22,11 +28,21 @@ public class FloorSelector extends ViewModelBase {
   private void setFloor(ActionEvent event) {
     val target = (JFXButton) event.getSource();
     floor = target.getText();
-    for (JFXButton btn : Arrays
-        .asList(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn)) {
-      btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
+    switch (building) {
+      case (faulkner):
+        for (JFXButton btn : Arrays
+            .asList(faulkner1, faulkner2, faulkner3, faulkner4, faulkner5)) {
+          btn.setStyle(unselectedStyle);
+        }
+        break;
+      case (main):
+        for (JFXButton btn : Arrays
+            .asList(mainL2, mainL1, mainG, main1, main2, main3)) {
+          btn.setStyle(unselectedStyle);
+        }
+        break;
     }
-    target.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
+    target.setStyle(selectedStyle);
     dispatch(new FloorSwitchEvent(floor, building));
   }
 
@@ -37,32 +53,26 @@ public class FloorSelector extends ViewModelBase {
     val target = (JFXButton) event.getSource();
     building = target.getText();
     switch (building) {
-      case ("Faulkner"):
-        Stream.of(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn)
-            .forEach(btn -> btn.setDisable(false));
-        Stream.of(L1Btn, L2Btn, GBtn).forEach(btn -> btn.setDisable(true));
+      case (faulkner):
+        for (JFXButton btn : Arrays
+            .asList(faulkner2, faulkner3, faulkner4, faulkner5, mainCampusBtn)) {
+          btn.setStyle(unselectedStyle);
+        }
+        faulkner1.setStyle(selectedStyle);
+        faulknerBtns.setVisible(true);
+        mainCampusBtns.setVisible(false);
         break;
-      case ("Street"):
-        Stream.of(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn)
-            .forEach(btn -> btn.setDisable(true));
-        break;
-      case ("Main Campus"):
-        floor5Btn.setDisable(true);
-        floor4Btn.setDisable(true);
-        Stream.of(L1Btn, L2Btn, GBtn, floor1Btn, floor2Btn, floor3Btn)
-            .forEach(btn -> btn.setDisable(false));
+      case (main):
+        for (JFXButton btn : Arrays
+            .asList(main2, main3, mainG, mainL1, mainL2, faulknerBtn)) {
+          btn.setStyle(unselectedStyle);
+        }
+        main1.setStyle(selectedStyle);
+        mainCampusBtns.setVisible(true);
+        faulknerBtns.setVisible(false);
         break;
     }
-    for (JFXButton btn : Arrays
-        .asList(floor1Btn, floor2Btn, floor3Btn, floor4Btn, floor5Btn, L1Btn, L2Btn, GBtn,
-            faulknerBtn,
-            mainCampusBtn, streetBtn)) {
-      btn.setStyle("-fx-background-color: lightgray; -fx-background-radius: 30;");
-    }
-    target.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
-    if (!building.equals("Street")) {
-      floor1Btn.setStyle("-fx-background-color: lightseagreen; -fx-background-radius: 30;");
-    }
+    target.setStyle(selectedStyle);
     floor = "1";
     dispatch(new FloorSwitchEvent(floor, building));
   }

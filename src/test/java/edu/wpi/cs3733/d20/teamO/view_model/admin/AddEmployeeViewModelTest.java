@@ -1,15 +1,17 @@
-package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
+package edu.wpi.cs3733.d20.teamO.view_model.admin;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import edu.wpi.cs3733.d20.teamO.Main;
-import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
-import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
+import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
+import edu.wpi.cs3733.d20.teamO.model.material.Validator;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,24 +29,24 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
-class HowToUseKioskTest extends FxRobot {
+public class AddEmployeeViewModelTest extends FxRobot {
 
   @Mock
-  EventBus eventBus;
+  EventBus eventbus;
   @Mock
-  LanguageHandler languageHandler;
+  DatabaseWrapper database;
   @Mock
-  Navigator navigator;
+  SnackBar snackbar;
   @Mock
-  SnackBar snackBar;
+  Validator validator;
+  @InjectMocks
+  AddEmployeeViewModel viewModel;
+  @Mock
+  EmployeeHandlerViewModel empViewModel;
   @Mock
   Dialog dialog;
-
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
-
-  @InjectMocks
-  HowToUseKiosk viewModel;
 
   @Start
   public void start(Stage stage) throws IOException {
@@ -52,17 +54,33 @@ class HowToUseKioskTest extends FxRobot {
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
     stage.setScene(new Scene(loader.load(Main.class
-        .getResourceAsStream("views/kiosk/HowToUseKiosk.fxml"))));
+        .getResourceAsStream("views/admin/AddEmployee.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }
 
   @Test
-  public void testClick() throws IOException {
-    //Tests Opening Dialogs
-    clickOn("About Path Finding");
-    clickOn("About Service Requests");
-    clickOn("About Miscellaneous Features");
-    verify(dialog, times(3)).showFullscreenFXML(any());
+  public void addEmployee() {
+    when(validator.validate(any())).thenReturn(true);
+    clickOn("Full Name");
+    write("Steve");
+    clickOn("Employee Type");
+    clickOn("Admin");
+    clickOn("Employee ID");
+    write("stevec");
+    clickOn("Password");
+    write("hello");
+    clickOn("Confirm");
+    verify(database, times(1)).addEmployee("stevec", "Steve", "Admin", "hello", true);
+    verify(snackbar, times(1)).show(anyString());
   }
+
+  @Test
+  public void addNoEmployee() {
+    clickOn("Confirm");
+    verify(validator, times(1)).validate(any());
+    verify(database, times(0)).addEmployee("stevec", "Steve", "Admin", "hello", true);
+    verify(snackbar, times(0)).show(anyString());
+  }
+
 }

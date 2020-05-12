@@ -1,11 +1,14 @@
 package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
+import static com.jfoenix.controls.JFXButton.ButtonType.RAISED;
+
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXSlider;
-import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
+import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
@@ -20,6 +23,7 @@ import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction.Icon;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
+import edu.wpi.cs3733.d20.teamO.view_model.StreetViewViewModel;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,12 +32,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +49,12 @@ import lombok.val;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class FindPathViewModel extends ViewModelBase {
+
+  private enum AccessabilityState {
+    NONE, HANDICAP, STAIR
+  }
+
+  private AccessabilityState currentState;
 
   @FXML
   private Pane clipper;
@@ -55,23 +67,35 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private NodeSelector startLocation, stopLocation;
   @FXML
-  private JFXToggleButton handicap;
+  private JFXButton handicap, stairsOnly;
   @FXML
   private JFXColorPicker colorPicker;
+  @FXML
+  private HBox mapSwitcherButtons, nodeMapContainer;
+  @FXML
+  private VBox streetMapContainer;
 
 
-  private Map<String, Node> nodeMap, handicapMap;
+  @FXML
+  private StreetViewViewModel streetViewViewModelController;
+
+  private Map<String, Node> nodeMap, handicapMap, stairsMap;
   private final DatabaseWrapper database;
   private Node beginning, finish, defaultStart, defaultStop;
   private final Dialog dialog;
   private final SnackBar snackBar;
   private Color color = Color.web("fd8842");
 
+  private final String colorProperty = "-fx-background-color: ";
+  private final String handicapHighlight = "dodgerblue;";
+  private final String stairsHighlight = "seagreen;";
+  private final String notSelected = "lightgray;";
   private final SelectedPathFinder pathFinder;
 
   @Override
   public void onEvent(Event event) {
     if (event instanceof RedrawEvent) {
+      mapSwitcherButtons.getChildren().clear();
       drawPath();
     }
   }
@@ -85,6 +109,9 @@ public class FindPathViewModel extends ViewModelBase {
   @Override
   protected void start(URL location, ResourceBundle resources) {
     handicapMap = new HashMap<>();
+    stairsMap = new HashMap<>();
+
+    currentState = AccessabilityState.NONE;
 
     val clipRect = new Rectangle();
     clipRect.widthProperty().bind(clipper.widthProperty());
@@ -95,6 +122,7 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMap = database.exportNodes();
     handicapMap = new HashMap<>();
     createHandicap();
+    createStairsOnly();
     defaultStart = (Node) nodeMap.values().toArray()[0];
     defaultStop = (Node) nodeMap.values().toArray()[0];
     beginning = defaultStart;
@@ -103,12 +131,14 @@ public class FindPathViewModel extends ViewModelBase {
     nodeMapViewController.setEdgeMovement(true);
 
     startLocation.setOnNodeSelectedListener(node -> {
+      mapSwitcherButtons.getChildren().clear();
       nodeMapViewController.deleteNode(beginning);
       beginning = node;
       nodeMapViewController.draw();
       drawPath();
     });
     stopLocation.setOnNodeSelectedListener(node -> {
+      mapSwitcherButtons.getChildren().clear();
       nodeMapViewController.deleteNode(finish);
       finish = node;
       nodeMapViewController.draw();
@@ -142,11 +172,29 @@ public class FindPathViewModel extends ViewModelBase {
     }
   }
 
+  public void createStairsOnly() {
+    //create the map of nodes without edges
+    for (Node node : nodeMap.values()) {
+      if (!node.getNodeType().equals("ELEV")) {
+        val newNode = node.withNeighbors(new LinkedList<>());
+        stairsMap.put(newNode.getNodeID(), newNode);
+      }
+    }
+    //populate only edges that still exists
+    for (Edge edge : database.exportEdges()) {
+      if (stairsMap.containsKey(edge.getStartID()) && stairsMap.containsKey(edge.getStopID())) {
+        stairsMap.get(edge.getStartID()).getNeighbors().add(stairsMap.get(edge.getStopID()));
+        stairsMap.get(edge.getStopID()).getNeighbors().add(stairsMap.get(edge.getStartID()));
+      }
+    }
+  }
+
   /**
    * resets the path
    */
   @FXML
   void resetPath() {
+    mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     nodeMapViewController.deleteNode(beginning);
     nodeMapViewController.deleteNode(finish);
@@ -154,36 +202,42 @@ public class FindPathViewModel extends ViewModelBase {
     finish = defaultStop;
     stopLocation.clear();
     startLocation.clear();
+    nodeMapViewController.clearText();
     nodeMapViewController.draw();
   }
 
-  @FXML
-  public void setZoom() {
-    nodeMapViewController.zoom(zoomSlider.getValue() / 100);
-  }
-
-  @FXML
-  public void zoomOutPressed() {
-    zoomSlider.decrement();
-    setZoom();
-  }
-
-  @FXML
-  public void zoomInPressed() {
-    zoomSlider.increment();
-    setZoom();
-  }
-
   private void drawPath() {
+    if (beginning.getBuilding().equals("Faulkner")) {
+      streetViewViewModelController.goToMainCampus();
+    } else {
+      streetViewViewModelController.goToFaulkner();
+    }
+    mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    List<String> floorsCrossed = getPathFloors(nodes);
+    for (int i = 0; i < floorsCrossed.size(); i++) {
+      val button = new JFXButton();
+      button.setButtonType(RAISED);
+      button.setText("Step " + (i + 1) + "\n" + floorsCrossed.get(i));
+      button.setOnAction(event -> miniMapButtons(event));
+      button.setStyle("-fx-background-color: lightgray");
+      mapSwitcherButtons.getChildren().add(button);
+    }
+    nodeMapViewController.clearText();
     nodeMapViewController.addNode(beginning);
     nodeMapViewController.addNode(finish);
-    nodeMapViewController
-        .addText(beginning.getXCoord(), beginning.getYCoord(), beginning.getLongName(),
-            "-fx-background-color:lightgray");
-    nodeMapViewController.addText(finish.getXCoord(), finish.getYCoord(), finish.getLongName(),
-        "-fx-background-color:lightgray");
+    if (beginning.getFloor().equals(nodeMapViewController.getFloor()) && beginning.getBuilding()
+        .equals(nodeMapViewController.getBuilding())) {
+      nodeMapViewController
+          .addText(beginning.getXCoord(), beginning.getYCoord(), beginning.getLongName(),
+              "-fx-background-color:lightgray");
+    }
+    if (finish.getFloor().equals(nodeMapViewController.getFloor()) && finish.getBuilding()
+        .equals(nodeMapViewController.getBuilding())) {
+      nodeMapViewController.addText(finish.getXCoord(), finish.getYCoord(), finish.getLongName(),
+          "-fx-background-color:lightgray");
+    }
 
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
@@ -191,16 +245,48 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   @FXML
-  public void switchAccessibility() {
+  private void switchAccessibility(ActionEvent event) {
     resetPath();
-    if (handicap.isSelected()) {
-      startLocation.setNodes(handicapMap.values());
-      stopLocation.setNodes(handicapMap.values());
-      System.out.println("HandicapMode");
-    } else {
-      startLocation.setNodes(nodeMap.values());
-      stopLocation.setNodes(nodeMap.values());
+    switch (currentState) {
+      case NONE:
+        if (event.getSource().equals(handicap)) {
+          updateMapAndState(AccessabilityState.HANDICAP, handicapMap);
+          handicap.setStyle(colorProperty + handicapHighlight);
+        } else {
+          updateMapAndState(AccessabilityState.STAIR, stairsMap);
+          stairsOnly.setStyle(colorProperty + stairsHighlight);
+        }
+        break;
+      case HANDICAP:
+        if (event.getSource().equals(handicap)) {
+          updateMapAndState(AccessabilityState.NONE, nodeMap);
+          handicap.setStyle(colorProperty + notSelected);
+        } else {
+          updateMapAndState(AccessabilityState.STAIR, stairsMap);
+          stairsOnly.setStyle(colorProperty + stairsHighlight);
+          handicap.setStyle(colorProperty + notSelected);
+        }
+        break;
+      case STAIR:
+        if (event.getSource().equals(handicap)) {
+          updateMapAndState(AccessabilityState.HANDICAP, handicapMap);
+          handicap.setStyle(colorProperty + handicapHighlight);
+          stairsOnly.setStyle(colorProperty + notSelected);
+        } else {
+          updateMapAndState(AccessabilityState.NONE, nodeMap);
+          stairsOnly.setStyle(colorProperty + notSelected);
+        }
+        break;
+      default:
+        snackBar.show("Error: unable to set accessibility mode");
     }
+
+  }
+
+  private void updateMapAndState(AccessabilityState newState, Map<String, Node> newMap) {
+    startLocation.setNodes(newMap.values());
+    stopLocation.setNodes(newMap.values());
+    currentState = newState;
   }
 
   @FXML
@@ -369,6 +455,49 @@ public class FindPathViewModel extends ViewModelBase {
     return 0xFF000000 | R | G | B;
   }
 
+  @FXML
+  public void reversePath() {
+    val change = beginning;
+    beginning = finish;
+    finish = change;
+    nodeMapViewController.draw();
+    if (beginning != null && finish != null) {
+      startLocation.setTextWithoutPopup(beginning.getLongName());
+      stopLocation.setTextWithoutPopup(finish.getLongName());
+    }
+    drawPath();
+  }
+
+  private List<String> getPathFloors(List<Node> path) {
+    List<String> floors = new LinkedList<>();
+    String currentFloor = null;
+    String currentBuilding = null;
+    for (Node n : path) {
+      if (!n.getFloor().equals(currentFloor) || !n.getBuilding().equals(currentBuilding)) {
+        currentFloor = n.getFloor();
+        currentBuilding = n.getBuilding();
+        floors.add(currentBuilding + ", Floor " + currentFloor);
+      }
+    }
+    return floors;
+  }
+
+  private void miniMapButtons(ActionEvent event) {
+    String fullName = ((JFXButton) event.getSource()).getText();
+    fullName = fullName.split("\n")[1];
+    String building = fullName.split(", Floor ")[0];
+    String floor = fullName.split(", Floor ")[1];
+
+    if (building.equals("Street")) {
+      nodeMapContainer.setVisible(false);
+      streetMapContainer.setVisible(true);
+    } else {
+      dispatch(new FloorSwitchEvent(floor, building));
+      nodeMapContainer.setVisible(true);
+      streetMapContainer.setVisible(false);
+    }
+  }
+
   /**
    * gets the closest node of provided type to beginning
    *
@@ -394,7 +523,7 @@ public class FindPathViewModel extends ViewModelBase {
           return current;
         }
         for (val n : current.getNeighbors()) {
-          if (!beenTo.contains(n) && n.getFloor().equals(beginning.getFloor())) {
+          if (!beenTo.contains(n)) {
             nodes.add(n);
             beenTo.add(n);
           }
