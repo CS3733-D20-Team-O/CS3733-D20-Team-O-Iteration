@@ -30,7 +30,7 @@
   </StackPane>
 
   <!-- Colorblind Toggle -->
-  <AnchorPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="75">
+  <AnchorPane AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="75">
     <fx:include source="/edu/wpi/cs3733/d20/teamO/views/ColorblindToggle.fxml"></fx:include>
   </AnchorPane>
 

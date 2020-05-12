@@ -8,6 +8,8 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.d20.teamO.Navigator;
+import edu.wpi.cs3733.d20.teamO.events.CSSSwitchEvent;
+import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
@@ -180,5 +182,13 @@ public class MainKioskViewModel extends ViewModelBase {
     }
     // If we didn't return in the for loop, that means the request isn't in the database
     snackBar.show(getString("serviceRequestLookupFail"));
+  }
+
+  public void onEvent(Event event) {
+    if (event.getClass().equals(CSSSwitchEvent.class)) {
+      String path = ((CSSSwitchEvent) event).getPath();
+      System.out.println("Clicked");
+      // todo set the CSS to path
+    }
   }
 }
