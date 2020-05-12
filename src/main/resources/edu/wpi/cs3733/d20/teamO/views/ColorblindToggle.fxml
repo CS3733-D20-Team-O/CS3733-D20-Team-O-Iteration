@@ -15,7 +15,7 @@
         <Image url="@/colorPalette.png"/>
       </image>
     </ImageView>
-    <JFXComboBox onAction="#selectColors" prefHeight="10.0" prefWidth="0.0"
+    <JFXComboBox fx:id="colorPicker" onAction="#selectColor" prefHeight="10.0" prefWidth="0.0"
       stylesheets="@/CSS/ColorblindToggleCSS.css">
       <items>
         <FXCollections fx:factory="observableArrayList">
