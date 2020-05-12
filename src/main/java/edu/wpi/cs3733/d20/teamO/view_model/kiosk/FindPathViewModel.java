@@ -99,8 +99,11 @@ public class FindPathViewModel extends ViewModelBase {
       mapSwitcherButtons.getChildren().clear();
       drawPath();
       for (javafx.scene.Node n : mapSwitcherButtons.getChildren()) {
-        if (((JFXButton) n).getText().contains(nodeMapViewController.getFloor()) &&
-            ((JFXButton) n).getText().contains(nodeMapViewController.getBuilding())) {
+        if (((JFXButton) n).getText().split("\n")[1].contains(nodeMapViewController.getFloor()) &&
+            ((JFXButton) n).getText().split("\n")[1]
+                .contains(nodeMapViewController.getBuilding())) {
+          (n).setStyle("-fx-background-color: dodgerblue");
+        } else if (streetMapContainer.isVisible() && ((JFXButton) n).getText().contains("Street")) {
           (n).setStyle("-fx-background-color: dodgerblue");
         } else {
           n.setStyle("-fx-background-color: lightgray");
@@ -339,6 +342,7 @@ public class FindPathViewModel extends ViewModelBase {
           nodeMapContainer.setVisible(false);
           streetMapContainer.setVisible(true);
           lastNode = new Node("0", 0, 0, "1", "street", "HALL", "Street", "street");
+          dispatch(new FloorSwitchEvent("1", "Street"));
         });
         scrollPaneInstructions.getChildren().add(departButton);
         number++;
@@ -349,6 +353,7 @@ public class FindPathViewModel extends ViewModelBase {
           nodeMapContainer.setVisible(false);
           streetMapContainer.setVisible(true);
           lastNode = new Node("0", 0, 0, "1", "street", "HALL", "Street", "street");
+          dispatch(new FloorSwitchEvent("1", "Street"));
         });
         scrollPaneInstructions.getChildren().add(enterButton);
         number++;
@@ -602,6 +607,7 @@ public class FindPathViewModel extends ViewModelBase {
     String floor = fullName.split(", Floor ")[1];
 
     if (building.equals("Street")) {
+      dispatch(new FloorSwitchEvent(floor, building));
       nodeMapContainer.setVisible(false);
       streetMapContainer.setVisible(true);
     } else {
