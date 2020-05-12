@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO.model.data;
 
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.model.data.db_model.EdgeProperty;
 import edu.wpi.cs3733.d20.teamO.model.data.db_model.EmployeeProperty;
 import edu.wpi.cs3733.d20.teamO.model.data.db_model.NodeProperty;
@@ -52,9 +53,9 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
     this.connection = connection;
     if (init()) {
       val csvHandler = new CSVHandlerImpl(this);
-      csvHandler.importNodes("src/main/resources/CSV/MapOAllnodes (final).csv");
-      csvHandler.importEdges("src/main/resources/CSV/MapOAlledges (final).csv");
-      csvHandler.importEmployees("src/main/resources/CSV/demoEmployees.csv");
+      csvHandler.importNodes(Main.class.getResource("CSV/MapOAllnodes (final).csv").getPath());
+      csvHandler.importEdges(Main.class.getResource("CSV/MapOAlledges (final).csv").getPath());
+      csvHandler.importEmployees(Main.class.getResource("CSV/demoEmployees.csv").getPath());
     }
   }
 
