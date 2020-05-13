@@ -35,6 +35,7 @@ public class Navigator {
   @Getter
   private final IdleDetector idleDetector;
 
+
   @Inject
   public Navigator(Injector injector) {
     this.injector = injector;
