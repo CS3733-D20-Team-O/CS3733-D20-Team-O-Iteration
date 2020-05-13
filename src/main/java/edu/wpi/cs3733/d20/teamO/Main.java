@@ -10,7 +10,7 @@ import edu.wpi.cs3733.d20.teamO.injection_modules.DatabaseModule;
 import edu.wpi.cs3733.d20.teamO.injection_modules.EventBusModule;
 import edu.wpi.cs3733.d20.teamO.injection_modules.FXMLLoaderModule;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseUtilities;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseUtilities;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
 import java.io.IOException;

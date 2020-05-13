@@ -13,6 +13,11 @@
     AnchorPane.rightAnchor="0" AnchorPane.topAnchor="16">
     <Label fx:id="controllerTitle" text="${controller.title}"/>
   </StackPane>
+  <!-- Clock -->
+  <StackPane AnchorPane.leftAnchor="64" AnchorPane.topAnchor="8" AnchorPane.bottomAnchor="8">
+    <fx:include source="/edu/wpi/cs3733/d20/teamO/views/Clock.fxml"/>
+  </StackPane>
+
   <JFXButton onAction="#onBackPressed" AnchorPane.leftAnchor="0"
     AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
     <graphic>

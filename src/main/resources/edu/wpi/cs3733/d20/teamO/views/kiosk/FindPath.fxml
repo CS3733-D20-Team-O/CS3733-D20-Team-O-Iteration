@@ -57,7 +57,7 @@
         </padding>
 
         <!-- Floor Selector -->
-        <HBox alignment="CENTER" prefWidth="200.0" spacing="4.0">
+        <HBox fx:id="floorSelectorContainer" alignment="CENTER" prefWidth="200.0" spacing="4.0">
           <fx:include fx:id="floorSelector"
             source="/edu/wpi/cs3733/d20/teamO/views/FloorSelector.fxml"/>
         </HBox>

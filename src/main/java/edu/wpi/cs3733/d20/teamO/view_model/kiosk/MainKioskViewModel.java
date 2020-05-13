@@ -9,7 +9,7 @@ import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;

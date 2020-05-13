@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.d20.teamO.model.database;
+package edu.wpi.cs3733.d20.teamO.model.data;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

@@ -5,8 +5,8 @@ import static org.mockito.Mockito.when;
 
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
-import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.CSVHandler;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
