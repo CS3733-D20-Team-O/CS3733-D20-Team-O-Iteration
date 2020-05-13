@@ -1,3 +1,9 @@
+/*
+Main Color: 004c8c
+Service Background Color: abc0d4
+Cancel Button Ripple: b90c0c
+ */
+
 /* Nodes that need their colors changed*/
 #welcomeBar {
   -fx-background-color: #004c8c;
@@ -27,6 +33,21 @@
 
 .floorButton:hover {
   -fx-background-color: derive(#004c8c, 110%);
+}
+
+.submitButton {
+  -fx-background-color: #004c8c;
+  -fx-text-fill: floralwhite;
+  -fx-padding: 16;
+  -fx-background-radius: 16;
+  -fx-font-size: 16px;
+  -fx-pref-height: 50;
+  -fx-pref-width: 100;
+}
+
+.cancelButton .jfx-rippler {
+  /*red ripple*/
+  -jfx-rippler-fill: #b90c0c;
 }
 
 .serviceBase {
@@ -76,16 +97,6 @@
   -fx-padding: 8;
 }
 
-.submitButton {
-  -fx-background-color: #004c8c;
-  -fx-text-fill: floralwhite;
-  -fx-padding: 16;
-  -fx-background-radius: 16;
-  -fx-font-size: 16px;
-  -fx-pref-height: 50;
-  -fx-pref-width: 100;
-}
-
 .cancelButton {
   -fx-background-color: gray;
   -fx-text-fill: floralwhite;
@@ -95,12 +106,6 @@
   -fx-pref-height: 50;
   -fx-pref-width: 100;
 }
-
-.cancelButton .jfx-rippler {
-  /*red ripple*/
-  -jfx-rippler-fill: #b90c0c;
-}
-
 
 .serviceBox {
   -fx-padding: 8;

@@ -22,6 +22,18 @@ Cancel Button Ripple: b8150f
   -fx-text-fill: floralwhite;
 }
 
+.pathModeButton:hover {
+  -fx-background-color: derive(#00555a, 110%);
+}
+
+.buildingButton:hover {
+  -fx-background-color: derive(#00555a, 110%);
+}
+
+.floorButton:hover {
+  -fx-background-color: derive(#00555a, 110%);
+}
+
 .submitButton {
   -fx-background-color: #00555a;
   -fx-text-fill: floralwhite;
@@ -32,14 +44,18 @@ Cancel Button Ripple: b8150f
   -fx-pref-width: 100;
 }
 
+.cancelButton .jfx-rippler {
+  /*red ripple*/
+  -jfx-rippler-fill: #b8150f;
+}
+
 .serviceBase {
   -fx-background-color: derive(#a9bfce, 70%);
   -fx-padding: 16;
 }
 
-.cancelButton .jfx-rippler {
-  /*red ripple*/
-  -jfx-rippler-fill: #b8150f;
+.mapPane {
+  -fx-background-color: derive(#a9bfce, 70%);
 }
 
 
@@ -100,4 +116,14 @@ Cancel Button Ripple: b8150f
   -jfx-label-float: true;
   -fx-background-color: floralwhite;
   -fx-padding: 8;
+}
+
+/* Pathfinding Buttons*/
+.pathModeButton {
+  -fx-background-radius: 30;
+  -fx-background-color: floralwhite;
+
+  -fx-border-radius: 30;
+  -fx-border-color: black;
+  -fx-border-width: 1.5;
 }

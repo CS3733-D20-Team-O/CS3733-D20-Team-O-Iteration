@@ -1,10 +1,10 @@
-/*004e88*/
-/* Nodes that need their colors changed*/
 /*
 Main Color: 004e88
 Service Background Color: c2b7d5
 Cancel Button Ripple: ffc250
  */
+
+/* Nodes that need their colors changed*/
 #welcomeBar {
   -fx-background-color: #004e88;
 }
@@ -23,6 +23,18 @@ Cancel Button Ripple: ffc250
   -fx-text-fill: floralwhite;
 }
 
+.pathModeButton:hover {
+  -fx-background-color: derive(#004e88, 110%);
+}
+
+.buildingButton:hover {
+  -fx-background-color: derive(#004e88, 110%);
+}
+
+.floorButton:hover {
+  -fx-background-color: derive(#004e88, 110%);
+}
+
 .submitButton {
   -fx-background-color: #004e88;
   -fx-text-fill: floralwhite;
@@ -33,15 +45,20 @@ Cancel Button Ripple: ffc250
   -fx-pref-width: 100;
 }
 
+.cancelButton .jfx-rippler {
+  /*red ripple*/
+  -jfx-rippler-fill: #ffc250;
+}
+
 .serviceBase {
   -fx-background-color: derive(#c2b7d5, 70%);
   -fx-padding: 16;
 }
 
-.cancelButton .jfx-rippler {
-  /*red ripple*/
-  -jfx-rippler-fill: #ffc250;
+.mapPane {
+  -fx-background-color: derive(#c2b7d5, 70%);
 }
+
 
 /* Constant Nodes */
 .mainBackground {
@@ -91,7 +108,6 @@ Cancel Button Ripple: ffc250
   -fx-pref-width: 100;
 }
 
-
 .serviceBox {
   -fx-padding: 8;
   -fx-font-size: 16;
@@ -101,4 +117,14 @@ Cancel Button Ripple: ffc250
   -jfx-label-float: true;
   -fx-background-color: floralwhite;
   -fx-padding: 8;
+}
+
+/* Pathfinding Buttons*/
+.pathModeButton {
+  -fx-background-radius: 30;
+  -fx-background-color: floralwhite;
+
+  -fx-border-radius: 30;
+  -fx-border-color: black;
+  -fx-border-width: 1.5;
 }

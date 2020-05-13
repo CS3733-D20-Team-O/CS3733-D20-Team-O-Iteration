@@ -28,11 +28,6 @@
     <Label fx:id="welcomeLabel" text="%mainWelcomeMessage" styleClass="topBar"/>
   </StackPane>
 
-  <!-- Colorblind Toggle -->
-  <AnchorPane AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="75">
-    <fx:include source="/edu/wpi/cs3733/d20/teamO/views/ColorblindToggle.fxml"/>
-  </AnchorPane>
-
   <!-- Wrapper to center the main content -->
   <StackPane fx:id="container" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
     AnchorPane.rightAnchor="0" AnchorPane.topAnchor="64">
@@ -74,11 +69,15 @@
     </VBox>
   </StackPane>
 
-
-  <!-- Clock -->
-  <StackPane AnchorPane.topAnchor="8" AnchorPane.leftAnchor="64">
+  <HBox alignment="CENTER" spacing="16.0" AnchorPane.topAnchor="8"
+    AnchorPane.leftAnchor="88">
+    <!-- Clock -->
     <fx:include source="/edu/wpi/cs3733/d20/teamO/views/Clock.fxml"/>
-  </StackPane>
+
+    <!-- Colorblind Toggle -->
+    <fx:include source="/edu/wpi/cs3733/d20/teamO/views/ColorblindToggle.fxml"/>
+  </HBox>
+
   <!-- Login Button -->
   <JFXButton buttonType="RAISED" onAction="#openLoginDialog"
     text="%adminLogin" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"

@@ -165,7 +165,7 @@
         </HBox>
 
         <!-- Text Pane -->
-        <ScrollPane prefHeight="200.0" prefWidth="202.0"/>
+        <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="202.0"/>
 
         <!-- Color Picker -->
         <HBox alignment="CENTER" spacing="8.0" style="-fx-padding: 8">
