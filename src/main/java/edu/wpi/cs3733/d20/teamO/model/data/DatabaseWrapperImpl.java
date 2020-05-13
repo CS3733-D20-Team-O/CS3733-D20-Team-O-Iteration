@@ -26,6 +26,8 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.MedicineDeliverySe
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -49,14 +51,16 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   private final Connection connection;
 
   @Inject
-  public DatabaseWrapperImpl(Connection connection) {
+  public DatabaseWrapperImpl(Connection connection) throws URISyntaxException {
     this.connection = connection;
     if (init()) {
       val csvHandler = new CSVHandlerImpl(this);
-
-      csvHandler.importNodes(Main.class.getResource("/CSV/MapOAllnodes.csv").getPath());
-      csvHandler.importEdges(Main.class.getResource("/CSV/MapOAlledges.csv").getPath());
-      csvHandler.importEmployees(Main.class.getResource("/CSV/demoEmployees.csv").getPath());
+      csvHandler.importNodes(
+          Paths.get(Main.class.getResource("/CSV/MapOAllnodes.csv").toURI()).toString());
+      csvHandler.importEdges(
+          Paths.get(Main.class.getResource("/CSV/MapOAlledges.csv").toURI()).toString());
+      csvHandler.importEmployees(
+          Paths.get(Main.class.getResource("/CSV/demoEmployees.csv").toURI()).toString());
     }
   }
 
