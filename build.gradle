@@ -33,11 +33,15 @@ dependencies {
             'org.slf4j:slf4j-simple:1.7.30',
             [group: 'edu.wpi.cs3733.c20.teamR', name: 'AppointmentRequest', version:'4.2.0'],
             [group: 'edu.wpi.cs3733.d20.teamO', name: 'SecurityServiceRequest', version:'1.0.0'],
+            [group: 'edu.wpi.cs3733.d20.teamP', name: 'FoodRequest', version:'1.1.0'],
+            [group: 'edu.wpi.cs3733.d20.teamE', name: 'onCallBedsAPI', version:'1.0.6'],
+            [group: 'edu.wpi.cs3733.d20.teamM', name: 'AudioVisual', version:'1.0.1'],
             [group: 'org.openjfx', name: 'javafx', version: '11', ext: 'pom'],
-
-
-
     )
+
+    implementation('com.calendarfx:view:11.8.3') {
+        exclude group: 'org.openjfx', module: ''
+    }
 
     testImplementation(
             'org.junit.jupiter:junit-jupiter:5.6.0',
