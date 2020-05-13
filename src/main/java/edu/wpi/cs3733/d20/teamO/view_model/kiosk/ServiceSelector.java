@@ -2,14 +2,13 @@ package edu.wpi.cs3733.d20.teamO.view_model.kiosk;
 
 import com.google.inject.Inject;
 import com.jfoenix.effects.JFXDepthManager;
-import edu.wpi.cs3733.c20.teamR.AppointmentRequest;
 import edu.wpi.cs3733.d20.teamE.onCallBeds;
+import edu.wpi.cs3733.d20.teamM.AudioVisualRequest;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog.DialogViewModel;
 import edu.wpi.cs3733.d20.teamP.APIController;
-import edu.wpi.teamname.SecurityServiceRequestViewModel;
-import flowerapi.FlowerAPI;
 import java.io.IOException;
+import edu.wpi.cs3733.d20.teamM.AudioVisual;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -42,9 +41,10 @@ public class ServiceSelector extends DialogViewModel {
   @FXML
   private void openAVService() {
     try {
-      dialog.showFullscreenFXML("views/kiosk/service_requests/AVService.fxml");
-    } catch (IOException e) {
-      log.error("Failed to open", e);
+      AudioVisualRequest.run( 350,  100, 650, 550 ,
+          null, null, null);
+    } catch (Exception e) {
+      log.error("Failed to open API", e);
     }
   }
 
@@ -68,12 +68,11 @@ public class ServiceSelector extends DialogViewModel {
 
   @FXML
   private void openFlorist() {
-    try {
-      FlowerAPI.run(300, 300, 900, 750,
-          null, null, null);
-    } catch (Exception e) {
-      log.error("Failed to open API", e);
-    }
+      try {
+        dialog.showFullscreenFXML("views/kiosk/service_requests/FloristDeliveryService.fxml");
+      } catch (Exception e) {
+        log.error("Failed to open", e);
+      }
   }
 
   @FXML
@@ -121,25 +120,6 @@ public class ServiceSelector extends DialogViewModel {
     }
   }
 
-  @FXML
-  private void openSecurity() {
-    try {
-      SecurityServiceRequestViewModel.run(300, 300, 900, 750,
-          "/CSS/SecurityServiceRequestCSS.css", null, null);
-    } catch (Exception e) {
-      log.error("Failed to open API", e);
-    }
-  }
-
-  @FXML
-  private void openAppointmentRequest() {
-    try {
-      AppointmentRequest.run(300, 300, 900, 750,
-          this.getClass().getResource("/CSS/default.css").toExternalForm(), null, null);
-    } catch (Exception e) {
-      log.error("Failed to open API", e);
-    }
-  }
 
   @FXML
   private void ServiceSelectorTitle() {}
@@ -159,14 +139,11 @@ public class ServiceSelector extends DialogViewModel {
 
   @FXML
   private void openFoodDelivery() {
-    try {
-    APIController.run( 350,  100, 650, 550 ,
-       null, null, null);
-  } catch (Exception e) {
-    log.error("Failed to open API", e);
+      try {
+      APIController.run( 350,  100, 650, 550 ,
+         null, null, null);
+    } catch (Exception e) {
+      log.error("Failed to open API", e);
+    }
   }
-  }
-
-  @FXML
-  private void openMortuary() {}
 }
