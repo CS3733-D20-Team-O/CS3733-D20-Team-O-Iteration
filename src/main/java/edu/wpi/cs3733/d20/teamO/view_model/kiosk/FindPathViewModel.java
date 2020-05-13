@@ -99,6 +99,7 @@ public class FindPathViewModel extends ViewModelBase {
   public void onEvent(Event event) {
     if (event instanceof RedrawEvent) {
       mapSwitcherButtons.getChildren().clear();
+      nodeMapViewController.clearEdge();
       drawPath();
     }
   }
@@ -227,7 +228,7 @@ public class FindPathViewModel extends ViewModelBase {
 
   private void drawPath() {
     clearPreview(); // Clear the preview
-
+    nodeMapViewController.clearEdge();
     if (beginning == null || finish == null) { //only pathfind if both nodes are set
       return;
     }
@@ -745,11 +746,13 @@ public class FindPathViewModel extends ViewModelBase {
     String floor = fullName.split(", Floor ")[1];
 
     if (building.equals("Street")) {
+      nodeMapViewController.clearEdge();
       dispatch(new FloorSwitchEvent(floor, building));
       nodeMapContainer.setVisible(false);
       streetMapContainer.setVisible(true);
     } else {
       dispatch(new FloorSwitchEvent(floor, building));
+      nodeMapViewController.clearEdge();
       nodeMapContainer.setVisible(true);
       streetMapContainer.setVisible(false);
     }
