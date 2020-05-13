@@ -154,14 +154,10 @@ Emergency Button: 8b0000
 }
 
 /* Emergency Report*/
-.radio-button .radio {
-  -fx-opacity: 0;
-  -fx-background-color: lawngreen;
-}
-
-.radio-button:hover {
-  -fx-background-color: lawngreen;
-}
+/*.radio-button .radio {*/
+/*  -fx-opacity: 0;*/
+/*  -fx-background-color: #BBBBBB;*/
+/*}*/
 
 .radio-button {
 
@@ -170,8 +166,6 @@ Emergency Button: 8b0000
   -fx-pref-width: 176.0;
   -fx-text-alignment: CENTER;
   -fx-font-weight: BOLD;
-  -fx-text-fill: WHITE;
-  -fx-border-color: BLACK;
 }
 
 #codePink {
@@ -203,6 +197,7 @@ Emergency Button: 8b0000
 
 #codeRed {
   -fx-background-color: #8b0000;
+  -fx-text-fill: WHITE;
   -fx-padding: 8;
   -fx-pref-height: 70;
   -fx-background-radius: 16;
@@ -238,6 +233,7 @@ Emergency Button: 8b0000
 #codeBlack {
   -fx-background-color: Black;
   -fx-border-color: white;
+  -fx-text-fill: WHITE;
   -fx-padding: 8;
   -fx-pref-height: 70;
   -fx-background-radius: 16;
@@ -246,6 +242,7 @@ Emergency Button: 8b0000
 
 #codePurple {
   -fx-background-color: #6F3088;
+  -fx-text-fill: WHITE;
   -fx-padding: 8;
   -fx-pref-height: 70;
   -fx-background-radius: 16;

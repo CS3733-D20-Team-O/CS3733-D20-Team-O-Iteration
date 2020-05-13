@@ -196,6 +196,7 @@ Emergency Button: 574100
 
 #codeRed {
   -fx-background-color: #574100;
+  -fx-text-fill: WHITE;
   -fx-padding: 8;
   -fx-pref-height: 70;
   -fx-background-radius: 16;
@@ -231,6 +232,7 @@ Emergency Button: 574100
 #codeBlack {
   -fx-background-color: Black;
   -fx-border-color: white;
+  -fx-text-fill: WHITE;
   -fx-padding: 8;
   -fx-pref-height: 70;
   -fx-background-radius: 16;
@@ -239,6 +241,7 @@ Emergency Button: 574100
 
 #codePurple {
   -fx-background-color: #2d4e7e;
+  -fx-text-fill: WHITE;
   -fx-padding: 8;
   -fx-pref-height: 70;
   -fx-background-radius: 16;
