@@ -60,7 +60,7 @@
             styleClass="additionalButton"
             text="Delete"/>
           <Label text="INSTRUCTIONS:"
-            style="-fx-text-fill: floralwhite">
+            styleClass="adminLabel">
             <padding>
               <Insets top="32.0"/>
             </padding>
@@ -69,18 +69,15 @@
             </font>
           </Label>
           <Label text="Add: To add an employee, click Add and fill in fields." wrapText="true"
-            style="-fx-text-fill: floralwhite"
-            styleClass="adminLabels"/>
+            styleClass="adminLabel"/>
           <Label contentDisplay="CENTER"
             text="Edit: To edit an employee, select an employee in the table. Then click Edit and update fields as necessary."
             wrapText="true"
-            style="-fx-text-fill: floralwhite"
-            styleClass="adminLabels"/>
+            styleClass="adminLabel"/>
           <Label
             text="Delete: To delete an employee, select an employee in the table. Then click Delete."
             wrapText="true"
-            style="-fx-text-fill: floralwhite"
-            styleClass="adminLabels"/>
+            styleClass="adminLabel"/>
         </children>
         <padding>
           <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
