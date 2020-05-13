@@ -11,7 +11,7 @@ import static org.testfx.api.FxAssert.verifyThat;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InterpreterData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;

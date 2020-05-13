@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.wpi.cs3733.d20.teamO.model.TestInjector;
+import edu.wpi.cs3733.d20.teamO.model.data.CSVHandler;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;

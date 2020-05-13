@@ -13,7 +13,7 @@ import static org.testfx.api.FxAssert.verifyThat;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.GiftDeliveryRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
@@ -130,27 +131,52 @@ public class GiftDeliveryServiceTest extends FxRobot {
   @Test
   public void testFloorLocationPopulated() {
     // Verify that all floors are populated
-    clickOn("Floor");
-    verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("5", javafx.scene.Node::isVisible);
+    clickOn("Select or search for a location");
+    verifyThat("(1) Floor 1", javafx.scene.Node::isVisible);
+    verifyThat("(3) Floor 3-1", javafx.scene.Node::isVisible);
+    verifyThat("(5) Floor 5", javafx.scene.Node::isVisible);
 
     // Now that we know all floors are correct, lets check to see if the locations are present
     // First floor
-    clickOn("1");
-    verifyThat("1", javafx.scene.Node::isVisible);
+    clickOn("(1) Floor 1");
+    clickOn("(1) Floor 1");
+    for (int i = 0; i < 8; i++) {
+      press(KeyCode.BACK_SPACE);
+      release(KeyCode.BACK_SPACE);
+      System.out.println("in loop " + i);
+    }
+    write("1");
+//    clickOn("Sender Name");
+//    clickOn("Select or search for a location");
+//    write("(1)");
+    verifyThat("(1) Floor 1", javafx.scene.Node::isVisible);
+    clickOn("(1) Floor 1");
 
+    System.out.println("Testing Third Floor");
     // Third floor
-    clickOn("1");
-    clickOn("3");
-    clickOn("Floor 3-1");
-    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
+    clickOn("(1) Floor 1");
+    for (int i = 0; i < 8; i++) {
+      press(KeyCode.BACK_SPACE);
+      release(KeyCode.BACK_SPACE);
+      System.out.println("in loop " + i);
+    }
+    write("3");
+    verifyThat("(3) Floor 3-1", javafx.scene.Node::isVisible);
+    verifyThat("(3) Floor 3-2", javafx.scene.Node::isVisible);
+    clickOn("(3) Floor 3-1");
 
+    System.out.println("Testing Fifth Floor");
     // Fifth floor
-    clickOn("3");
-    clickOn("5");
-    verifyThat("5", javafx.scene.Node::isVisible);
+    clickOn("(3) Floor 3-1");
+    for (int i = 0; i < 8; i++) {
+      press(KeyCode.BACK_SPACE);
+      release(KeyCode.BACK_SPACE);
+      System.out.println("in loop " + i);
+    }
+    write("5");
+    verifyThat("(5) Floor 5", javafx.scene.Node::isVisible);
+    clickOn("(5) Floor 5");
+    verifyThat("(5) Floor 5", javafx.scene.Node::isVisible);
   }
 
   @Test
@@ -293,6 +319,11 @@ public class GiftDeliveryServiceTest extends FxRobot {
   }
 
   @Test
+  public void verifySubmit() {
+    verifyThat("Submit", javafx.scene.Node::isVisible);
+  }
+
+  @Test
   public void testSubmit() throws IOException {
     when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
     when(database.addServiceRequest(any(), any(), any(), any(), any()))
@@ -312,10 +343,8 @@ public class GiftDeliveryServiceTest extends FxRobot {
     write("Sender Name");
     clickOn("Items");
     clickOn("Toy: $3.99");
-    clickOn("Floor");
-    clickOn("1");
-    clickOn("Room/Location on Floor");
-    clickOn("Floor 1");
+    clickOn("Select or search for a location");
+    clickOn("(5) Floor 5");
     clickOn("Delivery Time");
     write("12:12 AM");
     clickOn("First Name On Credit Card");
@@ -337,7 +366,7 @@ public class GiftDeliveryServiceTest extends FxRobot {
     clickOn("Submit");
     verify(validator, times(2)).validate(any());
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Gift"), eq("Sender Name"),
+        eq("Floor 5"), eq("Gift"), eq("Sender Name"),
         eq(new GiftDeliveryRequestData("Toy", "John Smith")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(1)).showBasic(any(), any(), any());
@@ -346,7 +375,7 @@ public class GiftDeliveryServiceTest extends FxRobot {
     clickOn("Submit");
     verify(validator, times(3)).validate(any());
     verify(database, times(2)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Gift"), eq("Sender Name"),
+        eq("Floor 5"), eq("Gift"), eq("Sender Name"),
         eq(new GiftDeliveryRequestData("Toy", "John Smith")));
     verify(snackBar, times(1)).show(anyString());
     verify(dialog, times(2)).showBasic(any(), any(), any());

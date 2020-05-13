@@ -10,7 +10,7 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -91,35 +91,6 @@ public class AVServiceTest extends FxRobot {
     map.put("d", new Node("d", 0, 0, "5", "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
   }
-
-  /*
-  @Test
-  public void testFloorLocationPopulated() {
-    // Verify that all floors are populated
-    clickOn("Floor Number");
-    sleep(2000);
-    verifyThat("1", javafx.scene.Node::isVisible);
-    verifyThat("3", javafx.scene.Node::isVisible);
-    verifyThat("5", javafx.scene.Node::isVisible);
-
-    // Now that we know all floors are correct, lets check to see if the locations are present
-    // First floor
-    clickOn("Floor 1");
-    verifyThat("Floor 1", javafx.scene.Node::isVisible);
-
-    // Third floor
-    clickOn("1");
-    clickOn("3");
-    clickOn("Floor 3-1");
-    verifyThat("Floor 3-1", javafx.scene.Node::isVisible);
-    verifyThat("Floor 3-2", javafx.scene.Node::isVisible);
-
-    // Fifth floor
-    clickOn("3");
-    clickOn("5");
-    verifyThat("Floor 5", javafx.scene.Node::isVisible);
-  }
-  */
 
   @Test
   public void testComboBox() {

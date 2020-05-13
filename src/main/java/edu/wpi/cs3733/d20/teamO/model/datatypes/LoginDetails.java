@@ -1,8 +1,11 @@
 package edu.wpi.cs3733.d20.teamO.model.datatypes;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import java.util.List;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 /**
@@ -10,8 +13,10 @@ import lombok.val;
  */
 @Data
 @Singleton
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
 public class LoginDetails {
 
+  private final DatabaseWrapper database;
   private String username = "", password = "";
 
   public void setFromParameters(List<String> args) {
@@ -29,8 +34,14 @@ public class LoginDetails {
   }
 
   public boolean isValid() {
-    boolean staff = username.equals("staff") && password.equals("staff");
-    boolean admin = username.equals("admin") && password.equals("admin");
-    return staff || admin;
+    for (val e : database.exportEmployees()) {
+      if (e.getEmployeeID().equals(username) && (e.getType().equals("Admin") || e.getType()
+          .equals("start"))) {
+        if (e.getPassword().equals(password)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

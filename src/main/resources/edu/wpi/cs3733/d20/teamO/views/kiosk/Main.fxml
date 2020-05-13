@@ -58,6 +58,11 @@
     </VBox>
   </StackPane>
 
+
+  <!-- Clock -->
+  <StackPane AnchorPane.topAnchor="8" AnchorPane.leftAnchor="64">
+    <fx:include source="/edu/wpi/cs3733/d20/teamO/views/Clock.fxml"/>
+  </StackPane>
   <!-- Login Button -->
   <JFXButton buttonType="RAISED" onAction="#openLoginDialog"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
@@ -66,12 +71,14 @@
   <!-- About Button -->
   <JFXButton buttonType="RAISED" onAction="#openAbout"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;"
-    text="%about" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="16.0"/>
+    text="%about" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0"/>
 
-  <!-- Credits Button -->
-  <JFXButton buttonType="RAISED" onAction="#openCredits"
-    style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;"
-    text="%credits" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0"/>
+
+  <ImageView fx:id="FAQ" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#openHowToUseKiosk"
+    pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="16.0"
+    AnchorPane.topAnchor="7.0">
+    <Image url="@/FAQ.png"/>
+  </ImageView>
 
   <!-- Language Switcher -->
   <HBox fx:id="langContainer" alignment="CENTER" spacing="8"

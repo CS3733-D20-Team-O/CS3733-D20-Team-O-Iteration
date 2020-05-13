@@ -2,7 +2,7 @@ package edu.wpi.cs3733.d20.teamO.injection_modules;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseUtilities;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseUtilities;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

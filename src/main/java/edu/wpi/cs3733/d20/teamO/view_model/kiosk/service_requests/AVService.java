@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
@@ -50,9 +50,7 @@ public class AVService extends ServiceRequestBase {
     if (!validator
         .validate(requesterNameField, floorNumberComboBox, nodeSelector, durationComboBox,
             serviceRequestComboBox)) {
-      dialog.showBasic("Missing Information",
-          "Please fill out the form completely to make request.",
-          "OK");
+      snackBar.show("Please fill out the form completely to make a request.");
       return;
     }
 
