@@ -1,8 +1,8 @@
-package edu.wpi.cs3733.d20.teamO.model.database;
+package edu.wpi.cs3733.d20.teamO.model.data;
 
 import com.google.inject.ImplementedBy;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.Table;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;

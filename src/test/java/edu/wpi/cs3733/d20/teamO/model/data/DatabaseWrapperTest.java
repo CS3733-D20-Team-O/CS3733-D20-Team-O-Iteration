@@ -1,15 +1,15 @@
-package edu.wpi.cs3733.d20.teamO.model.database;
+package edu.wpi.cs3733.d20.teamO.model.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.wpi.cs3733.d20.teamO.model.TestInjector;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.SchedulerProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.EdgeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.EmployeeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.SchedulerProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.ServiceRequestProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;

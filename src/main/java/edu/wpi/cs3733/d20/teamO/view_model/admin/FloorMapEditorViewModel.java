@@ -3,15 +3,14 @@ package edu.wpi.cs3733.d20.teamO.view_model.admin;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.EdgeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.Table;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -57,8 +56,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
   @FXML
   private JFXTextField shortNameField, longNameField, newNodeShortNameField, newNodeLongNameField;
   @FXML
-  private JFXSlider zoomSlider;
-  @FXML
   private JFXListView neighboringNodesList, selectedNodesList;
   @FXML
   private AnchorPane clipper;
@@ -71,7 +68,7 @@ public class FloorMapEditorViewModel extends ViewModelBase {
 
   // globally accessible fields
   private State state; // current state of view
-  private LinkedList<Node> selection = new LinkedList<>();
+  private final LinkedList<Node> selection = new LinkedList<>();
   private Node selectedNode, selectedTargetNode, previewNode; // todo move over to selection
   private Edge selectedEdge;
   private int xSelection, ySelection; // the selected x and y coords
@@ -94,7 +91,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     clipRect.widthProperty().bind(clipper.widthProperty());
     clipRect.heightProperty().bind(clipper.heightProperty());
     clipper.setClip(clipRect);
-    zoomSlider.setValue(100);
     JFXDepthManager.setDepth(sideBar, 2);
     newNodeCategory.getItems()
         .addAll("STAI", "ELEV", "REST", "DEPT", "LABS", "SERV", "CONF", "HALL");
@@ -148,10 +144,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
     saveNodeChangesBtn.setDisable(false);
   }
 
-  public void setZoom() {
-    nodeMapViewController.zoom(zoomSlider.getValue() / 100);
-  }
-
   public void cancelPressed(ActionEvent actionEvent) {
     switch (state) {
       case ADD_NEIGHBOR:
@@ -164,16 +156,6 @@ public class FloorMapEditorViewModel extends ViewModelBase {
       default:
         setState(State.MAIN);
     }
-  }
-
-  public void zoomOutPressed(ActionEvent actionEvent) {
-    zoomSlider.decrement();
-    setZoom();
-  }
-
-  public void zoomInPressed(ActionEvent actionEvent) {
-    zoomSlider.increment();
-    setZoom();
   }
 
   public void addNeighborPressed(ActionEvent actionEvent) {
@@ -335,12 +317,17 @@ public class FloorMapEditorViewModel extends ViewModelBase {
           selection.remove(node);
           selectedNodesList.getItems().remove(node.getLongName());
           nodeMapViewController.unhighlightNode(node);
+          if (selection.size() == 1) {
+            node = selectedNode;
+          } else {
+            break;
+          }
         } else {
           selection.add(node);
           nodeMapViewController.highlightNode(node);
           selectedNodesList.getItems().add(node.getLongName());
+          break;
         }
-        break;
       default:
         clearFields();
         setState(State.SELECT_NODE);

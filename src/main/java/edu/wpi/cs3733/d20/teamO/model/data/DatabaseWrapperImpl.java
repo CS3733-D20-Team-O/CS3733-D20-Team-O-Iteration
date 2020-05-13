@@ -1,14 +1,15 @@
-package edu.wpi.cs3733.d20.teamO.model.database;
+package edu.wpi.cs3733.d20.teamO.model.data;
 
 import com.google.gson.Gson;
 import com.google.inject.Inject;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.EdgeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.EmployeeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.NodeProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.SchedulerProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.ServiceRequestProperty;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.Table;
-import edu.wpi.cs3733.d20.teamO.model.database.db_model.TableProperty;
+import edu.wpi.cs3733.d20.teamO.Main;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.EdgeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.EmployeeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.NodeProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.SchedulerProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.ServiceRequestProperty;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.Table;
+import edu.wpi.cs3733.d20.teamO.model.data.db_model.TableProperty;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Employee;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
@@ -50,7 +51,13 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   @Inject
   public DatabaseWrapperImpl(Connection connection) {
     this.connection = connection;
-    init();
+    if (init()) {
+      val csvHandler = new CSVHandlerImpl(this);
+
+      csvHandler.importNodes(Main.class.getResource("/CSV/MapOAllnodes.csv").getPath());
+      csvHandler.importEdges(Main.class.getResource("/CSV/MapOAlledges.csv").getPath());
+      csvHandler.importEmployees(Main.class.getResource("/CSV/demoEmployees.csv").getPath());
+    }
   }
 
   /**
@@ -72,7 +79,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
   /**
    * Initializes the database
    */
-  private void init() {
+  private boolean init() {
+    boolean init = false;
     // Initialize the nodes table if not initialized
     if (isNotInitialized(Table.NODES_TABLE)) {
       try (val stmt = connection.createStatement()) {
@@ -91,6 +99,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.NODES_TABLE, e);
       }
+      init = true;
     }
 
     // Initialize the edges table if not initialized
@@ -110,6 +119,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.EDGES_TABLE, e);
       }
+      init = true;
     }
 
     // Initialize the employee table if not initialized
@@ -136,6 +146,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       if (addEmployee("staff", "staff", "start", "staff", false) != 1) {
         log.error("Failed to add the staff employee!");
       }
+      init = true;
     }
 
     // Initialize the service requests table if not initialized
@@ -161,6 +172,7 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.SERVICE_REQUESTS_TABLE, e);
       }
+      init = true;
     }
 
     // Initialize the scheduler table if not initialized
@@ -178,7 +190,9 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
       } catch (SQLException e) {
         log.error("Failed to initialize " + Table.SCHEDULER_TABLE, e);
       }
+      init = true;
     }
+    return init;
   }
 
   public String getNodeID(String type, String floor) {
