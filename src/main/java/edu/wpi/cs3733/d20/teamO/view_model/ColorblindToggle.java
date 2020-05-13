@@ -12,6 +12,7 @@ public class ColorblindToggle extends ViewModelBase {
   private static final String deuteranopiaCSSPath = "/CSS/DeuteranopiaColorCSS.css";
   private static final String protanopiaCSSPath = "/CSS/ProtanopiaColorCSS.css";
   private static final String tritanopiaCSSPath = "/CSS/TritanopiaColorCSS.css";
+  private static final String darkModeCSSPath = "/CSS/DarkModeCSS.css";
   @FXML
   private JFXComboBox<Label> colorPicker;
 
@@ -32,6 +33,9 @@ public class ColorblindToggle extends ViewModelBase {
         break;
       case "Tritanopia":
         path = tritanopiaCSSPath;
+        break;
+      case "Dark Mode":
+        path = darkModeCSSPath;
         break;
     }
     dispatch(new CSSSwitchEvent(path));

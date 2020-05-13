@@ -3,9 +3,18 @@ Main Color: 004c8c
 Service Background Color: abc0d4
 Cancel Button Ripple: b90c0c
 Admin Background: acd7fd
+Emergency Button: 8b0000
  */
 
 /* Nodes that need their colors changed*/
+.emergencyButton {
+  -fx-background-color: #8b0000;
+  -fx-font-size: 24px;
+  -fx-text-fill: floralwhite;
+  -fx-pref-height: 50;
+  -fx-pref-width: 150;
+}
+
 #welcomeBar {
   -fx-background-color: #004c8c;
 }
@@ -141,4 +150,112 @@ Admin Background: acd7fd
   -fx-border-radius: 30;
   -fx-border-color: black;
   -fx-border-width: 1.5;
+}
+
+/* Emergency Report*/
+.radio-button .radio {
+  -fx-opacity: 0;
+  -fx-background-color: lawngreen;
+}
+
+.radio-button:hover {
+  -fx-background-color: lawngreen;
+}
+
+.radio-button {
+
+  -fx-border-color: BLACK;
+  -fx-pref-height: 55.0;
+  -fx-pref-width: 176.0;
+  -fx-text-alignment: CENTER;
+  -fx-font-weight: BOLD;
+  -fx-text-fill: WHITE;
+  -fx-border-color: BLACK;
+}
+
+#codePink {
+  -fx-background-color: #ffaac7;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeWhite {
+  -fx-background-color: white;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeGray {
+  -fx-background-color: gray;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeRed {
+  -fx-background-color: #8b0000;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeOrange {
+  -fx-background-color: #ff8107;
+  -fx-border-color: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeYellow {
+  -fx-background-color: #ffc107;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeBlue {
+  -fx-background-color: #0026ff;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeBlack {
+  -fx-background-color: Black;
+  -fx-border-color: white;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codePurple {
+  -fx-background-color: #6F3088;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeGreen {
+  -fx-background-color: #00800E;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
 }

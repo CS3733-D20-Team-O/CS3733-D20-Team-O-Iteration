@@ -31,7 +31,8 @@
     <!-- The actual main content box -->
     <VBox fx:id="contentContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
       spacing="16"
-      style="-fx-background-color: whitesmoke; -fx-opacity: 0.9; -fx-padding: 32; -fx-background-radius: 16;">
+      styleClass="serviceBase"
+      style="-fx-opacity: 0.9; -fx-padding: 32; -fx-background-radius: 16;">
       <Label text="%mainQuestionPrompt" style="-fx-font-size: 36; -fx-padding: 0 0 36 0;"/>
 
       <!-- Path Finding -->
@@ -95,7 +96,8 @@
   <!-- Language Switcher -->
   <HBox fx:id="langContainer" alignment="CENTER" spacing="8"
     AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="16"
-    styleClass="main_secondaryButtons">
+    styleClass="main_secondaryButtons"
+    style="-fx-text-fill: floralwhite">
     <ImageView fitHeight="32" fitWidth="32">
       <Image url="@/language-icon.png"/>
     </ImageView>

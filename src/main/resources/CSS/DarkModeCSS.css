@@ -1,15 +1,14 @@
-/* Nodes that need their colors changed*/
 /*
-Main Color: 00555a
-Service Background Color: a9bfce
-Cancel Button Ripple: b8150f
-Admin Service Background: a5d9ea
-Emergency Button: 890c00
+Main Color: 004c8c
+Service Background Color: abc0d4
+Cancel Button Ripple: b90c0c
+Admin Background: acd7fd
+Emergency Button: 8b0000
  */
 
 /* Nodes that need their colors changed*/
 .emergencyButton {
-  -fx-background-color: #890c00;
+  -fx-background-color: #8b0000;
   -fx-font-size: 24px;
   -fx-text-fill: floralwhite;
   -fx-pref-height: 50;
@@ -17,37 +16,37 @@ Emergency Button: 890c00
 }
 
 #welcomeBar {
-  -fx-background-color: #00555a;
+  -fx-background-color: #133757;
 }
 
 .mainButton {
   -fx-font-size: 32;
-  -fx-background-color: #00555a;
+  -fx-background-color: #133757;
   -fx-text-fill: floralwhite;
   -fx-padding: 16;
   -fx-background-radius: 16;
 }
 
 .topBar {
-  -fx-background-color: #00555a;
+  -fx-background-color: #133757;
   -fx-font-size: 32;
   -fx-text-fill: floralwhite;
 }
 
 .pathModeButton:hover {
-  -fx-background-color: derive(#00555a, 110%);
+  -fx-background-color: derive(#133757, 110%);
 }
 
 .buildingButton:hover {
-  -fx-background-color: derive(#00555a, 110%);
+  -fx-background-color: derive(#133757, 110%);
 }
 
 .floorButton:hover {
-  -fx-background-color: derive(#00555a, 110%);
+  -fx-background-color: derive(#133757, 110%);
 }
 
 .submitButton {
-  -fx-background-color: #00555a;
+  -fx-background-color: #133757;
   -fx-text-fill: floralwhite;
   -fx-padding: 16;
   -fx-background-radius: 16;
@@ -58,20 +57,20 @@ Emergency Button: 890c00
 
 .cancelButton .jfx-rippler {
   /*red ripple*/
-  -jfx-rippler-fill: #b8150f;
+  -jfx-rippler-fill: #b90c0c;
 }
 
 .serviceBase {
-  -fx-background-color: derive(#a9bfce, 70%);
+  -fx-background-color: derive(#2c679b, 70%);
   -fx-padding: 16;
 }
 
 .mapPane {
-  -fx-background-color: derive(#a9bfce, 70%);
+  -fx-background-color: derive(#2c679b, 70%);
 }
 
 .adminBackground {
-  -fx-background-color: #a5d9ea;
+  -fx-background-color: #acd7fd;
 }
 
 /* Constant Nodes */
@@ -84,7 +83,8 @@ Emergency Button: 890c00
 }
 
 .main_secondaryButtons {
-  -fx-background-color: whitesmoke;
+  -fx-background-color: #5a5b5d;
+  -fx-text-fill: whitesmoke;
   -fx-background-radius: 24;
   -fx-padding: 12 16;
 }
@@ -113,8 +113,18 @@ Emergency Button: 890c00
 }
 
 .cancelButton {
-  -fx-background-color: gray;
+  -fx-background-color: #5a5b5d;
   -fx-text-fill: floralwhite;
+  -fx-padding: 16;
+  -fx-background-radius: 16;
+  -fx-font-size: 16px;
+  -fx-pref-height: 50;
+  -fx-pref-width: 100;
+}
+
+.additionalButton {
+  -fx-background-color: #848484;
+  -fx-text-fill: black;
   -fx-padding: 16;
   -fx-background-radius: 16;
   -fx-font-size: 16px;
@@ -164,12 +174,8 @@ Emergency Button: 890c00
   -fx-border-color: BLACK;
 }
 
-#adminButton {
-  -fx-background-color: cornflowerblue;
-}
-
 #codePink {
-  -fx-background-color: #fdabb8;
+  -fx-background-color: #ffaac7;
   -fx-text-fill: BLACK;
   -fx-padding: 8;
   -fx-pref-height: 70;
@@ -196,7 +202,7 @@ Emergency Button: 890c00
 }
 
 #codeRed {
-  -fx-background-color: #890c00;
+  -fx-background-color: #8b0000;
   -fx-padding: 8;
   -fx-pref-height: 70;
   -fx-background-radius: 16;
@@ -204,7 +210,7 @@ Emergency Button: 890c00
 }
 
 #codeOrange {
-  -fx-background-color: #ff7a81;
+  -fx-background-color: #ff8107;
   -fx-border-color: BLACK;
   -fx-padding: 8;
   -fx-pref-height: 70;
@@ -213,7 +219,7 @@ Emergency Button: 890c00
 }
 
 #codeYellow {
-  -fx-background-color: #ffb6c1;
+  -fx-background-color: #ffc107;
   -fx-text-fill: BLACK;
   -fx-padding: 8;
   -fx-pref-height: 70;
@@ -222,7 +228,7 @@ Emergency Button: 890c00
 }
 
 #codeBlue {
-  -fx-background-color: #005d61;
+  -fx-background-color: #0026ff;
   -fx-padding: 8;
   -fx-pref-height: 70;
   -fx-background-radius: 16;
@@ -239,7 +245,7 @@ Emergency Button: 890c00
 }
 
 #codePurple {
-  -fx-background-color: #64454b;
+  -fx-background-color: #6F3088;
   -fx-padding: 8;
   -fx-pref-height: 70;
   -fx-background-radius: 16;
@@ -247,7 +253,7 @@ Emergency Button: 890c00
 }
 
 #codeGreen {
-  -fx-background-color: #39767f;
+  -fx-background-color: #00800E;
   -fx-text-fill: BLACK;
   -fx-padding: 8;
   -fx-pref-height: 70;

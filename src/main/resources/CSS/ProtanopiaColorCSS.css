@@ -4,7 +4,18 @@ Main Color: 2d4a88
 Service Backgrounds: abc0d4
 Cancel Button Ripple: e6cc2d
 Admin Service Background: c8cff9
-*/
+Emergency Button: 4d4410
+ */
+
+/* Nodes that need their colors changed*/
+.emergencyButton {
+  -fx-background-color: #4d4410;
+  -fx-font-size: 24px;
+  -fx-text-fill: floralwhite;
+  -fx-pref-height: 50;
+  -fx-pref-width: 150;
+}
+
 #welcomeBar {
   -fx-background-color: #2d4a88;
 }
@@ -131,4 +142,116 @@ Admin Service Background: c8cff9
   -fx-border-radius: 30;
   -fx-border-color: black;
   -fx-border-width: 1.5;
+}
+
+/* Emergency Report*/
+.radio-button .radio {
+  -fx-opacity: 0;
+  -fx-background-color: lawngreen;
+}
+
+.radio-button:hover {
+  -fx-background-color: lawngreen;
+}
+
+.radio-button {
+
+  -fx-border-color: BLACK;
+  -fx-pref-height: 55.0;
+  -fx-pref-width: 176.0;
+  -fx-text-alignment: CENTER;
+  -fx-font-weight: BOLD;
+  -fx-text-fill: WHITE;
+  -fx-border-color: BLACK;
+}
+
+#adminButton {
+  -fx-background-color: cornflowerblue;
+}
+
+#codePink {
+  -fx-background-color: #bfc0d2;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeWhite {
+  -fx-background-color: white;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeGray {
+  -fx-background-color: gray;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeRed {
+  -fx-background-color: #4d4410;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeOrange {
+  -fx-background-color: #b8a31a;
+  -fx-border-color: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeYellow {
+  -fx-background-color: #e4ca14;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeBlue {
+  -fx-background-color: #0051a7;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeBlack {
+  -fx-background-color: Black;
+  -fx-border-color: white;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codePurple {
+  -fx-background-color: #064b9c;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
+}
+
+#codeGreen {
+  -fx-background-color: #7c6d11;
+  -fx-text-fill: BLACK;
+  -fx-padding: 8;
+  -fx-pref-height: 70;
+  -fx-background-radius: 16;
+  -fx-border-radius: 16;
 }

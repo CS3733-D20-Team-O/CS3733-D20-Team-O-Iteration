@@ -4,22 +4,22 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <VBox alignment="CENTER" spacing="32" xmlns:fx="http://javafx.com/fxml"
   style="-fx-padding: 32; -fx-font-size: 16"
+  styleClass="serviceBase"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.MainAdminViewModel">
   <Label style="-fx-font-size: 36" text="%adminOptionsTitle"/>
   <JFXButton buttonType="RAISED" onAction="#openChangePassword"
-    style="-fx-background-color: lightgray" text="Change Password"/>
+    styleClass="main_secondaryButtons"
+    text="Change Password"/>
   <GridPane alignment="CENTER" hgap="32.0" prefHeight="94.0" prefWidth="351.0" vgap="32.0">
     <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -31,17 +31,21 @@
     </rowConstraints>
     <children>
       <JFXButton buttonType="RAISED" onAction="#openFloorMapEditor"
-        style="-fx-background-color: lightgray" text="%accessFloorMapEditor"
+        styleClass="main_secondaryButtons"
+        text="%accessFloorMapEditor"
         GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
       <JFXButton buttonType="RAISED" onAction="#openServiceRequestHandler"
-        style="-fx-background-color: lightgray" text="%accessServiceRequestHandler"
+        styleClass="main_secondaryButtons"
+        text="%accessServiceRequestHandler"
         GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
       <JFXButton buttonType="RAISED" onAction="#openEmployeeHandler"
-        style="-fx-background-color: lightgray" text="%accessEmployeeHandler"
+        styleClass="main_secondaryButtons"
+        text="%accessEmployeeHandler"
         GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1"
         GridPane.valignment="CENTER"/>
       <JFXButton buttonType="RAISED" onAction="#openImportExportHandler"
-        style="-fx-background-color: lightgray" text="%accessCSVIE" GridPane.halignment="CENTER"
+        styleClass="main_secondaryButtons"
+        text="%accessCSVIE" GridPane.halignment="CENTER"
         GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
     </children>
   </GridPane>

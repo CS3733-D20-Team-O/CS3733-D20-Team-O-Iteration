@@ -61,6 +61,16 @@
               </ImageView>
             </graphic>
           </Label>
+          <!-- Dark Mode -->
+          <Label text="Dark Mode">
+            <graphic>
+              <ImageView fitHeight="32" fitWidth="32">
+                <image>
+                  <Image url="@/tritanopiaPalette.png"/>
+                </image>
+              </ImageView>
+            </graphic>
+          </Label>
         </FXCollections>
       </items>
     </JFXComboBox>
