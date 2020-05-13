@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: edu.wpi.cs3733.d20.teamO.Starter
+

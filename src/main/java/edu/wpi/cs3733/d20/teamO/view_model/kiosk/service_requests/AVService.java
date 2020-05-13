@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
@@ -28,9 +28,7 @@ public class AVService extends ServiceRequestBase {
   private final SnackBar snackBar;
 
   @FXML
-  private JFXComboBox<String> durationComboBox, serviceRequestComboBox, locationComboBox;
-  @FXML
-  private JFXComboBox<String> floorNumberComboBox;
+  private JFXComboBox<String> durationComboBox, serviceRequestComboBox;
   @FXML
   private JFXTextField requesterNameField;
   @FXML
@@ -48,11 +46,9 @@ public class AVService extends ServiceRequestBase {
   @FXML
   private void onSubmitPress() {
     if (!validator
-        .validate(requesterNameField, floorNumberComboBox, locationComboBox, durationComboBox,
+        .validate(requesterNameField, nodeSelector, durationComboBox,
             serviceRequestComboBox)) {
-      dialog.showBasic("Missing Information",
-          "Please fill out the form completely to make request.",
-          "OK");
+      snackBar.show("Please fill out the form completely to make a request.");
       return;
     }
 

@@ -9,7 +9,7 @@ import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.d20.teamO.Navigator;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
@@ -88,8 +88,8 @@ public class MainKioskViewModel extends ViewModelBase {
     val header = new Label("Login");
     header.setStyle("-fx-font-size: 24");
     val username = new JFXTextField();
-    username.setPromptText("Username");
-    username.setValidators(new RequiredFieldValidator("Username is required"));
+    username.setPromptText("Employee ID");
+    username.setValidators(new RequiredFieldValidator("Employee ID is required"));
     val password = new JFXPasswordField();
     password.setPromptText("Password");
     password.setValidators(new RequiredFieldValidator("Password is required"));
@@ -138,6 +138,15 @@ public class MainKioskViewModel extends ViewModelBase {
   }
 
   @FXML
+  private void openHowToUseKiosk() {
+    try {
+      dialog.showFullscreenFXML("views/kiosk/HowToUseKiosk.fxml");
+    } catch (IOException e) {
+      log.error("Could not load the how to use page", e);
+    }
+  }
+
+  @FXML
   private void openPathFinder() {
     try {
       navigator.push(getString("mainLeftButton"), "views/kiosk/FindPath.fxml");
@@ -149,7 +158,7 @@ public class MainKioskViewModel extends ViewModelBase {
   @FXML
   public void openServiceRequestSelect() {
     try {
-      dialog.showFXML(container, "views/kiosk/serviceSelector.fxml");
+      dialog.showFXML(container, "views/kiosk/ServiceSelector.fxml");
     } catch (IOException e) {
       log.error("Failed to open Service Request Screen", e);
     }

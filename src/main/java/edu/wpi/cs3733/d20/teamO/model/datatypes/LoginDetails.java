@@ -2,7 +2,7 @@ package edu.wpi.cs3733.d20.teamO.model.datatypes;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,8 @@ public class LoginDetails {
 
   public boolean isValid() {
     for (val e : database.exportEmployees()) {
-      if (e.getEmployeeID().equals(username)) {
+      if (e.getEmployeeID().equals(username) && (e.getType().equals("Admin") || e.getType()
+          .equals("start"))) {
         if (e.getPassword().equals(password)) {
           return true;
         }
