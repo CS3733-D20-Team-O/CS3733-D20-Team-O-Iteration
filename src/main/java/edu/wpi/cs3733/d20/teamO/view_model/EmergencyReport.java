@@ -76,7 +76,7 @@ public class EmergencyReport extends ServiceRequestBase {
     if (levelSelection.getSelectedToggle() == null) {
       return "Unknown Emergency";
     }
-    return ((RadioButton) levelSelection.getSelectedToggle()).getText();
+    return checkedButton.getText();
   }
 
   public String checkNotes() {
