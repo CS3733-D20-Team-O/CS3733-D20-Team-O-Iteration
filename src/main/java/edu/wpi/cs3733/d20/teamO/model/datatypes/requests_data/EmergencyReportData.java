@@ -6,7 +6,7 @@ import lombok.Value;
  * Represents the extra data of an Emergency Security request
  */
 @Value
-public class SecurityRequestData implements ServiceRequestData {
+public class EmergencyReportData implements ServiceRequestData {
 
   String emergencyType, notes;
 
