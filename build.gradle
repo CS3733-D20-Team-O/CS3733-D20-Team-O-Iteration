@@ -37,10 +37,11 @@ dependencies {
             [group: 'edu.wpi.cs3733.d20.teamE', name: 'onCallBedsAPI', version:'1.0.6'],
             [group: 'edu.wpi.cs3733.d20.teamM', name: 'AudioVisual', version:'1.0.1'],
             [group: 'org.openjfx', name: 'javafx', version: '11', ext: 'pom'],
-
-
-
     )
+
+    implementation('com.calendarfx:view:11.8.3') {
+        exclude group: 'org.openjfx', module: ''
+    }
 
     testImplementation(
             'org.junit.jupiter:junit-jupiter:5.6.0',
