@@ -6,8 +6,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testfx.api.FxAssert.verifyThat;
 
+import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
@@ -16,6 +16,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -47,6 +48,10 @@ public class AVServiceTest extends FxRobot {
   SnackBar snackBar;
   @Mock
   Dialog dialog;
+  @Mock
+  JFXDialog jfxDialog;
+  @Mock
+  RequestConfirmationViewModel requestConfirmationViewModel;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
@@ -59,7 +64,7 @@ public class AVServiceTest extends FxRobot {
     bundle.put("serviceAVDescription", "Audio/Visual Service Request");
     bundle.put("namePrompt", "Your Name");
     bundle.put("floorPrompt", "Floor");
-    bundle.put("locationPrompt", "Room/Location on Floor");
+    bundle.put("nodeSelectorPromptText", "Select or search for a location");
     bundle.put("submitButton", "Submit");
     bundle.put("cancelButton", "Cancel");
     bundle.put("timePrompt", "Time for Request");
@@ -93,26 +98,9 @@ public class AVServiceTest extends FxRobot {
   }
 
   @Test
-  public void testComboBox() {
-    clickOn("Select a service");
-    verifyThat("Music", javafx.scene.Node::isVisible);
-    verifyThat("Video Call", javafx.scene.Node::isVisible);
-  }
-
-  @Test
-  public void testTextFields() {
-    clickOn("Your Name");
-    write("Alan Smithee");
-    verifyThat("Alan Smithee", javafx.scene.Node::isVisible);
-    clickOn("Additional Notes:");
-    write("Sample Text");
-    verifyThat("Sample Text", javafx.scene.Node::isVisible);
-  }
-
-  @Test
-  public void testSubmit() {
-    populateFloorAndLocation();
+  public void testSubmit() throws IOException {
     when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
+    when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
     when(database.addServiceRequest(any(), any(), any(), any(), any()))
         .thenReturn(null).thenReturn("Y4NK3EW1THN0BR1M");
 
@@ -120,16 +108,14 @@ public class AVServiceTest extends FxRobot {
     clickOn("Submit");
     verify(validator, times(1)).validate(any());
     verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
-    verify(snackBar, times(0)).show(anyString());
-    verify(dialog, times(1)).showBasic(any(), any(), any());
+    verify(snackBar, times(1)).show(anyString());
+    verify(dialog, times(0)).showBasic(any(), any(), any());
 
     // Test when there are fields filled out (but adding fails)
     clickOn("Your Name");
     write("Alan Smithee");
-    clickOn("Floor");
-    clickOn("1");
-    clickOn("Room/Location on Floor");
-    clickOn("Floor 1");
+    clickOn("Select or search for a location");
+    clickOn("(1) Floor 1");
     clickOn("Select a service");
     clickOn("Music");
     clickOn("Time for Request");
@@ -145,8 +131,8 @@ public class AVServiceTest extends FxRobot {
         eq("Floor 1"), eq("AV"), eq("Alan Smithee"),
         eq(new AVRequestData("Music", "Sample Text", "10 minutes",
             LocalDateTime.now().toString())));
-    verify(snackBar, times(1)).show(anyString());
-    verify(dialog, times(1)).showBasic(any(), any(), any());
+    verify(snackBar, times(2)).show(anyString());
+    verify(dialog, times(0)).showBasic(any(), any(), any());
 
     // Test when there are fields filled out (and adding succeeds)
     clickOn("Submit");
@@ -155,7 +141,8 @@ public class AVServiceTest extends FxRobot {
         eq("Floor 1"), eq("AV"), eq("Alan Smithee"),
         eq(new AVRequestData("Music", "Sample Text", "10 minutes",
             LocalDateTime.now().toString())));
-    verify(snackBar, times(1)).show(anyString());
-    verify(dialog, times(2)).showBasic(anyString(), anyString(), anyString());
+    verify(snackBar, times(2)).show(anyString());
+    verify(dialog, times(0)).showBasic(anyString(), anyString(), anyString());
+    verify(jfxDialog, times(1)).close();
   }
 }
