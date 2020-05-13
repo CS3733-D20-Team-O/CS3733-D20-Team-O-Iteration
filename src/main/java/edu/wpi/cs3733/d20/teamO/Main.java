@@ -2,6 +2,7 @@ package edu.wpi.cs3733.d20.teamO;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import edu.wpi.cs3733.d20.teamO.events.CSSSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.LanguageSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.events.RegisterViewModelEvent;
@@ -74,6 +75,7 @@ public class Main extends Application {
     primaryStage.setTitle("Hospital Kiosk Application");
     primaryStage.setScene(new Scene(get(Navigator.class).getRoot()));
     primaryStage.show();
+    switchCSS(new CSSSwitchEvent("/CSS/NormalColorCSS.css"));
   }
 
   @Override
@@ -141,5 +143,12 @@ public class Main extends Application {
         Platform.runLater(() -> viewModel.onEvent(event));
       }
     }
+  }
+
+  @Subscribe
+  public void switchCSS(CSSSwitchEvent event) {
+    val scene = get(Navigator.class).getRoot().getScene();
+    scene.getStylesheets().clear();
+    scene.getStylesheets().add(event.getPath());
   }
 }

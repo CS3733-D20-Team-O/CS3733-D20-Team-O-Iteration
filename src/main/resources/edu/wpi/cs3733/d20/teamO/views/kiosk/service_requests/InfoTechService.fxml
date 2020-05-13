@@ -74,10 +74,13 @@
     <JFXTextArea fx:id="additionalNotes" promptText="%ITServiceDescription" maxHeight="100"
       styleClass="serviceFields"/>
   </HBox>
-  <HBox alignment="CENTER_RIGHT" spacing="16">
+
+  <!-- Buttons -->
+  <HBox styleClass="buttonBox">
     <JFXButton text="%submitButton" onAction="#submitRequest"
       styleClass="submitButton"/>
     <JFXButton text="%cancelButton" onAction="#close"
       styleClass="cancelButton"/>
   </HBox>
+
 </VBox>

@@ -8,8 +8,6 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.d20.teamO.Navigator;
-import edu.wpi.cs3733.d20.teamO.events.CSSSwitchEvent;
-import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.model.LanguageHandler;
 import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
@@ -23,7 +21,6 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -190,16 +187,5 @@ public class MainKioskViewModel extends ViewModelBase {
     }
     // If we didn't return in the for loop, that means the request isn't in the database
     snackBar.show(getString("serviceRequestLookupFail"));
-  }
-
-  public void onEvent(Event event) {
-    if (event.getClass().equals(CSSSwitchEvent.class)) {
-      for (Node n : mainAnchorPane.getChildren()) {
-        n.setStyle("");
-      }
-      String path = ((CSSSwitchEvent) event).getPath();
-      welcomeBar.getScene().getStylesheets().clear();
-      welcomeBar.getScene().getStylesheets().add(path);
-    }
   }
 }

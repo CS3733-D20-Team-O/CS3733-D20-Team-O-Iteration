@@ -14,7 +14,8 @@
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.about_features.AboutPathFinding">
 
   <!-- Main Welcome Bar -->
-  <StackPane fx:id="usePathFind" prefHeight="64" style="-fx-background-color: #004c8c"
+  <StackPane fx:id="usePathFind" prefHeight="64"
+    styleClass="topBar"
     AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpPFTitle"/>
   </StackPane>
@@ -48,14 +49,16 @@
 
       <HBox alignment="CENTER_RIGHT">
         <JFXButton buttonType="RAISED" onAction="#openPathFinder"
-          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          styleClass="mainButton"
+          style="-fx-font-size: 16; -fx-padding: 12; -fx-background-radius: 16"
           text="%helpPFFindPath">
           <HBox.margin>
             <Insets right="20.0"/>
           </HBox.margin>
         </JFXButton>
         <JFXButton buttonType="RAISED" onAction="#close"
-          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          styleClass="mainButton"
+          style="-fx-font-size: 16; -fx-padding: 12; -fx-background-radius: 16"
           text="%helpPFBack"/>
       </HBox>
 

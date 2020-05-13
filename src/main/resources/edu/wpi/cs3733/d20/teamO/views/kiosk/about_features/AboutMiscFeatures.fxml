@@ -9,9 +9,11 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.about_features.AboutMiscFeatures">
+
   <!-- Main Welcome Bar -->
-  <StackPane fx:id="useMisc" prefHeight="64" style="-fx-background-color: #004c8c"
-    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+  <StackPane fx:id="useMisc" prefHeight="64"
+    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
+    styleClass="topBar">
     <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpOtherTitle"/>
   </StackPane>
 
@@ -31,8 +33,9 @@
 
       <HBox alignment="CENTER_RIGHT">
         <JFXButton buttonType="RAISED" onAction="#close"
-          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
-          text="%helpOtherBack"/>
+          text="%helpOtherBack"
+          style="-fx-font-size: 16; -fx-padding: 12; -fx-background-radius: 16"
+          styleClass="mainButton"/>
       </HBox>
     </VBox>
   </StackPane>

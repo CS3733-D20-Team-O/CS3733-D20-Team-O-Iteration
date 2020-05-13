@@ -21,10 +21,33 @@
   styleClass="serviceBase">
    <children>
       <Label style="-fx-font-size: 32;" text="%serviceIntTransportationDescription"/>
-      <VBox prefHeight="119.0" prefWidth="413.0">
+      <VBox prefHeight="119.0">
          <children>
             <VBox>
                <children>
+
+                  <HBox alignment="CENTER_LEFT" prefHeight="117.0" spacing="16.0">
+                     <children>
+                        <JFXTextField fx:id="reqName" promptText="%namePrompt"
+                          prefWidth="250"
+                          styleClass="serviceFields">
+                           <validators>
+                              <RequiredFieldValidator message="%namePromptValidator"/>
+                           </validators>
+                           <VBox.margin>
+                              <Insets top="8.0"/>
+                           </VBox.margin>
+                        </JFXTextField>
+                        <JFXTimePicker fx:id="reqTime" promptText="%timePrompt"
+                          prefWidth="250"
+                          styleClass="serviceFields">
+                           <validators>
+                              <RequiredFieldValidator message="%timePromptValidator"/>
+                           </validators>
+                        </JFXTimePicker>
+                     </children>
+                  </HBox>
+
                   <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="238.0" spacing="16.0">
                      <children>
                         <NodeSelector fx:id="currentNode" promptText="%nodeSelectorPromptText"
@@ -35,31 +58,12 @@
                         </NodeSelector>
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="187.0" spacing="16.0">
-                     <children>
-                        <JFXTextField fx:id="reqName" promptText="%namePrompt"
-                          prefWidth="300"
-                          styleClass="serviceFields">
-                           <validators>
-                              <RequiredFieldValidator message="%namePromptValidator"/>
-                           </validators>
-                           <VBox.margin>
-                              <Insets top="8.0"/>
-                           </VBox.margin>
-                        </JFXTextField>
-                        <JFXTimePicker fx:id="reqTime" promptText="%timePrompt"
-                          prefWidth="200"
-                          styleClass="serviceFields">
-                           <validators>
-                              <RequiredFieldValidator message="%timePromptValidator"/>
-                           </validators>
-                        </JFXTimePicker>
-                     </children>
-                  </HBox>
+
                </children>
             </VBox>
          </children>
       </VBox>
+
       <JFXTabPane prefHeight="200.0" prefWidth="413.0"
         style="-fx-border-color: gray;"
         styleClass="serviceFields"
@@ -149,16 +153,14 @@
       </JFXTabPane>
 
       <!-- Buttons -->
-      <HBox spacing="32.0">
-         <children>
-            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onSubmit" prefHeight="35.0"
-              prefWidth="102.0"
-              text="%submitButton"
-              styleClass="submitButton"/>
-            <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="10.0" layoutY="10.0"
-              onAction="#close" prefHeight="35.0" prefWidth="102.0" text="%cancelButton"
-              styleClass="cancelButton"/>
-         </children>
+      <HBox styleClass="buttonBox">
+         <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onSubmit" prefHeight="35.0"
+           prefWidth="102.0"
+           text="%submitButton"
+           styleClass="submitButton"/>
+         <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="10.0" layoutY="10.0"
+           onAction="#close" prefHeight="35.0" prefWidth="102.0" text="%cancelButton"
+           styleClass="cancelButton"/>
       </HBox>
 
    </children>

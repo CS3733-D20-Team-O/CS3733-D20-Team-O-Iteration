@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
@@ -26,6 +27,7 @@
           <RequiredFieldValidator message="%namePromptValidator"/>
         </validators>
       </JFXTextField>
+
       <JFXTimePicker fx:id="timePicker" styleClass="serviceFields" promptText="%timePrompt">
         <validators>
           <RequiredFieldValidator message="%timePromptValidator"/>
@@ -40,6 +42,7 @@
           <NodeRequiredValidator message="%locationPromptValidator"/>
         </validators>
       </NodeSelector>
+
       <JFXTextField fx:id="destination" styleClass="serviceFields" prefWidth="250"
         promptText="%externalTransportationDestinationPrompt">
         <validators>
@@ -62,11 +65,10 @@
         promptText="%notesPrompt"/>
     </HBox>
 
-    <HBox alignment="CENTER_RIGHT" spacing="16" style="-fx-padding: 8">
-      <!-- Submit button -->
+    <!-- Buttons -->
+    <HBox styleClass="buttonBox">
       <JFXButton text="%submitButton" onAction="#submitRequest"
         styleClass="submitButton"/>
-      <!-- Cancel button -->
       <JFXButton text="%cancelButton" onAction="#close"
         styleClass="cancelButton"/>
     </HBox>

@@ -52,21 +52,14 @@ public class FloristDeliveryService extends ServiceRequestBase {
       dialog
           .showBasic("Missing information", "Please fill out form completely to continue purchase",
               "ok");
+    } else {
+      generateRequest();
     }
-    generateRequest();
-    //close();
   }
 
   private void generateRequest() {
     val requestedData = new FloristDeliveryData(bouquet.getSelectionModel().getSelectedItem(),
         additionalNotes.getText());
-//    Node requestNode = null;
-////    for (Node node : database.exportNodes().values()) {
-////      if (node.getLongName().equals(locations.getSelectionModel().getSelectedItem())) {
-////        requestNode = node;
-////        break;
-////      }
-////    }
 
     val confirmationCode = database.addServiceRequest(
         LocalDateTime.now().toString(),
@@ -79,7 +72,6 @@ public class FloristDeliveryService extends ServiceRequestBase {
       dialog.showBasic("Sanitation Request Submitted Successfully",
           "Your confirmation code is:\n" + confirmationCode, "Close");
     }
-
   }
 
 }

@@ -1,34 +1,8 @@
-.mainBackground {
-  -fx-background-image: url('/BWFHBackground.jpg');
-  -fx-background-size: cover;
-  -fx-background-position: center;
-  -fx-background-repeat: no-repeat;
-  -fx-font-size: 16;
-}
-
+/* Nodes that need their colors changed*/
 #welcomeBar {
-  -mainColor: #004c8c;
-
-  -fx-background-color: -mainColor;
+  -fx-background-color: #004c8c;
 }
 
-/* NavigationBar */
-#controllerTitle {
-  -fx-font-size: 24px;
-  -fx-text-fill: floralwhite
-}
-
-/* Street View */
-#streetToFaulknerButton {
-}
-
-#streetToMainCampusButton {
-}
-
-#buttonContainer {
-}
-
-/* styleClasses */
 .mainButton {
   -fx-font-size: 32;
   -fx-background-color: #004c8c;
@@ -37,18 +11,54 @@
   -fx-background-radius: 16;
 }
 
-.main_secondaryButtons {
-  -fx-background-color: whitesmoke;
-  -fx-background-radius: 24;
-  -fx-padding: 12 16;
-}
-
 .topBar {
   -fx-background-color: #004c8c;
   -fx-font-size: 32;
   -fx-text-fill: floralwhite;
 }
 
+.pathModeButton:hover {
+  -fx-background-color: derive(#004c8c, 110%);
+}
+
+.buildingButton:hover {
+  -fx-background-color: derive(#004c8c, 110%);
+}
+
+.floorButton:hover {
+  -fx-background-color: derive(#004c8c, 110%);
+}
+
+.serviceBase {
+  -fx-background-color: derive(#abc0d4, 70%);
+  -fx-padding: 16;
+}
+
+.mapPane {
+  -fx-background-color: derive(#abc0d4, 70%);
+}
+
+/* Constant Nodes */
+.mainBackground {
+  -fx-background-image: url('/BWFHBackground.jpg');
+  -fx-background-size: cover;
+  -fx-background-position: center;
+  -fx-background-repeat: no-repeat;
+  -fx-font-size: 16;
+}
+
+.main_secondaryButtons {
+  -fx-background-color: whitesmoke;
+  -fx-background-radius: 24;
+  -fx-padding: 12 16;
+}
+
+#controllerTitle {
+  -fx-font-size: 24px;
+  -fx-text-fill: floralwhite
+}
+
+/*Floor Buttons*/
 .buildingButton {
   -fx-background-color: lightgrey;
   -fx-background-radius: 30;
@@ -60,11 +70,20 @@
 }
 
 /* Service Requests */
+.buttonBox {
+  -fx-alignment: center;
+  -fx-spacing: 16;
+  -fx-padding: 8;
+}
+
 .submitButton {
   -fx-background-color: #004c8c;
   -fx-text-fill: floralwhite;
   -fx-padding: 16;
   -fx-background-radius: 16;
+  -fx-font-size: 16px;
+  -fx-pref-height: 50;
+  -fx-pref-width: 100;
 }
 
 .cancelButton {
@@ -72,6 +91,9 @@
   -fx-text-fill: floralwhite;
   -fx-padding: 16;
   -fx-background-radius: 16;
+  -fx-font-size: 16px;
+  -fx-pref-height: 50;
+  -fx-pref-width: 100;
 }
 
 .cancelButton .jfx-rippler {
@@ -79,11 +101,6 @@
   -jfx-rippler-fill: #b90c0c;
 }
 
-.serviceBase {
-  /*#58A5F0*/
-  -fx-background-color: derive(#abc0d4, 70%);
-  -fx-padding: 16;
-}
 
 .serviceBox {
   -fx-padding: 8;
@@ -94,4 +111,14 @@
   -jfx-label-float: true;
   -fx-background-color: floralwhite;
   -fx-padding: 8;
+}
+
+/* Pathfinding Buttons*/
+.pathModeButton {
+  -fx-background-radius: 30;
+  -fx-background-color: floralwhite;
+
+  -fx-border-radius: 30;
+  -fx-border-color: black;
+  -fx-border-width: 1.5;
 }

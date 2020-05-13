@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.FloristDeliveryService">
+
   <VBox alignment="CENTER" spacing="32"
     styleClass="serviceBase">
     <Label style="-fx-font-size: 32" text="Florist Delivery Service"/>
@@ -33,6 +34,7 @@
           <NodeRequiredValidator message="%locationPromptValidator"/>
         </validators>
       </NodeSelector>
+
       <JFXComboBox fx:id="bouquet" prefHeight="37.0" prefWidth="250.0" promptText="%BouquetType"
         styleClass="serviceFields">
         <items>
@@ -58,12 +60,14 @@
     <JFXTextArea fx:id="additionalNotes" prefHeight="75.0" prefWidth="618.0"
       promptText="%notesPrompt"
       styleClass="serviceFields"/>
+
     <!-- Buttons -->
-    <HBox alignment="CENTER_RIGHT" spacing="16">
+    <HBox styleClass="buttonBox">
       <JFXButton onAction="#submitRequest" text="%submitButton"
         styleClass="submitButton"/>
       <JFXButton onAction="#close" text="%cancelButton"
         styleClass="cancelButton"/>
     </HBox>
+
   </VBox>
 </StackPane>
