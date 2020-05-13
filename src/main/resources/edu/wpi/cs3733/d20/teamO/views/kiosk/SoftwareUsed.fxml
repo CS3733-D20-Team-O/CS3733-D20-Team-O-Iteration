@@ -26,9 +26,8 @@
   </VBox>
   <VBox>
     <Label text="%creditsInternalAPIs"/>
-    <Label text=" - Team B: Secure Incident Reporting, v1.0.0"/>
-    <Label text=" - Team E: onCallBedsAPI, v1.0.3"/>
-    <Label text=" - Team K: MortuWary Requests, v1.0.1"/>
+    <Label text=" - Team M: A/V Request, v1.0.0"/>
+    <Label text=" - Team E: On Call Beds, v1.0.3"/>
     <Label text=" - Team P: Food Request, v1.1.0"/>
   </VBox>
   <JFXButton buttonType="RAISED" onAction="#close"

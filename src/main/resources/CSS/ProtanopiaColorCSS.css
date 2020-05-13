@@ -149,15 +149,6 @@ Emergency Button: 4d4410
 }
 
 /* Emergency Report*/
-.radio-button .radio {
-  -fx-opacity: 0;
-  -fx-background-color: lawngreen;
-}
-
-.radio-button:hover {
-  -fx-background-color: lawngreen;
-}
-
 .radio-button {
 
   -fx-border-color: BLACK;
@@ -165,8 +156,6 @@ Emergency Button: 4d4410
   -fx-pref-width: 176.0;
   -fx-text-alignment: CENTER;
   -fx-font-weight: BOLD;
-  -fx-text-fill: WHITE;
-  -fx-border-color: BLACK;
 }
 
 #adminButton {
