@@ -172,13 +172,16 @@
               <children>
                 <JFXTextArea centerShape="false" editable="false" prefHeight="50.0"
                   prefWidth="355.0"
+                  styleClass="adminLabel"
                   text="%requestHandlerStep1"
                   wrapText="true"/>
                 <JFXTextArea editable="false" prefHeight="64.0" prefWidth="355.0"
                   text="%requestHandlerStep2"
+                  styleClass="adminLabel"
                   wrapText="true"/>
                 <JFXTextArea editable="false" prefHeight="72.0" prefWidth="355.0"
                   text="%requestHandlerStep3"
+                  styleClass="adminLabel"
                   wrapText="true"/>
               </children>
             </VBox>
