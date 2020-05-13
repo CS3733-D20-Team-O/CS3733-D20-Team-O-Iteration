@@ -74,6 +74,10 @@ Emergency Button: 890c00
   -fx-background-color: #a5d9ea;
 }
 
+.adminLabel {
+  -fx-text-fill: black;
+}
+
 /* Constant Nodes */
 .mainBackground {
   -fx-background-image: url('/BWFHBackground.jpg');

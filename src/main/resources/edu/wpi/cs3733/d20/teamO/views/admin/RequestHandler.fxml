@@ -16,7 +16,7 @@
   xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.RequestHandlerViewModel"
-  styleClass="adminBackground">
+  styleClass="serviceBase">
 
   <children>
     <VBox layoutX="16.0" layoutY="16.0" prefHeight="617.0" prefWidth="1035.0" spacing="20.0"

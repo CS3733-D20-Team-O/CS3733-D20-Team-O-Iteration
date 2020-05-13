@@ -70,7 +70,12 @@ Emergency Button: 8b0000
 }
 
 .adminBackground {
-  -fx-background-color: #acd7fd;
+  -fx-background-color: #133757;
+  -fx-text-fill: floralwhite;
+}
+
+.adminLabel {
+  -fx-text-fill: floralwhite;
 }
 
 /* Constant Nodes */
