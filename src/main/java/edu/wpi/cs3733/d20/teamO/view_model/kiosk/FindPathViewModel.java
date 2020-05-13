@@ -253,12 +253,12 @@ public class FindPathViewModel extends ViewModelBase {
         .equals(nodeMapViewController.getBuilding())) {
       nodeMapViewController
           .addText(beginning.getXCoord(), beginning.getYCoord(), beginning.getLongName(),
-              "-fx-background-color:lightgray");
+              "-fx-font-size:16px; -fx-font-family: 'Roboto Bold'; -fx-border-width: 2px; -fx-border-color: black; -fx-background-color: white; -fx-background-radius: 3px; -fx-border-radius: 2px");
     }
     if (finish.getFloor().equals(nodeMapViewController.getFloor()) && finish.getBuilding()
         .equals(nodeMapViewController.getBuilding())) {
       nodeMapViewController.addText(finish.getXCoord(), finish.getYCoord(), finish.getLongName(),
-          "-fx-background-color:lightgray");
+          "-fx-font-size:16px; -fx-font-family: 'Roboto Bold'; -fx-border-width: 2px; -fx-border-color: black; -fx-background-color: white; -fx-background-radius: 3px; -fx-border-radius: 2px");
     }
 
     for (int i = 0; i < nodes.size() - 1; i++) {

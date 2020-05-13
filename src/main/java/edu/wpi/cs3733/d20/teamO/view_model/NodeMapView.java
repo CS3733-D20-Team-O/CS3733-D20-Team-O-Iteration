@@ -547,7 +547,7 @@ public class NodeMapView extends ViewModelBase {
         pane.setLayoutX(translateToPaneX(x) - (text.getWidth() / 2)));
 
     text.heightProperty().addListener(observable ->
-        pane.setLayoutY(translateToPaneY(y) - (text.getHeight() / 2)));
+        pane.setLayoutY(translateToPaneY(y) - (text.getHeight() / 2) - 30));
 
     // Even if the text is dragged on, it should still be able to move the map
     text.setOnMousePressed(event -> {
