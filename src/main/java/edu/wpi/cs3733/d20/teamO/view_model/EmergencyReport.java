@@ -3,7 +3,7 @@ package edu.wpi.cs3733.d20.teamO.view_model;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.EmergencyReportData;
 import edu.wpi.cs3733.d20.teamO.model.material.node_selector.NodeSelector;

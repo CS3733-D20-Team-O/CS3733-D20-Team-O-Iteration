@@ -5,6 +5,6 @@
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.EmergencyButton"
   prefHeight="50" prefWidth="150.0" text="Emergency" buttonType="RAISED"
-  style="-fx-background-color: darkred; -fx-font-size: 24px; -fx-text-fill: floralwhite"
+  style="-fx-background-color: #8b0000; -fx-font-size: 24px; -fx-text-fill: floralwhite"
   onAction="#onEmergencyPressed"/>
 

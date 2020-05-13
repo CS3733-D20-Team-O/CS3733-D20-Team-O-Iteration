@@ -92,7 +92,7 @@
   </HBox>
 
   <!-- Emergency Button -->
-  <AnchorPane AnchorPane.rightAnchor="16" AnchorPane.topAnchor="8" AnchorPane.bottomAnchor="8">
+  <AnchorPane AnchorPane.rightAnchor="16" AnchorPane.topAnchor="8">
     <fx:include source="/edu/wpi/cs3733/d20/teamO/views/EmergencyButton.fxml"
       fx:id="emergencyButton"/>
   </AnchorPane>
