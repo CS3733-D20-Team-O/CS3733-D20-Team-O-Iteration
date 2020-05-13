@@ -48,7 +48,9 @@ public class NodeSelector extends JFXTextField {
   public void setNodes(Collection<Node> nodes) {
     descToNodes.clear();
     for (val node : nodes) {
-      descToNodes.put(String.format("(%s) %s", node.getFloor(), node.getLongName()), node);
+      descToNodes
+          .put(String.format("(%s/%s) %s", node.getFloor(), node.getBuilding(), node.getLongName()),
+              node);
     }
   }
 

@@ -41,7 +41,9 @@ import lombok.val;
 public class NodeMapView extends ViewModelBase {
 
   // Floor Storage
+  @Getter
   private String floor = "1";
+  @Getter
   private String building = "Faulkner";
 
   // Zoom Controls
@@ -58,9 +60,10 @@ public class NodeMapView extends ViewModelBase {
 
   // Node and edge visuals
   @Setter
-  private double nodeSize = 5, edgeSize = 3;
+  private double nodeSize = 5, nodeOutlineSize = 2, edgeSize = 3;
   @Setter
-  private Paint nodeColor = Color.web("#00991f"),
+  private Paint nodeColor = Color.GREENYELLOW,
+      nodeOutlineColor = Color.web("#00991f"),
       edgeColor = Color.web("#58A5F0"),
       highlightColor = Color.RED;
 
@@ -105,16 +108,6 @@ public class NodeMapView extends ViewModelBase {
    */
   @Setter
   private BiConsumer<Integer, Integer> onMissRightTapListener;
-  /**
-   * Gets called when a node is hovered over
-   */
-  @Setter
-  private Consumer<Node> onNodeHover;
-  /**
-   * Gets called when a node isn't hovered over anymore
-   */
-  @Setter
-  private Consumer<Node> onNodeHoverExit;
 
   // Node storage
   /**
@@ -158,8 +151,9 @@ public class NodeMapView extends ViewModelBase {
       if (event.getButton().equals(MouseButton.PRIMARY)) { // Used for dragging
         dragX = floorPane.getTranslateX() - event.getSceneX();
         dragY = floorPane.getTranslateY() - event.getSceneY();
-      } else if (event.getButton()
-          .equals(MouseButton.SECONDARY)) { // Used for right click on the background
+      } else if (onMissRightTapListener != null &&
+          event.getButton()
+              .equals(MouseButton.SECONDARY)) { // Used for right click on the background
         val imageX = translateToImageX((int) event.getX());
         val imageY = translateToImageY((int) event.getY());
         onMissRightTapListener.accept(imageX, imageY);
@@ -282,6 +276,8 @@ public class NodeMapView extends ViewModelBase {
     val x = translateToPaneX(node.getXCoord());
     val y = translateToPaneY(node.getYCoord());
     val drawnNode = new NodeCircle(node, x, y, nodeSize, nodeColor);
+    drawnNode.setStroke(nodeOutlineColor);
+    drawnNode.setStrokeWidth(nodeOutlineSize);
 
     drawnNode.setOnMouseReleased(event -> {
       if (onNodeLeftTapListener != null && event.getButton().equals(MouseButton.PRIMARY)) {
@@ -608,10 +604,6 @@ public class NodeMapView extends ViewModelBase {
     } catch (Exception e) {
       log.error("The floor map associated with that floor doesn't exist!");
     }
-  }
-
-  public String getFloor() {
-    return this.floor;
   }
 
   /**

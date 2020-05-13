@@ -81,7 +81,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private FloorSelector floorSelectorController;
 
-  private Map<String, Node> nodeMap, handicapMap, stairsMap;
+  private Map<String, Node> nodeMap, handicapMap, stairsMap, previewMap;
   private final DatabaseWrapper database;
   private Node beginning;
   private Node finish;
@@ -114,6 +114,7 @@ public class FindPathViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
     handicapMap = new HashMap<>();
     stairsMap = new HashMap<>();
+    previewMap = new HashMap<>();
 
     currentState = AccessabilityState.NONE;
     val clipRect = new Rectangle();
@@ -149,6 +150,8 @@ public class FindPathViewModel extends ViewModelBase {
       nodeMapViewController.draw();
       drawPath();
     });
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> selectNearestNode(x, y));
+    nodeMapViewController.setOnNodeRightTapListener(node -> selectNode(node));
 
     startLocation.setNodes(nodeMap.values());
     stopLocation.setNodes(nodeMap.values());
@@ -199,6 +202,8 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
+    clearPreview(); // Clear the preview
+
     floorSelectorContainer.setVisible(true);
     floorSelectorController
         .styleButtons(nodeMapViewController.getBuilding(), nodeMapViewController.getFloor());
@@ -222,6 +227,8 @@ public class FindPathViewModel extends ViewModelBase {
   }
 
   private void drawPath() {
+    clearPreview(); // Clear the preview
+
     if (beginning == null || finish == null) { //only pathfind if both nodes are set
       return;
     }
@@ -233,6 +240,7 @@ public class FindPathViewModel extends ViewModelBase {
     } else {
       streetViewViewModelController.goToFaulkner();
     }
+
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
@@ -534,6 +542,154 @@ public class FindPathViewModel extends ViewModelBase {
     // Clear out remaining data in buffers into a step
     steps.add(new Step(instructionBuffer, nodeBuffer, currBuilding, currFloor));
     return steps;
+  }
+
+  /**
+   * Using a set of coordinates, find the closest node, check the distance and set it to either the
+   * beginning or ending
+   *
+   * @param x the x coordinate
+   * @param y the y coordinate
+   */
+  private void selectNearestNode(int x, int y) {
+    double distance = Double.MAX_VALUE;
+    Node closestNode = null;
+    val distanceMap = new HashMap<Node, Double>();
+    val selector = getSelector();
+
+    if (selector == null) { // If a selector isn't selected, then stop
+      snackBar.show("Error: Please select one of the textboxes to set a node to!");
+      return;
+    }
+
+    clearPreview(); // Clear the preview
+
+    // Find the node that's closest on the current floor and building
+    for (Node node : nodeMap.values()) {
+      if (node.getFloor().equals(nodeMapViewController.getFloor()) && node.getBuilding()
+          .equals(nodeMapViewController.getBuilding())) {
+
+        val nodeDistance = getDistance(x, y, node.getXCoord(), node.getYCoord());
+        if (nodeDistance < distance) { // Update the node and distance if needed
+          closestNode = node;
+          distance = nodeDistance;
+        }
+
+        // Place in a distance map (used to look through nodes when the node/distance is beyond
+        // the threshold)
+        distanceMap.put(node, nodeDistance);
+      }
+    }
+
+    if (closestNode != null && distance < 75) { // Check if the node is within a set distance
+      selector.setTextWithoutPopup(String.format("(%s/%s) %s",
+          closestNode.getFloor(), closestNode.getBuilding(), closestNode.getLongName()));
+
+    } else { // Show preview nodes
+      // Set preview node colors
+      nodeMapViewController.setNodeColor(Color.AQUA);
+      nodeMapViewController.setNodeOutlineColor(Color.BLUE);
+
+      int z = 0;
+      while (z < 5) { // Print the 5 closest nodes
+        distance = Double.MAX_VALUE;
+        closestNode = null;
+
+        // Find the closest node
+        for (Map.Entry<Node, Double> entry : distanceMap.entrySet()) {
+          val nodeDistance = getDistance(x, y, entry.getKey().getXCoord(),
+              entry.getKey().getYCoord());
+          if (nodeDistance < distance) { // Update the node and distance if needed
+            closestNode = entry.getKey();
+            distance = nodeDistance;
+          }
+        }
+
+        if (closestNode != null) { // If there is a node
+          if (!closestNode.equals(beginning) && !closestNode
+              .equals(finish)) { // If the nodes isn't the starting or ending node
+            nodeMapViewController.addNode(closestNode);
+            previewMap
+                .put(closestNode.getNodeID(), closestNode); // Place the node into the preview map
+            z++; // Only increment z if it wasn't the starting or ending node
+          }
+          distanceMap.remove(closestNode);
+
+        } else { // No more nodes, break
+          break;
+        }
+      }
+
+      // Reset colors
+      nodeMapViewController.setNodeColor(Color.GREENYELLOW);
+      nodeMapViewController.setNodeOutlineColor(Color.web("#00991f"));
+    }
+  }
+
+  /**
+   * From a given node, check if it was part of the preview and set it to either beginning or end
+   *
+   * @param node the node
+   */
+  private void selectNode(Node node) {
+    // If this node is part of the preview, set it
+    // Else, it must be part of the node path, don't do anything then
+    if (previewMap.containsValue(node)) {
+      val selector = getSelector();
+      if (selector == null) { // If a selector isn't selected, then stop
+        snackBar.show("Error: Please select one of the textboxes to set a node to!");
+        return;
+      }
+
+      clearPreview();
+      selector.setTextWithoutPopup(String.format("(%s/%s) %s",
+          node.getFloor(), node.getBuilding(), node.getLongName()));
+    }
+  }
+
+
+  /**
+   * Returns a selected NodeSelector
+   *
+   * @return a NodeSelector (or null if no selector is selected)
+   */
+  private NodeSelector getSelector() {
+    val scene = startLocation.getScene();
+    val focus = scene.getFocusOwner();
+
+    if (focus.equals(startLocation)) {
+      return startLocation;
+    } else if (focus.equals(stopLocation)) {
+      return stopLocation;
+    }
+
+    return null;
+  }
+
+  /**
+   * Gets the distance between two coordinates
+   *
+   * @param x1 x coordinate of the first spot
+   * @param y1 y coordinate of the first spot
+   * @param x2 x coordinate of the second spot
+   * @param y2 y coordinate of the second spot
+   * @return the distance between the two coordinates
+   */
+  private double getDistance(double x1, double y1, double x2, double y2) {
+    val legX = Math.abs(x1 - x2);
+    val legY = Math.abs(y1 - y2);
+    val hypoX = Math.pow(legX, 2);
+    val hypoY = Math.pow(legY, 2);
+    return Math.sqrt(hypoX + hypoY);
+  }
+
+  /**
+   * Clears the preview nodes off the map
+   */
+  private void clearPreview() {
+    for (Node node : previewMap.values()) {
+      nodeMapViewController.deleteNode(node);
+    }
   }
 
   public void setBGColor() {
