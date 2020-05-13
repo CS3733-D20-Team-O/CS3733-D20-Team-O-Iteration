@@ -14,21 +14,24 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.AVService">
-  <VBox alignment="TOP_CENTER" spacing="32.0"
-    style="-fx-padding: 32; -fx-background-radius: 16; -fx-font-size: 16;">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.AVService"
+  styleClass="serviceBase">
+
+  <VBox alignment="TOP_CENTER" spacing="32.0">
     <Label style="-fx-font-size: 32;" text="%serviceAVDescription"/>
-    <JFXTextField fx:id="requesterNameField" promptText="%namePrompt"/>
-    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="32.0">
-      <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
-        <validators>
-          <NodeRequiredValidator message="%locationPromptValidator"/>
-        </validators>
-      </NodeSelector>
+
+    <HBox style="-fx-padding: 8; -fx-spacing: 16; -fx-alignment: center">
+      <JFXTextField fx:id="requesterNameField" prefWidth="250" promptText="%namePrompt"
+        styleClass="serviceFields"/>
+
+      <JFXTimePicker fx:id="startTimePicker" prefWidth="250" promptText="%timePrompt"
+        styleClass="serviceFields"/>
     </HBox>
-    <VBox alignment="CENTER" spacing="32.0">
-      <JFXComboBox fx:id="serviceRequestComboBox" prefHeight="37.0" prefWidth="222.0"
-        promptText="%serviceAVRequestComboBox">
+
+    <HBox style="-fx-padding: 8; -fx-spacing: 16; -fx-alignment: center">
+      <JFXComboBox fx:id="serviceRequestComboBox" prefWidth="250.0"
+        promptText="%serviceAVRequestComboBox"
+        styleClass="serviceFields">
         <items>
           <FXCollections fx:factory="observableArrayList">
             <String fx:value="Music"/>
@@ -36,9 +39,10 @@
           </FXCollections>
         </items>
       </JFXComboBox>
-      <JFXTimePicker fx:id="startTimePicker" promptText="%timePrompt"/>
-      <JFXComboBox fx:id="durationComboBox" prefHeight="37.0" prefWidth="224.0"
-        promptText="%serviceAVDurationComboBox">
+
+      <JFXComboBox fx:id="durationComboBox" prefWidth="250.0"
+        promptText="%serviceAVDurationComboBox"
+        styleClass="serviceFields">
         <items>
           <FXCollections fx:factory="observableArrayList">
             <String fx:value="5 minutes"/>
@@ -56,13 +60,30 @@
           </FXCollections>
         </items>
       </JFXComboBox>
-    </VBox>
-    <JFXTextArea fx:id="commentTextArea" promptText="%notesPrompt"/>
-    <HBox alignment="CENTER_RIGHT" spacing="16.0">
-      <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#onSubmitPress"
-        style="-fx-background-color: #00BB00; -fx-text-fill: WHITE;" text="%submitButton"/>
-      <JFXButton fx:id="cancelButton" buttonType="RAISED" onAction="#close"
-        style="-fx-background-color: LIGHTGRAY;" text="%cancelButton"/>
     </HBox>
+
+    <HBox style="-fx-padding: 8; -fx-spacing: 16; -fx-alignment: center-left">
+      <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText"
+        prefWidth="250"
+        styleClass="serviceFields">
+        <validators>
+          <NodeRequiredValidator message="%locationPromptValidator"/>
+        </validators>
+      </NodeSelector>
+    </HBox>
+
+    <JFXTextArea fx:id="commentTextArea" prefHeight="75" promptText="%notesPrompt"
+      styleClass="serviceFields"/>
+
+    <!-- Buttons -->
+    <HBox style="-fx-padding: 8; -fx-spacing: 16; -fx-alignment: center">
+      <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#onSubmitPress"
+        text="%submitButton"
+        styleClass="submitButton"/>
+      <JFXButton fx:id="cancelButton" buttonType="RAISED" onAction="#close"
+        text="%cancelButton"
+        styleClass="cancelButton"/>
+    </HBox>
+
   </VBox>
 </StackPane>

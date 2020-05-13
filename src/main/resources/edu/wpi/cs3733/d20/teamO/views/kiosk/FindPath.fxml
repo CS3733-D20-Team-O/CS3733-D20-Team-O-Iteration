@@ -12,76 +12,102 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <BorderPane maxHeight="720.0" maxWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
   style="-fx-background-color: #8e8e8e;" xmlns="http://javafx.com/javafx/10.0.2-internal"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.FindPathViewModel">
+
+  <!-- Containers -->
   <center>
     <VBox>
       <AnchorPane fx:id="clipper">
+
+        <!-- Node Map Container -->
         <HBox fx:id="nodeMapContainer" visible="true">
           <fx:include fx:id="nodeMapView"
             source="/edu/wpi/cs3733/d20/teamO/views/NodeMapView.fxml"/>
         </HBox>
+
+        <!-- Street Map container -->
         <VBox fx:id="streetMapContainer" fillWidth="true" visible="false"
           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
           <fx:include fx:id="streetViewViewModel"
             source="/edu/wpi/cs3733/d20/teamO/views/StreetView.fxml"/>
         </VBox>
       </AnchorPane>
-      <StackPane>
-        <HBox fx:id="mapSwitcherButtons" spacing="16" VBox.vgrow="NEVER" alignment="CENTER">
-          <padding>
-            <Insets bottom="0.0" left="8.0" right="8.0" top="8.0"/>
-          </padding>
-        </HBox>
-      </StackPane>
+
+      <!-- Map Switcher Button -->
+      <HBox fx:id="mapSwitcherButtons" spacing="16" VBox.vgrow="NEVER">
+        <padding>
+          <Insets bottom="0.0" left="8.0" right="8.0" top="0.0"/>
+        </padding>
+      </HBox>
     </VBox>
   </center>
+
+  <!-- Path Finding Pane -->
   <left>
     <AnchorPane fx:id="sideBar" prefHeight="200.0" prefWidth="200.0"
-      style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
+      styleClass="mapPane"
+      BorderPane.alignment="CENTER">
       <VBox alignment="TOP_CENTER" layoutX="0" layoutY="0" spacing="8.0">
         <padding>
           <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
         </padding>
+
+        <!-- Floor Selector -->
         <HBox fx:id="floorSelectorContainer" alignment="CENTER" prefWidth="200.0" spacing="4.0">
           <fx:include fx:id="floorSelector"
             source="/edu/wpi/cs3733/d20/teamO/views/FloorSelector.fxml"/>
         </HBox>
+
+        <!-- Clear Button -->
         <JFXButton buttonType="RAISED" onAction="#resetPath" style="-fx-background-color: lightgray"
           text="%clearButton"/>
+
+        <!-- Generate QR Button -->
         <JFXButton buttonType="RAISED" onAction="#generateQR"
           style="-fx-background-color: lightgray" text="%generateQR"/>
-        <Label text="%pathFindStart"/>
-        <NodeSelector fx:id="startLocation" promptText="%nodeSelectorPromptText" layoutX="14.0"
-          layoutY="204.0">
+
+        <!-- Start Node Selector -->
+        <Label text="%pathFindStart" style="-fx-font-weight: bold;"/>
+
+        <NodeSelector fx:id="startLocation" promptText="%nodeSelectorPromptText"
+          layoutX="14.0" layoutY="204.0"
+          styleClass="serviceFields">
           <validators>
             <NodeRequiredValidator message="%pathFindNodeError"/>
           </validators>
         </NodeSelector>
-        <HBox prefHeight="38.0" prefWidth="202.0" spacing="8.0">
+
+        <!-- Mode Buttons -->
+        <HBox prefHeight="38.0" prefWidth="202.0" spacing="8.0"
+          style="-fx-alignment: center">
           <children>
-            <JFXButton buttonType="RAISED" onAction="#reversePath"
-              style="-fx-background-color: lightgray">
+            <!-- Reverse Path Button -->
+            <JFXButton buttonType="FLAT" onAction="#reversePath"
+              styleClass="pathModeButton">
               <graphic>
                 <ImageView fitHeight="22" pickOnBounds="true" preserveRatio="true">
                   <Image url="@/swap_vert-24px.png"/>
                 </ImageView>
               </graphic>
             </JFXButton>
-            <JFXButton fx:id="handicap" buttonType="RAISED" onAction="#switchAccessibility"
-              style="-fx-background-color: lightgrey;">
+
+            <!-- Handicap Mode Button -->
+            <JFXButton fx:id="handicap" buttonType="FLAT" onAction="#switchAccessibility"
+              styleClass="pathModeButton">
               <graphic>
                 <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
                   <Image url="@/Handicap Button Icon.png"/>
                 </ImageView>
               </graphic>
             </JFXButton>
-            <JFXButton fx:id="stairsOnly" buttonType="RAISED" onAction="#switchAccessibility"
-              style="-fx-background-color: lightgrey;">
+
+            <!-- Stair Mode Button -->
+            <JFXButton fx:id="stairsOnly" buttonType="FLAT" onAction="#switchAccessibility"
+              styleClass="pathModeButton">
               <graphic>
                 <ImageView fitHeight="24" pickOnBounds="true" preserveRatio="true">
                   <Image url="@/Stairs Icon.png"/>
@@ -93,43 +119,58 @@
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
           </padding>
         </HBox>
-        <Label text="%pathFindStop"/>
-        <NodeSelector fx:id="stopLocation" promptText="%nodeSelectorPromptText" layoutX="18.0"
-          layoutY="300.0">
+
+        <!-- End Node Selector -->
+        <Label text="%pathFindStop" style="-fx-font-weight: bold;"/>
+
+        <NodeSelector fx:id="stopLocation" promptText="%nodeSelectorPromptText"
+          layoutX="18.0" layoutY="300.0"
+          styleClass="serviceFields">
           <validators>
             <NodeRequiredValidator message="%pathFindNodeError"/>
           </validators>
         </NodeSelector>
-        <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="202.0"/>
-        <HBox alignment="CENTER" spacing="8.0">
-          <Label text="Background color"/>
-          <JFXColorPicker fx:id="colorPicker" onAction="#setBGColor"/>
-        </HBox>
-        <HBox>
-          <JFXButton buttonType="RAISED" onAction="#setNearestBathroom"
-            style="-fx-background-color: lightgray">
+
+        <!-- Quick buttons -->
+        <HBox alignment="CENTER" spacing="8">
+          <!-- Bathroom Quick Button -->
+          <JFXButton buttonType="FLAT" onAction="#setNearestBathroom"
+            styleClass="pathModeButton">
             <graphic>
               <ImageView fitHeight="24" fitWidth="24">
                 <Image url="@/Toilet-Icon.png"/>
               </ImageView>
             </graphic>
           </JFXButton>
-          <JFXButton buttonType="RAISED" onAction="#setNearestExit"
-            style="-fx-background-color: lightgray">
+
+          <!-- Exit Quick Button -->
+          <JFXButton buttonType="FLAT" onAction="#setNearestExit"
+            styleClass="pathModeButton">
             <graphic>
               <ImageView fitHeight="24" fitWidth="24">
                 <Image url="@/Exit-Icon.png"/>
               </ImageView>
             </graphic>
           </JFXButton>
-          <JFXButton buttonType="RAISED" onAction="#setNearestFood"
-            style="-fx-background-color: lightgray">
+
+          <!-- Food Quick Button -->
+          <JFXButton buttonType="FLAT" onAction="#setNearestFood"
+            styleClass="pathModeButton">
             <graphic>
               <ImageView fitHeight="24" fitWidth="24">
                 <Image url="@/Food-Icon.png"/>
               </ImageView>
             </graphic>
           </JFXButton>
+        </HBox>
+
+        <!-- Text Pane -->
+        <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="202.0"/>
+
+        <!-- Color Picker -->
+        <HBox alignment="CENTER" spacing="8.0" style="-fx-padding: 8">
+          <Label text="Background color"/>
+          <JFXColorPicker fx:id="colorPicker" onAction="#setBGColor"/>
         </HBox>
       </VBox>
     </AnchorPane>

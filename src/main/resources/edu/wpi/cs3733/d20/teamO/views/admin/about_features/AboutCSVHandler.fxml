@@ -11,7 +11,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.about_features.AboutCSVHandler">
   <!-- Main Welcome Bar -->
-  <StackPane fx:id="useCSVHandler" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0"
+  <StackPane fx:id="useCSVHandler" styleClass="topBar" AnchorPane.leftAnchor="0"
     AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpCSVTitle"/>
   </StackPane>
@@ -33,14 +33,16 @@
 
       <HBox alignment="CENTER_RIGHT" AnchorPane.rightAnchor="5">
         <JFXButton buttonType="RAISED" onAction="#openCSVHandler"
-          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          styleClass="mainButton"
+          style="-fx-font-size: 16; -fx-padding: 12; -fx-background-radius: 16"
           text="%helpCSVHandler">
           <HBox.margin>
             <Insets right="20.0"/>
           </HBox.margin>
         </JFXButton>
         <JFXButton buttonType="RAISED" onAction="#close"
-          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          styleClass="mainButton"
+          style="-fx-font-size: 16; -fx-padding: 12; -fx-background-radius: 16"
           text="%helpCSVBack"/>
       </HBox>
       <padding>

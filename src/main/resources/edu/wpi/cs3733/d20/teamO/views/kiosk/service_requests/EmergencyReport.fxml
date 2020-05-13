@@ -13,19 +13,20 @@
 <?import javafx.scene.layout.VBox?>
 <VBox alignment="CENTER" prefHeight="722.0" prefWidth="595.0" spacing="32"
   style="-fx-border-color: darkred; -fx-border-width: 5; -fx-padding: 16; -fx-background-radius: 16; -fx-font-size: 16;"
-  stylesheets="/CSS/SecurityServiceRequestCSS.css" xmlns="http://javafx.com/javafx/11.0.1"
+  styleClass="serviceBase"
+  xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.EmergencyReport">
 
   <Label alignment="CENTER" prefHeight="62.0" prefWidth="563.0" style="-fx-font-size: 32;"
     text="%emergencyRequestTitle"/>
-  <HBox alignment="CENTER" prefHeight="265.0" prefWidth="563.0" style="-fx-spacing: 16;">
+  <HBox alignment="CENTER" prefHeight="300" prefWidth="563.0" style="-fx-spacing: 16;">
     <children>
 
       <!-- Button Column 1: Adults, Child, Fire, Violent-->
-      <VBox alignment="TOP_CENTER" spacing="16">
+      <VBox alignment="TOP_CENTER" spacing="8">
         <children>
-          <JFXRadioButton fx:id="codeBlue" prefHeight="85.0" prefWidth="160.0"
+          <JFXRadioButton fx:id="codeBlue" prefHeight="95.0" prefWidth="160.0"
             text="Adult Medical Emergency" textAlignment="CENTER" textFill="WHITE" wrapText="true">
             <toggleGroup>
               <ToggleGroup fx:id="levelSelection"/>
@@ -41,7 +42,7 @@
 
 
       <!-- Button Column : Armed, Evac, Hostage-->
-      <VBox alignment="TOP_CENTER" spacing="16">
+      <VBox alignment="TOP_CENTER" spacing="8">
         <children>
           <JFXRadioButton fx:id="codeGray" text="Armed Individual" toggleGroup="$levelSelection"
             wrapText="true"/>
@@ -51,7 +52,7 @@
       </VBox>
 
       <!-- Button Column 3: Bomb, Ex, Missing-->
-      <VBox alignment="TOP_CENTER" spacing="16">
+      <VBox alignment="TOP_CENTER" spacing="8">
         <children>
           <JFXRadioButton fx:id="codeBlack" text="Bomb Threat" toggleGroup="$levelSelection"
             wrapText="true"/>
@@ -69,18 +70,21 @@
       <Image url="@/person-icon.png"/>
     </ImageView>
     <JFXTextField fx:id="requesterName" prefHeight="45.0" prefWidth="200.0" promptText="Name"
-      style="-fx-background-color: WHITE;"/>
+      styleClass="serviceFields"/>
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@/location-icon.png"/>
     </ImageView>
-    <NodeSelector fx:id="nodeSelector" promptText="Location" style="-fx-background-color: WHITE;"/>
+    <NodeSelector fx:id="nodeSelector" promptText="Location"
+      styleClass="serviceFields"/>
   </HBox>
 
   <JFXTextArea fx:id="additionalNotes" prefHeight="79.0" prefWidth="200.0"
-    promptText="Additional Notes" style="-fx-background-color: WHITE;"/>
+    promptText="Additional Notes"
+    styleClass="serviceFields"/>
+
   <HBox alignment="CENTER_RIGHT" spacing="16">
     <JFXButton buttonType="RAISED" onAction="#submitRequest"
-      style="-fx-padding: 15; -fx-background-color: chartreuse; -fx-background-radius: 16; -fx-opacity: 0.9"
+      styleClass="submitButton"
       text="Submit"/>
   </HBox>
 </VBox>

@@ -17,26 +17,20 @@
 <?import javafx.scene.layout.VBox?>
 <VBox alignment="TOP_CENTER" fillWidth="false" spacing="8.0" style="-fx-padding: 32;"
   xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InternalTransportationService">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InternalTransportationService"
+  styleClass="serviceBase">
    <children>
       <Label style="-fx-font-size: 32;" text="%serviceIntTransportationDescription"/>
-      <VBox prefHeight="119.0" prefWidth="413.0">
+      <VBox prefHeight="119.0">
          <children>
-            <HBox>
+            <VBox>
                <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="238.0" spacing="16.0">
-                     <children>
-                        <NodeSelector fx:id="currentNode" promptText="%nodeSelectorPromptText">
-                           <validators>
-                              <NodeRequiredValidator message="%locationPromptValidator"/>
-                           </validators>
-                        </NodeSelector>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="187.0" spacing="16.0">
+
+                  <HBox alignment="CENTER_LEFT" prefHeight="117.0" spacing="16.0">
                      <children>
                         <JFXTextField fx:id="reqName" promptText="%namePrompt"
-                          style="-fx-background-color: lightgray;">
+                          prefWidth="250"
+                          styleClass="serviceFields">
                            <validators>
                               <RequiredFieldValidator message="%namePromptValidator"/>
                            </validators>
@@ -45,26 +39,41 @@
                            </VBox.margin>
                         </JFXTextField>
                         <JFXTimePicker fx:id="reqTime" promptText="%timePrompt"
-                          style="-fx-background-color: lightgray;">
+                          prefWidth="250"
+                          styleClass="serviceFields">
                            <validators>
                               <RequiredFieldValidator message="%timePromptValidator"/>
                            </validators>
                         </JFXTimePicker>
                      </children>
+                  </HBox>
+
+                  <VBox alignment="CENTER_LEFT" prefHeight="117.0" prefWidth="238.0" spacing="16.0">
+                     <children>
+                        <NodeSelector fx:id="currentNode" promptText="%nodeSelectorPromptText"
+                          styleClass="serviceFields">
+                           <validators>
+                              <NodeRequiredValidator message="%locationPromptValidator"/>
+                           </validators>
+                        </NodeSelector>
+                     </children>
                   </VBox>
+
                </children>
-            </HBox>
+            </VBox>
          </children>
       </VBox>
-      <JFXTabPane prefHeight="175.0" prefWidth="413.0"
-        style="-fx-border-color: gray; -fx-background-color: gray; -fx-progress-color: gray;"
+
+      <JFXTabPane prefHeight="200.0" prefWidth="413.0"
+        style="-fx-border-color: gray;"
+        styleClass="serviceFields"
         tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab closable="false" onSelectionChanged="#assistedSelected"
               text="%serviceIntTransportAssistedTabTitle">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="126.0" prefWidth="413.0"
-                    style="-fx-background-color: lightgray;">
+                    styleClass="serviceFields">
                      <children>
                         <HBox prefHeight="135.0" prefWidth="413.0" AnchorPane.bottomAnchor="13.0"
                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
@@ -89,7 +98,7 @@
                                       toggleGroup="$assistedToggle"/>
                                  </children>
                               </VBox>
-                              <VBox prefHeight="133.0" prefWidth="142.0" spacing="16.0">
+                              <VBox prefHeight="133.0" prefWidth="200" spacing="16.0">
                                  <children>
                                     <NodeSelector fx:id="destinationNode"
                                       promptText="%nodeSelectorPromptText">
@@ -109,11 +118,12 @@
                   </AnchorPane>
                </content>
             </Tab>
+
             <Tab closable="false" onSelectionChanged="#unassistedSelected"
               text="%serviceIntTransportUnassistedTabTitle">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-                    style="-fx-background-color: lightgray;">
+                    styleClass="serviceFields">
                      <children>
                         <VBox layoutX="42.0" layoutY="29.0" spacing="16.0"
                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
@@ -141,15 +151,17 @@
             </Tab>
          </tabs>
       </JFXTabPane>
-      <HBox spacing="32.0">
-         <children>
-            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onSubmit" prefHeight="35.0"
-              prefWidth="102.0" ripplerFill="#302de1" style="-fx-background-color: lightgray;"
-              text="%submitButton"/>
-            <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="10.0" layoutY="10.0"
-              onAction="#close" prefHeight="35.0" prefWidth="102.0" ripplerFill="#e42121"
-              style="-fx-background-color: lightgray;" text="%cancelButton"/>
-         </children>
+
+      <!-- Buttons -->
+      <HBox styleClass="buttonBox">
+         <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#onSubmit" prefHeight="35.0"
+           prefWidth="102.0"
+           text="%submitButton"
+           styleClass="submitButton"/>
+         <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="10.0" layoutY="10.0"
+           onAction="#close" prefHeight="35.0" prefWidth="102.0" text="%cancelButton"
+           styleClass="cancelButton"/>
       </HBox>
+
    </children>
 </VBox>

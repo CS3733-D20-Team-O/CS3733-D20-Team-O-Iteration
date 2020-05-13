@@ -14,73 +14,94 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<VBox alignment="TOP_CENTER" spacing="32.0" style="-fx-background-color: FFFFFF; -fx-font-size: 16"
+<VBox alignment="TOP_CENTER" spacing="32.0"
   xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.MedicineDeliveryService">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.MedicineDeliveryService"
+  styleClass="serviceBase">
   <padding>
     <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
   </padding>
+
   <children>
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%serviceMedicineDeliveryDescription">
       <font>
         <Font size="18.0"/>
       </font>
     </Text>
+
     <HBox spacing="8.0">
-          <children>
-            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-              <image>
-                <Image url="/face-icon.png"/>
-              </image>
-            </ImageView>
-            <JFXTextField fx:id="patientName" promptText="%serviceMedicineDeliveryPatientNameField">
-              <validators>
-                <RequiredFieldValidator
-                  message="%serviceMedicineDeliveryPatientNameFieldValidator"/>
-              </validators>
-            </JFXTextField>
-            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
-              pickOnBounds="true" preserveRatio="true">
-              <image>
-                <Image url="/hospital-icon.png"/>
-              </image>
-            </ImageView>
-            <JFXTextField fx:id="medicationName" layoutX="218.0" layoutY="10.0"
-              promptText="%serviceMedicineDeliveryMedicationNameField">
-              <validators>
-                <RequiredFieldValidator
-                  message="%serviceMedicineDeliveryMedicationNameFieldValidator"/>
-              </validators>
-            </JFXTextField>
-          </children>
+      <children>
+        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="/face-icon.png"/>
+          </image>
+        </ImageView>
+        <JFXTextField fx:id="patientName" promptText="%serviceMedicineDeliveryPatientNameField"
+          prefWidth="250"
+          styleClass="serviceFields">
+          <validators>
+            <RequiredFieldValidator
+              message="%serviceMedicineDeliveryPatientNameFieldValidator"/>
+          </validators>
+        </JFXTextField>
+
+        <JFXTimePicker fx:id="timePicker" promptText="%timePrompt"
+          prefWidth="250"
+          styleClass="serviceFields">
+          <validators>
+            <RequiredFieldValidator message="%timePromptValidator"/>
+          </validators>
+        </JFXTimePicker>
+      </children>
     </HBox>
-    <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
+
+    <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText"
+      styleClass="serviceFields">
       <validators>
         <NodeRequiredValidator message="%locationPromptValidator"/>
       </validators>
     </NodeSelector>
+
     <HBox alignment="TOP_CENTER" layoutX="18.0" layoutY="83.0" spacing="8.0">
       <children>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="10.0"
+          pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="/hospital-icon.png"/>
+          </image>
+        </ImageView>
+        <JFXTextField fx:id="medicationName" layoutX="218.0" layoutY="10.0"
+          promptText="%serviceMedicineDeliveryMedicationNameField"
+          prefWidth="250"
+          styleClass="serviceFields">
+          <validators>
+            <RequiredFieldValidator
+              message="%serviceMedicineDeliveryMedicationNameFieldValidator"/>
+          </validators>
+        </JFXTextField>
+
         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="/list-icon.png"/>
           </image>
         </ImageView>
-        <JFXComboBox fx:id="deliveryMethod" promptText="%serviceMedicineDeliveryDeliveryMethod">
+        <JFXComboBox fx:id="deliveryMethod" promptText="%serviceMedicineDeliveryDeliveryMethod"
+          prefWidth="250"
+          styleClass="serviceFields">
           <validators>
             <RequiredFieldValidator message="%serviceMedicineDeliveryDeliveryMethodValidator"/>
-              </validators>
-            </JFXComboBox>
-            <JFXTimePicker fx:id="timePicker" promptText="%timePrompt">
-              <validators>
-                <RequiredFieldValidator message="%timePromptValidator"/>
-              </validators>
-            </JFXTimePicker>
-          </children>
-        </HBox>
-    <HBox alignment="CENTER_RIGHT" spacing="16">
-      <JFXButton onAction="#submitRequest" text="%submitButton"/>
-      <JFXButton onAction="#cancel" text="%cancelButton"/>
+          </validators>
+        </JFXComboBox>
+      </children>
     </HBox>
+
+    <!-- Buttons -->
+    <HBox style="-fx-padding: 8; -fx-spacing: 16; -fx-alignment: center">
+      <JFXButton onAction="#submitRequest" text="%submitButton"
+        styleClass="submitButton"/>
+      <JFXButton onAction="#cancel" text="%cancelButton"
+        styleClass="cancelButton"/>
+    </HBox>
+
   </children>
     </VBox>

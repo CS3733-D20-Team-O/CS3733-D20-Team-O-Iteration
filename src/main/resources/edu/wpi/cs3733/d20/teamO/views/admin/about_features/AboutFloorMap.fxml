@@ -11,7 +11,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.about_features.AboutFloorMap">
   <!-- Main Welcome Bar -->
-  <StackPane fx:id="useFloorMap" style="-fx-background-color: #004c8c" AnchorPane.leftAnchor="0"
+  <StackPane fx:id="useFloorMap" styleClass="topBar" AnchorPane.leftAnchor="0"
     AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
     <Label style="-fx-font-size: 32; -fx-text-fill: floralwhite" text="%helpFMETitle"/>
     <padding>
@@ -56,14 +56,16 @@
 
       <HBox alignment="CENTER_RIGHT" AnchorPane.rightAnchor="5">
         <JFXButton buttonType="RAISED" onAction="#openFloorMapEditor"
-          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          styleClass="mainButton"
+          style="-fx-font-size: 16; -fx-padding: 12; -fx-background-radius: 16"
           text="%helpFMEAccessFME">
           <HBox.margin>
             <Insets/>
           </HBox.margin>
         </JFXButton>
         <JFXButton buttonType="RAISED" onAction="#close"
-          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          styleClass="mainButton"
+          style="-fx-font-size: 16; -fx-padding: 12; -fx-background-radius: 16"
           text="%helpFMEBack">
           <HBox.margin>
             <Insets left="20.0"/>

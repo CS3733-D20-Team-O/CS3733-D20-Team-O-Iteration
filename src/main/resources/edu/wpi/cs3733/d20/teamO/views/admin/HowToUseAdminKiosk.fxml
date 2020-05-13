@@ -33,7 +33,7 @@
           <Image url="@/location-icon.png"/>
         </ImageView>
         <JFXButton buttonType="RAISED" onAction="#openFloorEditorInfo"
-          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+          styleClass="main_secondaryButtons"
           text="About the Floor Map Editor" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
       </HBox>
 
@@ -44,7 +44,7 @@
           <Image url="@/list-icon.png"/>
         </ImageView>
         <JFXButton buttonType="RAISED" onAction="#openRequestHandlerInfo"
-          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+          styleClass="main_secondaryButtons"
           text="About the Requests Handler" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
       </HBox>
 
@@ -55,13 +55,14 @@
           <Image url="@/file-icon.png"/>
         </ImageView>
         <JFXButton buttonType="RAISED" onAction="#openCSVInfo"
-          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
+          styleClass="main_secondaryButtons"
           text="About the CSV Handler" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
       </HBox>
 
       <HBox alignment="CENTER_RIGHT">
         <JFXButton buttonType="RAISED" onAction="#close"
-          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          styleClass="mainButton"
+          style="-fx-font-size: 16; -fx-padding: 12; -fx-background-radius: 16"
           text="%aboutBack"/>
       </HBox>
     </VBox>

@@ -34,8 +34,8 @@
           <Image url="@/location-icon.png"/>
         </ImageView>
         <JFXButton buttonType="RAISED" onAction="#openFindPathInfo"
-          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
-          text="%helpPathfinding" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+          text="%helpPathfinding" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"
+          styleClass="main_secondaryButtons"/>
       </HBox>
 
       <!--Button for how Service Requests works, will include screnshots-->
@@ -45,8 +45,8 @@
           <Image url="@/person-icon.png"/>
         </ImageView>
         <JFXButton buttonType="RAISED" onAction="#openServiceRequestInfo"
-          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
-          text="%helpServiceRequests" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+          text="%helpServiceRequests" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"
+          styleClass="main_secondaryButtons"/>
       </HBox>
 
       <!--Button for how Language switching and other buttons work works, will include screnshots-->
@@ -56,15 +56,16 @@
           <Image url="@/language-icon.png"/>
         </ImageView>
         <JFXButton buttonType="RAISED" onAction="#openLanguageAndMiscInfo"
-          style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16"
-          text="%helpMiscFeatures" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"/>
+          text="%helpMiscFeatures" AnchorPane.rightAnchor="16" AnchorPane.topAnchor="80"
+          styleClass="main_secondaryButtons"/>
       </HBox>
 
 
       <HBox alignment="CENTER_RIGHT" spacing="70">
         <Label text="%helpAdminNotice"/>
         <JFXButton buttonType="RAISED" onAction="#close"
-          style="-fx-font-size: 12; -fx-background-color: #004c8c; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 10"
+          styleClass="mainButton"
+          style="-fx-font-size: 16; -fx-padding: 12; -fx-background-radius: 16"
           text="%helpBack"/>
       </HBox>
     </VBox>

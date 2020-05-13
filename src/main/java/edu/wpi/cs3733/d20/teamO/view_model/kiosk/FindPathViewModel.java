@@ -93,7 +93,6 @@ public class FindPathViewModel extends ViewModelBase {
   private final String colorProperty = "-fx-background-color: ";
   private final String handicapHighlight = "dodgerblue;";
   private final String stairsHighlight = "seagreen;";
-  private final String notSelected = "lightgray;";
   private final SelectedPathFinder pathFinder;
 
   @Override
@@ -284,21 +283,21 @@ public class FindPathViewModel extends ViewModelBase {
       case HANDICAP:
         if (event.getSource().equals(handicap)) {
           updateMapAndState(AccessabilityState.NONE, nodeMap);
-          handicap.setStyle(colorProperty + notSelected);
+          handicap.setStyle(colorProperty);
         } else {
           updateMapAndState(AccessabilityState.STAIR, stairsMap);
           stairsOnly.setStyle(colorProperty + stairsHighlight);
-          handicap.setStyle(colorProperty + notSelected);
+          handicap.setStyle(colorProperty);
         }
         break;
       case STAIR:
         if (event.getSource().equals(handicap)) {
           updateMapAndState(AccessabilityState.HANDICAP, handicapMap);
           handicap.setStyle(colorProperty + handicapHighlight);
-          stairsOnly.setStyle(colorProperty + notSelected);
+          stairsOnly.setStyle(colorProperty);
         } else {
           updateMapAndState(AccessabilityState.NONE, nodeMap);
-          stairsOnly.setStyle(colorProperty + notSelected);
+          stairsOnly.setStyle(colorProperty);
         }
         break;
       default:

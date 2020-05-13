@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.ColorblindToggle">
+  <children>
+    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
+      StackPane.alignment="CENTER_LEFT">
+      <image>
+        <Image url="@/colorPalette.png"/>
+      </image>
+    </ImageView>
+    <JFXComboBox fx:id="colorPicker" onAction="#selectColor" prefHeight="10.0" prefWidth="0.0"
+      stylesheets="@/CSS/ColorblindToggleCSS.css">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <!-- Normal Vision -->
+          <Label text="Normal Vision">
+            <graphic>
+              <!--                 <StackPane prefWidth="20">-->
+              <ImageView fitHeight="32" fitWidth="32">
+                <image>
+                  <Image url="@/normalPalette.png"/>
+                </image>
+              </ImageView>
+              <!--                 </StackPane>-->
+            </graphic>
+          </Label>
+          <!-- Deuteranopia -->
+          <Label text="Deuteranopia">
+            <graphic>
+              <ImageView fitHeight="32" fitWidth="32">
+                <image>
+                  <Image url="@/deuteranopiaPalette.png"/>
+                </image>
+              </ImageView>
+            </graphic>
+          </Label>
+          <!-- Protanopia -->
+          <Label text="Protanopia">
+            <graphic>
+              <ImageView fitHeight="32" fitWidth="32">
+                <image>
+                  <Image url="@/protanopiaPalette.png"/>
+                </image>
+              </ImageView>
+            </graphic>
+          </Label>
+          <!-- Tritanopia -->
+          <Label text="Tritanopia">
+            <graphic>
+              <ImageView fitHeight="32" fitWidth="32">
+                <image>
+                  <Image url="@/tritanopiaPalette.png"/>
+                </image>
+              </ImageView>
+            </graphic>
+          </Label>
+          <!-- Dark Mode -->
+          <Label text="Dark Mode">
+            <graphic>
+              <ImageView fitHeight="32" fitWidth="32">
+                <image>
+                  <Image url="@/DarkModePalette.png"/>
+                </image>
+              </ImageView>
+            </graphic>
+          </Label>
+        </FXCollections>
+      </items>
+    </JFXComboBox>
+
+  </children>
+</StackPane>

@@ -11,7 +11,9 @@
   <VBox alignment="CENTER" spacing="8" AnchorPane.topAnchor="8" AnchorPane.rightAnchor="8"
     maxWidth="-Infinity" maxHeight="-Infinity" fx:id="buttonContainer"
     style="-fx-background-color: whitesmoke; -fx-background-radius: 24; -fx-padding: 12 16;">
-    <JFXButton onAction="#goToFaulkner" text="%streetViewSwitchToFaulkner"/>
-    <JFXButton onAction="#goToMainCampus" text="%streetViewSwitchToMainCampus"/>
+    <JFXButton onAction="#goToFaulkner"
+      text="%streetViewSwitchToFaulkner"/>
+    <JFXButton onAction="#goToMainCampus"
+      text="%streetViewSwitchToMainCampus"/>
   </VBox>
 </AnchorPane>

@@ -11,9 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <AnchorPane fx:id="root" maxHeight="1080.0" maxWidth="1920.0" prefHeight="643.0" prefWidth="1280.0"
-  style="-fx-background-color: acd7fd;" xmlns="http://javafx.com/javafx/11.0.1"
+  xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.EmployeeHandlerViewModel">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.EmployeeHandlerViewModel"
+  styleClass="adminBackground">
+
   <children>
     <HBox layoutX="16.0" layoutY="16.0" prefHeight="617.0" prefWidth="1035.0" spacing="20.0"
       AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="16.0">
@@ -42,6 +44,7 @@
           </TableColumn>
         </columns>
       </TableView>
+
       <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="600.0" spacing="16.0"
         AnchorPane.leftAnchor="770.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
         <children>

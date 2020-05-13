@@ -13,20 +13,28 @@
 <?import javafx.scene.layout.VBox?>
 <VBox spacing="32" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.SanitationService"
-  style="-fx-padding: 32; -fx-font-size: 16">
+  styleClass="serviceBase">
+
   <Label text="Sanitation Service Request Creation" style="-fx-font-size: 32"/>
-  <JFXTextField fx:id="requesterName" promptText="%namePrompt">
+
+  <JFXTextField fx:id="requesterName" promptText="%namePrompt"
+    styleClass="serviceFields">
     <validators>
       <RequiredFieldValidator message="%namePromptValidator"/>
     </validators>
   </JFXTextField>
-  <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText">
+
+  <NodeSelector fx:id="nodeSelector" promptText="%nodeSelectorPromptText"
+    styleClass="serviceFields">
     <validators>
       <NodeRequiredValidator message="%locationPromptValidator"/>
     </validators>
   </NodeSelector>
-  <VBox spacing="16" alignment="CENTER_LEFT">
+
+  <VBox spacing="16" alignment="CENTER_LEFT"
+    style="-fx-background-color: floralwhite">
     <Label text="%serviceSanitationHazardLevel"/>
+
     <JFXRadioButton text="%serviceSanitationDrySpill" selected="true">
       <toggleGroup>
         <ToggleGroup fx:id="levelSelection"/>
@@ -35,9 +43,16 @@
     <JFXRadioButton text="%serviceSanitationWetSpill" toggleGroup="$levelSelection"/>
     <JFXRadioButton text="%serviceSanitationHazardSpill" toggleGroup="$levelSelection"/>
   </VBox>
-  <JFXTextArea fx:id="additionalNotes" promptText="%notesPrompt" maxHeight="100"/>
-  <HBox alignment="CENTER_RIGHT" spacing="16">
-    <JFXButton text="%submitButton" onAction="#submitRequest"/>
-    <JFXButton text="%cancelButton" onAction="#close"/>
+
+  <JFXTextArea fx:id="additionalNotes" promptText="%notesPrompt" maxHeight="100"
+    styleClass="serviceFields"/>
+
+  <!-- Buttons -->
+  <HBox style="-fx-padding: 8; -fx-spacing: 16; -fx-alignment: center">
+    <JFXButton text="%submitButton" onAction="#submitRequest"
+      styleClass="submitButton"/>
+    <JFXButton text="%cancelButton" onAction="#close"
+      styleClass="cancelButton"/>
   </HBox>
+
 </VBox>

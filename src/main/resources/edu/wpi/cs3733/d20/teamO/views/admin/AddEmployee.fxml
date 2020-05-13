@@ -12,21 +12,26 @@
 <VBox alignment="TOP_CENTER" prefHeight="426.0" prefWidth="243.0"
   style="-fx-spacing: 32; -fx-padding: 16;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.AddEmployeeViewModel">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.AddEmployeeViewModel"
+  styleClass="adminBackground">
   <children>
-    <Label text="ADD EMPLOYEE">
+
+    <Label text="%addEmployee">
       <font>
         <Font name="System Bold" size="20.0"/>
       </font>
     </Label>
-    <JFXTextField fx:id="newName" promptText="Full Name">
+    <JFXTextField fx:id="newName" promptText="%fullName"
+      styleClass="serviceFields">
       <validators>
-        <RequiredFieldValidator message="Employees must have a name"/>
+        <RequiredFieldValidator message="%fullNameValidator"/>
       </validators>
     </JFXTextField>
-    <JFXComboBox fx:id="types" promptText="Employee Type">
+
+    <JFXComboBox fx:id="types" promptText="%employeeType"
+      styleClass="serviceFields">
       <validators>
-        <RequiredFieldValidator message="Employees must have a type"/>
+        <RequiredFieldValidator message="%employeeTypeValidator"/>
       </validators>
       <items>
         <FXCollections fx:factory="observableArrayList">
@@ -44,22 +49,29 @@
         </FXCollections>
       </items>
     </JFXComboBox>
-    <JFXTextField fx:id="newID" promptText="Employee ID">
+
+    <JFXTextField fx:id="newID" promptText="%employeeID"
+      styleClass="serviceFields">
       <validators>
-        <RequiredFieldValidator message="Employees must have an ID"/>
+        <RequiredFieldValidator message="%employeeIDValidator"/>
       </validators>
     </JFXTextField>
-    <JFXTextField fx:id="newPassword" promptText="Password">
+
+    <JFXTextField fx:id="newPassword" promptText="%employeePassword"
+      styleClass="serviceFields">
       <validators>
-        <RequiredFieldValidator message="Employees must have a password"/>
+        <RequiredFieldValidator message="%employeePasswordValidator"/>
       </validators>
     </JFXTextField>
+
     <VBox alignment="TOP_CENTER" prefHeight="97.0" prefWidth="210.0" style="-fx-spacing: 16;">
       <children>
         <JFXButton onAction="#confirm" prefHeight="36.0" prefWidth="130.0"
-          style="-fx-background-color: #00bb00;" text="Confirm"/>
+          styleClass="submitButton"
+          text="Confirm"/>
         <JFXButton onAction="#cancel" prefHeight="36.0" prefWidth="130.0"
-          style="-fx-background-color: lightgray;" text="Cancel"/>
+          styleClass="cancelButton"
+          text="Cancel"/>
       </children>
     </VBox>
   </children>

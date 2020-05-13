@@ -22,6 +22,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -43,6 +44,8 @@ public class MainKioskViewModel extends ViewModelBase {
   private final Dialog dialog;
 
   @FXML
+  private AnchorPane mainAnchorPane;
+  @FXML
   private StackPane welcomeBar, container;
   @FXML
   private HBox langContainer;
@@ -58,6 +61,8 @@ public class MainKioskViewModel extends ViewModelBase {
 
   @Override
   protected void start(URL location, ResourceBundle resources) {
+//    dispatch(new CSSSwitchEvent("/CSS/NormalColorCSS.css"));
+//    Platform.runLater(() -> dispatch(new CSSSwitchEvent("/CSS/NormalColorCSS.css")));
 
     // Set UI properties not set in FXML
     JFXDepthManager.setDepth(welcomeBar, 2);
@@ -80,6 +85,8 @@ public class MainKioskViewModel extends ViewModelBase {
       // Put this in a run later so it doesn't mess up navigation
       Platform.runLater(this::openAdminDialog);
     }
+//       dispatch(new CSSSwitchEvent("/CSS/NormalColorCSS.css"));
+//       Platform.runLater(() -> dispatch(new CSSSwitchEvent("/CSS/NormalColorCSS.css")));
   }
 
   @FXML

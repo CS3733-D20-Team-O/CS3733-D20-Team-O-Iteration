@@ -14,8 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <VBox spacing="32" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.service_requests.InfoTechService"
-  style="-fx-padding: 32; -fx-font-size: 16">
+  styleClass="serviceBase">
   <Label text="%serviceInfoTechDescription" style="-fx-font-size: 32"/>
+
   <HBox alignment="CENTER" spacing="8">
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
       preserveRatio="true">
@@ -23,26 +24,29 @@
         <Image url="/person-icon.png"/>
       </image>
     </ImageView>
-    <JFXTextField fx:id="requesterName" promptText="%namePrompt">
+    <JFXTextField fx:id="requesterName" promptText="%namePrompt"
+      styleClass="serviceFields"
+      prefWidth="200">
       <validators>
         <RequiredFieldValidator message="%namePromptValidator"/>
       </validators>
     </JFXTextField>
+
+    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+      preserveRatio="true">
+      <image>
+        <Image url="/wrench-icon.png"/>
+      </image>
+    </ImageView>
+    <JFXComboBox fx:id="ITProblems" promptText="%ITServiceIssueBox"
+      styleClass="serviceFields">
+      <validators>
+        <RequiredFieldValidator message="%ITServiceIssueBoxValidator"/>
+      </validators>
+    </JFXComboBox>
   </HBox>
+
   <HBox alignment="CENTER" spacing="32">
-    <HBox alignment="CENTER" spacing="8">
-      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-        preserveRatio="true">
-        <image>
-          <Image url="/floor-icon.png"/>
-        </image>
-      </ImageView>
-      <JFXComboBox fx:id="floors" promptText="%floorPrompt">
-        <validators>
-          <RequiredFieldValidator message="%floorPromptValidator"/>
-        </validators>
-      </JFXComboBox>
-    </HBox>
     <HBox alignment="CENTER" spacing="8">
       <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
         preserveRatio="true">
@@ -50,26 +54,16 @@
           <Image url="/location-icon.png"/>
         </image>
       </ImageView>
-      <NodeSelector fx:id="nodeSelector" promptText="%locationPrompt">
+      <NodeSelector fx:id="nodeSelector" promptText="%locationPrompt"
+        prefWidth="300"
+        styleClass="serviceFields">
         <validators>
           <NodeRequiredValidator message="%locationPromptValidator"/>
         </validators>
       </NodeSelector>
     </HBox>
   </HBox>
-  <HBox alignment="CENTER" spacing="8">
-    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
-      preserveRatio="true">
-      <image>
-        <Image url="/wrench-icon.png"/>
-      </image>
-    </ImageView>
-    <JFXComboBox fx:id="ITProblems" promptText="%ITServiceIssueBox">
-      <validators>
-        <RequiredFieldValidator message="%ITServiceIssueBoxValidator"/>
-      </validators>
-    </JFXComboBox>
-  </HBox>
+
   <HBox alignment="CENTER" spacing="8">
     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
       preserveRatio="true">
@@ -77,11 +71,16 @@
         <Image url="/desc-icon.png"/>
       </image>
     </ImageView>
-    <JFXTextArea fx:id="additionalNotes" promptText="%ITServiceDescription" maxHeight="100"/>
+    <JFXTextArea fx:id="additionalNotes" promptText="%ITServiceDescription" maxHeight="100"
+      styleClass="serviceFields"/>
   </HBox>
-  <HBox alignment="CENTER_RIGHT" spacing="16">
+
+  <!-- Buttons -->
+  <HBox styleClass="buttonBox">
     <JFXButton text="%submitButton" onAction="#submitRequest"
-      style="-fx-background-color: #00BB00"/>
-    <JFXButton text="%cancelButton" onAction="#close" style="-fx-background-color: LIGHTGREY"/>
+      styleClass="submitButton"/>
+    <JFXButton text="%cancelButton" onAction="#close"
+      styleClass="cancelButton"/>
   </HBox>
+
 </VBox>
