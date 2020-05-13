@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
-<AnchorPane style="-fx-background-color: #004c8c" xmlns="http://javafx.com/javafx/11.0.1"
-  xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NavigationBar">
-  <StackPane AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-    AnchorPane.topAnchor="16">
-    <Label style="-fx-font-size: 24px; -fx-text-fill: floralwhite" text="${controller.title}"/>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.NavigationBar"
+  style="-fx-background-color: #004c8c">
+  <StackPane AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="0"
+    AnchorPane.rightAnchor="0" AnchorPane.topAnchor="16">
+    <Label text="${controller.title}" style="-fx-font-size: 24px; -fx-text-fill: floralwhite"/>
   </StackPane>
-  <JFXButton onAction="#onBackPressed" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
-    AnchorPane.topAnchor="0">
+  <!-- Clock -->
+  <StackPane AnchorPane.leftAnchor="64" AnchorPane.topAnchor="8" AnchorPane.bottomAnchor="8">
+    <fx:include source="/edu/wpi/cs3733/d20/teamO/views/Clock.fxml"/>
+  </StackPane>
+
+  <JFXButton onAction="#onBackPressed" AnchorPane.leftAnchor="0"
+    AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
     <graphic>
       <ImageView fitHeight="40" pickOnBounds="true" preserveRatio="true">
         <Image url="@/back-arrow.png"/>

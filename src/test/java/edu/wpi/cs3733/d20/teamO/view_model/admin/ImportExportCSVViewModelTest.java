@@ -8,7 +8,8 @@ import static org.mockito.Mockito.when;
 import static org.testfx.api.FxAssert.verifyThat;
 
 import edu.wpi.cs3733.d20.teamO.Main;
-import edu.wpi.cs3733.d20.teamO.model.csv.CSVHandler;
+import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
+import edu.wpi.cs3733.d20.teamO.model.data.CSVHandler;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +30,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 
 /**
  * Tests the CSV import & export wizard

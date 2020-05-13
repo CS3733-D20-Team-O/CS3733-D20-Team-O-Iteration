@@ -5,12 +5,11 @@ import static com.jfoenix.controls.JFXButton.ButtonType.RAISED;
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
-import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.effects.JFXDepthManager;
 import edu.wpi.cs3733.d20.teamO.events.Event;
 import edu.wpi.cs3733.d20.teamO.events.FloorSwitchEvent;
 import edu.wpi.cs3733.d20.teamO.events.RedrawEvent;
-import edu.wpi.cs3733.d20.teamO.model.database.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Edge;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
@@ -22,6 +21,7 @@ import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Building;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction;
 import edu.wpi.cs3733.d20.teamO.model.network.WebApp.Step.Instruction.Icon;
 import edu.wpi.cs3733.d20.teamO.model.path_finding.SelectedPathFinder;
+import edu.wpi.cs3733.d20.teamO.view_model.FloorSelector;
 import edu.wpi.cs3733.d20.teamO.view_model.NodeMapView;
 import edu.wpi.cs3733.d20.teamO.view_model.StreetViewViewModel;
 import edu.wpi.cs3733.d20.teamO.view_model.ViewModelBase;
@@ -35,6 +35,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -63,7 +64,7 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private AnchorPane sideBar;
   @FXML
-  private JFXSlider zoomSlider;
+  private ScrollPane scrollPane;
   @FXML
   private NodeSelector startLocation, stopLocation;
   @FXML
@@ -71,17 +72,20 @@ public class FindPathViewModel extends ViewModelBase {
   @FXML
   private JFXColorPicker colorPicker;
   @FXML
-  private HBox mapSwitcherButtons, nodeMapContainer;
+  private HBox mapSwitcherButtons, nodeMapContainer, floorSelectorContainer;
   @FXML
   private VBox streetMapContainer;
 
-
   @FXML
   private StreetViewViewModel streetViewViewModelController;
+  @FXML
+  private FloorSelector floorSelectorController;
 
-  private Map<String, Node> nodeMap, handicapMap, stairsMap;
+  private Map<String, Node> nodeMap, handicapMap, stairsMap, previewMap;
   private final DatabaseWrapper database;
-  private Node beginning, finish, defaultStart, defaultStop;
+  private Node beginning;
+  private Node finish;
+  private Node lastNode;
   private final Dialog dialog;
   private final SnackBar snackBar;
   private Color color = Color.web("fd8842");
@@ -110,9 +114,9 @@ public class FindPathViewModel extends ViewModelBase {
   protected void start(URL location, ResourceBundle resources) {
     handicapMap = new HashMap<>();
     stairsMap = new HashMap<>();
+    previewMap = new HashMap<>();
 
     currentState = AccessabilityState.NONE;
-
     val clipRect = new Rectangle();
     clipRect.widthProperty().bind(clipper.widthProperty());
     clipRect.heightProperty().bind(clipper.heightProperty());
@@ -123,27 +127,31 @@ public class FindPathViewModel extends ViewModelBase {
     handicapMap = new HashMap<>();
     createHandicap();
     createStairsOnly();
-    defaultStart = (Node) nodeMap.values().toArray()[0];
-    defaultStop = (Node) nodeMap.values().toArray()[0];
-    beginning = defaultStart;
-    finish = defaultStop;
+    beginning = null;
+    finish = null;
     colorPicker.setValue(Color.valueOf("fd8842"));
     nodeMapViewController.setEdgeMovement(true);
 
     startLocation.setOnNodeSelectedListener(node -> {
       mapSwitcherButtons.getChildren().clear();
-      nodeMapViewController.deleteNode(beginning);
+      if (beginning != null) {
+        nodeMapViewController.deleteNode(beginning);
+      }
       beginning = node;
       nodeMapViewController.draw();
       drawPath();
     });
     stopLocation.setOnNodeSelectedListener(node -> {
       mapSwitcherButtons.getChildren().clear();
-      nodeMapViewController.deleteNode(finish);
+      if (finish != null) {
+        nodeMapViewController.deleteNode(finish);
+      }
       finish = node;
       nodeMapViewController.draw();
       drawPath();
     });
+    nodeMapViewController.setOnMissRightTapListener((x, y) -> selectNearestNode(x, y));
+    nodeMapViewController.setOnNodeRightTapListener(node -> selectNode(node));
 
     startLocation.setNodes(nodeMap.values());
     stopLocation.setNodes(nodeMap.values());
@@ -194,36 +202,50 @@ public class FindPathViewModel extends ViewModelBase {
    */
   @FXML
   void resetPath() {
+    clearPreview(); // Clear the preview
+
+    floorSelectorContainer.setVisible(true);
+    floorSelectorController
+        .styleButtons(nodeMapViewController.getBuilding(), nodeMapViewController.getFloor());
+    lastNode = null;
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
-    nodeMapViewController.deleteNode(beginning);
-    nodeMapViewController.deleteNode(finish);
-    beginning = defaultStart;
-    finish = defaultStop;
+    if (beginning != null) {
+      nodeMapViewController.deleteNode(beginning);
+      beginning = null;
+    }
+    if (finish != null) {
+      nodeMapViewController.deleteNode(finish);
+      finish = null;
+    }
     stopLocation.clear();
     startLocation.clear();
     nodeMapViewController.clearText();
     nodeMapViewController.draw();
+
+    scrollPane.setContent(new Label()); //clear scroll pane
   }
 
   private void drawPath() {
+    clearPreview(); // Clear the preview
+
+    if (beginning == null || finish == null) { //only pathfind if both nodes are set
+      return;
+    }
+
+    floorSelectorContainer.setVisible(false);
+
     if (beginning.getBuilding().equals("Faulkner")) {
       streetViewViewModelController.goToMainCampus();
     } else {
       streetViewViewModelController.goToFaulkner();
     }
+
     mapSwitcherButtons.getChildren().clear();
     nodeMapViewController.clearText();
     List<Node> nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
     List<String> floorsCrossed = getPathFloors(nodes);
-    for (int i = 0; i < floorsCrossed.size(); i++) {
-      val button = new JFXButton();
-      button.setButtonType(RAISED);
-      button.setText("Step " + (i + 1) + "\n" + floorsCrossed.get(i));
-      button.setOnAction(event -> miniMapButtons(event));
-      button.setStyle("-fx-background-color: lightgray");
-      mapSwitcherButtons.getChildren().add(button);
-    }
+
     nodeMapViewController.clearText();
     nodeMapViewController.addNode(beginning);
     nodeMapViewController.addNode(finish);
@@ -242,6 +264,7 @@ public class FindPathViewModel extends ViewModelBase {
     for (int i = 0; i < nodes.size() - 1; i++) {
       nodeMapViewController.drawEdge(nodes.get(i), nodes.get(i + 1));
     }
+    generateTD(floorsCrossed);
   }
 
   @FXML
@@ -301,15 +324,101 @@ public class FindPathViewModel extends ViewModelBase {
     }
   }
 
-  @FXML
-  private void generateTD() {
-    val instructions = createInstructionsFromNodes(
-        pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish));
+  private void generateTD(List<String> floorsCrossed) {
+    val steps = generateSteps();
     StringBuilder directions = new StringBuilder();
-    for (Instruction i : instructions) {
-      directions.append(i.getDirections()).append("\n");
+    VBox scrollPaneInstructions = new VBox();
+    scrollPane.setContent(scrollPaneInstructions);
+    int number = 1;
+    List<Integer> floorChangeStepNumber = new LinkedList<>();
+    for (val s : steps) { //create a set of JFXButtons, one set for each floor the path crosses
+      if (s.getBuilding().equals(Building.STREET)) { //if the node is a street, use google maps
+        Label street = new Label();
+        street.setText("STREET");
+        scrollPaneInstructions.getChildren().add(street);
+        floorChangeStepNumber.add(number);
+        JFXButton departButton = new JFXButton();
+        //create the button that leaves the current hospital
+        departButton.setText(number + " Head to " + finish.getBuilding());
+        departButton.setOnAction(event -> {
+          nodeMapContainer.setVisible(false);
+          streetMapContainer.setVisible(true);
+          lastNode = new Node("0", 0, 0, "1", "street", "HALL", "Street", "street");
+          dispatch(new FloorSwitchEvent("1", "Street"));
+        });
+        scrollPaneInstructions.getChildren().add(departButton);
+        number++;
+      } else {
+        directions.append(s.getBuilding()).append(" ").append(s.getFloor())
+            .append("\n"); //make the string the current floor
+        Label step = new Label();
+        step.setText(directions.toString()); //make a label with the current floor
+        scrollPaneInstructions.getChildren()
+            .add(step);  //add the label to the VBox to separate the JFXButtons by floor
+        directions.delete(0, directions.length());
+        floorChangeStepNumber.add(
+            number); //add this current step number to the list of numbers so that the buttons in the bottom know what step to reflect
+        for (val i : s
+            .getInstructions()) { //create a JFXButton containing one instruction (go to node x)
+          directions.append(number).append("  ").append(i.getDirections());
+          JFXButton instructionForEdge = new JFXButton();
+          instructionForEdge.setText(directions.toString());
+          instructionForEdge.setOnAction(actionEvent -> {
+            nodeMapContainer.setVisible(true);
+            streetMapContainer.setVisible(false);
+            highlightSelectedEdge(actionEvent);
+          });
+          scrollPaneInstructions.getChildren()
+              .add(instructionForEdge); //add the button for the edge
+          directions.delete(0, directions.length());
+          number++;
+        }
+        directions.delete(0, directions.length());
+      }
     }
-    dialog.showFullscreen(new HBox(new Label(directions.toString())));
+    scrollPane.setContent(scrollPaneInstructions);
+    for (int i = 0; i < floorsCrossed.size(); i++) { //create the bottom path overview buttons
+      val button = new JFXButton();
+      button.setButtonType(RAISED);
+      button.setText(floorsCrossed.get(i));
+      button.setOnAction(event -> miniMapButtons(event));
+      button.setStyle("-fx-background-color: lightgray");
+      mapSwitcherButtons.getChildren().add(button);
+    }
+  }
+
+  private void highlightSelectedEdge(ActionEvent actionEvent) {
+    //change to floor of step and highlight the step edge
+    int number = Integer.parseInt(((JFXButton) actionEvent.getSource()).getText().split("  ")[0]);
+    val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    val node = nodes.get(number - 1);
+    if (lastNode == null) {
+      lastNode = beginning;
+      dispatch(new FloorSwitchEvent(lastNode.getFloor(), lastNode.getBuilding()));
+    }
+    if (!lastNode.getFloor().equals(node.getFloor()) || !lastNode.getBuilding()
+        .equals(node.getBuilding())) {
+      dispatch(new FloorSwitchEvent(node.getFloor(),
+          node.getBuilding()));
+    }
+    highlightEdge(number);
+    lastNode = node;
+  }
+
+  private void highlightEdge(int number) {
+    val nodes = pathFinder.getCurrentPathFinder().findPathBetween(beginning, finish);
+    val firstNode = nodes.get(number - 1);
+    val secondNode = nodes.get(number);
+    for (Edge e : database.exportEdges()) {
+      if (e.getStartID().equals(firstNode.getNodeID()) && e.getStopID()
+          .equals(secondNode.getNodeID())
+          || e.getStartID().equals(secondNode.getNodeID()) && e.getStopID()
+          .equals(firstNode.getNodeID())) {
+        nodeMapViewController.highlightEdge(e);
+      } else {
+        nodeMapViewController.unhighlightEdge(e);
+      }
+    }
   }
 
   /* Sample directions
@@ -435,6 +544,154 @@ public class FindPathViewModel extends ViewModelBase {
     return steps;
   }
 
+  /**
+   * Using a set of coordinates, find the closest node, check the distance and set it to either the
+   * beginning or ending
+   *
+   * @param x the x coordinate
+   * @param y the y coordinate
+   */
+  private void selectNearestNode(int x, int y) {
+    double distance = Double.MAX_VALUE;
+    Node closestNode = null;
+    val distanceMap = new HashMap<Node, Double>();
+    val selector = getSelector();
+
+    if (selector == null) { // If a selector isn't selected, then stop
+      snackBar.show("Error: Please select one of the textboxes to set a node to!");
+      return;
+    }
+
+    clearPreview(); // Clear the preview
+
+    // Find the node that's closest on the current floor and building
+    for (Node node : nodeMap.values()) {
+      if (node.getFloor().equals(nodeMapViewController.getFloor()) && node.getBuilding()
+          .equals(nodeMapViewController.getBuilding())) {
+
+        val nodeDistance = getDistance(x, y, node.getXCoord(), node.getYCoord());
+        if (nodeDistance < distance) { // Update the node and distance if needed
+          closestNode = node;
+          distance = nodeDistance;
+        }
+
+        // Place in a distance map (used to look through nodes when the node/distance is beyond
+        // the threshold)
+        distanceMap.put(node, nodeDistance);
+      }
+    }
+
+    if (closestNode != null && distance < 75) { // Check if the node is within a set distance
+      selector.setTextWithoutPopup(String.format("(%s/%s) %s",
+          closestNode.getFloor(), closestNode.getBuilding(), closestNode.getLongName()));
+
+    } else { // Show preview nodes
+      // Set preview node colors
+      nodeMapViewController.setNodeColor(Color.AQUA);
+      nodeMapViewController.setNodeOutlineColor(Color.BLUE);
+
+      int z = 0;
+      while (z < 5) { // Print the 5 closest nodes
+        distance = Double.MAX_VALUE;
+        closestNode = null;
+
+        // Find the closest node
+        for (Map.Entry<Node, Double> entry : distanceMap.entrySet()) {
+          val nodeDistance = getDistance(x, y, entry.getKey().getXCoord(),
+              entry.getKey().getYCoord());
+          if (nodeDistance < distance) { // Update the node and distance if needed
+            closestNode = entry.getKey();
+            distance = nodeDistance;
+          }
+        }
+
+        if (closestNode != null) { // If there is a node
+          if (!closestNode.equals(beginning) && !closestNode
+              .equals(finish)) { // If the nodes isn't the starting or ending node
+            nodeMapViewController.addNode(closestNode);
+            previewMap
+                .put(closestNode.getNodeID(), closestNode); // Place the node into the preview map
+            z++; // Only increment z if it wasn't the starting or ending node
+          }
+          distanceMap.remove(closestNode);
+
+        } else { // No more nodes, break
+          break;
+        }
+      }
+
+      // Reset colors
+      nodeMapViewController.setNodeColor(Color.GREENYELLOW);
+      nodeMapViewController.setNodeOutlineColor(Color.web("#00991f"));
+    }
+  }
+
+  /**
+   * From a given node, check if it was part of the preview and set it to either beginning or end
+   *
+   * @param node the node
+   */
+  private void selectNode(Node node) {
+    // If this node is part of the preview, set it
+    // Else, it must be part of the node path, don't do anything then
+    if (previewMap.containsValue(node)) {
+      val selector = getSelector();
+      if (selector == null) { // If a selector isn't selected, then stop
+        snackBar.show("Error: Please select one of the textboxes to set a node to!");
+        return;
+      }
+
+      clearPreview();
+      selector.setTextWithoutPopup(String.format("(%s/%s) %s",
+          node.getFloor(), node.getBuilding(), node.getLongName()));
+    }
+  }
+
+
+  /**
+   * Returns a selected NodeSelector
+   *
+   * @return a NodeSelector (or null if no selector is selected)
+   */
+  private NodeSelector getSelector() {
+    val scene = startLocation.getScene();
+    val focus = scene.getFocusOwner();
+
+    if (focus.equals(startLocation)) {
+      return startLocation;
+    } else if (focus.equals(stopLocation)) {
+      return stopLocation;
+    }
+
+    return null;
+  }
+
+  /**
+   * Gets the distance between two coordinates
+   *
+   * @param x1 x coordinate of the first spot
+   * @param y1 y coordinate of the first spot
+   * @param x2 x coordinate of the second spot
+   * @param y2 y coordinate of the second spot
+   * @return the distance between the two coordinates
+   */
+  private double getDistance(double x1, double y1, double x2, double y2) {
+    val legX = Math.abs(x1 - x2);
+    val legY = Math.abs(y1 - y2);
+    val hypoX = Math.pow(legX, 2);
+    val hypoY = Math.pow(legY, 2);
+    return Math.sqrt(hypoX + hypoY);
+  }
+
+  /**
+   * Clears the preview nodes off the map
+   */
+  private void clearPreview() {
+    for (Node node : previewMap.values()) {
+      nodeMapViewController.deleteNode(node);
+    }
+  }
+
   public void setBGColor() {
     color = colorPicker.getValue();
     nodeMapViewController.setBackgroundColor(String.format("#%02X%02X%02X",
@@ -484,11 +741,12 @@ public class FindPathViewModel extends ViewModelBase {
 
   private void miniMapButtons(ActionEvent event) {
     String fullName = ((JFXButton) event.getSource()).getText();
-    fullName = fullName.split("\n")[1];
+
     String building = fullName.split(", Floor ")[0];
     String floor = fullName.split(", Floor ")[1];
 
     if (building.equals("Street")) {
+      dispatch(new FloorSwitchEvent(floor, building));
       nodeMapContainer.setVisible(false);
       streetMapContainer.setVisible(true);
     } else {
@@ -564,7 +822,9 @@ public class FindPathViewModel extends ViewModelBase {
    */
   private boolean findPathToNearest(String type, boolean sameFloorOnly,
       String shortNameSupplement) {
-    nodeMapViewController.deleteNode(finish);
+    if (finish != null) {
+      nodeMapViewController.deleteNode(finish);
+    }
     val nearestNode = getNearest(type, sameFloorOnly, shortNameSupplement);
     if (nearestNode == null) {
       return false;
