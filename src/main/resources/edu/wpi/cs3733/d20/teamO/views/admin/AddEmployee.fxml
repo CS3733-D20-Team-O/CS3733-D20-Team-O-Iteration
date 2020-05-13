@@ -12,8 +12,10 @@
 <VBox alignment="TOP_CENTER" prefHeight="426.0" prefWidth="243.0"
   style="-fx-spacing: 32; -fx-padding: 16;" xmlns="http://javafx.com/javafx/11.0.1"
   xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.AddEmployeeViewModel">
+  fx:controller="edu.wpi.cs3733.d20.teamO.view_model.admin.AddEmployeeViewModel"
+  styleClass="adminBackground">
   <children>
+
     <Label text="ADD EMPLOYEE">
       <font>
         <Font name="System Bold" size="20.0"/>

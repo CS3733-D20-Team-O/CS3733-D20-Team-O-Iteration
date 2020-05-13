@@ -3,6 +3,7 @@
 Main Color: 00555a
 Service Background Color: a9bfce
 Cancel Button Ripple: b8150f
+Admin Service Background: a5d9ea
  */
 #welcomeBar {
   -fx-background-color: #00555a;
@@ -58,6 +59,9 @@ Cancel Button Ripple: b8150f
   -fx-background-color: derive(#a9bfce, 70%);
 }
 
+.adminBackground {
+  -fx-background-color: #a5d9ea;
+}
 
 /* Constant Nodes */
 .mainBackground {

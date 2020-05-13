@@ -2,6 +2,7 @@
 Main Color: 004c8c
 Service Background Color: abc0d4
 Cancel Button Ripple: b90c0c
+Admin Background: acd7fd
  */
 
 /* Nodes that need their colors changed*/
@@ -59,6 +60,10 @@ Cancel Button Ripple: b90c0c
   -fx-background-color: derive(#abc0d4, 70%);
 }
 
+.adminBackground {
+  -fx-background-color: #acd7fd;
+}
+
 /* Constant Nodes */
 .mainBackground {
   -fx-background-image: url('/BWFHBackground.jpg');
@@ -100,6 +105,16 @@ Cancel Button Ripple: b90c0c
 .cancelButton {
   -fx-background-color: gray;
   -fx-text-fill: floralwhite;
+  -fx-padding: 16;
+  -fx-background-radius: 16;
+  -fx-font-size: 16px;
+  -fx-pref-height: 50;
+  -fx-pref-width: 100;
+}
+
+.additionalButton {
+  -fx-background-color: lightgray;
+  -fx-text-fill: black;
   -fx-padding: 16;
   -fx-background-radius: 16;
   -fx-font-size: 16px;

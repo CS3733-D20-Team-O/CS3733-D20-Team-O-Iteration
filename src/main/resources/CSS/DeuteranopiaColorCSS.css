@@ -2,6 +2,7 @@
 Main Color: 004e88
 Service Background Color: c2b7d5
 Cancel Button Ripple: ffc250
+Admin Service Background: cdcdff
  */
 
 /* Nodes that need their colors changed*/
@@ -59,6 +60,9 @@ Cancel Button Ripple: ffc250
   -fx-background-color: derive(#c2b7d5, 70%);
 }
 
+.adminBackground {
+  -fx-background-color: #cdcdff;
+}
 
 /* Constant Nodes */
 .mainBackground {
