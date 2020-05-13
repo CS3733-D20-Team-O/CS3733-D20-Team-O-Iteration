@@ -6,21 +6,25 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testfx.api.FxAssert.verifyThat;
 
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.d20.teamO.Main;
 import edu.wpi.cs3733.d20.teamO.ResourceBundleMock;
 import edu.wpi.cs3733.d20.teamO.model.data.DatabaseWrapper;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.LoginDetails;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.EmergencyReportData;
 import edu.wpi.cs3733.d20.teamO.model.material.Dialog;
 import edu.wpi.cs3733.d20.teamO.model.material.SnackBar;
 import edu.wpi.cs3733.d20.teamO.model.material.Validator;
+import edu.wpi.cs3733.d20.teamO.view_model.EmergencyReport;
 import edu.wpi.cs3733.d20.teamO.view_model.kiosk.RequestConfirmationViewModel;
 import java.io.IOException;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import lombok.val;
 import org.greenrobot.eventbus.EventBus;
@@ -35,9 +39,8 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 
-
 @ExtendWith({MockitoExtension.class, ApplicationExtension.class})
-public class SecurityServiceTest extends FxRobot {
+public class EmergencyReportTest extends FxRobot {
 
   @Mock
   EventBus eventBus;
@@ -52,13 +55,15 @@ public class SecurityServiceTest extends FxRobot {
   @Mock
   JFXDialog jfxDialog;
   @Mock
+  LoginDetails loginDetails = null;
+  @Mock
   RequestConfirmationViewModel requestConfirmationViewModel;
 
   @Spy
   private final ResourceBundleMock bundle = new ResourceBundleMock();
 
   @InjectMocks
-  SecurityService viewModel;
+  EmergencyReport viewModel;
 
   private void initializeBundle() {
     //General use Bundles
@@ -100,7 +105,7 @@ public class SecurityServiceTest extends FxRobot {
     loader.setControllerFactory(o -> viewModel);
     loader.setResources(bundle);
     stage.setScene(new Scene(loader.load(Main.class
-        .getResourceAsStream("views/kiosk/service_requests/SecurityService.fxml"))));
+        .getResourceAsStream("views/kiosk/service_requests/EmergencyReport.fxml"))));
     stage.setAlwaysOnTop(true);
     stage.show();
   }
@@ -112,46 +117,108 @@ public class SecurityServiceTest extends FxRobot {
     map.put("c", new Node("c", 0, 0, "3", "", "", "Floor 3-2", ""));
     map.put("d", new Node("d", 0, 0, "5", "", "", "Floor 5", ""));
     when(database.exportNodes()).thenReturn(map);
+//    when(database.exportNodes().values()).thenReturn(map.values());
   }
 
   @Test
-  public void testSubmit() throws IOException {
-    when(validator.validate(any())).thenReturn(false).thenReturn(true).thenReturn(true);
+  public void testFloorLocationPopulated() {
+    // Verify that all floors are populated
+    clickOn("Location");
+    verifyThat("(1) Floor 1", javafx.scene.Node::isVisible);
+    verifyThat("(3) Floor 3-1", javafx.scene.Node::isVisible);
+    verifyThat("(5) Floor 5", javafx.scene.Node::isVisible);
+
+    // Now that we know all floors are correct, lets check to see if the locations are present
+    // First floor
+    clickOn("(1) Floor 1");
+    clickOn("(1) Floor 1");
+    for (int i = 0; i < 8; i++) {
+      press(KeyCode.BACK_SPACE);
+      release(KeyCode.BACK_SPACE);
+    }
+    write("1");
+    verifyThat("(1) Floor 1", javafx.scene.Node::isVisible);
+    clickOn("(1) Floor 1");
+
+    // Third floor
+    clickOn("(1) Floor 1");
+    for (int i = 0; i < 8; i++) {
+      press(KeyCode.BACK_SPACE);
+      release(KeyCode.BACK_SPACE);
+    }
+    write("3");
+    verifyThat("(3) Floor 3-1", javafx.scene.Node::isVisible);
+    verifyThat("(3) Floor 3-2", javafx.scene.Node::isVisible);
+    clickOn("(3) Floor 3-1");
+
+    // Fifth floor
+    clickOn("(3) Floor 3-1");
+    for (int i = 0; i < 8; i++) {
+      press(KeyCode.BACK_SPACE);
+      release(KeyCode.BACK_SPACE);
+    }
+    write("5");
+    verifyThat("(5) Floor 5", javafx.scene.Node::isVisible);
+    clickOn("(5) Floor 5");
+    verifyThat("(5) Floor 5", javafx.scene.Node::isVisible);
+  }
+
+  @Test
+  public void testSubmit1() throws IOException {
     when(database.addServiceRequest(any(), any(), any(), any(), any()))
-        .thenReturn(null).thenReturn("ABCDEFGH");
+        .thenReturn("ABCDEFGH");
+    when(loginDetails.getUsername()).thenReturn("");
     when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
 
     // Test when there are fields not filled out
     clickOn("Submit");
-    verify(validator, times(1)).validate(any());
-    verify(database, times(0)).addServiceRequest(any(), any(), any(), any(), any());
+    verify(database, times(1)).addServiceRequest(any(), any(), any(), any(), any());
     verify(snackBar, times(0)).show(anyString());
-    verify(dialog, times(0)).showBasic(any(), any(), any());
+    verify(dialog, times(1)).showFullscreenFXML(any());
+    verify(loginDetails, times(1)).getUsername();
+  }
+
+  @Test
+  public void testSubmit2() throws IOException {
+    when(database.addServiceRequest(any(), any(), any(), any(), any()))
+        .thenReturn("ABCDEFGH");
+    when(loginDetails.getUsername()).thenReturn("");
+    when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
 
     // Test when there are fields filled out (but adding fails)
-    clickOn("Your Name");
-    write("John Smith");
-    clickOn("Select or search for a location");
+    clickOn("Name");
+    write("Submit Name2");
+    clickOn("Location");
     write("1");
     clickOn("(1) Floor 1");
+    clickOn("Bomb Threat");
     clickOn("Submit");
-    verify(validator, times(2)).validate(any());
+    verify(database, times(1)).exportNodes();
     verify(database, times(1)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Security"), eq("John Smith"),
-        eq(new SecurityRequestData("Code pink: Amber alert/Code Adam: infant abduction", "")));
-    verify(snackBar, times(1)).show(anyString());
-    verify(dialog, times(0)).showBasic(any(), any(), any());
+        eq("Floor 1"), eq("Emergency"), eq("Submit Name2"),
+        eq(new EmergencyReportData("Bomb Threat", "no notes")));
+    verify(snackBar, times(0)).show(anyString());
+    verify(dialog, times(1)).showFullscreenFXML(any());
+    verify(loginDetails, times(1)).getUsername();
+
+  }
+
+  @Test
+  public void testSubmit3() throws IOException {
+    when(database.addServiceRequest(any(), any(), any(), any(), any()))
+        .thenReturn("ABCDEFGH");
+    when(loginDetails.getUsername()).thenReturn("barf");
+    when(dialog.showFullscreenFXML(anyString())).thenReturn(requestConfirmationViewModel);
 
     // Test when there are fields filled out (and adding succeeds)
+    clickOn("Bomb Threat");
     clickOn("Submit");
-    verify(validator, times(3)).validate(any());
-    verify(database, times(2)).addServiceRequest(anyString(),
-        eq("Floor 1"), eq("Security"), eq("John Smith"),
-        eq(new SecurityRequestData("Code pink: Amber alert/Code Adam: infant abduction", "")));
-    verify(snackBar, times(1)).show(anyString());
+    verify(database, times(1)).addServiceRequest(anyString(),
+        eq("Unknown Location"), eq("Emergency"), eq("barf"),
+        eq(new EmergencyReportData("Bomb Threat", "no notes")));
+    verify(snackBar, times(0)).show(anyString());
     verify(dialog, times(1)).showFullscreenFXML(anyString());
-    verify(jfxDialog, times(1)).close();
+    verify(loginDetails, times(2)).getUsername();
 
-    //todo add more tests for different types of emergencies
   }
 }

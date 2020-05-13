@@ -28,9 +28,7 @@ public class AVService extends ServiceRequestBase {
   private final SnackBar snackBar;
 
   @FXML
-  private JFXComboBox<String> durationComboBox, serviceRequestComboBox, locationComboBox;
-  @FXML
-  private JFXComboBox<String> floorNumberComboBox;
+  private JFXComboBox<String> durationComboBox, serviceRequestComboBox;
   @FXML
   private JFXTextField requesterNameField;
   @FXML
@@ -48,7 +46,7 @@ public class AVService extends ServiceRequestBase {
   @FXML
   private void onSubmitPress() {
     if (!validator
-        .validate(requesterNameField, floorNumberComboBox, locationComboBox, durationComboBox,
+        .validate(requesterNameField, nodeSelector, durationComboBox,
             serviceRequestComboBox)) {
       snackBar.show("Please fill out the form completely to make a request.");
       return;

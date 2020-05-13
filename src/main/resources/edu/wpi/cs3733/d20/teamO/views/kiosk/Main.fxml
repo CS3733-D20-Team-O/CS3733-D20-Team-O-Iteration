@@ -16,10 +16,6 @@
   prefHeight="720" prefWidth="1280"
   xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="edu.wpi.cs3733.d20.teamO.view_model.kiosk.MainKioskViewModel">
-  <!--  stylesheets="@/CSS/NormalColorCSS.css"-->
-  <!--  stylesheets="@/CSS/DeuteranopiaColorCSS.css"-->
-  <!--  stylesheets="@/CSS/ProtanopiaColorCSS.css"-->
-  <!--  stylesheets="@/CSS/TritanopiaColorCSS.css"-->
 
   <!-- Main Welcome Bar -->
   <StackPane fx:id="welcomeBar" prefHeight="64"
@@ -39,7 +35,7 @@
       <Label text="%mainQuestionPrompt" style="-fx-font-size: 36; -fx-padding: 0 0 36 0;"/>
 
       <!-- Path Finding -->
-      <JFXButton fx:id="stupid"
+      <JFXButton
         buttonType="RAISED" onAction="#openPathFinder"
         styleClass="mainButton"
         text="%mainLeftButton"/>
@@ -66,6 +62,7 @@
           </graphic>
         </JFXButton>
       </AnchorPane>
+
     </VBox>
   </StackPane>
 
@@ -105,4 +102,9 @@
     <JFXComboBox fx:id="languageSwitcher"/>
   </HBox>
 
+  <!-- Emergency Button -->
+  <AnchorPane AnchorPane.rightAnchor="16" AnchorPane.topAnchor="8">
+    <fx:include source="/edu/wpi/cs3733/d20/teamO/views/EmergencyButton.fxml"
+      fx:id="emergencyButton"/>
+  </AnchorPane>
 </AnchorPane>

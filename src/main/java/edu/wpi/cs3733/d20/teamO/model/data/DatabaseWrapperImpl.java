@@ -16,6 +16,7 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.Node;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.Scheduler;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.ServiceRequest;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.AVRequestData;
+import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.EmergencyReportData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ExternalTransportationRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.FloristDeliveryData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.GiftDeliveryRequestData;
@@ -24,7 +25,6 @@ import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InternalTransporta
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.InterpreterData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.MedicineDeliveryServiceData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SanitationRequestData;
-import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.SecurityRequestData;
 import edu.wpi.cs3733.d20.teamO.model.datatypes.requests_data.ServiceRequestData;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -541,8 +541,8 @@ class DatabaseWrapperImpl implements DatabaseWrapper {
           case "Internal Transportation":
             clazz = InternalTransportationRequestData.class;
             break;
-          case "Security":
-            clazz = SecurityRequestData.class;
+          case "Emergency":
+            clazz = EmergencyReportData.class;
             break;
           case "Medicine delivery":
             clazz = MedicineDeliveryServiceData.class;

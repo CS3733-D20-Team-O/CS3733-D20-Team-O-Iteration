@@ -19,7 +19,7 @@
     <Label text=" - JavaFX (Sun Microsystems/Oracle Corporation)"/>
     <Label text=" - JavaWuzzy v1.1.6 (GitHub: xdrop)"/>
     <Label text=" - Java Code Coverage Library v0.8.5 (EclEmma)"/>
-    <Label text=" - JFoenix v9.0.9 (GitHub: jfoenixadmin)"/>
+    <Label text=" - JFoenix v9.0.9 (JFoenix)"/>
     <Label text=" - Project Lombok v5.0.0-rc6 (The Project Lombok Authors)"/>
     <Label text=" - QRGen v2.6.0 (GitHub: kenglxn)"/>
     <Label text=" - Simple Logging Facade for Java v1.7.30 (Ceki Gülcü)"/>
@@ -28,7 +28,7 @@
     <Label text="%creditsInternalAPIs"/>
     <Label text=" - Team B: Secure Incident Reporting, v1.0.0"/>
     <Label text=" - Team E: onCallBedsAPI, v1.0.3"/>
-    <Label text=" - Team K: MortuWary Requests, v.1.0.1"/>
+    <Label text=" - Team K: MortuWary Requests, v1.0.1"/>
     <Label text=" - Team P: Food Request, v1.1.0"/>
   </VBox>
   <JFXButton buttonType="RAISED" onAction="#close"
