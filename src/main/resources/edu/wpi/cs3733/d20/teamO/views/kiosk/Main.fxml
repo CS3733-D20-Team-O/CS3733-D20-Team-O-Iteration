@@ -87,7 +87,7 @@
     styleClass="main_secondaryButtons"/>
 
   <!-- FAQ Button -->
-  <ImageView AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="80.0" fitHeight="50.0"
+  <ImageView AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="8.0" fitHeight="50.0"
     fitWidth="50.0" onMouseClicked="#openHowToUseKiosk" pickOnBounds="true" preserveRatio="true"
     styleClass="main_secondaryButtons">
     <Image url="@/FAQ.png"/>
