@@ -9,10 +9,10 @@ A kiosk application for Brigham and Women's Hospital that:
 | Project Manager | Mark Hogan |
 | Lead Software Engineer | Gregory Conrad |
 | Assistant Lead Software Engineer | Michael Lai |
-| Assistant Lead Software Engineer | Ryan Stebe |
+| Assistant Lead Software Engineer | Victoria Grasso |
 | Product Owner | Collin Broderick |
 | Graphics Engineer | Benjamin Klaiman |
-| Database Engineer | Victoria Grasso |
+| Test Engineer | Ryan Stebe |
 | Algorithm Engineer | James Casella |
 | Algorithm Engineer | Emily Austin |
 | Document Analyst | Jesus Barron |
